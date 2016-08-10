@@ -35,10 +35,8 @@ public class NewInvocation implements Invocation<Instance>{
       Type real = (Type)list[0];
       Instance instance = builder.create(scope, base, real); // merge with static inner scope
       
-      if(initializer != null) {
-         if(compile.compareAndSet(true, false)) {
-            initializer.compile(scope, type); // static stuff if needed
-         }
+      if(compile.compareAndSet(true, false)) {
+         initializer.compile(scope, type); // static stuff if needed
       }
       if(instance != null) {
          instance.setInstance(instance); // set temporary instance

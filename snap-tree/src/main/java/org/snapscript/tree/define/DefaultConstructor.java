@@ -32,7 +32,7 @@ public class DefaultConstructor implements TypePart {
    } 
    
    @Override
-   public Initializer compile(Initializer statements, Type type) throws Exception {
+   public Initializer compile(Initializer initializer, Type type) throws Exception {
       List<Function> functions = type.getFunctions();
       
       for(Function function : functions) {
@@ -42,13 +42,13 @@ public class DefaultConstructor implements TypePart {
             return null;
          }
       }
-      return define(statements, type, compile);
+      return define(initializer, type, compile);
    }
    
-   protected Initializer define(Initializer statements, Type type, boolean compile) throws Exception {
+   protected Initializer define(Initializer initializer, Type type, boolean compile) throws Exception {
       Statement statement = new NoStatement();
       ClassConstructor constructor = new ClassConstructor(annotations, modifiers, parameters, statement);
       
-      return constructor.compile(statements, type, compile);
+      return constructor.compile(initializer, type, compile);
    }
 }

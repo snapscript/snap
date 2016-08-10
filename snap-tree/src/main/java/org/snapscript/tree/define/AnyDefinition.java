@@ -18,6 +18,7 @@ import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeLoader;
+import org.snapscript.core.define.Initializer;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationFunction;
@@ -27,8 +28,10 @@ import org.snapscript.core.function.Signature;
 public class AnyDefinition{
    
    private final DefaultConstructor constructor;
+   private final Initializer initializer;
    
    public AnyDefinition(){
+      this.initializer = new InitializerCollector();
       this.constructor = new DefaultConstructor();
    }
 
@@ -50,7 +53,7 @@ public class AnyDefinition{
          functions.add(hashCode);
          functions.add(equals);
          functions.add(toString);
-         constructor.compile(null, type);
+         constructor.compile(initializer, type);
       }
       return type;
    }

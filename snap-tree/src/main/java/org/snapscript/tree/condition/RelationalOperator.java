@@ -96,7 +96,7 @@ public enum RelationalOperator {
          return BooleanValue.FALSE;
       }      
    },
-   INSTANCE_OF("?="){
+   INSTANCE_OF("instanceof"){
       @Override
       public Value operate(Scope scope, Value left, Value right) {
          Object first = left.getValue();
@@ -108,7 +108,7 @@ public enum RelationalOperator {
          return BooleanValue.FALSE;
       }      
    },
-   NOT_INSTANCE_OF("!?="){
+   NOT_INSTANCE_OF("!instanceof"){
       @Override
       public Value operate(Scope scope, Value left, Value right) {
          Object first = left.getValue();

@@ -32,17 +32,16 @@ public class InstanceAllocator implements Allocator {
       Class type = instance.getClass();
       
       if(type != ObjectInstance.class) { 
-         Instance result = new ObjectInstance(module, model, instance, real);// we need to pass the base type up!!
+         Instance object = new ObjectInstance(module, model, instance, real);// we need to pass the base type up!!
    
-         State state = result.getState();
-         Value constant = ValueType.getConstant(result, real);
+         State state = object.getState();
+         Value constant = ValueType.getConstant(object, real);
     
          state.addConstant(TYPE_THIS, constant); // reference to 'this'
-         instance = result;
+         initializer.execute(object, real);
+         invocation.invoke(object, object, list);
          
-         if(initializer != null) {
-            initializer.execute(instance, real);
-         }
+         return object;    
       }
       invocation.invoke(instance, instance, list);
       

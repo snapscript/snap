@@ -9,7 +9,7 @@ The language is ideal for embedding in to an existing application, and is a frac
 
 #### Development Environment
 
-Snap comes with a development environment that is available over HTTP on any web browser that supports Web Sockets. To develop and debug scripts the devlopment environment can be started with the command shown below. All that is required is a web browser and Java 1.5 or greater. The development environment is a single JAR file that can be downloaded from [here](https://github.com/ngallagher/snapscript/tree/master/release). In addition an embeddable version is available which can be integrated in to any Java application.
+Snap comes with a development environment that is available over HTTP on any web browser that supports Web Sockets. To develop and debug scripts the devlopment environment can be started with the command shown below. All that is required is a web browser and Java 1.5 or greater. The development environment is a single JAR file that can be downloaded from [here](https://github.com/snapscript/snap-release). In addition an embeddable version is available which can be integrated in to any Java application.
 
 *java -jar snapd.jar --mode=develop --directory=work --port=4457*
 
