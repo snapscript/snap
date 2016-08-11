@@ -17,13 +17,11 @@ public class TypeCastChecker {
    private final FunctionComparator comparator;
    private final ClosureFunctionFinder finder;
    private final TypeExtractor extractor;
-   private final TypeTraverser traverser;
    private final TypeLoader loader;
    
    public TypeCastChecker(ConstraintMatcher matcher, TypeExtractor extractor, TypeLoader loader) {
       this.comparator = new FunctionComparator(matcher);
       this.finder = new ClosureFunctionFinder(loader);
-      this.traverser = new TypeTraverser();
       this.extractor = extractor;
       this.loader = loader;
    }
@@ -39,7 +37,7 @@ public class TypeCastChecker {
    
    public Score cast(Type actual, Type constraint) throws Exception {
       if(!actual.equals(constraint)) {
-         Set<Type> list = traverser.traverse(actual);
+         Set<Type> list = extractor.getTypes(actual);
          
          if(list.isEmpty()) {
             return INVALID;
@@ -53,7 +51,7 @@ public class TypeCastChecker {
    }
    
    public Score cast(Object value, Type constraint) throws Exception {
-      Type type = extractor.extract(value);
+      Type type = extractor.getType(value);
       
       if(Function.class.isInstance(value)) {
          Class real = constraint.getType();

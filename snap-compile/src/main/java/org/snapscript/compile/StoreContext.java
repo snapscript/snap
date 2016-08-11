@@ -6,11 +6,12 @@ import org.snapscript.compile.assemble.ExecutorLinker;
 import org.snapscript.compile.assemble.OperationEvaluator;
 import org.snapscript.compile.validate.ExecutableValidator;
 import org.snapscript.core.Context;
-import org.snapscript.core.ProgramValidator;
 import org.snapscript.core.ExpressionEvaluator;
 import org.snapscript.core.ModuleRegistry;
+import org.snapscript.core.ProgramValidator;
 import org.snapscript.core.ResourceManager;
 import org.snapscript.core.StoreManager;
+import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.TypeLoader;
 import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.core.convert.ConstraintMatcher;
@@ -29,6 +30,7 @@ public class StoreContext implements Context {
    private final ConstraintMatcher matcher;
    private final ResourceManager manager;
    private final FunctionBinder binder;
+   private final TypeExtractor extractor;
    private final ModuleRegistry registry;
    private final ErrorHandler handler;
    private final ProxyWrapper wrapper;
@@ -53,6 +55,12 @@ public class StoreContext implements Context {
       this.validator = new ExecutableValidator(matcher);
       this.binder = new FunctionBinder(loader, stack);
       this.evaluator = new OperationEvaluator(this);
+      this.extractor = new TypeExtractor(loader);
+   }
+   
+   @Override
+   public TypeExtractor getExtractor(){
+      return extractor;
    }
    
    @Override

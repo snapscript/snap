@@ -1,6 +1,7 @@
 package org.snapscript.core;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.snapscript.core.define.SuperInstance;
@@ -9,14 +10,16 @@ import org.snapscript.core.function.Function;
 public class TypeExtractor {
    
    private final Map<Class, Type> types;
+   private final TypeTraverser traverser;
    private final TypeLoader loader;
    
    public TypeExtractor(TypeLoader loader) {
       this.types = new ConcurrentHashMap<Class, Type>();
+      this.traverser = new TypeTraverser();
       this.loader = loader;
    }
    
-   public Type extract(Object value) throws Exception {
+   public Type getType(Object value) throws Exception {
       if(value != null) {
          Class type = value.getClass();
          Type match = types.get(type);
@@ -44,5 +47,19 @@ public class TypeExtractor {
          return match;
       }
       return null;
+   }
+
+   
+   public Set<Type> getTypes(Object value) throws Exception {
+      Type type = getType(value);
+      
+      if(type != null) {
+         return traverser.traverse(type);
+      }
+      return null;
+   }   
+   
+   public Set<Type> getTypes(Type type) throws Exception {
+      return traverser.traverse(type);
    }
 }

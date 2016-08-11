@@ -20,7 +20,7 @@ public class FunctionKeyBuilder {
          Object value = list[i];
          
          if(value != null) {
-            types[i] = extractor.extract(value);
+            types[i] = extractor.getType(value);
          }
       }
       return new FunctionKey(source, name, types);
@@ -33,7 +33,7 @@ public class FunctionKeyBuilder {
          Object value = list[i];
          
          if(value != null) {
-            types[i] = extractor.extract(value);
+            types[i] = extractor.getType(value);
          }
       }
       return new FunctionKey(source, name, types);

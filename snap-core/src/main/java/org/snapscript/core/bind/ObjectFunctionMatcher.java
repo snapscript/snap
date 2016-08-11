@@ -37,7 +37,7 @@ public class ObjectFunctionMatcher {
    }
 
    public FunctionPointer match(Object value, String name, Object... values) throws Exception { 
-      Type type = extractor.extract(value);
+      Type type = extractor.getType(value);
       Object key = builder.create(type, name, values);
       FunctionCache cache = table.get(type);
       Function function = cache.fetch(key); // all type functions

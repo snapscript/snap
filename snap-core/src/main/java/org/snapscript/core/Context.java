@@ -11,6 +11,7 @@ import org.snapscript.core.trace.TraceInterceptor;
 public interface Context extends Any {
    ThreadStack getStack();
    ErrorHandler getHandler();
+   TypeExtractor getExtractor();
    ResourceManager getManager();
    ModuleRegistry getRegistry();
    ConstraintMatcher getMatcher();

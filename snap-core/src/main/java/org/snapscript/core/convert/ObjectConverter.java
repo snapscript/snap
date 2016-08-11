@@ -36,7 +36,7 @@ public class ObjectConverter extends ConstraintConverter {
 
    @Override
    public Score score(Object value) throws Exception { // argument type
-      Type match = extractor.extract(value);
+      Type match = extractor.getType(value);
       
       if(match != null) {
          if(match.equals(constraint)) {

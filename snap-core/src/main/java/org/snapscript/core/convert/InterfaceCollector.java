@@ -7,19 +7,19 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.snapscript.core.Any;
+import org.snapscript.core.Context;
+import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
-import org.snapscript.core.TypeTraverser;
+import org.snapscript.core.TypeExtractor;
 
 public class InterfaceCollector {
 
    private final Map<Type, Class[]> cache;
-   private final TypeTraverser traverser;
    private final Class[] empty;
    
    public InterfaceCollector() {
       this.cache = new ConcurrentHashMap<Type, Class[]>();
-      this.traverser = new TypeTraverser();
       this.empty = new Class[]{};
    }
    
@@ -58,22 +58,30 @@ public class InterfaceCollector {
    }
    
    private Set<Class> traverse(Type type) {
-      Set<Type> types = traverser.traverse(type);
+      Module module = type.getModule();
+      Context context = module.getContext();
+      TypeExtractor extractor = context.getExtractor();
       
-      if(!types.isEmpty()) {
-         Set<Class> interfaces = new HashSet<Class>();
-      
-         for(Type entry : types) {
-            Class part = entry.getType();
-            
-            if(part != null) {
-               if(part.isInterface()) {
-                  interfaces.add(part);
+      try {
+         Set<Type> types = extractor.getTypes(type);
+         
+         if(!types.isEmpty()) {
+            Set<Class> interfaces = new HashSet<Class>();
+         
+            for(Type entry : types) {
+               Class part = entry.getType();
+               
+               if(part != null) {
+                  if(part.isInterface()) {
+                     interfaces.add(part);
+                  }
                }
             }
+            interfaces.add(Any.class);
+            return interfaces;
          }
-         interfaces.add(Any.class);
-         return interfaces;
+      } catch(Exception e) {
+         return Collections.<Class>singleton(Any.class);
       }
       return Collections.<Class>singleton(Any.class);
    }
