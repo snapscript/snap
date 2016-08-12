@@ -12,6 +12,7 @@ import java.util.Set;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
 import org.snapscript.core.Type;
+import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.TypeTraverser;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.function.Function;
@@ -23,11 +24,11 @@ public class TypeValidator {
    private static final String[] TYPES = { ANY_TYPE };
    
    private final FunctionValidator validator;
-   private final TypeTraverser traverser;
+   private final TypeExtractor extractor;
    
-   public TypeValidator(ConstraintMatcher matcher) {
-      this.traverser = new TypeTraverser();
-      this.validator = new FunctionValidator(matcher, traverser);
+   public TypeValidator(ConstraintMatcher matcher, TypeExtractor extractor) {
+      this.validator = new FunctionValidator(matcher, extractor);
+      this.extractor = extractor;
    }
    
    public void validate(Type type) throws Exception {
@@ -50,7 +51,7 @@ public class TypeValidator {
    }
    
    private void validateHierarchy(Type type) throws Exception {
-      Set<Type> types = traverser.traverse(type);
+      Set<Type> types = extractor.getTypes(type);
       
       for(int i = 0; i < TYPES.length; i++) {
          String require = TYPES[i];

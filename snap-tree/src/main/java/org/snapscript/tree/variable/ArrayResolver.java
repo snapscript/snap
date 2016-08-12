@@ -5,7 +5,6 @@ import static org.snapscript.core.Reserved.PROPERTY_LENGTH;
 import java.lang.reflect.Array;
 
 import org.snapscript.core.Scope;
-import org.snapscript.core.TypeTraverser;
 import org.snapscript.core.Value;
 import org.snapscript.core.ValueType;
 
@@ -14,8 +13,8 @@ public class ArrayResolver implements ValueResolver<Object> {
    private final ObjectResolver resolver;
    private final String name;
    
-   public ArrayResolver(TypeTraverser extractor, String name) {
-      this.resolver = new ObjectResolver(extractor, name);
+   public ArrayResolver(String name) {
+      this.resolver = new ObjectResolver(name);
       this.name = name;
    }
    

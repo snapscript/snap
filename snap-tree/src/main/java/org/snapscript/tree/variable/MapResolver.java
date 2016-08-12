@@ -20,9 +20,9 @@ public class MapResolver implements ValueResolver<Map> {
    private final ObjectResolver resolver;
    private final String name;
    
-   public MapResolver(TypeTraverser extractor, String name) {
-      this.resolver = new ObjectResolver(extractor, name);
+   public MapResolver(String name) {
       this.reference = new AtomicReference<Property>();
+      this.resolver = new ObjectResolver(name);
       this.name = name;
    }
    

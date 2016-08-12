@@ -52,8 +52,8 @@ public class StoreContext implements Context {
       this.linker = new ExecutorLinker(this, executor);      
       this.loader = new TypeLoader(linker, registry, manager);
       this.matcher = new ConstraintMatcher(loader, wrapper);
-      this.validator = new ExecutableValidator(matcher);
       this.extractor = new TypeExtractor(loader);
+      this.validator = new ExecutableValidator(matcher, extractor);
       this.binder = new FunctionBinder(extractor, stack);
       this.evaluator = new OperationEvaluator(this);
    }

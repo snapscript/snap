@@ -8,7 +8,7 @@ import java.util.Set;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.Type;
-import org.snapscript.core.TypeTraverser;
+import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.FunctionComparator;
 import org.snapscript.core.convert.Score;
@@ -17,11 +17,11 @@ import org.snapscript.core.function.Function;
 public class FunctionValidator {
    
    private final FunctionComparator comparator;
-   private final TypeTraverser traverser;
+   private final TypeExtractor extractor;
    
-   public FunctionValidator(ConstraintMatcher matcher, TypeTraverser traverser) {
+   public FunctionValidator(ConstraintMatcher matcher, TypeExtractor extractor) {
       this.comparator = new FunctionComparator(matcher);
-      this.traverser = traverser;
+      this.extractor = extractor;
    }
    
    public void validate(Function function) throws Exception {
@@ -38,7 +38,7 @@ public class FunctionValidator {
       int modifiers = function.getModifiers();
       
       if(ModifierType.isOverride(modifiers)) {
-         Set<Type> types = traverser.traverse(actual);
+         Set<Type> types = extractor.getTypes(actual);
          int matches = 0;
          
          for(Type type : types) {

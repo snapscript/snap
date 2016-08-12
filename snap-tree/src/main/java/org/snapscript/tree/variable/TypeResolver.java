@@ -3,9 +3,11 @@ package org.snapscript.tree.variable;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.snapscript.core.Context;
+import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
-import org.snapscript.core.TypeTraverser;
+import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.Value;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.property.PropertyValue;
@@ -13,14 +15,12 @@ import org.snapscript.core.property.PropertyValue;
 public class TypeResolver implements ValueResolver<Type> {
    
    private final AtomicReference<Property> reference;
-   private final TypeTraverser traverser;
    private final ObjectResolver resolver;
    private final String name;
    
-   public TypeResolver(TypeTraverser traverser, String name) {
-      this.resolver = new ObjectResolver(traverser, name);
+   public TypeResolver(String name) {
       this.reference = new AtomicReference<Property>();
-      this.traverser = traverser;
+      this.resolver = new ObjectResolver(name);
       this.name = name;
    }
    
@@ -29,7 +29,10 @@ public class TypeResolver implements ValueResolver<Type> {
       Property property = reference.get();
       
       if(property == null) {
-         Set<Type> list = traverser.traverse(left);
+         Module module = scope.getModule();
+         Context context = module.getContext();
+         TypeExtractor extractor = context.getExtractor();
+         Set<Type> list = extractor.getTypes(left);
          
          for(Type base : list) {
             Property match = resolver.match(scope, left, base);

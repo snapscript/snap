@@ -9,6 +9,7 @@ import org.snapscript.core.Model;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Type;
+import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.Value;
 import org.snapscript.core.convert.ConstraintMatcher;
 
@@ -18,8 +19,8 @@ public class InstanceValidator {
    
    private final TypeValidator validator;
    
-   public InstanceValidator(ConstraintMatcher matcher) {
-      this.validator = new TypeValidator(matcher);
+   public InstanceValidator(ConstraintMatcher matcher, TypeExtractor extractor) {
+      this.validator = new TypeValidator(matcher, extractor);
    }
    
    public void validateInstance(Scope instance) throws Exception {
