@@ -1,20 +1,20 @@
 package org.snapscript.core;
 
-import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
+import org.snapscript.common.Cache;
+import org.snapscript.common.CopyOnWriteCache;
 import org.snapscript.core.define.SuperInstance;
 import org.snapscript.core.function.Function;
 
 public class TypeExtractor {
    
-   private final Map<Class, Type> matches;
+   private final Cache<Class, Type> matches;
    private final TypeTraverser traverser;
    private final TypeLoader loader;
    
    public TypeExtractor(TypeLoader loader) {
-      this.matches = new ConcurrentHashMap<Class, Type>();
+      this.matches = new CopyOnWriteCache<Class, Type>();
       this.traverser = new TypeTraverser();
       this.loader = loader;
    }
@@ -22,7 +22,7 @@ public class TypeExtractor {
    public Type getType(Object value) {
       if(value != null) {
          Class type = value.getClass();
-         Type match = matches.get(type);
+         Type match = matches.fetch(type);
          
          if(match == null) {
             if(SuperInstance.class.isAssignableFrom(type)) {
@@ -40,7 +40,7 @@ public class TypeExtractor {
             Type actual = loader.loadType(type);
             
             if(actual != null) {
-               matches.put(type, actual);
+               matches.cache(type, actual);
             }
             return actual;
          }

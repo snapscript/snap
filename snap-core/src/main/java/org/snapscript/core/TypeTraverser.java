@@ -3,24 +3,25 @@ package org.snapscript.core;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
+
+import org.snapscript.common.Cache;
+import org.snapscript.common.CopyOnWriteCache;
 
 public class TypeTraverser {
    
-   private final Map<Type, Set<Type>> types;
+   private final Cache<Type, Set<Type>> types;
    
    public TypeTraverser() {
-      this.types = new ConcurrentHashMap<Type, Set<Type>>();
+      this.types = new CopyOnWriteCache<Type, Set<Type>>();
    }
 
    public Set<Type> traverse(Type type) {
-      Set<Type> list = types.get(type);
+      Set<Type> list = types.fetch(type);
       
       if(list == null) {
          list = collect(type);
-         types.put(type, list);
+         types.cache(type, list);
       }
       return list;
    }
