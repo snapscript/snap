@@ -2,10 +2,10 @@ package org.snapscript.core.convert;
 
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
+import org.snapscript.common.Cache;
+import org.snapscript.common.CopyOnWriteCache;
 import org.snapscript.core.Any;
 import org.snapscript.core.Context;
 import org.snapscript.core.Module;
@@ -15,11 +15,11 @@ import org.snapscript.core.TypeExtractor;
 
 public class InterfaceCollector {
 
-   private final Map<Type, Class[]> cache;
+   private final Cache<Type, Class[]> cache;
    private final Class[] empty;
    
    public InterfaceCollector() {
-      this.cache = new ConcurrentHashMap<Type, Class[]>();
+      this.cache = new CopyOnWriteCache<Type, Class[]>();
       this.empty = new Class[]{};
    }
    
@@ -27,13 +27,13 @@ public class InterfaceCollector {
       Type type = scope.getType();
       
       if(type != null) {
-         Class[] interfaces = cache.get(type);
+         Class[] interfaces = cache.fetch(type);
          
          if(interfaces == null) {
             Set<Class> types = traverse(type);
             Class[] result = types.toArray(empty);
             
-            cache.put(type, result);
+            cache.cache(type, result);
             return result;
          }
          return interfaces;
