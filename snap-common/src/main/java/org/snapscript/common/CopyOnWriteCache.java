@@ -3,8 +3,6 @@ package org.snapscript.common;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class CopyOnWriteCache<K, V> implements Cache<K, V> {
 
@@ -59,34 +57,20 @@ public class CopyOnWriteCache<K, V> implements Cache<K, V> {
    private class MapUpdater {
       
       private final Map<K, V> empty;
-      private final Lock lock;
       
       public MapUpdater() {
          this.empty = new HashMap<K, V>();
-         this.lock = new ReentrantLock();
       }
       
-      public void cache(K key, V value) {
-         lock.lock();
+      public synchronized void cache(K key, V value) {
+         Map<K, V> copy = new HashMap<K, V>(cache);
          
-         try {
-            Map<K, V> copy = new HashMap<K, V>(cache);
-            
-            copy.put(key, value);
-            cache = copy;
-         } finally {
-            lock.unlock();
-         }
+         copy.put(key, value);
+         cache = copy;
       }
       
-      public void clear() {
-         lock.lock();
-         
-         try {
-            cache = empty;
-         } finally {
-            lock.unlock();
-         }
+      public synchronized void clear() {
+         cache = empty;
       }
    }
 }

@@ -1,53 +1,26 @@
 package org.snapscript.core.bind;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
+import org.snapscript.common.Cache;
+import org.snapscript.common.CopyOnWriteCache;
 import org.snapscript.core.function.Function;
 
-public class FunctionCache { // copy on write cache
+public class FunctionCache {
 
-   private volatile Map<Object, Function> cache;
-   private volatile CacheUpdater updater; 
+   private final Cache<Object, Function> cache;
    
    public FunctionCache() {
-      this.cache = new HashMap<Object, Function>();
-      this.updater = new CacheUpdater();
+      this.cache = new CopyOnWriteCache<Object, Function>();
    }
    
    public boolean contains(Object key) {
-      return cache.containsKey(key);
+      return cache.contains(key);
    }
    
    public Function fetch(Object key) {
-      return cache.get(key);
+      return cache.fetch(key);
    }
    
    public void cache(Object key, Function function) {
-      updater.update(key, function);
-   }
-   
-   private class CacheUpdater {
-      
-      private final Lock lock;
-      
-      public CacheUpdater() {
-         this.lock = new ReentrantLock();
-      }
-      
-      public void update(Object key, Function function) {
-         lock.lock();
-         
-         try {
-            Map<Object, Function> local = new HashMap<Object, Function>(cache);
-            
-            local.put(key, function);
-            cache = local;
-         } finally {
-            lock.unlock();
-         }
-      }
+      cache.cache(key, function);
    }
 }
