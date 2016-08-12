@@ -6,7 +6,7 @@ import org.snapscript.core.Module;
 import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
-import org.snapscript.core.TypeLoader;
+import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.Value;
 import org.snapscript.core.error.ThreadStack;
 
@@ -18,10 +18,10 @@ public class FunctionBinder {
    private final ScopeFunctionMatcher scopes;
    private final TypeFunctionMatcher types;
    
-   public FunctionBinder(TypeLoader loader, ThreadStack stack) {
-      this.objects = new ObjectFunctionMatcher(loader, stack);
-      this.modules = new ModuleFunctionMatcher(loader, stack);
-      this.types = new TypeFunctionMatcher(loader, stack);
+   public FunctionBinder(TypeExtractor extractor, ThreadStack stack) {
+      this.objects = new ObjectFunctionMatcher(extractor, stack);
+      this.modules = new ModuleFunctionMatcher(extractor, stack);
+      this.types = new TypeFunctionMatcher(extractor, stack);
       this.values = new ValueFunctionMatcher(stack);
       this.scopes = new ScopeFunctionMatcher(stack);
    }

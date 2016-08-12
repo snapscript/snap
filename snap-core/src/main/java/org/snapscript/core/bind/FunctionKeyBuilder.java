@@ -3,14 +3,13 @@ package org.snapscript.core.bind;
 import org.snapscript.core.Module;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeExtractor;
-import org.snapscript.core.TypeLoader;
 
 public class FunctionKeyBuilder {
 
    private final TypeExtractor extractor;
    
-   public FunctionKeyBuilder(TypeLoader loader) {
-      this.extractor = new TypeExtractor(loader);
+   public FunctionKeyBuilder(TypeExtractor extractor) {
+      this.extractor = extractor;
    }
    
    public Object create(Type source, String name, Object... list) throws Exception {

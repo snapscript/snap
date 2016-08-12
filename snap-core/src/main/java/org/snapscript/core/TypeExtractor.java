@@ -9,20 +9,20 @@ import org.snapscript.core.function.Function;
 
 public class TypeExtractor {
    
-   private final Map<Class, Type> types;
+   private final Map<Class, Type> matches;
    private final TypeTraverser traverser;
    private final TypeLoader loader;
    
    public TypeExtractor(TypeLoader loader) {
-      this.types = new ConcurrentHashMap<Class, Type>();
+      this.matches = new ConcurrentHashMap<Class, Type>();
       this.traverser = new TypeTraverser();
       this.loader = loader;
    }
    
-   public Type getType(Object value) throws Exception {
+   public Type getType(Object value) {
       if(value != null) {
          Class type = value.getClass();
-         Type match = types.get(type);
+         Type match = matches.get(type);
          
          if(match == null) {
             if(SuperInstance.class.isAssignableFrom(type)) {
@@ -40,7 +40,7 @@ public class TypeExtractor {
             Type actual = loader.loadType(type);
             
             if(actual != null) {
-               types.put(type, actual);
+               matches.put(type, actual);
             }
             return actual;
          }
@@ -50,7 +50,7 @@ public class TypeExtractor {
    }
 
    
-   public Set<Type> getTypes(Object value) throws Exception {
+   public Set<Type> getTypes(Object value) {
       Type type = getType(value);
       
       if(type != null) {
@@ -59,7 +59,7 @@ public class TypeExtractor {
       return null;
    }   
    
-   public Set<Type> getTypes(Type type) throws Exception {
+   public Set<Type> getTypes(Type type) {
       return traverser.traverse(type);
    }
 }

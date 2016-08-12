@@ -35,7 +35,7 @@ public class TypeIndexer {
       this.limit = limit;
    }
    
-   public synchronized Type loadType(String type) throws Exception {
+   public synchronized Type loadType(String type) {
       Type done = types.get(type);
 
       if (done == null) {
@@ -49,7 +49,7 @@ public class TypeIndexer {
       return done;
    }
 
-   public synchronized Type loadType(String module, String name) throws Exception {
+   public synchronized Type loadType(String module, String name) {
       String alias = builder.createName(module, name);
       Type done = types.get(alias);
 
@@ -64,7 +64,7 @@ public class TypeIndexer {
       return done;
    }
 
-   public synchronized Type defineType(String module, String name) throws Exception {
+   public synchronized Type defineType(String module, String name) {
       String alias = builder.createName(module, name);
       Type done = types.get(alias);
 
@@ -84,7 +84,7 @@ public class TypeIndexer {
       return done;
    }
 
-   public synchronized Type loadType(Class source) throws Exception {
+   public synchronized Type loadType(Class source) {
       Type done = types.get(source);
       
       if (done == null) {
@@ -101,7 +101,7 @@ public class TypeIndexer {
       return done;
    }
 
-   private synchronized Type createType(String module, String name) throws Exception {
+   private synchronized Type createType(String module, String name) {
       String alias = builder.createName(module, name);
       Module parent = registry.addModule(module);
       Type type = types.get(alias);
@@ -117,7 +117,7 @@ public class TypeIndexer {
       return type;
    }
    
-   private synchronized Type createType(Class source) throws Exception {
+   private synchronized Type createType(Class source) {
       String alias = scanner.importName(source);
       String name = source.getSimpleName();
       Type type = types.get(alias);

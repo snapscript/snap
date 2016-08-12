@@ -24,27 +24,27 @@ public class TypeLoader {
       this.manager = new PackageManager(loader, scanner);
    }
    
-   public Package importPackage(String module) throws Exception  {
+   public Package importPackage(String module)  {
       return manager.importPackage(module);
    }   
    
-   public Package importType(String module, String name) throws Exception {
+   public Package importType(String module, String name) {
       return manager.importType(module, name); 
    }
    
-   public Type defineType(String module, String name) throws Exception {
+   public Type defineType(String module, String name) {
       return indexer.defineType(module, name);
    }
    
-   public Type resolveType(String module, String name) throws Exception {
+   public Type resolveType(String module, String name) {
       return indexer.loadType(module, name);
    }
    
-   public Type resolveType(String type) throws Exception {
+   public Type resolveType(String type) {
       return indexer.loadType(type);
    }
    
-   public Type loadType(Class type) throws Exception {
+   public Type loadType(Class type) {
       return indexer.loadType(type);
    } 
 }

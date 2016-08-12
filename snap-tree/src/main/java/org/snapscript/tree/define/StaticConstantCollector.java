@@ -30,23 +30,26 @@ public class StaticConstantCollector {
       Context context = module.getContext();
       TypeExtractor extractor = context.getExtractor();
       Set<Type> types = extractor.getTypes(type); // get hierarchy
-      Set<String> names = indexer.index(type);
-      Scope scope = type.getScope();
-      State state = scope.getState();
-
-      for(Type base : types) {
-         if(type != base) {
-            List<Property> properties = base.getProperties();
-            
-            for(Property property : properties) {
-               String name = property.getName();
-               int modifiers = property.getModifiers();
+      
+      if(!types.isEmpty()) {
+         Set<String> names = indexer.index(type);
+         Scope scope = type.getScope();
+         State state = scope.getState();
+   
+         for(Type base : types) {
+            if(type != base) {
+               List<Property> properties = base.getProperties();
                
-               if(ModifierType.isStatic(modifiers)) {
-                  PropertyValue value = new PropertyValue(property, null, name);
+               for(Property property : properties) {
+                  String name = property.getName();
+                  int modifiers = property.getModifiers();
                   
-                  if(names.add(name)) {
-                     state.addVariable(name, value);
+                  if(ModifierType.isStatic(modifiers)) {
+                     PropertyValue value = new PropertyValue(property, null, name);
+                     
+                     if(names.add(name)) {
+                        state.addVariable(name, value);
+                     }
                   }
                }
             }

@@ -15,19 +15,16 @@ public class InstanceChecker {
    }
    
    public boolean instanceOf(Scope scope, Object left, Object right) {
-      if(right != null) {
+      if(right != null && left != null) {
          try {
             Module module = scope.getModule();
             Context context = module.getContext();
             TypeExtractor extractor = context.getExtractor();
+            Type actual = extractor.getType(left);
+            Set<Type> types = extractor.getTypes(actual);
             Type require = (Type)right;
-
-            if(left != null) {
-               Type actual = extractor.getType(left);
-               Set<Type> types = extractor.getTypes(actual);
-               
-               return types.contains(require);
-            }
+            
+            return types.contains(require);
          } catch(Exception e) {
             return false;
          }

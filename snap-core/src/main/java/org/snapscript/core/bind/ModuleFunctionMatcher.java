@@ -5,7 +5,7 @@ import static org.snapscript.core.convert.Score.INVALID;
 import java.util.List;
 
 import org.snapscript.core.Module;
-import org.snapscript.core.TypeLoader;
+import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.convert.Score;
 import org.snapscript.core.error.ThreadStack;
 import org.snapscript.core.function.ArgumentConverter;
@@ -21,10 +21,10 @@ public class ModuleFunctionMatcher {
    private final ThreadStack stack;
    private final Function invalid;
    
-   public ModuleFunctionMatcher(TypeLoader loader, ThreadStack stack) {
+   public ModuleFunctionMatcher(TypeExtractor extractor, ThreadStack stack) {
       this.indexer = new ModuleCacheIndexer();
       this.table = new FunctionCacheTable<Module>(indexer);
-      this.builder = new FunctionKeyBuilder(loader);
+      this.builder = new FunctionKeyBuilder(extractor);
       this.invalid = new EmptyFunction(null);
       this.stack = stack;
    }

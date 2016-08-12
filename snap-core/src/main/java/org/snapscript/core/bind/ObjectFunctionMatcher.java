@@ -7,8 +7,6 @@ import java.util.List;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeExtractor;
-import org.snapscript.core.TypeLoader;
-import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.Score;
 import org.snapscript.core.error.ThreadStack;
 import org.snapscript.core.function.ArgumentConverter;
@@ -26,13 +24,13 @@ public class ObjectFunctionMatcher {
    private final ThreadStack stack;
    private final Function invalid;
    
-   public ObjectFunctionMatcher(TypeLoader loader, ThreadStack stack) {
+   public ObjectFunctionMatcher(TypeExtractor extractor, ThreadStack stack) {
       this.indexer = new TypeCacheIndexer();
       this.table = new FunctionCacheTable<Type>(indexer);
-      this.builder = new FunctionKeyBuilder(loader);
-      this.extractor = new TypeExtractor(loader);
+      this.builder = new FunctionKeyBuilder(extractor);
       this.finder = new FunctionPathFinder();
       this.invalid = new EmptyFunction(null);
+      this.extractor = extractor;
       this.stack = stack;
    }
 

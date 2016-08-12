@@ -61,27 +61,22 @@ public class InterfaceCollector {
       Module module = type.getModule();
       Context context = module.getContext();
       TypeExtractor extractor = context.getExtractor();
+      Set<Type> types = extractor.getTypes(type);
       
-      try {
-         Set<Type> types = extractor.getTypes(type);
-         
-         if(!types.isEmpty()) {
-            Set<Class> interfaces = new HashSet<Class>();
-         
-            for(Type entry : types) {
-               Class part = entry.getType();
-               
-               if(part != null) {
-                  if(part.isInterface()) {
-                     interfaces.add(part);
-                  }
+      if(!types.isEmpty()) {
+         Set<Class> interfaces = new HashSet<Class>();
+      
+         for(Type entry : types) {
+            Class part = entry.getType();
+            
+            if(part != null) {
+               if(part.isInterface()) {
+                  interfaces.add(part);
                }
             }
-            interfaces.add(Any.class);
-            return interfaces;
          }
-      } catch(Exception e) {
-         return Collections.<Class>singleton(Any.class);
+         interfaces.add(Any.class);
+         return interfaces;
       }
       return Collections.<Class>singleton(Any.class);
    }
