@@ -44,15 +44,18 @@ public class ObjectResolver implements ValueResolver<Object> {
       Class type = left.getClass();
       String alias = type.getName();
       Type source = module.getType(alias);
-      Context context = module.getContext();
-      TypeExtractor extractor = context.getExtractor();
-      Set<Type> list = extractor.getTypes(source);
       
-      for(Type base : list) {
-         Property match = match(scope, left, base);
+      if(type != null) {
+         Context context = module.getContext();
+         TypeExtractor extractor = context.getExtractor();
+         Set<Type> list = extractor.getTypes(source);
          
-         if(match != null) {
-            return match;
+         for(Type base : list) {
+            Property match = match(scope, left, base);
+            
+            if(match != null) {
+               return match;
+            }
          }
       }
       return null;
