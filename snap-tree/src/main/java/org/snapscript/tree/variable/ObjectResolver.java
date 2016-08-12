@@ -45,7 +45,7 @@ public class ObjectResolver implements ValueResolver<Object> {
       String alias = type.getName();
       Type source = module.getType(alias);
       
-      if(type != null) {
+      if(source != null) {
          Context context = module.getContext();
          TypeExtractor extractor = context.getExtractor();
          Set<Type> list = extractor.getTypes(source);
