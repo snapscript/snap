@@ -1,10 +1,9 @@
 package org.snapscript.tree;
 
-import java.util.concurrent.atomic.AtomicReference;
-
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
 import org.snapscript.core.NoStatement;
 import org.snapscript.core.Result;
@@ -89,7 +88,10 @@ public class Import implements Compilation {
       
       @Override
       public Result define(Scope scope) throws Exception {
-         if(definition == null) {
+         if(library == null) {
+            throw new InternalStateException("Import '" + location + "' was not loaded");
+         }
+         if(definition == null) { // define once
             definition = create(scope);
          }
          return ResultType.getNormal(); 
@@ -97,7 +99,10 @@ public class Import implements Compilation {
 
       @Override
       public Result compile(Scope scope) throws Exception {
-         if(statement == null) {
+         if(definition == null) {
+            throw new InternalStateException("Import '" + location + "' was not defined");
+         }
+         if(statement == null) { // compile once
             statement = definition.compile(scope);
          }
          return ResultType.getNormal();
@@ -105,10 +110,10 @@ public class Import implements Compilation {
       
       @Override
       public Result execute(Scope scope) throws Exception {
-         if(statement != null) {
-            return statement.execute(scope);
+         if(statement == null) {
+            throw new InternalStateException("Import '" + location + "' was not compiled");
          }
-         return ResultType.getNormal();
+         return statement.execute(scope); // execute many times
       }
       
       private PackageDefinition create(Scope scope) throws Exception {
