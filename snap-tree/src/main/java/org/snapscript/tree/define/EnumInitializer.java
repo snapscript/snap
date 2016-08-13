@@ -45,13 +45,12 @@ public class EnumInitializer extends Initializer {
       if(call == null){
          throw new InternalStateException("No constructor for enum " + name);
       }
-
       Result result = call.call();
       Scope instance = result.getValue();
       Value value = state.getValue(ENUM_VALUES);
       List values = value.getValue();
       
-      initializer.declareConstant(scope, name, type, instance);
+      initializer.declareConstant(scope, name, type, type, instance);
       initializer.declareConstant(instance, ENUM_NAME, type, name); // might declare name as property many times
       initializer.declareConstant(instance, ENUM_ORDINAL, type, index);
       values.add(instance);

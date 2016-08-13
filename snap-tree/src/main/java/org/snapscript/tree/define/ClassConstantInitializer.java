@@ -43,4 +43,14 @@ public class ClassConstantInitializer {
       properties.add(property);
       state.addConstant(name, constant);
    }
+   
+   protected void declareConstant(Scope scope, String name, Type type, Type parent, Object value) throws Exception {
+      List<Property> properties = type.getProperties();
+      Property property = builder.createConstant(name, value, type);
+      Value constant = ValueType.getConstant(value, parent);
+      State state = scope.getState();
+
+      properties.add(property);
+      state.addConstant(name, constant);
+   }
 }

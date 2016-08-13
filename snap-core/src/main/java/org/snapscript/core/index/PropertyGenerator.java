@@ -1,5 +1,8 @@
 package org.snapscript.core.index;
 
+import static org.snapscript.core.ModifierType.ABSTRACT;
+import static org.snapscript.core.ModifierType.OVERRIDE;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
@@ -10,6 +13,8 @@ import org.snapscript.core.function.AccessorProperty;
 import org.snapscript.core.property.Property;
 
 public class PropertyGenerator {
+   
+   private static final int MODIFIERS = OVERRIDE.mask | ABSTRACT.mask;
   
    public PropertyGenerator(){
       super();
@@ -48,7 +53,7 @@ public class PropertyGenerator {
                write.setAccessible(true);
             }
          }
-         return new AccessorProperty(name, type, constraint, accessor, modifiers);  
+         return new AccessorProperty(name, type, constraint, accessor, modifiers & ~MODIFIERS);  
       } catch(Exception e) {
          throw new InternalStateException("Could not create property from " + read);
       }

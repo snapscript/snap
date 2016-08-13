@@ -4,7 +4,7 @@ import org.snapscript.core.InternalStateException;
 import org.snapscript.core.ModifierType;
 
 public class ModifierList {
-   
+
    private final Modifier[] modifiers;
    
    public ModifierList(Modifier... modifiers){

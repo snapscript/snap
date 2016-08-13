@@ -13,14 +13,17 @@ import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.FunctionComparator;
 import org.snapscript.core.convert.Score;
 import org.snapscript.core.function.Function;
+import org.snapscript.tree.ModifierValidator;
 
 public class FunctionValidator {
    
    private final FunctionComparator comparator;
+   private final ModifierValidator validator;
    private final TypeExtractor extractor;
    
    public FunctionValidator(ConstraintMatcher matcher, TypeExtractor extractor) {
       this.comparator = new FunctionComparator(matcher);
+      this.validator = new ModifierValidator();
       this.extractor = extractor;
    }
    
@@ -56,6 +59,7 @@ public class FunctionValidator {
             throw new InternalStateException("Function '" + function + "' is not an override");
          }
       }
+      validator.validate(actual, function, modifiers);
    }
    
 }

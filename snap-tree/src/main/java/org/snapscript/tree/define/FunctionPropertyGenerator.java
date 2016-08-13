@@ -1,5 +1,10 @@
 package org.snapscript.tree.define;
 
+import static org.snapscript.core.ModifierType.ABSTRACT;
+import static org.snapscript.core.ModifierType.OVERRIDE;
+import static org.snapscript.core.Reserved.PROPERTY_GET;
+import static org.snapscript.core.Reserved.PROPERTY_SET;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -14,7 +19,8 @@ import org.snapscript.core.property.Property;
 
 public class FunctionPropertyGenerator {
 
-   private static final String[] PREFIXES = {"get", "is"};
+   private static final String[] PREFIXES = { PROPERTY_GET, PROPERTY_SET };
+   private static final int MODIFIERS = OVERRIDE.mask | ABSTRACT.mask;
    
    private final Set<String> done;
    
@@ -36,7 +42,7 @@ public class FunctionPropertyGenerator {
       for(Function function : functions) {
          Signature signature = function.getSignature();
          List<Parameter> names = signature.getParameters();
-         int modifiers = function.getModifiers();
+         int modifiers = function.getModifiers(); 
          int count = names.size();
          
          if(count == 0) {
@@ -44,7 +50,7 @@ public class FunctionPropertyGenerator {
    
             if(done.add(name)) {
                FunctionAccessor accessor = new FunctionAccessor(function);
-               AccessorProperty property = new AccessorProperty(name, type, null, accessor, modifiers);
+               AccessorProperty property = new AccessorProperty(name, type, null, accessor, modifiers & ~MODIFIERS);
          
                properties.add(property);
             }

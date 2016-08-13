@@ -13,7 +13,6 @@ import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeExtractor;
-import org.snapscript.core.TypeTraverser;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.property.Property;
@@ -23,11 +22,13 @@ public class TypeValidator {
    private static final String[] PROPERTIES = { TYPE_THIS, TYPE_SUPER, TYPE_CLASS };
    private static final String[] TYPES = { ANY_TYPE };
    
-   private final FunctionValidator validator;
+   private final PropertyValidator properties;
+   private final FunctionValidator functions;
    private final TypeExtractor extractor;
    
    public TypeValidator(ConstraintMatcher matcher, TypeExtractor extractor) {
-      this.validator = new FunctionValidator(matcher, extractor);
+      this.functions = new FunctionValidator(matcher, extractor);
+      this.properties = new PropertyValidator(matcher);
       this.extractor = extractor;
    }
    
@@ -75,18 +76,19 @@ public class TypeValidator {
    }
 
    private void validateProperties(Type type) throws Exception {
-      List<Property> properties = type.getProperties();
+      List<Property> list = type.getProperties();
       
       for(int i = 0; i < PROPERTIES.length; i++) {
          String require = PROPERTIES[i];
          int matches = 0;
          
-         for(Property property : properties) {
+         for(Property property : list) {
             String name = property.getName();
             
             if(name.equals(require)) {
                matches++;
             }
+            properties.validate(property);
          }
          if(matches == 0) {
             Module module = type.getModule();
@@ -99,13 +101,13 @@ public class TypeValidator {
    }
 
    private void validateFunctions(Type type) throws Exception {
-      List<Function> functions = type.getFunctions();
+      List<Function> list = type.getFunctions();
          
-      for(Function function : functions) {
+      for(Function function : list) {
          String name = function.getName();
          
          if(!name.equals(TYPE_CONSTRUCTOR)) {
-            validator.validate(function);
+            functions.validate(function);
          }
       }
    }
