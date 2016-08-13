@@ -6,11 +6,11 @@ import static org.snapscript.core.Reserved.METHOD_TO_STRING;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
+import org.snapscript.common.Cache;
+import org.snapscript.common.CopyOnWriteCache;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeLoader;
@@ -20,12 +20,12 @@ import org.snapscript.core.function.Signature;
 
 public class ClosureFunctionFinder {
    
-   private final Map<Class, Function> functions;
+   private final Cache<Class, Function> functions;
    private final Set<Class> failures;
    private final TypeLoader loader;
    
    public ClosureFunctionFinder(TypeLoader loader) {
-      this.functions = new ConcurrentHashMap<Class, Function>();
+      this.functions = new CopyOnWriteCache<Class, Function>();
       this.failures = new CopyOnWriteArraySet<Class>();
       this.loader = loader;
    }
@@ -35,14 +35,14 @@ public class ClosureFunctionFinder {
          if(failures.contains(actual)) {
             return null;
          }
-         Function function = functions.get(actual);
+         Function function = functions.fetch(actual);
          
          if(function == null) {
             Type type = loader.loadType(actual);
             Function match = find(type);
             
             if(match != null) {
-               functions.put(actual, match);
+               functions.cache(actual, match);
                return match;
             }
             failures.add(actual);

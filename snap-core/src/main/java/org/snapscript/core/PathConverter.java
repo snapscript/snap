@@ -2,13 +2,13 @@ package org.snapscript.core;
 
 import static org.snapscript.core.Reserved.SCRIPT_EXTENSION;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import org.snapscript.common.Cache;
+import org.snapscript.common.CopyOnWriteCache;
 
 public class PathConverter {
 
-   private final Map<String, String> modules;
-   private final Map<String, String> paths;
+   private final Cache<String, String> modules;
+   private final Cache<String, String> paths;
    private final String suffix;
    
    public PathConverter() {
@@ -16,29 +16,29 @@ public class PathConverter {
    }
    
    public PathConverter(String suffix) {
-      this.modules = new ConcurrentHashMap<String, String>();
-      this.paths = new ConcurrentHashMap<String, String>();
+      this.modules = new CopyOnWriteCache<String, String>();
+      this.paths = new CopyOnWriteCache<String, String>();
       this.suffix = suffix;
    }
    
    public String createPath(String resource) {
-      String path = paths.get(resource);
+      String path = paths.fetch(resource);
       
       if(path == null) {
          path = convertModule(resource);
-         paths.put(resource, path);
-         paths.put(path, path);
+         paths.cache(resource, path);
+         paths.cache(path, path);
       }
       return path;
    }
 
    public String createModule(String resource) {
-      String module = modules.get(resource);
+      String module = modules.fetch(resource);
       
       if(module == null) {
          module = convertPath(resource);
-         modules.put(resource, module);
-         modules.put(module, module);
+         modules.cache(resource, module);
+         modules.cache(module, module);
       }
       return module;
    }

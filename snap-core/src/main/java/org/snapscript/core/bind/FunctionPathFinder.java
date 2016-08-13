@@ -6,17 +6,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
+import org.snapscript.common.Cache;
+import org.snapscript.common.CopyOnWriteCache;
 import org.snapscript.core.Type;
 
 public class FunctionPathFinder {
    
-   private final Map<Type, List<Type>> paths;
+   private final Cache<Type, List<Type>> paths;
    
    public FunctionPathFinder() {
-      this.paths = new ConcurrentHashMap<Type, List<Type>>();
+      this.paths = new CopyOnWriteCache<Type, List<Type>>();
    }
 
    public List<Type> findPath(Type type, String name) {
@@ -27,7 +27,7 @@ public class FunctionPathFinder {
    }
    
    private List<Type> findTypes(Type type, String name) {
-      List<Type> path = paths.get(type);
+      List<Type> path = paths.fetch(type);
       Class real = type.getType();
       
       if(path == null) {
@@ -38,7 +38,7 @@ public class FunctionPathFinder {
          if(real == null) {
             findTraits(type, result);
          }
-         paths.put(type, result);
+         paths.cache(type, result);
          return result;
       }
       return path;

@@ -2,11 +2,11 @@ package org.snapscript.core.convert;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.snapscript.common.Cache;
+import org.snapscript.common.CopyOnWriteCache;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeCastChecker;
@@ -16,7 +16,7 @@ import org.snapscript.core.TypeVerifier;
 
 public class ConstraintMatcher {
    
-   private final Map<Type, ConstraintConverter> converters;
+   private final Cache<Type, ConstraintConverter> converters;
    private final ConstraintConverter converter;
    private final TypeExtractor extractor;
    private final TypeVerifier comparator;
@@ -25,7 +25,7 @@ public class ConstraintMatcher {
    private final TypeLoader loader;
    
    public ConstraintMatcher(TypeLoader loader, ProxyWrapper wrapper) {
-      this.converters = new ConcurrentHashMap<Type, ConstraintConverter>();
+      this.converters = new CopyOnWriteCache<Type, ConstraintConverter>();
       this.extractor = new TypeExtractor(loader);
       this.checker = new TypeCastChecker(this, extractor, loader);
       this.comparator = new TypeVerifier(loader, checker);
@@ -36,11 +36,11 @@ public class ConstraintMatcher {
    
    public ConstraintConverter match(Type type) throws Exception { // type declared in signature
       if(type != null) {
-         ConstraintConverter converter = converters.get(type);
+         ConstraintConverter converter = converters.fetch(type);
          
          if(converter == null) {
             converter = resolve(type);
-            converters.put(type, converter);
+            converters.cache(type, converter);
          }
          return converter;
       }

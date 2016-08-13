@@ -1,22 +1,22 @@
 package org.snapscript.core;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import org.snapscript.common.Cache;
+import org.snapscript.common.CopyOnWriteCache;
 
 public class ValueTypeExtractor {
 
    private final ValueTypeConverter converter;
-   private final Map<Class, Type> types;
+   private final Cache<Class, Type> types;
    
    public ValueTypeExtractor() {
-      this.types = new ConcurrentHashMap<Class, Type>();
+      this.types = new CopyOnWriteCache<Class, Type>();
       this.converter = new ValueTypeConverter();
    }
    
    public Type extract(Scope scope, Object left) throws Exception {
       if(left != null) {
          Class type = left.getClass();
-         Type match = types.get(type);
+         Type match = types.fetch(type);
          
          if(match == null) {
             match = converter.convert(left);
@@ -26,7 +26,7 @@ public class ValueTypeExtractor {
             Type actual = module.getType(type);
             
             if(actual != null) {
-               types.put(type, actual);
+               types.cache(type, actual);
             }
             return actual;
          }

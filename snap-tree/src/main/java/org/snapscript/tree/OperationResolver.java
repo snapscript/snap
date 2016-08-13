@@ -1,24 +1,23 @@
 package org.snapscript.tree;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
+import org.snapscript.common.Cache;
+import org.snapscript.common.CopyOnWriteCache;
 import org.snapscript.core.Context;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeLoader;
 
 public class OperationResolver {
    
-   private final Map<String, Operation> registry;
+   private final Cache<String, Operation> registry;
    private final Context context;
 
    public OperationResolver(Context context) {
-      this.registry = new ConcurrentHashMap<String, Operation>();
+      this.registry = new CopyOnWriteCache<String, Operation>();
       this.context = context;
    }
 
    public Operation resolve(String name) throws Exception {
-      Operation current = registry.get(name);
+      Operation current = registry.fetch(name);
       
       if(current == null) {
          Instruction[] list = Instruction.values();       
@@ -29,10 +28,10 @@ public class OperationResolver {
                Operation operation = create(instruction);
                String grammar = instruction.getName();
                
-               registry.put(grammar, operation);
+               registry.cache(grammar, operation);
             }  
          } 
-         return registry.get(name);
+         return registry.fetch(name);
       }
       return current;
    }
