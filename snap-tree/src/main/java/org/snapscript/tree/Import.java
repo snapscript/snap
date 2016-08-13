@@ -63,12 +63,13 @@ public class Import implements Compilation {
    
    private static class CompileResult extends Statement {
       
-      private final AtomicReference<Statement> reference;
-      private final TypeNameBuilder builder;
-      private final Package library;
-      private final String location;
-      private final String target;
-      private final String alias;
+      private PackageDefinition definition;
+      private TypeNameBuilder builder;
+      private Statement statement;
+      private Package library;
+      private String location;
+      private String target;
+      private String alias;
       
       public CompileResult(Package library, String location) {
          this(library, location, null);
@@ -79,32 +80,31 @@ public class Import implements Compilation {
       }
       
       public CompileResult(Package library, String location, String target, String alias) {
-         this.reference = new AtomicReference<Statement>();
          this.builder = new TypeNameBuilder();
          this.location = location;
          this.library = library;
          this.target = target;
          this.alias = alias;
       }
+      
+      @Override
+      public Result define(Scope scope) throws Exception {
+         if(definition == null) {
+            definition = create(scope);
+         }
+         return ResultType.getNormal(); 
+      }
 
       @Override
       public Result compile(Scope scope) throws Exception {
-         PackageDefinition definition = create(scope);
-         
-         if(definition != null) {
-            Statement statement = definition.compile(scope);
-            
-            if(statement != null) {
-               reference.set(statement);
-            }
+         if(statement == null) {
+            statement = definition.compile(scope);
          }
          return ResultType.getNormal();
       }
       
       @Override
       public Result execute(Scope scope) throws Exception {
-         Statement statement = reference.get();
-         
          if(statement != null) {
             return statement.execute(scope);
          }

@@ -27,18 +27,22 @@ public class ModuleDefinition extends Statement {
    
    @Override
    public Result define(Scope scope) throws Exception {
-      return body.define(scope); 
+      Module module = builder.create(scope);
+      Scope inner = module.getScope();
+      
+      reference.set(module);
+      
+      return body.define(inner); 
    }
 
    @Override
    public Result compile(Scope scope) throws Exception {
-      Module module = builder.create(scope);
+      Module module = reference.get();
       Value value = ValueType.getTransient(module);
       Scope inner = module.getScope();
       State state = inner.getState();
       
       state.addConstant(TYPE_THIS, value);
-      reference.set(module);
       
       return body.compile(inner); 
    }
