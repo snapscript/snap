@@ -3,7 +3,11 @@ package org.snapscript.core.index;
 import java.lang.invoke.MethodHandle;
 import java.lang.reflect.Method;
 
+import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
+import org.snapscript.core.Module;
+import org.snapscript.core.Scope;
+import org.snapscript.core.convert.ProxyWrapper;
 
 public class DefaultMethodHandle {
    
@@ -15,8 +19,12 @@ public class DefaultMethodHandle {
       this.method = method;
    }
 
-   public Object invoke(Object left, Object... arguments) throws Exception {
-      MethodHandle handle = binder.bind(left);
+   public Object invoke(Scope scope, Object left, Object... arguments) throws Exception {
+      Module module = scope.getModule();
+      Context context = module.getContext();
+      ProxyWrapper wrapper = context.getWrapper();
+      Object object = wrapper.toProxy(left);
+      MethodHandle handle = binder.bind(object);
       
       try {
          return handle.invokeWithArguments(arguments);

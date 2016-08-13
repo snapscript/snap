@@ -1,20 +1,22 @@
 package org.snapscript.core.index;
 
+import static org.snapscript.core.Reserved.PROPERTY_GET;
+import static org.snapscript.core.Reserved.PROPERTY_IS;
+import static org.snapscript.core.Reserved.PROPERTY_SET;
+
 import java.lang.reflect.Method;
 
 public enum PropertyType {
-   GET("get", true),
-   SET("set", false),      
-   IS("is", true);
+   GET(PROPERTY_GET),
+   SET(PROPERTY_SET),      
+   IS(PROPERTY_IS);
 
    private final String prefix;
-   private final boolean read;
    private final int size;
 
-   private PropertyType(String prefix, boolean read) {
+   private PropertyType(String prefix) {
       this.size = prefix.length();         
       this.prefix = prefix;
-      this.read = read;
    }
    
    public boolean isWrite(Method method) {

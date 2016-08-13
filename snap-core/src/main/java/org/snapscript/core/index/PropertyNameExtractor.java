@@ -1,12 +1,16 @@
 package org.snapscript.core.index;
 
+import static org.snapscript.core.Reserved.PROPERTY_GET;
+import static org.snapscript.core.Reserved.PROPERTY_IS;
+import static org.snapscript.core.Reserved.PROPERTY_SET;
+
 import java.lang.reflect.Method;
 
 import org.snapscript.core.function.Function;
 
 public class PropertyNameExtractor {
    
-   private static final String[] PREFIXES = {"get", "set", "is"}; 
+   private static final String[] PREFIXES = { PROPERTY_GET, PROPERTY_SET, PROPERTY_IS }; 
    
    public static String getProperty(Method method) {
       String name = method.getName();

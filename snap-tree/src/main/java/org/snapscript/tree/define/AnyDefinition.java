@@ -148,8 +148,9 @@ public class AnyDefinition{
          Number argument = (Number)list[0];
          long time = argument.longValue();
          
-         object.wait(time);
-         
+         if(time >= 0) {
+            object.wait(time);
+         }
          return ResultType.getNormal();
       }
    }

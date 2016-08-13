@@ -57,7 +57,7 @@ public class DefaultMethodInvocation implements Invocation<Object>{
       Module module = scope.getModule();
       Context context = module.getContext();
       ProxyWrapper wrapper = context.getWrapper();
-      Object value = handle.invoke(left, list);
+      Object value = handle.invoke(scope, left, list);
       Object result = wrapper.fromProxy(value);
       
       return ResultType.getNormal(result);
