@@ -6,7 +6,10 @@ import static org.snapscript.core.Reserved.DEFAULT_PACKAGE;
 import static org.snapscript.core.Reserved.METHOD_ARGUMENT;
 import static org.snapscript.core.Reserved.METHOD_EQUALS;
 import static org.snapscript.core.Reserved.METHOD_HASH_CODE;
+import static org.snapscript.core.Reserved.METHOD_NOTIFY;
+import static org.snapscript.core.Reserved.METHOD_NOTIFY_ALL;
 import static org.snapscript.core.Reserved.METHOD_TO_STRING;
+import static org.snapscript.core.Reserved.METHOD_WAIT;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,17 +48,61 @@ public class AnyDefinition{
       if(functions.isEmpty()) {
          Type string = loader.loadType(String.class);
          Type integer = loader.loadType(Integer.class);
+         Type time = loader.loadType(Long.class);
          Type bool = loader.loadType(Boolean.class);
          Function hashCode = createHashCode(module, type, integer);
          Function toString = createToString(module, type, string);
          Function equals = createEquals(module, type, bool);
+         Function wait = createWait(module, type);
+         Function waitFor = createWaitFor(module, type, time);
+         Function notify = createNotify(module, type);
+         Function notifyAll = createNotifyAll(module, type);
          
+         functions.add(wait);
+         functions.add(waitFor);
+         functions.add(notify);
+         functions.add(notifyAll);
          functions.add(hashCode);
          functions.add(equals);
          functions.add(toString);
          constructor.compile(initializer, type);
       }
       return type;
+   }
+   
+   private Function createWait(Module module, Type type) {
+      List<Parameter> parameters = new ArrayList<Parameter>();
+      Signature signature = new Signature(parameters, module);
+      Invocation<Object> invocation = new WaitInvocation();
+      
+      return new InvocationFunction<Object>(signature, invocation, type, null, METHOD_WAIT, PUBLIC.mask);
+   }
+   
+   private Function createWaitFor(Module module, Type type, Type argument) {
+      List<Parameter> parameters = new ArrayList<Parameter>();
+      Parameter parameter = new Parameter(METHOD_ARGUMENT, argument);
+      Signature signature = new Signature(parameters, module);
+      Invocation<Object> invocation = new WaitForInvocation();
+      
+      parameters.add(parameter);
+      
+      return new InvocationFunction<Object>(signature, invocation, type, null, METHOD_WAIT, PUBLIC.mask);
+   }
+   
+   private Function createNotify(Module module, Type type) {
+      List<Parameter> parameters = new ArrayList<Parameter>();
+      Signature signature = new Signature(parameters, module);
+      Invocation<Object> invocation = new NotifyInvocation();
+      
+      return new InvocationFunction<Object>(signature, invocation, type, null, METHOD_NOTIFY, PUBLIC.mask);
+   }
+   
+   private Function createNotifyAll(Module module, Type type) {
+      List<Parameter> parameters = new ArrayList<Parameter>();
+      Signature signature = new Signature(parameters, module);
+      Invocation<Object> invocation = new NotifyAllInvocation();
+      
+      return new InvocationFunction<Object>(signature, invocation, type, null, METHOD_NOTIFY_ALL, PUBLIC.mask);
    }
    
    private Function createHashCode(Module module, Type type, Type returns) {
@@ -83,6 +130,46 @@ public class AnyDefinition{
       Invocation<Object> invocation = new ToStringInvocation();
       
       return new InvocationFunction<Object>(signature, invocation, type, returns, METHOD_TO_STRING, PUBLIC.mask);
+   }
+   
+   private static class WaitInvocation implements Invocation<Object> {
+      
+      @Override
+      public Result invoke(Scope scope, Object object, Object... list) throws Exception {
+         object.wait();
+         return ResultType.getNormal();
+      }
+   }
+   
+   private static class WaitForInvocation implements Invocation<Object> {
+      
+      @Override
+      public Result invoke(Scope scope, Object object, Object... list) throws Exception {
+         Number argument = (Number)list[0];
+         long time = argument.longValue();
+         
+         object.wait(time);
+         
+         return ResultType.getNormal();
+      }
+   }
+   
+   private static class NotifyInvocation implements Invocation<Object> {
+      
+      @Override
+      public Result invoke(Scope scope, Object object, Object... list) throws Exception {
+         object.notify();
+         return ResultType.getNormal();
+      }
+   }
+   
+   private static class NotifyAllInvocation implements Invocation<Object> {
+      
+      @Override
+      public Result invoke(Scope scope, Object object, Object... list) throws Exception {
+         object.notifyAll();
+         return ResultType.getNormal();
+      }
    }
    
    private static class HashCodeInvocation implements Invocation<Object> {
