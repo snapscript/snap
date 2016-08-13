@@ -8,6 +8,7 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.TypeLoader;
 import org.snapscript.core.link.Package;
+import org.snapscript.core.link.PackageDefinition;
 
 public class ScopeExtension {
 
@@ -29,7 +30,8 @@ public class ScopeExtension {
       ModuleRegistry registry = context.getRegistry();
       TypeLoader loader = context.getLoader();
       Package module = loader.importPackage(name);
-      Statement statement = module.compile(scope);
+      PackageDefinition definition = module.define(scope);
+      Statement statement = definition.compile(scope);
       
       statement.execute(scope);
       

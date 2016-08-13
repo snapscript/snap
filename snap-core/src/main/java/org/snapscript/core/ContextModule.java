@@ -68,20 +68,21 @@ public class ContextModule implements Module {
    }
    
    @Override
-   public Type addType(String name) { // throw exception if already defined
+   public Type addType(String name) {
+      Type type = types.get(name); 
+      
+      if(type != null) {
+         throw new ModuleException("Type '" + prefix + "." + name + "' already defined");
+      }
       try {
-         Type type = types.get(name); 
+         TypeLoader loader = context.getLoader();
          
-         if(type == null) {
-            TypeLoader loader = context.getLoader();
-            
-            if(loader != null) {
-               type = loader.defineType(prefix, name);
-            }
-            if(type != null) {
-               types.put(name, type);
-               references.add(type);
-            }
+         if(loader != null) {
+            type = loader.defineType(prefix, name);
+         }
+         if(type != null) {
+            types.put(name, type);
+            references.add(type);
          }
          return type;
       } catch(Exception e){

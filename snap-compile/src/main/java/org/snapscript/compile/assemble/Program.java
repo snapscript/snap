@@ -2,14 +2,15 @@ package org.snapscript.compile.assemble;
 
 import org.snapscript.compile.Executable;
 import org.snapscript.core.Context;
-import org.snapscript.core.ProgramValidator;
 import org.snapscript.core.EmptyModel;
 import org.snapscript.core.Model;
+import org.snapscript.core.ProgramValidator;
 import org.snapscript.core.Scope;
 import org.snapscript.core.ScopeMerger;
 import org.snapscript.core.Statement;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.link.Package;
+import org.snapscript.core.link.PackageDefinition;
 
 public class Program implements Executable{
    
@@ -37,13 +38,14 @@ public class Program implements Executable{
    @Override
    public void execute(Model model) throws Exception{ 
       Scope scope = merger.merge(model, name, path);
-      Statement script = library.compile(scope); // define method should be invoked first
-      ErrorHandler handler = context.getHandler();
+      PackageDefinition definition = library.define(scope); // define all types
+      Statement statement = definition.compile(scope); // compile tree
       ProgramValidator validator = context.getValidator();
+      ErrorHandler handler = context.getHandler();
       
       try {
-         validator.validate(context);
-         script.execute(scope);
+         validator.validate(context); // validate program
+         statement.execute(scope);
       } catch(Throwable cause) {
          handler.throwExternal(scope, cause);
       }

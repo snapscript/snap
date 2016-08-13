@@ -16,6 +16,7 @@ import org.snapscript.core.Value;
 import org.snapscript.core.index.TypeNameBuilder;
 import org.snapscript.core.link.ImportManager;
 import org.snapscript.core.link.Package;
+import org.snapscript.core.link.PackageDefinition;
 
 public class Import implements Compilation {
 
@@ -85,13 +86,17 @@ public class Import implements Compilation {
          this.target = target;
          this.alias = alias;
       }
-      
+
       @Override
       public Result compile(Scope scope) throws Exception {
-         Statement statement = create(scope);
+         PackageDefinition definition = create(scope);
          
-         if(statement != null) {
-            reference.set(statement);
+         if(definition != null) {
+            Statement statement = definition.compile(scope);
+            
+            if(statement != null) {
+               reference.set(statement);
+            }
          }
          return ResultType.getNormal();
       }
@@ -106,7 +111,7 @@ public class Import implements Compilation {
          return ResultType.getNormal();
       }
       
-      private Statement create(Scope scope) throws Exception {
+      private PackageDefinition create(Scope scope) throws Exception {
          Module module = scope.getModule();
          ImportManager manager = module.getManager();
          String type = builder.createName(location, target);
@@ -120,7 +125,7 @@ public class Import implements Compilation {
                manager.addImport(type, target); // import game.tetris.Block;
             }
          }
-         return library.compile(scope);
+         return library.define(scope);
       }
    }
 

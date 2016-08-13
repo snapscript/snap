@@ -9,8 +9,8 @@ import java.util.concurrent.FutureTask;
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
-import org.snapscript.core.Statement;
 import org.snapscript.core.link.Package;
+import org.snapscript.core.link.PackageDefinition;
 import org.snapscript.core.link.PackageLinker;
 
 public class ExecutorLinker implements PackageLinker {
@@ -72,13 +72,13 @@ public class ExecutorLinker implements PackageLinker {
       }
       
       @Override
-      public Statement compile(Scope scope) throws Exception {
+      public PackageDefinition define(Scope scope) throws Exception {
          Package library = result.get();
          
          if(library == null) {
             throw new InternalStateException("Could not link " + resource);
          }
-         return library.compile(scope);
+         return library.define(scope);
       }      
    }
    
@@ -122,7 +122,7 @@ public class ExecutorLinker implements PackageLinker {
       }  
       
       @Override
-      public Statement compile(Scope scope) throws Exception {
+      public PackageDefinition define(Scope scope) throws Exception {
          throw new InternalStateException(message, cause);
       }             
    }
