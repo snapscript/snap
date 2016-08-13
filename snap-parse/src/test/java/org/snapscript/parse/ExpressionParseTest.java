@@ -8,7 +8,7 @@ public class ExpressionParseTest extends TestCase {
       SyntaxParser tree = LexerBuilder.create();
 
       assertNotNull(tree);
-
+      analyze(tree, "synchronized(x) {x++;}", "synchronized-statement");
       analyze(tree, "trait X{}", "trait-definition");
       analyze(tree, "class X{const x = 11;}", "class-definition");
       analyze(tree, "trait X{const x = 11;}", "trait-definition");

@@ -17,6 +17,9 @@ public interface Reserved {
    String METHOD_EQUALS = "equals";
    String METHOD_TO_STRING = "toString";
    String METHOD_ARGUMENT = "object";
+   String METHOD_WAIT = "wait";
+   String METHOD_NOTIFY = "notify";
+   String METHOD_NOTIFY_ALL = "notifyAll";
    String IMPORT_JAVA = "java.";
    String IMPORT_JAVAX = "javax.";
    String IMPORT_JAVA_UTIL = "java.util.";
