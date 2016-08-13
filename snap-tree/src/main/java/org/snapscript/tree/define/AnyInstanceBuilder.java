@@ -25,6 +25,6 @@ public class AnyInstanceBuilder {
       Module parent = registry.addModule(DEFAULT_PACKAGE);
       Scope inner = real.getScope();
       
-      return new PrimitiveInstance(parent, model, inner, real); // create the first instance
+      return new PrimitiveInstance(parent, model, inner, real); 
    }
 }

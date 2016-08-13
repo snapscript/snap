@@ -38,7 +38,7 @@ public class AnyDefinition{
       Type result = loader.defineType(DEFAULT_PACKAGE, ANY_TYPE);
       List<Function> functions = result.getFunctions();
       
-      if(functions.isEmpty()) {
+      if(functions.isEmpty()) { // thread safe?
          Function constructor = builder.create(result, TYPE_CONSTRUCTOR, NewInvocation.class, Type.class);
          Function hashCode = builder.create(result, METHOD_HASH_CODE, HashCodeInvocation.class);
          Function toString = builder.create(result, METHOD_TO_STRING, ToStringInvocation.class);
