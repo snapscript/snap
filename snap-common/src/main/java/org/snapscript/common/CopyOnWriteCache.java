@@ -21,7 +21,7 @@ public class CopyOnWriteCache<K, V> implements Cache<K, V> {
 
    @Override
    public V take(K key) {
-      return cache.remove(key);
+      return updater.take(key);
    }
 
    @Override
@@ -63,10 +63,26 @@ public class CopyOnWriteCache<K, V> implements Cache<K, V> {
       }
       
       public synchronized void cache(K key, V value) {
-         Map<K, V> copy = new HashMap<K, V>(cache);
+         V existing = cache.get(key);
          
-         copy.put(key, value);
-         cache = copy;
+         if(existing != value) { // reduce churn
+            Map<K, V> copy = new HashMap<K, V>(cache);
+            
+            copy.put(key, value);
+            cache = copy;
+         }
+      }
+      
+      public synchronized V take(K key) {
+         V existing = cache.get(key);
+         
+         if(existing != null) {
+            Map<K, V> copy = new HashMap<K, V>(cache);
+           
+            copy.remove(key);
+            cache = copy;
+         }
+         return existing;
       }
       
       public synchronized void clear() {
