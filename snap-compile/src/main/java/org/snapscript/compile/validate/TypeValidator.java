@@ -66,11 +66,7 @@ public class TypeValidator {
             }
          }
          if(matches == 0) {
-            Module module = type.getModule();
-            String resource = module.getName();
-            String name = type.getName();
-            
-            throw new InternalStateException("Type '" + resource + "." + name + "' not defined");
+            throw new InternalStateException("Type '" + type + "' not defined");
          }
       }
    }
@@ -91,11 +87,7 @@ public class TypeValidator {
             properties.validate(property);
          }
          if(matches == 0) {
-            Module module = type.getModule();
-            String resource = module.getName();
-            String name = type.getName();
-            
-            throw new InternalStateException("Type '" + resource + "." + name + "' have property '" + require + "'");
+            throw new InternalStateException("Type '" + type + "' have property '" + require + "'");
          }
       }
    }

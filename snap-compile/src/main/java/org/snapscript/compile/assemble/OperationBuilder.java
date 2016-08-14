@@ -32,7 +32,7 @@ public class OperationBuilder {
       Callable<Result> callable = binder.bind(scope, type, TYPE_CONSTRUCTOR, arguments);
       
       if(callable == null) {
-         throw new InternalStateException("No constructor for " + type + " at line " + line);
+         throw new InternalStateException("No constructor for '" + type + "' at line " + line);
       }
       Result result = callable.call();
       Object value = result.getValue();

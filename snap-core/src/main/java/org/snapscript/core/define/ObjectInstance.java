@@ -52,6 +52,11 @@ public class ObjectInstance implements Instance {
    }
    
    @Override
+   public Type getHandle(){
+      return type;
+   }
+   
+   @Override
    public Type getType(){
       return type;
    }

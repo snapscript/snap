@@ -5,6 +5,7 @@ import java.util.List;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
+import org.snapscript.core.TypeDescription;
 import org.snapscript.core.TypeScope;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.function.Function;
@@ -12,6 +13,7 @@ import org.snapscript.core.property.Property;
 
 public class ClassType implements Type {
 
+   private final TypeDescription description;
    private final ClassIndex index;
    private final Scope scope;
    private final Class type;
@@ -19,6 +21,7 @@ public class ClassType implements Type {
    private final int order;
    
    public ClassType(ClassIndexer indexer, Class type, String name, int order) {
+      this.description = new TypeDescription(this);
       this.index = new ClassIndex(indexer, this);
       this.scope = new TypeScope(this);
       this.name = name;
@@ -78,7 +81,7 @@ public class ClassType implements Type {
    
    @Override
    public String toString() {
-      return name;
+      return description.toString();
    }
 
 }

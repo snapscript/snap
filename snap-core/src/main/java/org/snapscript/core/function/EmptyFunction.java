@@ -39,7 +39,7 @@ public class EmptyFunction<T> implements Function<T> {
    }
    
    @Override
-   public Type getDefinition() {
+   public Type getHandle() {
       return null;
    }
    

@@ -54,4 +54,8 @@ public class ThisProperty implements Property {
       throw new InternalStateException("Illegal modification of constant " + TYPE_THIS);
    }
 
+   @Override
+   public String toString() {
+      return TYPE_THIS;
+   }
 }

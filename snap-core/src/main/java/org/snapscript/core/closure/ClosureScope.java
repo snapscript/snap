@@ -28,6 +28,11 @@ public class ClosureScope implements Scope {
    public Scope getOuter() {
       return scope;
    }
+   
+   @Override
+   public Type getHandle() {
+      return scope.getType();
+   }
 
    @Override
    public Type getType() {

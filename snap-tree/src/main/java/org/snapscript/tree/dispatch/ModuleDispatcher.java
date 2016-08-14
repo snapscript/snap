@@ -8,7 +8,6 @@ import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
 import org.snapscript.core.ValueType;
-import org.snapscript.core.ValueTypeExtractor;
 import org.snapscript.core.bind.FunctionBinder;
 
 public class ModuleDispatcher implements InvocationDispatcher {
@@ -16,8 +15,8 @@ public class ModuleDispatcher implements InvocationDispatcher {
    private final ObjectDispatcher handler;
    private final Module module;   
    
-   public ModuleDispatcher(ValueTypeExtractor extractor, Scope scope, Object object) {
-      this.handler = new ObjectDispatcher(extractor, scope, object);
+   public ModuleDispatcher(Scope scope, Object object) {
+      this.handler = new ObjectDispatcher(scope, object);
       this.module = (Module)object;
    }
 

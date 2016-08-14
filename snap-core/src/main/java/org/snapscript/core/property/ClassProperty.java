@@ -55,5 +55,10 @@ public class ClassProperty implements Property {
    public void setValue(Object source, Object value) {
       throw new InternalStateException("Illegal modification of constant " + TYPE_CLASS);
    }
+   
+   @Override
+   public String toString(){
+      return TYPE_CLASS;
+   }
 
 }

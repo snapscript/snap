@@ -47,7 +47,7 @@ public class InvocationFunction<T> implements Function<T> {
    }
    
    @Override
-   public Type getDefinition() {
+   public Type getHandle() {
       return signature.getDefinition();
    }
    

@@ -31,6 +31,11 @@ public class TypeScope implements Scope {
    }
    
    @Override
+   public Type getHandle() {
+      return null;
+   }
+   
+   @Override
    public Type getType(){
       return null;
    }  

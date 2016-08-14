@@ -1,6 +1,6 @@
 package org.snapscript.core;
 
-public interface Scope extends Any {
+public interface Scope extends Handle {
    Type getType();
    Scope getInner();
    Scope getOuter();

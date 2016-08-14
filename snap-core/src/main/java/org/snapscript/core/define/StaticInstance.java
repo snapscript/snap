@@ -53,6 +53,11 @@ public class StaticInstance implements Instance {
    }
    
    @Override
+   public Type getHandle(){
+      return type;
+   }
+   
+   @Override
    public Model getModel() {
       return model;
    }

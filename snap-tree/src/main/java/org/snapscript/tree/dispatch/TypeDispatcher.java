@@ -9,7 +9,6 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.ValueType;
-import org.snapscript.core.ValueTypeExtractor;
 import org.snapscript.core.bind.FunctionBinder;
 
 public class TypeDispatcher implements InvocationDispatcher {
@@ -18,8 +17,8 @@ public class TypeDispatcher implements InvocationDispatcher {
    private final Scope scope;      
    private final Type type;
    
-   public TypeDispatcher(ValueTypeExtractor extractor, Scope scope, Object object) {
-      this.handler = new ObjectDispatcher(extractor, scope, object);
+   public TypeDispatcher(Scope scope, Object object) {
+      this.handler = new ObjectDispatcher(scope, object);
       this.type = (Type)object;
       this.scope = scope;
    }

@@ -21,14 +21,10 @@ public class ModuleValidator {
       String resource = module.getPath();
       
       for(Type type : types) {
-         Module parent = type.getModule();
-         String prefix = parent.getName();
-         String name = type.getName();
-
          try {
             validator.validate(type);
          }catch(Exception e) {
-            throw new InternalStateException("Invalid reference to '" + prefix + "." + name +"' in '" + resource + "'", e);
+            throw new InternalStateException("Invalid reference to '" + type +"' in '" + resource + "'", e);
          }
       }
    }

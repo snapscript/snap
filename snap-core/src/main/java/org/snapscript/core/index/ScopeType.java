@@ -6,6 +6,7 @@ import java.util.List;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
+import org.snapscript.core.TypeDescription;
 import org.snapscript.core.TypeScope;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.function.Function;
@@ -13,6 +14,7 @@ import org.snapscript.core.property.Property;
 
 public class ScopeType implements Type {
    
+   private final TypeDescription description;
    private final List<Annotation> annotations;
    private final List<Property> properties;
    private final List<Function> functions;
@@ -23,6 +25,7 @@ public class ScopeType implements Type {
    private final int order;
    
    public ScopeType(Module module, String name, int order){
+      this.description = new TypeDescription(this);
       this.annotations = new ArrayList<Annotation>();
       this.properties = new ArrayList<Property>();
       this.functions = new ArrayList<Function>();
@@ -85,6 +88,6 @@ public class ScopeType implements Type {
    
    @Override
    public String toString() {
-      return name;
+      return description.toString();
    }
 }

@@ -4,8 +4,6 @@ import java.util.Set;
 
 import org.snapscript.common.Cache;
 import org.snapscript.common.CopyOnWriteCache;
-import org.snapscript.core.define.SuperInstance;
-import org.snapscript.core.function.Function;
 
 public class TypeExtractor {
    
@@ -25,17 +23,9 @@ public class TypeExtractor {
          Type match = matches.fetch(type);
          
          if(match == null) {
-            if(SuperInstance.class.isAssignableFrom(type)) {
-               SuperInstance scope = (SuperInstance)value;
-               return scope.getSuper();
-            } 
-            if(Scope.class.isAssignableFrom(type)) {
-               Scope scope = (Scope)value;
-               return scope.getType();
-            } 
-            if(Function.class.isAssignableFrom(type)) {
-               Function function = (Function)value;
-               return function.getDefinition(); // used as an adapter;
+            if(Handle.class.isAssignableFrom(type)) {
+               Handle handle = (Handle)value;
+               return handle.getHandle();
             }             
             Type actual = loader.loadType(type);
             

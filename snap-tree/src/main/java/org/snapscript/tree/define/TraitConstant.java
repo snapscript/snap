@@ -44,7 +44,6 @@ public class TraitConstant implements TypePart {
    @Override
    public Initializer compile(Initializer initializer, Type type) throws Exception {
       Scope scope = type.getScope();
-      Module module = type.getModule();
       Initializer declare = declaration.declare(initializer);
       List<Property> properties = type.getProperties();
       Value value = identifier.evaluate(scope, null);
@@ -52,7 +51,7 @@ public class TraitConstant implements TypePart {
       String name = value.getString();
       
       if(!checker.isConstant()) {
-         throw new InternalStateException("Variable '" + name + "' for " +module + "." + type + " must be constant");
+         throw new InternalStateException("Variable '" + name + "' for '" + type + "; must be constant");
       }
       Accessor accessor = new StaticAccessor(initializer, scope, type, name);
       Property property = new AccessorProperty(name, type, constraint, accessor, ModifierType.STATIC.mask | ModifierType.CONSTANT.mask);

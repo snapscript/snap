@@ -2,15 +2,16 @@ package org.snapscript.core;
 
 public class ValueKeyBuilder {
    
-   private final ValueTypeExtractor extractor;
-   
    public ValueKeyBuilder() {
-      this.extractor = new ValueTypeExtractor();
+      super();
    }
 
    public Object create(Scope scope, Object left, String name) throws Exception {
       if(left != null) {
-         Type type = extractor.extract(scope, left);
+         Module module = scope.getModule();
+         Context context = module.getContext();
+         TypeExtractor extractor = context.getExtractor();
+         Type type = extractor.getType(left);
          
          if(type != null) {
             return new ValueKey(name, type);

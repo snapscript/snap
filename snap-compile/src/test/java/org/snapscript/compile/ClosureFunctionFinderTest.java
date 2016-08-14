@@ -27,7 +27,7 @@ public class ClosureFunctionFinderTest extends TestCase {
       Module module = new ContextModule(context, "/", "yy", 1);
       ClosureFunctionFinder finder = new ClosureFunctionFinder(loader);
       Signature signature = new Signature(Arrays.asList(new Parameter("n", loader.loadType(String.class))), module);
-      Type type = new InvocationFunction(signature, null, null, null, "xx").getDefinition();
+      Type type = new InvocationFunction(signature, null, null, null, "xx").getHandle();
       Function function = finder.find(type);
       
       assertNotNull(function);

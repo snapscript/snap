@@ -46,7 +46,7 @@ public class SuperInstance implements Instance {
       return scope.getOuter();
    }
    
-   public Type getSuper() {
+   public Type getHandle() {
       return base;
    }
 

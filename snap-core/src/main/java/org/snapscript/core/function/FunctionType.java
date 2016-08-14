@@ -8,18 +8,21 @@ import java.util.List;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
+import org.snapscript.core.TypeDescription;
 import org.snapscript.core.TypeScope;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.property.Property;
 
 public class FunctionType implements Type {
    
+   private final TypeDescription description;
    private final Function function;
    private final Module module;
    private final Scope scope;
    
    public FunctionType(Signature signature, Module module) {
       this.function = new EmptyFunction(signature, METHOD_CLOSURE);
+      this.description = new TypeDescription(this);
       this.scope = new TypeScope(this);
       this.module = module;
    }
@@ -73,5 +76,9 @@ public class FunctionType implements Type {
    public int getOrder() {
       return 0;
    }
-
+   
+   @Override
+   public String toString() {
+      return description.toString();
+   }
 }

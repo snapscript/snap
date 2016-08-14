@@ -31,6 +31,11 @@ public class ModuleScope implements Scope {
    }
    
    @Override
+   public Type getHandle() {
+      return null;
+   }
+   
+   @Override
    public Type getType() {
       return null;
    }  

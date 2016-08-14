@@ -41,11 +41,7 @@ public class TypeTraverser {
       if(list.add(type)) {
          for(Type entry : types) {
             if(entry == root) { 
-               Module module = type.getModule();
-               String resource = module.getName();
-               String name = type.getName();
-               
-               throw new InternalStateException("Hierarchy for '" + resource + "." + name + "' contains a cycle");
+               throw new InternalStateException("Hierarchy for '" + type + "' contains a cycle");
             }
             collect(root, entry, list);
          }

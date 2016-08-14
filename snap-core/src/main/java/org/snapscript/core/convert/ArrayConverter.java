@@ -144,7 +144,7 @@ public class ArrayConverter extends ConstraintConverter {
                Score score = converter.score(element);
    
                if(score.compareTo(INVALID) == 0) {
-                  throw new InternalStateException("Array element is not " + require);
+                  throw new InternalStateException("Array element is not '" + require + "'");
                }
                element = converter.convert(element);
             }
@@ -170,7 +170,7 @@ public class ArrayConverter extends ConstraintConverter {
                Score score = converter.score(element);
    
                if(score.compareTo(INVALID) == 0) {
-                  throw new InternalStateException("Array element is not " + require);
+                  throw new InternalStateException("Array element is not '" + require + "'");
                }
                element = converter.convert(element);
             }

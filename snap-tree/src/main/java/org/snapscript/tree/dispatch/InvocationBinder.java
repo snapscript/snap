@@ -5,15 +5,12 @@ import java.util.Map;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
-import org.snapscript.core.ValueTypeExtractor;
 import org.snapscript.core.function.Function;
 
 public class InvocationBinder {
    
-   private final ValueTypeExtractor extractor;
-   
    public InvocationBinder() {
-      this.extractor = new ValueTypeExtractor();
+      super();
    }
 
    public InvocationDispatcher bind(Scope scope, Object left) {
@@ -21,29 +18,29 @@ public class InvocationBinder {
          Class type = left.getClass();
          
          if(Scope.class.isInstance(left)) {
-            return new ScopeDispatcher(extractor, scope, left);            
+            return new ScopeDispatcher(scope, left);            
          }
          if(Module.class.isInstance(left)) {
-            return new ModuleDispatcher(extractor, scope, left);
+            return new ModuleDispatcher(scope, left);
          }  
          if(Type.class.isInstance(left)) {
-            return new TypeDispatcher(extractor, scope, left);
+            return new TypeDispatcher(scope, left);
          }  
          if(Map.class.isInstance(left)) {
-            return new MapDispatcher(extractor, scope, left);
+            return new MapDispatcher(scope, left);
          }
          if(Function.class.isInstance(left)) {
-            return new FunctionDispatcher(extractor, scope, left);
+            return new FunctionDispatcher(scope, left);
          }
          if(type.isArray()) {
-            return new ArrayDispatcher(extractor, scope, left);
+            return new ArrayDispatcher(scope, left);
          }
-         return new ObjectDispatcher(extractor, scope, left);
+         return new ObjectDispatcher(scope, left);
       }
       Type type = scope.getType();
       
       if(type != null) {
-         return new ScopeDispatcher(extractor, scope, scope);
+         return new ScopeDispatcher(scope, scope);
       }
       return new LocalDispatcher(scope);      
    }

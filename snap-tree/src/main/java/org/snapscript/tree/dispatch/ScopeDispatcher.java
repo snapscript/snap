@@ -8,20 +8,18 @@ import org.snapscript.core.Module;
 import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
+import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.Value;
 import org.snapscript.core.ValueType;
-import org.snapscript.core.ValueTypeExtractor;
 import org.snapscript.core.bind.FunctionBinder;
 
 public class ScopeDispatcher implements InvocationDispatcher {
    
-   private final ValueTypeExtractor extractor;
    private final Scope object;
    private final Scope scope;      
    
-   public ScopeDispatcher(ValueTypeExtractor extractor, Scope scope, Object object) {
+   public ScopeDispatcher(Scope scope, Object object) {
       this.object = (Scope)object;
-      this.extractor = extractor;
       this.scope = scope;
    }
 
@@ -30,10 +28,12 @@ public class ScopeDispatcher implements InvocationDispatcher {
       Callable<Result> match = bind(name, arguments);
       
       if(match == null) {
-         Type type = extractor.extract(scope, object);
-         Module module = type.getModule();
+         Module module = scope.getModule();
+         Context context = module.getContext();
+         TypeExtractor extractor = context.getExtractor();
+         Type type = extractor.getType(object);
          
-         throw new InternalStateException("Method '" + name + "' not found for " + module + "." + type);   
+         throw new InternalStateException("Method '" + name + "' not found for '" + type + "'");   
       }
       Result result = match.call();
       Object data = result.getValue();

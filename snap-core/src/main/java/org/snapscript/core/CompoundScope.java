@@ -23,6 +23,11 @@ public class CompoundScope implements Scope {
    }  
    
    @Override
+   public Type getHandle() {
+      return outer.getType();
+   }
+   
+   @Override
    public Type getType() {
       return outer.getType();
    }
@@ -67,6 +72,11 @@ public class CompoundScope implements Scope {
       @Override
       public Scope getOuter() {
          return outer;
+      }
+      
+      @Override
+      public Type getHandle() {
+         return outer.getType();
       }
 
       @Override

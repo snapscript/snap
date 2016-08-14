@@ -34,7 +34,7 @@ public class TypeReferencePart implements Evaluation {
          result = module.getType(name); 
       }
       if(result == null) {
-         throw new InternalStateException("No type found for " + name + " in '" + module + "'"); // class not found
+         throw new InternalStateException("No type found for '" + name + "' in '" + module + "'"); // class not found
       }
       return ValueType.getTransient(result);
    }

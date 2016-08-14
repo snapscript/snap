@@ -38,19 +38,19 @@ public class FunctionProxyHandler implements InvocationHandler {
       
       if(name.equals(METHOD_HASH_CODE)) {
          if(width != 0) {
-            throw new InternalStateException("Closure "+ METHOD_HASH_CODE +" does not accept " + width + " arguments");
+            throw new InternalStateException("Closure '"+ METHOD_HASH_CODE +"' does not accept " + width + " arguments");
          }
          return function.hashCode();
       }
       if(name.equals(METHOD_TO_STRING)) {
          if(width != 0) {
-            throw new InternalStateException("Closure "+METHOD_TO_STRING+" does not accept " + width + " arguments");
+            throw new InternalStateException("Closure '"+METHOD_TO_STRING+"' does not accept " + width + " arguments");
          }
          return function.toString();
       }
       if(name.equals(METHOD_EQUALS)) {
          if(width != 1) {
-            throw new InternalStateException("Closure "+METHOD_EQUALS+" does not accept " + width + " arguments");
+            throw new InternalStateException("Closure '"+METHOD_EQUALS+"' does not accept " + width + " arguments");
          }
          return function.equals(convert[0]);
       }

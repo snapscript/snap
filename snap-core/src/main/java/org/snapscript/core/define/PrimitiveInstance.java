@@ -48,7 +48,17 @@ public class PrimitiveInstance implements Instance {
    @Override
    public Module getModule() {
       return module;
-   } 
+   }
+   
+   @Override
+   public Type getHandle(){
+      return type;
+   }
+   
+   @Override
+   public Type getType(){
+      return type;
+   }
    
    @Override
    public Model getModel() {
@@ -58,11 +68,6 @@ public class PrimitiveInstance implements Instance {
    @Override
    public State getState() {
       return state;
-   }
-   
-   @Override
-   public Type getType(){
-      return type;
    }
    
    @Override

@@ -25,42 +25,36 @@ public class ModifierValidator {
       super();
    }
    
-   public void validate(Type type, Property property, int modifiers) {
-      Module module = type.getModule();
-      String name = property.getName();
-      
+   public void validate(Type type, Property property, int modifiers) { 
       if((PUBLIC_PRIVATE & modifiers) == PUBLIC_PRIVATE) {
-         throw new InternalStateException("Property '" + module + '.' + type + '.' + name + "' is both public and private");
+         throw new InternalStateException("Property '" + type + '.' + property + "' is both public and private");
       }
       if((CONSTANT_VARIABLE & modifiers) == CONSTANT_VARIABLE) {
-         throw new InternalStateException("Property '" + module + '.' + type + '.' + name + "' is both variable and constant");
+         throw new InternalStateException("Property '" + type + '.' + property + "' is both variable and constant");
       }
       if((OVERRIDE.mask & modifiers) == OVERRIDE.mask) {
-         throw new InternalStateException("Property '" + module + '.' + type + '.' + name + "' is declared as override");
+         throw new InternalStateException("Property '" + type + '.' + property + "' is declared as override");
       }
       if((ABSTRACT.mask & modifiers) == ABSTRACT.mask) {
-         throw new InternalStateException("Property '" + module + '.' + type + '.' + name + "' is declared as abstract");
+         throw new InternalStateException("Property '" + type + '.' + property + "' is declared as abstract");
       }
    }
    
    public void validate(Type type, Function function, int modifiers) {
-      Module module = type.getModule();
-      String description = function.getDescription();
-      
       if((PUBLIC_PRIVATE & modifiers) == PUBLIC_PRIVATE) {
-         throw new InternalStateException("Function '" + module + '.' + type + '.' + description + "' is both public and private");
+         throw new InternalStateException("Function '" + function + "' is both public and private");
       }
       if((OVERRIDE_STATIC & modifiers) == OVERRIDE_STATIC) {
-         throw new InternalStateException("Function '" + module + '.' + type + '.' + description + "' is both static and override");
+         throw new InternalStateException("Function '" + function + "' is both static and override");
       }
       if((ABSTRACT_STATIC & modifiers) == ABSTRACT_STATIC) {
-         throw new InternalStateException("Function '" + module + '.' + type + '.' + description + "' is both static and abstract");
+         throw new InternalStateException("Function '" + function + "' is both static and abstract");
       }
       if((CONSTANT.mask & modifiers) == CONSTANT.mask) {
-         throw new InternalStateException("Function '" + module + '.' + type + '.' + description + "' is declared as constant");
+         throw new InternalStateException("Function '" + function + "' is declared as constant");
       }
       if((VARIABLE.mask & modifiers) == VARIABLE.mask) {
-         throw new InternalStateException("Function '" + module + '.' + type + '.' + description + "' is declared as variable");
+         throw new InternalStateException("Function '" + function + "' is declared as variable");
       }
    }
 }

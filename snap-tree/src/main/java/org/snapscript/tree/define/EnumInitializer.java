@@ -43,7 +43,7 @@ public class EnumInitializer extends Initializer {
       Callable<Result> call = binder.bind(scope, type);
            
       if(call == null){
-         throw new InternalStateException("No constructor for enum " + name);
+         throw new InternalStateException("No constructor for enum '" + name + "' in '" + type+ "'");
       }
       Result result = call.call();
       Scope instance = result.getValue();

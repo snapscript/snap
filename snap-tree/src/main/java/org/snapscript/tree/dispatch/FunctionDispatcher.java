@@ -11,7 +11,6 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.ValueType;
-import org.snapscript.core.ValueTypeExtractor;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.core.function.Function;
@@ -25,9 +24,9 @@ public class FunctionDispatcher implements InvocationDispatcher {
    private final Object function;
    private final Scope scope;      
    
-   public FunctionDispatcher(ValueTypeExtractor extractor, Scope scope, Object function) {
+   public FunctionDispatcher(Scope scope, Object function) {
       this.adapter = new FunctionAdapter(function);
-      this.dispatcher = new ObjectDispatcher(extractor, scope, adapter);
+      this.dispatcher = new ObjectDispatcher(scope, adapter);
       this.function = function;
       this.scope = scope;
    }
@@ -64,8 +63,8 @@ public class FunctionDispatcher implements InvocationDispatcher {
          return function.getType();
       }
       
-      public Type getDefinition() {
-         return function.getDefinition();
+      public Type getHandle() {
+         return function.getHandle();
       }
       
       public Type getConstraint() {

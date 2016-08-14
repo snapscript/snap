@@ -33,11 +33,7 @@ public class CreateObject implements Evaluation {
       Callable<Result> call = bind(scope, type);
            
       if(call == null){
-         Module module = type.getModule();
-         String resource = module.getName();
-         String name = type.getName();
-         
-         throw new InternalStateException("No constructor for '" + resource + "." + name + "'");
+         throw new InternalStateException("No constructor for '" + type + "'");
       }
       Result result = call.call();
       Object instance = result.getValue();
