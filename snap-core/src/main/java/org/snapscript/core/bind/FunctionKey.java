@@ -5,15 +5,13 @@ public class FunctionKey {
    private final Object[] types;
    private final String function;
    private final Object source;
-   private final String name;
-   private final int length;
+   private final String type;
    
-   public FunctionKey(Object source, String function, Object[] types) {
-      this.name = source.toString();
-      this.length = name.length();
+   public FunctionKey(Object source, String type, String function, Object[] types) {
       this.function = function;
       this.source = source;
       this.types = types;
+      this.type = type;
    }
    
    @Override
@@ -31,22 +29,19 @@ public class FunctionKey {
       if(key.types.length != types.length) {
          return false;
       }
-      if(key.length != length) {
-         return false;
-      }
       for(int i = 0; i < types.length; i++) {
          if(types[i] != key.types[i]) {
             return false;
          }         
       }
-      return key.name.equals(name);
+      return key.type.equals(type);
    }
    
    @Override
    public int hashCode() {
       int hash = types.length;
       
-      hash = hash *31 + name.hashCode();
+      hash = hash *31 + type.hashCode();
       hash = hash *31 + function.hashCode();
       
       return hash;
@@ -54,6 +49,6 @@ public class FunctionKey {
    
    @Override
    public String toString() {
-      return name;
+      return type;
    }
 }

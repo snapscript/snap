@@ -69,7 +69,7 @@ public class FunctionType implements Type {
 
    @Override
    public String getName() {
-      return null;
+      return METHOD_CLOSURE; // poor name for hash?
    }
    
    @Override
