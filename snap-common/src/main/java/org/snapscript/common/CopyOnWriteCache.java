@@ -10,8 +10,16 @@ public class CopyOnWriteCache<K, V> implements Cache<K, V> {
    private volatile Map<K, V> cache;
    
    public CopyOnWriteCache() {
+      this(16);
+   }
+   
+   public CopyOnWriteCache(int size) {
+      this(16, 0.5f);
+   }
+   
+   public CopyOnWriteCache(int size, float density) {
+      this.updater = new MapUpdater(size, density);
       this.cache = new HashMap<K, V>();
-      this.updater = new MapUpdater();
    }
 
    @Override
@@ -57,17 +65,22 @@ public class CopyOnWriteCache<K, V> implements Cache<K, V> {
    private class MapUpdater {
       
       private final Map<K, V> empty;
+      private final float density;
+      private final int size;
       
-      public MapUpdater() {
+      public MapUpdater(int size, float density) {
          this.empty = new HashMap<K, V>();
+         this.density = density;
+         this.size = size;
       }
       
       public synchronized void cache(K key, V value) {
          V existing = cache.get(key);
          
          if(existing != value) { // reduce churn
-            Map<K, V> copy = new HashMap<K, V>(cache);
+            Map<K, V> copy = new HashMap<K, V>(size, density);
             
+            copy.putAll(cache);
             copy.put(key, value);
             cache = copy;
          }
@@ -77,8 +90,9 @@ public class CopyOnWriteCache<K, V> implements Cache<K, V> {
          V existing = cache.get(key);
          
          if(existing != null) {
-            Map<K, V> copy = new HashMap<K, V>(cache);
-           
+            Map<K, V> copy = new HashMap<K, V>(size, density);
+            
+            copy.putAll(cache);
             copy.remove(key);
             cache = copy;
          }
