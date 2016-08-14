@@ -54,6 +54,7 @@ public class FunctionInvocation implements Compilation {
          String name = extractor.extract(scope);      
          
          if(list != null) {
+            Value array = list.create(scope); 
             Object[] arguments = array.getValue();
             
             return handler.dispatch(name, arguments);
