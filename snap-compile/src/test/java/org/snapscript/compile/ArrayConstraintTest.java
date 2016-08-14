@@ -11,6 +11,8 @@ public class ArrayConstraintTest extends TestCase {
    "var x1: Integer[] = new Integer[1];\n"+
    "var x2: Integer[][] = new Integer[2][2];\n"+
    "\n"+
+   "class Foo{}\n"+
+   "\n"+
    "dump(x2);\n"+
    "dump(x1);\n"+
    "\n"+
@@ -20,7 +22,19 @@ public class ArrayConstraintTest extends TestCase {
    "\n"+
    "function dump(x: Integer[]){\n"+
    "  println('Integer[]');\n"+
-   "}";
+   "}\n"+
+   "\n"+
+   "var list = [new Foo(), new Foo()];\n"+
+   "\n"+
+   "try{\n"+
+   "   convert(list);"+
+   "}catch(e){\n"+
+   "   e.printStackTrace();\n"+
+   "}\n"+
+   "\n"+
+   "function convert(x: Integer[]){\n"+
+   "  println('${x}');\n"+
+   "}";   
    
    private static final String SOURCE_2=
    "var x1: Integer[] = new Integer[1];\n"+
