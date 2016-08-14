@@ -27,19 +27,10 @@ public class EnumConstructorBinder {
       FunctionBinder binder = context.getBinder();
       
       if(list != null) {
-         Value array = list.evaluate(scope, null); // arguments have no left hand side
+         Value array = list.create(scope, type); // arguments have no left hand side
          Object[] arguments = array.getValue();
          
-         if(arguments.length > 0) {
-            Object[] expand = new Object[arguments.length + 1];
-            
-            for(int i = 0; i < arguments.length; i++) {
-               expand[i + 1] = arguments[i];
-            }
-            expand[0] = type;
-            
-            return binder.bind(scope, type, TYPE_CONSTRUCTOR, expand);
-         }
+         return binder.bind(scope, type, TYPE_CONSTRUCTOR, arguments);
       }
       return binder.bind(scope, type, TYPE_CONSTRUCTOR, type);
    }

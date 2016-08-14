@@ -52,19 +52,15 @@ public class CreateObject implements Evaluation {
       Class real = type.getType();
       
       if(list != null) {
-         Value array = list.evaluate(scope, null); // arguments have no left hand side
-         Object[] arguments = array.getValue();
-
          if(real == null) {
-            Object[] expand = new Object[arguments.length + 1];
+            Value array = list.create(scope, type); 
+            Object[] arguments = array.getValue();
             
-            for(int i = 0; i < arguments.length; i++) {
-               expand[i + 1] = arguments[i];
-            }
-            expand[0] = type;
-            
-            return binder.bind(scope, type, TYPE_CONSTRUCTOR, expand);
+            return binder.bind(scope, type, TYPE_CONSTRUCTOR, arguments);
          }
+         Value array = list.create(scope); 
+         Object[] arguments = array.getValue();
+         
          return binder.bind(scope, type, TYPE_CONSTRUCTOR, arguments);
       }
       if(real == null) {

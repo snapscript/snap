@@ -40,15 +40,13 @@ public class FixedArgumentConverter implements ArgumentConverter {
    @Override
    public Object[] convert(Object... list) throws Exception {
       if(list.length > 0) {
-         Object[] result = new Object[list.length];
-      
          for(int i = 0; i < list.length; i++){
             ConstraintConverter converter = converters[i];
             Object value = list[i];
             
-            result[i] = converter.convert(value);
+            list[i] = converter.convert(value);
          }
-         return result;
+         return list;
       }
       return list;
    }

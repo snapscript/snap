@@ -34,19 +34,10 @@ public class SuperInvocation implements Evaluation {
       if(arguments != null) {
          Scope outer = real.getScope();
          Scope compound = ScopeCombiner.combine(scope, outer);
-         Value array = arguments.evaluate(compound, null); // arguments have no left hand side
+         Value array = arguments.create(compound, real); // arguments have no left hand side
          Object[] list = array.getValue();
          
-         if(list.length > 0) {
-            Object[] expand = new Object[list.length + 1];
-         
-            for(int i = 0; i < list.length; i++) {
-               expand[i + 1] = list[i];
-            }
-            expand[0] = real;
-         
-            return handler.dispatch(name, expand);
-         }
+         return handler.dispatch(name, list);
       }
       return handler.dispatch(name, real);
    }
