@@ -50,9 +50,7 @@ public class TypeCastChecker {
       return EXACT;
    }
    
-   public Score cast(Object value, Type constraint) throws Exception {
-      Type type = extractor.getType(value);
-      
+   public Score cast(Type type, Type constraint, Object value) throws Exception {
       if(Function.class.isInstance(value)) {
          Class real = constraint.getType();
          Function require = null;

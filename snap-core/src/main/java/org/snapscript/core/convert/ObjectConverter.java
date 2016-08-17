@@ -42,7 +42,7 @@ public class ObjectConverter extends ConstraintConverter {
          if(match.equals(constraint)) {
             return EXACT;
          }
-         return checker.cast(value, constraint);
+         return checker.cast(match, constraint, value);
       }
       return EXACT;
    }
