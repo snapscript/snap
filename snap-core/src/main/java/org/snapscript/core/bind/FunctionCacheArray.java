@@ -37,7 +37,6 @@ public class FunctionCacheArray {
       array.set(index, cache);
    }
 
-   
    public int length(){
       return capacity;
    }

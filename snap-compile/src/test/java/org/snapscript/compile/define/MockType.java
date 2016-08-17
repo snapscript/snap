@@ -85,7 +85,7 @@ public class MockType implements Type {
    
    @Override
    public int getOrder(){
-      return -1;
+      return 0;
    }
    
    @Override

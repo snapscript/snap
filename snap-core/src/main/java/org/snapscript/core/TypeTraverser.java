@@ -5,15 +5,12 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.snapscript.common.Cache;
-import org.snapscript.common.CopyOnWriteCache;
-
 public class TypeTraverser {
    
-   private final Cache<Type, Set<Type>> types;
+   private final TypeCache<Set<Type>> types;
    
    public TypeTraverser() {
-      this.types = new CopyOnWriteCache<Type, Set<Type>>();
+      this.types = new TypeCache<Set<Type>>();
    }
 
    public Set<Type> traverse(Type type) {

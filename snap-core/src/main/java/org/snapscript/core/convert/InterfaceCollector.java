@@ -4,22 +4,21 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.snapscript.common.Cache;
-import org.snapscript.common.CopyOnWriteCache;
 import org.snapscript.core.Any;
 import org.snapscript.core.Context;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
+import org.snapscript.core.TypeCache;
 import org.snapscript.core.TypeExtractor;
 
 public class InterfaceCollector {
 
-   private final Cache<Type, Class[]> cache;
+   private final TypeCache<Class[]> cache;
    private final Class[] empty;
    
    public InterfaceCollector() {
-      this.cache = new CopyOnWriteCache<Type, Class[]>();
+      this.cache = new TypeCache<Class[]>();
       this.empty = new Class[]{};
    }
    

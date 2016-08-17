@@ -5,10 +5,9 @@ import java.math.BigInteger;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.snapscript.common.Cache;
-import org.snapscript.common.CopyOnWriteCache;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
+import org.snapscript.core.TypeCache;
 import org.snapscript.core.TypeCastChecker;
 import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.TypeLoader;
@@ -16,7 +15,7 @@ import org.snapscript.core.TypeVerifier;
 
 public class ConstraintMatcher {
    
-   private final Cache<Type, ConstraintConverter> converters;
+   private final TypeCache<ConstraintConverter> converters;
    private final ConstraintConverter converter;
    private final TypeExtractor extractor;
    private final TypeVerifier comparator;
@@ -25,7 +24,7 @@ public class ConstraintMatcher {
    private final TypeLoader loader;
    
    public ConstraintMatcher(TypeLoader loader, ProxyWrapper wrapper) {
-      this.converters = new CopyOnWriteCache<Type, ConstraintConverter>();
+      this.converters = new TypeCache<ConstraintConverter>();
       this.extractor = new TypeExtractor(loader);
       this.checker = new TypeCastChecker(this, extractor, loader);
       this.comparator = new TypeVerifier(loader, checker);

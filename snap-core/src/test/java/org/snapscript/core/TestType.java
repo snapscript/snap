@@ -80,7 +80,7 @@ public class TestType implements Type {
    
    @Override
    public int getOrder(){
-      return -1;
+      return 0;
    }
    
    @Override

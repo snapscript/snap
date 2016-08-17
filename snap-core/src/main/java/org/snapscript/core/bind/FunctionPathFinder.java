@@ -7,16 +7,15 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import org.snapscript.common.Cache;
-import org.snapscript.common.CopyOnWriteCache;
 import org.snapscript.core.Type;
+import org.snapscript.core.TypeCache;
 
 public class FunctionPathFinder {
    
-   private final Cache<Type, List<Type>> paths;
+   private final TypeCache<List<Type>> paths;
    
    public FunctionPathFinder() {
-      this.paths = new CopyOnWriteCache<Type, List<Type>>();
+      this.paths = new TypeCache<List<Type>>();
    }
 
    public List<Type> findPath(Type type, String name) {
