@@ -1,6 +1,5 @@
 package org.snapscript.core.convert;
 
-import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.concurrent.Callable;
 
@@ -10,7 +9,7 @@ import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.bind.FunctionBinder;
 
-public class ScopeProxyHandler implements InvocationHandler {
+public class ScopeProxyHandler implements ProxyHandler {
    
    private final ProxyArgumentExtractor extractor;
    private final Context context;
@@ -38,8 +37,8 @@ public class ScopeProxyHandler implements InvocationHandler {
       return data;   
    }
    
+   @Override
    public Scope extract() {
       return scope;
-   }
-   
+   }   
 }

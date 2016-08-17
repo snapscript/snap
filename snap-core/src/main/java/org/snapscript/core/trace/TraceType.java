@@ -5,7 +5,12 @@ import org.snapscript.core.Module;
 public enum TraceType {
    CONSTRUCT,
    INVOKE,
-   NORMAL;
+   NORMAL,
+   NATIVE;
+   
+   public static Trace getNative(Module module) {
+      return new Trace(NATIVE, module, -2); // see StackTraceElement.isNativeMethod
+   }
    
    public static Trace getConstruct(Module module, int line) {
       return new Trace(CONSTRUCT, module, line);

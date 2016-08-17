@@ -25,11 +25,12 @@ public class ProxyFactory {
       
       if(interfaces.length > 0) {
          ScopeProxyHandler handler = new ScopeProxyHandler(wrapper, context, scope);
+         TraceProxyHandler tracer = new TraceProxyHandler(handler, context, scope);
          
          if(loader == null) {
             loader = Any.class.getClassLoader();
          }
-         return Proxy.newProxyInstance(loader, interfaces, handler);
+         return Proxy.newProxyInstance(loader, interfaces, tracer);
       }
       return scope;
    }

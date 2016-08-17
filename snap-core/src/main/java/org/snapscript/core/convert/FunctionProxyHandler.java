@@ -16,7 +16,7 @@ import org.snapscript.core.Value;
 import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.core.function.Function;
 
-public class FunctionProxyHandler implements InvocationHandler {
+public class FunctionProxyHandler implements ProxyHandler { 
    
    private final ProxyArgumentExtractor extractor;
    private final Function function;
@@ -71,6 +71,7 @@ public class FunctionProxyHandler implements InvocationHandler {
       return data;  
    }
    
+   @Override
    public Function extract() {
       return function;
    }

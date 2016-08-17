@@ -56,14 +56,8 @@ public class ProxyWrapper {
          if(Proxy.class.isInstance(object)) {
             InvocationHandler handler = Proxy.getInvocationHandler(object);
            
-            if(ScopeProxyHandler.class.isInstance(handler)) {
-               ScopeProxyHandler proxy = (ScopeProxyHandler)handler;
-               Object value = proxy.extract();
-               
-               return value;
-            }
-            if(FunctionProxyHandler.class.isInstance(handler)) {
-               FunctionProxyHandler proxy = (FunctionProxyHandler)handler;
+            if(ProxyHandler.class.isInstance(handler)) {
+               ProxyHandler proxy = (ProxyHandler)handler;
                Object value = proxy.extract();
                
                return value;
