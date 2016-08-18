@@ -8,6 +8,11 @@ public class ExpressionParseTest extends TestCase {
       SyntaxParser tree = LexerBuilder.create();
 
       assertNotNull(tree);
+      analyze(tree, "try{}catch(e){}finally{}", "try-statement");
+      analyze(tree, "try{println(1);}catch(e){println(2);}finally{println(3);}", "try-statement");      
+      analyze(tree, "try{println(1);}catch(e){println(2);println(3);}finally{println(3);}", "try-statement");  
+      analyze(tree, "try {\n}catch(e){\n}finally{\n}", "try-statement");  
+      analyze(tree, "try {\n}catch(e){\n}", "try-statement");  
       analyze(tree, "synchronized(x) {x++;}", "synchronized-statement");
       analyze(tree, "trait X{}", "trait-definition");
       analyze(tree, "class X{const x = 11;}", "class-definition");
