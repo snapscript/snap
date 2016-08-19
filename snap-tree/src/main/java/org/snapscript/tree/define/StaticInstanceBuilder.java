@@ -1,6 +1,5 @@
 package org.snapscript.tree.define;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Model;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
@@ -16,7 +15,6 @@ public class StaticInstanceBuilder {
       this.type = type;
    }
 
-   @Bug("why does this work when I have used type.getScope()")
    public Instance create(Scope scope, Instance base, Type real) throws Exception {
       if(base == null) {
          Module module = type.getModule();

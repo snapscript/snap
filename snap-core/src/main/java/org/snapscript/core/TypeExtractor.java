@@ -17,28 +17,16 @@ public class TypeExtractor {
       this.loader = loader;
    }
    
-   @Bug("is this even useful")
    public Type getType(Object value) {
-      return getType(value, false);
-   }
-   
-   public Type getType(Object value, boolean variable) {
       if(value != null) {
          Class type = value.getClass();
          Type match = matches.fetch(type);
          
          if(match == null) {
-            if(!variable) {
-               if(Handle.class.isAssignableFrom(type)) {
-                  Handle handle = (Handle)value;
-                  return handle.getHandle();
-               }             
-            } else {
-               if(Scope.class.isAssignableFrom(type)){
-                  Scope scope = (Scope)value;
-                  return scope.getType();
-               }
-            }
+            if(Handle.class.isAssignableFrom(type)) {
+               Handle handle = (Handle)value;
+               return handle.getHandle();
+            }             
             Type actual = loader.loadType(type);
             
             if(actual != null) {
