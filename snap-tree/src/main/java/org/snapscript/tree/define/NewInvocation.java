@@ -45,16 +45,16 @@ public class NewInvocation implements Invocation<Instance>{
       Instance result = allocator.allocate(scope, inner, list);
       
       if(real == type){
-         Instance start = result;
+         Instance next = result;
          
-         while(start != null){
-            State state = start.getState();
+         while(next != null){
+            State state = next.getState();
             Value value = state.getValue(TYPE_THIS);
             
             if(value != null){
                value.setValue(result);
             }
-            start = start.getSuper();
+            next = next.getSuper();
          }
       }
       return ResultType.getNormal(result);

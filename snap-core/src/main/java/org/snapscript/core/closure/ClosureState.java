@@ -32,17 +32,14 @@ public class ClosureState implements State {
             throw new InternalStateException("Scope for does not exist");
          }
          Set<String> inner = state.getNames();
+         Set<String> outer = values.keySet();
          
-         if(!inner.isEmpty()) {
-            names.addAll(inner);
-         }
-      }
-      Set<String> outer = values.keySet();
-      
-      if(!outer.isEmpty()) {
+         names.addAll(inner);
          names.addAll(outer);
+         
+         return names;
       }
-      return names;
+      return values.keySet();
    }
 
    @Override
