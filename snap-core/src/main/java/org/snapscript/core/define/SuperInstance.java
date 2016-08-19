@@ -22,21 +22,6 @@ public class SuperInstance implements Instance {
    }
 
    @Override
-   public State getState() {
-      return scope.getState();
-   }
-
-   @Override
-   public Instance getInstance() {
-      return scope.getInstance();
-   }
-
-   @Override
-   public void setInstance(Instance instance) {
-      scope.setInstance(instance);
-   }
-
-   @Override
    public Instance getInner() {
       return scope.getInner();
    }
@@ -44,6 +29,16 @@ public class SuperInstance implements Instance {
    @Override
    public Instance getOuter() {
       return scope.getOuter();
+   }
+   
+   @Override
+   public State getState() {
+      return scope.getState();
+   }
+   
+   @Override
+   public Instance getSuper(){
+      return scope;
    }
    
    public Type getHandle() {

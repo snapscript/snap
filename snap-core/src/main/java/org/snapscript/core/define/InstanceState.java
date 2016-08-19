@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.snapscript.core.InternalStateException;
+import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Value;
 

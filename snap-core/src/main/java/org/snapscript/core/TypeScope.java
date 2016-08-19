@@ -37,7 +37,7 @@ public class TypeScope implements Scope {
    
    @Override
    public Type getType(){
-      return null;
+      return type;
    }  
    
    @Override

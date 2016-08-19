@@ -19,29 +19,30 @@ public class InstanceInvocation implements Invocation<Scope> {
 
    private final ParameterExtractor extractor;
    private final SignatureAligner aligner;
+   private final ThisResolver resolver;
    private final Statement statement;
    private final Type constraint;
+   private final String name;
    
-   public InstanceInvocation(Signature signature, Statement statement, Type constraint) {
+   public InstanceInvocation(Signature signature, Statement statement, Type constraint, String name) {
       this.extractor = new ParameterExtractor(signature);
       this.aligner = new SignatureAligner(signature);
+      this.resolver = new ThisResolver();
       this.constraint = constraint;
       this.statement = statement;
+      this.name = name;
    }
    
    @Override
    public Result invoke(Scope scope, Scope instance, Object... list) throws Exception {
       if(statement == null) {
-         throw new InternalStateException("Function is abstract");
+         throw new InternalStateException("Function '" + name + "' is abstract");
       }
       Object[] arguments = aligner.align(list); 
 
-      if(instance == null) {
-         instance = scope; // this is for super
-      }
       Module module = scope.getModule();
       Context context = module.getContext();
-      Scope outer = instance.getOuter();
+      Scope outer = resolver.resolve(scope, instance);
       Scope inner = outer.getInner(); // create a writable scope
       
       if(arguments.length > 0) {

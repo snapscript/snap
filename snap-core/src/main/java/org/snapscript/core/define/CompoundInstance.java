@@ -3,19 +3,22 @@ package org.snapscript.core.define;
 import org.snapscript.core.MapState;
 import org.snapscript.core.Model;
 import org.snapscript.core.Module;
+import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Type;
 
 public class CompoundInstance implements Instance {
    
-   private final Instance outer;
+   private final Instance instance;
    private final Module module;
    private final State state;
    private final Model model;
+   private final Scope outer;
    private final Type type;
    
-   public CompoundInstance(Module module, Model model, Instance outer, Type type) {
+   public CompoundInstance(Module module, Model model, Instance instance, Scope outer, Type type) {
       this.state = new MapState(model, outer);
+      this.instance = instance;
       this.module = module;
       this.outer = outer;
       this.model = model;
@@ -24,22 +27,17 @@ public class CompoundInstance implements Instance {
    
    @Override
    public Instance getInner() {
-      return new CompoundInstance(module, model, this, type);
+      return new CompoundInstance(module, model, instance, this, type);
    } 
    
    @Override
    public Instance getOuter() {
-      return outer.getOuter(); 
+      return instance;
    } 
    
    @Override
-   public Instance getInstance() {
-      return outer.getInstance();
-   } 
-   
-   @Override
-   public void setInstance(Instance instance) {
-      outer.setInstance(instance);
+   public Instance getSuper() {
+      return instance.getSuper();
    }
   
    @Override

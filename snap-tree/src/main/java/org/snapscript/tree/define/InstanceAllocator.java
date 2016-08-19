@@ -35,7 +35,7 @@ public class InstanceAllocator implements Allocator {
          Instance object = new ObjectInstance(module, model, instance, real);// we need to pass the base type up!!
    
          State state = object.getState();
-         Value constant = ValueType.getConstant(object, real);
+         Value constant = ValueType.getReference(object, real);
     
          state.addConstant(TYPE_THIS, constant); // reference to 'this'
          initializer.execute(object, real);

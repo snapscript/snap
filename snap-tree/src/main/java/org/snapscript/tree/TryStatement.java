@@ -49,12 +49,14 @@ public class TryStatement extends Statement {
       Result result = handle(scope);
       
       try {
-         if(result.isThrow()) {
-            return list.execute(scope, result);            
-         }   
+         if(list != null) {
+            if(result.isThrow()) {
+               return list.execute(scope, result);            
+            }   
+         }
       } finally {
          if(finish != null) {
-            finish.execute(scope);
+            finish.execute(scope); // what about an exception here
          }
       }
       return result;

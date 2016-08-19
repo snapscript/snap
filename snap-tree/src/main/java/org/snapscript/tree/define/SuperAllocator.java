@@ -26,8 +26,8 @@ public class SuperAllocator implements Allocator {
    @Override
    public Instance allocate(Scope scope, Instance object, Object... list) throws Exception {
       Type real = (Type)list[0];
-      Object[] arguments = aligner.align(list); // combine variable arguments to a single array
-      Instance inner = object.getInner();
+      Object[] arguments = aligner.align(list);
+      Scope inner = object.getInner();
       
       if(arguments.length > 0) {
          extractor.extract(inner, arguments);
