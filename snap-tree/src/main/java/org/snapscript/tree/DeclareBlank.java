@@ -37,7 +37,7 @@ public class DeclareBlank extends DeclareVariable {
       try {      
          Value blank = ValueType.getBlank(type);
          blank.setValue(object); // this should be null
-         state.addVariable(name, blank);
+         state.addValue(name, blank);
          return blank;
       }catch(Exception e) {
          throw new InternalStateException("Declaration of constant '" + name +"' failed", e);

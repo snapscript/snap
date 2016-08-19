@@ -36,7 +36,7 @@ public class DeclareProperty extends DeclareVariable {
       
       try {      
          Value reference = ValueType.getProperty(object, type);
-         state.addVariable(name, reference);
+         state.addValue(name, reference);
          return reference;
       }catch(Exception e) {
          throw new InternalStateException("Declaration of variable '" + name +"' failed", e);

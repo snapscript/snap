@@ -37,7 +37,7 @@ public class InstanceAllocator implements Allocator {
          State state = object.getState();
          Value constant = ValueType.getReference(object, real);
     
-         state.addConstant(TYPE_THIS, constant); // reference to 'this'
+         state.addValue(TYPE_THIS, constant); // reference to 'this'
          initializer.execute(object, real);
          invocation.invoke(object, object, list);
          

@@ -41,7 +41,7 @@ public class ClassConstantInitializer {
       State state = scope.getState();
 
       properties.add(property);
-      state.addConstant(name, constant);
+      state.addValue(name, constant);
    }
    
    protected void declareConstant(Scope scope, String name, Type type, Type parent, Object value) throws Exception {
@@ -51,6 +51,6 @@ public class ClassConstantInitializer {
       State state = scope.getState();
 
       properties.add(property);
-      state.addConstant(name, constant);
+      state.addValue(name, constant);
    }
 }

@@ -92,23 +92,13 @@ public class MapState implements State {
    }
    
    @Override
-   public void addVariable(String name, Value value) {
+   public void addValue(String name, Value value) {
       Value variable = values.get(name);
 
       if(variable != null) {
          throw new InternalStateException("Variable '" + name + "' already exists");
       }
       values.put(name, value);      
-   }
-   
-   @Override
-   public void addConstant(String name, Value value) {
-      Value variable = values.get(name);
-
-      if(variable != null) {
-         throw new InternalStateException("Variable '" + name + "' already exists");
-      }
-      values.put(name, value);     
    }
    
    @Override

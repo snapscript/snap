@@ -71,7 +71,7 @@ public class ForInStatement implements Compilation {
             
             if(variable == null) {
                Value value = ValueType.getReference(entry);
-               state.addVariable(name, value);
+               state.addValue(name, value);
             } else {
                variable.setValue(entry);
             }

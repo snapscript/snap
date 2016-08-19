@@ -6,6 +6,5 @@ public interface State {
    Set<String> getNames();
    Value getValue(String name);
    void setValue(String name, Value value);
-   void addVariable(String name, Value value);
-   void addConstant(String name, Value value);
+   void addValue(String name, Value value);
 }

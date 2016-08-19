@@ -48,7 +48,7 @@ public class StaticConstantCollector {
                      PropertyValue value = new PropertyValue(property, null, name);
                      
                      if(names.add(name)) {
-                        state.addVariable(name, value);
+                        state.addValue(name, value);
                      }
                   }
                }

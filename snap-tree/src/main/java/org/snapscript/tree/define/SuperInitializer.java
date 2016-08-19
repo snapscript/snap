@@ -32,7 +32,7 @@ public class SuperInitializer extends Initializer {
       Value constant = ValueType.getConstant(base, type);
       State state = base.getState();
       
-      state.addConstant(TYPE_SUPER, constant);
+      state.addValue(TYPE_SUPER, constant);
       
       return ResultType.getNormal(base);
    }
