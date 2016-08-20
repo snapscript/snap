@@ -1,7 +1,6 @@
 package org.snapscript.compile.validate;
 
 import static org.snapscript.core.Reserved.TYPE_CLASS;
-import static org.snapscript.core.Reserved.TYPE_SUPER;
 import static org.snapscript.core.Reserved.TYPE_THIS;
 
 import org.snapscript.core.InternalStateException;
@@ -15,7 +14,7 @@ import org.snapscript.core.convert.ConstraintMatcher;
 
 public class InstanceValidator {
    
-   private static final String[] CONSTANTS = { TYPE_THIS, TYPE_SUPER, TYPE_CLASS };
+   private static final String[] CONSTANTS = { TYPE_THIS, TYPE_CLASS };
    
    private final TypeValidator validator;
    

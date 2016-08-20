@@ -3,7 +3,6 @@ package org.snapscript.compile.validate;
 import static org.snapscript.core.Reserved.ANY_TYPE;
 import static org.snapscript.core.Reserved.TYPE_CLASS;
 import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
-import static org.snapscript.core.Reserved.TYPE_SUPER;
 import static org.snapscript.core.Reserved.TYPE_THIS;
 
 import java.util.List;
@@ -19,7 +18,7 @@ import org.snapscript.core.property.Property;
 
 public class TypeValidator {
    
-   private static final String[] PROPERTIES = { TYPE_THIS, TYPE_SUPER, TYPE_CLASS };
+   private static final String[] PROPERTIES = { TYPE_THIS, TYPE_CLASS };
    private static final String[] TYPES = { ANY_TYPE };
    
    private final PropertyValidator properties;

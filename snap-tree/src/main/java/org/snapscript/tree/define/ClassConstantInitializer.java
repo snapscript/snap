@@ -1,7 +1,6 @@
 package org.snapscript.tree.define;
 
 import static org.snapscript.core.Reserved.TYPE_CLASS;
-import static org.snapscript.core.Reserved.TYPE_SUPER;
 import static org.snapscript.core.Reserved.TYPE_THIS;
 
 import java.util.List;
@@ -23,7 +22,6 @@ public class ClassConstantInitializer {
 
    public void declare(Scope scope, Type type) throws Exception {
       declareConstant(scope, TYPE_THIS, type);
-      declareConstant(scope, TYPE_SUPER, type);
       declareConstant(scope, TYPE_CLASS, type, type);
    }
    

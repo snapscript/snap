@@ -1,7 +1,6 @@
 package org.snapscript.tree.define;
 
 import static org.snapscript.core.Reserved.TYPE_CLASS;
-import static org.snapscript.core.Reserved.TYPE_SUPER;
 import static org.snapscript.core.Reserved.TYPE_THIS;
 
 import java.util.List;
@@ -22,7 +21,7 @@ public class StaticConstantCollector {
    private final StaticConstantIndexer indexer;
    
    public StaticConstantCollector() {
-      this.indexer = new StaticConstantIndexer(TYPE_THIS, TYPE_SUPER, TYPE_CLASS);
+      this.indexer = new StaticConstantIndexer(TYPE_THIS, TYPE_CLASS);
    }
    
    public void collect(Type type) throws Exception {

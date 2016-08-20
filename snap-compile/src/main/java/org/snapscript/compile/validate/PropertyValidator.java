@@ -1,7 +1,9 @@
 package org.snapscript.compile.validate;
 
-import static org.snapscript.core.Reserved.*;
-import static org.snapscript.core.Reserved.TYPE_SUPER;
+import static org.snapscript.core.Reserved.ENUM_NAME;
+import static org.snapscript.core.Reserved.ENUM_ORDINAL;
+import static org.snapscript.core.Reserved.ENUM_VALUES;
+import static org.snapscript.core.Reserved.TYPE_CLASS;
 import static org.snapscript.core.Reserved.TYPE_THIS;
 
 import org.snapscript.core.InternalStateException;
@@ -16,7 +18,7 @@ public class PropertyValidator {
    private final String[] ignores;
    
    public PropertyValidator(ConstraintMatcher matcher) {
-      this(matcher, TYPE_CLASS, TYPE_SUPER, TYPE_THIS, ENUM_NAME, ENUM_ORDINAL, ENUM_VALUES);
+      this(matcher, TYPE_CLASS, TYPE_THIS, ENUM_NAME, ENUM_ORDINAL, ENUM_VALUES);
    }
    
    public PropertyValidator(ConstraintMatcher matcher, String... ignores) {
