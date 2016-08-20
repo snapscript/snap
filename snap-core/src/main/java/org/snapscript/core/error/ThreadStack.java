@@ -1,6 +1,7 @@
 package org.snapscript.core.error;
 
 import org.snapscript.common.Stack;
+import org.snapscript.core.function.Function;
 
 public class ThreadStack {
    
@@ -10,6 +11,17 @@ public class ThreadStack {
    public ThreadStack() {
       this.builder = new StackTraceBuilder();
       this.local = new ThreadLocalStack();
+   }
+   
+   public Function current() {
+      Stack stack = local.get();
+      
+      for(Object entry : stack) {
+         if(Function.class.isInstance(entry)) {
+            return (Function)entry;
+         }
+      }
+      return null;
    }
    
    public StackTraceElement[] build() {
@@ -35,7 +47,6 @@ public class ThreadStack {
    
    public void after(Object trace) { // remove from stack
       Stack stack = local.get();
-      int size = stack.size();
       
       while(!stack.isEmpty()) {
          Object next = stack.pop();

@@ -18,8 +18,9 @@ public enum Syntax {
    REFERENCE_OPERATOR("reference-operator", "{'?.'|'.'}"),
    THIS("this", "'this'"),
    CLASS("class", "'class'"),
+   SUPER("super", "'super'"),
    VARIABLE("variable", "{<this>|<class>|[identifier]|[type]}"),          // ((array[x])[x] -> (<var>[])
-   VARIABLE_REFERENCE("variable-reference", "<variable>"),
+   VARIABLE_REFERENCE("variable-reference", "{<super>|<variable>}"),
    RANGE("range", "<number>'..'<number>"),
    ARRAY("array", "{<function-invocation>|<variable-reference>}"),
    ARRAY_INDEX("array-index", "<array>+('['<argument>']')"),   

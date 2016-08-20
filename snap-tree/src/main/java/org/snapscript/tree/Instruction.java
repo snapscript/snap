@@ -96,6 +96,7 @@ public enum Instruction {
    NULL(NullLiteral.class, "null"),
    NUMBER(SignedNumber.class, "number"), 
    VARIABLE(Variable.class, "variable"), 
+   SUPER(Super.class, "super"), 
    ARGUMENT(Argument.class, "argument"),
    RANGE(Range.class, "range"),     
    ARRAY(Array.class, "array"),      

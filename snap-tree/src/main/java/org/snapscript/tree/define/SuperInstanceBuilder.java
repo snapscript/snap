@@ -22,6 +22,6 @@ public class SuperInstanceBuilder {
       Module module = type.getModule();
       Model model = scope.getModel();
 
-      return new SuperInstance(module, model, outer, type, real);
+      return new SuperInstance(module, model, outer, real, type);
    }
 }

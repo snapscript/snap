@@ -10,14 +10,14 @@ public class SuperInstance implements Instance {
    private final Instance scope;
    private final Module module;
    private final Model model;
-   private final Type base;
+   private final Type type;
    private final Type real;
    
-   public SuperInstance(Module module, Model model, Instance scope, Type base, Type real) {
+   public SuperInstance(Module module, Model model, Instance scope, Type real, Type type) {
       this.scope = scope;
       this.module = module;
       this.model = model;
-      this.base = base;
+      this.type = type;
       this.real = real;
    }
 
@@ -42,7 +42,7 @@ public class SuperInstance implements Instance {
    }
    
    public Type getHandle() {
-      return base;
+      return type;
    }
 
    @Override

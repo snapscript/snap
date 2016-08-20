@@ -16,12 +16,10 @@ public class SuperInitializer extends Initializer {
    
    private final SuperInstanceBuilder builder;
    private final Evaluation expression;
-   private final Type type;
    
    public SuperInitializer(Evaluation expression, Type type) {
       this.builder = new SuperInstanceBuilder(type);
       this.expression = expression;
-      this.type = type;
    }
 
    @Override
@@ -29,10 +27,6 @@ public class SuperInitializer extends Initializer {
       Value reference = expression.evaluate(instance, real); 
       Scope value = reference.getValue();
       Scope base = builder.create(value, real);
-      Value constant = ValueType.getConstant(base, type);
-      State state = base.getState();
-      
-      state.addValue(TYPE_SUPER, constant);
       
       return ResultType.getNormal(base);
    }
