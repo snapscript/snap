@@ -40,9 +40,15 @@ public class AnyFunctionBuilder {
       Signature signature = new Signature(parameters, module);
       
       for(int i = 0; i < types.length; i++){
-         Type require = loader.loadType(types[i]);
-         Parameter parameter = builder.create(require, i);
+         Class require = types[i];
+         Type constraint = loader.loadType(require);
+         Parameter parameter = null;
          
+         if(require == Object.class) { // avoid proxy wrapping
+            parameter = builder.create(null, i);
+         } else {
+            parameter = builder.create(constraint, i);
+         }
          parameters.add(parameter);
       }
       return new InvocationFunction<Object>(signature, invocation, type, null, name, PUBLIC.mask);

@@ -32,7 +32,7 @@ public class TypeScope implements Scope {
    
    @Override
    public Type getHandle() {
-      return null;
+      return type;
    }
    
    @Override
