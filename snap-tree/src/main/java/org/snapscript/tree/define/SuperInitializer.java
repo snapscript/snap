@@ -1,15 +1,11 @@
 package org.snapscript.tree.define;
 
-import static org.snapscript.core.Reserved.TYPE_SUPER;
-
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Result;
 import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
-import org.snapscript.core.State;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 import org.snapscript.core.define.Initializer;
 
 public class SuperInitializer extends Initializer {
