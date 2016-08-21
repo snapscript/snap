@@ -25,7 +25,7 @@ public class InstanceAllocator implements Allocator {
    @Override
    public Instance allocate(Scope scope, Instance base, Object... list) throws Exception {
       Type real = (Type)list[0];
-      Instance instance = builder.create(scope, base, real);// we need to pass the base type up!!
+      Instance instance = builder.create(scope, base, real); // we need to pass the base type up!
       State state = instance.getState();
       Value value = state.getValue(TYPE_THIS);
       
