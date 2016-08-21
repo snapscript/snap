@@ -5,9 +5,12 @@ package org.snapscript.compile;
 public class ThisAndSuperCallTest {
 
    private static final String SOURCE =
-   "class Base {\n"+
+   "class Foo{\n"+
+   "}\n"+
+   "\n"+
+   "class Base extends Foo{\n"+
    "   var a;\n"+
-   "   new(a){\n"+
+   "   new(a):super(){\n"+
    "      System.err.println(\"Blah(\"+a+\")\");\n"+
    "      this.a=a;\n"+
    "   }\n"+
@@ -38,6 +41,7 @@ public class ThisAndSuperCallTest {
    "System.err.println(e);\n";
     
    public void testThisAndSuperCall() throws Exception{
+      System.out.println(SOURCE);
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
       Executable executable = compiler.compile(SOURCE);
       long start = System.currentTimeMillis();

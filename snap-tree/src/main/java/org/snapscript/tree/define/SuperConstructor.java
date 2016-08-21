@@ -17,10 +17,18 @@ public class SuperConstructor implements TypePart {
    private final ArgumentList arguments;
    
    public SuperConstructor() {
-      this(null);
+      this(null, null);
+   }
+   
+   public SuperConstructor(StringToken token) {
+      this(token, null);
    }
    
    public SuperConstructor(ArgumentList arguments) {
+      this(null, arguments);
+   }
+   
+   public SuperConstructor(StringToken token, ArgumentList arguments) {
       this.extractor = new SuperExtractor();
       this.arguments = arguments;
    }
