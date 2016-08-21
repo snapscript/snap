@@ -9,6 +9,7 @@ import static org.snapscript.core.Reserved.METHOD_NOTIFY_ALL;
 import static org.snapscript.core.Reserved.METHOD_TO_STRING;
 import static org.snapscript.core.Reserved.METHOD_WAIT;
 import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
+import static org.snapscript.core.Reserved.TYPE_THIS;
 
 import java.util.List;
 
@@ -17,8 +18,11 @@ import org.snapscript.core.Module;
 import org.snapscript.core.Result;
 import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
+import org.snapscript.core.State;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeLoader;
+import org.snapscript.core.Value;
+import org.snapscript.core.ValueType;
 import org.snapscript.core.define.Instance;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
@@ -72,6 +76,10 @@ public class AnyDefinition{
       public Result invoke(Scope scope, Object object, Object... list) throws Exception {
          Type real = (Type)list[0];
          Instance instance = builder.create(scope, real);
+         State state = instance.getState();
+         Value value = ValueType.getReference(object, real); // this needs to be a blank
+         
+         state.addValue(TYPE_THIS, value); // reference to 'this'
          
          return ResultType.getNormal(instance);
       }

@@ -19,6 +19,7 @@ public class StaticConstructorTest extends TestCase {
    "  }\n"+
    "}\n"+
    "var x = new X();\n"+
+   "assert x.pattern == '.*';\n"+
    "println(x.pattern);\n";
 
    public void testThis() throws Exception {

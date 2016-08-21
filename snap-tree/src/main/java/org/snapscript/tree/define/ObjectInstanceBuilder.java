@@ -16,9 +16,14 @@ public class ObjectInstanceBuilder {
    }
 
    public Instance create(Scope scope, Instance base, Type real) throws Exception {
-      Model model = scope.getModel();
-      Module module = type.getModule();
+      Class actual = base.getClass();
       
-      return new ObjectInstance(module, model, base, real); // create the first instance
+      if(actual != ObjectInstance.class) { // false if this(...) is called
+         Model model = scope.getModel();
+         Module module = type.getModule();
+         
+         return new ObjectInstance(module, model, base, real); // create the first instance
+      }
+      return base;
    }
 }

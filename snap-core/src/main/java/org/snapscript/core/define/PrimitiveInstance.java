@@ -23,7 +23,7 @@ public class PrimitiveInstance implements Instance {
    
    @Override
    public Instance getInner() {
-      return new ObjectInstance(module, model, this, type);
+      return new CompoundInstance(module, model, this, this, type);
    } 
    
    @Override

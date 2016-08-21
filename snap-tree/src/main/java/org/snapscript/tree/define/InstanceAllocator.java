@@ -6,7 +6,6 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 import org.snapscript.core.define.Initializer;
 import org.snapscript.core.define.Instance;
 import org.snapscript.core.function.Invocation;
@@ -28,10 +27,12 @@ public class InstanceAllocator implements Allocator {
       Type real = (Type)list[0];
       Instance object = builder.create(scope, base, real);// we need to pass the base type up!!
       State state = object.getState();
-      Value constant = ValueType.getReference(object, real); // this needs to be a blank
- 
-      state.addValue(TYPE_THIS, constant); // reference to 'this'
-      initializer.execute(object, real);
+      Value value = state.getValue(TYPE_THIS);
+      
+      if(object != base) { // false if this(...) called
+         initializer.execute(object, real);
+      }
+      value.setValue(object); // set the 'this' variable
       invocation.invoke(object, object, list);
       
       return object;    

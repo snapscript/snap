@@ -1,15 +1,11 @@
 package org.snapscript.tree.define;
 
-import static org.snapscript.core.Reserved.TYPE_THIS;
-
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.snapscript.core.Result;
 import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
-import org.snapscript.core.State;
 import org.snapscript.core.Type;
-import org.snapscript.core.Value;
 import org.snapscript.core.define.Initializer;
 import org.snapscript.core.define.Instance;
 import org.snapscript.core.function.Invocation;
@@ -43,20 +39,6 @@ public class NewInvocation implements Invocation<Instance>{
          initializer.compile(scope, type); // static stuff if needed
       }
       Instance result = allocator.allocate(scope, inner, list);
-      
-      if(real == type){
-         Instance next = result;
-         
-         while(next != null){
-            State state = next.getState();
-            Value value = state.getValue(TYPE_THIS);
-            
-            if(value != null){
-               value.setValue(result);
-            }
-            next = next.getSuper();
-         }
-      }
       return ResultType.getNormal(result);
    }
 }

@@ -35,9 +35,9 @@ public class StaticConstantCollector {
          Scope scope = type.getScope();
          State state = scope.getState();
    
-         for(Type base : types) {
-            if(type != base) {
-               List<Property> properties = base.getProperties();
+         for(Type next : types) {
+            if(next != type) {
+               List<Property> properties = next.getProperties();
                
                for(Property property : properties) {
                   String name = property.getName();
