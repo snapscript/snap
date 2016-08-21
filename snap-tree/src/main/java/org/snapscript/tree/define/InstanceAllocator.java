@@ -30,9 +30,12 @@ public class InstanceAllocator implements Allocator {
       Value value = state.getValue(TYPE_THIS);
       
       if(instance != base) { // false if this(...) is called
+         value.setValue(instance); // set the 'this' variable
          initializer.execute(instance, real);
+         invocation.invoke(instance, instance, list);
+         
+         return instance;
       }
-      value.setValue(instance); // set the 'this' variable
       invocation.invoke(instance, instance, list);
       
       return instance;    
