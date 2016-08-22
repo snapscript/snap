@@ -15,9 +15,9 @@ public class TypeVerifier {
    }
 
    public boolean isSame(Type type, Class require) throws Exception {
-      Type actual = loader.loadType(require);
+      Class actual = type.getType();
       
-      if(actual == type) {
+      if(actual == require) {
          return true;
       }
       return false;
