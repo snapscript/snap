@@ -1,6 +1,6 @@
 package org.snapscript.core.convert;
 
-import static org.snapscript.core.convert.Score.EXACT;
+import static org.snapscript.core.convert.Score.SIMILAR;
 import static org.snapscript.core.convert.Score.INVALID;
 
 import org.snapscript.core.function.ArgumentConverter;
@@ -50,7 +50,7 @@ public class VariableArgumentConverter implements ArgumentConverter {
          return total;
       }
       if(converters.length == 1) {
-         return EXACT;
+         return SIMILAR;
       }
       return INVALID;
       

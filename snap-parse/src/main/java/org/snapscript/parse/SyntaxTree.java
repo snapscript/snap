@@ -3,6 +3,7 @@ package org.snapscript.parse;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -20,7 +21,7 @@ public class SyntaxTree {
    public SyntaxTree(GrammarIndexer indexer, String resource, String grammar, char[] original, char[] source, short[] lines, short[] types) {
       this.analyzer = new TokenScanner(indexer, resource, original, source, lines, types);
       this.comparator = new SyntaxNodeComparator();
-      this.nodes = new ArrayList<SyntaxCursor>();
+      this.nodes = new LinkedList<SyntaxCursor>();
       this.commit = new AtomicInteger();
       this.stack = new PositionStack();
       this.resource = resource;
@@ -84,7 +85,7 @@ public class SyntaxTree {
       private int start;
 
       public SyntaxCursor(List<SyntaxCursor> parent, int grammar, int start) {
-         this.nodes = new ArrayList<SyntaxCursor>();
+         this.nodes = new LinkedList<SyntaxCursor>();
          this.grammar = grammar;
          this.parent = parent;
          this.start = start;
@@ -255,8 +256,7 @@ public class SyntaxTree {
          if(size > 0) {
             List<SyntaxNode> result = new ArrayList<SyntaxNode>(size);
             
-            for(int i = 0; i < size; i++) {
-               SyntaxCursor child = children.get(i);
+            for(SyntaxCursor child : children) {
                SyntaxNode node = child.create();
                
                if(node != null) {

@@ -1,5 +1,7 @@
 package org.snapscript.compile;
 
+import java.lang.management.ManagementFactory;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,12 +15,14 @@ import org.snapscript.parse.SourceProcessor;
 import org.snapscript.parse.SyntaxCompiler;
 import org.snapscript.parse.SyntaxParser;
 
+import com.sun.management.ThreadMXBean;
+
 //Assembly time  took 376
 //Binary assemble time was 2004 normal was 376
 //Time taken to compile  was 2989 size was 57071
 public class CompilePerformanceTest extends TestCase {   
 
-   private static final int ITERATIONS = 20;
+   private static final int ITERATIONS = 10;
    public static void main(String[] l)throws Exception{
       new CompilePerformanceTest().testCompilerPerformance();
    }
@@ -29,6 +33,7 @@ public class CompilePerformanceTest extends TestCase {
  /*     executeScript("perf2.js");    
       executeScript("perf3.js"); */   
    }
+
    public static void compileScript(String source) throws Exception {
       executeScript(source, false);
       
@@ -44,39 +49,57 @@ public class CompilePerformanceTest extends TestCase {
       int maxLine = code.getLines()[code.getLines().length -1];
       
       for(int j=0;j<ITERATIONS;j++){
-         long start=System.currentTimeMillis();
-         SyntaxParser p=new SyntaxCompiler().compile();
-         p.parse(source, script, "script");
-         long finish=System.currentTimeMillis();
-         long duration=finish-start;
-         System.err.println("Time taken to parse "+source+" was " + duration+" size was "+script.length() + " compressed to " + compressed + " and " + maxLine + " lines");
+         parseScript(source, script, compressed, maxLine);
       }
       for(int j=0;j<ITERATIONS;j++){
-         long start=System.currentTimeMillis();
-         Map<String, Object> map = new HashMap<String, Object>();
-         Model model = new MapModel(map);
-         Compiler compiler = ClassPathCompilerBuilder.createCompiler();
-
-         map.put("out", System.out);
-         map.put("err", System.err);
-         map.put("count", 100);
-         
-         
-         Executable e=compiler.compile(script);
-         long finish=System.currentTimeMillis();
-         long duration=finish-start;
-         System.err.println("Time taken to compile "+source+" was " + duration+" size was "+script.length() + " compressed to " + compressed + " and " + maxLine + " lines");
-         start=System.currentTimeMillis();
-         if(execute){
-            e.execute();
-         }
-         finish=System.currentTimeMillis();
-         duration=finish-start;
-         
-         if(execute){
-            System.err.println("Time taken to execute  was " + duration);
-         }
+         compileScript(source, script, compressed, maxLine);
+      }
+      for(int j=0;j<ITERATIONS;j++){
+         checkMemory(source, script, compressed, maxLine);
       }
       return ResultType.getNormal();
    } 
+   
+   private static void compileScript(String source, String script, int compressed, int maxLine) throws Exception {
+      long start=System.currentTimeMillis();
+      Map<String, Object> map = new HashMap<String, Object>();
+      Model model = new MapModel(map);
+      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
+
+      map.put("out", System.out);
+      map.put("err", System.err);
+      map.put("count", 100);
+      
+      
+      Executable e=compiler.compile(script);
+      long finish=System.currentTimeMillis();
+      long duration=finish-start;
+      System.err.println("Time taken to compile "+source+" was " + duration+" size was "+script.length() + " compressed to " + compressed + " and " + maxLine + " lines");
+      start=System.currentTimeMillis();
+      finish=System.currentTimeMillis();
+      duration=finish-start;
+   }
+   
+   private static void parseScript(String source, String script, int compressed, int maxLine) throws Exception {
+      long start=System.currentTimeMillis();
+      SyntaxParser p=new SyntaxCompiler().compile();
+      p.parse(source, script, "script");
+      long finish=System.currentTimeMillis();
+      long duration=finish-start;
+      System.err.println("Time taken to parse "+source+" was " + duration+" size was "+script.length() + " compressed to " + compressed + " and " + maxLine + " lines");
+   }
+   
+   private static void checkMemory(String source, String script, int compressed, int maxLine) throws Exception {
+      DecimalFormat format = new DecimalFormat("###,###,###,###,###");
+      ThreadMXBean bean = (ThreadMXBean) ManagementFactory.getThreadMXBean();
+      Thread thread = Thread.currentThread();
+      long id = thread.getId();
+      System.gc();
+      System.gc();
+      Thread.sleep(100);
+      long before = bean.getThreadAllocatedBytes(id);
+      parseScript(source, script, compressed, maxLine);
+      long after = bean.getThreadAllocatedBytes(id);
+      System.out.println("parse memory=" + format.format(after - before));
+   }
 }
