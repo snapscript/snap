@@ -40,6 +40,10 @@ public class TypeLoader {
       return indexer.loadType(module, name);
    }
    
+   public Type resolveType(String module, String name, int size) {
+      return indexer.loadType(module, name, size);
+   }
+   
    public Type resolveType(String type) {
       return indexer.loadType(type);
    }

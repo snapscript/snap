@@ -64,6 +64,25 @@ public class TypeIndexer {
       return done;
    }
 
+   public synchronized Type loadType(String module, String name, int size) {
+      String alias = builder.createName(module, name, size);
+      Type done = types.get(alias);
+      
+      if (done == null) {
+         String type = builder.createName(module, name);
+         Class match = scanner.importType(type, size);
+         
+         if (match == null) {
+            if(size > 0) {
+               return createType(module, name, size);
+            }
+            return defineType(module, name);
+         }
+         return loadType(match);
+      }
+      return done;
+   }   
+   
    public synchronized Type defineType(String module, String name) {
       String alias = builder.createName(module, name);
       Type done = types.get(alias);
@@ -83,7 +102,7 @@ public class TypeIndexer {
       }
       return done;
    }
-
+   
    public synchronized Type loadType(Class source) {
       Type done = types.get(source);
       
@@ -113,6 +132,28 @@ public class TypeIndexer {
             throw new InternalStateException("Type limit of " + limit + " exceeded");
          }
          return new ScopeType(parent, name, order);
+      }
+      return type;
+   }
+   
+   private synchronized Type createType(String module, String name, int size) {
+      String alias = builder.createName(module, name, size);
+      Module parent = registry.addModule(module);
+      Type type = types.get(alias);
+      
+      if(type == null) {
+         Type entry = loadType(module, name, size -1);
+         
+         if(entry == null) {
+            throw new InternalStateException("Type entry for '" +alias+ "' not found");
+         }
+         String array = builder.createName(null, name, size);
+         int order = counter.getAndIncrement();
+         
+         if(order > limit) {
+            throw new InternalStateException("Type limit of " + limit + " exceeded");
+         }
+         return new ScopeArrayType(parent, array, entry, size, order); // name is wrong here ScopeArrayType?
       }
       return type;
    }

@@ -1,6 +1,6 @@
 package org.snapscript.core.index;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.snapscript.core.Module;
@@ -12,48 +12,51 @@ import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.property.Property;
 
-public class ScopeType implements Type {
+public class ScopeArrayType implements Type {
+   
+   private static final Class[] ARRAYS = {
+      Object.class,
+      Object[].class,
+      Object[][].class,
+      Object[][][].class,
+   };
    
    private final TypeDescription description;
-   private final List<Annotation> annotations;
-   private final List<Property> properties;
-   private final List<Function> functions;
-   private final List<Type> types;
    private final Module module;
    private final Scope scope;
+   private final Type entry;
    private final String name;
    private final int order;
+   private final int size;
    
-   public ScopeType(Module module, String name, int order){
+   public ScopeArrayType(Module module, String name, Type entry, int size, int order){
       this.description = new TypeDescription(this);
-      this.annotations = new ArrayList<Annotation>();
-      this.properties = new ArrayList<Property>();
-      this.functions = new ArrayList<Function>();
-      this.types = new ArrayList<Type>();
       this.scope = new TypeScope(this);
       this.module = module;
       this.order = order;
+      this.entry = entry;
       this.name = name;
+      this.size = size;
    }
    
    @Override
    public List<Annotation> getAnnotations() {
-      return annotations;
+      return Collections.emptyList();
    }
    
    @Override
    public List<Property> getProperties() {
-      return properties;
+      return Collections.emptyList();
    }
    
    @Override
    public List<Function> getFunctions(){
-      return functions;
+      return Collections.emptyList();
    }
    
    @Override
    public List<Type> getTypes(){
-      return types;
+      return Collections.emptyList();
    }
    
    @Override
@@ -73,12 +76,12 @@ public class ScopeType implements Type {
    
    @Override
    public Class getType() {
-      return null;
+      return ARRAYS[size];
    }
    
    @Override
    public Type getEntry(){
-      return null;
+      return entry;
    }
    
    @Override

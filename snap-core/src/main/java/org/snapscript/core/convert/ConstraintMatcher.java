@@ -123,7 +123,7 @@ public class ConstraintMatcher {
          return new EnumConverter(type);
       }      
       if(comparator.isArray(type)) {
-         return new ArrayConverter(loader, this, type);
+         return new ArrayConverter(this, type);
       }
       return new ObjectConverter(extractor, checker, wrapper, type);
    }

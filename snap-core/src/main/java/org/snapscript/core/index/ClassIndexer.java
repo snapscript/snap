@@ -85,6 +85,9 @@ public class ClassIndexer {
       if(actual == null) {
          throw new InternalArgumentException("Could not determine type for " + source);
       }
+      while(actual.isArray()) {
+         actual = actual.getComponentType();
+      }
       Package module = actual.getPackage();
       
       if(module != null) {

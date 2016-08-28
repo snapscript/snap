@@ -31,10 +31,10 @@ public class TypeVerifier {
    }
    
    public boolean isArray(Type type) throws Exception {
-      Class real = type.getType();
+      Type entry = type.getEntry();
       
-      if(real != null) {
-         return real.isArray();
+      if(entry != null) {
+         return true;
       }
       return false;
    }

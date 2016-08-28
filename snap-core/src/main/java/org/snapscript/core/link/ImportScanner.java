@@ -9,11 +9,14 @@ import static org.snapscript.core.Reserved.IMPORT_JAVA_NET;
 import static org.snapscript.core.Reserved.IMPORT_JAVA_UTIL;
 import static org.snapscript.core.Reserved.IMPORT_SNAPSCRIPT;
 
+import java.lang.reflect.Array;
 import java.lang.Package;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
+
+import org.snapscript.core.index.TypeNameBuilder;
 
 public class ImportScanner {
    
@@ -31,6 +34,7 @@ public class ImportScanner {
    private final Map<String, Package> packages;
    private final Map<String, Class> types;
    private final Map<Object, String> names;
+   private final TypeNameBuilder builder;
    private final Set<String> failures;
    private final String[] prefixes;
    
@@ -43,6 +47,7 @@ public class ImportScanner {
       this.names = new ConcurrentHashMap<Object, String>();
       this.types = new ConcurrentHashMap<String, Class>();
       this.failures = new CopyOnWriteArraySet<String>();
+      this.builder = new TypeNameBuilder();
       this.prefixes = prefixes;
    }
    
@@ -92,11 +97,32 @@ public class ImportScanner {
       return null;
    }
    
+   public Class importType(String name, int size) {
+      Class type = importType(name);
+      
+      if(type != null && size < 4) {
+         Object array = null;
+         
+         if(size > 0) {
+            if(size == 1) {
+               array = Array.newInstance(type, 0);
+            } else if(size == 2){
+               array = Array.newInstance(type, 0, 0);
+            } else if(size == 3){
+               array = Array.newInstance(type, 0, 0, 0);
+            } 
+            return array.getClass();
+         }
+         return type;
+      }
+      return null;
+   }
+   
    public String importName(Class type) {
       String result = names.get(type);
       
       if(result == null) {
-         String absolute = type.getName();
+         String absolute = builder.createName(type);
          
          for(String prefix : prefixes) {
             if(absolute.startsWith(prefix)) {

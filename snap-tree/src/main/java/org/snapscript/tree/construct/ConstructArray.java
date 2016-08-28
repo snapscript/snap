@@ -82,7 +82,7 @@ public class ConstructArray implements Compilation {
                
                return ValueType.getTransient(array);
             }
-            throw new InternalArgumentException("Maximum or three dimensions exceeded");
+            throw new InternalArgumentException("Maximum of three dimensions exceeded");
          }
          Object array = builder.create(entry, 0);
          return ValueType.getTransient(array);
