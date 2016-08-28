@@ -14,9 +14,11 @@ import org.snapscript.core.Type;
 public class ArrayConverter extends ConstraintConverter {
 
    private final ConstraintMatcher matcher;
+   private final ProxyWrapper wrapper;
    private final Type type;
    
-   public ArrayConverter(ConstraintMatcher matcher, Type type) {
+   public ArrayConverter(ConstraintMatcher matcher, ProxyWrapper wrapper, Type type) {
+      this.wrapper = wrapper;
       this.matcher = matcher;
       this.type = type;
    }
@@ -66,7 +68,8 @@ public class ArrayConverter extends ConstraintConverter {
             
             for(int i = 0; i < length; i++) {
                Object element = Array.get(list, i);
-               Score score = converter.score(element);
+               Object object = wrapper.fromProxy(element);
+               Score score = converter.score(object);
    
                if(score.compareTo(INVALID) == 0) {
                   return INVALID;
@@ -92,7 +95,8 @@ public class ArrayConverter extends ConstraintConverter {
             
             for(int i = 0; i < length; i++) {
                Object element = list.get(i);
-               Score score = converter.score(element);
+               Object object = wrapper.fromProxy(element);
+               Score score = converter.score(object);
    
                if(score.compareTo(INVALID) == 0) {
                   return INVALID;
@@ -138,14 +142,15 @@ public class ArrayConverter extends ConstraintConverter {
          
          for(int i = 0; i < length; i++) {
             Object element = Array.get(list, i);
+            Object object = wrapper.fromProxy(element);
             
-            if(element != null) {
-               Score score = converter.score(element);
+            if(object != null) {
+               Score score = converter.score(object);
    
                if(score.compareTo(INVALID) == 0) {
                   throw new InternalStateException("Array element is not '" + require + "'");
                }
-               element = converter.convert(element);
+               element = converter.convert(object);
             }
             Array.set(array, i, element);
          }
@@ -166,14 +171,15 @@ public class ArrayConverter extends ConstraintConverter {
          
          for(int i = 0; i < length; i++) {
             Object element = list.get(i);
+            Object object = wrapper.fromProxy(element);
             
-            if(element != null) {
-               Score score = converter.score(element);
+            if(object != null) {
+               Score score = converter.score(object);
    
                if(score.compareTo(INVALID) == 0) {
                   throw new InternalStateException("Array element is not '" + require + "'");
                }
-               element = converter.convert(element);
+               element = converter.convert(object);
             }
             Array.set(array, i, element);
          }

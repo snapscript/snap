@@ -21,7 +21,6 @@ public class ConstraintMatcher {
    private final TypeVerifier comparator;
    private final TypeCastChecker checker;
    private final ProxyWrapper wrapper;
-   private final TypeLoader loader;
    
    public ConstraintMatcher(TypeLoader loader, ProxyWrapper wrapper) {
       this.converters = new TypeCache<ConstraintConverter>();
@@ -30,7 +29,6 @@ public class ConstraintMatcher {
       this.comparator = new TypeVerifier(loader, checker);
       this.converter = new NullConverter();
       this.wrapper = wrapper;
-      this.loader = loader;
    }
    
    public ConstraintConverter match(Type type) throws Exception { // type declared in signature
@@ -123,7 +121,7 @@ public class ConstraintMatcher {
          return new EnumConverter(type);
       }      
       if(comparator.isArray(type)) {
-         return new ArrayConverter(this, type);
+         return new ArrayConverter(this, wrapper, type);
       }
       return new ObjectConverter(extractor, checker, wrapper, type);
    }
