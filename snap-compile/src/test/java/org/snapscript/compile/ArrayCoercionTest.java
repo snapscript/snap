@@ -52,14 +52,18 @@ public class ArrayCoercionTest extends TestCase {
    "   }\n"+
    "}\n"+
    "var array1: Score[] = [new Score(1.1), new Score(1.0), new Score(2.0)];\n"+
-   "//var list1: [] = array1;\n"+   
-   "//var array2: [] = list1;\n"+   
-   "//var list2: [] = array2;\n"+
+   "var array2: Comparable[] = array1;\n"+   
+   "var array3: Score[] = array2;\n"+  
+   "var array4: Comparable[] = array3;\n"+    
    "\n"+
-   "println(array1);\n"+   
-   "//println(list1);\n"+   
-   "//println(array2);\n"+   
-   "//println(list2);\n";
+   "println(array1);\n"+  
+   "println(array1.class);\n"+     
+   "println(array2);\n"+  
+   "println(array2.class);\n"+     
+   "println(array3);\n"+  
+   "println(array3.class);\n"+       
+   "println(array4);\n"+        
+   "println(array4.class);\n"; 
     
    public void testArrayCoercion() throws Exception {;
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
@@ -70,6 +74,7 @@ public class ArrayCoercionTest extends TestCase {
    public void testScopeArrayCoercion() throws Exception {;
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
       Executable executable = compiler.compile(SOURCE_2);
+      System.err.println(SOURCE_2);
       executable.execute();
    }   
 }
