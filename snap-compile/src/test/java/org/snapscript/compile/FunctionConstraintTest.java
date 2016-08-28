@@ -57,7 +57,42 @@ public class FunctionConstraintTest extends TestCase {
    "   println('x(f: (a, b))->' + f(11,22));\n"+
    "}\n"+
    "x((a:String, b:String)->a+'='+b);\n";
-
+   
+   private static final String SOURCE_6 =
+   "class Foo{\n"+
+   "   const f;\n"+
+   "   new(f){\n"+
+   "      this.f=f;\n"+
+   "   }\n"+
+   "}\n"+
+   "\n"+
+   "func(['a',11,2, new Foo(3)]);\n"+
+   "\n"+
+   "function func(a: []) {\n"+
+   "   println('func(a:[])');\n"+
+   "}\n"+
+   "\n"+
+   "function func(a:Foo[]) {\n"+
+   "   println('func(a:Foo[])');\n"+
+   "}\n";
+   
+   private static final String SOURCE_7 =
+   "class Foo{\n"+
+   "   const f;\n"+
+   "   new(f){\n"+
+   "      this.f=f;\n"+
+   "   }\n"+
+   "}\n"+
+   "\n"+
+   "func(new Foo[1]);\n"+
+   "\n"+
+   "function func(a: []) {\n"+
+   "   println('func(a:[])');\n"+
+   "}\n"+
+   "\n"+
+   "function func(a:Foo[]) {\n"+
+   "   println('func(a:Foo[])');\n"+
+   "}\n";
 
    public void testAnyConstraints() throws Exception {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
@@ -65,6 +100,7 @@ public class FunctionConstraintTest extends TestCase {
       System.err.println(SOURCE_1);
       executable.execute();
    }
+   
    public void testTypeConstraints() throws Exception {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
       Executable executable = compiler.compile(SOURCE_2);
@@ -92,4 +128,18 @@ public class FunctionConstraintTest extends TestCase {
       System.err.println(SOURCE_5);
       executable.execute();
    }   
+   
+   public void testArrayBindingScore() throws Exception {
+      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
+      Executable executable = compiler.compile(SOURCE_6);
+      System.err.println(SOURCE_6);
+      executable.execute();
+   } 
+   
+   public void testArrayBinding() throws Exception {
+      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
+      Executable executable = compiler.compile(SOURCE_7);
+      System.err.println(SOURCE_7);
+      executable.execute();
+   } 
 }
