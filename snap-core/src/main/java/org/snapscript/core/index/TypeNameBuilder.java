@@ -13,17 +13,10 @@ public class TypeNameBuilder {
    public String createName(Class type) {
       Class entry = type.getComponentType();
       
-      if(entry == null) {
-         Package parent = type.getPackage();
-         String name = type.getSimpleName();
-         String module = null;
-         
-         if(parent != null) {
-            module = parent.getName();
-         }
-         return createName(module, name);
+      if(entry != null) {
+         return createName(entry) + "[]";
       }
-      return createName(entry) + "[]";
+      return type.getName();
    }
    
    public String createName(String module, String name) {

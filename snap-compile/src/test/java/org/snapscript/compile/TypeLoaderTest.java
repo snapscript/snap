@@ -1,5 +1,7 @@
 package org.snapscript.compile;
 
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 import java.util.Arrays;
 
 import junit.framework.TestCase;
@@ -34,9 +36,17 @@ public class TypeLoaderTest extends TestCase {
       Type type1 = loader.resolveType("org.snapscript.compile", "TypeLoaderTest$ExampleObject", 2);
       Type type2 = loader.resolveType("lang", "Integer", 3);
       Type type3 = loader.resolveType("foo", "Blah", 3);
+      Type type4 = loader.resolveType("java.awt.geom.Line2D$Double");
+      Type type5 = loader.resolveType("java.awt.geom.Ellipse2D$Double");
+      
       System.err.println(type1);
       System.err.println(type2);
       System.err.println(type3);
+      System.err.println(type4);
+      System.err.println(type5); 
+      
+      assertEquals(type4.getType(), Line2D.Double.class);
+      assertEquals(type5.getType(), Ellipse2D.Double.class);
    }
 
 }
