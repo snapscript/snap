@@ -1,0 +1,2 @@
+1) Create a Scope.getIdentifier that will give u a number for composite scopes
+2) Make sure each property has a number which is [scope|field] which is [16-bits|16-bits]
