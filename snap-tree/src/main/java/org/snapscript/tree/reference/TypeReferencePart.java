@@ -22,12 +22,15 @@ public class TypeReferencePart implements Evaluation {
       Module module = scope.getModule();
       
       if(left != null) {
+         String name = extractor.extract(scope);
+         
          if(Module.class.isInstance(left)) {
             return create(scope, (Module)left);
          }
          if(Type.class.isInstance(left)) {
-            return create(scope, module, (Type)left);
+            return create(scope, (Type)left);
          }
+         throw new InternalStateException("No type found for '" + name + "' in '" + module + "'"); // class not found
       }
       return create(scope, module);
    }
@@ -45,14 +48,12 @@ public class TypeReferencePart implements Evaluation {
       return ValueType.getTransient(result);
    }
    
-   private Value create(Scope scope, Module module, Type type) throws Exception {
+   private Value create(Scope scope, Type type) throws Exception {
       String name = extractor.extract(scope);
-      Object result = module.getModule(name);
+      Module module = type.getModule();
       String parent = type.getName();
+      Type result = module.getType(parent + "$"+name);
       
-      if(result == null) {
-         result = module.getType(parent +"$"+name); 
-      }
       if(result == null) {
          throw new InternalStateException("No type found for '" + parent + "." + name + "' in '" + module + "'"); // class not found
       }
