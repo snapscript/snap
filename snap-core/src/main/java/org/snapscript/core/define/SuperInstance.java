@@ -38,7 +38,7 @@ public class SuperInstance implements Instance {
    
    @Override
    public Instance getSuper(){
-      return scope;
+      return scope.getSuper();
    }
    
    public Type getHandle() {

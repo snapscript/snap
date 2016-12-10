@@ -59,7 +59,7 @@ public class Super implements Evaluation {
          if(location == actual){
             return next.getSuper(); // return the object instance for super
          }
-         next =  next.getSuper(); 
+         next = next.getSuper(); 
       }
       return null;
    }
