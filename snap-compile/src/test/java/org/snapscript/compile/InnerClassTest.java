@@ -22,8 +22,8 @@ public class InnerClassTest extends TestCase {
    "      return new Inner(x,y);\n"+
    "   }\n"+
    "}\n"+
-//   "var inner = new Outer.Inner(1,2);\n"+
-//   "inner.dump();\n"+
+   "var inner = new Outer.Inner(1,2);\n"+
+   "inner.dump();\n"+
    "var outer = new Outer();\n"+
    "var result = outer.create(33,44);\n"+
    "result.dump();\n";
@@ -50,10 +50,10 @@ public class InnerClassTest extends TestCase {
       executable.execute();
    }
    
-//   public void testInnerEnum() throws Exception {
-//      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
-//      System.err.println(SOURCE_2);
-//      Executable executable = compiler.compile(SOURCE_2);
-//      executable.execute();
-//   }
+   public void testInnerEnum() throws Exception {
+      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
+      System.err.println(SOURCE_2);
+      Executable executable = compiler.compile(SOURCE_2);
+      executable.execute();
+   }
 }

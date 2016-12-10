@@ -48,13 +48,13 @@ public class LocalResolver implements ValueResolver<Object> {
       if(type == null) {
          Object result = module.getModule(name);
          
-         if(result == null && parent != null) {
+         while(result == null && parent != null) {
             String prefix = parent.getName();
              
             if(prefix != null) {
                result = module.getType(prefix+"$"+name); // this should be in a method
             }
-            return result;
+            parent = parent.getOuter();
          }
          return result;
       }

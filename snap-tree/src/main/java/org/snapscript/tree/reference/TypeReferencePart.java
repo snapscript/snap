@@ -43,12 +43,13 @@ public class TypeReferencePart implements Evaluation {
       if(result == null) {
          result = module.getType(name); 
       }
-      if(result == null && parent != null) {
+      while(result == null && parent != null){ // search outer classes
          String prefix = parent.getName();
          
          if(prefix != null) {
             result = module.getType(prefix + "$"+name);
          }
+         parent = parent.getOuter();
       }
       if(result == null) {
          throw new InternalStateException("No type found for '" + name + "' in '" + module + "'"); // class not found

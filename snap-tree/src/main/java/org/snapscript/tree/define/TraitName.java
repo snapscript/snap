@@ -18,16 +18,13 @@ public class TraitName extends TypeName {
       Type base = module.getType(name);
       Type parent = scope.getType();
       
-      if(base == null && parent != null) {
-         Type outer = parent.getOuter();
+      while(base == null && parent != null) {
+         String prefix = parent.getName();
          
-         if(outer != null) {
-            String prefix = outer.getName();
-            
-            if(prefix != null) {
-               return module.getType(prefix + '$'+name);
-            }
+         if(prefix != null) {
+            base = module.getType(prefix + '$'+name);
          }
+         parent = parent.getOuter();
       }
       return base;
    }  

@@ -70,7 +70,7 @@ public class ObjectResolver implements ValueResolver<Object> {
          if(field.equals(name)) {
             return property;
          }
-      } 
+      }
       return null;
    }
    
