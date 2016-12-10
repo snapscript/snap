@@ -37,12 +37,13 @@ public class Import implements Compilation {
       TypeLoader loader = context.getLoader();
       String location = qualifier.getLocation();
       String target = qualifier.getTarget();
+      String name = qualifier.getName();
       
       if(target == null) {
          Package library = loader.importPackage(location);
          
          if(library != null) {
-            return new CompileResult(library, location);
+            return new CompileResult(library, location, null, name);
          }
       }
       Package library = loader.importType(location, target);
@@ -55,7 +56,7 @@ public class Import implements Compilation {
             
             return new CompileResult(library, location, target, alias);
          } 
-         return new CompileResult(library, location, target);
+         return new CompileResult(library, location, target, target, name);
       }
       return new NoStatement();
    }
@@ -68,7 +69,7 @@ public class Import implements Compilation {
       private Package library;
       private String location;
       private String target;
-      private String alias;
+      private String[] alias;
       
       public CompileResult(Package library, String location) {
          this(library, location, null);
@@ -78,7 +79,7 @@ public class Import implements Compilation {
          this(library, location, target, null);
       }
       
-      public CompileResult(Package library, String location, String target, String alias) {
+      public CompileResult(Package library, String location, String target, String... alias) {
          this.builder = new TypeNameBuilder();
          this.location = location;
          this.library = library;
@@ -125,7 +126,11 @@ public class Import implements Compilation {
             manager.addImport(location); // import game.tetris.*;
          }  else {
             if(alias != null) {
-               manager.addImport(type, alias); // import game.tetris.Block as Shape;
+               for(String name : alias) {
+                  if(name != null) {
+                     manager.addImport(type, name); // import game.tetris.Block as Shape;
+                  }
+               }
             } else {
                manager.addImport(type, target); // import game.tetris.Block;
             }

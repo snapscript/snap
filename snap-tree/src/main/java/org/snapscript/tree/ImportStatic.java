@@ -11,6 +11,7 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
 import org.snapscript.core.function.Function;
+import org.snapscript.core.index.TypeNameBuilder;
 
 public class ImportStatic implements Compilation {   
    
@@ -24,24 +25,30 @@ public class ImportStatic implements Compilation {
    public Object compile(Module module, int line) throws Exception {
       String location = qualifier.getLocation();
       String target = qualifier.getTarget();
+      String name = qualifier.getName();
       
-      return new CompileResult(location, target);
+      return new CompileResult(location, target, name);
    }
    
    private static class CompileResult extends Statement {
       
+      private final TypeNameBuilder builder;
       private final String location;
       private final String target;
+      private final String prefix;
       
-      public CompileResult(String location, String target) {
+      public CompileResult(String location, String target, String prefix) {
+         this.builder = new TypeNameBuilder();
          this.location = location;
          this.target = target;
+         this.prefix = prefix;
       }
       
       @Override
       public Result compile(Scope scope) throws Exception {
          Module module = scope.getModule();
-         Type type = module.getType(location); // this is a type name
+         String parent = builder.createName(location, target);
+         Type type = module.getType(parent); // this is a type name
          List<Function> methods = type.getFunctions();
          List<Function> functions = module.getFunctions();
          
@@ -51,7 +58,7 @@ public class ImportStatic implements Compilation {
             if(ModifierType.isStatic(modifiers) && ModifierType.isPublic(modifiers)){
                String name = method.getName();
                
-               if(target == null || target.equals(name)) {
+               if(prefix == null || prefix.equals(name)) {
                   functions.add(method);
                }
             }
