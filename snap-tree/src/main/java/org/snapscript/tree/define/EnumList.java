@@ -10,6 +10,11 @@ public class EnumList implements TypePart {
    public EnumList(EnumValue... values){
       this.values = values;
    }
+   
+   @Override
+   public Initializer define(Initializer initializer, Type type) throws Exception {
+      return null;
+   }
 
    @Override
    public Initializer compile(Initializer statement, Type type) throws Exception {

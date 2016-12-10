@@ -100,6 +100,21 @@ public class ClassIndexer {
       return registry.addModule(DEFAULT_PACKAGE);
    }
    
+   public Type indexOuter(ClassType type) throws Exception {
+      Class source = type.getType();
+      Class outer = source.getEnclosingClass();
+      
+      if(outer != null) {
+         Class actual = promoter.promote(outer);
+         
+         if(actual == null) {
+            throw new InternalArgumentException("Could not determine type for " + source);
+         }
+         return indexer.loadType(actual);
+      }
+      return null;
+   }
+   
    public Type indexEntry(ClassType type) throws Exception {
       Class source = type.getType();
       Class entry = source.getComponentType();

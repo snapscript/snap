@@ -61,6 +61,11 @@ public class FunctionType implements Type {
    public Class getType() {
       return null;
    }
+   
+   @Override
+   public Type getOuter(){
+      return null;
+   }
 
    @Override
    public Type getEntry() {

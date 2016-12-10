@@ -38,13 +38,18 @@ public class MemberFunction implements TypePart {
       this.annotations = annotations;
       this.body = body;
    } 
+   
+   @Override
+   public Initializer define(Initializer initializer, Type type) throws Exception {
+      return null;
+   }
 
    @Override
    public Initializer compile(Initializer initializer, Type type) throws Exception {
-      return define(initializer, type, 0);
+      return assemble(initializer, type, 0);
    }
    
-   protected Initializer define(Initializer initializer, Type type, int mask) throws Exception {
+   protected Initializer assemble(Initializer initializer, Type type, int mask) throws Exception {
       Scope scope = type.getScope();
       MemberFunctionBuilder builder = assembler.assemble(type, mask);
       Function function = builder.create(scope, initializer, type);

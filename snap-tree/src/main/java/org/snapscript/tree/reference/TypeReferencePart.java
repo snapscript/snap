@@ -38,9 +38,17 @@ public class TypeReferencePart implements Evaluation {
    private Value create(Scope scope, Module module) throws Exception {
       String name = extractor.extract(scope);
       Object result = module.getModule(name);
+      Type parent = scope.getType();
       
       if(result == null) {
          result = module.getType(name); 
+      }
+      if(result == null && parent != null) {
+         String prefix = parent.getName();
+         
+         if(prefix != null) {
+            result = module.getType(prefix + "$"+name);
+         }
       }
       if(result == null) {
          throw new InternalStateException("No type found for '" + name + "' in '" + module + "'"); // class not found

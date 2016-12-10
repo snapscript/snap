@@ -40,6 +40,11 @@ public class TraitConstant implements TypePart {
       this.annotations = annotations;
       this.identifier = identifier;
    }
+   
+   @Override
+   public Initializer define(Initializer initializer, Type type) throws Exception {
+      return null;
+   }
 
    @Override
    public Initializer compile(Initializer initializer, Type type) throws Exception {

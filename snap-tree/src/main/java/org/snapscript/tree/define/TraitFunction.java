@@ -29,10 +29,10 @@ public class TraitFunction extends MemberFunction {
    } 
    
    @Override
-   protected Initializer define(Initializer initializer, Type type, int mask) throws Exception {
+   protected Initializer assemble(Initializer initializer, Type type, int mask) throws Exception {
       if(body == null) {
-         return super.define(initializer, type, ModifierType.ABSTRACT.mask);
+         return super.assemble(initializer, type, ModifierType.ABSTRACT.mask);
       }  
-      return super.define(initializer, type, 0);
+      return super.assemble(initializer, type, 0);
    }
 }

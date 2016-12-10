@@ -47,4 +47,15 @@ public class TypeNameBuilder {
       }
       return name + bounds;
    }
+   
+   public String createOuterName(String module, String name) {
+      if(name != null) {
+         int index = name.lastIndexOf('$');
+         
+         if(index > 0) {
+            name = name.substring(0, index);
+         }
+      }
+      return createName(module, name);
+   }
 }

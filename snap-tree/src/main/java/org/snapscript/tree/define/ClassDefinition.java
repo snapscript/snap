@@ -17,6 +17,7 @@ public class ClassDefinition extends Statement {
    private final InitializerCollector collector;
    private final Initializer constants;
    private final AtomicBoolean compile;
+   private final AtomicBoolean define;
    private final ClassBuilder builder;
    private final TypePart[] parts;
    
@@ -27,12 +28,23 @@ public class ClassDefinition extends Statement {
       this.collector = new InitializerCollector();
       this.constructor = new DefaultConstructor();
       this.compile = new AtomicBoolean(true);
+      this.define = new AtomicBoolean(true);
       this.parts = parts;
    }
    
    @Override
    public Result define(Scope outer) throws Exception {
-      return builder.define(outer);
+      if(!define.compareAndSet(false, true)) {
+         Result result = builder.define(outer);
+         Type type = result.getValue();
+         
+         for(TypePart part : parts) {
+            Initializer initializer = part.define(collector, type);
+            collector.update(initializer);
+         } 
+         return result;
+      }
+      return ResultType.getNormal();
    }
 
    @Override

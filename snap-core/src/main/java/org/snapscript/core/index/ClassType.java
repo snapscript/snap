@@ -53,6 +53,11 @@ public class ClassType implements Type {
    public Module getModule() {
       return index.getModule();
    }
+   
+   @Override
+   public Type getOuter() {
+      return index.getOuter();
+   }
 
    @Override
    public Type getEntry() {

@@ -28,6 +28,11 @@ public abstract class MemberConstructor implements TypePart {
       this.list = list;
       this.body = body;
    } 
+   
+   @Override
+   public Initializer define(Initializer initializer, Type type) throws Exception {
+      return null;
+   }
 
    protected Initializer compile(Initializer initializer, Type type, boolean compile) throws Exception {
       int modifiers = list.getModifiers();

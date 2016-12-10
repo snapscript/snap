@@ -43,14 +43,20 @@ public class LocalResolver implements ValueResolver<Object> {
    public Object match(Scope scope, Object left) {
       Module module = scope.getModule();
       Type type = module.getType(name);
+      Type parent = scope.getType();
       
       if(type == null) {
          Object result = module.getModule(name);
          
-         if(result != null) {
+         if(result == null && parent != null) {
+            String prefix = parent.getName();
+             
+            if(prefix != null) {
+               result = module.getType(prefix+"$"+name); // this should be in a method
+            }
             return result;
          }
-         return null;
+         return result;
       }
       return type;
    }

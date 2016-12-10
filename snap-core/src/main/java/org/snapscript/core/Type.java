@@ -14,6 +14,7 @@ public interface Type extends Any {
    Module getModule();
    Scope getScope();
    Class getType();
+   Type getOuter();
    Type getEntry();
    String getName();
    int getOrder();

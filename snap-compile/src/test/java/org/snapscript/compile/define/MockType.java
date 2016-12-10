@@ -74,6 +74,11 @@ public class MockType implements Type {
    }
    
    @Override
+   public Type getOuter(){
+      return null;
+   }
+   
+   @Override
    public Type getEntry(){
       return entry;
    }

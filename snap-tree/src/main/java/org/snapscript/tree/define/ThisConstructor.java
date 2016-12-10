@@ -28,6 +28,11 @@ public class ThisConstructor implements TypePart {
    }
 
    @Override
+   public Initializer define(Initializer initializer, Type type) throws Exception {
+      return null;
+   }
+   
+   @Override
    public Initializer compile(Initializer initializer, Type type) throws Exception {  
       Statement statement = new StaticBody(initializer, type);
       Evaluation reference = new TypeValue(type);

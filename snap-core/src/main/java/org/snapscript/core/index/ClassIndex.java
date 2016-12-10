@@ -18,6 +18,7 @@ public class ClassIndex {
    private List<Type> types;
    private ClassType require;
    private Module module;
+   private Type outer;
    private Type entry;
    
    public ClassIndex(ClassIndexer indexer, ClassType require) {      
@@ -78,6 +79,17 @@ public class ClassIndex {
          }
       }
       return module;
+   }
+   
+   public Type getOuter() {
+      if(entry == null) {
+         try {
+            entry = indexer.indexEntry(require);
+         } catch(Exception e) {
+            throw new InternalStateException("Could not index " + require, e);
+         }
+      }
+      return entry;
    }
 
    public Type getEntry() {

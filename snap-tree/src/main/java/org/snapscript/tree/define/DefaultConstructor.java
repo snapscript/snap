@@ -32,6 +32,11 @@ public class DefaultConstructor implements TypePart {
    } 
    
    @Override
+   public Initializer define(Initializer initializer, Type type) throws Exception {
+      return null;
+   }
+   
+   @Override
    public Initializer compile(Initializer initializer, Type type) throws Exception {
       List<Function> functions = type.getFunctions();
       

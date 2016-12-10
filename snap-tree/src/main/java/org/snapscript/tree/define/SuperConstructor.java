@@ -32,6 +32,11 @@ public class SuperConstructor implements TypePart {
       this.extractor = new SuperExtractor();
       this.arguments = arguments;
    }
+   
+   @Override
+   public Initializer define(Initializer initializer, Type type) throws Exception {
+      return null;
+   }
 
    @Override
    public Initializer compile(Initializer initializer, Type type) throws Exception {
@@ -40,10 +45,10 @@ public class SuperConstructor implements TypePart {
       if(base == null) {
          throw new InternalStateException("No super type for '" + type + "'");
       }     
-      return define(initializer, base);
+      return assemble(initializer, base);
    }
    
-   protected Initializer define(Initializer statements, Type type) throws Exception {
+   protected Initializer assemble(Initializer statements, Type type) throws Exception {
       StringToken name = new StringToken(TYPE_CONSTRUCTOR);
       Evaluation literal = new TextLiteral(name);
       Evaluation evaluation = new SuperInvocation(literal, arguments, type);

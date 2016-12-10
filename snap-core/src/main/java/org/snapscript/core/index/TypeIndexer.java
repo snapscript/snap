@@ -122,16 +122,18 @@ public class TypeIndexer {
 
    private synchronized Type createType(String module, String name) {
       String alias = builder.createName(module, name);
+      String prefix = builder.createOuterName(module, name); 
       Module parent = registry.addModule(module);
       Type type = types.get(alias);
       
       if(type == null) {
+         Type outer = types.get(prefix);
          int order = counter.getAndIncrement();
          
          if(order > limit) {
             throw new InternalStateException("Type limit of " + limit + " exceeded");
          }
-         return new ScopeType(parent, name, order);
+         return new ScopeType(parent, outer, name, order);
       }
       return type;
    }
