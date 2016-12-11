@@ -14,9 +14,17 @@ public class TypeDescription {
       if(type != null) {
          String name = type.getName();
          Module module = type.getModule();
+         Type outer = type.getOuter();
          
          builder.append(module);
          builder.append(".");
+         
+         if(outer != null) {
+            String prefix = outer.getName();
+            
+            builder.append(prefix);
+            builder.append("$");
+         }
          builder.append(name);
       }
       return builder.toString();

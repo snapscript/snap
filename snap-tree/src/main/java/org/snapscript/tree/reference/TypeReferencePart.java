@@ -5,18 +5,19 @@ import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
+import org.snapscript.core.TypeTraverser;
 import org.snapscript.core.Value;
 import org.snapscript.core.ValueType;
 import org.snapscript.tree.NameExtractor;
 
 public class TypeReferencePart implements Evaluation {
 
-   private final TypeReferenceFinder finder;
+   private final TypeTraverser traverser;
    private final NameExtractor extractor;
 
    public TypeReferencePart(Evaluation type) {
       this.extractor = new NameExtractor(type);
-      this.finder = new TypeReferenceFinder();
+      this.traverser = new TypeTraverser();
    }   
    
    @Override
@@ -46,7 +47,7 @@ public class TypeReferencePart implements Evaluation {
          result = module.getType(name); 
       }
       if(result == null && type != null) {
-         result = finder.findType(type, name);
+         result = traverser.findEnclosing(type, name);
       }
       if(result == null) {
          throw new InternalStateException("No type found for '" + name + "' in '" + module + "'"); // class not found

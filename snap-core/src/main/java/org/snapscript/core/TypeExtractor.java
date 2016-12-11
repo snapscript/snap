@@ -44,12 +44,12 @@ public class TypeExtractor {
       Type type = getType(value);
       
       if(type != null) {
-         return traverser.traverse(type);
+         return traverser.findHierarchy(type);
       }
       return null;
    }   
    
    public Set<Type> getTypes(Type type) {
-      return traverser.traverse(type);
+      return traverser.findHierarchy(type);
    }
 }

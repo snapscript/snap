@@ -13,26 +13,26 @@ public class TypeTraverser {
       this.types = new TypeCache<Set<Type>>();
    }
 
-   public Set<Type> traverse(Type type) {
+   public Set<Type> findHierarchy(Type type) {
       Set<Type> list = types.fetch(type);
       
       if(list == null) {
-         list = collect(type);
+         list = findHierarchy(type, type);
          types.cache(type, list);
       }
       return list;
    }
    
-   private Set<Type> collect(Type type) {
+   private Set<Type> findHierarchy(Type root, Type type) {
       Set<Type> list = new LinkedHashSet<Type>();
       
       if(type != null) {
-         collect(type, type, list);
+         findHierarchy(root, type, list);
       }
       return Collections.unmodifiableSet(list);
    }
    
-   private Set<Type> collect(Type root, Type type, Set<Type> list) {
+   private Set<Type> findHierarchy(Type root, Type type, Set<Type> list) {
       List<Type> types = type.getTypes();
       
       if(list.add(type)) {
@@ -40,9 +40,51 @@ public class TypeTraverser {
             if(entry == root) { 
                throw new InternalStateException("Hierarchy for '" + type + "' contains a cycle");
             }
-            collect(root, entry, list);
+            findHierarchy(root, entry, list);
          }
       }
       return list;
+   }
+   
+   public Type findEnclosing(Type type, String name) {
+      Set<Type> done = new LinkedHashSet<Type>();
+      
+      if(type != null) {
+         return findEnclosing(type, name, done);
+      }
+      return null;
+   }
+   
+   private Type findEnclosing(Type type, String name, Set<Type> done) {
+      Module module = type.getModule();
+      
+      while(type != null){ // search outer classes
+         String prefix = type.getName();
+         Type result = module.getType(prefix + "$"+name);
+         
+         if(result == null) {
+            result = findHierarchy(type, name, done);
+         }
+         if(result != null) {
+            return result;
+         }
+         type = type.getOuter();
+      }
+      return null;
+   }
+   
+   private Type findHierarchy(Type type, String name, Set<Type> done) {
+      List<Type> types = type.getTypes(); // do not use extractor here
+      
+      for(Type base : types) {
+         if(done.add(base)) { // avoid loop
+            Type result = findEnclosing(base, name, done);
+            
+            if(result != null) {
+               return result;
+            }
+         }
+      }
+      return null;
    }
 }

@@ -6,19 +6,19 @@ import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Type;
+import org.snapscript.core.TypeTraverser;
 import org.snapscript.core.Value;
 import org.snapscript.core.ValueType;
-import org.snapscript.tree.reference.TypeReferenceFinder;
 
 public class LocalResolver implements ValueResolver<Object> {
    
    private final AtomicReference<Object> reference;
-   private final TypeReferenceFinder finder;
+   private final TypeTraverser finder;
    private final String name;
    
    public LocalResolver(String name) {
       this.reference = new AtomicReference<Object>();
-      this.finder = new TypeReferenceFinder();
+      this.finder = new TypeTraverser();
       this.name = name;
    }
    
@@ -52,7 +52,7 @@ public class LocalResolver implements ValueResolver<Object> {
          Object result = module.getModule(name);
          
          if(result == null && parent != null) {
-            result = finder.findType(parent, name);
+            result = finder.findEnclosing(parent, name);
          }
          return result;
       }
