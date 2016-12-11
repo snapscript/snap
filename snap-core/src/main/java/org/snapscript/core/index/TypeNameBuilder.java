@@ -53,9 +53,14 @@ public class TypeNameBuilder {
          int index = name.lastIndexOf('$');
          
          if(index > 0) {
-            name = name.substring(0, index);
+            String parent = name.substring(0, index);
+            int length = parent.length();
+            
+            if(length > 0) {
+               return createName(module, parent);
+            }
          }
       }
-      return createName(module, name);
+      return null;
    }
 }

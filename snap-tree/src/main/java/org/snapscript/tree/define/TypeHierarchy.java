@@ -4,18 +4,21 @@ import java.util.List;
 
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
+import org.snapscript.core.Value;
+import org.snapscript.tree.reference.TraitReference;
+import org.snapscript.tree.reference.TypeReference;
 
 public class TypeHierarchy {
    
    private final AnyDefinition definition;
-   private final TraitName[] traits; 
-   private final TypeName name;
+   private final TraitReference[] traits; 
+   private final TypeReference name;
 
-   public TypeHierarchy(TraitName... traits) {
+   public TypeHierarchy(TraitReference... traits) {
       this(null, traits);     
    }
    
-   public TypeHierarchy(TypeName name, TraitName... traits) {
+   public TypeHierarchy(TypeReference name, TraitReference... traits) {
       this.definition = new AnyDefinition();
       this.traits = traits;
       this.name = name;
@@ -25,7 +28,8 @@ public class TypeHierarchy {
       List<Type> types = type.getTypes();
       
       if(name != null) {
-         Type base = name.getType(scope);
+         Value value = name.evaluate(scope, null);
+         Type base = value.getValue();
          
          if(base != null) {
             types.add(base);
@@ -38,7 +42,8 @@ public class TypeHierarchy {
          }
       }
       for(int i = 0; i < traits.length; i++) {
-         Type trait = traits[i].getType(scope);
+         Value value = traits[i].evaluate(scope, null);
+         Type trait = value.getValue();
          
          if(trait != null) {
             types.add(trait);

@@ -78,6 +78,7 @@ import org.snapscript.tree.operation.PrefixOperation;
 import org.snapscript.tree.operation.SignedNumber;
 import org.snapscript.tree.reference.ReferenceNavigation;
 import org.snapscript.tree.reference.ReferencePart;
+import org.snapscript.tree.reference.TraitReference;
 import org.snapscript.tree.reference.TypeReference;
 import org.snapscript.tree.reference.TypeReferencePart;
 import org.snapscript.tree.template.TextTemplate;
@@ -121,7 +122,9 @@ public enum Instruction {
    NULL_COALESCE(NullCoalesce.class, "null-coalesce"),    
    ASSIGNMENT(Assignment.class, "assignment"),
    TYPE_REFERENCE(TypeReference.class, "type-reference"),
-   TYPE_REFERENCE_PART(TypeReferencePart.class, "type-reference-part"),   
+   TYPE_REFERENCE_PART(TypeReferencePart.class, "type-reference-part"), 
+   TRAIT_REFERENCE(TraitReference.class, "trait-reference"),
+   TRAIT_REFERENCE_PART(TypeReferencePart.class, "trait-reference-part"),   
    CONSTRUCT_LIST(ConstructList.class, "construct-list"),
    CONSTRUCT_ARRAY(ConstructArray.class, "construct-array"),
    CONSTRUCT_OBJECT(ConstructObject.class, "construct-object"),

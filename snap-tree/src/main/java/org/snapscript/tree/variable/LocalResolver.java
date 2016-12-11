@@ -8,14 +8,17 @@ import org.snapscript.core.State;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.ValueType;
+import org.snapscript.tree.reference.TypeReferenceFinder;
 
 public class LocalResolver implements ValueResolver<Object> {
    
    private final AtomicReference<Object> reference;
+   private final TypeReferenceFinder finder;
    private final String name;
    
    public LocalResolver(String name) {
       this.reference = new AtomicReference<Object>();
+      this.finder = new TypeReferenceFinder();
       this.name = name;
    }
    
@@ -40,7 +43,7 @@ public class LocalResolver implements ValueResolver<Object> {
       return ValueType.getTransient(result);
    }
    
-   public Object match(Scope scope, Object left) {
+   private Object match(Scope scope, Object left) {
       Module module = scope.getModule();
       Type type = module.getType(name);
       Type parent = scope.getType();
@@ -48,13 +51,8 @@ public class LocalResolver implements ValueResolver<Object> {
       if(type == null) {
          Object result = module.getModule(name);
          
-         while(result == null && parent != null) {
-            String prefix = parent.getName();
-             
-            if(prefix != null) {
-               result = module.getType(prefix+"$"+name); // this should be in a method
-            }
-            parent = parent.getOuter();
+         if(result == null && parent != null) {
+            result = finder.findType(parent, name);
          }
          return result;
       }

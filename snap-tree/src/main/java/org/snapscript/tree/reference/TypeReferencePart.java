@@ -11,10 +11,12 @@ import org.snapscript.tree.NameExtractor;
 
 public class TypeReferencePart implements Evaluation {
 
+   private final TypeReferenceFinder finder;
    private final NameExtractor extractor;
 
    public TypeReferencePart(Evaluation type) {
       this.extractor = new NameExtractor(type);
+      this.finder = new TypeReferenceFinder();
    }   
    
    @Override
@@ -38,24 +40,20 @@ public class TypeReferencePart implements Evaluation {
    private Value create(Scope scope, Module module) throws Exception {
       String name = extractor.extract(scope);
       Object result = module.getModule(name);
-      Type parent = scope.getType();
+      Type type = scope.getType();
       
       if(result == null) {
          result = module.getType(name); 
       }
-      while(result == null && parent != null){ // search outer classes
-         String prefix = parent.getName();
-         
-         if(prefix != null) {
-            result = module.getType(prefix + "$"+name);
-         }
-         parent = parent.getOuter();
+      if(result == null && type != null) {
+         result = finder.findType(type, name);
       }
       if(result == null) {
          throw new InternalStateException("No type found for '" + name + "' in '" + module + "'"); // class not found
       }
       return ValueType.getTransient(result);
    }
+   
    
    private Value create(Scope scope, Type type) throws Exception {
       String name = extractor.extract(scope);
