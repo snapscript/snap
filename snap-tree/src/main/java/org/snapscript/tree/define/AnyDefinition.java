@@ -1,5 +1,7 @@
 package org.snapscript.tree.define;
 
+import static org.snapscript.core.ModifierType.CONSTANT;
+import static org.snapscript.core.ModifierType.PUBLIC;
 import static org.snapscript.core.Reserved.ANY_TYPE;
 import static org.snapscript.core.Reserved.DEFAULT_PACKAGE;
 import static org.snapscript.core.Reserved.METHOD_EQUALS;
@@ -14,6 +16,7 @@ import static org.snapscript.core.Reserved.TYPE_THIS;
 import java.util.List;
 
 import org.snapscript.core.Context;
+import org.snapscript.core.ModifierType;
 import org.snapscript.core.Module;
 import org.snapscript.core.Result;
 import org.snapscript.core.ResultType;
@@ -77,7 +80,7 @@ public class AnyDefinition{
          Type real = (Type)list[0];
          Instance instance = builder.create(scope, real);
          State state = instance.getState();
-         Value value = ValueType.getReference(object, real); // this needs to be a blank
+         Value value = ValueType.getProperty(object, real, PUBLIC.mask | CONSTANT.mask); // this needs to be a blank
          
          state.addValue(TYPE_THIS, value); // reference to 'this'
          

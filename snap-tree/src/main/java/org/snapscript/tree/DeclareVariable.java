@@ -60,7 +60,7 @@ public class DeclareVariable implements Evaluation {
       Type type = value.getConstraint();
       State state = scope.getState();
       
-      try {      
+      try { 
          Value reference = ValueType.getReference(object, type);
          state.addValue(name, reference);
          return reference;

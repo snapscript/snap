@@ -81,6 +81,10 @@ public abstract class Value {
    public boolean isProperty() {
       return false;
    }
+   
+   public int getModifiers(){
+      return -1;
+   }
 
    public abstract <T> T getValue();
    public abstract void setValue(Object value);

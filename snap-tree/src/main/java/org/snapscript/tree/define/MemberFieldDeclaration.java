@@ -12,12 +12,14 @@ import org.snapscript.tree.literal.TextLiteral;
 public class MemberFieldDeclaration {
    
    private final ModifierChecker checker;
+   private final ModifierList modifiers;
    private final TextLiteral identifier;
    private final Constraint constraint;
    private final Evaluation value;
 
    public MemberFieldDeclaration(ModifierList modifiers, TextLiteral identifier, Constraint constraint, Evaluation value) {
       this.checker = new ModifierChecker(modifiers);
+      this.modifiers = modifiers;
       this.constraint = constraint;
       this.identifier = identifier;
       this.value = value;
@@ -34,8 +36,8 @@ public class MemberFieldDeclaration {
  
    private Evaluation create(Initializer initializer) throws Exception {
       if (checker.isConstant()) {
-         return new DeclareBlank(identifier, constraint, value);
+         return new DeclareBlank(identifier, modifiers, constraint, value);
       }
-      return new DeclareProperty(identifier, constraint, value);
+      return new DeclareProperty(identifier, modifiers, constraint, value);
    }
 }

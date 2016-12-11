@@ -1,8 +1,12 @@
 package org.snapscript.tree.define;
 
+import static org.snapscript.core.ModifierType.CONSTANT;
+import static org.snapscript.core.ModifierType.STATIC;
+
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.define.Initializer;
 import org.snapscript.tree.DeclareBlank;
+import org.snapscript.tree.ModifierData;
 import org.snapscript.tree.constraint.Constraint;
 import org.snapscript.tree.literal.TextLiteral;
 
@@ -19,7 +23,9 @@ public class TraitConstantDeclaration {
    }
    
    public Initializer declare(Initializer initializer) throws Exception {
-      Evaluation evaluation = new DeclareBlank(identifier, constraint, value);
+      ModifierData modifiers = new ModifierData(CONSTANT, STATIC);
+      Evaluation evaluation = new DeclareBlank(identifier, modifiers, constraint, value);
+      
       return new StaticFieldInitializer(evaluation);
    }
 }

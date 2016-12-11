@@ -18,6 +18,11 @@ public class PropertyValue extends Value {
    public boolean isProperty() {
       return true;
    }
+   
+   @Override
+   public int getModifiers() {
+      return property.getModifiers();
+   }
 
    public String getName(){
       return name;

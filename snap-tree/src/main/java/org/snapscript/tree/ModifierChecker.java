@@ -2,14 +2,21 @@ package org.snapscript.tree;
 
 import org.snapscript.core.ModifierType;
 
-public class ModifierChecker {
+public class ModifierChecker extends ModifierData {
 
-   private ModifierList list;
+   private ModifierData list;
    private int modifiers;
    
-   public ModifierChecker(ModifierList list) {
+   public ModifierChecker(ModifierData list) {
       this.modifiers = -1;
       this.list = list;
+   }
+   
+   public int getModifiers() {
+      if(modifiers == -1) {
+         modifiers = list.getModifiers();
+      }
+      return modifiers;
    }
    
    public boolean isStatic() {

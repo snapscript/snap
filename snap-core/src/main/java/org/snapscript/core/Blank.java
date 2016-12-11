@@ -6,14 +6,22 @@ public class Blank extends Value {
    
    private final AtomicReference<Object> reference;
    private final Type type;
+   private final int modifiers;
    
-   public Blank() {
-      this(null);
-   }
-
-   public Blank(Type type) {
-      this.reference = new AtomicReference<Object>();
+   public Blank(Object value, Type type, int modifiers) {
+      this.reference = new AtomicReference<Object>(value);
+      this.modifiers = modifiers;
       this.type = type;
+   }
+   
+   @Override
+   public boolean isProperty() {
+      return modifiers != -1;
+   }
+   
+   @Override
+   public int getModifiers() {
+      return modifiers;
    }
    
    @Override

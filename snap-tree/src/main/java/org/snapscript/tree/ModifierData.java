@@ -3,20 +3,18 @@ package org.snapscript.tree;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.ModifierType;
 
-public class ModifierList extends ModifierData {
-
-   private final Modifier[] modifiers;
+public class ModifierData {
    
-   public ModifierList(Modifier... modifiers){
-      this.modifiers = modifiers;
+   private final ModifierType[] types;
+   
+   public ModifierData(ModifierType... types) {
+      this.types = types;
    }
-
-   public int getModifiers() {
+   
+   public int getModifiers(){
       int mask = 0;
       
-      for(Modifier modifier : modifiers) {        
-         ModifierType type = modifier.getType();
-         
+      for(ModifierType type : types) {        
          if(type != null) {
             if((mask & type.mask) == type.mask) {
                throw new InternalStateException("Modifier '" + type + "' declared twice");
@@ -26,5 +24,4 @@ public class ModifierList extends ModifierData {
       }
       return mask;
    }
-
 }

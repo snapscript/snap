@@ -1,5 +1,7 @@
 package org.snapscript.tree.define;
 
+import static org.snapscript.core.ModifierType.CONSTANT;
+import static org.snapscript.core.ModifierType.PUBLIC;
 import static org.snapscript.core.Reserved.TYPE_CLASS;
 import static org.snapscript.core.Reserved.TYPE_THIS;
 
@@ -35,7 +37,7 @@ public class ClassConstantInitializer {
    protected void declareConstant(Scope scope, String name, Type type, Object value) throws Exception {
       List<Property> properties = type.getProperties();
       Property property = builder.createConstant(name, value);
-      Value constant = ValueType.getConstant(value);
+      Value constant = ValueType.getBlank(value, null, PUBLIC.mask | CONSTANT.mask);
       State state = scope.getState();
 
       properties.add(property);
@@ -45,7 +47,7 @@ public class ClassConstantInitializer {
    protected void declareConstant(Scope scope, String name, Type type, Type parent, Object value) throws Exception {
       List<Property> properties = type.getProperties();
       Property property = builder.createConstant(name, value, type);
-      Value constant = ValueType.getConstant(value, parent);
+      Value constant = ValueType.getBlank(value, parent, PUBLIC.mask | CONSTANT.mask);
       State state = scope.getState();
 
       properties.add(property);
