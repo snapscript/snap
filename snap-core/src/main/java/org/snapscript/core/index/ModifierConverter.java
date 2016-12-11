@@ -15,7 +15,7 @@ import java.lang.reflect.Modifier;
 public class ModifierConverter {
    
    public int convert(Method method) {
-      int result = PRIVATE.mask;
+      int result = PROTECTED.mask;
       
       if(method != null) {
          int mask = method.getModifiers();
@@ -31,27 +31,21 @@ public class ModifierConverter {
          }
          if(Modifier.isPrivate(mask)) {
             result |= PRIVATE.mask;
-         }
-         if(Modifier.isProtected(mask)) {
-            result |= PROTECTED.mask;
-            result &= ~PRIVATE.mask;
+            result &= ~PROTECTED.mask;
          }
          if(Modifier.isPublic(mask)) {
             result |= PUBLIC.mask;
-            result &= ~PRIVATE.mask;
+            result &= ~PROTECTED.mask;
          }
          if(Modifier.isStatic(mask)) {
             result |= STATIC.mask;
-         }
-         if(!Modifier.isPublic(mask) && Modifier.isPrivate(mask) && Modifier.isProtected(mask)) {
-            result |= PRIVATE.mask;
          }
       }
       return result;
    }
    
    public int convert(Constructor constructor) {
-      int result = PRIVATE.mask;
+      int result = PROTECTED.mask;
       
       if(constructor != null) {
          int modifiers = constructor.getModifiers();
@@ -67,14 +61,11 @@ public class ModifierConverter {
          }
          if(Modifier.isPrivate(modifiers)) {
             result |= PRIVATE.mask;
+            result &= ~PROTECTED.mask;
          }
          if(Modifier.isPublic(modifiers)) {
             result |= PUBLIC.mask;
-            result &= ~PRIVATE.mask;
-         }
-         if(Modifier.isProtected(modifiers)) {
-            result |= PROTECTED.mask;
-            result &= ~PRIVATE.mask;
+            result &= ~PROTECTED.mask;
          }
          result |= STATIC.mask;
       }
@@ -82,7 +73,7 @@ public class ModifierConverter {
    }
    
    public int convert(Field field) {
-      int result = PRIVATE.mask; // default is private
+      int result = PROTECTED.mask; // default is protected
       
       if(field != null) {
          int modifiers = field.getModifiers();
@@ -92,14 +83,11 @@ public class ModifierConverter {
          }
          if(Modifier.isPrivate(modifiers)) {
             result |= PRIVATE.mask;
+            result &= ~PROTECTED.mask;
          }
          if(Modifier.isPublic(modifiers)) {
             result |= PUBLIC.mask;
-            result &= ~PRIVATE.mask;
-         }
-         if(Modifier.isProtected(modifiers)) {
-            result |= PROTECTED.mask;
-            result &= ~PRIVATE.mask;
+            result &= ~PROTECTED.mask;
          }
          if(Modifier.isStatic(modifiers)) {
             result |= STATIC.mask;
