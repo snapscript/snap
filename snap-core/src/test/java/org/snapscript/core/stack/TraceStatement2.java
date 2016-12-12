@@ -25,6 +25,12 @@ public class TraceStatement2 { // TraceEvaluation does not need any change it do
    }
    
    public Result execute(Scope2 scope) throws Exception {
+      //
+      // MAYBE NOT HERE AS THE INVOCATION NEEDS TO GRAB THE PARAMETERS
+      // FROM THE PREVIOUS STACK/STATE, once you pass the parameters
+      // from the previous stack on to the new stack then you can
+      // grow the stack
+      //
       State2 stack = scope.getStack();
       State2 outer = stack.create(); // allow the stack to grow!! 
       
