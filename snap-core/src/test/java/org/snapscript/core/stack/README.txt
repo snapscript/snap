@@ -26,3 +26,10 @@ interface Scope {
    Module getModule();   
    Model getModel();
 }
+
+2) Each time we create a new object we create a new State2 to represent it
+   		
+   		a) This State2 is populated by DeclareProperty
+   		b) The State2 can be implemented by an AddressTable or HashMap for the transition period
+   		
+   		c) We need to know the size of the new object to allocate a proper AddressTable size

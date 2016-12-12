@@ -20,12 +20,17 @@ public class CompoundScope2 implements Scope2 {
    } 
   
    @Override
-   public Scope getInner() {
+   public State2 getStack() {
       return null;//new StateScope(model, this, outer);
    }  
    
    @Override
-   public Scope getOuter() {
+   public State2 getState() {
+      return null;
+   }
+   
+   @Override
+   public Scope getObject() {
       return outer;
    }  
    
@@ -47,11 +52,6 @@ public class CompoundScope2 implements Scope2 {
    @Override
    public Model getModel() {
       return model;
-   }
-   
-   @Override
-   public State getState() {
-      return state;
    }
    
    @Override
