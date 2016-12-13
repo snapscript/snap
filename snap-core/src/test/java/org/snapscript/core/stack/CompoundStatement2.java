@@ -32,7 +32,7 @@ public class CompoundStatement2  {
             Result result = statement.compile(scope);
             
             if(result.isDeclare()){
-               depth.getAndIncrement();
+               depth.getAndIncrement(); // this is probably not too useful
             }
          }
       } finally {
@@ -44,7 +44,9 @@ public class CompoundStatement2  {
    public Result execute(Scope2 scope) throws Exception {
       Result last = ResultType.getNormal();
       State2 state2 = scope.getStack();
-      State2 next = state2.create(); // allow the stack to grow in a compound statement!!
+      //int size = state2.size(); // how many will be allocated
+      
+ 
       
       if(!compile.get()) {
          throw new InternalStateException("Statement was not compiled");
@@ -59,7 +61,9 @@ public class CompoundStatement2  {
             last = result;
          }
       }finally {
-         next.clear();
+         //state2.reset(size); // we cannot create a new stack frame, we just remove variables created
+         //                    // this is because a compound scope has access to all variables in 
+         //                    // in the stack...
       }
       return last;
    }
