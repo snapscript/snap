@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 import org.snapscript.core.InternalStateException;
 
-public class AddressTable {
+public class AddressTable implements Iterable<String> {
    
    private Object[] values;
    private Object[] names;
@@ -22,8 +22,9 @@ public class AddressTable {
       this.key = key;
    }
    
-   public Iterator<String> iterator(int index){
-      return new NameIterator(index); // provide the names in scope
+   @Override
+   public Iterator<String> iterator(){
+      return new NameIterator(start, count); // provide the names in scope
    }
    
    public int add(String name, Object value) {
@@ -60,6 +61,16 @@ public class AddressTable {
          copy[i] = values[i];
       }
       return copy;
+   }
+   
+   public Object get(String name) {
+      Address address = address(name);
+      int index = address.getIndex();
+      
+      if(index >= 0) {
+         return values[start +index];
+      }
+      return null;
    }
    
    public Object get(Address address) {
@@ -127,15 +138,17 @@ public class AddressTable {
    
    private class NameIterator implements Iterator<String> {
       
-      public int index;
+      private int start;
+      private int count;
       
-      public NameIterator(int index) {
-         this.index = index;
+      public NameIterator(int start, int count) {
+         this.start = start;
+         this.count = count;
       }
       
       @Override
       public boolean hasNext() {
-         if(index >= 0) {
+         if(start < count) {
             return true;
          }
          return false;
@@ -143,8 +156,8 @@ public class AddressTable {
       
       @Override
       public String next() {
-         if(index >= 0) {
-            return (String)names[index--];
+         if(start < count) {
+            return (String)names[start++];
          }
          return null;
       }

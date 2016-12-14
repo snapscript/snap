@@ -29,9 +29,10 @@ import org.snapscript.core.Value;
 //
 //
 
-public interface State2 {
+public interface State2 extends Iterable<String> {
    Address address(String name);
    Value get(Address address);
+   Value get(String name);
    void set(Address address, Value value);
    void add(String name, Value value);
 }

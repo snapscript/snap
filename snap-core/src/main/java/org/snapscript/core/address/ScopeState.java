@@ -1,5 +1,7 @@
 package org.snapscript.core.address;
 
+import java.util.Iterator;
+
 import org.snapscript.core.Value;
 
 public class ScopeState implements State2 {
@@ -12,6 +14,16 @@ public class ScopeState implements State2 {
       this.scope = scope;
    }
    
+   @Override
+   public Iterator<String> iterator() {
+      State2 inner = scope.getState();
+      Iterator<String> first = table.iterator();
+      Iterator<String> second = inner.iterator();
+      
+      return new CompoundIterator<String>(first, second);
+   }
+   
+   @Override
    public Address address(String name){
       State2 inner = scope.getState();
       Address address = inner.address(name);
@@ -20,10 +32,22 @@ public class ScopeState implements State2 {
       if(index < 0) {
          return table.address(name);
       }
-      return address;
-      
+      return address; 
    }
    
+   @Override
+   public Value get(String name){
+      State2 inner = scope.getState();
+      Address address = inner.address(name);
+      int index = address.getIndex();
+      
+      if(index < 0) {
+         return (Value)table.get(address);
+      } 
+      return inner.get(name);
+   }
+   
+   @Override
    public Value get(Address address){
       State2 inner = scope.getState();
       Object source = address.getSource();
@@ -34,6 +58,7 @@ public class ScopeState implements State2 {
       return inner.get(address);
    }
    
+   @Override
    public void set(Address address, Value value){
       State2 inner = scope.getState();
       Object source = address.getSource();
@@ -45,6 +70,7 @@ public class ScopeState implements State2 {
       }
    }
    
+   @Override
    public void add(String name, Value value){ // this is called by the DeclareProperty
       table.add(name, value);
    }

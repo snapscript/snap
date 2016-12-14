@@ -1,5 +1,7 @@
 package org.snapscript.core.address;
 
+import java.util.Iterator;
+
 import org.snapscript.core.Value;
 
 public class CompoundState implements State2 {
@@ -12,6 +14,15 @@ public class CompoundState implements State2 {
       this.inner = inner;
    }
    
+   @Override
+   public Iterator<String> iterator() {
+      Iterator<String> first = table.iterator();
+      Iterator<String> second = inner.iterator();
+      
+      return new CompoundIterator<String>(first, second);
+   }
+   
+   @Override
    public Address address(String name){
       Address address = table.address(name);
       int index = address.getIndex();
@@ -22,6 +33,18 @@ public class CompoundState implements State2 {
       return address;
    }
    
+   @Override
+   public Value get(String name){
+      Address address = table.address(name);
+      int index = address.getIndex();
+      
+      if(index < 0) {
+         return inner.get(name);
+      }
+      return (Value)table.get(name);
+   }
+   
+   @Override
    public Value get(Address address){
       Object source = address.getSource();
       
@@ -31,6 +54,7 @@ public class CompoundState implements State2 {
       return inner.get(address);
    }
    
+   @Override
    public void set(Address address, Value value){
       Object source = address.getSource();
       
@@ -41,7 +65,8 @@ public class CompoundState implements State2 {
       }
    }
    
-   public void add(String name, Value value){ // this is called by the DeclareProperty
+   @Override
+   public void add(String name, Value value){ 
       table.add(name, value);
    }
 }

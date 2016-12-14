@@ -22,7 +22,7 @@ public class StackStateTest extends TestCase {
    
    public void testThreadStack() throws Exception {
       final AddressTable table = new AddressTable(2);
-      final AddressState stack = new AddressState(table, 0);
+      final AddressState stack = new AddressState(table);
       final Map<String, Object> map = new HashMap<String, Object>();
       final Random random = new SecureRandom();
       final String[] names = new String[ELEMENTS];
