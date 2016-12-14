@@ -19,7 +19,7 @@ public class ThreadState implements State2 {
    }
    
    public ThreadState(int size) {
-      this.table = new AddressTable(size);
+      this.table = new AddressTable(null, size);
       this.stack = new LongStack(size);
    }
    
@@ -36,40 +36,36 @@ public class ThreadState implements State2 {
       long position = stack.pop();
       
       if(position < 0) {
-         throw new InternalStateException("Invalid stack reset");
+         throw new InternalStateException("Illegal stack reset");
       }
       table.reset(position);
    }
    
    public Address address(String name){
-      int index = table.index(name);
-      
-      if(index >= 0) {
-         return new Address(name, null, index);
+      if(name == null) {
+         throw new InternalStateException("Illegal request for null name");
       }
-      return new Address(name, null, -1);
+      return table.address(name);
    }
    
    public Value get(Address address){
       Object type = address.getSource();
       String name = address.getName();
-      int index = address.getIndex();
       
-      if(type != null || index < 0) {
-         throw new InternalStateException("Invalid address access for '" + name +"'");
+      if(type != null) {
+         throw new InternalStateException("Illegal access for '" + name +"'");
       }
-      return (Value)table.get(index);
+      return (Value)table.get(address);
    }
    
    public void set(Address address, Value value){
       Object type = address.getSource();
       String name = address.getName();
-      int index = address.getIndex();
       
-      if(type != null || index < 0) {
-         throw new InternalStateException("Invalid address access for '" + name +"'");
+      if(type != null) {
+         throw new InternalStateException("Illegal access for '" + name +"'");
       }
-      table.set(index, value);
+      table.set(address, value);
    }
    
    public void add(String name, Value value){

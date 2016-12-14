@@ -8,16 +8,18 @@ public class AddressTable {
    
    private Object[] values;
    private Object[] names;
+   private Object key;
    private int count;
    private int start; 
    
-   public AddressTable() {
-      this(16);
+   public AddressTable(Object key) {
+      this(key, 16);
    }
    
-   public AddressTable(int size) {
+   public AddressTable(Object key, int size) {
       this.values = new Object[size];
       this.names = new Object[size];
+      this.key = key;
    }
    
    public Iterator<String> iterator(int index){
@@ -34,11 +36,14 @@ public class AddressTable {
       
    }
    
-   public void set(int index, Object value) {
-      if(index < start || index >= count) {
-         throw new InternalStateException("Address '" + index +"' out of bounds");
+   public void set(Address address, Object value) {
+      String name = address.getName();
+      int index = address.getIndex();
+      
+      if(index < 0 || index + start >= count) {
+         throw new InternalStateException("Address '" + index +"' invalid for '" + name + "'");
       }
-      values[index] = value;
+      values[start + index] = value;
    }
    
    private void expand(int capacity) {
@@ -57,20 +62,23 @@ public class AddressTable {
       return copy;
    }
    
-   public Object get(int index) {
-      if(index < start || index >= count) {
-         throw new InternalStateException("Address '" + index +"' out of bounds");
+   public Object get(Address address) {
+      String name = address.getName();
+      int index = address.getIndex();
+      
+      if(index < 0 || index + start >= count) {
+         throw new InternalStateException("Address '" + index +"' invalid for '" + name + "'");
       }
-      return values[index];
+      return values[start +index];
    }
    
-   public int index(String name) {
+   public Address address(String name) {
       for(int i = count - 1; i >= start; i--) {
          if(names[i].equals(name)) {
-            return i;
+            return new Address(name, key, i-start); // make it an offset from top
          }
       }
-      return -1;
+      return new Address(name, key, -1); // invalid index
    }
    
    public void reset(long position) {

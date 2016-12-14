@@ -8,35 +8,34 @@ public class CompoundState implements State2 {
    private final State2 inner;
    
    public CompoundState(State2 inner) { // this can wrap multiple types
-      this.table = new AddressTable();
+      this.table = new AddressTable(this);
       this.inner = inner;
    }
    
    public Address address(String name){
-      int index = table.index(name);
+      Address address = table.address(name);
+      int index = address.getIndex();
       
-      if(index >= 0) {
-         return new Address(name, 0, index);
+      if(index < 0) {
+         return inner.address(name);
       }
-      return inner.address(name);
+      return address;
    }
    
    public Value get(Address address){
       Object source = address.getSource();
-      int index = address.getIndex();
       
       if(source == this) {
-         return (Value)table.get(index);
+         return (Value)table.get(address);
       }
       return inner.get(address);
    }
    
    public void set(Address address, Value value){
       Object source = address.getSource();
-      int index = address.getIndex();
       
       if(source == this) { // if its not this
-         table.set(index, value);
+         table.set(address, value);
       } else {
          inner.set(address, value);
       }
