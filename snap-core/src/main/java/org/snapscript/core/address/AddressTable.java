@@ -6,17 +6,18 @@ import org.snapscript.core.InternalStateException;
 
 public class AddressTable {
    
-   private Object[] values; // growable memory adddress
+   private Object[] values;
    private Object[] names;
    private int count;
+   private int start; 
    
    public AddressTable() {
-      this(10);
+      this(16);
    }
    
    public AddressTable(int size) {
       this.values = new Object[size];
-      this.names = new String[size];
+      this.names = new Object[size];
    }
    
    public Iterator<String> iterator(int index){
@@ -34,7 +35,7 @@ public class AddressTable {
    }
    
    public void set(int index, Object value) {
-      if(index < 0 || index >= count) {
+      if(index < start || index >= count) {
          throw new InternalStateException("Address '" + index +"' out of bounds");
       }
       values[index] = value;
@@ -57,14 +58,14 @@ public class AddressTable {
    }
    
    public Object get(int index) {
-      if(index < 0 || index >= count) {
+      if(index < start || index >= count) {
          throw new InternalStateException("Address '" + index +"' out of bounds");
       }
       return values[index];
    }
    
-   public int indexOf(String name) {
-      for(int i = count-1; i >= 0; i--) {
+   public int index(String name) {
+      for(int i = count - 1; i >= start; i--) {
          if(names[i].equals(name)) {
             return i;
          }
@@ -72,12 +73,16 @@ public class AddressTable {
       return -1;
    }
    
-   public void reset(int index) {
-      for(int i = count-1; i >= index; i--) {
+   public void reset(long position) {
+      int mark = (int)(position >>> 32); // how much did it increase
+      int size = (int)(position & 0xffff);
+      
+      for(int i = size; i < count; i++) {
          names[i] =null;
          values[i] = null;
       }
-      count = index;
+      start = mark;
+      count = size;
    }
    
    public void clear() {
@@ -85,7 +90,27 @@ public class AddressTable {
          names[i] =null;
          values[i] = null;
       }
+      start = 0;
       count = 0;
+   }
+  
+   public long mark() { // where was the start, what was the count
+      long mark = start;
+      
+      mark <<= 32;
+      mark |= count;
+      start = count; // move the start on
+      
+      return mark;
+   }
+   
+   public long position(){ //
+      long mark = start;
+      
+      mark <<= 32;
+      mark |= count;
+      
+      return mark;
    }
    
    public int size(){

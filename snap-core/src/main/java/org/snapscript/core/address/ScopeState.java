@@ -14,7 +14,7 @@ public class ScopeState implements State2 {
    
    public Address address(String name){
       State2 inner = scope.getState();
-      int index = table.indexOf(name);
+      int index = table.index(name);
       
       if(index >= 0) {
          return new Address(name, this, index);

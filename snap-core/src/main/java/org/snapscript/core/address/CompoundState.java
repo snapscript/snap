@@ -13,7 +13,7 @@ public class CompoundState implements State2 {
    }
    
    public Address address(String name){
-      int index = table.indexOf(name);
+      int index = table.index(name);
       
       if(index >= 0) {
          return new Address(name, 0, index);

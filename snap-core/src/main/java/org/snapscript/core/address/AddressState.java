@@ -7,15 +7,15 @@ import org.snapscript.core.Value;
 public class AddressState implements State2 {
 
    protected AddressTable table; // even=name, odd=value
-   protected int depth;
+   protected long depth;
    
-   public AddressState(AddressTable table, int depth) {
+   public AddressState(AddressTable table, long depth) {
       this.table = table;
       this.depth = depth;
    }
    
    public Address address(String name){
-      int index = table.indexOf(name);
+      int index = table.index(name);
       
       if(index >= 0) {
          return new Address(name, 0, index);

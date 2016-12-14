@@ -1,32 +1,32 @@
 package org.snapscript.common;
 
-public class IntegerStack {
+public class LongStack {
 
-   private int[] stack;
+   private long[] stack;
    private int count;
 
-   public IntegerStack() {
+   public LongStack() {
       this(1024);
    }
    
-   public IntegerStack(int capacity) {
-      this.stack = new int[capacity];
+   public LongStack(int capacity) {
+      this.stack = new long[capacity];
    }      
 
    public boolean isEmpty() {
       return count == 0;
    }   
 
-   public int get(int index) {
+   public long get(int index) {
       if(index < count) {
          return stack[index];
       }
       return -1;
    }
 
-   public boolean contains(int value) {
+   public boolean contains(long value) {
       for(int i = 0; i < count; i++) {
-         int next = stack[i];
+         long next = stack[i];
          
          if(next == value) {
             return true;
@@ -35,11 +35,11 @@ public class IntegerStack {
       return false; 
    }   
 
-   public void push(int value) {
+   public void push(long value) {
       int capacity = stack.length;
       
       if(count >= capacity) {
-         int[] copy = new int[capacity * 2];
+         long[] copy = new long[capacity * 2];
          
          if(count > 0) {
             System.arraycopy(stack, 0, copy, 0, stack.length);
@@ -49,14 +49,14 @@ public class IntegerStack {
       stack[count++] = value;
    }
 
-   public int pop() {
+   public long pop() {
       if(count > 0) {
          return stack[count-- -1];
       }
       return -1;
    }
 
-   public int peek() {
+   public long peek() {
       if(count > 0) {
          return stack[count -1];
       }

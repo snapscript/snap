@@ -1,6 +1,6 @@
 package org.snapscript.core.thread;
 
-import org.snapscript.common.IntegerStack;
+import org.snapscript.common.LongStack;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Value;
 import org.snapscript.core.address.Address;
@@ -11,51 +11,63 @@ import org.snapscript.core.address.State2;
 // additional elements that allow the stack to be peeled
 public class ThreadState implements State2 {
 
-   private final IntegerStack stack;
    private final AddressTable table; // even=name, odd=value
+   private final LongStack stack;
    
    public ThreadState() {
-      this.stack = new IntegerStack();
-      this.table = new AddressTable();
+      this(8192);
    }
    
-   public int push(boolean visible) {
-      int size = table.size();
+   public ThreadState(int size) {
+      this.table = new AddressTable(size);
+      this.stack = new LongStack(size);
+   }
+   
+   public void mark(boolean visible) {
+      long position = table.position();
+   
+      if(!visible) {
+         table.mark();
+      } 
+      stack.push(position);
+   }
+   
+   public void reset() {
+      long position = stack.pop();
       
-      stack.push(size);
-      return size;
-   }
-   
-   public void pop(boolean visible) {
-      int size = stack.pop();
-      table.reset(size);
+      if(position < 0) {
+         throw new InternalStateException("Invalid stack reset");
+      }
+      table.reset(position);
    }
    
    public Address address(String name){
-      int index = table.indexOf(name);
+      int index = table.index(name);
       
       if(index >= 0) {
-         return new Address(name, 0, index);
+         return new Address(name, null, index);
       }
-      return null;
+      return new Address(name, null, -1);
    }
    
    public Value get(Address address){
       Object type = address.getSource();
+      String name = address.getName();
       int index = address.getIndex();
       
-      if(type != null) {
-         throw new InternalStateException("Invalid address access " + type);
+      if(type != null || index < 0) {
+         throw new InternalStateException("Invalid address access for '" + name +"'");
       }
       return (Value)table.get(index);
    }
    
    public void set(Address address, Value value){
       Object type = address.getSource();
+      String name = address.getName();
       int index = address.getIndex();
       
-      if(type != null) {
-         throw new InternalStateException("Invalid address access " + type);
+      if(type != null || index < 0) {
+         throw new InternalStateException("Invalid address access for '" + name +"'");
       }
       table.set(index, value);
    }

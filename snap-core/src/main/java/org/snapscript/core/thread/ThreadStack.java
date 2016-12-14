@@ -55,7 +55,7 @@ public class ThreadStack {
       Stack stack = context.getStack();
 
       stack.push(function);
-      state.push(false); // not visible
+      state.mark(false); // not visible
    }
    
    public void before(Trace trace) {
@@ -65,7 +65,7 @@ public class ThreadStack {
       Stack stack = context.getStack();
       
       if(type == SCOPE) {
-         state.push(true); // visible area
+         state.mark(true); // visible area
       }
       stack.push(trace); 
    }
@@ -82,7 +82,7 @@ public class ThreadStack {
             break;
          }
       }
-      state.pop(false); // not visible
+      state.reset();
    }
    
    public void after(Trace trace) { // remove from stack
@@ -99,7 +99,7 @@ public class ThreadStack {
          }
       }     
       if(type == SCOPE) {
-         state.pop(true); // visible
+         state.reset(); // visible
       }
    }
    
