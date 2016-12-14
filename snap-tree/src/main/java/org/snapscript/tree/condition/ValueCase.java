@@ -9,9 +9,9 @@ public class ValueCase implements Case {
    private final Evaluation evaluation;
    private final Statement statement;
    
-   public ValueCase(Evaluation evaluation, Statement... statements) {
-      this.statement = new CompoundStatement(statements);
+   public ValueCase(Evaluation evaluation, Statement statement) {
       this.evaluation = evaluation;
+      this.statement = statement;
    }
    
    @Override

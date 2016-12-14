@@ -1,4 +1,4 @@
-package org.snapscript.core.stack;
+package org.snapscript.core.address;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;

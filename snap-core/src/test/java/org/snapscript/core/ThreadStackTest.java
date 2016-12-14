@@ -7,10 +7,10 @@ import junit.framework.TestCase;
 
 import org.snapscript.core.ContextModule;
 import org.snapscript.core.Module;
-import org.snapscript.core.error.ThreadStack;
 import org.snapscript.core.function.InvocationFunction;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.Signature;
+import org.snapscript.core.thread.ThreadStack;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceType;
 

@@ -1,4 +1,6 @@
-package org.snapscript.core.stack;
+package org.snapscript.core.address;
+
+import java.util.Iterator;
 
 import org.snapscript.core.InternalStateException;
 
@@ -15,6 +17,10 @@ public class AddressTable {
    public AddressTable(int size) {
       this.values = new Object[size];
       this.names = new String[size];
+   }
+   
+   public Iterator<String> iterator(int index){
+      return new NameIterator(index); // provide the names in scope
    }
    
    public int add(String name, Object value) {
@@ -84,5 +90,35 @@ public class AddressTable {
    
    public int size(){
       return count;
+   }
+   
+   private class NameIterator implements Iterator<String> {
+      
+      public int index;
+      
+      public NameIterator(int index) {
+         this.index = index;
+      }
+      
+      @Override
+      public boolean hasNext() {
+         if(index >= 0) {
+            return true;
+         }
+         return false;
+      }
+      
+      @Override
+      public String next() {
+         if(index >= 0) {
+            return (String)names[index--];
+         }
+         return null;
+      }
+      
+      @Override
+      public void remove() {
+         throw new UnsupportedOperationException("Remove not supported");
+      }
    }
 }

@@ -1,4 +1,4 @@
-package org.snapscript.core.stack;
+package org.snapscript.core.address;
 
 import org.snapscript.core.Value;
 
@@ -28,11 +28,10 @@ import org.snapscript.core.Value;
 //
 //
 //
-interface State2 {
-   State2 create();
+
+public interface State2 {
    Address address(String name);
    Value get(Address address);
    void set(Address address, Value value);
    void add(String name, Value value);
-   void clear();
 }

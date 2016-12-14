@@ -1,4 +1,4 @@
-package org.snapscript.core.error;
+package org.snapscript.core.thread;
 
 import org.snapscript.core.Module;
 import org.snapscript.core.Type;

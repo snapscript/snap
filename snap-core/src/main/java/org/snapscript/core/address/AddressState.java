@@ -1,26 +1,17 @@
-package org.snapscript.core.stack;
+package org.snapscript.core.address;
 
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Value;
 
 // only
-public class StackState implements State2 {
+public class AddressState implements State2 {
 
-   private AddressTable table; // even=name, odd=value
-   private int depth;
+   protected AddressTable table; // even=name, odd=value
+   protected int depth;
    
-   public StackState(AddressTable table, int depth) {
+   public AddressState(AddressTable table, int depth) {
       this.table = table;
       this.depth = depth;
-   }
-   
-   public State2 create() {
-      int size = table.size();
-      
-      if(size > depth) {
-         return new StackState(table,size);
-      }
-      return this; // no variables on stack
    }
    
    public Address address(String name){

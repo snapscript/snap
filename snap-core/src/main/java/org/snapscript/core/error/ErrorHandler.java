@@ -2,6 +2,7 @@ package org.snapscript.core.error;
 
 import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
+import org.snapscript.core.thread.ThreadStack;
 
 public class ErrorHandler {
 

@@ -8,7 +8,6 @@ import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationFunction;
 import org.snapscript.core.function.Signature;
-import org.snapscript.tree.CompoundStatement;
 
 public class StaticFunctionBuilder implements MemberFunctionBuilder {
    
@@ -29,7 +28,7 @@ public class StaticFunctionBuilder implements MemberFunctionBuilder {
    @Override
    public Function create(Scope scope, Initializer initializer, Type type){
       Statement initialize = new StaticBody(initializer, type); 
-      Statement statement = new CompoundStatement(initialize, body); 
+      Statement statement = new StaticStatement(initialize, body); 
       Invocation invocation = new StaticInvocation(signature, statement, scope, constraint);
       
       return new InvocationFunction(signature, invocation, type, constraint, name, modifiers);

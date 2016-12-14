@@ -1,4 +1,4 @@
-package org.snapscript.core.stack;
+package org.snapscript.core.address;
 
 import java.lang.management.ManagementFactory;
 import java.security.SecureRandom;
@@ -22,7 +22,7 @@ public class StackStateTest extends TestCase {
    
    public void testThreadStack() throws Exception {
       final AddressTable table = new AddressTable(2);
-      final StackState stack = new StackState(table, 0);
+      final AddressState stack = new AddressState(table, 0);
       final Map<String, Object> map = new HashMap<String, Object>();
       final Random random = new SecureRandom();
       final String[] names = new String[ELEMENTS];
@@ -57,7 +57,7 @@ public class StackStateTest extends TestCase {
          timeIt(new Runnable() {
             @Override
             public void run(){
-               StackState local = stack;
+               AddressState local = stack;
                for(int i = 0; i < ITERATIONS; i++){
                   int index = i%ELEMENTS;
                   String name = names[index];

@@ -1,4 +1,4 @@
-package org.snapscript.core.error;
+package org.snapscript.core.thread;
 
 import static org.snapscript.core.Reserved.IMPORT_SNAPSCRIPT;
 
@@ -8,12 +8,12 @@ import org.snapscript.common.Stack;
 
 public class StackTraceBuilder {
    
-   private final OriginTraceExtractor extractor;
+   private final SourceTraceExtractor extractor;
    private final StackElementConverter builder;
    private final StackTraceElement[] empty;
    
    public StackTraceBuilder() {
-      this.extractor = new OriginTraceExtractor();
+      this.extractor = new SourceTraceExtractor();
       this.builder = new StackElementConverter();
       this.empty = new StackTraceElement[]{};
    }

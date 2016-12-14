@@ -1,23 +1,23 @@
-package org.snapscript.core.stack;
+package org.snapscript.core.address;
 
 public class Address {
 
+   private final Object source;
    private final String name;
-   private final int scope;
    private final int index;
    
-   public Address(String name, int scope, int index) {
-      this.scope = scope;
+   public Address(String name, Object source, int index) {
+      this.source = source;
       this.name = name;
       this.index = index;
    }
    
-   public int getScope(){
-      return scope;
-   }
-   
    public int getIndex(){
       return index;
+   }
+   
+   public Object getSource(){
+      return source;
    }
    
    public String getName(){

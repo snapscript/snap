@@ -2,11 +2,11 @@ package org.snapscript.core.bind;
 
 import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
-import org.snapscript.core.error.ThreadStack;
 import org.snapscript.core.function.ArgumentConverter;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.Signature;
+import org.snapscript.core.thread.ThreadStack;
 
 public class FunctionPointer {
    

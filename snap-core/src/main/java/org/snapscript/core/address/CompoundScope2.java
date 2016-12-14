@@ -1,4 +1,4 @@
-package org.snapscript.core.stack;
+package org.snapscript.core.address;
 
 import org.snapscript.core.MapState;
 import org.snapscript.core.Model;
