@@ -3,15 +3,15 @@ package org.snapscript.core.thread;
 import java.util.Iterator;
 
 import org.snapscript.common.LongStack;
+import org.snapscript.core.Address;
+import org.snapscript.core.AddressTable;
 import org.snapscript.core.InternalStateException;
+import org.snapscript.core.State;
 import org.snapscript.core.Value;
-import org.snapscript.core.address.Address;
-import org.snapscript.core.address.AddressTable;
-import org.snapscript.core.address.State2;
 
-// this is an implementation of State2, however it has some
+// this is an implementation of State, however it has some
 // additional elements that allow the stack to be peeled
-public class ThreadState implements State2 {
+public class ThreadState implements State {
 
    private final AddressTable table; // even=name, odd=value
    private final LongStack stack;
@@ -31,6 +31,11 @@ public class ThreadState implements State2 {
    }
    
    @Override
+   public boolean contains(String name) {
+      return table.contains(name);
+   }
+   
+   @Override
    public Address address(String name){
       if(name == null) {
          throw new InternalStateException("Illegal request for null name");
@@ -40,12 +45,6 @@ public class ThreadState implements State2 {
    
    @Override
    public Value get(Address address){
-      Object type = address.getSource();
-      String name = address.getName();
-      
-      if(type != null) {
-         throw new InternalStateException("Illegal access for '" + name +"'");
-      }
       return (Value)table.get(address);
    }
    
@@ -66,8 +65,8 @@ public class ThreadState implements State2 {
    }
    
    @Override
-   public void add(String name, Value value){
-      table.add(name, value);
+   public Address add(String name, Value value){
+      return table.add(name, value);
    }
    
    public void mark(boolean visible) {

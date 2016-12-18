@@ -32,7 +32,7 @@ public class ParameterExtractor {
          Object argument = arguments[i];
          Value value = create(scope, argument, i);
          
-         state.addValue(name, value);
+         state.add(name, value);
       }
    }
 

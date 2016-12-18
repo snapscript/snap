@@ -10,9 +10,9 @@ import org.snapscript.core.Context;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
-import org.snapscript.core.State;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeExtractor;
+import org.snapscript.core.State;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.property.PropertyValue;
 
@@ -47,7 +47,7 @@ public class StaticConstantCollector {
                      PropertyValue value = new PropertyValue(property, null, name);
                      
                      if(names.add(name)) {
-                        state.addValue(name, value);
+                        state.add(name, value);
                      }
                   }
                }

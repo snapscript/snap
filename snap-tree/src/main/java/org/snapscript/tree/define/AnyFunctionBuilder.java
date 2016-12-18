@@ -8,6 +8,7 @@ import java.util.List;
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
+import org.snapscript.core.State;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeLoader;
 import org.snapscript.core.function.Function;
@@ -16,6 +17,7 @@ import org.snapscript.core.function.InvocationFunction;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.ParameterBuilder;
 import org.snapscript.core.function.Signature;
+import org.snapscript.core.thread.ThreadStack;
 
 public class AnyFunctionBuilder {
    
@@ -31,13 +33,15 @@ public class AnyFunctionBuilder {
       Module module = type.getModule();
       Context context = module.getContext();
       TypeLoader loader = context.getLoader();
+      ThreadStack stack = context.getStack();
       Invocation invocation = (Invocation)generator.create(invoke);
+      State state = stack.state();
       
       if(invocation == null) {
          throw new InternalStateException("Could not create invocation for " + invoke);
       }
       List<Parameter> parameters = new ArrayList<Parameter>();
-      Signature signature = new Signature(parameters, module);
+      Signature signature = new Signature(parameters, module, state);
       
       for(int i = 0; i < types.length; i++){
          Class require = types[i];

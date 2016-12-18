@@ -7,6 +7,7 @@ import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Result;
 import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
+import org.snapscript.core.State;
 import org.snapscript.core.Statement;
 
 public class CompoundStatement2  {
@@ -43,7 +44,7 @@ public class CompoundStatement2  {
    
    public Result execute(Scope2 scope) throws Exception {
       Result last = ResultType.getNormal();
-      State2 state2 = scope.getStack();
+      State state2 = scope.getStack();
       //int size = state2.size(); // how many will be allocated
       
  

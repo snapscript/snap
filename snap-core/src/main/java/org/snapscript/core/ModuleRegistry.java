@@ -7,6 +7,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.snapscript.core.extend.ModuleExtender;
+import org.snapscript.core.thread.ThreadStack;
 
 public class ModuleRegistry {
 
@@ -63,12 +64,14 @@ public class ModuleRegistry {
       Module current = modules.get(name);
 
       if (current == null) {
+         ThreadStack stack = context.getStack();
+         State state = stack.state();
          int order = counter.getAndIncrement();
          
          if(order > limit) {
             throw new InternalStateException("Module limit of " + limit + " exceeded");
          }
-         Module module = new ContextModule(context, path, name, order);
+         Module module = new ContextModule(context, state, path, name, order);
 
          modules.put(name, module);
          extender.extend(module);

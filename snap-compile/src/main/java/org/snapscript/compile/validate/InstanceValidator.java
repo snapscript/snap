@@ -6,10 +6,10 @@ import static org.snapscript.core.Reserved.TYPE_THIS;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Model;
 import org.snapscript.core.Scope;
-import org.snapscript.core.State;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.Value;
+import org.snapscript.core.State;
 import org.snapscript.core.convert.ConstraintMatcher;
 
 public class InstanceValidator {
@@ -31,7 +31,7 @@ public class InstanceValidator {
          throw new InternalStateException("Instance of '" + type+ "' does not reference model");
       }
       for(String constant : CONSTANTS) {
-         Value value = state.getValue(constant);
+         Value value = state.get(constant);
          
          if(value == null) {
             throw new InternalStateException("Constant '" + constant + "' not defined for '" + type+ "'");

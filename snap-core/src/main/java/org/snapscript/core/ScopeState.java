@@ -1,29 +1,24 @@
-package org.snapscript.core.address;
+package org.snapscript.core;
 
 import java.util.Iterator;
 
-import org.snapscript.core.Address;
-import org.snapscript.core.AddressTable;
-import org.snapscript.core.CompoundIterator;
-import org.snapscript.core.Scope;
-import org.snapscript.core.State;
-import org.snapscript.core.Value;
-
 public class ScopeState implements State {
    
+   private final State global;
    private final Scope scope;
-   private final State state;
+   private final Object key;
    
-   public ScopeState(Scope scope, State state) { // this can wrap multiple types
-      this.state = state;
+   public ScopeState(Scope scope, State global, Object key) { // this can wrap multiple types
+      this.global = global;
       this.scope = scope;
+      this.key = key;
    }
    
    @Override
    public Iterator<String> iterator() {
-      State inner = scope.getState();
-      Iterator<String> first = state.iterator();
-      Iterator<String> second = inner.iterator();
+      State local = scope.getState();
+      Iterator<String> first = global.iterator();
+      Iterator<String> second = local.iterator();
       
       return new CompoundIterator<String>(first, second);
    }
@@ -41,53 +36,54 @@ public class ScopeState implements State {
    
    @Override
    public Address address(String name){
-      State inner = scope.getState();
-      Address address = inner.address(name);
+      State local = scope.getState();
+      Address address = local.address(name);
       int index = address.getIndex();
       
       if(index < 0) {
-         return state.address(name);
+         return global.address(name);
       }
       return address; 
    }
    
    @Override
    public Value get(String name){
-      State inner = scope.getState();
-      Address address = inner.address(name);
+      State local = scope.getState();
+      Address address = local.address(name);
       int index = address.getIndex();
       
       if(index < 0) {
-         return (Value)state.get(address);
+         return global.get(address);
       } 
-      return inner.get(name);
+      return local.get(name);
    }
    
    @Override
    public Value get(Address address){
-      State inner = scope.getState();
+      State local = scope.getState();
       Object source = address.getSource();
       
-      if(source == this) {
-         return (Value)state.get(address);
+      if(source == key) {
+         return global.get(address);
       } 
-      return inner.get(address);
+      return local.get(address);
    }
    
    @Override
    public void set(Address address, Value value){
-      State inner = scope.getState();
+      State local = scope.getState();
       Object source = address.getSource();
       
-      if(source == this) { // if its not this
-         state.set(address, value);
+      if(source == key) { // if its not this
+         global.set(address, value);
       } else {
-         inner.set(address, value);
+         local.set(address, value);
       }
    }
    
    @Override
    public Address add(String name, Value value){ // this is called by the DeclareProperty
-      return state.add(name, value);
+      State local = scope.getState();
+      return local.add(name, value);
    }
 }

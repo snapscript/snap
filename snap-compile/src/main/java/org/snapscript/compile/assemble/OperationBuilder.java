@@ -5,12 +5,14 @@ import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
 
 import java.util.concurrent.Callable;
 
+import org.snapscript.core.AddressState;
 import org.snapscript.core.Context;
 import org.snapscript.core.ContextModule;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
 import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
+import org.snapscript.core.State;
 import org.snapscript.core.Type;
 import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.parse.Line;
@@ -19,9 +21,11 @@ public class OperationBuilder {
    
    private final OperationProcessor processor;
    private final Module module;
+   private final State state;
 
    public OperationBuilder(Context context) {
-      this.module = new ContextModule(context, DEFAULT_PACKAGE, DEFAULT_PACKAGE, 0);
+      this.state = new AddressState(context);
+      this.module = new ContextModule(context, state, DEFAULT_PACKAGE, DEFAULT_PACKAGE, 0);
       this.processor = new OperationProcessor(context);
    }
    

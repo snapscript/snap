@@ -2,9 +2,9 @@ package org.snapscript.core.thread;
 
 import junit.framework.TestCase;
 
+import org.snapscript.core.Address;
 import org.snapscript.core.ValueType;
-import org.snapscript.core.address.Address;
-import org.snapscript.core.address.State2;
+import org.snapscript.core.State;
 
 public class ThreadStateTest extends TestCase {
    
@@ -131,8 +131,8 @@ public class ThreadStateTest extends TestCase {
    
    private static class StateTable {
       
-      private final State2 state;
-      public StateTable(State2 state){
+      private final State state;
+      public StateTable(State state){
          this.state = state;
       }
       

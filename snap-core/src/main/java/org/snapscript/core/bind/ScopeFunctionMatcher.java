@@ -2,6 +2,7 @@ package org.snapscript.core.bind;
 
 import static org.snapscript.core.convert.Score.INVALID;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Value;
@@ -19,9 +20,10 @@ public class ScopeFunctionMatcher {
       this.stack = stack;
    }
    
+   @Bug("performance problem")
    public FunctionPointer match(Scope scope, String name, Object... values) throws Exception { // match function variable
       State state = scope.getState();
-      Value value = state.getValue(name);
+      Value value = state.get(name); // use VariableResolver type logic
       
       if(value != null) {
          Object object = value.getValue();

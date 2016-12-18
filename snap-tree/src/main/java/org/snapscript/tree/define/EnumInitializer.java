@@ -13,9 +13,9 @@ import org.snapscript.core.Module;
 import org.snapscript.core.Result;
 import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
-import org.snapscript.core.State;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
+import org.snapscript.core.State;
 import org.snapscript.core.convert.ProxyWrapper;
 import org.snapscript.core.define.Initializer;
 import org.snapscript.tree.ArgumentList;
@@ -53,7 +53,7 @@ public class EnumInitializer extends Initializer {
       }
       Result result = call.call();
       Scope instance = result.getValue();
-      Value value = state.getValue(ENUM_VALUES);
+      Value value = state.get(ENUM_VALUES);
       List values = value.getValue();
       Object object = wrapper.toProxy(instance);
       

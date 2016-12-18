@@ -1,10 +1,13 @@
 package org.snapscript.core.define;
 
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import org.snapscript.core.Address;
+import org.snapscript.core.Bug;
+import org.snapscript.core.CompoundIterator;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.State;
 import org.snapscript.core.Value;
@@ -20,28 +23,32 @@ public class InstanceState implements State {
    }
    
    @Override
-   public Set<String> getNames() {
-      Set<String> names = new HashSet<String>();   
+   public Address address(String name) {
+      return new Address(name, null, -1);
+   }
+   
+   @Bug
+   @Override
+   public boolean contains(String name) {
+      return values.containsKey(name);
+   }
+   
+   @Override
+   public Iterator<String> iterator() {
+      Set<String> names = values.keySet();
+      Iterator<String> iterator =  names.iterator();
       
       if(instance != null) {
          State state = instance.getState();
+         Iterator<String> inner = state.iterator();
          
-         if(state == null) {
-            throw new InternalStateException("Scope for does not exist");
-         }
-         Set<String> inner = state.getNames();
-         Set<String> outer = values.keySet();
-         
-         names.addAll(inner);
-         names.addAll(outer);
-         
-         return names;
+         return new CompoundIterator<String>(iterator, inner);
       }
-      return values.keySet();
+      return iterator;
    }
 
    @Override
-   public Value getValue(String name) {
+   public Value get(String name) {
       Value value = values.get(name);
       
       if(value == null) {
@@ -50,13 +57,30 @@ public class InstanceState implements State {
          if(state == null) {
             throw new InternalStateException("Scope for '" + name + "' does not exist");
          }
-         value = state.getValue(name);
+         value = state.get(name);
       }
       return value;
    }
 
    @Override
-   public void setValue(String name, Value value) {
+   public Value get(Address address) {
+      String name = address.getName();
+      Value value = values.get(name);
+      
+      if(value == null) {
+         State state = instance.getState();
+         
+         if(state == null) {
+            throw new InternalStateException("Scope for '" + name + "' does not exist");
+         }
+         value = state.get(name);
+      }
+      return value;
+   }
+   
+   @Override
+   public void set(Address address, Value value) {
+      String name = address.getName();
       Value variable = values.get(name);
       
       if(variable == null && instance != null) {
@@ -65,7 +89,7 @@ public class InstanceState implements State {
          if(state == null) {
             throw new InternalStateException("Scope for '" + name + "' does not exist");
          }
-         variable = state.getValue(name);
+         variable = state.get(name);
       }
       Object data = value.getValue();
 
@@ -76,13 +100,14 @@ public class InstanceState implements State {
    }
    
    @Override
-   public void addValue(String name, Value value) {
+   public Address add(String name, Value value) {
       Value variable = values.get(name);
 
       if(variable != null) {
          throw new InternalStateException("Variable '" + name + "' already exists");
       }
-      values.put(name, value);      
+      values.put(name, value); 
+      return new Address(name, null, -1);
    }
    
    @Override

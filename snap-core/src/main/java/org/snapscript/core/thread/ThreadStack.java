@@ -3,7 +3,7 @@ package org.snapscript.core.thread;
 import static org.snapscript.core.trace.TraceType.SCOPE;
 
 import org.snapscript.common.Stack;
-import org.snapscript.core.address.State2;
+import org.snapscript.core.State;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceType;
@@ -18,12 +18,12 @@ public class ThreadStack {
       this.local = new ThreadLocalStack();
    }
    
-   public State2 state() {
+   public State state() {
       ThreadContext context = local.get();
       return context.getState();
    }
    
-   public Function location() {
+   public Function call() {
       ThreadContext context = local.get();
       Stack stack = context.getStack();
       
@@ -70,7 +70,7 @@ public class ThreadStack {
       stack.push(trace); 
    }
    
-   public void after(Function function) { // remove from stack
+   public void after(Function function) {
       ThreadContext context = local.get();
       ThreadState state = context.getState();
       Stack stack = context.getStack();
@@ -85,7 +85,7 @@ public class ThreadStack {
       state.reset();
    }
    
-   public void after(Trace trace) { // remove from stack
+   public void after(Trace trace) {
       ThreadContext context = local.get();
       ThreadState state = context.getState();
       TraceType type = trace.getType();
@@ -99,7 +99,7 @@ public class ThreadStack {
          }
       }     
       if(type == SCOPE) {
-         state.reset(); // visible
+         state.reset();
       }
    }
    

@@ -3,10 +3,10 @@ package org.snapscript.tree;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
-import org.snapscript.core.State;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.ValueType;
+import org.snapscript.core.State;
 import org.snapscript.tree.constraint.Constraint;
 import org.snapscript.tree.literal.TextLiteral;
 
@@ -36,7 +36,7 @@ public class DeclareBlank extends DeclareProperty {
       
       try {      
          Value blank = ValueType.getBlank(object, type, modifiers);
-         state.addValue(name, blank);
+         state.add(name, blank);
          return blank;
       }catch(Exception e) {
          throw new InternalStateException("Declaration of constant '" + name +"' failed", e);

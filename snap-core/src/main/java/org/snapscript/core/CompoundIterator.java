@@ -1,4 +1,4 @@
-package org.snapscript.core.address;
+package org.snapscript.core;
 
 import java.util.Iterator;
 

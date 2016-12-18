@@ -8,6 +8,10 @@ import java.util.Random;
 
 import junit.framework.TestCase;
 
+import org.snapscript.core.Address;
+import org.snapscript.core.AddressState;
+import org.snapscript.core.AddressTable;
+import org.snapscript.core.State;
 import org.snapscript.core.Value;
 import org.snapscript.core.ValueType;
 
@@ -29,7 +33,7 @@ public class StackStateTest extends TestCase {
       final Address[] addresses = new Address[ELEMENTS];
       
       for(int i = 0; i < ELEMENTS; i++) {
-         int number = random.nextInt(ELEMENTS);
+         int number = random.nextInt(ITERATIONS);
          String key = String.valueOf(number);
          Value value = ValueType.getReference(key);
          names[i] = key;
@@ -90,7 +94,7 @@ public class StackStateTest extends TestCase {
          timeIt(new Runnable() {
             @Override
             public void run(){
-               State2 local = stack;
+               State local = stack;
                for(int i = 0; i < ITERATIONS; i++){
                   int index = i%ELEMENTS;
                   String name = names[index];
@@ -124,7 +128,7 @@ public class StackStateTest extends TestCase {
          timeIt(new Runnable() {
             @Override
             public void run(){
-               State2 local = stack;
+               State local = stack;
                for(int i = 0; i < ITERATIONS; i++){
                   int index = i%ELEMENTS;
                   String name = names[index];
@@ -154,7 +158,7 @@ public class StackStateTest extends TestCase {
          timeIt(new Runnable() {
             @Override
             public void run(){
-               State2 local = stack;
+               State local = stack;
                for(int i = 0; i < ITERATIONS; i++){
                   int index = i%ELEMENTS;
                   String name = names[index];

@@ -1,7 +1,7 @@
 package org.snapscript.core;
 
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -24,30 +24,9 @@ public class MapState implements State {
       this.model = model;
       this.scope = scope;
    }
-   
-   @Override
-   public Set<String> getNames() {
-      Set<String> names = new HashSet<String>();   
-      
-      if(scope != null) {
-         State state = scope.getState();
-         
-         if(state == null) {
-            throw new InternalStateException("Scope for does not exist");
-         }
-         Set<String> inner = state.getNames();
-         Set<String> outer = values.keySet();
-         
-         names.addAll(inner);
-         names.addAll(outer);
-         
-         return names;
-      }
-      return values.keySet();
-   }
 
    @Override
-   public Value getValue(String name) {
+   public Address address(String name) {
       Value value = values.get(name);
       
       if(value == null && scope != null) {
@@ -56,7 +35,78 @@ public class MapState implements State {
          if(state == null) {
             throw new InternalStateException("Scope for '" + name + "' does not exist");
          }
-         value = state.getValue(name);
+         value = state.get(name);
+      }
+      if(value == null && model != null) {
+         Object object = model.getAttribute(name);
+         
+         if(object != null) {
+            return new Address(name, null, 0);
+         }
+         return new Address(name, null, -1);
+      }
+      return new Address(name, null, 0);
+   }
+   
+   @Override
+   public boolean contains(String name) {
+      Address address = address(name);
+      int index = address.getIndex();
+  
+      if(index < 0) {
+         return false;
+      }
+      return true;
+   }
+   
+   @Override
+   public Iterator<String> iterator() {
+      Set<String> names = values.keySet();
+      Iterator<String> iterator =  names.iterator();
+      
+      if(scope != null) {
+         State state = scope.getState();
+         Iterator<String> inner = state.iterator();
+         
+         return new CompoundIterator<String>(iterator, inner);
+      }
+      return iterator;
+   }
+
+   @Override
+   public Value get(String name) {
+      Value value = values.get(name);
+      
+      if(value == null && scope != null) {
+         State state = scope.getState();
+         
+         if(state == null) {
+            throw new InternalStateException("Scope for '" + name + "' does not exist");
+         }
+         value = state.get(name);
+      }
+      if(value == null && model != null) {
+         Object object = model.getAttribute(name);
+         
+         if(object != null) {
+            return ValueType.getConstant(object);
+         }
+      }
+      return value;
+   }
+   
+   @Override
+   public Value get(Address address) {
+      String name = address.getName();
+      Value value = values.get(name);
+      
+      if(value == null && scope != null) {
+         State state = scope.getState();
+         
+         if(state == null) {
+            throw new InternalStateException("Scope for '" + name + "' does not exist");
+         }
+         value = state.get(name);
       }
       if(value == null && model != null) {
          Object object = model.getAttribute(name);
@@ -69,7 +119,8 @@ public class MapState implements State {
    }
 
    @Override
-   public void setValue(String name, Value value) {
+   public void set(Address address, Value value) {
+      String name = address.getName();
       Value variable = values.get(name);
       
       if(variable == null && scope != null) {
@@ -78,7 +129,7 @@ public class MapState implements State {
          if(state == null) {
             throw new InternalStateException("Scope for '" + name + "' does not exist");
          }
-         variable = state.getValue(name);
+         variable = state.get(name);
       }
       Object data = value.getValue();
 
@@ -89,13 +140,14 @@ public class MapState implements State {
    }
    
    @Override
-   public void addValue(String name, Value value) {
+   public Address add(String name, Value value) {
       Value variable = values.get(name);
 
       if(variable != null) {
          throw new InternalStateException("Variable '" + name + "' already exists");
       }
-      values.put(name, value);      
+      values.put(name, value); 
+      return new Address(name, null, -1);
    }
    
    @Override

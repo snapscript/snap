@@ -15,6 +15,7 @@ public class TestType implements Type {
    private final List<Function> functions;
    private final List<Type> types;
    private final Module module;
+   private final State stack;
    private final Scope scope;
    private final Class type;
    private final Type entry;
@@ -26,7 +27,8 @@ public class TestType implements Type {
       this.properties = new ArrayList<Property>();
       this.functions = new ArrayList<Function>();
       this.types = new ArrayList<Type>();
-      this.scope = new TypeScope(this);
+      this.stack = new MapState();
+      this.scope = new TypeScope(this, stack);
       this.module = module;
       this.entry = entry;
       this.type = type;

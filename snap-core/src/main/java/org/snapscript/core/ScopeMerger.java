@@ -1,5 +1,8 @@
 package org.snapscript.core;
 
+import org.snapscript.core.State;
+import org.snapscript.core.thread.ThreadStack;
+
 public class ScopeMerger {
 
    private final PathConverter converter;
@@ -22,10 +25,10 @@ public class ScopeMerger {
    public Scope merge(Model model, String name, String path) {
       ModuleRegistry registry = context.getRegistry();
       Module module = registry.addModule(name, path);
+      ThreadStack stack = context.getStack();
+      Scope scope = module.getScope();
+      State state = stack.state();
       
-      if(module == null) {
-         throw new InternalStateException("Module '" +name +"' not found");
-      }
-      return new ModelScope(model, module);
+      return new ProgramScope(module, scope, state, model);
    }
 }

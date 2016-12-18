@@ -7,14 +7,15 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.snapscript.core.TypeLoader;
 import org.snapscript.core.function.Function;
+import org.snapscript.core.thread.ThreadStack;
 
 public class ClassExtender {
    
    private final ExtensionRegistry registry;
    private final AtomicBoolean done;
    
-   public ClassExtender(TypeLoader loader) {
-      this.registry = new ExtensionRegistry(loader);
+   public ClassExtender(TypeLoader loader, ThreadStack stack) {
+      this.registry = new ExtensionRegistry(loader, stack);
       this.done = new AtomicBoolean();
    }
    

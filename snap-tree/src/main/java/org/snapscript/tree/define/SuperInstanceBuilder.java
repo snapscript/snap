@@ -4,6 +4,7 @@ import org.snapscript.core.Model;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
+import org.snapscript.core.State;
 import org.snapscript.core.define.Instance;
 import org.snapscript.core.define.SuperInstance;
 
@@ -18,10 +19,11 @@ public class SuperInstanceBuilder {
    public Scope create(Scope scope, Object left) throws Exception {
       Type real = (Type)left;
       Instance instance = (Instance)scope;
-      Instance outer = instance.getOuter();
+      Instance outer = instance.getObject();
       Module module = type.getModule();
       Model model = scope.getModel();
+      State stack = instance.getStack();
 
-      return new SuperInstance(module, model, outer, real, type);
+      return new SuperInstance(stack, module, model, outer, real, type);
    }
 }

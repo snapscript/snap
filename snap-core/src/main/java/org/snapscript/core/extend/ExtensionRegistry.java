@@ -10,6 +10,7 @@ import org.snapscript.core.Module;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeLoader;
 import org.snapscript.core.function.Function;
+import org.snapscript.core.thread.ThreadStack;
 
 public class ExtensionRegistry {
 
@@ -17,9 +18,9 @@ public class ExtensionRegistry {
    private final FunctionExtractor extractor;
    private final TypeLoader loader;
    
-   public ExtensionRegistry(TypeLoader loader){
+   public ExtensionRegistry(TypeLoader loader, ThreadStack stack){
       this.extensions = new ConcurrentHashMap<Class, Class>();
-      this.extractor = new FunctionExtractor(loader);
+      this.extractor = new FunctionExtractor(loader, stack);
       this.loader = loader;
    }
    

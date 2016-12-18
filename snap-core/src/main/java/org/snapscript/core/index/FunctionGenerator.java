@@ -9,6 +9,7 @@ import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationFunction;
 import org.snapscript.core.function.Signature;
+import org.snapscript.core.thread.ThreadStack;
 
 public class FunctionGenerator {
    
@@ -16,8 +17,8 @@ public class FunctionGenerator {
    private final DefaultMethodChecker checker;
    private final TypeIndexer indexer;
    
-   public FunctionGenerator(TypeIndexer indexer) {
-      this.generator = new SignatureGenerator(indexer);
+   public FunctionGenerator(TypeIndexer indexer, ThreadStack stack) {
+      this.generator = new SignatureGenerator(indexer, stack);
       this.checker = new DefaultMethodChecker();
       this.indexer = indexer;
    }

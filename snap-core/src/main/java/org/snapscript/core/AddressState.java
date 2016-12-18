@@ -1,15 +1,13 @@
-package org.snapscript.core.address;
+package org.snapscript.core;
 
 import java.util.Iterator;
 
-import org.snapscript.core.Value;
-
-public class AddressState implements State2 {
+public class AddressState implements State {
 
    protected AddressTable table;
    
-   public AddressState(AddressTable table) {
-      this.table = table;
+   public AddressState(Object key) {
+      this.table = new AddressTable(key);
    }
    
    public Iterator<String> iterator(){
@@ -32,8 +30,12 @@ public class AddressState implements State2 {
       table.set(address, value);
    }
    
-   public void add(String name, Value value){
-      table.add(name, value);
+   public Address add(String name, Value value){
+      return table.add(name, value);
+   }
+   
+   public boolean contains(String name){
+      return table.contains(name);
    }
    
    public void clear() {

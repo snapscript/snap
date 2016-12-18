@@ -9,16 +9,27 @@ public class SuperInstance implements Instance {
 
    private final Instance scope;
    private final Module module;
+   private final State stack;
    private final Model model;
    private final Type type;
    private final Type real;
    
-   public SuperInstance(Module module, Model model, Instance scope, Type real, Type type) {
+   public SuperInstance(State stack, Module module, Model model, Instance scope, Type real, Type type) {
       this.scope = scope;
       this.module = module;
+      this.stack = stack;
       this.model = model;
       this.type = type;
       this.real = real;
+      
+      if(stack == null) {
+         throw new IllegalStateException("Stack must not be null");
+      }
+   }
+   
+   @Override
+   public State getStack(){
+      return stack;
    }
 
    @Override
@@ -27,8 +38,8 @@ public class SuperInstance implements Instance {
    }
 
    @Override
-   public Instance getOuter() {
-      return scope.getOuter();
+   public Instance getObject() {
+      return scope.getObject();
    }
    
    @Override

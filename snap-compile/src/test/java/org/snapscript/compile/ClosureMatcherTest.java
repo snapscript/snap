@@ -5,9 +5,11 @@ import java.util.Arrays;
 import junit.framework.TestCase;
 
 import org.snapscript.compile.StoreContext;
+import org.snapscript.core.AddressState;
 import org.snapscript.core.Context;
 import org.snapscript.core.ContextModule;
 import org.snapscript.core.Module;
+import org.snapscript.core.State;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeLoader;
 import org.snapscript.core.closure.ClosureFunctionFinder;
@@ -27,11 +29,12 @@ public class ClosureMatcherTest extends TestCase {
    public void testClosureMatcher() throws Exception {
       Store store = new ClassPathStore();
       Context context = new StoreContext(store);
-      Module module = new ContextModule(context, "/", "yy", 1);
+      State state = new AddressState(context);
+      Module module = new ContextModule(context, state, "/", "yy", 1);
       ConstraintMatcher matcher = context.getMatcher();
       TypeLoader loader = context.getLoader();
       ClosureFunctionFinder finder = new ClosureFunctionFinder(loader);
-      Signature signature = new Signature(Arrays.asList(new Parameter("n", loader.loadType(String.class))), module);
+      Signature signature = new Signature(Arrays.asList(new Parameter("n", loader.loadType(String.class))), module, context.getStack().state());
       Type type = new EmptyFunction(signature).getHandle();
       ConstraintConverter converter = matcher.match(type);
       Function function = new InvocationFunction(signature, null, type, null, "xx");

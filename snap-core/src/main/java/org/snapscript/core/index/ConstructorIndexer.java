@@ -9,6 +9,7 @@ import org.snapscript.core.Type;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.annotation.AnnotationExtractor;
 import org.snapscript.core.function.Function;
+import org.snapscript.core.thread.ThreadStack;
 
 public class ConstructorIndexer {
 
@@ -16,8 +17,8 @@ public class ConstructorIndexer {
    private final ConstructorGenerator generator;
    private final ModifierConverter converter;
    
-   public ConstructorIndexer(TypeIndexer indexer) {
-      this.generator = new ConstructorGenerator(indexer);
+   public ConstructorIndexer(TypeIndexer indexer, ThreadStack stack) {
+      this.generator = new ConstructorGenerator(indexer, stack);
       this.extractor = new AnnotationExtractor();
       this.converter = new ModifierConverter();
    }

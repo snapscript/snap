@@ -3,6 +3,7 @@ package org.snapscript.core.function;
 import java.util.List;
 
 import org.snapscript.core.Module;
+import org.snapscript.core.State;
 import org.snapscript.core.Type;
 
 public class Signature {
@@ -12,13 +13,13 @@ public class Signature {
    private final Type definition;
    private final boolean variable;
 
-   public Signature(List<Parameter> parameters, Module module){
-      this(parameters, module, false);
+   public Signature(List<Parameter> parameters, Module module, State stack){
+      this(parameters, module, stack, false);
    }
    
-   public Signature(List<Parameter> parameters, Module module, boolean variable){
+   public Signature(List<Parameter> parameters, Module module, State stack, boolean variable){
       this.matcher = new SignatureMatcher(this, module);
-      this.definition = new FunctionType(this, module);
+      this.definition = new FunctionType(this, module, stack);
       this.parameters = parameters;
       this.variable = variable;
    }

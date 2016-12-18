@@ -1,8 +1,6 @@
-package org.snapscript.core.address;
+package org.snapscript.core;
 
 import java.util.Iterator;
-
-import org.snapscript.core.InternalStateException;
 
 public class AddressTable implements Iterable<String> {
    
@@ -27,13 +25,29 @@ public class AddressTable implements Iterable<String> {
       return new NameIterator(start, count); // provide the names in scope
    }
    
-   public int add(String name, Object value) {
+   public boolean contains(String name) {
+      for(int i = count - 1; i >= start; i--) {
+         if(names[i].equals(name)) {
+            return true;
+         }
+      }
+      return false;
+   }
+   
+   @Bug("Is this going to be too slow??? might be required tho as double variables would not be good")
+   public Address add(String name, Object value) {
       if(count +2 > values.length) {
          expand(count * 2);
       }
+//      for(int i = count - 1; i >= start; i--) {
+//         if(names[i].equals(name)) {
+//            throw new InternalStateException("Address already exists for '" + name + "'");
+//         }
+//      }
       names[count] = name;
       values[count] = value;
-      return count++;
+      
+      return new Address(name, key, count++);
       
    }
    

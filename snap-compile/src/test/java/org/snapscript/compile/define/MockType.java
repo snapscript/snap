@@ -5,9 +5,10 @@ import java.util.List;
 
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
+import org.snapscript.core.State;
+import org.snapscript.core.Type;
 import org.snapscript.core.TypeDescription;
 import org.snapscript.core.TypeScope;
-import org.snapscript.core.Type;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.property.Property;
@@ -25,13 +26,13 @@ public class MockType implements Type {
    private final Type entry;
    private final String name;
 
-   public MockType(Module module, String name, Type entry, Class type){
+   public MockType(Module module, State stack, String name, Type entry, Class type){
       this.description = new TypeDescription(this);
       this.annotations = new ArrayList<Annotation>();
       this.properties = new ArrayList<Property>();
       this.functions = new ArrayList<Function>();
       this.types = new ArrayList<Type>();
-      this.scope = new TypeScope(this);
+      this.scope = new TypeScope(this, stack);
       this.module = module;
       this.entry = entry;
       this.type = type;

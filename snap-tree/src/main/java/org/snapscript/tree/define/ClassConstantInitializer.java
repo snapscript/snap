@@ -8,10 +8,10 @@ import static org.snapscript.core.Reserved.TYPE_THIS;
 import java.util.List;
 
 import org.snapscript.core.Scope;
-import org.snapscript.core.State;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.ValueType;
+import org.snapscript.core.State;
 import org.snapscript.core.property.Property;
 
 public class ClassConstantInitializer {
@@ -41,7 +41,7 @@ public class ClassConstantInitializer {
       State state = scope.getState();
 
       properties.add(property);
-      state.addValue(name, constant);
+      state.add(name, constant);
    }
    
    protected void declareConstant(Scope scope, String name, Type type, Type parent, Object value) throws Exception {
@@ -51,6 +51,6 @@ public class ClassConstantInitializer {
       State state = scope.getState();
 
       properties.add(property);
-      state.addValue(name, constant);
+      state.add(name, constant);
    }
 }

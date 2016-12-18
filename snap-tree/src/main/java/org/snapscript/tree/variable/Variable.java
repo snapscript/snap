@@ -3,8 +3,8 @@ package org.snapscript.tree.variable;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
-import org.snapscript.core.State;
 import org.snapscript.core.Value;
+import org.snapscript.core.State;
 import org.snapscript.tree.NameExtractor;
 
 public class Variable implements Evaluation {
@@ -23,7 +23,7 @@ public class Variable implements Evaluation {
       
       if(left == null) {
          State state = scope.getState();
-         Value value = state.getValue(name);
+         Value value = state.get(name);
          
          if(value != null) { 
             return value;

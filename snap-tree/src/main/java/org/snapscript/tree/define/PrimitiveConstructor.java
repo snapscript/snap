@@ -10,7 +10,7 @@ public class PrimitiveConstructor extends Initializer {
 
    @Override
    public Result execute(Scope scope, Type type) throws Exception {  
-      Scope outer = scope.getOuter();
+      Scope outer = scope.getObject();
       return ResultType.getNormal(outer);
    }
 

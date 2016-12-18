@@ -16,7 +16,6 @@ import static org.snapscript.core.Reserved.TYPE_THIS;
 import java.util.List;
 
 import org.snapscript.core.Context;
-import org.snapscript.core.ModifierType;
 import org.snapscript.core.Module;
 import org.snapscript.core.Result;
 import org.snapscript.core.ResultType;
@@ -82,7 +81,7 @@ public class AnyDefinition{
          State state = instance.getState();
          Value value = ValueType.getProperty(object, real, PUBLIC.mask | CONSTANT.mask); // this needs to be a blank
          
-         state.addValue(TYPE_THIS, value); // reference to 'this'
+         state.add(TYPE_THIS, value); // reference to 'this'
          
          return ResultType.getNormal(instance);
       }

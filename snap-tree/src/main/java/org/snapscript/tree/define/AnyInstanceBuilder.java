@@ -7,9 +7,11 @@ import org.snapscript.core.Model;
 import org.snapscript.core.Module;
 import org.snapscript.core.ModuleRegistry;
 import org.snapscript.core.Scope;
+import org.snapscript.core.State;
 import org.snapscript.core.Type;
 import org.snapscript.core.define.Instance;
 import org.snapscript.core.define.PrimitiveInstance;
+import org.snapscript.core.thread.ThreadStack;
 
 public class AnyInstanceBuilder {
    
@@ -23,8 +25,12 @@ public class AnyInstanceBuilder {
       Context context = module.getContext();
       ModuleRegistry registry = context.getRegistry();
       Module parent = registry.addModule(DEFAULT_PACKAGE);
+      
+      // TODO Scope.getStack()
+      ThreadStack stack = context.getStack();
+      State state = stack.state();
       Scope inner = real.getScope();
       
-      return new PrimitiveInstance(parent, model, inner, real); 
+      return new PrimitiveInstance(state, parent, model, inner, real); 
    }
 }

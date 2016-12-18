@@ -1,22 +1,35 @@
 package org.snapscript.core;
 
+import org.snapscript.core.State;
+
 public class TypeScope implements Scope {
    
+   private final State stack;
    private final State state;
    private final Type type;
    
-   public TypeScope(Type type) {
+   public TypeScope(Type type, State stack) {
       this.state = new MapState();
+      this.stack = stack;
       this.type = type;
+      
+      if(stack == null){
+         throw new IllegalStateException("Stack must not be null");
+      }
    }
    
    @Override
    public Scope getInner() {
-      return new CompoundScope(null, this, this); 
+      return new CompoundScope(stack, null, this, this); 
    } 
    
    @Override
-   public Scope getOuter() {
+   public State getStack(){
+      return stack;
+   }
+   
+   @Override
+   public Scope getObject() {
       return this;
    }
 

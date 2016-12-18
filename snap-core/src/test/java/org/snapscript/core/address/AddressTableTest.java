@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import junit.framework.TestCase;
 
+import org.snapscript.core.AddressTable;
 import org.snapscript.core.ValueType;
 
 public class AddressTableTest extends TestCase {

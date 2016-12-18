@@ -36,7 +36,7 @@ public class StatementInvocation implements Invocation<Object> {
       Object[] arguments = aligner.align(list); 
       Module module = scope.getModule();
       Context context = module.getContext();
-      Scope outer = scope.getOuter(); 
+      Scope outer = scope.getObject(); 
       Scope inner = outer.getInner();
       
       if(arguments.length > 0) {

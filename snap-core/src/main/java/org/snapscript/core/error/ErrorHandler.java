@@ -10,7 +10,7 @@ public class ErrorHandler {
    private final InternalErrorHandler internal;
    
    public ErrorHandler(ThreadStack stack) {
-      this(stack, true);
+      this(stack, false);
    }
    
    public ErrorHandler(ThreadStack stack, boolean replace) {

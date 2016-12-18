@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
+import org.snapscript.core.State;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeDescription;
 import org.snapscript.core.TypeScope;
@@ -25,13 +26,13 @@ public class ScopeType implements Type {
    private final String name;
    private final int order;
    
-   public ScopeType(Module module, Type outer, String name, int order){
+   public ScopeType(Module module, Type outer, State stack, String name, int order){
       this.description = new TypeDescription(this);
       this.annotations = new ArrayList<Annotation>();
       this.properties = new ArrayList<Property>();
       this.functions = new ArrayList<Function>();
       this.types = new ArrayList<Type>();
-      this.scope = new TypeScope(this);
+      this.scope = new TypeScope(this, stack);
       this.module = module;
       this.outer = outer;
       this.order = order;

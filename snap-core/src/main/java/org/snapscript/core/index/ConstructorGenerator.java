@@ -10,13 +10,14 @@ import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationFunction;
 import org.snapscript.core.function.Signature;
+import org.snapscript.core.thread.ThreadStack;
 
 public class ConstructorGenerator {
 
    private final SignatureGenerator generator;
    
-   public ConstructorGenerator(TypeIndexer indexer) {
-      this.generator = new SignatureGenerator(indexer);
+   public ConstructorGenerator(TypeIndexer indexer, ThreadStack stack) {
+      this.generator = new SignatureGenerator(indexer, stack);
    }
    
    public Function generate(Type type, Constructor constructor, Class[] types, int modifiers) {

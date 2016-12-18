@@ -60,14 +60,14 @@ public class ThreadStackTest extends TestCase {
    }
    
    public static void createTrace(ThreadStack stack, String resource, int line){
-      stack.before(new Trace(TraceType.NORMAL, new ContextModule(null, resource, resource, -1), line));
+      stack.before(new Trace(TraceType.NORMAL, new ContextModule(null, stack.state(), resource, resource, -1), line));
    }
    
    public static void createFunction(ThreadStack stack, String functionName, String typeName, String moduleName){
-      Module module = new ContextModule(null, moduleName, moduleName, -1);
+      Module module = new ContextModule(null, stack.state(), moduleName, moduleName, -1);
       TestType type = new TestType(module, typeName, null, null);
       List<Parameter> parameters = new ArrayList<Parameter>();
-      Signature signature = new Signature(parameters, module);
+      Signature signature = new Signature(parameters, module, stack.state());
       
       stack.before(new InvocationFunction(signature, null, type, null, functionName, 11));
    }
