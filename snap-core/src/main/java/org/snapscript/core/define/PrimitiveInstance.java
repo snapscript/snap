@@ -4,19 +4,19 @@ import org.snapscript.core.MapState;
 import org.snapscript.core.Model;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
+import org.snapscript.core.Stack;
 import org.snapscript.core.State;
 import org.snapscript.core.Type;
-import org.snapscript.core.State;
 
 public class PrimitiveInstance implements Instance {
    
    private final Module module;
-   private final State stack;
+   private final Stack stack;
    private final State state;
    private final Model model;
    private final Type type;
    
-   public PrimitiveInstance(State stack, Module module, Model model, Scope scope, Type type) {
+   public PrimitiveInstance(Stack stack, Module module, Model model, Scope scope, Type type, int key) {
       this.state = new MapState(model, scope);
       this.module = module;
       this.model = model;
@@ -34,7 +34,7 @@ public class PrimitiveInstance implements Instance {
    } 
    
    @Override
-   public State getStack(){
+   public Stack getStack(){
       return stack;
    }
    

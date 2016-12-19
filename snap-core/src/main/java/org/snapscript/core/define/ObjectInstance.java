@@ -2,21 +2,21 @@ package org.snapscript.core.define;
 
 import org.snapscript.core.Model;
 import org.snapscript.core.Module;
+import org.snapscript.core.Stack;
 import org.snapscript.core.State;
 import org.snapscript.core.Type;
-import org.snapscript.core.State;
 
 public class ObjectInstance implements Instance {
 
    private final Instance base;
    private final Module module;
-   private final State stack;
+   private final Stack stack;
    private final State state;
    private final Model model;
    private final Type type;
    
-   public ObjectInstance(State stack, Module module, Model model, Instance base, Type type) {
-      this.state = new InstanceState(base);
+   public ObjectInstance(Stack stack, Module module, Model model, Instance base, Type type, int key) {
+      this.state = new InstanceState(base, stack, key);
       this.module = module;
       this.model = model;
       this.stack = stack;
@@ -34,7 +34,7 @@ public class ObjectInstance implements Instance {
    } 
    
    @Override
-   public State getStack(){
+   public Stack getStack(){
       return stack;
    }
    

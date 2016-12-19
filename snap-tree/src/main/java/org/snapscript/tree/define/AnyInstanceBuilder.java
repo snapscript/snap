@@ -1,17 +1,17 @@
 package org.snapscript.tree.define;
 
 import static org.snapscript.core.Reserved.DEFAULT_PACKAGE;
+import static org.snapscript.core.StateType.ANY;
 
 import org.snapscript.core.Context;
 import org.snapscript.core.Model;
 import org.snapscript.core.Module;
 import org.snapscript.core.ModuleRegistry;
 import org.snapscript.core.Scope;
-import org.snapscript.core.State;
+import org.snapscript.core.Stack;
 import org.snapscript.core.Type;
 import org.snapscript.core.define.Instance;
 import org.snapscript.core.define.PrimitiveInstance;
-import org.snapscript.core.thread.ThreadStack;
 
 public class AnyInstanceBuilder {
    
@@ -25,12 +25,10 @@ public class AnyInstanceBuilder {
       Context context = module.getContext();
       ModuleRegistry registry = context.getRegistry();
       Module parent = registry.addModule(DEFAULT_PACKAGE);
-      
-      // TODO Scope.getStack()
-      ThreadStack stack = context.getStack();
-      State state = stack.state();
+      Stack stack = scope.getStack();
       Scope inner = real.getScope();
+      int mask = real.getOrder();
       
-      return new PrimitiveInstance(state, parent, model, inner, real); 
+      return new PrimitiveInstance(stack, parent, model, inner, real, mask | ANY.mask); 
    }
 }
