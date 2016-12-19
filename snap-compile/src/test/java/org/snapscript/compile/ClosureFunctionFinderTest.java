@@ -8,7 +8,7 @@ import org.snapscript.core.AddressState;
 import org.snapscript.core.Context;
 import org.snapscript.core.ContextModule;
 import org.snapscript.core.Module;
-import org.snapscript.core.State;
+import org.snapscript.core.Stack;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeLoader;
 import org.snapscript.core.closure.ClosureFunctionFinder;
@@ -24,7 +24,7 @@ public class ClosureFunctionFinderTest extends TestCase {
    public void testFunctionFinder() throws Exception {
       Store store = new ClassPathStore();
       Context context = new StoreContext(store);
-      State state = new AddressState(context);
+      Stack state = new AddressState(1);
       TypeLoader loader = context.getLoader();
       Module module = new ContextModule(context, state, "/", "yy", 1);
       ClosureFunctionFinder finder = new ClosureFunctionFinder(loader);

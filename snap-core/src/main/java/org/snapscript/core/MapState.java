@@ -41,11 +41,11 @@ public class MapState implements State {
          Object object = model.getAttribute(name);
          
          if(object != null) {
-            return new Address(name, null, 0);
+            return new Address(name, 0, 0);
          }
-         return new Address(name, null, -1);
+         return new Address(name, 0, -1);
       }
-      return new Address(name, null, 0);
+      return new Address(name, 0, 0);
    }
    
    @Override
@@ -147,7 +147,7 @@ public class MapState implements State {
          throw new InternalStateException("Variable '" + name + "' already exists");
       }
       values.put(name, value); 
-      return new Address(name, null, -1);
+      return new Address(name, 0, -1);
    }
    
    @Override

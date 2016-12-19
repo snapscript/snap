@@ -1,7 +1,9 @@
 package org.snapscript.core;
 
-import org.snapscript.core.State;
+import static org.snapscript.core.StateType.MODULE;
+
 import org.snapscript.core.thread.ThreadStack;
+import org.snapscript.core.thread.ThreadState;
 
 public class ScopeMerger {
 
@@ -26,9 +28,10 @@ public class ScopeMerger {
       ModuleRegistry registry = context.getRegistry();
       Module module = registry.addModule(name, path);
       ThreadStack stack = context.getStack();
+      ThreadState state = stack.state();
       Scope scope = module.getScope();
-      State state = stack.state();
+      int order = module.getOrder();
       
-      return new ProgramScope(module, scope, state, model);
+      return new ProgramScope(module, scope, state, model, order | MODULE.mask);
    }
 }

@@ -25,7 +25,7 @@ public class ClosureState implements State {
    
    @Override
    public Address address(String name) {
-      return new Address(name, null, -1);
+      return new Address(name, 0, -1);
    }
    
    @Override
@@ -135,7 +135,7 @@ public class ClosureState implements State {
          throw new InternalStateException("Variable '" + name + "' already exists");
       }
       values.put(name, value); 
-      return new Address(name, null, -1);
+      return new Address(name, 0, -1);
    }
    
    @Override

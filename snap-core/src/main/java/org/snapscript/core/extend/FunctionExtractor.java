@@ -7,7 +7,6 @@ import java.util.List;
 import org.snapscript.core.Module;
 import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
-import org.snapscript.core.State;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeLoader;
 import org.snapscript.core.function.Function;
@@ -17,6 +16,7 @@ import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.ParameterBuilder;
 import org.snapscript.core.function.Signature;
 import org.snapscript.core.thread.ThreadStack;
+import org.snapscript.core.thread.ThreadState;
 
 public class FunctionExtractor {
    
@@ -72,7 +72,7 @@ public class FunctionExtractor {
       Signature signature = function.getSignature();
       List<Parameter> parameters = signature.getParameters();
       Type constraint = function.getConstraint();
-      State state = stack.state();
+      ThreadState state = stack.state();
       boolean variable = signature.isVariable();
       int modifiers = function.getModifiers();
       int length = parameters.size();

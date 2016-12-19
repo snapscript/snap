@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
 import org.snapscript.core.ModuleRegistry;
+import org.snapscript.core.Stack;
 import org.snapscript.core.State;
 import org.snapscript.core.Type;
 import org.snapscript.core.extend.ClassExtender;
@@ -131,7 +132,7 @@ public class TypeIndexer {
       Type type = types.get(alias);
       
       if(type == null) {
-         State state = stack.state();
+         Stack state = stack.state();
          Type outer = types.get(prefix);
          int order = counter.getAndIncrement();
          
@@ -154,7 +155,7 @@ public class TypeIndexer {
          if(entry == null) {
             throw new InternalStateException("Type entry for '" +alias+ "' not found");
          }
-         State state = stack.state();
+         Stack state = stack.state();
          String array = builder.createName(null, name, size);
          int order = counter.getAndIncrement();
          
@@ -172,7 +173,7 @@ public class TypeIndexer {
       Type type = types.get(alias);
       
       if(type == null) {
-         State state = stack.state();
+         Stack state = stack.state();
          int order = counter.getAndIncrement();
          
          if(order > limit) {

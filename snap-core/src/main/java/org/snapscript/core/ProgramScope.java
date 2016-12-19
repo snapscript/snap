@@ -3,12 +3,12 @@ package org.snapscript.core;
 public class ProgramScope implements Scope {
    
    private final Module module;
-   private final State stack;
+   private final Stack stack;
    private final State state;
    private final Model model;
    
-   public ProgramScope(Module module, Scope scope, State stack, Model model) {
-      this.state = new ProgramState(scope, model);
+   public ProgramScope(Module module, Scope scope, Stack stack, Model model, int key) {
+      this.state = new ProgramState(scope, model, key);
       this.module = module;
       this.stack = stack;
       this.model = model;
@@ -24,7 +24,7 @@ public class ProgramScope implements Scope {
    } 
    
    @Override
-   public State getStack(){
+   public Stack getStack(){
       return stack;
    }
    

@@ -8,6 +8,6 @@ public interface Scope extends Handle {
    Scope getObject();
    Module getModule();   
    State getState();
-   State getStack();
+   Stack getStack();
    Model getModel();
 }

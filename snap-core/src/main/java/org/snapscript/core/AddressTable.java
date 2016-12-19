@@ -6,15 +6,15 @@ public class AddressTable implements Iterable<String> {
    
    private Object[] values;
    private Object[] names;
-   private Object key;
+   private int key;
    private int count;
    private int start; 
    
-   public AddressTable(Object key) {
+   public AddressTable(int key) {
       this(key, 16);
    }
    
-   public AddressTable(Object key, int size) {
+   public AddressTable(int key, int size) {
       this.values = new Object[size];
       this.names = new Object[size];
       this.key = key;

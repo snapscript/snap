@@ -1,14 +1,16 @@
 package org.snapscript.core;
 
+import static org.snapscript.core.StateType.MODULE;
+
 
 public class ModuleScope implements Scope {
    
    private final Module module;
    private final State state;
-   private final State stack;
+   private final Stack stack;
    
-   public ModuleScope(Module module, State stack) {
-      this.state = new ModuleState(module, stack);
+   public ModuleScope(Module module, Stack stack, int order) {
+      this.state = new ModuleState(stack, MODULE.mask | order);
       this.module = module;
       this.stack = stack;
 
@@ -16,11 +18,11 @@ public class ModuleScope implements Scope {
    
    @Override
    public Scope getInner() {
-      return new CompoundScope(state, null, this, this);
+      return new CompoundScope(stack, null, this, this);
    } 
    
    @Override
-   public State getStack(){
+   public Stack getStack(){
       return stack;
    }
    

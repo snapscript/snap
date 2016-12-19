@@ -2,6 +2,7 @@ package org.snapscript.core.define;
 
 import org.snapscript.core.Model;
 import org.snapscript.core.Module;
+import org.snapscript.core.Stack;
 import org.snapscript.core.State;
 import org.snapscript.core.Type;
 
@@ -9,12 +10,12 @@ public class SuperInstance implements Instance {
 
    private final Instance scope;
    private final Module module;
-   private final State stack;
+   private final Stack stack;
    private final Model model;
    private final Type type;
    private final Type real;
    
-   public SuperInstance(State stack, Module module, Model model, Instance scope, Type real, Type type) {
+   public SuperInstance(Stack stack, Module module, Model model, Instance scope, Type real, Type type) {
       this.scope = scope;
       this.module = module;
       this.stack = stack;
@@ -28,7 +29,7 @@ public class SuperInstance implements Instance {
    }
    
    @Override
-   public State getStack(){
+   public Stack getStack(){
       return stack;
    }
 

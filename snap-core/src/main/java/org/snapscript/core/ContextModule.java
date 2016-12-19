@@ -24,18 +24,18 @@ public class ContextModule implements Module {
    private final String path;
    private final int order;
    
-   public ContextModule(Context context, State state, String path, String prefix) {
-      this(context, state, path, prefix, 0);
+   public ContextModule(Context context, Stack stack, String path, String prefix) {
+      this(context, stack, path, prefix, 0);
    }
    
-   public ContextModule(Context context, State state, String path, String prefix, int order) {
+   public ContextModule(Context context, Stack stack, String path, String prefix, int order) {
       this.annotations = new CopyOnWriteArrayList<Annotation>();
       this.functions = new CopyOnWriteArrayList<Function>();
       this.modules = new ConcurrentHashMap<String, Module>();
       this.types = new ConcurrentHashMap<String, Type>();
       this.references = new CopyOnWriteArrayList<Type>();
       this.manager = new ImportManager(context, prefix);
-      this.scope = new ModuleScope(this, state);
+      this.scope = new ModuleScope(this, stack, order);
       this.context = context;
       this.prefix = prefix;
       this.order = order;

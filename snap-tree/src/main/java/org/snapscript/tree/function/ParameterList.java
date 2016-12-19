@@ -6,7 +6,7 @@ import java.util.List;
 import org.snapscript.core.Context;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
-import org.snapscript.core.State;
+import org.snapscript.core.Stack;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeLoader;
 import org.snapscript.core.function.Parameter;
@@ -47,7 +47,7 @@ public class ParameterList {
          }
          Context context = module.getContext();
          ThreadStack stack = context.getStack();
-         State state = stack.state();
+         Stack state = stack.state();
          boolean variable = checker.isVariable(scope);
          
          for(int i = 0; i < list.length; i++) {

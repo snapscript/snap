@@ -1,17 +1,19 @@
 package org.snapscript.core.thread;
 
+import static org.snapscript.core.StateType.STACK;
+
 import java.util.Iterator;
 
 import org.snapscript.common.LongStack;
 import org.snapscript.core.Address;
 import org.snapscript.core.AddressTable;
 import org.snapscript.core.InternalStateException;
-import org.snapscript.core.State;
+import org.snapscript.core.Stack;
 import org.snapscript.core.Value;
 
 // this is an implementation of State, however it has some
 // additional elements that allow the stack to be peeled
-public class ThreadState implements State {
+public class ThreadState implements Stack {
 
    private final AddressTable table; // even=name, odd=value
    private final LongStack stack;
@@ -21,7 +23,7 @@ public class ThreadState implements State {
    }
    
    public ThreadState(int size) {
-      this.table = new AddressTable(null, size);
+      this.table = new AddressTable(STACK.mask, size);
       this.stack = new LongStack(size);
    }
    
@@ -55,10 +57,10 @@ public class ThreadState implements State {
    
    @Override
    public void set(Address address, Value value){
-      Object type = address.getSource();
       String name = address.getName();
+      int source = address.getSource();
       
-      if(type != null) {
+      if(source != STACK.mask) {
          throw new InternalStateException("Illegal access for '" + name +"'");
       }
       table.set(address, value);

@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
-import org.snapscript.core.State;
+import org.snapscript.core.Stack;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeDescription;
 import org.snapscript.core.TypeScope;
@@ -21,7 +21,7 @@ public class ClassType implements Type {
    private final String name;
    private final int order;
    
-   public ClassType(ClassIndexer indexer, Class type, State stack, String name, int order) {
+   public ClassType(ClassIndexer indexer, Class type, Stack stack, String name, int order) {
       this.description = new TypeDescription(this);
       this.index = new ClassIndex(indexer, this);
       this.scope = new TypeScope(this, stack);

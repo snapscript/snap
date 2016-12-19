@@ -2,16 +2,17 @@ package org.snapscript.core;
 
 import java.util.Iterator;
 
-public class ModuleState implements State {
+@Bug("This should represent the stack as it is a special stack for the instance....")
+public class ModuleState implements Stack {
    
-   private final Module module;
    private final State stack;
    private final State state;
+   private final int key;
    
-   public ModuleState(Module module, State stack) { // this can wrap multiple types
-      this.state = new AddressState(module);
-      this.module = module;
+   public ModuleState(State stack, int key) { // this can wrap multiple types
+      this.state = new AddressState(key);
       this.stack = stack;
+      this.key = key;
    }
    
    @Override
@@ -56,9 +57,9 @@ public class ModuleState implements State {
    
    @Override
    public Value get(Address address){
-      Object source = address.getSource();
+      int source = address.getSource();
       
-      if(source == module) {
+      if(source == key) {
          return state.get(address);
       } 
       return stack.get(address);
@@ -66,9 +67,9 @@ public class ModuleState implements State {
    
    @Override
    public void set(Address address, Value value){
-      Object source = address.getSource();
+      int source = address.getSource();
       
-      if(source == module) { // if its not this
+      if(source == key) { // if its not this
          state.set(address, value);
       } else {
          stack.set(address, value);

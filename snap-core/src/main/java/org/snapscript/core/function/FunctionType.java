@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
-import org.snapscript.core.State;
+import org.snapscript.core.Stack;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeDescription;
 import org.snapscript.core.TypeScope;
@@ -21,7 +21,7 @@ public class FunctionType implements Type {
    private final Module module;
    private final Scope scope;
    
-   public FunctionType(Signature signature, Module module, State stack) {
+   public FunctionType(Signature signature, Module module, Stack stack) {
       this.function = new EmptyFunction(signature, METHOD_CLOSURE);
       this.description = new TypeDescription(this);
       this.scope = new TypeScope(this, stack);

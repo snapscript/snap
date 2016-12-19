@@ -8,6 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.snapscript.core.extend.ModuleExtender;
 import org.snapscript.core.thread.ThreadStack;
+import org.snapscript.core.thread.ThreadState;
 
 public class ModuleRegistry {
 
@@ -65,7 +66,7 @@ public class ModuleRegistry {
 
       if (current == null) {
          ThreadStack stack = context.getStack();
-         State state = stack.state();
+         ThreadState state = stack.state();
          int order = counter.getAndIncrement();
          
          if(order > limit) {

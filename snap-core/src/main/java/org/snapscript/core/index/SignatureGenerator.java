@@ -15,6 +15,7 @@ import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.ParameterBuilder;
 import org.snapscript.core.function.Signature;
 import org.snapscript.core.thread.ThreadStack;
+import org.snapscript.core.thread.ThreadState;
 
 public class SignatureGenerator {
    
@@ -34,7 +35,7 @@ public class SignatureGenerator {
       Class[] types = method.getParameterTypes();
       Object[][] annotations = method.getParameterAnnotations();
       Module module = type.getModule();
-      State state = stack.state();
+      ThreadState state = stack.state();
       boolean variable = method.isVarArgs();
       
       try {
@@ -69,7 +70,7 @@ public class SignatureGenerator {
       Class[] types = constructor.getParameterTypes();
       Object[][] annotations = constructor.getParameterAnnotations();
       Module module = type.getModule();
-      State state = stack.state();
+      ThreadState state = stack.state();
       boolean variable = constructor.isVarArgs();
       
       try {

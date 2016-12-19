@@ -2,11 +2,11 @@ package org.snapscript.core;
 
 public class Address {
 
-   private final Object source;
    private final String name;
+   private final int source;
    private final int index;
    
-   public Address(String name, Object source, int index) {
+   public Address(String name, int source, int index) {
       this.source = source;
       this.name = name;
       this.index = index;
@@ -16,7 +16,7 @@ public class Address {
       return index;
    }
    
-   public Object getSource(){
+   public int getSource(){
       return source;
    }
    

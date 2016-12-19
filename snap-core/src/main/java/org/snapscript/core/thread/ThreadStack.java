@@ -3,7 +3,6 @@ package org.snapscript.core.thread;
 import static org.snapscript.core.trace.TraceType.SCOPE;
 
 import org.snapscript.common.Stack;
-import org.snapscript.core.State;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceType;
@@ -18,7 +17,7 @@ public class ThreadStack {
       this.local = new ThreadLocalStack();
    }
    
-   public State state() {
+   public ThreadState state() {
       ThreadContext context = local.get();
       return context.getState();
    }

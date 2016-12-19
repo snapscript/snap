@@ -8,7 +8,7 @@ import java.util.List;
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
-import org.snapscript.core.State;
+import org.snapscript.core.Stack;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeLoader;
 import org.snapscript.core.function.Function;
@@ -35,7 +35,7 @@ public class AnyFunctionBuilder {
       TypeLoader loader = context.getLoader();
       ThreadStack stack = context.getStack();
       Invocation invocation = (Invocation)generator.create(invoke);
-      State state = stack.state();
+      Stack state = stack.state();
       
       if(invocation == null) {
          throw new InternalStateException("Could not create invocation for " + invoke);

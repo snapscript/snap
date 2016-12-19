@@ -25,8 +25,7 @@ public class StackStateTest extends TestCase {
    private static final int ELEMENTS = 10;
    
    public void testThreadStack() throws Exception {
-      final AddressTable table = new AddressTable(2);
-      final AddressState stack = new AddressState(table);
+      final AddressState stack = new AddressState(1);
       final Map<String, Object> map = new HashMap<String, Object>();
       final Random random = new SecureRandom();
       final String[] names = new String[ELEMENTS];

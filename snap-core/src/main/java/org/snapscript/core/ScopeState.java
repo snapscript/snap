@@ -6,9 +6,9 @@ public class ScopeState implements State {
    
    private final State global;
    private final Scope scope;
-   private final Object key;
+   private final int key;
    
-   public ScopeState(Scope scope, State global, Object key) { // this can wrap multiple types
+   public ScopeState(Scope scope, State global, int key) { // this can wrap multiple types
       this.global = global;
       this.scope = scope;
       this.key = key;
@@ -61,23 +61,23 @@ public class ScopeState implements State {
    @Override
    public Value get(Address address){
       State local = scope.getState();
-      Object source = address.getSource();
+      int source = address.getSource();
       
       if(source == key) {
-         return global.get(address);
-      } 
-      return local.get(address);
+         return local.get(address);
+      }
+      return global.get(address);
    }
    
    @Override
    public void set(Address address, Value value){
       State local = scope.getState();
-      Object source = address.getSource();
+      int source = address.getSource();
       
       if(source == key) { // if its not this
-         global.set(address, value);
-      } else {
          local.set(address, value);
+      } else {
+         global.set(address, value);
       }
    }
    

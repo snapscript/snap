@@ -4,17 +4,18 @@ import org.snapscript.core.CompoundScope;
 import org.snapscript.core.Model;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
+import org.snapscript.core.Stack;
 import org.snapscript.core.State;
 import org.snapscript.core.Type;
 
 public class ClosureScope implements Scope {
    
-   private final State stack;
+   private final Stack stack;
    private final State state;
    private final Scope scope;
    private final Model model;
    
-   public ClosureScope(State stack, Model model, Scope scope) {
+   public ClosureScope(Stack stack, Model model, Scope scope) {
       this.state = new ClosureState(scope);
       this.stack = stack;
       this.scope = scope;
@@ -31,7 +32,7 @@ public class ClosureScope implements Scope {
    }
    
    @Override
-   public State getStack(){
+   public Stack getStack(){
       return stack;
    }
    

@@ -10,7 +10,7 @@ import org.snapscript.core.ValueType;
 public class AddressTableTest extends TestCase {
    
    public void testAddressTable() {
-      AddressTable table = new AddressTable(null);
+      AddressTable table = new AddressTable(1);
       
       table.add("a", ValueType.getReference("A"));
       table.add("b", ValueType.getReference("B"));

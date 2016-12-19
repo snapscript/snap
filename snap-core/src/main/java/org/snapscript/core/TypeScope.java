@@ -2,13 +2,14 @@ package org.snapscript.core;
 
 import org.snapscript.core.State;
 
+@Bug("maybe this shoould also contain the module scope, i.e grab the constants from the surrounding module!!")
 public class TypeScope implements Scope {
    
-   private final State stack;
+   private final Stack stack;
    private final State state;
    private final Type type;
    
-   public TypeScope(Type type, State stack) {
+   public TypeScope(Type type, Stack stack) {
       this.state = new MapState();
       this.stack = stack;
       this.type = type;
@@ -24,7 +25,7 @@ public class TypeScope implements Scope {
    } 
    
    @Override
-   public State getStack(){
+   public Stack getStack(){
       return stack;
    }
    

@@ -2,6 +2,7 @@ package org.snapscript.compile.assemble;
 
 import static org.snapscript.core.Reserved.DEFAULT_PACKAGE;
 import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
+import static org.snapscript.core.StateType.COMPILE;
 
 import java.util.concurrent.Callable;
 
@@ -12,7 +13,7 @@ import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
 import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
-import org.snapscript.core.State;
+import org.snapscript.core.Stack;
 import org.snapscript.core.Type;
 import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.parse.Line;
@@ -21,11 +22,11 @@ public class OperationBuilder {
    
    private final OperationProcessor processor;
    private final Module module;
-   private final State state;
+   private final Stack stack;
 
    public OperationBuilder(Context context) {
-      this.state = new AddressState(context);
-      this.module = new ContextModule(context, state, DEFAULT_PACKAGE, DEFAULT_PACKAGE, 0);
+      this.stack = new AddressState(COMPILE.mask);
+      this.module = new ContextModule(context, stack, DEFAULT_PACKAGE, DEFAULT_PACKAGE, 0);
       this.processor = new OperationProcessor(context);
    }
    

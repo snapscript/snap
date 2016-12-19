@@ -27,7 +27,15 @@ package org.snapscript.core;
 //
 //
 //
-
+/*
+ * 
+ * In the Address.getSource() we need to consider multiple sources. For example it could be the stack and a type
+ * so we need to know how to delegate in to a compound scope
+ * 
+ * 
+ * CompositeState needs to have this work done to it!!
+ * 
+ */
 public interface State extends Iterable<String> {
    boolean contains(String name);
    Address address(String name);

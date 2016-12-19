@@ -1,5 +1,7 @@
 package org.snapscript.core;
 
+import static org.snapscript.core.StateType.MODEL;
+
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -34,9 +36,9 @@ public class ModelState implements State {
       Object value = model.getAttribute(name);
       
       if(value == null) {
-         return new Address(name, model, -1);
+         return new Address(name, MODEL.mask, -1);
       }
-      return new Address(name, model, 0);
+      return new Address(name, MODEL.mask, 0);
    }
 
    @Override
