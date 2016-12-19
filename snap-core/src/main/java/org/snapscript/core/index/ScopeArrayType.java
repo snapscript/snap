@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
-import org.snapscript.core.Stack;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeDescription;
 import org.snapscript.core.TypeScope;
@@ -30,9 +29,9 @@ public class ScopeArrayType implements Type {
    private final int order;
    private final int size;
    
-   public ScopeArrayType(Module module, Stack stack, String name, Type entry, int size, int order){
+   public ScopeArrayType(Module module, String name, Type entry, int size, int order){
       this.description = new TypeDescription(this);
-      this.scope = new TypeScope(this, stack);
+      this.scope = new TypeScope(this);
       this.module = module;
       this.order = order;
       this.entry = entry;

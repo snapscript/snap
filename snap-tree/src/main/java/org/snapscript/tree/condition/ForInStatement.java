@@ -67,11 +67,11 @@ public class ForInStatement implements Compilation {
          State state = scope.getState();
          
          for (Object entry : iterable) {
-            Value variable = state.get(name);
+            Value variable = state.getValue(name);
             
             if(variable == null) {
                Value value = ValueType.getReference(entry);
-               state.add(name, value);
+               state.addValue(name, value);
             } else {
                variable.setValue(entry);
             }

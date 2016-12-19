@@ -1,4 +1,4 @@
-package org.snapscript.core.thread;
+package org.snapscript.core.error;
 
 import java.util.Iterator;
 

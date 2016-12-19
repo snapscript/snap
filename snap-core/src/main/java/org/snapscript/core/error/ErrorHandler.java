@@ -2,7 +2,6 @@ package org.snapscript.core.error;
 
 import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
-import org.snapscript.core.thread.ThreadStack;
 
 public class ErrorHandler {
 
@@ -10,7 +9,7 @@ public class ErrorHandler {
    private final InternalErrorHandler internal;
    
    public ErrorHandler(ThreadStack stack) {
-      this(stack, false);
+      this(stack, true);
    }
    
    public ErrorHandler(ThreadStack stack, boolean replace) {

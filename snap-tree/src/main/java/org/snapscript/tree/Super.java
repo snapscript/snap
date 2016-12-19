@@ -7,13 +7,13 @@ import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
+import org.snapscript.core.State;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.ValueType;
-import org.snapscript.core.State;
 import org.snapscript.core.define.Instance;
+import org.snapscript.core.error.ThreadStack;
 import org.snapscript.core.function.Function;
-import org.snapscript.core.thread.ThreadStack;
 import org.snapscript.parse.StringToken;
 
 public class Super implements Evaluation {
@@ -29,13 +29,13 @@ public class Super implements Evaluation {
       Module module = scope.getModule();
       Context context = module.getContext();
       ThreadStack stack = context.getStack();
-      Function function = stack.call(); // we can determine the function type
+      Function function = stack.current(); // we can determine the function type
       
       if(function == null) {
          throw new InternalStateException("No enclosing function for 'super' reference");
       }
       State state = scope.getState();
-      Value value = state.get(TYPE_THIS);
+      Value value = state.getValue(TYPE_THIS);
       
       if(value == null) {
          throw new InternalStateException("No enclosing type for 'super' reference");

@@ -7,35 +7,29 @@ import java.util.List;
 
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
-import org.snapscript.core.State;
 import org.snapscript.core.Type;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.annotation.AnnotationConverter;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.ParameterBuilder;
 import org.snapscript.core.function.Signature;
-import org.snapscript.core.thread.ThreadStack;
-import org.snapscript.core.thread.ThreadState;
 
 public class SignatureGenerator {
    
    private final AnnotationConverter converter;
    private final ParameterBuilder builder;
    private final TypeIndexer indexer;
-   private final ThreadStack stack;
    
-   public SignatureGenerator(TypeIndexer indexer, ThreadStack stack) {
+   public SignatureGenerator(TypeIndexer indexer) {
       this.converter = new AnnotationConverter();
       this.builder = new ParameterBuilder();
       this.indexer = indexer;
-      this.stack = stack;
    }
 
    public Signature generate(Type type, Method method) {
       Class[] types = method.getParameterTypes();
       Object[][] annotations = method.getParameterAnnotations();
       Module module = type.getModule();
-      ThreadState state = stack.state();
       boolean variable = method.isVarArgs();
       
       try {
@@ -60,7 +54,7 @@ public class SignatureGenerator {
             }
             parameters.add(parameter);
          }
-         return new Signature(parameters, module, state, variable);
+         return new Signature(parameters, module, variable);
       } catch(Exception e) {
          throw new InternalStateException("Could not create function for " + method, e);
       }
@@ -70,7 +64,6 @@ public class SignatureGenerator {
       Class[] types = constructor.getParameterTypes();
       Object[][] annotations = constructor.getParameterAnnotations();
       Module module = type.getModule();
-      ThreadState state = stack.state();
       boolean variable = constructor.isVarArgs();
       
       try {
@@ -95,7 +88,7 @@ public class SignatureGenerator {
             }
             parameters.add(parameter);
          }
-         return new Signature(parameters, module, state, variable);
+         return new Signature(parameters, module, variable);
       } catch(Exception e) {
          throw new InternalStateException("Could not create constructor for " + constructor, e);
       }

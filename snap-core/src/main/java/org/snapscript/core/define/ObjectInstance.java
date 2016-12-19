@@ -2,7 +2,6 @@ package org.snapscript.core.define;
 
 import org.snapscript.core.Model;
 import org.snapscript.core.Module;
-import org.snapscript.core.Stack;
 import org.snapscript.core.State;
 import org.snapscript.core.Type;
 
@@ -10,36 +9,25 @@ public class ObjectInstance implements Instance {
 
    private final Instance base;
    private final Module module;
-   private final Stack stack;
    private final State state;
    private final Model model;
    private final Type type;
    
-   public ObjectInstance(Stack stack, Module module, Model model, Instance base, Type type, int key) {
-      this.state = new InstanceState(base, stack, key);
+   public ObjectInstance(Module module, Model model, Instance base, Type type) {
+      this.state = new InstanceState(base);
       this.module = module;
       this.model = model;
-      this.stack = stack;
       this.type = type;
       this.base = base;
-      
-      if(stack == null) {
-         throw new IllegalStateException("Stack must not be null");
-      }
    }
    
    @Override
    public Instance getInner() {
-      return new CompoundInstance(stack, module, model, this, this, type);
+      return new CompoundInstance(module, model, this, this, type);
    } 
    
    @Override
-   public Stack getStack(){
-      return stack;
-   }
-   
-   @Override
-   public Instance getObject() {
+   public Instance getOuter() {
       return this; 
    } 
    

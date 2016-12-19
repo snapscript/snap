@@ -2,7 +2,6 @@ package org.snapscript.core.define;
 
 import org.snapscript.core.Model;
 import org.snapscript.core.Module;
-import org.snapscript.core.Stack;
 import org.snapscript.core.State;
 import org.snapscript.core.Type;
 
@@ -10,27 +9,16 @@ public class SuperInstance implements Instance {
 
    private final Instance scope;
    private final Module module;
-   private final Stack stack;
    private final Model model;
    private final Type type;
    private final Type real;
    
-   public SuperInstance(Stack stack, Module module, Model model, Instance scope, Type real, Type type) {
+   public SuperInstance(Module module, Model model, Instance scope, Type real, Type type) {
       this.scope = scope;
       this.module = module;
-      this.stack = stack;
       this.model = model;
       this.type = type;
       this.real = real;
-      
-      if(stack == null) {
-         throw new IllegalStateException("Stack must not be null");
-      }
-   }
-   
-   @Override
-   public Stack getStack(){
-      return stack;
    }
 
    @Override
@@ -39,8 +27,8 @@ public class SuperInstance implements Instance {
    }
 
    @Override
-   public Instance getObject() {
-      return scope.getObject();
+   public Instance getOuter() {
+      return scope.getOuter();
    }
    
    @Override

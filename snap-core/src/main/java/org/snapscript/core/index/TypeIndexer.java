@@ -7,12 +7,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
 import org.snapscript.core.ModuleRegistry;
-import org.snapscript.core.Stack;
-import org.snapscript.core.State;
 import org.snapscript.core.Type;
 import org.snapscript.core.extend.ClassExtender;
 import org.snapscript.core.link.ImportScanner;
-import org.snapscript.core.thread.ThreadStack;
 
 public class TypeIndexer {
 
@@ -22,21 +19,19 @@ public class TypeIndexer {
    private final ImportScanner scanner;
    private final ClassIndexer indexer;
    private final AtomicInteger counter;
-   private final ThreadStack stack;
    private final int limit;
    
-   public TypeIndexer(ModuleRegistry registry, ImportScanner scanner, ClassExtender extender, ThreadStack stack) {
-      this(registry, scanner, extender, stack, 100000);
+   public TypeIndexer(ModuleRegistry registry, ImportScanner scanner, ClassExtender extender) {
+      this(registry, scanner, extender, 100000);
    }
    
-   public TypeIndexer(ModuleRegistry registry, ImportScanner scanner, ClassExtender extender, ThreadStack stack, int limit) {
-      this.indexer = new ClassIndexer(this, registry, scanner, extender, stack);
+   public TypeIndexer(ModuleRegistry registry, ImportScanner scanner, ClassExtender extender, int limit) {
+      this.indexer = new ClassIndexer(this, registry, scanner, extender);
       this.types = new LinkedHashMap<Object, Type>();
       this.builder = new TypeNameBuilder();
       this.counter = new AtomicInteger(1); // consider function types which own 0
       this.registry = registry;
       this.scanner = scanner;
-      this.stack = stack;
       this.limit = limit;
    }
    
@@ -132,14 +127,13 @@ public class TypeIndexer {
       Type type = types.get(alias);
       
       if(type == null) {
-         Stack state = stack.state();
          Type outer = types.get(prefix);
          int order = counter.getAndIncrement();
          
          if(order > limit) {
             throw new InternalStateException("Type limit of " + limit + " exceeded");
          }
-         return new ScopeType(parent, outer, state, name, order);
+         return new ScopeType(parent, outer, name, order);
       }
       return type;
    }
@@ -155,14 +149,13 @@ public class TypeIndexer {
          if(entry == null) {
             throw new InternalStateException("Type entry for '" +alias+ "' not found");
          }
-         Stack state = stack.state();
          String array = builder.createName(null, name, size);
          int order = counter.getAndIncrement();
          
          if(order > limit) {
             throw new InternalStateException("Type limit of " + limit + " exceeded");
          }
-         return new ScopeArrayType(parent, state, array, entry, size, order); // name is wrong here ScopeArrayType?
+         return new ScopeArrayType(parent, array, entry, size, order); // name is wrong here ScopeArrayType?
       }
       return type;
    }
@@ -173,13 +166,12 @@ public class TypeIndexer {
       Type type = types.get(alias);
       
       if(type == null) {
-         Stack state = stack.state();
          int order = counter.getAndIncrement();
          
          if(order > limit) {
             throw new InternalStateException("Type limit of " + limit + " exceeded");
          }
-         return new ClassType(indexer, source, state, name, order);
+         return new ClassType(indexer, source, name, order);
       }
       return type;
    }

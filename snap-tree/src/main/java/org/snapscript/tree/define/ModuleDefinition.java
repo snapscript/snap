@@ -7,10 +7,10 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.snapscript.core.Module;
 import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
+import org.snapscript.core.State;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Value;
 import org.snapscript.core.ValueType;
-import org.snapscript.core.State;
 import org.snapscript.tree.annotation.AnnotationList;
 
 public class ModuleDefinition extends Statement {   
@@ -42,7 +42,7 @@ public class ModuleDefinition extends Statement {
       Scope inner = module.getScope();
       State state = inner.getState();
       
-      state.add(TYPE_THIS, value);
+      state.addValue(TYPE_THIS, value);
       
       return body.compile(inner); 
    }

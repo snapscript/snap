@@ -156,7 +156,6 @@ public enum Instruction {
    FOR_IN_STATEMENT(ForInStatement.class, "for-in-statement"),
    LOOP_STATEMENT(LoopStatement.class, "loop-statement"),
    SWITCH_STATEMENT(SwitchStatement.class, "switch-statement"),
-   SWITCH_CASE_STATEMENT(CompoundStatement.class, "switch-case-statement"),
    SWITCH_CASE(ValueCase.class, "switch-case"),
    SWITCH_DEFAULT(DefaultCase.class, "switch-default"),
    MATCH_STATEMENT(MatchStatement.class, "match-statement"),

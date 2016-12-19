@@ -1,10 +1,9 @@
 package org.snapscript.core.closure;
 
-import java.util.Iterator;
+import java.util.Set;
 
 import org.snapscript.core.Model;
 import org.snapscript.core.Scope;
-import org.snapscript.core.Stack;
 import org.snapscript.core.State;
 
 public class ClosureScopeExtractor {
@@ -16,15 +15,14 @@ public class ClosureScopeExtractor {
    public Scope extract(Scope scope) {
       Model model = scope.getModel();
       State state = scope.getState();
-      Stack stack = scope.getStack();
-      Iterator<String> names = state.iterator();
+      Set<String> names = state.getNames();
       
-      if(!names.hasNext()) {
-         Scope capture = new ClosureScope(stack, model, scope);
+      if(!names.isEmpty()) {
+         Scope capture = new ClosureScope(model, scope);
          
-         for(String name : state) {
+         for(String name : names) {
             State inner = capture.getState();
-            inner.get(name); // pull up
+            inner.getValue(name);
          }
          return capture;
       }

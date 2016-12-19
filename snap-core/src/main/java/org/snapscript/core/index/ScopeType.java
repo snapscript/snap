@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
-import org.snapscript.core.Stack;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeDescription;
 import org.snapscript.core.TypeScope;
@@ -26,13 +25,13 @@ public class ScopeType implements Type {
    private final String name;
    private final int order;
    
-   public ScopeType(Module module, Type outer, Stack stack, String name, int order){
+   public ScopeType(Module module, Type outer, String name, int order){
       this.description = new TypeDescription(this);
       this.annotations = new ArrayList<Annotation>();
       this.properties = new ArrayList<Property>();
       this.functions = new ArrayList<Function>();
       this.types = new ArrayList<Type>();
-      this.scope = new TypeScope(this, stack); // maybe this shoould also contain the module scope, i.e grab the constants from the surrounding module!!
+      this.scope = new TypeScope(this);
       this.module = module;
       this.outer = outer;
       this.order = order;

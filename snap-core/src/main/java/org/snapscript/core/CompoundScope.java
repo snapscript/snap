@@ -1,37 +1,24 @@
 package org.snapscript.core;
 
-import org.snapscript.core.State;
-
 public class CompoundScope implements Scope {
    
-   private final Stack stack;
    private final State state;
    private final Scope outer;
    private final Model model;
    
-   public CompoundScope(Stack stack, Model model, Scope inner, Scope outer) {
-      this.state = new MapState(model, inner);
-      this.stack = stack;
+   public CompoundScope(Model model, Scope inner, Scope outer) {
+      this.state = new MapState(model, inner);  
       this.outer = outer;
       this.model = model;
-      
-      if(stack == null) {
-         throw new IllegalStateException("Stack must not be null");
-      }
    } 
   
    @Override
    public Scope getInner() {
-      return new StateScope(stack, model, this, outer);
+      return new StateScope(model, this, outer);
    }  
    
    @Override
-   public Stack getStack(){
-      return stack;
-   }
-   
-   @Override
-   public Scope getObject() {
+   public Scope getOuter() {
       return outer;
    }  
    
@@ -67,34 +54,23 @@ public class CompoundScope implements Scope {
    
    private static class StateScope implements Scope {
       
-      private final Stack stack;
       private final State state;
       private final Scope outer;
       private final Model model;
       
-      public StateScope(Stack stack, Model model, Scope inner, Scope outer) {
+      public StateScope(Model model, Scope inner, Scope outer) {
          this.state = new MapState(null, inner); // ignore model
-         this.stack = stack;
          this.outer = outer;
          this.model = model;
-         
-         if(stack == null) {
-            throw new IllegalStateException("Stack must not be null");
-         }
       }
 
       @Override
       public Scope getInner() {
-         return new StateScope(stack, model, this, outer);
+         return new StateScope(model, this, outer);
       }
       
       @Override
-      public Stack getStack(){
-         return stack;
-      }
-      
-      @Override
-      public Scope getObject() {
+      public Scope getOuter() {
          return outer;
       }
       

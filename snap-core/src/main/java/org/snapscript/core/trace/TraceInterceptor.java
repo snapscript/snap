@@ -4,7 +4,7 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 import org.snapscript.core.Scope;
-import org.snapscript.core.thread.ThreadStack;
+import org.snapscript.core.error.ThreadStack;
 
 public class TraceInterceptor implements TraceListener {
    

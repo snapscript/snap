@@ -27,7 +27,7 @@ public class ScopeResolver implements ValueResolver<Scope> {
    @Override
    public Value resolve(Scope scope, Scope left) {
       State state = left.getState();
-      Value value = state.get(name);
+      Value value = state.getValue(name);
       
       if(value == null) {
          Type type = left.getType();

@@ -1,103 +1,92 @@
 package org.snapscript.core.define;
 
-import static org.snapscript.core.StateType.STACK;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
-import java.util.Iterator;
-
-import org.snapscript.core.Address;
-import org.snapscript.core.Bug;
-import org.snapscript.core.CompoundIterator;
-import org.snapscript.core.CompoundState;
-import org.snapscript.core.Stack;
+import org.snapscript.core.InternalStateException;
 import org.snapscript.core.State;
 import org.snapscript.core.Value;
 
 public class InstanceState implements State {
    
-   private final Instance base;
-   private final State self;
-   private final int key;
-   
-   public InstanceState(Instance base, Stack stack, int key) {
-      this.self = new CompoundState(stack, key);
-      this.base = base;
-      this.key = key;
-   }  
+   private final Map<String, Value> values;
+   private final Instance instance;
+
+   public InstanceState(Instance instance) {
+      this.values = new HashMap<String, Value>();
+      this.instance = instance;
+   }
    
    @Override
-   public Iterator<String> iterator() {
-      State object = base.getState();
-      Iterator<String> first = self.iterator();
-      Iterator<String> second = object.iterator();
+   public Set<String> getNames() {
+      Set<String> names = new HashSet<String>();   
       
-      return new CompoundIterator<String>(first, second);
-   }
-   
-   @Override
-   public boolean contains(String name) {
-      Address address = address(name);
-      int index = address.getIndex();
-  
-      if(index < 0) {
-         return false;
+      if(instance != null) {
+         State state = instance.getState();
+         
+         if(state == null) {
+            throw new InternalStateException("Scope for does not exist");
+         }
+         Set<String> inner = state.getNames();
+         Set<String> outer = values.keySet();
+         
+         names.addAll(inner);
+         names.addAll(outer);
+         
+         return names;
       }
-      return true;
+      return values.keySet();
    }
-   
+
    @Override
-   public Address address(String name){
-      State object = base.getState();
-      Address address = self.address(name);
-      int index = address.getIndex();
-      
-      if(index < 0) {
-         return object.address(name);
-      }
-      return address; 
-   }
-   
-   @Override
-   public Value get(String name){
-      State object = base.getState();
-      Value value = self.get(name);
+   public Value getValue(String name) {
+      Value value = values.get(name);
       
       if(value == null) {
-         return object.get(name);
-      } 
+         State state = instance.getState();
+         
+         if(state == null) {
+            throw new InternalStateException("Scope for '" + name + "' does not exist");
+         }
+         value = state.getValue(name);
+      }
       return value;
    }
-   
-   @Override
-   public Value get(Address address){
-      State object = base.getState();
-      int source = address.getSource();
-      
-      if(source == STACK.mask) {
-         return self.get(address);
-      }
-      if(source == key) {
-         return self.get(address);
-      }
-      return object.get(address); 
-   }
-   
-   @Bug("is something so explicit as 'source == STACK.mask' the right thing to do!!")
-   @Override
-   public void set(Address address, Value value){
-      State object = base.getState();
-      int source = address.getSource();
 
-      if(source == STACK.mask) {
-         self.set(address, value);
-      } else if(source == key) { // if its not this
-         self.set(address, value);
-      } else {
-         object.set(address, value);
+   @Override
+   public void setValue(String name, Value value) {
+      Value variable = values.get(name);
+      
+      if(variable == null && instance != null) {
+         State state = instance.getState();
+         
+         if(state == null) {
+            throw new InternalStateException("Scope for '" + name + "' does not exist");
+         }
+         variable = state.getValue(name);
       }
+      Object data = value.getValue();
+
+      if(variable == null) {
+         throw new InternalStateException("Variable '" + name + "' does not exist");
+      }
+      variable.setValue(data);      
    }
    
    @Override
-   public Address add(String name, Value value){ // this is called by the DeclareProperty
-      return self.add(name, value);
+   public void addValue(String name, Value value) {
+      Value variable = values.get(name);
+
+      if(variable != null) {
+         throw new InternalStateException("Variable '" + name + "' already exists");
+      }
+      values.put(name, value);      
+   }
+   
+   @Override
+   public String toString() {
+      return String.valueOf(values);
    }
 }

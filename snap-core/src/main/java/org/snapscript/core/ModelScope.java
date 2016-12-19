@@ -1,35 +1,24 @@
 package org.snapscript.core;
 
-public class ProgramScope implements Scope {
+public class ModelScope implements Scope {
    
    private final Module module;
-   private final Stack stack;
    private final State state;
    private final Model model;
    
-   public ProgramScope(Module module, Scope scope, Stack stack, Model model, int key) {
-      this.state = new ProgramState(scope, model, key);
+   public ModelScope(Model model, Module module) {
+      this.state = new MapState(model);
       this.module = module;
-      this.stack = stack;
       this.model = model;
-      
-      if(stack == null) {
-         throw new IllegalStateException("Stack must not be null");
-      }
    }
    
    @Override
    public Scope getInner() {
-      return new CompoundScope(stack, model, this, this);
+      return new CompoundScope(model, this, this);
    } 
    
    @Override
-   public Stack getStack(){
-      return stack;
-   }
-   
-   @Override
-   public Scope getObject() {
+   public Scope getOuter() {
       return this;
    } 
    

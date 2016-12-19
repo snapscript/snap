@@ -2,8 +2,8 @@ package org.snapscript.core.function;
 
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
-import org.snapscript.core.Value;
 import org.snapscript.core.State;
+import org.snapscript.core.Value;
 
 public class ScopeAccessor implements Accessor<Scope> {
 
@@ -16,7 +16,7 @@ public class ScopeAccessor implements Accessor<Scope> {
    @Override
    public Object getValue(Scope source) {
       State state = source.getState();
-      Value field = state.get(name);
+      Value field = state.getValue(name);
       
       if(field == null){
          throw new InternalStateException("Field '" + name + "' does not exist");
@@ -27,7 +27,7 @@ public class ScopeAccessor implements Accessor<Scope> {
    @Override
    public void setValue(Scope source, Object value) {
       State state = source.getState();
-      Value field = state.get(name);
+      Value field = state.getValue(name);
       
       if(field == null){
          throw new InternalStateException("Field '" + name + "' does not exist");

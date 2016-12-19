@@ -3,11 +3,11 @@ package org.snapscript.tree;
 import org.snapscript.core.Result;
 import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
+import org.snapscript.core.State;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.ValueType;
-import org.snapscript.core.State;
 import org.snapscript.core.convert.CompatibilityChecker;
 import org.snapscript.core.error.ErrorCauseExtractor;
 import org.snapscript.core.function.Parameter;
@@ -54,7 +54,7 @@ public class CatchBlockList {
                State state = compound.getState();
                Value constant = ValueType.getConstant(cause);
                
-               state.add(name, constant);
+               state.addValue(name, constant);
 
                return statement.execute(compound);
             }

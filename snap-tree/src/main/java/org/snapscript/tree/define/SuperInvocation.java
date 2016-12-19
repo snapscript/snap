@@ -3,7 +3,6 @@ package org.snapscript.tree.define;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.ScopeCombiner;
-import org.snapscript.core.Stack;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.tree.ArgumentList;
@@ -34,8 +33,7 @@ public class SuperInvocation implements Evaluation {
       
       if(arguments != null) {
          Scope outer = real.getScope();
-         Stack stack = outer.getStack();
-         Scope compound = ScopeCombiner.combine(stack, scope, outer);
+         Scope compound = ScopeCombiner.combine(scope, outer);
          Value array = arguments.create(compound, real); // arguments have no left hand side
          Object[] list = array.getValue();
          

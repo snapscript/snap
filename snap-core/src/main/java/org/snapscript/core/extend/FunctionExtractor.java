@@ -15,19 +15,15 @@ import org.snapscript.core.function.InvocationFunction;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.ParameterBuilder;
 import org.snapscript.core.function.Signature;
-import org.snapscript.core.thread.ThreadStack;
-import org.snapscript.core.thread.ThreadState;
 
 public class FunctionExtractor {
    
    private final ParameterBuilder builder;
-   private final ThreadStack stack;
    private final TypeLoader loader;
    
-   public FunctionExtractor(TypeLoader loader, ThreadStack stack){
+   public FunctionExtractor(TypeLoader loader){
       this.builder = new ParameterBuilder();
       this.loader = loader;
-      this.stack = stack;
    }
 
    public List<Function> extract(Module module, Class extend, Object value) throws Exception {
@@ -72,14 +68,13 @@ public class FunctionExtractor {
       Signature signature = function.getSignature();
       List<Parameter> parameters = signature.getParameters();
       Type constraint = function.getConstraint();
-      ThreadState state = stack.state();
       boolean variable = signature.isVariable();
       int modifiers = function.getModifiers();
       int length = parameters.size();
    
       if(length > 0) {
          List<Parameter> copy = new ArrayList<Parameter>();
-         Signature reduced = new Signature(copy, module, state, variable);
+         Signature reduced = new Signature(copy, module, variable);
          Invocation adapter = new ExportInvocation(invocation, value, extend);
          
          for(int i = 1; i < length; i++) {

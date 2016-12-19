@@ -4,40 +4,28 @@ import org.snapscript.core.CompoundScope;
 import org.snapscript.core.Model;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
-import org.snapscript.core.Stack;
 import org.snapscript.core.State;
 import org.snapscript.core.Type;
 
 public class ClosureScope implements Scope {
    
-   private final Stack stack;
    private final State state;
    private final Scope scope;
    private final Model model;
    
-   public ClosureScope(Stack stack, Model model, Scope scope) {
+   public ClosureScope(Model model, Scope scope) {
       this.state = new ClosureState(scope);
-      this.stack = stack;
       this.scope = scope;
       this.model = model;
-      
-      if(stack == null) {
-         throw new IllegalStateException("Stack must not be null");
-      }
    }
 
    @Override
    public Scope getInner() {
-      return new CompoundScope(stack, model, this, scope);
+      return new CompoundScope(model, this, scope);
    }
    
    @Override
-   public Stack getStack(){
-      return stack;
-   }
-   
-   @Override
-   public Scope getObject() {
+   public Scope getOuter() {
       return scope;
    }
    

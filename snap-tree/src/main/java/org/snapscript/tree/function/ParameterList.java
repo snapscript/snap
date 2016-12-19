@@ -6,13 +6,11 @@ import java.util.List;
 import org.snapscript.core.Context;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
-import org.snapscript.core.Stack;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeLoader;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.ParameterBuilder;
 import org.snapscript.core.function.Signature;
-import org.snapscript.core.thread.ThreadStack;
 
 public class ParameterList {
    
@@ -45,9 +43,6 @@ public class ParameterList {
             
             parameters.add(parameter);
          }
-         Context context = module.getContext();
-         ThreadStack stack = context.getStack();
-         Stack state = stack.state();
          boolean variable = checker.isVariable(scope);
          
          for(int i = 0; i < list.length; i++) {
@@ -58,7 +53,7 @@ public class ParameterList {
                parameters.add(parameter);
             }
          }
-         signature = new Signature(parameters, module, state, variable);
+         signature = new Signature(parameters, module, variable);
       }
       return signature;
    }

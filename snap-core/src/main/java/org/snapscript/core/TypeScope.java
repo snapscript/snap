@@ -1,36 +1,22 @@
 package org.snapscript.core;
 
-import org.snapscript.core.State;
-
-@Bug("maybe this shoould also contain the module scope, i.e grab the constants from the surrounding module!!")
 public class TypeScope implements Scope {
    
-   private final Stack stack;
    private final State state;
    private final Type type;
    
-   public TypeScope(Type type, Stack stack) {
+   public TypeScope(Type type) {
       this.state = new MapState();
-      this.stack = stack;
       this.type = type;
-      
-      if(stack == null){
-         throw new IllegalStateException("Stack must not be null");
-      }
    }
    
    @Override
    public Scope getInner() {
-      return new CompoundScope(stack, null, this, this); 
+      return new CompoundScope(null, this, this); 
    } 
    
    @Override
-   public Stack getStack(){
-      return stack;
-   }
-   
-   @Override
-   public Scope getObject() {
+   public Scope getOuter() {
       return this;
    }
 

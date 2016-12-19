@@ -1,4 +1,4 @@
-package org.snapscript.core.thread;
+package org.snapscript.core.error;
 
 import static org.snapscript.core.Reserved.IMPORT_JAVA;
 import static org.snapscript.core.Reserved.IMPORT_SNAPSCRIPT;
@@ -6,18 +6,18 @@ import static org.snapscript.core.Reserved.IMPORT_SNAPSCRIPT;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SourceTraceExtractor {
+public class OriginTraceExtractor {
    
    public static final int DEFAULT_DEPTH = 0;
    public static final int DEBUG_DEPTH = 2; 
 
    private final int depth;
    
-   public SourceTraceExtractor() {
+   public OriginTraceExtractor() {
       this(DEFAULT_DEPTH);
    }
    
-   public SourceTraceExtractor(int depth) {
+   public OriginTraceExtractor(int depth) {
       this.depth = depth;
    }
 

@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import org.snapscript.core.thread.ThreadStack;
-
 import junit.framework.TestCase;
 
 public class ThreadStackTest extends TestCase {
@@ -41,7 +39,7 @@ public class ThreadStackTest extends TestCase {
          @Override
          public void run(){
             for(int i = 0; i < ITERATIONS; i++){
-               stack.call();
+               stack.current();
             }
          }
       }, "ThreadStack.current");

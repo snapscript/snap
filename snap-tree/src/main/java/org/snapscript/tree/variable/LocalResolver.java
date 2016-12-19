@@ -4,15 +4,15 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
+import org.snapscript.core.State;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeTraverser;
 import org.snapscript.core.Value;
 import org.snapscript.core.ValueType;
-import org.snapscript.core.State;
 
 public class LocalResolver implements ValueResolver<Object> {
    
-   private final AtomicReference<Object> reference; // constant
+   private final AtomicReference<Object> reference;
    private final TypeTraverser finder;
    private final String name;
    
@@ -28,7 +28,7 @@ public class LocalResolver implements ValueResolver<Object> {
       
       if(result == null) {
          State state = scope.getState();
-         Value variable = state.get(name);
+         Value variable = state.getValue(name);
          
          if(variable == null) { 
             Object value = match(scope, left);

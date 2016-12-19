@@ -1,33 +1,22 @@
 package org.snapscript.core;
 
-import static org.snapscript.core.StateType.MODULE;
-
-
 public class ModuleScope implements Scope {
    
    private final Module module;
    private final State state;
-   private final Stack stack;
    
-   public ModuleScope(Module module, Stack stack, int order) {
-      this.state = new ModuleState(stack, MODULE.mask | order);
+   public ModuleScope(Module module) {
+      this.state = new MapState(null);
       this.module = module;
-      this.stack = stack;
-
    }
    
    @Override
    public Scope getInner() {
-      return new CompoundScope(stack, null, this, this);
+      return new CompoundScope(null, this, this);
    } 
    
    @Override
-   public Stack getStack(){
-      return stack;
-   }
-   
-   @Override
-   public Scope getObject() {
+   public Scope getOuter() {
       return this;
    }
 

@@ -9,7 +9,6 @@ import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.TypeLoader;
 import org.snapscript.core.function.Function;
-import org.snapscript.core.thread.ThreadStack;
 
 public class ModuleExtender {
    
@@ -24,10 +23,9 @@ public class ModuleExtender {
    public synchronized void extend(Module module){
       List<Function> available = module.getFunctions();
       TypeLoader loader = context.getLoader();
-      ThreadStack stack = context.getStack();
       
       if(functions.isEmpty()) {
-         FunctionExtractor extractor = new FunctionExtractor(loader, stack);
+         FunctionExtractor extractor = new FunctionExtractor(loader);
          ScopeExtension extension = new ScopeExtension(context);
          
          try {

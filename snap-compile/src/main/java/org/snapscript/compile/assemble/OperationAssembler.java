@@ -5,7 +5,7 @@ import java.util.List;
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Type;
-import org.snapscript.core.thread.ThreadStack;
+import org.snapscript.core.error.ThreadStack;
 import org.snapscript.parse.Line;
 import org.snapscript.parse.SyntaxNode;
 import org.snapscript.parse.Token;

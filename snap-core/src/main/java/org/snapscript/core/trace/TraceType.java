@@ -4,7 +4,6 @@ import org.snapscript.core.Module;
 
 public enum TraceType {
    CONSTRUCT,
-   SCOPE,
    INVOKE,
    NORMAL,
    NATIVE;
@@ -23,9 +22,5 @@ public enum TraceType {
    
    public static Trace getNormal(Module module, int line) {
       return new Trace(NORMAL, module, line);
-   }
-   
-   public static Trace getScope(Module module, int line) {
-      return new Trace(SCOPE, module, line);
    }
 }

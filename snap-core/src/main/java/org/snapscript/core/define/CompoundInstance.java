@@ -4,7 +4,6 @@ import org.snapscript.core.MapState;
 import org.snapscript.core.Model;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
-import org.snapscript.core.Stack;
 import org.snapscript.core.State;
 import org.snapscript.core.Type;
 
@@ -12,38 +11,27 @@ public class CompoundInstance implements Instance {
    
    private final Instance instance;
    private final Module module;
-   private final Stack stack;
    private final State state;
    private final Model model;
    private final Scope outer;
    private final Type type;
    
-   public CompoundInstance(Stack stack, Module module, Model model, Instance instance, Scope outer, Type type) {
+   public CompoundInstance(Module module, Model model, Instance instance, Scope outer, Type type) {
       this.state = new MapState(model, outer);
       this.instance = instance;
       this.module = module;
       this.outer = outer;
       this.model = model;
-      this.stack = stack;
       this.type = type;
-      
-      if(stack == null) {
-         throw new IllegalStateException("Stack must not be null");
-      }
    }
    
    @Override
    public Instance getInner() {
-      return new CompoundInstance(stack, module, model, instance, this, type);
-   }
+      return new CompoundInstance(module, model, instance, this, type);
+   } 
    
    @Override
-   public Stack getStack(){
-      return stack;
-   }
-   
-   @Override
-   public Instance getObject() {
+   public Instance getOuter() {
       return instance;
    } 
    

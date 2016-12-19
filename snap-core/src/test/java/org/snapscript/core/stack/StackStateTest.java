@@ -1,4 +1,4 @@
-package org.snapscript.core.address;
+package org.snapscript.core.stack;
 
 import java.lang.management.ManagementFactory;
 import java.security.SecureRandom;
@@ -8,10 +8,6 @@ import java.util.Random;
 
 import junit.framework.TestCase;
 
-import org.snapscript.core.Address;
-import org.snapscript.core.AddressState;
-import org.snapscript.core.AddressTable;
-import org.snapscript.core.State;
 import org.snapscript.core.Value;
 import org.snapscript.core.ValueType;
 
@@ -25,14 +21,15 @@ public class StackStateTest extends TestCase {
    private static final int ELEMENTS = 10;
    
    public void testThreadStack() throws Exception {
-      final AddressState stack = new AddressState(1);
+      final AddressTable table = new AddressTable(2);
+      final StackState stack = new StackState(table, 0);
       final Map<String, Object> map = new HashMap<String, Object>();
       final Random random = new SecureRandom();
       final String[] names = new String[ELEMENTS];
       final Address[] addresses = new Address[ELEMENTS];
       
       for(int i = 0; i < ELEMENTS; i++) {
-         int number = random.nextInt(ITERATIONS);
+         int number = random.nextInt(ELEMENTS);
          String key = String.valueOf(number);
          Value value = ValueType.getReference(key);
          names[i] = key;
@@ -60,7 +57,7 @@ public class StackStateTest extends TestCase {
          timeIt(new Runnable() {
             @Override
             public void run(){
-               AddressState local = stack;
+               StackState local = stack;
                for(int i = 0; i < ITERATIONS; i++){
                   int index = i%ELEMENTS;
                   String name = names[index];
@@ -93,7 +90,7 @@ public class StackStateTest extends TestCase {
          timeIt(new Runnable() {
             @Override
             public void run(){
-               State local = stack;
+               State2 local = stack;
                for(int i = 0; i < ITERATIONS; i++){
                   int index = i%ELEMENTS;
                   String name = names[index];
@@ -127,7 +124,7 @@ public class StackStateTest extends TestCase {
          timeIt(new Runnable() {
             @Override
             public void run(){
-               State local = stack;
+               State2 local = stack;
                for(int i = 0; i < ITERATIONS; i++){
                   int index = i%ELEMENTS;
                   String name = names[index];
@@ -157,7 +154,7 @@ public class StackStateTest extends TestCase {
          timeIt(new Runnable() {
             @Override
             public void run(){
-               State local = stack;
+               State2 local = stack;
                for(int i = 0; i < ITERATIONS; i++){
                   int index = i%ELEMENTS;
                   String name = names[index];

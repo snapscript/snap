@@ -10,7 +10,6 @@ import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.annotation.AnnotationExtractor;
 import org.snapscript.core.extend.ClassExtender;
 import org.snapscript.core.function.Function;
-import org.snapscript.core.thread.ThreadStack;
 
 public class FunctionIndexer {
    
@@ -20,9 +19,9 @@ public class FunctionIndexer {
    private final ModifierConverter converter;
    private final ClassExtender extender;
    
-   public FunctionIndexer(TypeIndexer indexer, ClassExtender extender, ThreadStack stack){
-      this.generator = new FunctionGenerator(indexer, stack);
-      this.indexer = new ConstructorIndexer(indexer, stack);
+   public FunctionIndexer(TypeIndexer indexer, ClassExtender extender){
+      this.generator = new FunctionGenerator(indexer);
+      this.indexer = new ConstructorIndexer(indexer);
       this.extractor = new AnnotationExtractor();
       this.converter = new ModifierConverter();
       this.extender = extender;

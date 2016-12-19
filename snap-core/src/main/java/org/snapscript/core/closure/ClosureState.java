@@ -1,12 +1,10 @@
 package org.snapscript.core.closure;
 
-import java.util.Iterator;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.snapscript.core.Address;
-import org.snapscript.core.CompoundIterator;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
@@ -24,41 +22,28 @@ public class ClosureState implements State {
    }
    
    @Override
-   public Address address(String name) {
-      return new Address(name, 0, -1);
-   }
-   
-   @Override
-   public boolean contains(String name) {
-      Value value = values.get(name);
-      
-      if(value == null) {
-         State state = scope.getState();
-         
-         if(state == null) {
-            throw new InternalStateException("Scope for '" + name + "' does not exist");
-         }
-         return state.contains(name);
-      }
-      return true;
-   }
-   
-   @Override
-   public Iterator<String> iterator() {
-      Set<String> names = values.keySet();
-      Iterator<String> iterator =  names.iterator();
+   public Set<String> getNames() {
+      Set<String> names = new HashSet<String>();   
       
       if(scope != null) {
          State state = scope.getState();
-         Iterator<String> inner = state.iterator();
          
-         return new CompoundIterator<String>(iterator, inner);
+         if(state == null) {
+            throw new InternalStateException("Scope for does not exist");
+         }
+         Set<String> inner = state.getNames();
+         Set<String> outer = values.keySet();
+         
+         names.addAll(inner);
+         names.addAll(outer);
+         
+         return names;
       }
-      return iterator;
+      return values.keySet();
    }
 
    @Override
-   public Value get(String name) {
+   public Value getValue(String name) {
       Value value = values.get(name);
       
       if(value == null) {
@@ -67,32 +52,7 @@ public class ClosureState implements State {
          if(state == null) {
             throw new InternalStateException("Scope for '" + name + "' does not exist");
          }
-         value = state.get(name);
-         
-         if(value != null) {
-            if(!value.isProperty()) { // this does not really work
-               Object object = value.getValue();
-               Value constant = ValueType.getConstant(object);
-               
-               values.put(name, constant); // cache as constant
-            }
-         }
-      }
-      return value;
-   }
-   
-   @Override
-   public Value get(Address address) {
-      String name = address.getName();
-      Value value = values.get(name);
-      
-      if(value == null) {
-         State state = scope.getState();
-         
-         if(state == null) {
-            throw new InternalStateException("Scope for '" + name + "' does not exist");
-         }
-         value = state.get(name);
+         value = state.getValue(name);
          
          if(value != null) {
             if(!value.isProperty()) { // this does not really work
@@ -107,8 +67,7 @@ public class ClosureState implements State {
    }
 
    @Override
-   public void set(Address address, Value value) {
-      String name = address.getName();
+   public void setValue(String name, Value value) {
       Value variable = values.get(name);
       
       if(variable == null && scope != null) {
@@ -117,7 +76,7 @@ public class ClosureState implements State {
          if(state == null) {
             throw new InternalStateException("Scope for '" + name + "' does not exist");
          }
-         variable = state.get(name);
+         variable = state.getValue(name);
       }
       Object data = value.getValue();
 
@@ -128,14 +87,13 @@ public class ClosureState implements State {
    }
    
    @Override
-   public Address add(String name, Value value) {
+   public void addValue(String name, Value value) {
       Value variable = values.get(name);
 
       if(variable != null) {
          throw new InternalStateException("Variable '" + name + "' already exists");
       }
-      values.put(name, value); 
-      return new Address(name, 0, -1);
+      values.put(name, value);      
    }
    
    @Override

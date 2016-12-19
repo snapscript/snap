@@ -7,10 +7,10 @@ import junit.framework.TestCase;
 
 import org.snapscript.core.ContextModule;
 import org.snapscript.core.Module;
+import org.snapscript.core.error.ThreadStack;
 import org.snapscript.core.function.InvocationFunction;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.Signature;
-import org.snapscript.core.thread.ThreadStack;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceType;
 
@@ -60,14 +60,14 @@ public class ThreadStackTest extends TestCase {
    }
    
    public static void createTrace(ThreadStack stack, String resource, int line){
-      stack.before(new Trace(TraceType.NORMAL, new ContextModule(null, stack.state(), resource, resource, -1), line));
+      stack.before(new Trace(TraceType.NORMAL, new ContextModule(null, resource, resource, -1), line));
    }
    
    public static void createFunction(ThreadStack stack, String functionName, String typeName, String moduleName){
-      Module module = new ContextModule(null, stack.state(), moduleName, moduleName, -1);
+      Module module = new ContextModule(null, moduleName, moduleName, -1);
       TestType type = new TestType(module, typeName, null, null);
       List<Parameter> parameters = new ArrayList<Parameter>();
-      Signature signature = new Signature(parameters, module, stack.state());
+      Signature signature = new Signature(parameters, module);
       
       stack.before(new InvocationFunction(signature, null, type, null, functionName, 11));
    }

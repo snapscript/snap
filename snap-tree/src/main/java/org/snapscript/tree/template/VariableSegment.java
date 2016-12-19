@@ -2,10 +2,10 @@ package org.snapscript.tree.template;
 
 import java.io.Writer;
 
-import org.snapscript.core.Scope;
-import org.snapscript.core.Value;
-import org.snapscript.core.State;
 import org.snapscript.core.convert.StringBuilder;
+import org.snapscript.core.Scope;
+import org.snapscript.core.State;
+import org.snapscript.core.Value;
 
 public class VariableSegment implements Segment {
    
@@ -24,7 +24,7 @@ public class VariableSegment implements Segment {
    @Override
    public void process(Scope scope, Writer writer) throws Exception {
       State state = scope.getState();
-      Value value = state.get(variable);
+      Value value = state.getValue(variable);
       
       if(value == null) {
          writer.write(source, off, length);

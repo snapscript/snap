@@ -17,9 +17,9 @@ import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.ProxyWrapper;
 import org.snapscript.core.error.ErrorHandler;
+import org.snapscript.core.error.ThreadStack;
 import org.snapscript.core.link.PackageLinker;
 import org.snapscript.core.store.Store;
-import org.snapscript.core.thread.ThreadStack;
 import org.snapscript.core.trace.TraceInterceptor;
 
 public class StoreContext implements Context {
@@ -50,7 +50,7 @@ public class StoreContext implements Context {
       this.manager = new StoreManager(store);
       this.registry = new ModuleRegistry(this);
       this.linker = new ExecutorLinker(this, executor);      
-      this.loader = new TypeLoader(linker, registry, manager, stack);
+      this.loader = new TypeLoader(linker, registry, manager);
       this.matcher = new ConstraintMatcher(loader, wrapper);
       this.extractor = new TypeExtractor(loader);
       this.validator = new ExecutableValidator(matcher, extractor);

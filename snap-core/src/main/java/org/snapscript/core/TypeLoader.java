@@ -7,7 +7,6 @@ import org.snapscript.core.link.Package;
 import org.snapscript.core.link.PackageLinker;
 import org.snapscript.core.link.PackageLoader;
 import org.snapscript.core.link.PackageManager;
-import org.snapscript.core.thread.ThreadStack;
 
 public class TypeLoader {
    
@@ -17,10 +16,10 @@ public class TypeLoader {
    private final TypeIndexer indexer;
    private final ClassExtender extender;
    
-   public TypeLoader(PackageLinker linker, ModuleRegistry registry, ResourceManager manager, ThreadStack stack){
+   public TypeLoader(PackageLinker linker, ModuleRegistry registry, ResourceManager manager){
       this.scanner = new ImportScanner();
-      this.extender = new ClassExtender(this, stack);
-      this.indexer = new TypeIndexer(registry, scanner, extender, stack);
+      this.extender = new ClassExtender(this);
+      this.indexer = new TypeIndexer(registry, scanner, extender);
       this.loader = new PackageLoader(linker, manager);
       this.manager = new PackageManager(loader, scanner);
    }
