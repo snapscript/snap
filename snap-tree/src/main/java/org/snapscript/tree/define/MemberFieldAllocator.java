@@ -6,12 +6,12 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.ValueType;
-import org.snapscript.tree.DeclarationConverter;
+import org.snapscript.tree.DeclarationAllocator;
 import org.snapscript.tree.constraint.Constraint;
 
-public class MemberFieldConverter extends DeclarationConverter {
+public class MemberFieldAllocator extends DeclarationAllocator {
 
-   public MemberFieldConverter(Constraint constraint, Evaluation expression) {   
+   public MemberFieldAllocator(Constraint constraint, Evaluation expression) {   
       super(constraint, expression);
    }
    

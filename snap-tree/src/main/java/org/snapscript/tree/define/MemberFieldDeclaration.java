@@ -5,7 +5,7 @@ import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Value;
-import org.snapscript.tree.DeclarationConverter;
+import org.snapscript.tree.DeclarationAllocator;
 import org.snapscript.tree.ModifierData;
 import org.snapscript.tree.NameExtractor;
 import org.snapscript.tree.constraint.Constraint;
@@ -13,7 +13,7 @@ import org.snapscript.tree.literal.TextLiteral;
 
 public class MemberFieldDeclaration implements Evaluation {
 
-   private final DeclarationConverter converter;
+   private final DeclarationAllocator allocator;
    private final NameExtractor extractor;
    private final ModifierData modifiers;
    
@@ -30,7 +30,7 @@ public class MemberFieldDeclaration implements Evaluation {
    }
    
    public MemberFieldDeclaration(ModifierData modifiers, TextLiteral identifier, Constraint constraint, Evaluation value) {
-      this.converter = new MemberFieldConverter(constraint, value);
+      this.allocator = new MemberFieldAllocator(constraint, value);
       this.extractor = new NameExtractor(identifier);
       this.modifiers = modifiers;
    }   
@@ -39,7 +39,7 @@ public class MemberFieldDeclaration implements Evaluation {
    public Value evaluate(Scope scope, Object left) throws Exception {
       int mask = modifiers.getModifiers();
       String name = extractor.extract(scope);
-      Value value = converter.convert(scope, name, mask);
+      Value value = allocator.convert(scope, name, mask);
       State state = scope.getState();
       
       try { 
