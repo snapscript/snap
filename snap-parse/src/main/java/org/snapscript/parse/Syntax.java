@@ -102,6 +102,7 @@ public enum Syntax {
    ASSIGNMENT_STATEMENT("assignment-statement", "<reference><assignment-operator><assignment-expression>';'"),  
    DECLARATION_MODIFIER("declaration-modifier", "{'var'|'const'}"),
    DECLARATION("declaration", "<assignment-variable>?(':'<constraint>)?('='<assignment-expression>)"),
+   DECLARATION_STATEMENT("declaration-statement", "<declaration-modifier>' '<declaration>*(','<declaration>)';'"),   
    CONDITIONAL_STATEMENT("conditional-statement", "{<if-statement>|<while-statement>|<for-statement>|<for-in-statement>|<loop-statement>|<switch-statement>|<match-statement>}"),
    IF_STATEMENT("if-statement", "'if('<conditional>')'<statement>?('else'?' '<statement>)"),  
    WHILE_STATEMENT("while-statement", "'while('<conditional>')'<statement>"),
