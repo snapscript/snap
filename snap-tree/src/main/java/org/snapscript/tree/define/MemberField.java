@@ -21,7 +21,7 @@ import org.snapscript.tree.literal.TextLiteral;
 
 public class MemberField implements TypePart {
 
-   private final MemberFieldDeclaration declaration;
+   private final MemberFieldAssembler assembler;
    private final ConstraintExtractor extractor;
    private final AnnotationList annotations;
    private final ModifierChecker checker;
@@ -41,7 +41,7 @@ public class MemberField implements TypePart {
    }
 
    public MemberField(AnnotationList annotations, ModifierList list, TextLiteral identifier, Constraint constraint, Evaluation value) {
-      this.declaration = new MemberFieldDeclaration(list, identifier, constraint, value);
+      this.assembler = new MemberFieldAssembler(list, identifier, constraint, value);
       this.extractor = new ConstraintExtractor(constraint);
       this.checker = new ModifierChecker(list);
       this.annotations = annotations;
@@ -57,7 +57,7 @@ public class MemberField implements TypePart {
    @Override
    public Initializer compile(Initializer initializer, Type type) throws Exception {
       Scope scope = type.getScope();
-      Initializer declare = declaration.declare(initializer);
+      Initializer declare = assembler.assemble(initializer);
       List<Property> properties = type.getProperties();
       Value value = identifier.evaluate(scope, null);
       Type constraint = extractor.extract(scope);

@@ -5,13 +5,13 @@ public class FunctionKey {
    private final Object[] types;
    private final String function;
    private final Object source;
-   private final String type;
+   private final int order;
    
-   public FunctionKey(Object source, String type, String function, Object[] types) {
+   public FunctionKey(Object source, String function, Object[] types, int order) {
       this.function = function;
       this.source = source;
       this.types = types;
-      this.type = type;
+      this.order = order;
    }
    
    @Override
@@ -34,21 +34,16 @@ public class FunctionKey {
             return false;
          }         
       }
-      return key.type.equals(type);
+      return key.function.equals(function);
    }
    
    @Override
    public int hashCode() {
-      int hash = types.length;
+      int hash = function.hashCode();
       
-      hash = hash *31 + type.hashCode();
-      hash = hash *31 + function.hashCode();
+      hash = hash *31 + order;
+      hash = hash *31 + types.length;
       
       return hash;
-   }
-   
-   @Override
-   public String toString() {
-      return type;
    }
 }

@@ -2,13 +2,12 @@ package org.snapscript.tree;
 
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
-import org.snapscript.core.Evaluation;
+import org.snapscript.core.ModifierType;
 import org.snapscript.core.Module;
 import org.snapscript.core.Result;
 import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
-import org.snapscript.core.Value;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceInterceptor;
@@ -19,8 +18,8 @@ public class DeclarationStatement implements Compilation {
    
    private final Statement declaration;   
    
-   public DeclarationStatement(Evaluation declaration) {
-      this.declaration = new CompileResult(declaration);     
+   public DeclarationStatement(Modifier modifier, Declaration... declarations) {
+      this.declaration = new CompileResult(modifier, declarations);     
    }
    
    @Override
@@ -35,11 +34,13 @@ public class DeclarationStatement implements Compilation {
    
    private static class CompileResult extends Statement {
 
-      private final Evaluation declaration;   
+      private final Declaration[] declarations;
+      private final Modifier modifier;
       
-      public CompileResult(Evaluation declaration) {
-         this.declaration = declaration;     
-      }
+      public CompileResult(Modifier modifier, Declaration... declarations) {
+         this.declarations = declarations;
+         this.modifier = modifier;
+      }  
       
       @Override
       public Result compile(Scope scope) throws Exception {
@@ -48,10 +49,12 @@ public class DeclarationStatement implements Compilation {
       
       @Override
       public Result execute(Scope scope) throws Exception {
-         Value variable = declaration.evaluate(scope, null);              
-         Object value = variable.getValue();      
+         ModifierType type = modifier.getType();
          
-         return ResultType.getNormal(value);
+         for(Declaration declaration : declarations) {
+            declaration.create(scope, type.mask); 
+         }
+         return ResultType.getNormal();
       }
    }
 }

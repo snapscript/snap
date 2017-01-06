@@ -1,43 +1,52 @@
 package org.snapscript.tree.define;
 
 import org.snapscript.core.Evaluation;
-import org.snapscript.core.define.Initializer;
-import org.snapscript.tree.DeclareBlank;
-import org.snapscript.tree.DeclareProperty;
-import org.snapscript.tree.ModifierChecker;
-import org.snapscript.tree.ModifierList;
+import org.snapscript.core.InternalStateException;
+import org.snapscript.core.Scope;
+import org.snapscript.core.State;
+import org.snapscript.core.Value;
+import org.snapscript.tree.DeclarationConverter;
+import org.snapscript.tree.ModifierData;
+import org.snapscript.tree.NameExtractor;
 import org.snapscript.tree.constraint.Constraint;
 import org.snapscript.tree.literal.TextLiteral;
 
-public class MemberFieldDeclaration {
-   
-   private final ModifierChecker checker;
-   private final ModifierList modifiers;
-   private final TextLiteral identifier;
-   private final Constraint constraint;
-   private final Evaluation value;
+public class MemberFieldDeclaration implements Evaluation {
 
-   public MemberFieldDeclaration(ModifierList modifiers, TextLiteral identifier, Constraint constraint, Evaluation value) {
-      this.checker = new ModifierChecker(modifiers);
+   private final DeclarationConverter converter;
+   private final NameExtractor extractor;
+   private final ModifierData modifiers;
+   
+   public MemberFieldDeclaration(ModifierData modifiers, TextLiteral identifier) {
+      this(modifiers, identifier, null, null);
+   }
+   
+   public MemberFieldDeclaration(ModifierData modifiers, TextLiteral identifier, Constraint constraint) {      
+      this(modifiers, identifier, constraint, null);
+   }
+   
+   public MemberFieldDeclaration(ModifierData modifiers, TextLiteral identifier, Evaluation value) {
+      this(modifiers, identifier, null, value);
+   }
+   
+   public MemberFieldDeclaration(ModifierData modifiers, TextLiteral identifier, Constraint constraint, Evaluation value) {
+      this.converter = new MemberFieldConverter(constraint, value);
+      this.extractor = new NameExtractor(identifier);
       this.modifiers = modifiers;
-      this.constraint = constraint;
-      this.identifier = identifier;
-      this.value = value;
-   }
-   
-   public Initializer declare(Initializer initializer) throws Exception {
-      Evaluation evaluation = create(initializer);
+   }   
 
-      if (checker.isStatic()) {
-         return new StaticFieldInitializer(evaluation);
-      }
-      return new InstanceFieldInitializer(evaluation);
-   }
- 
-   private Evaluation create(Initializer initializer) throws Exception {
-      if (checker.isConstant()) {
-         return new DeclareBlank(identifier, modifiers, constraint, value);
-      }
-      return new DeclareProperty(identifier, modifiers, constraint, value);
+   @Override
+   public Value evaluate(Scope scope, Object left) throws Exception {
+      int mask = modifiers.getModifiers();
+      String name = extractor.extract(scope);
+      Value value = converter.convert(scope, name, mask);
+      State state = scope.getState();
+      
+      try { 
+         state.add(name, value);
+      }catch(Exception e) {
+         throw new InternalStateException("Declaration of variable '" + name +"' failed", e);
+      }  
+      return value;
    }
 }

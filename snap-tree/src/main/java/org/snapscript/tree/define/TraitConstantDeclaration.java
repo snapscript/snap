@@ -5,7 +5,6 @@ import static org.snapscript.core.ModifierType.STATIC;
 
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.define.Initializer;
-import org.snapscript.tree.DeclareBlank;
 import org.snapscript.tree.ModifierData;
 import org.snapscript.tree.constraint.Constraint;
 import org.snapscript.tree.literal.TextLiteral;
@@ -24,7 +23,7 @@ public class TraitConstantDeclaration {
    
    public Initializer declare(Initializer initializer) throws Exception {
       ModifierData modifiers = new ModifierData(CONSTANT, STATIC);
-      Evaluation evaluation = new DeclareBlank(identifier, modifiers, constraint, value);
+      Evaluation evaluation = new MemberFieldDeclaration(modifiers, identifier, constraint, value);
       
       return new StaticFieldInitializer(evaluation);
    }

@@ -15,7 +15,7 @@ public class FunctionKeyBuilder {
    }
    
    public Object create(Type source, String function, Object... list) throws Exception {
-      String name = source.getName();
+      int order = source.getOrder();
       
       if(list.length > 0) {
          Object[] types = new Object[list.length];
@@ -27,13 +27,13 @@ public class FunctionKeyBuilder {
                types[i] = extractor.getType(value);
             }
          }
-         return new FunctionKey(source, name, function, types);
+         return new FunctionKey(source, function, types, order);
       }
-      return new FunctionKey(source, name, function, empty);
+      return new FunctionKey(source, function, empty, order);
    }
    
    public Object create(Module source, String function, Object... list) throws Exception {
-      String name = source.getName();
+      int order = source.getOrder();
       
       if(list.length > 0) {
          Object[] types = new Object[list.length];
@@ -45,8 +45,8 @@ public class FunctionKeyBuilder {
                types[i] = extractor.getType(value);
             }
          }
-         return new FunctionKey(source, name, function, types);
+         return new FunctionKey(source, function, types, order);
       }
-      return new FunctionKey(source, name, function, empty);
+      return new FunctionKey(source, function, empty, order);
    }
 }
