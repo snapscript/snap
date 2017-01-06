@@ -82,7 +82,7 @@ public class AnyDefinition{
          State state = instance.getState();
          Value value = ValueType.getProperty(object, real, PUBLIC.mask | CONSTANT.mask); // this needs to be a blank
          
-         state.addValue(TYPE_THIS, value); // reference to 'this'
+         state.add(TYPE_THIS, value); // reference to 'this'
          
          return ResultType.getNormal(instance);
       }

@@ -54,7 +54,7 @@ public class CatchBlockList {
                State state = compound.getState();
                Value constant = ValueType.getConstant(cause);
                
-               state.addValue(name, constant);
+               state.add(name, constant);
 
                return statement.execute(compound);
             }

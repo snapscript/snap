@@ -53,7 +53,7 @@ public class EnumInitializer extends Initializer {
       }
       Result result = call.call();
       Scope instance = result.getValue();
-      Value value = state.getValue(ENUM_VALUES);
+      Value value = state.get(ENUM_VALUES);
       List values = value.getValue();
       Object object = wrapper.toProxy(instance);
       

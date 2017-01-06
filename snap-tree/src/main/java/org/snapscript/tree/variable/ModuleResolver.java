@@ -19,7 +19,7 @@ public class ModuleResolver implements ValueResolver<Module> {
    public Value resolve(Scope scope, Module left) {
       Scope inner = left.getScope();
       State state = inner.getState();
-      Value value = state.getValue(name);
+      Value value = state.get(name);
       
       if(value == null) {
          Type type = left.getType(name);

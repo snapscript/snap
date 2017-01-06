@@ -35,7 +35,7 @@ public class Super implements Evaluation {
          throw new InternalStateException("No enclosing function for 'super' reference");
       }
       State state = scope.getState();
-      Value value = state.getValue(TYPE_THIS);
+      Value value = state.get(TYPE_THIS);
       
       if(value == null) {
          throw new InternalStateException("No enclosing type for 'super' reference");

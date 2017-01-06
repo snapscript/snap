@@ -1,10 +1,11 @@
 package org.snapscript.core.define;
 
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import org.snapscript.common.CompoundIterator;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.State;
 import org.snapscript.core.Value;
@@ -20,28 +21,21 @@ public class InstanceState implements State {
    }
    
    @Override
-   public Set<String> getNames() {
-      Set<String> names = new HashSet<String>();   
+   public Iterator<String> iterator() {
+      Set<String> keys = values.keySet();
+      Iterator<String> inner = keys.iterator();
       
       if(instance != null) {
          State state = instance.getState();
+         Iterator<String> outer = state.iterator();
          
-         if(state == null) {
-            throw new InternalStateException("Scope for does not exist");
-         }
-         Set<String> inner = state.getNames();
-         Set<String> outer = values.keySet();
-         
-         names.addAll(inner);
-         names.addAll(outer);
-         
-         return names;
+         return new CompoundIterator<String>(inner, outer);
       }
-      return values.keySet();
+      return inner;
    }
 
    @Override
-   public Value getValue(String name) {
+   public Value get(String name) {
       Value value = values.get(name);
       
       if(value == null) {
@@ -50,33 +44,13 @@ public class InstanceState implements State {
          if(state == null) {
             throw new InternalStateException("Scope for '" + name + "' does not exist");
          }
-         value = state.getValue(name);
+         value = state.get(name);
       }
       return value;
    }
-
-   @Override
-   public void setValue(String name, Value value) {
-      Value variable = values.get(name);
-      
-      if(variable == null && instance != null) {
-         State state = instance.getState();
-         
-         if(state == null) {
-            throw new InternalStateException("Scope for '" + name + "' does not exist");
-         }
-         variable = state.getValue(name);
-      }
-      Object data = value.getValue();
-
-      if(variable == null) {
-         throw new InternalStateException("Variable '" + name + "' does not exist");
-      }
-      variable.setValue(data);      
-   }
    
    @Override
-   public void addValue(String name, Value value) {
+   public void add(String name, Value value) {
       Value variable = values.get(name);
 
       if(variable != null) {

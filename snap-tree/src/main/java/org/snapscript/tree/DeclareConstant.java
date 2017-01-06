@@ -36,7 +36,7 @@ public class DeclareConstant extends DeclareVariable {
       
       try {      
          Value constant = ValueType.getConstant(object, type);
-         state.addValue(name, constant);
+         state.add(name, constant);
          return constant;
       }catch(Exception e) {
          throw new InternalStateException("Declaration of constant '" + name +"' failed", e);

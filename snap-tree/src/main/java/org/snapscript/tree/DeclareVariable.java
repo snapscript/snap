@@ -62,7 +62,7 @@ public class DeclareVariable implements Evaluation {
       
       try { 
          Value reference = ValueType.getReference(object, type);
-         state.addValue(name, reference);
+         state.add(name, reference);
          return reference;
       }catch(Exception e) {
          throw new InternalStateException("Declaration of variable '" + name +"' failed", e);

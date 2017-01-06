@@ -31,7 +31,7 @@ public class InstanceValidator {
          throw new InternalStateException("Instance of '" + type+ "' does not reference model");
       }
       for(String constant : CONSTANTS) {
-         Value value = state.getValue(constant);
+         Value value = state.get(constant);
          
          if(value == null) {
             throw new InternalStateException("Constant '" + constant + "' not defined for '" + type+ "'");

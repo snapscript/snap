@@ -15,7 +15,7 @@ public class ThisResolver {
    public Scope resolve(Scope scope, Scope instance) {
       if(instance != null) {
          State state = instance.getState();
-         Value value = state.getValue(TYPE_THIS);
+         Value value = state.get(TYPE_THIS);
          
          return value.getValue();
       }

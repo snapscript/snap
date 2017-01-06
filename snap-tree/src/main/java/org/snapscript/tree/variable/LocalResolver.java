@@ -28,7 +28,7 @@ public class LocalResolver implements ValueResolver<Object> {
       
       if(result == null) {
          State state = scope.getState();
-         Value variable = state.getValue(name);
+         Value variable = state.get(name);
          
          if(variable == null) { 
             Object value = match(scope, left);

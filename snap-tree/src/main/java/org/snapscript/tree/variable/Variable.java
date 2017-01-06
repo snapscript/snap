@@ -23,7 +23,7 @@ public class Variable implements Evaluation {
       
       if(left == null) {
          State state = scope.getState();
-         Value value = state.getValue(name);
+         Value value = state.get(name);
          
          if(value != null) { 
             return value;

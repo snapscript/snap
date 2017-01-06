@@ -21,7 +21,7 @@ public class ScopeFunctionMatcher {
    
    public FunctionPointer match(Scope scope, String name, Object... values) throws Exception { // match function variable
       State state = scope.getState();
-      Value value = state.getValue(name);
+      Value value = state.get(name);
       
       if(value != null) {
          Object object = value.getValue();

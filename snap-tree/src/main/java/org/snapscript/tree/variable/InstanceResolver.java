@@ -19,7 +19,7 @@ public class InstanceResolver implements ValueResolver<Object> {
    public Value resolve(Scope scope, Object left) {
       Instance instance = (Instance)scope;
       State state = instance.getState();
-      Value value = state.getValue(TYPE_THIS);
+      Value value = state.get(TYPE_THIS);
       Scope outer = value.getValue();
       
       return resolver.resolve(outer, left);

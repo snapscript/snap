@@ -19,7 +19,7 @@ public class MapKey implements Evaluation {
    public Value evaluate(Scope scope, Object left) throws Exception{
       String name = extractor.extract(scope);
       State state = scope.getState();
-      Value value = state.getValue(name);
+      Value value = state.get(name);
       
       if(value == null) {
          return ValueType.getTransient(name);

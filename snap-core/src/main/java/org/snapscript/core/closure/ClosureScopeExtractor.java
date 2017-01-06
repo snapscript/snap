@@ -1,6 +1,6 @@
 package org.snapscript.core.closure;
 
-import java.util.Set;
+import java.util.Iterator;
 
 import org.snapscript.core.Model;
 import org.snapscript.core.Scope;
@@ -15,14 +15,16 @@ public class ClosureScopeExtractor {
    public Scope extract(Scope scope) {
       Model model = scope.getModel();
       State state = scope.getState();
-      Set<String> names = state.getNames();
+      Iterator<String> names = state.iterator();
       
-      if(!names.isEmpty()) {
+      if(names.hasNext()) {
          Scope capture = new ClosureScope(model, scope);
          
-         for(String name : names) {
+         while(names.hasNext()) {
             State inner = capture.getState();
-            inner.getValue(name);
+            String name = names.next();
+            
+            inner.get(name);
          }
          return capture;
       }
