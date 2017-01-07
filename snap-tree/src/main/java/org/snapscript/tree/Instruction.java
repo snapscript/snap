@@ -152,6 +152,7 @@ public enum Instruction {
    RETURN_STATEMENT(ReturnStatement.class, "return-statement"),      
    ASSERT_STATEMENT(AssertStatement.class, "assert-statement"),    
    WHILE_STATEMENT(WhileStatement.class, "while-statement"),
+   FOR_ASSIGNMENT_LIST(CompoundExpression.class, "for-assignment-list"),
    FOR_STATEMENT(ForStatement.class, "for-statement"),
    FOR_IN_STATEMENT(ForInStatement.class, "for-in-statement"),
    LOOP_STATEMENT(LoopStatement.class, "loop-statement"),
