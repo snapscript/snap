@@ -18,20 +18,17 @@ public class DeclarationConverter {
    }
 
    public Object convert(Scope scope, Object value, Type type, String name) throws Exception {
-      Module module = scope.getModule();
-      Context context = module.getContext();
-      ConstraintMatcher matcher = context.getMatcher();
-      ConstraintConverter converter = matcher.match(type);
-      
       if(value != null) {
+         Module module = scope.getModule();
+         Context context = module.getContext();
+         ConstraintMatcher matcher = context.getMatcher();
+         ConstraintConverter converter = matcher.match(type);
          Score score = converter.score(value);
          
          if(score.compareTo(INVALID) == 0) {
             throw new InternalStateException("Variable '" + name + "' does not match constraint '" + type + "'");
          }
-         if(value != null) {
-            return converter.convert(value);
-         }
+         return converter.convert(value);
       }
       return value;
    }

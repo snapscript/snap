@@ -32,7 +32,7 @@ public class Declaration {
 
    public Value create(Scope scope, int modifiers) throws Exception {
       String name = extractor.extract(scope);
-      Value value = allocator.convert(scope, name, modifiers);
+      Value value = allocator.allocate(scope, name, modifiers);
       State state = scope.getState();
       
       try { 

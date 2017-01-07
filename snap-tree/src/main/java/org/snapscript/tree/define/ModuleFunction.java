@@ -26,21 +26,19 @@ public class ModuleFunction extends Statement {
    private final ParameterList parameters;
    private final FunctionBuilder builder;
    private final NameExtractor extractor;
-   private final ModifierList list;
    private final Statement body;
    
-   public ModuleFunction(AnnotationList annotations, ModifierList list, Evaluation identifier, ParameterList parameters, Statement body){  
-      this(annotations, list, identifier, parameters, null, body);
+   public ModuleFunction(AnnotationList annotations, ModifierList modifiers, Evaluation identifier, ParameterList parameters, Statement body){  
+      this(annotations, modifiers, identifier, parameters, null, body);
    }
    
-   public ModuleFunction(AnnotationList annotations, ModifierList list, Evaluation identifier, ParameterList parameters, Constraint constraint, Statement body){  
+   public ModuleFunction(AnnotationList annotations, ModifierList modifiers, Evaluation identifier, ParameterList parameters, Constraint constraint, Statement body){  
       this.constraint = new ConstraintExtractor(constraint);
       this.extractor = new NameExtractor(identifier);
       this.builder = new FunctionBuilder(body);
       this.annotations = annotations;
       this.parameters = parameters;
       this.body = body;
-      this.list = list;
    }  
    
    @Override

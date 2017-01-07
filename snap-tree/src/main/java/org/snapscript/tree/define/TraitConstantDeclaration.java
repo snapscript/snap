@@ -4,6 +4,8 @@ import static org.snapscript.core.ModifierType.CONSTANT;
 import static org.snapscript.core.ModifierType.STATIC;
 
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.Scope;
+import org.snapscript.core.Type;
 import org.snapscript.core.define.Initializer;
 import org.snapscript.tree.ModifierData;
 import org.snapscript.tree.constraint.Constraint;
@@ -11,20 +13,20 @@ import org.snapscript.tree.literal.TextLiteral;
 
 public class TraitConstantDeclaration {
    
-   private final TextLiteral identifier;
-   private final Constraint constraint;
-   private final Evaluation value;
+   private final MemberFieldDeclaration declaration;
+   private final MemberFieldAssembler assembler;
+   private final ModifierData modifiers;
 
    public TraitConstantDeclaration(TextLiteral identifier, Constraint constraint, Evaluation value) {
-      this.constraint = constraint;
-      this.identifier = identifier;
-      this.value = value;
+      this.declaration = new MemberFieldDeclaration(identifier, constraint, value);
+      this.modifiers = new ModifierData(CONSTANT, STATIC);
+      this.assembler = new MemberFieldAssembler(modifiers);
    }
    
-   public Initializer declare(Initializer initializer) throws Exception {
-      ModifierData modifiers = new ModifierData(CONSTANT, STATIC);
-      Evaluation evaluation = new MemberFieldDeclaration(modifiers, identifier, constraint, value);
+   public Initializer declare(Initializer initializer, Type type) throws Exception {
+      Scope scope = type.getScope();
+      MemberFieldData data = declaration.create(scope);
       
-      return new StaticFieldInitializer(evaluation);
+      return assembler.assemble(data);
    }
 }

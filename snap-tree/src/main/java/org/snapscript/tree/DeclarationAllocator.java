@@ -21,7 +21,7 @@ public class DeclarationAllocator {
       this.expression = expression;
    }   
 
-   public Value convert(Scope scope, String name, int modifiers) throws Exception {
+   public Value allocate(Scope scope, String name, int modifiers) throws Exception {
       Type type = extractor.extract(scope);
       Object object = null;
       

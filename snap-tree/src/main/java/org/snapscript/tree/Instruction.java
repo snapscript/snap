@@ -45,6 +45,7 @@ import org.snapscript.tree.define.EnumList;
 import org.snapscript.tree.define.EnumValue;
 import org.snapscript.tree.define.InnerDefinition;
 import org.snapscript.tree.define.MemberField;
+import org.snapscript.tree.define.MemberFieldDeclaration;
 import org.snapscript.tree.define.MemberFunction;
 import org.snapscript.tree.define.ModuleDefinition;
 import org.snapscript.tree.define.ModuleFunction;
@@ -186,6 +187,7 @@ public enum Instruction {
    TRAIT_FUNCTION(TraitFunction.class, "trait-function"),
    ENUM_KEY(EnumKey.class, "enum-key"),
    ENUM_HIERARCHY(TypeHierarchy.class, "enum-hierarchy"),
+   ENUM_FIELD_DECLARATION(MemberFieldDeclaration.class, "enum-field-declaration"),
    ENUM_FIELD(MemberField.class, "enum-field"),
    ENUM_FUNCTION(MemberFunction.class, "enum-function"),   
    ENUM_DEFINITION(EnumDefinition.class, "enum-definition"), 
@@ -194,6 +196,7 @@ public enum Instruction {
    ENUM_LIST(EnumList.class, "enum-list"),     
    CLASS_HIERARCHY(TypeHierarchy.class, "class-hierarchy"),
    CLASS_DEFINITION(ClassDefinition.class, "class-definition"),
+   CLASS_FIELD_DECLARATION(MemberFieldDeclaration.class, "class-field-declaration"),
    CLASS_FIELD(MemberField.class, "class-field"),
    CLASS_FUNCTION(MemberFunction.class, "class-function"),   
    CLASS_CONSTRUCTOR(ClassConstructor.class, "class-constructor"), 

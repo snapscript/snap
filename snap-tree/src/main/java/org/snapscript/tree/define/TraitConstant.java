@@ -48,7 +48,7 @@ public class TraitConstant implements TypePart {
    @Override
    public Initializer compile(Initializer initializer, Type type) throws Exception {
       Scope scope = type.getScope();
-      Initializer declare = declaration.declare(initializer);
+      Initializer declare = declaration.declare(initializer, type);
       List<Property> properties = type.getProperties();
       Value value = identifier.evaluate(scope, null);
       Type constraint = extractor.extract(scope);

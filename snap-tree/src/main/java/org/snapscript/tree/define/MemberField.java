@@ -2,10 +2,8 @@ package org.snapscript.tree.define;
 
 import java.util.List;
 
-import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
-import org.snapscript.core.Value;
 import org.snapscript.core.define.Initializer;
 import org.snapscript.core.function.Accessor;
 import org.snapscript.core.function.AccessorProperty;
@@ -15,38 +13,21 @@ import org.snapscript.core.property.Property;
 import org.snapscript.tree.ModifierChecker;
 import org.snapscript.tree.ModifierList;
 import org.snapscript.tree.annotation.AnnotationList;
-import org.snapscript.tree.constraint.Constraint;
-import org.snapscript.tree.constraint.ConstraintExtractor;
-import org.snapscript.tree.literal.TextLiteral;
 
 public class MemberField implements TypePart {
    
+   private final MemberFieldDeclaration[] declarations;
+   private final InitializerCollector collector;
    private final MemberFieldAssembler assembler;
-   private final ConstraintExtractor extractor;
    private final AnnotationList annotations;
    private final ModifierChecker checker;
-   private final TextLiteral identifier;
-   private final ModifierList list;
-   
-   public MemberField(AnnotationList annotations, ModifierList list, TextLiteral identifier) {
-      this(annotations, list, identifier, null, null);
-   }
 
-   public MemberField(AnnotationList annotations, ModifierList list, TextLiteral identifier, Constraint constraint) {
-      this(annotations, list, identifier, constraint, null);
-   }
-
-   public MemberField(AnnotationList annotations, ModifierList list, TextLiteral identifier, Evaluation value) {
-      this(annotations, list, identifier, null, value);
-   }
-
-   public MemberField(AnnotationList annotations, ModifierList list, TextLiteral identifier, Constraint constraint, Evaluation value) {
-      this.assembler = new MemberFieldAssembler(list, identifier, constraint, value);
-      this.extractor = new ConstraintExtractor(constraint);
-      this.checker = new ModifierChecker(list);
+   public MemberField(AnnotationList annotations, ModifierList modifiers, MemberFieldDeclaration... declarations) {
+      this.assembler = new MemberFieldAssembler(modifiers);
+      this.checker = new ModifierChecker(modifiers);
+      this.collector = new InitializerCollector();
+      this.declarations = declarations;
       this.annotations = annotations;
-      this.identifier = identifier;
-      this.list = list;
    }
    
    @Override
@@ -58,26 +39,30 @@ public class MemberField implements TypePart {
    public Initializer compile(Initializer initializer, Type type) throws Exception {
       Scope scope = type.getScope();
       List<Property> properties = type.getProperties();
-      Initializer declare = assembler.assemble(initializer);
-      Value value = identifier.evaluate(scope, null);
-      Type constraint = extractor.extract(scope);
-      String name = value.getString();
-      int modifiers = list.getModifiers();
+      int mask = checker.getModifiers();
       
-      if (checker.isStatic()) {
-         Accessor accessor = new StaticAccessor(initializer, scope, type, name);
-         Property property = new AccessorProperty(name, type, constraint, accessor, modifiers);
+      for(MemberFieldDeclaration declaration : declarations) {
+         MemberFieldData data = declaration.create(scope);
+         String name = data.getName();
+         Type constraint = data.getConstraint();
+         Initializer declare = assembler.assemble(data);
          
-         annotations.apply(scope, property);
-         properties.add(property);
-      } else {
-         Accessor accessor = new ScopeAccessor(name);
-         Property property = new AccessorProperty(name, type, constraint, accessor, modifiers); // is this the correct type!!??
-         
-         annotations.apply(scope, property);
-         properties.add(property);
+         if (checker.isStatic()) {
+            Accessor accessor = new StaticAccessor(initializer, scope, type, name);
+            Property property = new AccessorProperty(name, type, constraint, accessor, mask);
+            
+            annotations.apply(scope, property);
+            properties.add(property);
+         } else {
+            Accessor accessor = new ScopeAccessor(name);
+            Property property = new AccessorProperty(name, type, constraint, accessor, mask); // is this the correct type!!??
+            
+            annotations.apply(scope, property);
+            properties.add(property);
+         }
+         collector.update(declare);
       }
-      return declare;
+      return collector;
    }
 }
 
