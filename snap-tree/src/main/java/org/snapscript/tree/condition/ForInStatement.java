@@ -64,7 +64,8 @@ public class ForInStatement implements Compilation {
          Object object = list.getValue();
          Iteration iteration = converter.convert(scope, object);
          Iterable iterable = iteration.getIterable(scope);
-         State state = scope.getState();
+         Scope inner = scope.getInner();
+         State state = inner.getState();
          
          for (Object entry : iterable) {
             Value variable = state.get(name);
@@ -75,7 +76,7 @@ public class ForInStatement implements Compilation {
             } else {
                variable.setValue(entry);
             }
-            Result result = body.execute(scope);   
+            Result result = body.execute(inner);   
    
             if (result.isReturn()) {
                return result;

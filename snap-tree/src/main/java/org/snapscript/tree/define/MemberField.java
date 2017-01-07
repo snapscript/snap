@@ -20,7 +20,7 @@ import org.snapscript.tree.constraint.ConstraintExtractor;
 import org.snapscript.tree.literal.TextLiteral;
 
 public class MemberField implements TypePart {
-
+   
    private final MemberFieldAssembler assembler;
    private final ConstraintExtractor extractor;
    private final AnnotationList annotations;
@@ -57,8 +57,8 @@ public class MemberField implements TypePart {
    @Override
    public Initializer compile(Initializer initializer, Type type) throws Exception {
       Scope scope = type.getScope();
-      Initializer declare = assembler.assemble(initializer);
       List<Property> properties = type.getProperties();
+      Initializer declare = assembler.assemble(initializer);
       Value value = identifier.evaluate(scope, null);
       Type constraint = extractor.extract(scope);
       String name = value.getString();

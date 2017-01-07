@@ -3,7 +3,6 @@ package org.snapscript.tree.collection;
 import java.util.Iterator;
 
 import org.snapscript.core.Evaluation;
-import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
 import org.snapscript.core.ValueType;
@@ -47,18 +46,18 @@ public class Range implements Evaluation {
       @Override
       public Iterator<Number> iterator() {
          if(first > last) {
-            throw new InternalStateException("Range " + first + ".." + last + " is invalid");
+            return new ReverseIterator(first, last);
          }
-         return new RangeIterator(first, last);
+         return new ForwardIterator(first, last);
       }
    }
    
-   private static class RangeIterator implements Iterator<Number> {
+   private static class ForwardIterator implements Iterator<Number> {
       
       private long first;
       private long last;
       
-      public RangeIterator(Long first, Long last) {
+      public ForwardIterator(Long first, Long last) {
          this.first = first;
          this.last = last;
       }
@@ -72,6 +71,35 @@ public class Range implements Evaluation {
       public Number next() {
          if(first <= last) {
             return first++;
+         }
+         return null;
+      }
+      
+      @Override
+      public void remove() {
+         throw new UnsupportedOperationException("Illegal modification of range");
+      }
+   }
+   
+   private static class ReverseIterator implements Iterator<Number> {
+      
+      private long first;
+      private long last;
+      
+      public ReverseIterator(Long first, Long last) {
+         this.first = first;
+         this.last = last;
+      }
+
+      @Override
+      public boolean hasNext() {
+         return first >= last;
+      }
+
+      @Override
+      public Number next() {
+         if(first >= last) {
+            return first--;
          }
          return null;
       }
