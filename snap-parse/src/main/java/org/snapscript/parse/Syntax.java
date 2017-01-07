@@ -106,6 +106,7 @@ public enum Syntax {
    CONDITIONAL_STATEMENT("conditional-statement", "{<if-statement>|<while-statement>|<for-statement>|<for-in-statement>|<loop-statement>|<switch-statement>|<match-statement>}"),
    IF_STATEMENT("if-statement", "'if('<conditional>')'<statement>?('else'?' '<statement>)"),  
    WHILE_STATEMENT("while-statement", "'while('<conditional>')'<statement>"),
+   FOR_ASSIGNMENT("for-assignment", "{<assignment>|<increment-decrement>|<reference>}"),
    FOR_ASSIGNMENT_LIST("for-assignment-list", "<for-assignment>*(','<for-assignment>)"),
    FOR_STATEMENT("for-statement", "'for('(<declaration-statement>|<assignment-statement>|<terminal-statement>)<conditional>';'?(<for-assignment-list>)')'<statement>"),
    FOR_IN_STATEMENT("for-in-statement", "'for('?('var'' ')([identifier])' ''in'?' '{<range>|<reference>}')'<statement>"),
