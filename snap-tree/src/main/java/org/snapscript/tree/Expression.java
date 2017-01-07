@@ -16,7 +16,7 @@ public class Expression implements Evaluation {
    @Override
    public Value evaluate(Scope scope, Object left) throws Exception {
       if(list.length <= 0) {
-         throw new InternalStateException("Evaluation is empty");
+         throw new InternalStateException("Expression is empty");
       }
       Value value = list[0].evaluate(scope, left);
       
