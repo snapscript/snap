@@ -15,8 +15,10 @@ public class CurryTest extends TestCase {
    "      return [(y) -> x+y];\n"+
    "   }\n"+   
    "}\n"+
-   "var f = Curry.func(1);"+
-   "f(2);\n"+
+   "var f = Curry.func(1);\n"+
+   "var l = [f];\n"+
+   "assert f(5) == 6;\n"+
+   "assert l[0](3) == 4;\n"+
    "assert Curry.func(1)(2) == 3;\n"+
    "assert Curry.func2(1)[0](2) == 3;\n";
 

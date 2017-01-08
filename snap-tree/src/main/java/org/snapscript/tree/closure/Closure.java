@@ -3,7 +3,6 @@ package org.snapscript.tree.closure;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.snapscript.core.Compilation;
-import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
@@ -13,17 +12,14 @@ import org.snapscript.core.ValueType;
 import org.snapscript.core.closure.ClosureScopeExtractor;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Signature;
-import org.snapscript.core.trace.Trace;
-import org.snapscript.core.trace.TraceEvaluation;
-import org.snapscript.core.trace.TraceInterceptor;
-import org.snapscript.core.trace.TraceType;
 import org.snapscript.tree.Expression;
+import org.snapscript.tree.ExpressionStatement;
 
 public class Closure implements Compilation {
    
    private final ClosureParameterList parameters;
+   private final ExpressionStatement compilation;
    private final Statement statement;
-   private final Evaluation expression;
    
    public Closure(ClosureParameterList parameters, Statement statement){  
       this(parameters, statement, null);
@@ -34,22 +30,19 @@ public class Closure implements Compilation {
    }
    
    public Closure(ClosureParameterList parameters, Statement statement, Expression expression){
+      this.compilation = new ExpressionStatement(expression);
       this.parameters = parameters;
-      this.expression = expression;
       this.statement = statement;
    }
    
    @Override
    public Evaluation compile(Module module, int line) throws Exception {
-      Context context = module.getContext();
-      TraceInterceptor interceptor = context.getInterceptor();
-      Trace trace = TraceType.getNormal(module, line);
-      Evaluation evaluation = expression;
+      Statement closure = statement;
       
-      if(evaluation != null) {
-         evaluation = new TraceEvaluation(interceptor, evaluation, trace);
+      if(closure == null) {
+         closure = compilation.compile(module, line);
       }
-      return new CompileResult(parameters, statement, evaluation);
+      return new CompileResult(parameters, closure);
    }
   
    private static class CompileResult implements Evaluation {
@@ -60,12 +53,12 @@ public class Closure implements Compilation {
       private final AtomicBoolean compile;
       private final Statement closure;
 
-      public CompileResult(ClosureParameterList parameters, Statement statement, Evaluation expression){
-         this.closure = new ClosureStatement(statement, expression);
+      public CompileResult(ClosureParameterList parameters, Statement closure){
          this.extractor = new ClosureScopeExtractor();
          this.builder = new ClosureBuilder(closure);
          this.compile = new AtomicBoolean();
          this.parameters = parameters;
+         this.closure = closure;
       }
       
       @Override

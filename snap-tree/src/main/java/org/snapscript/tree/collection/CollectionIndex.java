@@ -6,6 +6,7 @@ import java.util.Map;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalArgumentException;
+import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
@@ -15,29 +16,37 @@ import org.snapscript.tree.Argument;
 public class CollectionIndex implements Evaluation {
    
    private final CollectionConverter converter;
+   private final Evaluation[] evaluations;
    private final Evaluation variable;
-   private final Argument[] arguments;
+   private final Argument argument;
   
-   public CollectionIndex(Evaluation variable, Argument... arguments) {
+   public CollectionIndex(Evaluation variable, Argument argument, Evaluation... evaluations) {
       this.converter = new CollectionConverter();
-      this.arguments = arguments;
+      this.evaluations = evaluations;
+      this.argument = argument;
       this.variable = variable;  
    }
 
    @Override
    public Value evaluate(Scope scope, Object left) throws Exception {
       Value value = variable.evaluate(scope, left);
+      Value index = argument.evaluate(scope, null);
+      Object source = value.getValue();
       
-      for(Argument argument : arguments) {
-         Value index = argument.evaluate(scope, null);
-         Object source = value.getValue();
-
-         if(source == null) {
-            throw new InternalArgumentException("Illegal index of null");
-         }
-         value = index(scope, source, index);
+      if(source == null) {
+         throw new InternalArgumentException("Illegal index of null");
       }
-      return value;
+      Value result = index(scope, source, index);
+
+      for(Evaluation evaluation : evaluations) {
+         Object object = result.getValue();
+         
+         if(object == null) {
+            throw new InternalStateException("Result was null"); 
+         }
+         result = evaluation.evaluate(scope, object);
+      }
+      return result;
    }
    
    private Value index(Scope scope, Object left, Value index) throws Exception {

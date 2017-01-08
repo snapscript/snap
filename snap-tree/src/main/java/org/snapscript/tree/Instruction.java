@@ -60,8 +60,6 @@ import org.snapscript.tree.define.TypeName;
 import org.snapscript.tree.function.FunctionInvocation;
 import org.snapscript.tree.function.ParameterDeclaration;
 import org.snapscript.tree.function.ParameterList;
-import org.snapscript.tree.function.ResultIndex;
-import org.snapscript.tree.function.ResultInvocation;
 import org.snapscript.tree.function.ScriptFunction;
 import org.snapscript.tree.literal.BooleanLiteral;
 import org.snapscript.tree.literal.NullLiteral;
@@ -78,6 +76,8 @@ import org.snapscript.tree.operation.PrefixDecrement;
 import org.snapscript.tree.operation.PrefixIncrement;
 import org.snapscript.tree.operation.PrefixOperation;
 import org.snapscript.tree.operation.SignedNumber;
+import org.snapscript.tree.reference.ReferenceIndex;
+import org.snapscript.tree.reference.ReferenceInvocation;
 import org.snapscript.tree.reference.ReferenceNavigation;
 import org.snapscript.tree.reference.ReferencePart;
 import org.snapscript.tree.reference.TraitReference;
@@ -104,11 +104,11 @@ public enum Instruction {
    ARGUMENT(Argument.class, "argument"),
    RANGE(Range.class, "range"),      
    COLLECTION_INDEX(CollectionIndex.class, "collection-index"),     
-   FUNCTION_RESULT_INDEX(ResultIndex.class, "function-result-index"),
-   FUNCTION_RESULT_INVOCATION(ResultInvocation.class, "function-result-invocation"),
    FUNCTION_ARGUMENT_LIST(ArgumentList.class, "function-argument-list"),
    FUNCTION_INVOCATION(FunctionInvocation.class, "function-invocation"),           
    ARGUMENT_LIST(ArgumentList.class, "argument-list"),     
+   REFERENCE_INDEX(ReferenceIndex.class, "reference-index"),
+   REFERENCE_INVOCATION(ReferenceInvocation.class, "reference-invocation"),
    REFERENCE_NAVIGATION(ReferenceNavigation.class, "reference-navigation"), 
    REFERENCE_TYPE(ReferenceNavigation.class, "reference-type"),   
    REFERENCE_PART(ReferencePart.class, "reference-part"),

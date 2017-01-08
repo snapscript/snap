@@ -1,4 +1,4 @@
-package org.snapscript.tree.function;
+package org.snapscript.tree.reference;
 
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Identity;
@@ -7,11 +7,11 @@ import org.snapscript.core.Value;
 import org.snapscript.tree.Argument;
 import org.snapscript.tree.collection.CollectionIndex;
 
-public class ResultIndex implements Evaluation {
+public class ReferenceIndex implements Evaluation {
    
    private final Argument argument;
   
-   public ResultIndex(Argument argument) {     
+   public ReferenceIndex(Argument argument) {     
       this.argument = argument;
    }
 

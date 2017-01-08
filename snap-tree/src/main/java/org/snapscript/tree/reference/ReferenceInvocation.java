@@ -1,4 +1,4 @@
-package org.snapscript.tree.function;
+package org.snapscript.tree.reference;
 
 import java.util.concurrent.Callable;
 
@@ -13,11 +13,11 @@ import org.snapscript.core.ValueType;
 import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.tree.ArgumentList;
 
-public class ResultInvocation implements Evaluation {
+public class ReferenceInvocation implements Evaluation {
    
    private final ArgumentList arguments;
    
-   public ResultInvocation(ArgumentList arguments) {
+   public ReferenceInvocation(ArgumentList arguments) {
       this.arguments = arguments;
    }
       
