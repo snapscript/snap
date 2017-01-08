@@ -25,7 +25,8 @@ public enum Syntax {
    ARRAY("array", "{<function-invocation>|<variable-reference>}"),
    ARRAY_INDEX("array-index", "<array>+('['<argument>']')"),   
    FUNCTION("function", "[identifier]"),
-   FUNCTION_INVOCATION("function-invocation", "<function>'('?<argument-list>')'"),
+   FUNCTION_ARGUMENT_LIST("function-argument-list", "?<argument>*(','<argument>)"),
+   FUNCTION_INVOCATION("function-invocation", "<function>+('('<function-argument-list>')')"), // what about func(2)[3](x,y);
    REFERENCE("reference", "{<reference-type>|<reference-navigation>}"),
    REFERENCE_PART("reference-part", "{<array-index>|<function-invocation>|<construct>|<closure>|<variable-reference>|<literal>}"),
    REFERENCE_NAVIGATION("reference-navigation", "<reference-part>*(<reference-operator><reference-navigation>)"),   

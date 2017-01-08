@@ -1,11 +1,19 @@
 package org.snapscript.tree.function;
 
+import static org.snapscript.core.Reserved.METHOD_CLOSURE;
+
+import java.util.concurrent.Callable;
+
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
+import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
+import org.snapscript.core.ValueType;
+import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceEvaluation;
 import org.snapscript.core.trace.TraceInterceptor;
@@ -19,11 +27,7 @@ public class FunctionInvocation implements Compilation {
    
    private final Evaluation invocation;
    
-   public FunctionInvocation(Evaluation function) {
-      this(function, null);
-   }
-   
-   public FunctionInvocation(Evaluation function, ArgumentList list) {
+   public FunctionInvocation(Evaluation function, ArgumentList... list) {
       this.invocation = new CompileResult(function, list);
    }
    
@@ -40,9 +44,9 @@ public class FunctionInvocation implements Compilation {
    
       private final InvocationBinder dispatcher;
       private final NameExtractor extractor;
-      private final ArgumentList list;
+      private final ArgumentList[] list;
       
-      public CompileResult(Evaluation function, ArgumentList list) {
+      public CompileResult(Evaluation function, ArgumentList... list) {
          this.extractor = new NameExtractor(function);
          this.dispatcher = new InvocationBinder();
          this.list = list;
@@ -50,16 +54,38 @@ public class FunctionInvocation implements Compilation {
       
       @Override
       public Value evaluate(Scope scope, Object left) throws Exception {
+         String name = extractor.extract(scope); 
+         Value array = list[0].create(scope); 
+         Object[] arguments = array.getValue();
          InvocationDispatcher handler = dispatcher.bind(scope, left);
-         String name = extractor.extract(scope);      
+         Value result = handler.dispatch(name, arguments);
          
-         if(list != null) {
-            Value array = list.create(scope); 
-            Object[] arguments = array.getValue();
-            
-            return handler.dispatch(name, arguments);
+         if(list.length > 1) {
+            return evaluate(scope, result);
          }
-         return handler.dispatch(name); 
+         return result; 
+      }
+      
+      private Value evaluate(Scope scope, Value value) throws Exception { // curry like func(2)("x")
+         Module module = scope.getModule();
+         Context context = module.getContext();
+         FunctionBinder binder = context.getBinder();
+         
+         for(int i = 1; i < list.length; i++) {
+            Value array = list[i].create(scope); 
+            Object[] arguments = array.getValue();
+            Callable<Result> call = binder.bind(value, arguments);
+            int width = arguments.length;
+            
+            if(call == null) {
+               throw new InternalStateException("Result was not a closure of " + width +" arguments");
+            }
+            Result result = call.call();
+            Object object = result.getValue();
+            
+            value = ValueType.getTransient(object);
+         }
+         return value; 
       }
    }
 }
