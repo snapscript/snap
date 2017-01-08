@@ -58,6 +58,7 @@ import org.snapscript.tree.define.TraitName;
 import org.snapscript.tree.define.TypeHierarchy;
 import org.snapscript.tree.define.TypeName;
 import org.snapscript.tree.function.FunctionInvocation;
+import org.snapscript.tree.function.FunctionReference;
 import org.snapscript.tree.function.ParameterDeclaration;
 import org.snapscript.tree.function.ParameterList;
 import org.snapscript.tree.function.ScriptFunction;
@@ -105,7 +106,8 @@ public enum Instruction {
    RANGE(Range.class, "range"),      
    COLLECTION_INDEX(CollectionIndex.class, "collection-index"),     
    FUNCTION_ARGUMENT_LIST(ArgumentList.class, "function-argument-list"),
-   FUNCTION_INVOCATION(FunctionInvocation.class, "function-invocation"),           
+   FUNCTION_INVOCATION(FunctionInvocation.class, "function-invocation"),       
+   FUNCTION_REFERENCE(FunctionReference.class, "function-reference"),  
    ARGUMENT_LIST(ArgumentList.class, "argument-list"),     
    REFERENCE_INDEX(ReferenceIndex.class, "reference-index"),
    REFERENCE_INVOCATION(ReferenceInvocation.class, "reference-invocation"),

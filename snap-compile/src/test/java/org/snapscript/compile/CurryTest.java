@@ -23,7 +23,7 @@ public class CurryTest extends TestCase {
    "assert Curry.func2(1)[0](2) == 3;\n";
 
    
-   public void testClassReference() throws Exception {
+   public void testCurry() throws Exception {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
       System.err.println(SOURCE);
       compiler.compile(SOURCE).execute(new EmptyModel());
