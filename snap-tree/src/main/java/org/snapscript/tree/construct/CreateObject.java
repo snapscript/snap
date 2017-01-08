@@ -18,12 +18,12 @@ import org.snapscript.tree.ArgumentList;
 
 public class CreateObject implements Evaluation {
    
+   private final ArgumentList arguments;
    private final Evaluation reference;
-   private final ArgumentList list;
 
-   public CreateObject(Evaluation reference, ArgumentList list) {
+   public CreateObject(Evaluation reference, ArgumentList arguments) {
       this.reference = reference;
-      this.list = list;
+      this.arguments = arguments;
    }      
    
    @Override
@@ -47,14 +47,14 @@ public class CreateObject implements Evaluation {
       FunctionBinder binder = context.getBinder();
       Class real = type.getType();
       
-      if(list != null) {
+      if(arguments != null) {
          if(real == null) {
-            Value array = list.create(scope, type); 
+            Value array = arguments.create(scope, type); 
             Object[] arguments = array.getValue();
             
             return binder.bind(scope, type, TYPE_CONSTRUCTOR, arguments);
          }
-         Value array = list.create(scope); 
+         Value array = arguments.create(scope); 
          Object[] arguments = array.getValue();
          
          return binder.bind(scope, type, TYPE_CONSTRUCTOR, arguments);

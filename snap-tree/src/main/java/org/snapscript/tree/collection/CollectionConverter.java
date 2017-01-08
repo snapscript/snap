@@ -1,14 +1,15 @@
 package org.snapscript.tree.collection;
 
 import java.util.List;
+import java.util.Map;
 
 import org.snapscript.core.InternalArgumentException;
 
-public class ArrayListConverter {
+public class CollectionConverter {
 
    private final ArrayBuilder builder;
    
-   public ArrayListConverter() {
+   public CollectionConverter() {
       this.builder = new ArrayBuilder();
    }
    
@@ -22,11 +23,14 @@ public class ArrayListConverter {
          if(List.class.isAssignableFrom(type)) {
             return true;
          }
+         if(Map.class.isAssignableFrom(type)) {
+            return true;
+         }
       }
       return false;
    }
    
-   public List convert(Object value) throws Exception {
+   public Object convert(Object value) throws Exception {
       if(value != null) {
          Class type = value.getClass();
          
@@ -34,10 +38,14 @@ public class ArrayListConverter {
             return builder.convert(value);
          }
          if(List.class.isAssignableFrom(type)) {
-            return (List)value;
+            return value;
          }
-         throw new InternalArgumentException("The " + type + " is not a list");
+         if(Map.class.isAssignableFrom(type)) {
+            return value;
+         }
+         throw new InternalArgumentException("Illegal index of " + type);
       }
       return null;
    }
 }
+

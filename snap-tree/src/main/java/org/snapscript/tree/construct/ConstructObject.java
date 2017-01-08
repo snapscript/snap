@@ -18,8 +18,8 @@ public class ConstructObject implements Compilation {
       this(type, null);         
    }
    
-   public ConstructObject(Evaluation type, ArgumentList list) {
-      this.construct = new CreateObject(type, list);
+   public ConstructObject(Evaluation type, ArgumentList arguments) {
+      this.construct = new CreateObject(type, arguments);
    } 
    
    @Override

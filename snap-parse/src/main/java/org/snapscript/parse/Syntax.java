@@ -22,13 +22,14 @@ public enum Syntax {
    VARIABLE("variable", "{<this>|<class>|[identifier]|[type]}"),          // ((array[x])[x] -> (<var>[])
    VARIABLE_REFERENCE("variable-reference", "{<super>|<variable>}"),
    RANGE("range", "<number>'..'<number>"),
-   ARRAY("array", "{<function-invocation>|<variable-reference>}"),
-   ARRAY_INDEX("array-index", "<array>+('['<argument>']')"),   
+   COLLECTION_INDEX("collection-index", "<variable-reference>+('['<argument>']')"),   
    FUNCTION("function", "[identifier]"),
    FUNCTION_ARGUMENT_LIST("function-argument-list", "?<argument>*(','<argument>)"),
-   FUNCTION_INVOCATION("function-invocation", "<function>+('('<function-argument-list>')')"), // what about func(2)[3](x,y);
+   FUNCTION_ARGUMENT_INDEX("function-result-invocation", "<function-argument-list>"),
+   FUNCTION_ARRAY_INDEX("function-result-index", "<argument>"),
+   FUNCTION_INVOCATION("function-invocation", "<function>('('<function-argument-list>')')*{'('<function-result-invocation>')'|'['<function-result-index>']'}"), 
    REFERENCE("reference", "{<reference-type>|<reference-navigation>}"),
-   REFERENCE_PART("reference-part", "{<array-index>|<function-invocation>|<construct>|<closure>|<variable-reference>|<literal>}"),
+   REFERENCE_PART("reference-part", "{<collection-index>|<function-invocation>|<construct>|<closure>|<variable-reference>|<literal>}"),
    REFERENCE_NAVIGATION("reference-navigation", "<reference-part>*(<reference-operator><reference-navigation>)"),   
    REFERENCE_TYPE("reference-type", "<array-constraint>*(<reference-operator><reference-navigation>)"),      
    LIST_ENTRY("list-entry", "<argument>"),

@@ -5,8 +5,7 @@ import org.snapscript.tree.annotation.AnnotationList;
 import org.snapscript.tree.annotation.AnnotationName;
 import org.snapscript.tree.closure.Closure;
 import org.snapscript.tree.closure.ClosureParameterList;
-import org.snapscript.tree.collection.Array;
-import org.snapscript.tree.collection.ArrayIndex;
+import org.snapscript.tree.collection.CollectionIndex;
 import org.snapscript.tree.collection.Range;
 import org.snapscript.tree.condition.Choice;
 import org.snapscript.tree.condition.Combination;
@@ -61,6 +60,8 @@ import org.snapscript.tree.define.TypeName;
 import org.snapscript.tree.function.FunctionInvocation;
 import org.snapscript.tree.function.ParameterDeclaration;
 import org.snapscript.tree.function.ParameterList;
+import org.snapscript.tree.function.ResultIndex;
+import org.snapscript.tree.function.ResultInvocation;
 import org.snapscript.tree.function.ScriptFunction;
 import org.snapscript.tree.literal.BooleanLiteral;
 import org.snapscript.tree.literal.NullLiteral;
@@ -101,9 +102,10 @@ public enum Instruction {
    VARIABLE(Variable.class, "variable"), 
    SUPER(Super.class, "super"), 
    ARGUMENT(Argument.class, "argument"),
-   RANGE(Range.class, "range"),     
-   ARRAY(Array.class, "array"),      
-   ARRAY_INDEX(ArrayIndex.class, "array-index"),              
+   RANGE(Range.class, "range"),      
+   COLLECTION_INDEX(CollectionIndex.class, "collection-index"),     
+   FUNCTION_RESULT_INDEX(ResultIndex.class, "function-result-index"),
+   FUNCTION_RESULT_INVOCATION(ResultInvocation.class, "function-result-invocation"),
    FUNCTION_ARGUMENT_LIST(ArgumentList.class, "function-argument-list"),
    FUNCTION_INVOCATION(FunctionInvocation.class, "function-invocation"),           
    ARGUMENT_LIST(ArgumentList.class, "argument-list"),     

@@ -3,6 +3,7 @@ package org.snapscript.tree.define;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
+import org.snapscript.core.Identity;
 import org.snapscript.core.define.Initializer;
 import org.snapscript.parse.StringToken;
 import org.snapscript.tree.ArgumentList;
@@ -32,7 +33,7 @@ public class ThisConstructor implements TypePart {
    @Override
    public Initializer compile(Initializer initializer, Type type) throws Exception {  
       Statement statement = new StaticBody(initializer, type);
-      Evaluation reference = new TypeValue(type);
+      Evaluation reference = new Identity(type);
       CreateObject evaluation = new CreateObject(reference, arguments);
       
       return new ThisInitializer(statement, evaluation);

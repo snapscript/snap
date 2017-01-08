@@ -5,6 +5,7 @@ import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Type;
+import org.snapscript.core.Identity;
 import org.snapscript.core.Value;
 import org.snapscript.core.define.Initializer;
 import org.snapscript.tree.DeclarationAllocator;
@@ -47,7 +48,7 @@ public class MemberFieldAssembler {
       private final int modifiers;
       
       public Declaration(String name, Type type, Evaluation declare, int modifiers) {
-         this.value = new TypeValue(type);
+         this.value = new Identity(type);
          this.constraint = new Constraint(value);
          this.allocator = new MemberFieldAllocator(constraint, declare);
          this.modifiers = modifiers;

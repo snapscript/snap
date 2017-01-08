@@ -15,10 +15,10 @@ import org.snapscript.tree.ArgumentList;
 
 public class EnumConstructorBinder {
 
-   private final ArgumentList list;
+   private final ArgumentList arguments;
    
-   public EnumConstructorBinder(ArgumentList list) {
-      this.list = list;
+   public EnumConstructorBinder(ArgumentList arguments) {
+      this.arguments = arguments;
    }
    
    public Callable<Result> bind(Scope scope, Type type) throws Exception {
@@ -26,8 +26,8 @@ public class EnumConstructorBinder {
       Context context = module.getContext();
       FunctionBinder binder = context.getBinder();
       
-      if(list != null) {
-         Value array = list.create(scope, type); // arguments have no left hand side
+      if(arguments != null) {
+         Value array = arguments.create(scope, type); // arguments have no left hand side
          Object[] arguments = array.getValue();
          
          return binder.bind(scope, type, TYPE_CONSTRUCTOR, arguments);

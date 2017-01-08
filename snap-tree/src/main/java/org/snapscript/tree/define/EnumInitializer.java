@@ -28,9 +28,9 @@ public class EnumInitializer extends Initializer {
    private final NameExtractor extractor;
    private final int index;
    
-   public EnumInitializer(EnumKey key, ArgumentList list, int index) {
+   public EnumInitializer(EnumKey key, ArgumentList arguments, int index) {
       this.initializer = new EnumConstantInitializer();
-      this.binder = new EnumConstructorBinder(list);
+      this.binder = new EnumConstructorBinder(arguments);
       this.extractor = new NameExtractor(key);
       this.index = index;
    }

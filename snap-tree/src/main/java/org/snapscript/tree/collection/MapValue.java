@@ -8,12 +8,12 @@ import org.snapscript.core.convert.ProxyWrapper;
 public class MapValue extends Value {
    
    private final ProxyWrapper wrapper;
-   private final String name;
+   private final Object key;
    private final Map map;
    
-   public MapValue(ProxyWrapper wrapper, Map map, String name) {
+   public MapValue(ProxyWrapper wrapper, Map map, Object key) {
       this.wrapper = wrapper;
-      this.name = name;
+      this.key = key;
       this.map = map;
    }
    
@@ -24,7 +24,7 @@ public class MapValue extends Value {
    
    @Override
    public Object getValue(){
-      Object value = map.get(name);
+      Object value = map.get(key);
       
       if(value != null) {
          return wrapper.fromProxy(value);
@@ -37,14 +37,14 @@ public class MapValue extends Value {
       Object proxy = wrapper.toProxy(value);
       
       if(value != null) {
-         map.put(name, proxy);
+         map.put(key, proxy);
       } else {
-         map.remove(name);
+         map.remove(key);
       }
    }       
    
    @Override
    public String toString() {
-      return String.valueOf(map);
+      return String.valueOf(key);
    }
 }

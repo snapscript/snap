@@ -6,19 +6,19 @@ import org.snapscript.tree.ArgumentList;
 
 public class EnumValue {
    
-   private final ArgumentList list;
+   private final ArgumentList arguments;
    private final EnumKey key;
    
    public EnumValue(EnumKey key) {
       this(key, null);
    }
    
-   public EnumValue(EnumKey key, ArgumentList list) {    
-      this.list = list;
+   public EnumValue(EnumKey key, ArgumentList arguments) {    
+      this.arguments = arguments;
       this.key = key;
    }
 
    public Initializer compile(Type type, int index) throws Exception { 
-      return new EnumInitializer(key, list, index);
+      return new EnumInitializer(key, arguments, index);
    }
 }

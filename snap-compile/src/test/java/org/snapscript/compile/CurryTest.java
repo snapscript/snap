@@ -16,7 +16,7 @@ public class CurryTest extends TestCase {
    "   }\n"+   
    "}\n"+
    "assert Curry.func(1)(2) == 3;\n"+
-   "//assert Curry.func(1)[0](2) == 3;\n";
+   "assert Curry.func2(1)[0](2) == 3;\n";
 
    
    public void testClassReference() throws Exception {
