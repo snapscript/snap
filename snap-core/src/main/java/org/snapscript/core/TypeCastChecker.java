@@ -52,7 +52,7 @@ public class TypeCastChecker {
    
    public Score cast(Type type, Type constraint, Object value) throws Exception {
       if(Function.class.isInstance(value)) {
-         Class real = constraint.getType();
+         Class real = constraint.getType(); // this is the functional type interface
          Function require = null;
          
          if(real != null) {

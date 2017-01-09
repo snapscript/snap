@@ -5,8 +5,8 @@ public class Score implements Comparable<Score> {
    public static final Score EXACT = new Score(100, true);
    public static final Score SIMILAR = new Score(70, true);
    public static final Score COMPATIBLE = new Score(20, true);
-   public static final Score POSSIBLE = new Score(10, true);
    public static final Score TRANSIENT = new Score(20, false);
+   public static final Score POSSIBLE = new Score(10, true);
    public static final Score INVALID = new Score(0, true);
 
    private final boolean cache;

@@ -1,1 +1,25 @@
 Make sure TreeSet(Double::compare) works
+
+   
+   public Signature create(Scope scope, Object left, String match) {
+      Module module = scope.getModule();
+      Context context = module.getContext();
+      TypeExtractor extractor = context.getExtractor();
+      Type type = extractor.getType(left);
+      List<Function> functions = type.getFunctions();
+      Function function = null;
+      int count = 0;
+      
+      for(Function entry : functions){
+         String name = function.getName();
+         
+         if(name.equals(match)) {
+            function = entry;
+            count++;
+         }
+      }
+      if(count == 1) {
+         return function.getSignature();
+      }
+      return null;
+   }

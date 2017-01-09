@@ -94,6 +94,7 @@ public enum Instruction {
    BOOLEAN(BooleanLiteral.class, "boolean"),
    IDENTIFIER(TextLiteral.class, "identifier"), // identifier 
    TEMPLATE(TextTemplate.class, "template"),
+   CONSTRUCTOR(TextLiteral.class, "constructor"),
    CLASS(TextLiteral.class, "class"), // identifier
    TYPE(TextLiteral.class, "type"),  // identifier
    TEXT(TextLiteral.class, "text"),

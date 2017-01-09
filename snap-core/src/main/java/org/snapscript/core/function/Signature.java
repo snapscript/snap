@@ -8,6 +8,7 @@ import org.snapscript.core.Type;
 public class Signature {
    
    private final List<Parameter> parameters;
+   private final SignatureDescription description;
    private final SignatureMatcher matcher;
    private final Type definition;
    private final boolean variable;
@@ -17,6 +18,7 @@ public class Signature {
    }
    
    public Signature(List<Parameter> parameters, Module module, boolean variable){
+      this.description = new SignatureDescription(this);
       this.matcher = new SignatureMatcher(this, module);
       this.definition = new FunctionType(this, module);
       this.parameters = parameters;
@@ -37,5 +39,10 @@ public class Signature {
    
    public boolean isVariable() {
       return variable;
+   }
+   
+   @Override
+   public String toString() {
+      return description.toString();
    }
 }

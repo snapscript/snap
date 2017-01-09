@@ -1,6 +1,7 @@
 package org.snapscript.tree.function;
 
 import static org.snapscript.core.ModifierType.PUBLIC;
+import static org.snapscript.core.Reserved.DEFAULT_PARAMETER;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,13 +18,13 @@ public class FunctionReferenceBuilder {
    private final Parameter parameter;
    
    public FunctionReferenceBuilder() {
-      this.parameter = new Parameter(null, null);
+      this.parameter = new Parameter(DEFAULT_PARAMETER, null, true);
    }
-
+   
    public Function create(Module module, Object value, String method) throws Exception {
       List<Parameter> parameters = new ArrayList<Parameter>();
       Signature signature = new Signature(parameters, module, true);
-      Invocation invocation = new FunctionReferenceInvocation(value, method);
+      Invocation invocation = new FunctionReferenceInvocation(module, value, method);
       
       parameters.add(parameter);
       

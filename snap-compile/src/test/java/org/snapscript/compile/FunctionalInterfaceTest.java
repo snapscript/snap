@@ -41,7 +41,19 @@ public class FunctionalInterfaceTest extends TestCase {
    "for(var entry in set){\n"+
    "   println(entry);\n"+
    "}\n";
-
+   
+   private static final String SOURCE_5=
+   "var set = new TreeSet(Double::compare);\n"+
+   "\n"+
+   "set.add(1.2);\n"+
+   "set.add(2.3);\n"+
+   "set.add(33.4);\n"+
+   "set.add(4.55);\n"+
+   "set.add(2);\n"+
+   "\n"+
+   "for(var entry in set){\n"+
+   "   println(entry);\n"+
+   "}\n";
 
    public void testRunnable() throws Exception {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
@@ -70,11 +82,11 @@ public class FunctionalInterfaceTest extends TestCase {
       System.err.println(SOURCE_4);
       executable.execute();
    }
-
-   public static void main(String[] list) throws Exception {
-      new FunctionalInterfaceTest().testRunnable();
-      new FunctionalInterfaceTest().testFunctionalMatch();
-      new FunctionalInterfaceTest().testFunctionalMatchThread();
-      new FunctionalInterfaceTest().testFunctionalMatchTreeSet();
+   
+   public void testFunctionalReferenceMatchTreeSet() throws Exception {
+      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
+      Executable executable = compiler.compile(SOURCE_5);
+      System.err.println(SOURCE_5);
+      executable.execute();
    }
 }

@@ -22,8 +22,9 @@ public enum Syntax {
    VARIABLE("variable", "{<this>|<class>|[identifier]|[type]}"),          // ((array[x])[x] -> (<var>[])
    VARIABLE_REFERENCE("variable-reference", "{<super>|<variable>}"),
    RANGE("range", "<number>'..'<number>"),
-   COLLECTION_INDEX("collection-index", "<variable-reference>('['<argument>']')*{'('<reference-invocation>')'|'['<reference-index>']'}"),   
-   FUNCTION("function", "[identifier]"),
+   COLLECTION_INDEX("collection-index", "<variable-reference>('['<argument>']')*{'('<reference-invocation>')'|'['<reference-index>']'}"), 
+   CONSTRUCTOR("constructor", "'new'"),
+   FUNCTION("function", "{<constructor>|[identifier]}"),
    FUNCTION_ARGUMENT_LIST("function-argument-list", "?<argument>*(','<argument>)"),
    FUNCTION_INVOCATION("function-invocation", "<function>('('<function-argument-list>')')*{'('<reference-invocation>')'|'['<reference-index>']'}"), 
    FUNCTION_REFERENCE("function-reference", "<variable-reference>'::'<function>"),
