@@ -32,7 +32,7 @@ public class FunctionReferenceInvocation implements Invocation {
       InvocationDispatcher dispatcher = binder.bind(actual, value);
       Value value = dispatcher.dispatch(method, arguments);
       Object result = value.getValue();
-      
+    
       return ResultType.getNormal(result);
    }
 }
