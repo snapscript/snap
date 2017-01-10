@@ -1,12 +1,8 @@
 package org.snapscript.compile;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
+import junit.framework.TestCase;
 
 import org.snapscript.core.EmptyModel;
-
-import junit.framework.TestCase;
 
 public class StreamTest extends TestCase{
    
@@ -25,15 +21,4 @@ public class StreamTest extends TestCase{
       System.err.println(SOURCE);
       compiler.compile(SOURCE).execute(new EmptyModel());
    }
-   
-   public void testStream()throws Exception {
-      List<String> l = Arrays.asList("true", "false", "true", "false", "false");         
-      List<Object> s = l.stream()
-               .map(Boolean::parseBoolean)
-               .collect(Collectors.toList());
-               
-          
-      System.err.println(s);
-   }
-
 }
