@@ -60,21 +60,8 @@ public class FunctionComparator {
       if(requireSize > 0) {
          Score total = INVALID;
          
-         for(int i = 0; i < requireSize; i++) {
-            Parameter actualParameter = actual.get(i);
-            
-            if(actualParameter.isVariable()) { // if variable match remaining
-               for(int j = i; j < requireSize; j++) {
-                  Parameter requireParameter = require.get(i);
-                  Score score = compare(actualParameter, requireParameter);
-                  
-                  if(score.compareTo(INVALID) <= 0) { // must check for numbers
-                     return INVALID;
-                  }
-                  total = Score.sum(total, score); // sum for better match
-               }
-               return total;
-            }
+         for(int i = 0, j = 0; i < requireSize; i++) {
+            Parameter actualParameter = actual.get(j);
             Parameter requireParameter = require.get(i);
             Score score = compare(actualParameter, requireParameter);
             
@@ -82,6 +69,10 @@ public class FunctionComparator {
                return INVALID;
             }
             total = Score.sum(total, score); // sum for better match
+            
+            if(!actualParameter.isVariable()) { // if variable stick
+               j++;
+            }
          }
          return total;
       }

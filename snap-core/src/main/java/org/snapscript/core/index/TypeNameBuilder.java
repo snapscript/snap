@@ -5,7 +5,8 @@ import org.snapscript.core.InternalArgumentException;
 public class TypeNameBuilder {
    
    private static final String[] DIMENSIONS = {"", "[]", "[][]", "[][][]" };     
-
+   private static final String DIMENSION = "[]";
+   
    public TypeNameBuilder(){
       super();
    }
@@ -14,7 +15,7 @@ public class TypeNameBuilder {
       Class entry = type.getComponentType();
       
       if(entry != null) {
-         return createName(entry) + "[]";
+         return createName(entry) + DIMENSION;
       }
       return type.getName();
    }
@@ -24,7 +25,7 @@ public class TypeNameBuilder {
       String name = type.getName();
       
       if(entry != null) {
-         return createShortName(entry) + "[]";
+         return createShortName(entry) + DIMENSION;
       }
       int index = name.lastIndexOf('.');
       int length = name.length();
