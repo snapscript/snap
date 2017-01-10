@@ -3,9 +3,9 @@ package org.snapscript.compile.define;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.snapscript.core.TypeDescription;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
-import org.snapscript.core.TypeDescription;
 import org.snapscript.core.TypeScope;
 import org.snapscript.core.Type;
 import org.snapscript.core.annotation.Annotation;

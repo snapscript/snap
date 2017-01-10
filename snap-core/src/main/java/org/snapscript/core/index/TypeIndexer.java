@@ -162,10 +162,10 @@ public class TypeIndexer {
    
    private synchronized Type createType(Class source) {
       String alias = scanner.importName(source);
-      String name = source.getSimpleName();
       Type type = types.get(alias);
       
       if(type == null) {
+         String name = builder.createShortName(source);
          int order = counter.getAndIncrement();
          
          if(order > limit) {

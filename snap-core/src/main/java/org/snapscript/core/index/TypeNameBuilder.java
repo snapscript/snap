@@ -19,6 +19,21 @@ public class TypeNameBuilder {
       return type.getName();
    }
    
+   public String createShortName(Class type) {
+      Class entry = type.getComponentType();
+      String name = type.getName();
+      
+      if(entry != null) {
+      }
+      int index = name.lastIndexOf('.');
+      int length = name.length();
+      
+      if(index > 0) {
+         return name.substring(index+1, length);
+      }
+      return name;
+   }
+   
    public String createName(String module, String name) {
       if(module != null) { // is a null module legal?
          int length = module.length();

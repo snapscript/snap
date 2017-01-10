@@ -5,10 +5,10 @@ import static org.snapscript.core.Reserved.METHOD_CLOSURE;
 import java.util.Collections;
 import java.util.List;
 
+import org.snapscript.core.TypeDescription;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
-import org.snapscript.core.TypeDescription;
 import org.snapscript.core.TypeScope;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.property.Property;

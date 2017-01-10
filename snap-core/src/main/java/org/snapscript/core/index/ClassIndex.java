@@ -84,7 +84,7 @@ public class ClassIndex {
    public Type getOuter() {
       if(entry == null) {
          try {
-            entry = indexer.indexEntry(require);
+            entry = indexer.indexOuter(require);
          } catch(Exception e) {
             throw new InternalStateException("Could not index " + require, e);
          }
