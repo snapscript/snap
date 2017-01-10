@@ -24,6 +24,7 @@ public class TypeNameBuilder {
       String name = type.getName();
       
       if(entry != null) {
+         return createShortName(entry) + "[]";
       }
       int index = name.lastIndexOf('.');
       int length = name.length();
