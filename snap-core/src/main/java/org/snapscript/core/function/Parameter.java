@@ -24,12 +24,12 @@ public class Parameter {
       this.type = type;
    }
    
-   public boolean isVariable() {
-      return variable;
-   }
-   
    public List<Annotation> getAnnotations() {
       return annotations;
+   }
+   
+   public boolean isVariable() {
+      return variable;
    }
    
    public String getName() {
