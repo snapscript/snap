@@ -89,7 +89,7 @@ public enum Syntax {
    SET_CONSTRAINT("set-constraint", "'{}'"),   
    MAP_CONSTRAINT("map-constraint", "'{:}'"),      
    CONSTRAINT("constraint", "{<array-constraint>|<type-constraint>|<function-constraint>|<list-constraint>|<set-constraint>|<map-constraint>}"),
-   RETURN_STATEMENT("return-statement", "'return'*(?' '<expression>)';'"),
+   RETURN_STATEMENT("return-statement", "'return'*(?' '{<expression>|<closure>})';'"),
    BREAK_STATEMENT("break-statement", "'break;'"),
    CONTINUE_STATEMENT("continue-statement", "'continue;'"),
    THROW_STATEMENT("throw-statement", "'throw'?' '(<reference>|<literal>)';'"),
