@@ -9,16 +9,16 @@ public class FilePathConverter implements PathConverter {
 
    private final Cache<String, String> modules;
    private final Cache<String, Path> paths;
-   private final String suffix;
+   private final String extension;
    
    public FilePathConverter() {
       this(SCRIPT_EXTENSION);
    }
    
-   public FilePathConverter(String suffix) {
+   public FilePathConverter(String extension) {
       this.modules = new CopyOnWriteCache<String, String>();
       this.paths = new CopyOnWriteCache<String, Path>();
-      this.suffix = suffix;
+      this.extension = extension;
    }
    
    public Path createPath(String resource) {
@@ -51,16 +51,16 @@ public class FilePathConverter implements PathConverter {
    }
    
    private Path convertModule(String resource) {
-      int index = resource.indexOf(suffix);
+      int suffix = resource.indexOf(extension);
       int prefix = resource.indexOf("/");
       
-      if(index == -1) {
+      if(suffix == -1) {
          int slash = resource.indexOf('.');
       
          if(slash != -1) {
             resource = resource.replace('.', '/');
          }
-         return new Path("/" + resource + suffix);
+         return new Path("/" + resource + extension);
       }
       if(prefix != 0) {
          return new Path("/" + resource);
@@ -84,10 +84,10 @@ public class FilePathConverter implements PathConverter {
    }
    
    private String convertResource(String path) {
-      int index = path.indexOf(suffix);
+      int suffix = path.indexOf(extension);
 
-      if(index != -1) {
-         path = path.substring(0, index);
+      if(suffix != -1) {
+         path = path.substring(0, suffix);
       }
       if(path.startsWith("/")) {
          path = path.substring(1);
