@@ -3,6 +3,7 @@ package org.snapscript.core;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
+import org.snapscript.core.store.NotFoundException;
 import org.snapscript.core.store.Store;
 import org.snapscript.core.store.StoreException;
 
@@ -16,7 +17,11 @@ public class StoreManager implements ResourceManager {
    
    @Override
    public InputStream getInputStream(String path) {
-      return store.getInputStream(path);
+      try {
+         return store.getInputStream(path);
+      }catch(NotFoundException e) {
+         return null;
+      }
    }
 
    @Override
@@ -24,17 +29,20 @@ public class StoreManager implements ResourceManager {
       InputStream source = getInputStream(path);
       
       try {
-         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-         byte[] array = new byte[1024];
-         int count = 0;
-         
-         while((count = source.read(array)) != -1) {
-            buffer.write(array, 0, count);
+         if(source != null) {
+            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+            byte[] array = new byte[1024];
+            int count = 0;
+            
+            while((count = source.read(array)) != -1) {
+               buffer.write(array, 0, count);
+            }
+            return buffer.toByteArray();
          }
-         return buffer.toByteArray();
       } catch(Exception e) {
          throw new StoreException("Could not read resource '" + path + "'", e);
       }
+      return null;
    }
 
    @Override
@@ -42,17 +50,20 @@ public class StoreManager implements ResourceManager {
       InputStream source = getInputStream(path);
       
       try {
-         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-         byte[] array = new byte[1024];
-         int count = 0;
-         
-         while((count = source.read(array)) != -1) {
-            buffer.write(array, 0, count);
+         if(source != null) {
+            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+            byte[] array = new byte[1024];
+            int count = 0;
+            
+            while((count = source.read(array)) != -1) {
+               buffer.write(array, 0, count);
+            }
+            return buffer.toString("UTF-8");
          }
-         return buffer.toString("UTF-8");
       } catch(Exception e) {
          throw new StoreException("Could not read resource '" + path + "'", e);
       }
+      return null;
    }
 
 }

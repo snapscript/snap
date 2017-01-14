@@ -1,8 +1,11 @@
 package org.snapscript.core.link;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
+import org.snapscript.core.FilePathConverter;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.PathConverter;
 import org.snapscript.core.ResourceManager;
@@ -12,26 +15,56 @@ public class PackageLoader {
    private final PathConverter converter;
    private final ResourceManager manager;
    private final PackageLinker linker;
+   private final PackageMerger merger;
    private final Set libraries;
 
    public PackageLoader(PackageLinker linker, ResourceManager manager){
       this.libraries = new CopyOnWriteArraySet();
-      this.converter = new PathConverter();
+      this.converter = new FilePathConverter();
+      this.merger = new PackageMerger();
       this.manager = manager;
       this.linker = linker;
    }
 
-   public Package load(String qualifier) throws Exception {
-      if(libraries.add(qualifier)) { // load only once!
-         String path = converter.createPath(qualifier);
-         String source = manager.getString(path); // load source code
+   public Package load(String... list) throws Exception {
+      List<Package> modules = new ArrayList<Package>(list.length);
+      StringBuilder missing = new StringBuilder();
+      
+      for(int i = 0; i < list.length; i++) {
+         String resource = list[i];
          
-         try {
-            return linker.link(qualifier, source);
-         } catch(Exception e) {
-            throw new InternalStateException("Could not load library '" + path + "'", e);
+         if(libraries.add(resource)) { // load only once!
+            String path = converter.createPath(resource);
+            String source = manager.getString(path); // load source code
+            
+            try {
+               if(source != null) {
+                  Package module = linker.link(resource, source);
+                  
+                  if(module != null) {
+                     modules.add(module);
+                  }
+               } else {
+                  int size = missing.length();
+                  
+                  if(size > 0) {
+                     missing.append(" or ");
+                  }
+                  missing.append("'");
+                  missing.append(path);
+                  missing.append("'");
+               }
+            } catch(Exception e) {
+               throw new InternalStateException("Could not load library '" + resource + "'", e);
+            }
          }
       }
-      return new NoPackage();
+      int length = missing.length();
+      int size = modules.size();
+      
+      if(length > 0 && size <= 0) {
+         throw new InternalStateException("Could not load library " + missing);
+      }
+      return merger.merge(modules);
    }
 }

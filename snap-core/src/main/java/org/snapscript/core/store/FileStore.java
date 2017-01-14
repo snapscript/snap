@@ -18,34 +18,34 @@ public class FileStore implements Store {
    
    @Override
    public InputStream getInputStream(String path) {
-      try {
-         File resource = new File(root, path);
-         
-         if(resource.exists()) {
-            return new FileInputStream(resource);
-         }
-      } catch(Exception e) {
-         throw new StoreException("Could not load resource '" + path + "'", e);
+      File resource = new File(root, path);
+      
+      if(!resource.exists()) {
+         return store.getInputStream(path);
       }
-      return store.getInputStream(path);
+      try {
+         return new FileInputStream(resource);
+      } catch(Exception e) {
+         throw new StoreException("Could not read resource '" + path + "'", e);
+      }
    }
 
    @Override
    public OutputStream getOutputStream(String path) {
+      File resource = new File(root, path);
+      
+      if(resource.exists()) {
+         resource.delete();
+      }
+      File parent = resource.getParentFile();
+      
+      if(parent.exists()) {
+         parent.mkdirs();
+      }
       try {
-         File resource = new File(root, path);
-         
-         if(resource.exists()) {
-            resource.delete();
-         }
-         File parent = resource.getParentFile();
-         
-         if(parent.exists()) {
-            parent.mkdirs();
-         }
          return new FileOutputStream(resource);
       } catch(Exception e) {
-         throw new StoreException("Could not load resource '" + path + "'", e);
+         throw new StoreException("Could not write resource '" + path + "'", e);
       }
    }
 }
