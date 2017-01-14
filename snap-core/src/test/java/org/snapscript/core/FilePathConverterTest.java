@@ -1,13 +1,11 @@
 package org.snapscript.core;
 
-import org.snapscript.core.PathConverter;
-
 import junit.framework.TestCase;
 
-public class PathConverterTest extends TestCase {
+public class FilePathConverterTest extends TestCase {
    
    public void testPath() throws Exception {
-      PathConverter parser = new PathConverter();
+      PathConverter parser = new FilePathConverter();
       
       assertEquals("game.tetris", parser.createModule("/game/tetris.snap"));
       assertEquals("game.tetris", parser.createModule("/game/tetris.snap"));
@@ -22,6 +20,9 @@ public class PathConverterTest extends TestCase {
       assertEquals("test", parser.createModule("/test.snap"));
       assertEquals("test", parser.createModule("\\test.snap"));
       assertEquals("test", parser.createModule("test"));
+      assertEquals("some.package", parser.createModule("/some/package/Builder.snap"));
+      assertEquals("some.package", parser.createModule("some/package/Builder.snap"));
+      assertEquals("some.package", parser.createModule("some.package.Builder"));
       
       assertEquals("/test.snap", parser.createPath("test"));
       assertEquals("/game/tetris.snap", parser.createPath("game.tetris"));

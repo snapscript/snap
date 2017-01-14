@@ -1,6 +1,7 @@
 package org.snapscript.compile.assemble;
 
 import org.snapscript.core.Context;
+import org.snapscript.core.FilePathConverter;
 import org.snapscript.core.PathConverter;
 import org.snapscript.core.Statement;
 import org.snapscript.core.link.Package;
@@ -16,9 +17,9 @@ public class PackageBuilder {
    private final Assembler assembler;   
    
    public PackageBuilder(Context context) {
-      this.assembler = new OperationAssembler(context);      
+      this.assembler = new OperationAssembler(context);
+      this.converter = new FilePathConverter();
       this.compiler = new SyntaxCompiler();
-      this.converter = new PathConverter();
    }
 
    public Package create(String resource, String source, String grammar) throws Exception {

@@ -6,7 +6,7 @@ public class ScopeMerger {
    private final Context context;
    
    public ScopeMerger(Context context) {
-      this.converter = new PathConverter();
+      this.converter = new FilePathConverter();
       this.context = context;
    }
    

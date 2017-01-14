@@ -7,6 +7,7 @@ import org.snapscript.common.Cache;
 import org.snapscript.common.LeastRecentlyUsedCache;
 import org.snapscript.compile.assemble.Program;
 import org.snapscript.core.Context;
+import org.snapscript.core.FilePathConverter;
 import org.snapscript.core.PathConverter;
 import org.snapscript.core.link.Package;
 import org.snapscript.core.link.PackageLinker;
@@ -24,7 +25,7 @@ public class StringCompiler implements Compiler {
    
    public StringCompiler(Context context, String module) {
       this.cache = new LeastRecentlyUsedCache<String, Executable>();
-      this.converter = new PathConverter();
+      this.converter = new FilePathConverter();
       this.context = context;
       this.module = module;
    } 

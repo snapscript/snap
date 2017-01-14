@@ -2,6 +2,7 @@ package org.snapscript.compile.assemble;
 
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
+import org.snapscript.core.FilePathConverter;
 import org.snapscript.core.Module;
 import org.snapscript.core.ModuleRegistry;
 import org.snapscript.core.PathConverter;
@@ -13,7 +14,7 @@ public class OperationProcessor {
    private final Context context;
    
    public OperationProcessor(Context context) {
-      this.converter = new PathConverter();
+      this.converter = new FilePathConverter();
       this.context = context;
    }
    

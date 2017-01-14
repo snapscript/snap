@@ -4,7 +4,7 @@ import org.snapscript.core.Context;
 import org.snapscript.core.Module;
 import org.snapscript.core.ModuleRegistry;
 import org.snapscript.core.Scope;
-import org.snapscript.core.index.TypeNameBuilder;
+import org.snapscript.core.TypeNameBuilder;
 import org.snapscript.core.link.ImportManager;
 import org.snapscript.tree.NameExtractor;
 import org.snapscript.tree.annotation.AnnotationList;
@@ -37,7 +37,7 @@ public class ModuleBuilder {
    protected Module create(Module parent, String name) throws Exception {
       String path = parent.getPath();
       String prefix = parent.getName();
-      String type = builder.createName(prefix, name);
+      String type = builder.createFullName(prefix, name);
       Context context = parent.getContext();
       ImportManager manager = parent.getManager();
       ModuleRegistry registry = context.getRegistry();

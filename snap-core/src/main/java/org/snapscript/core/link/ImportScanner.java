@@ -16,7 +16,8 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-import org.snapscript.core.index.TypeNameBuilder;
+import org.snapscript.core.TypeNameBuilder;
+import org.snapscript.core.NameBuilder;
 
 public class ImportScanner {
    
@@ -34,7 +35,7 @@ public class ImportScanner {
    private final Map<String, Package> packages;
    private final Map<String, Class> types;
    private final Map<Object, String> names;
-   private final TypeNameBuilder builder;
+   private final NameBuilder builder;
    private final Set<String> failures;
    private final String[] prefixes;
    
@@ -122,7 +123,7 @@ public class ImportScanner {
       String result = names.get(type);
       
       if(result == null) {
-         String absolute = builder.createName(type);
+         String absolute = builder.createFullName(type);
          
          for(String prefix : prefixes) {
             if(absolute.startsWith(prefix)) {

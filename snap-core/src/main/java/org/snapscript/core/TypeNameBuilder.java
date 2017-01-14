@@ -1,8 +1,6 @@
-package org.snapscript.core.index;
+package org.snapscript.core;
 
-import org.snapscript.core.InternalArgumentException;
-
-public class TypeNameBuilder {
+public class TypeNameBuilder implements NameBuilder {
    
    private static final String[] DIMENSIONS = {"", "[]", "[][]", "[][][]" };     
    private static final String DIMENSION = "[]";
@@ -11,15 +9,17 @@ public class TypeNameBuilder {
       super();
    }
    
-   public String createName(Class type) {
+   @Override
+   public String createFullName(Class type) {
       Class entry = type.getComponentType();
       
       if(entry != null) {
-         return createName(entry) + DIMENSION;
+         return createFullName(entry) + DIMENSION;
       }
       return type.getName();
    }
    
+   @Override
    public String createShortName(Class type) {
       Class entry = type.getComponentType();
       String name = type.getName();
@@ -36,7 +36,8 @@ public class TypeNameBuilder {
       return name;
    }
    
-   public String createName(String module, String name) {
+   @Override
+   public String createFullName(String module, String name) {
       if(module != null) { // is a null module legal?
          int length = module.length();
          
@@ -47,7 +48,8 @@ public class TypeNameBuilder {
       return name;
    }
    
-   public String createName(String module, String name, int size) {
+   @Override
+   public String createArrayName(String module, String name, int size) {
       int limit = DIMENSIONS.length;
       
       if(size >= DIMENSIONS.length) {
@@ -65,6 +67,7 @@ public class TypeNameBuilder {
       return name + bounds;
    }
    
+   @Override
    public String createOuterName(String module, String name) {
       if(name != null) {
          int index = name.lastIndexOf('$');
@@ -74,7 +77,7 @@ public class TypeNameBuilder {
             int length = parent.length();
             
             if(length > 0) {
-               return createName(module, parent);
+               return createFullName(module, parent);
             }
          }
       }

@@ -7,18 +7,20 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
 import org.snapscript.core.ModuleRegistry;
+import org.snapscript.core.NameBuilder;
 import org.snapscript.core.Type;
+import org.snapscript.core.TypeNameBuilder;
 import org.snapscript.core.extend.ClassExtender;
 import org.snapscript.core.link.ImportScanner;
 
 public class TypeIndexer {
 
    private final Map<Object, Type> types;
-   private final TypeNameBuilder builder;
    private final ModuleRegistry registry;
    private final ImportScanner scanner;
    private final ClassIndexer indexer;
    private final AtomicInteger counter;
+   private final NameBuilder builder;
    private final int limit;
    
    public TypeIndexer(ModuleRegistry registry, ImportScanner scanner, ClassExtender extender) {
@@ -50,7 +52,7 @@ public class TypeIndexer {
    }
 
    public synchronized Type loadType(String module, String name) {
-      String alias = builder.createName(module, name);
+      String alias = builder.createFullName(module, name);
       Type done = types.get(alias);
 
       if (done == null) {
@@ -65,11 +67,11 @@ public class TypeIndexer {
    }
 
    public synchronized Type loadType(String module, String name, int size) {
-      String alias = builder.createName(module, name, size);
+      String alias = builder.createArrayName(module, name, size);
       Type done = types.get(alias);
       
       if (done == null) {
-         String type = builder.createName(module, name);
+         String type = builder.createFullName(module, name);
          Class match = scanner.importType(type, size);
          
          if (match == null) {
@@ -84,7 +86,7 @@ public class TypeIndexer {
    }   
    
    public synchronized Type defineType(String module, String name) {
-      String alias = builder.createName(module, name);
+      String alias = builder.createFullName(module, name);
       Type done = types.get(alias);
 
       if (done == null) {
@@ -121,7 +123,7 @@ public class TypeIndexer {
    }
 
    private synchronized Type createType(String module, String name) {
-      String alias = builder.createName(module, name);
+      String alias = builder.createFullName(module, name);
       String prefix = builder.createOuterName(module, name); 
       Module parent = registry.addModule(module);
       Type type = types.get(alias);
@@ -139,7 +141,7 @@ public class TypeIndexer {
    }
    
    private synchronized Type createType(String module, String name, int size) {
-      String alias = builder.createName(module, name, size);
+      String alias = builder.createArrayName(module, name, size);
       Module parent = registry.addModule(module);
       Type type = types.get(alias);
       
@@ -149,7 +151,7 @@ public class TypeIndexer {
          if(entry == null) {
             throw new InternalStateException("Type entry for '" +alias+ "' not found");
          }
-         String array = builder.createName(null, name, size);
+         String array = builder.createArrayName(null, name, size);
          int order = counter.getAndIncrement();
          
          if(order > limit) {

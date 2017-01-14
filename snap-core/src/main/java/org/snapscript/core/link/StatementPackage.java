@@ -33,7 +33,7 @@ public class StatementPackage implements Package {
          
          try {
             ModuleRegistry registry = context.getRegistry();
-            Module library = registry.getModule(name);
+            Module library = registry.addModule(name, path); //  we should include path
             Scope inner = library.getScope();
            
             statement.define(inner);

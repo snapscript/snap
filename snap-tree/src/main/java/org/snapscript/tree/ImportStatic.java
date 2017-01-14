@@ -10,8 +10,9 @@ import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
+import org.snapscript.core.TypeNameBuilder;
+import org.snapscript.core.NameBuilder;
 import org.snapscript.core.function.Function;
-import org.snapscript.core.index.TypeNameBuilder;
 
 public class ImportStatic implements Compilation {   
    
@@ -32,7 +33,7 @@ public class ImportStatic implements Compilation {
    
    private static class CompileResult extends Statement {
       
-      private final TypeNameBuilder builder;
+      private final NameBuilder builder;
       private final String location;
       private final String target;
       private final String prefix;
@@ -47,7 +48,7 @@ public class ImportStatic implements Compilation {
       @Override
       public Result compile(Scope scope) throws Exception {
          Module module = scope.getModule();
-         String parent = builder.createName(location, target);
+         String parent = builder.createFullName(location, target);
          Type type = module.getType(parent); // this is a type name
          List<Function> methods = type.getFunctions();
          List<Function> functions = module.getFunctions();

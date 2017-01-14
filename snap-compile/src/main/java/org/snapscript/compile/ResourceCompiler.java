@@ -6,6 +6,7 @@ import org.snapscript.common.Cache;
 import org.snapscript.common.LeastRecentlyUsedCache;
 import org.snapscript.compile.assemble.Program;
 import org.snapscript.core.Context;
+import org.snapscript.core.FilePathConverter;
 import org.snapscript.core.PathConverter;
 import org.snapscript.core.ResourceManager;
 import org.snapscript.core.link.Package;
@@ -19,7 +20,7 @@ public class ResourceCompiler implements Compiler {
    
    public ResourceCompiler(Context context) {
       this.cache = new LeastRecentlyUsedCache<String, Executable>();
-      this.converter = new PathConverter();
+      this.converter = new FilePathConverter();
       this.context = context;
    } 
    
@@ -39,6 +40,10 @@ public class ResourceCompiler implements Compiler {
          ResourceManager manager = context.getManager();
          String module = converter.createModule(resource);
          String source = manager.getString(resource);
+         
+         if(source == null) {
+            throw new IllegalArgumentException("Resource '" + resource + "' not found");
+         }
          PackageLinker linker = context.getLinker();
          Package library = linker.link(module, source, SCRIPT.name);
   

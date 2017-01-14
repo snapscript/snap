@@ -26,7 +26,7 @@ public class ModuleRegistry {
       this.modules = new ConcurrentHashMap<String, Module>();
       this.references = new CopyOnWriteArrayList<Module>();
       this.extender = new ModuleExtender(context);
-      this.converter = new PathConverter();
+      this.converter = new FilePathConverter();
       this.counter = new AtomicInteger(1);
       this.context = context;
       this.limit = limit;
