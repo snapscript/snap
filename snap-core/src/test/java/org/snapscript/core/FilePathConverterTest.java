@@ -24,9 +24,11 @@ public class FilePathConverterTest extends TestCase {
       assertEquals("some.package", parser.createModule("some/package/Builder.snap"));
       assertEquals("some.package", parser.createModule("some.package.Builder"));
       
-      assertEquals("/test.snap", parser.createPath("test"));
-      assertEquals("/game/tetris.snap", parser.createPath("game.tetris"));
-      assertEquals("/test.snap", parser.createPath("/test.snap"));
+      assertEquals("/test.snap", parser.createPath("test").getPath());
+      assertEquals("/game/tetris.snap", parser.createPath("game.tetris").getPath());
+      assertEquals("/test.snap", parser.createPath("/test.snap").getPath());
+      assertEquals("/some/package/Builder.snap", parser.createPath("/some/package/Builder.snap").getPath());
+      assertEquals("/some/package/Builder.snap", parser.createPath("some.package.Builder").getPath());
    }
 
 }
