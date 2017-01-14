@@ -5,6 +5,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Module;
+import org.snapscript.core.Path;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Value;
@@ -36,11 +37,11 @@ public class Closure implements Compilation {
    }
    
    @Override
-   public Evaluation compile(Module module, int line) throws Exception {
+   public Evaluation compile(Module module, Path path, int line) throws Exception {
       Statement closure = statement;
       
       if(closure == null) {
-         closure = compilation.compile(module, line);
+         closure = compilation.compile(module, path, line);
       }
       return new CompileResult(parameters, closure);
    }

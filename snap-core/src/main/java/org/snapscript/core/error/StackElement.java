@@ -1,6 +1,7 @@
 package org.snapscript.core.error;
 
 import org.snapscript.core.Module;
+import org.snapscript.core.Path;
 import org.snapscript.core.Type;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.trace.Trace;
@@ -23,14 +24,16 @@ public class StackElement {
    
    public StackTraceElement build() {
       Module module = trace.getModule();
-      String path = module.getPath();
       String name = module.getName();
+      Path path = trace.getPath();
       int line = trace.getLine();
       
-      return create(path, name, line);
+      return create(name, path, line);
    }
    
-   private StackTraceElement create(String path, String module, int line) {
+   private StackTraceElement create(String module, Path path, int line) {
+      String resource = path.getPath();
+      
       if(function != null) {
          String name = function.getName();
          Type type = function.getType();
@@ -40,10 +43,10 @@ public class StackElement {
             String prefix = parent.getName();
             String suffix = type.getName();
             
-            return new StackTraceElement(prefix + "." + suffix, name, path, line);
+            return new StackTraceElement(prefix + "." + suffix, name, resource, line);
          }
-         return new StackTraceElement(module, name, path, line);
+         return new StackTraceElement(module, name, resource, line);
       }
-      return new StackTraceElement(module, MAIN_FUNCTION, path, line);
+      return new StackTraceElement(module, MAIN_FUNCTION, resource, line);
    }
 }

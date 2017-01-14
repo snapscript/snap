@@ -8,7 +8,7 @@ import org.snapscript.common.CopyOnWriteCache;
 public class FilePathConverter implements PathConverter {
 
    private final Cache<String, String> modules;
-   private final Cache<String, String> paths;
+   private final Cache<String, Path> paths;
    private final String suffix;
    
    public FilePathConverter() {
@@ -17,17 +17,21 @@ public class FilePathConverter implements PathConverter {
    
    public FilePathConverter(String suffix) {
       this.modules = new CopyOnWriteCache<String, String>();
-      this.paths = new CopyOnWriteCache<String, String>();
+      this.paths = new CopyOnWriteCache<String, Path>();
       this.suffix = suffix;
    }
    
-   public String createPath(String resource) {
-      String path = paths.fetch(resource);
+   public Path createPath(String resource) {
+      Path path = paths.fetch(resource);
       
       if(path == null) {
-         path = convertModule(resource);
+         Path match = convertModule(resource);
+         String value = match.getPath();
+         
          paths.cache(resource, path);
-         paths.cache(path, path);
+         paths.cache(value, path);
+         
+         return match;
       }
       return path;
    }
@@ -36,14 +40,17 @@ public class FilePathConverter implements PathConverter {
       String module = modules.fetch(resource);
       
       if(module == null) {
-         module = convertPath(resource);
-         modules.cache(resource, module);
-         modules.cache(module, module);
+         String match = convertPath(resource);
+         
+         modules.cache(resource, match);
+         modules.cache(match, match);
+         
+         return match;
       }
       return module;
    }
    
-   private String convertModule(String resource) {
+   private Path convertModule(String resource) {
       int index = resource.indexOf(suffix);
       
       if(index == -1) {
@@ -52,9 +59,9 @@ public class FilePathConverter implements PathConverter {
          if(slash != -1) {
             resource = resource.replace('.', '/');
          }
-         return "/" + resource + suffix;
+         return new Path("/" + resource + suffix);
       }
-      return resource;
+      return new Path(resource);
    }
    
    private String convertPath(String path) {

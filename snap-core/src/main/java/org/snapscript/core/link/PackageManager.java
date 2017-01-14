@@ -35,7 +35,7 @@ public class PackageManager {
       
       if(result == null) {
          try {
-            return loader.load(module, type);
+            return loader.load(type, module);
          } catch(Exception e){
             throw new InternalStateException("Problem importing '" + module + "." + name + "'", e);
          }

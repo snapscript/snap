@@ -4,10 +4,10 @@ import java.util.Arrays;
 
 import junit.framework.TestCase;
 
-import org.snapscript.compile.StoreContext;
 import org.snapscript.core.Context;
 import org.snapscript.core.ContextModule;
 import org.snapscript.core.Module;
+import org.snapscript.core.Path;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeLoader;
 import org.snapscript.core.closure.ClosureFunctionFinder;
@@ -24,7 +24,7 @@ public class ClosureFunctionFinderTest extends TestCase {
       Store store = new ClassPathStore();
       Context context = new StoreContext(store);
       TypeLoader loader = context.getLoader();
-      Module module = new ContextModule(context, "/", "yy", 1);
+      Module module = new ContextModule(context, new Path("/"), "yy", 1);
       ClosureFunctionFinder finder = new ClosureFunctionFinder(loader);
       Signature signature = new Signature(Arrays.asList(new Parameter("n", loader.loadType(String.class))), module);
       Type type = new InvocationFunction(signature, null, null, null, "xx").getHandle();

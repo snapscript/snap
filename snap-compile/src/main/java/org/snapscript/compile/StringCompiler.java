@@ -8,6 +8,7 @@ import org.snapscript.common.LeastRecentlyUsedCache;
 import org.snapscript.compile.assemble.Program;
 import org.snapscript.core.Context;
 import org.snapscript.core.FilePathConverter;
+import org.snapscript.core.Path;
 import org.snapscript.core.PathConverter;
 import org.snapscript.core.link.Package;
 import org.snapscript.core.link.PackageLinker;
@@ -43,11 +44,11 @@ public class StringCompiler implements Compiler {
       Executable executable = cache.fetch(source);
       
       if(executable == null) {
+         Path path = converter.createPath(module);
          PackageLinker linker = context.getLinker();
-         Package library = linker.link(module, source, SCRIPT.name);
-         String path = converter.createPath(module);
+         Package library = linker.link(path, source, SCRIPT.name);
          
-         return new Program(context, library, module, path);
+         return new Program(context, library, path, module);
       }
       return executable;
    } 

@@ -14,6 +14,7 @@ import org.snapscript.core.Context;
 import org.snapscript.core.ExpressionEvaluator;
 import org.snapscript.core.MapModel;
 import org.snapscript.core.Model;
+import org.snapscript.core.Path;
 import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.ScopeMerger;
@@ -199,12 +200,12 @@ public class EvaluationTest extends TestCase {
       Assembler builder = new OperationAssembler(context);
       SyntaxCompiler compiler = new SyntaxCompiler();
       ScopeMerger merger = new ScopeMerger(context);
-      Scope scope = merger.merge(model, "default", "/default.snap");
+      Scope scope = merger.merge(model, "default", new Path("/default.snap"));
       SyntaxParser analyzer = compiler.compile();
       SyntaxNode token = analyzer.parse("/default.snap", source, grammar);
       SyntaxPrinter.print(analyzer, source, grammar); // Evaluating the
                                                       // following
-      Statement statement = (Statement) builder.assemble(token, "xx");
+      Statement statement = (Statement) builder.assemble(token, new Path("xx"));
       statement.define(scope);
       statement.compile(scope);
       return statement.execute(scope).getType();

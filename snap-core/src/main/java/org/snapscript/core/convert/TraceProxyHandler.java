@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 
 import org.snapscript.core.Context;
 import org.snapscript.core.Module;
+import org.snapscript.core.Path;
 import org.snapscript.core.Scope;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.trace.Trace;
@@ -26,7 +27,8 @@ public class TraceProxyHandler implements ProxyHandler {
    @Override
    public Object invoke(Object proxy, Method method, Object[] list) throws Throwable {
       Module module = scope.getModule();
-      Trace trace = TraceType.getNative(module); 
+      Path path = module.getPath();
+      Trace trace = TraceType.getNative(module, path); 
       TraceInterceptor interceptor = context.getInterceptor();
       ErrorHandler handler = context.getHandler();
       

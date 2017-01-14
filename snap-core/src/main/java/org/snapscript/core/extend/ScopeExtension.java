@@ -31,7 +31,7 @@ public class ScopeExtension {
       TypeLoader loader = context.getLoader();
       Package module = loader.importPackage(name);
       PackageDefinition definition = module.define(scope);
-      Statement statement = definition.compile(scope);
+      Statement statement = definition.compile(scope, null);
       
       statement.execute(scope);
       

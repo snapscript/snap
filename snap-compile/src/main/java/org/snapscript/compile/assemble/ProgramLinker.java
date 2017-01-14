@@ -5,31 +5,32 @@ import static org.snapscript.tree.Instruction.SCRIPT_PACKAGE;
 import org.snapscript.common.Cache;
 import org.snapscript.common.LeastRecentlyUsedCache;
 import org.snapscript.core.Context;
+import org.snapscript.core.Path;
 import org.snapscript.core.link.Package;
 import org.snapscript.core.link.PackageLinker;
 
 public class ProgramLinker implements PackageLinker {
    
-   private final Cache<String, Package> cache;
+   private final Cache<Path, Package> cache;
    private final PackageBuilder builder;  
    
    public ProgramLinker(Context context) {
-      this.cache = new LeastRecentlyUsedCache<String, Package>();
+      this.cache = new LeastRecentlyUsedCache<Path, Package>();
       this.builder = new PackageBuilder(context);
    }
    
    @Override
-   public Package link(String resource, String source) throws Exception {
-      return link(resource, source, SCRIPT_PACKAGE.name);
+   public Package link(Path path, String source) throws Exception {
+      return link(path, source, SCRIPT_PACKAGE.name);
    }
    
    @Override
-   public Package link(String resource, String source, String grammar) throws Exception {
-      Package linked = cache.fetch(resource);
+   public Package link(Path path, String source, String grammar) throws Exception {
+      Package linked = cache.fetch(path);
       
       if(linked == null) {
-         linked = builder.create(resource, source, grammar); 
-         cache.cache(resource, linked);
+         linked = builder.create(path, source, grammar); 
+         cache.cache(path, linked);
       }
       return linked; 
    } 

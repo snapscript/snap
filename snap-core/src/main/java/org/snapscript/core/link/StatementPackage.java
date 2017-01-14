@@ -6,6 +6,7 @@ import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
 import org.snapscript.core.ModuleRegistry;
+import org.snapscript.core.Path;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 
@@ -15,10 +16,10 @@ public class StatementPackage implements Package {
    private final AtomicBoolean define;
    private final Statement statement;
    private final String name;
-   private final String path;
+   private final Path path;
    
-   public StatementPackage(Statement statement, String name, String path) {
-      this.definition = new StatementDefinition(statement, name, path);
+   public StatementPackage(Statement statement, Path path, String name) {
+      this.definition = new StatementDefinition(statement, path, name);
       this.define = new AtomicBoolean(true);
       this.statement = statement;
       this.name = name;

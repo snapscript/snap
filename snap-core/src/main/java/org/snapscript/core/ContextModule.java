@@ -20,15 +20,15 @@ public class ContextModule implements Module {
    private final ImportManager manager;
    private final Context context;
    private final String prefix;
-   private final String path;
    private final Scope scope;
+   private final Path path;
    private final int order;
    
-   public ContextModule(Context context, String path, String prefix) {
+   public ContextModule(Context context, Path path, String prefix) {
       this(context, path, prefix, 0);
    }
    
-   public ContextModule(Context context, String path, String prefix, int order) {
+   public ContextModule(Context context, Path path, String prefix, int order) {
       this.annotations = new CopyOnWriteArrayList<Annotation>();
       this.functions = new CopyOnWriteArrayList<Function>();
       this.modules = new ConcurrentHashMap<String, Module>();
@@ -170,7 +170,7 @@ public class ContextModule implements Module {
    }
    
    @Override
-   public String getPath() {
+   public Path getPath() {
       return path;
    }
    

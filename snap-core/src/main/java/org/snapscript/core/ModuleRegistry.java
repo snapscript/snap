@@ -47,7 +47,7 @@ public class ModuleRegistry {
       if (name == null) {
          throw new InternalArgumentException("Module name was null");
       }
-      String path = converter.createPath(name);
+      Path path = converter.createPath(name);
       Module current = modules.get(name);
       
       if(current == null) {
@@ -56,7 +56,7 @@ public class ModuleRegistry {
       return current;
    }
    
-   public synchronized Module addModule(String name, String path) {
+   public synchronized Module addModule(String name, Path path) {
       if (name == null) {
          throw new InternalArgumentException("Module name was null");
       }

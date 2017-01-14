@@ -8,8 +8,11 @@ import org.snapscript.common.LeastRecentlyUsedCache;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.ExpressionEvaluator;
+import org.snapscript.core.FilePathConverter;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Model;
+import org.snapscript.core.Path;
+import org.snapscript.core.PathConverter;
 import org.snapscript.core.Scope;
 import org.snapscript.core.ScopeMerger;
 import org.snapscript.core.Value;
@@ -20,6 +23,7 @@ import org.snapscript.parse.SyntaxParser;
 public class OperationEvaluator implements ExpressionEvaluator {
    
    private final Cache<String, Evaluation> cache;
+   private final PathConverter converter;
    private final SyntaxCompiler compiler;
    private final ScopeMerger merger;
    private final Assembler assembler;
@@ -32,6 +36,7 @@ public class OperationEvaluator implements ExpressionEvaluator {
    public OperationEvaluator(Context context, int limit) {
       this.cache = new LeastRecentlyUsedCache<String, Evaluation>();
       this.assembler = new OperationAssembler(context);
+      this.converter = new FilePathConverter();
       this.merger = new ScopeMerger(context);
       this.compiler = new SyntaxCompiler();
       this.limit = limit;
@@ -61,9 +66,10 @@ public class OperationEvaluator implements ExpressionEvaluator {
          if(evaluation == null) {
             SyntaxParser parser = compiler.compile();
             SyntaxNode node = parser.parse(module, source, EXPRESSION.name);
+            Path path = converter.createPath(module);
             int length = source.length();
             
-            evaluation = assembler.assemble(node, source);
+            evaluation = assembler.assemble(node, path);
             
             if(length < limit) {
                cache.cache(source, evaluation);

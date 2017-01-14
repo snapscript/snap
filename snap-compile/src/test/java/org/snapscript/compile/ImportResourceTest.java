@@ -87,10 +87,10 @@ public class ImportResourceTest extends TestCase {
       sources.put("/demo.snap", SOURCE_2);
       sources.put("/builder/Builder.snap", SOURCE_3);  
       sources.put("/main.snap", SOURCE_4);  
-      sources.put("/launch.snap", SOURCE_5);     
+      sources.put("/launch.snap", SOURCE_5);         
       System.err.println(SOURCE_3);
       Store store = new MapStore(sources);
-      Context context = new StoreContext(store, null);
+      Context context = new StoreContext(store, null); 
       Compiler compiler = new ResourceCompiler(context);
       Timer.timeExecution(compiler.compile("/main.snap"));
       Timer.timeExecution(compiler.compile("/launch.snap"));
@@ -109,6 +109,7 @@ public class ImportResourceTest extends TestCase {
          String source = sources.get(name);
          if(source != null) {
             try {
+               System.err.println(name);
                byte[] data = source.getBytes("UTF-8");
                return new ByteArrayInputStream(data);
             }catch(Exception e){

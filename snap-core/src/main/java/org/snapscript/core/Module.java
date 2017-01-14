@@ -19,7 +19,7 @@ public interface Module extends Any{
    List<Annotation> getAnnotations();
    List<Function> getFunctions();
    List<Type> getTypes();
-   String getPath();
    String getName();
+   Path getPath();
    int getOrder();
 }

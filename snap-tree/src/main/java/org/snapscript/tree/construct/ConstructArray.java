@@ -5,6 +5,7 @@ import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalArgumentException;
 import org.snapscript.core.Module;
+import org.snapscript.core.Path;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
@@ -25,10 +26,10 @@ public class ConstructArray implements Compilation {
    }  
    
    @Override
-   public Evaluation compile(Module module, int line) throws Exception {
+   public Evaluation compile(Module module, Path path, int line) throws Exception {
       Context context = module.getContext();
       TraceInterceptor interceptor = context.getInterceptor();
-      Trace trace = TraceType.getConstruct(module, line);
+      Trace trace = TraceType.getConstruct(module, path, line);
       
       return new TraceEvaluation(interceptor, construct, trace);
    }

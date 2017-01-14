@@ -5,13 +5,14 @@ import java.util.List;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.Module;
+import org.snapscript.core.NameBuilder;
+import org.snapscript.core.Path;
 import org.snapscript.core.Result;
 import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeNameBuilder;
-import org.snapscript.core.NameBuilder;
 import org.snapscript.core.function.Function;
 
 public class ImportStatic implements Compilation {   
@@ -23,7 +24,7 @@ public class ImportStatic implements Compilation {
    }
 
    @Override
-   public Object compile(Module module, int line) throws Exception {
+   public Object compile(Module module, Path path, int line) throws Exception {
       String location = qualifier.getLocation();
       String target = qualifier.getTarget();
       String name = qualifier.getName();

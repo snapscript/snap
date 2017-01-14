@@ -2,6 +2,7 @@ package org.snapscript.compile.assemble;
 
 import org.snapscript.core.Context;
 import org.snapscript.core.FilePathConverter;
+import org.snapscript.core.Path;
 import org.snapscript.core.PathConverter;
 import org.snapscript.core.Statement;
 import org.snapscript.core.link.Package;
@@ -22,13 +23,13 @@ public class PackageBuilder {
       this.compiler = new SyntaxCompiler();
    }
 
-   public Package create(String resource, String source, String grammar) throws Exception {
+   public Package create(Path path, String source, String grammar) throws Exception {
+      String resource = path.getPath();
       SyntaxParser parser = compiler.compile();
       SyntaxNode node = parser.parse(resource, source, grammar); // source could be split here!
-      Statement statement = assembler.assemble(node, resource);
+      Statement statement = assembler.assemble(node, path);
       String module = converter.createModule(resource);
-      String path = converter.createPath(resource);
 
-      return new StatementPackage(statement, module, path);
+      return new StatementPackage(statement, path, module);
    } 
 }

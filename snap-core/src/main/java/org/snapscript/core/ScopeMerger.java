@@ -11,7 +11,7 @@ public class ScopeMerger {
    }
    
    public Scope merge(Model model, String name) {
-      String path = converter.createPath(name);
+      Path path = converter.createPath(name);
       
       if(path == null) {
          throw new InternalStateException("Module '" +name +"' does not have a path"); 
@@ -19,7 +19,7 @@ public class ScopeMerger {
       return merge(model, name, path);
    }
    
-   public Scope merge(Model model, String name, String path) {
+   public Scope merge(Model model, String name, Path path) {
       ModuleRegistry registry = context.getRegistry();
       Module module = registry.addModule(name, path);
       

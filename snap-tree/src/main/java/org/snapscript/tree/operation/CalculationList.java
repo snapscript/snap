@@ -3,6 +3,7 @@ package org.snapscript.tree.operation;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Module;
+import org.snapscript.core.Path;
 
 public class CalculationList implements Compilation { 
    
@@ -13,7 +14,7 @@ public class CalculationList implements Compilation {
    }
    
    @Override
-   public Evaluation compile(Module module, int line) throws Exception {
+   public Evaluation compile(Module module, Path path, int line) throws Exception {
       Calculator calculator = new Calculator();
       
       for(CalculationPart part : parts) {

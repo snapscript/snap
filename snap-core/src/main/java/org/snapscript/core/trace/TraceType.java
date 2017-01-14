@@ -1,6 +1,7 @@
 package org.snapscript.core.trace;
 
 import org.snapscript.core.Module;
+import org.snapscript.core.Path;
 
 public enum TraceType {
    CONSTRUCT,
@@ -8,19 +9,19 @@ public enum TraceType {
    NORMAL,
    NATIVE;
    
-   public static Trace getNative(Module module) {
-      return new Trace(NATIVE, module, -2); // see StackTraceElement.isNativeMethod
+   public static Trace getNative(Module module, Path path) {
+      return new Trace(NATIVE, module, path, -2); // see StackTraceElement.isNativeMethod
    }
    
-   public static Trace getConstruct(Module module, int line) {
-      return new Trace(CONSTRUCT, module, line);
+   public static Trace getConstruct(Module module, Path path, int line) {
+      return new Trace(CONSTRUCT, module, path, line);
    }
    
-   public static Trace getInvoke(Module module, int line) {
-      return new Trace(INVOKE, module, line);
+   public static Trace getInvoke(Module module, Path path, int line) {
+      return new Trace(INVOKE, module, path, line);
    }
    
-   public static Trace getNormal(Module module, int line) {
-      return new Trace(NORMAL, module, line);
+   public static Trace getNormal(Module module, Path path, int line) {
+      return new Trace(NORMAL, module, path, line);
    }
 }

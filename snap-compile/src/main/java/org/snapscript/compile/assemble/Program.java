@@ -4,6 +4,7 @@ import org.snapscript.compile.Executable;
 import org.snapscript.core.Context;
 import org.snapscript.core.EmptyModel;
 import org.snapscript.core.Model;
+import org.snapscript.core.Path;
 import org.snapscript.core.ProgramValidator;
 import org.snapscript.core.Scope;
 import org.snapscript.core.ScopeMerger;
@@ -19,9 +20,9 @@ public class Program implements Executable{
    private final Context context;
    private final Model model;
    private final String name;
-   private final String path;
+   private final Path path;
    
-   public Program(Context context, Package library, String name, String path){
+   public Program(Context context, Package library, Path path, String name){
       this.merger = new ScopeMerger(context);
       this.model = new EmptyModel();
       this.library = library;
@@ -39,7 +40,7 @@ public class Program implements Executable{
    public void execute(Model model) throws Exception{ 
       Scope scope = merger.merge(model, name, path);
       PackageDefinition definition = library.define(scope); // define all types
-      Statement statement = definition.compile(scope); // compile tree
+      Statement statement = definition.compile(scope, null); // compile tree
       ProgramValidator validator = context.getValidator();
       ErrorHandler handler = context.getHandler();
       

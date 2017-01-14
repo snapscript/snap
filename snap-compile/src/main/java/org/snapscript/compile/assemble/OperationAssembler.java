@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
+import org.snapscript.core.Path;
 import org.snapscript.core.Type;
 import org.snapscript.core.error.ThreadStack;
 import org.snapscript.parse.Line;
@@ -27,30 +28,30 @@ public class OperationAssembler implements Assembler {
    }
    
    @Override
-   public <T> T assemble(SyntaxNode token, String name) throws Exception {
+   public <T> T assemble(SyntaxNode token, Path path) throws Exception {
       ThreadStack stack = context.getStack();
-      Object value = create(token, name, 0);
+      Object value = create(token, path, 0);
       
       stack.clear();
       return (T)value;
    }
    
-   private Object create(SyntaxNode node, String name, int depth) throws Exception {
+   private Object create(SyntaxNode node, Path path, int depth) throws Exception {
       List<SyntaxNode> children = node.getNodes();
       String grammar = node.getGrammar();
       Operation type = resolver.resolve(grammar);
       int size = children.size();
       
       if (type == null) {
-         return createChild(node, name, children, type,depth);
+         return createChild(node, path, children, type,depth);
       }
       if (size > 0) {
-         return createBranch(node, name, children, type,depth);
+         return createBranch(node, path, children, type,depth);
       }
-      return createLeaf(node, name, children, type,depth);
+      return createLeaf(node, path, children, type,depth);
    }
    
-   private Object createBranch(SyntaxNode node, String name, List<SyntaxNode> children, Operation operation, int depth) throws Exception {
+   private Object createBranch(SyntaxNode node, Path path, List<SyntaxNode> children, Operation operation, int depth) throws Exception {
       Type type = operation.getType();
       Line line = node.getLine();
       int size = children.size();
@@ -60,7 +61,7 @@ public class OperationAssembler implements Assembler {
 
          for (int i = 0; i < size; i++) {
             SyntaxNode child = children.get(i);
-            Object argument = create(child, name, depth+1);
+            Object argument = create(child, path, depth+1);
 
             arguments[i] = argument;
          }
@@ -69,7 +70,7 @@ public class OperationAssembler implements Assembler {
       return builder.create(type, empty, line);
    }
 
-   private Object createChild(SyntaxNode node, String name, List<SyntaxNode> children, Operation operation, int depth) throws Exception {
+   private Object createChild(SyntaxNode node, Path path, List<SyntaxNode> children, Operation operation, int depth) throws Exception {
       String grammar = node.getGrammar();
       int size = children.size();
       
@@ -82,15 +83,15 @@ public class OperationAssembler implements Assembler {
          if (child == null) {
             throw new InternalStateException("No child for " + grammar);
          }
-         return create(child, name, depth);
+         return create(child, path, depth);
       }
       if (size > 0) {
-         return createBranch(node, name, children, operation, depth);
+         return createBranch(node, path, children, operation, depth);
       }
-      return createLeaf(node, name, children, operation, depth);
+      return createLeaf(node, path, children, operation, depth);
    }
    
-   private Object createLeaf(SyntaxNode node, String name, List<SyntaxNode> children, Operation operation, int depth) throws Exception {
+   private Object createLeaf(SyntaxNode node, Path path, List<SyntaxNode> children, Operation operation, int depth) throws Exception {
       Token token = node.getToken();     
       Line line = node.getLine();
       

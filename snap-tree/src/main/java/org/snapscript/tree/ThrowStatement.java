@@ -4,6 +4,7 @@ import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Module;
+import org.snapscript.core.Path;
 import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
@@ -23,11 +24,11 @@ public class ThrowStatement implements Compilation {
    }
    
    @Override
-   public Statement compile(Module module, int line) throws Exception {
+   public Statement compile(Module module, Path path, int line) throws Exception {
       Context context = module.getContext();
       ErrorHandler handler = context.getHandler();
       TraceInterceptor interceptor = context.getInterceptor();
-      Trace trace = TraceType.getConstruct(module, line);
+      Trace trace = TraceType.getConstruct(module, path, line);
       
       return new TraceStatement(interceptor, handler, control, trace);
    }

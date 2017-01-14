@@ -3,6 +3,7 @@ package org.snapscript.core.link;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.snapscript.core.Path;
 import org.snapscript.core.Result;
 import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
@@ -17,11 +18,11 @@ public class PackageDefinitionList implements PackageDefinition {
    }
 
    @Override
-   public Statement compile(Scope scope) throws Exception {
+   public Statement compile(Scope scope, Path from) throws Exception {
       List<Statement> statements = new ArrayList<Statement>();
       
       for(PackageDefinition definition : definitions) {
-         Statement statement = definition.compile(scope);
+         Statement statement = definition.compile(scope, from);
          
          if(statement != null) {
             statements.add(statement);

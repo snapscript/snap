@@ -7,6 +7,7 @@ import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
 import org.snapscript.core.NameBuilder;
 import org.snapscript.core.NoStatement;
+import org.snapscript.core.Path;
 import org.snapscript.core.Result;
 import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
@@ -33,7 +34,7 @@ public class Import implements Compilation {
    }
    
    @Override
-   public Object compile(Module module, int line) throws Exception {
+   public Object compile(Module module, Path path, int line) throws Exception {
       Context context = module.getContext();
       TypeLoader loader = context.getLoader();
       String location = qualifier.getLocation();
@@ -44,7 +45,7 @@ public class Import implements Compilation {
          Package library = loader.importPackage(location);
          
          if(library != null) {
-            return new CompileResult(library, location, null, name);
+            return new CompileResult(library, path, location, null, name);
          }
       }
       Package library = loader.importType(location, target);
@@ -55,9 +56,9 @@ public class Import implements Compilation {
             Value value = alias.evaluate(scope, null);
             String alias = value.getString();
             
-            return new CompileResult(library, location, target, alias);
+            return new CompileResult(library, path, location, target, alias);
          } 
-         return new CompileResult(library, location, target, target, name);
+         return new CompileResult(library, path, location, target, target, name);
       }
       return new NoStatement();
    }
@@ -70,22 +71,16 @@ public class Import implements Compilation {
       private Package library;
       private String location;
       private String target;
+      private Path path;
       private String[] alias;
-      
-      public CompileResult(Package library, String location) {
-         this(library, location, null);
-      }
-      
-      public CompileResult(Package library, String location, String target) {
-         this(library, location, target, null);
-      }
-      
-      public CompileResult(Package library, String location, String target, String... alias) {
+
+      public CompileResult(Package library, Path path, String location, String target, String... alias) {
          this.builder = new TypeNameBuilder();
          this.location = location;
          this.library = library;
          this.target = target;
          this.alias = alias;
+         this.path = path;
       }
       
       @Override
@@ -105,7 +100,7 @@ public class Import implements Compilation {
             throw new InternalStateException("Import '" + location + "' was not defined");
          }
          if(statement == null) { // compile once
-            statement = definition.compile(scope);
+            statement = definition.compile(scope, path);
          }
          return ResultType.getNormal();
       }

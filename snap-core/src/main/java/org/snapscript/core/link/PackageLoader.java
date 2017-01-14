@@ -8,6 +8,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 import org.snapscript.core.FilePathConverter;
 import org.snapscript.core.InternalStateException;
+import org.snapscript.core.Path;
 import org.snapscript.core.PathConverter;
 import org.snapscript.core.ResourceManager;
 
@@ -36,12 +37,13 @@ public class PackageLoader {
          String resource = list[i];
          
          if(libraries.add(resource) && complete.add(resource)) { // load only once!
-            String path = converter.createPath(resource);
-            String source = manager.getString(path); // load source code
+            Path path = converter.createPath(resource);
+            String location = path.getPath();
+            String source = manager.getString(location); // load source code
             
             try {
                if(source != null) {
-                  Package module = linker.link(resource, source);
+                  Package module = linker.link(path, source);
                   
                   if(module != null) {
                      modules.add(module);

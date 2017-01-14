@@ -5,8 +5,6 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.snapscript.core.ContextModule;
-import org.snapscript.core.Module;
 import org.snapscript.core.error.ThreadStack;
 import org.snapscript.core.function.InvocationFunction;
 import org.snapscript.core.function.Parameter;
@@ -60,11 +58,11 @@ public class ThreadStackTest extends TestCase {
    }
    
    public static void createTrace(ThreadStack stack, String resource, int line){
-      stack.before(new Trace(TraceType.NORMAL, new ContextModule(null, resource, resource, -1), line));
+      stack.before(new Trace(TraceType.NORMAL, new ContextModule(null, new Path(resource), resource, -1), new Path(resource), line));
    }
    
    public static void createFunction(ThreadStack stack, String functionName, String typeName, String moduleName){
-      Module module = new ContextModule(null, moduleName, moduleName, -1);
+      Module module = new ContextModule(null, new Path(moduleName), moduleName, -1);
       TestType type = new TestType(module, typeName, null, null);
       List<Parameter> parameters = new ArrayList<Parameter>();
       Signature signature = new Signature(parameters, module);

@@ -30,6 +30,7 @@ public interface Reserved {
    String IMPORT_SNAPSCRIPT = "org.snapscript.";
    String SCRIPT_EXTENSION = ".snap";
    String DEFAULT_PACKAGE = "default";
+   String DEFAULT_RESOURCE = "default.snap";
    String DEFAULT_PARAMETER = "a";
 }
 

@@ -5,6 +5,7 @@ import org.snapscript.core.Context;
 import org.snapscript.core.FilePathConverter;
 import org.snapscript.core.Module;
 import org.snapscript.core.ModuleRegistry;
+import org.snapscript.core.Path;
 import org.snapscript.core.PathConverter;
 import org.snapscript.parse.Line;
 
@@ -22,12 +23,13 @@ public class OperationProcessor {
       if(Compilation.class.isInstance(value)) {
          Compilation compilation = (Compilation)value;
          String resource = line.getResource();
+         Path path = converter.createPath(resource);
          String name = converter.createModule(resource);
          ModuleRegistry registry = context.getRegistry();
          Module module = registry.addModule(name);
          int number = line.getNumber();
          
-         return compilation.compile(module, number);
+         return compilation.compile(module, path, number);
       }
       return value;
    }
