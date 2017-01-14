@@ -1,6 +1,7 @@
 package org.snapscript.core.link;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -28,12 +29,13 @@ public class PackageLoader {
 
    public Package load(String... list) throws Exception {
       List<Package> modules = new ArrayList<Package>(list.length);
-      StringBuilder missing = new StringBuilder();
+      Set<String> complete = new HashSet<String>(list.length);
+      StringBuilder message = new StringBuilder();
       
       for(int i = 0; i < list.length; i++) {
          String resource = list[i];
          
-         if(libraries.add(resource)) { // load only once!
+         if(libraries.add(resource) && complete.add(resource)) { // load only once!
             String path = converter.createPath(resource);
             String source = manager.getString(path); // load source code
             
@@ -45,25 +47,25 @@ public class PackageLoader {
                      modules.add(module);
                   }
                } else {
-                  int size = missing.length();
+                  int size = message.length();
                   
                   if(size > 0) {
-                     missing.append(" or ");
+                     message.append(" or ");
                   }
-                  missing.append("'");
-                  missing.append(path);
-                  missing.append("'");
+                  message.append("'");
+                  message.append(path);
+                  message.append("'");
                }
             } catch(Exception e) {
                throw new InternalStateException("Could not load library '" + resource + "'", e);
             }
          }
       }
-      int length = missing.length();
-      int size = modules.size();
+      int check = complete.size(); // how many did we check
+      int found = modules.size(); // how many did we find
       
-      if(length > 0 && size <= 0) {
-         throw new InternalStateException("Could not load library " + missing);
+      if(found == 0 && check == list.length) {
+         throw new InternalStateException("Could not load library " + message);
       }
       return merger.merge(modules);
    }
