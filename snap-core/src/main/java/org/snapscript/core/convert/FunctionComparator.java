@@ -45,11 +45,19 @@ public class FunctionComparator {
       int requireSize = requireParameters.size();
       boolean actualVariable = actualSignature.isVariable();
       
-      if(actualVariable && actualSize <= requireSize) {
-         return compare(actualParameters, requireParameters);
-      }
       if(actualSize == requireSize) {
-         return compare(actualParameters, requireParameters); // compare(a...) == compare(a, b)
+         Score score = compare(actualParameters, requireParameters);
+         
+         if(score.compareTo(INVALID) > 0) {
+            return score;
+         }
+      }
+      if(actualVariable && actualSize <= requireSize) {
+         Score score = compare(actualParameters, requireParameters); // compare(a...) == compare(a, b)
+         
+         if(score.compareTo(INVALID) > 0) {
+            return score;
+         }
       }
       return INVALID;
    }

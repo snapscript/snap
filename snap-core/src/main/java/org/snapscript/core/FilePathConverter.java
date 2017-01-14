@@ -52,6 +52,7 @@ public class FilePathConverter implements PathConverter {
    
    private Path convertModule(String resource) {
       int index = resource.indexOf(suffix);
+      int prefix = resource.indexOf("/");
       
       if(index == -1) {
          int slash = resource.indexOf('.');
@@ -60,6 +61,9 @@ public class FilePathConverter implements PathConverter {
             resource = resource.replace('.', '/');
          }
          return new Path("/" + resource + suffix);
+      }
+      if(prefix != 0) {
+         return new Path("/" + resource);
       }
       return new Path(resource);
    }
