@@ -9,12 +9,13 @@ import org.snapscript.core.function.Function;
 
 public class ProxyFactory {
 
-   private InterfaceCollector collector;
-   private ProxyWrapper wrapper;
-   private ClassLoader loader;
-   private Context context;
+   private final InterfaceCollector collector;
+   private final ProxyWrapper wrapper;
+   private final ClassLoader loader;
+   private final Context context;
    
    public ProxyFactory(ProxyWrapper wrapper, Context context) {
+      this.loader = new ProxyClassLoader(Any.class);
       this.collector = new InterfaceCollector();
       this.wrapper = wrapper;
       this.context = context;
@@ -27,9 +28,6 @@ public class ProxyFactory {
          ScopeProxyHandler handler = new ScopeProxyHandler(wrapper, context, scope);
          TraceProxyHandler tracer = new TraceProxyHandler(handler, context, scope);
          
-         if(loader == null) {
-            loader = Any.class.getClassLoader();
-         }
          return Proxy.newProxyInstance(loader, interfaces, tracer);
       }
       return scope;
@@ -40,10 +38,7 @@ public class ProxyFactory {
       
       if(interfaces.length > 0) {
          FunctionProxyHandler handler = new FunctionProxyHandler(wrapper, context, function);
-         
-         if(loader == null) {
-            loader = Any.class.getClassLoader();
-         }
+
          return Proxy.newProxyInstance(loader, interfaces, handler);
       }
       return function;
