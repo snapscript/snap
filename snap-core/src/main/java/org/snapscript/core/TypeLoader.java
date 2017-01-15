@@ -28,6 +28,10 @@ public class TypeLoader {
       return manager.importPackage(module);
    }   
    
+   public Package importType(String type) {
+      return manager.importType(type);  // import a runtime
+   }
+   
    public Package importType(String module, String name) {
       return manager.importType(module, name); 
    }

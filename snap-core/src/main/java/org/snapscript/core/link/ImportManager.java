@@ -9,23 +9,22 @@ import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
 import org.snapscript.core.ModuleRegistry;
-import org.snapscript.core.NameBuilder;
+import org.snapscript.core.Path;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeLoader;
-import org.snapscript.core.TypeNameBuilder;
 
 public class ImportManager {
 
    private final Map<String, String> aliases;
    private final Set<String> imports;
-   private final NameBuilder builder;
+   private final ImportMatcher matcher;
    private final Context context;
    private final String from;
    
-   public ImportManager(Context context, String from) {
+   public ImportManager(Context context, Path path, String from) {
       this.aliases = new ConcurrentHashMap<String, String>();
       this.imports = new CopyOnWriteArraySet<String>();
-      this.builder = new TypeNameBuilder();
+      this.matcher = new ImportMatcher(context, path, from);
       this.context = context;
       this.from = from;
    }
@@ -50,27 +49,19 @@ public class ImportManager {
    public Module getModule(String name) {
       try {
          ModuleRegistry registry = context.getRegistry();
-         String alias = aliases.get(name);
+         Module module = registry.getModule(name);
          
-         if(alias != null) {
-            Module module = registry.getModule(alias);
+         if(module == null) {
+            String alias = aliases.get(name);
             
-            if(module != null) {
-               return module;
+            if(alias != null) {
+               module = registry.getModule(alias);
             }
          }
-         for(String prefix : imports) {
-            String inner = builder.createFullName(prefix, name);
-            
-            if(!inner.equals(from)) { // avoid recursion
-               Module module = registry.getModule(inner); // get imports from the outer module if it exists
-               
-               if(module != null) {
-                  return module;
-               }
-            }
+         if(module == null) {
+            module = matcher.importModule(name, imports);
          }
-         return null;
+         return module;
       } catch(Exception e){
          throw new InternalStateException("Could not find '" + name + "' in '" + from + "'", e);
       }
@@ -102,21 +93,7 @@ public class ImportManager {
                type = loader.resolveType(null, name); // null is "java.*"
             }
             if(type == null) {
-               ModuleRegistry registry = context.getRegistry();
-               
-               for(String prefix : imports) {
-                  if(!prefix.equals(from)) { // avoid recursion
-                     Module module = registry.getModule(prefix);
-                     
-                     if(module != null) {
-                        type = module.getType(name); // get imports from the outer module if it exists
-   
-                        if(type != null) {
-                           return type;
-                        }
-                     }
-                  }
-               }
+               type = matcher.importType(name, imports);
             }
          }
          return type;

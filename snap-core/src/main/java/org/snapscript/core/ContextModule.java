@@ -29,12 +29,12 @@ public class ContextModule implements Module {
    }
    
    public ContextModule(Context context, Path path, String prefix, int order) {
+      this.manager = new ImportManager(context, path, prefix);
       this.annotations = new CopyOnWriteArrayList<Annotation>();
       this.functions = new CopyOnWriteArrayList<Function>();
       this.modules = new ConcurrentHashMap<String, Module>();
       this.types = new ConcurrentHashMap<String, Type>();
       this.references = new CopyOnWriteArrayList<Type>();
-      this.manager = new ImportManager(context, prefix);
       this.scope = new ModuleScope(this);
       this.context = context;
       this.prefix = prefix;

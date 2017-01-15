@@ -85,6 +85,24 @@ public class TypeNameBuilder implements NameBuilder {
    }
    
    @Override
+   public String createTopName(String type) {
+      if(type != null) {
+         int index = type.indexOf('$');
+         
+         if(index > 0) {
+            String parent = type.substring(0, index);
+            int length = parent.length();
+            
+            if(length > 0) {
+               return parent;
+            }
+         }
+         return type;
+      }
+      return null;
+   }
+   
+   @Override
    public String createTopName(String module, String name) {
       if(name != null) {
          int index = name.indexOf('$');

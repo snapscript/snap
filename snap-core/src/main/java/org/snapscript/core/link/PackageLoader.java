@@ -28,7 +28,7 @@ public class PackageLoader {
       this.linker = linker;
    }
 
-   public Package load(String... list) throws Exception {
+   public Package load(ImportType type, String... list) throws Exception {
       List<Package> modules = new ArrayList<Package>(list.length);
       Set<String> complete = new HashSet<String>(list.length);
       StringBuilder message = new StringBuilder();
@@ -66,7 +66,7 @@ public class PackageLoader {
       int check = complete.size(); // how many did we check
       int found = modules.size(); // how many did we find
       
-      if(found == 0 && check == list.length) {
+      if(found == 0 && check == list.length && type.required) {
          throw new InternalStateException("Could not load library " + message);
       }
       return merger.merge(modules);
