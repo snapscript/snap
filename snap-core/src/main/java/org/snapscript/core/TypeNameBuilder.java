@@ -90,12 +90,7 @@ public class TypeNameBuilder implements NameBuilder {
          int index = type.indexOf('$');
          
          if(index > 0) {
-            String parent = type.substring(0, index);
-            int length = parent.length();
-            
-            if(length > 0) {
-               return parent;
-            }
+            return type.substring(0, index);
          }
          return type;
       }

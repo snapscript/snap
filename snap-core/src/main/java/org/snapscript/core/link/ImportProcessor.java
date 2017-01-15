@@ -23,7 +23,7 @@ public class ImportProcessor {
          PackageDefinition definition = result.define(scope);
          Statement statement = definition.compile(scope, path);
          
-         statement.execute(scope);
+         statement.execute(scope); // race condition here
       } catch(Exception e) {
          return false;
       }
