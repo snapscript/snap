@@ -9,6 +9,7 @@ public class GrammarCache {
    }
    
    public GrammarCache(int size) {
+      this.matchers = new GrammarMatcher[size]; 
    }  
    
    public GrammarMatcher resolve(int index) {
