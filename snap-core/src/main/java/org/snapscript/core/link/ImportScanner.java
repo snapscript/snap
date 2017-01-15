@@ -35,6 +35,7 @@ public class ImportScanner {
    private final Map<String, Package> packages;
    private final Map<String, Class> types;
    private final Map<Object, String> names;
+   private final ImportLoader loader;
    private final NameBuilder builder;
    private final Set<String> failures;
    private final String[] prefixes;
@@ -49,6 +50,7 @@ public class ImportScanner {
       this.types = new ConcurrentHashMap<String, Class>();
       this.failures = new CopyOnWriteArraySet<String>();
       this.builder = new TypeNameBuilder();
+      this.loader = new ImportLoader();
       this.prefixes = prefixes;
    }
    
@@ -171,7 +173,7 @@ public class ImportScanner {
    
    private Class loadType(String name) {
       try {
-         Class result = ImportLoader.getClass(name);
+         Class result = loader.loadClass(name);
 
          if(result != null) {
             types.put(name, result);
@@ -184,7 +186,7 @@ public class ImportScanner {
    
    private Package loadPackage(String name) {
       try {
-         Package result = ImportLoader.getPackage(name);
+         Package result = loader.loadPackage(name);
          
          if(result != null) {
             packages.put(name, result);

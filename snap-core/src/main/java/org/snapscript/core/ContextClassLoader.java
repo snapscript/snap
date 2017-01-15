@@ -1,10 +1,10 @@
-package org.snapscript.core.convert;
+package org.snapscript.core;
 
-public class ProxyClassLoader extends ClassLoader {
+public class ContextClassLoader extends ClassLoader {
    
    private final Class type;
    
-   public ProxyClassLoader(Class type) {
+   public ContextClassLoader(Class type) {
       this.type = type;
    }
 

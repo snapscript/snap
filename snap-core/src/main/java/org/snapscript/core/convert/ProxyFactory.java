@@ -4,6 +4,7 @@ import java.lang.reflect.Proxy;
 
 import org.snapscript.core.Any;
 import org.snapscript.core.Context;
+import org.snapscript.core.ContextClassLoader;
 import org.snapscript.core.Scope;
 import org.snapscript.core.function.Function;
 
@@ -15,7 +16,7 @@ public class ProxyFactory {
    private final Context context;
    
    public ProxyFactory(ProxyWrapper wrapper, Context context) {
-      this.loader = new ProxyClassLoader(Any.class);
+      this.loader = new ContextClassLoader(Any.class);
       this.collector = new InterfaceCollector();
       this.wrapper = wrapper;
       this.context = context;

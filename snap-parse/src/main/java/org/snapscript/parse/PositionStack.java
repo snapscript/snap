@@ -21,7 +21,7 @@ public class PositionStack {
       int count = visit[grammar];
       
       if(count != 0) {
-         int key = offset << 10 | grammar;
+         int key = offset << 10 | grammar; // use grammar and offset
          
          for(int i = top - 1; i >= 0; i--) {
             int next = stack[i];
