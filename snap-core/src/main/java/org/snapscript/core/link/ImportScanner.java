@@ -9,15 +9,15 @@ import static org.snapscript.core.Reserved.IMPORT_JAVA_NET;
 import static org.snapscript.core.Reserved.IMPORT_JAVA_UTIL;
 import static org.snapscript.core.Reserved.IMPORT_SNAPSCRIPT;
 
-import java.lang.reflect.Array;
 import java.lang.Package;
-import java.util.Map;
+import java.lang.reflect.Array;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-import org.snapscript.core.TypeNameBuilder;
+import org.snapscript.common.Cache;
+import org.snapscript.common.CopyOnWriteCache;
 import org.snapscript.core.NameBuilder;
+import org.snapscript.core.TypeNameBuilder;
 
 public class ImportScanner {
    
@@ -32,9 +32,9 @@ public class ImportScanner {
       IMPORT_SNAPSCRIPT
    };
    
-   private final Map<String, Package> packages;
-   private final Map<String, Class> types;
-   private final Map<Object, String> names;
+   private final Cache<String, Package> packages;
+   private final Cache<String, Class> types;
+   private final Cache<Object, String> names;
    private final ImportLoader loader;
    private final NameBuilder builder;
    private final Set<String> failures;
@@ -45,9 +45,9 @@ public class ImportScanner {
    }
    
    public ImportScanner(String... prefixes) {
-      this.packages = new ConcurrentHashMap<String, Package>();
-      this.names = new ConcurrentHashMap<Object, String>();
-      this.types = new ConcurrentHashMap<String, Class>();
+      this.packages = new CopyOnWriteCache<String, Package>();
+      this.names = new CopyOnWriteCache<Object, String>();
+      this.types = new CopyOnWriteCache<String, Class>();
       this.failures = new CopyOnWriteArraySet<String>();
       this.builder = new TypeNameBuilder();
       this.loader = new ImportLoader();
@@ -56,7 +56,7 @@ public class ImportScanner {
    
    public Package importPackage(String name) {
       if(!failures.contains(name)) {
-         Package result = packages.get(name);
+         Package result = packages.fetch(name);
          
          if(result == null) {
             result = loadPackage(name);
@@ -66,7 +66,7 @@ public class ImportScanner {
                result = loadPackage(prefix + name);
                
                if(result != null) {
-                  packages.put(name, result);
+                  packages.cache(name, result);
                   return result;
                }
             }   
@@ -79,7 +79,7 @@ public class ImportScanner {
 
    public Class importType(String name) {
       if(!failures.contains(name)) {
-         Class type = types.get(name);
+         Class type = types.fetch(name);
          
          if(type == null) {
             type = loadType(name);
@@ -89,7 +89,7 @@ public class ImportScanner {
                type = loadType(prefix + name);
                
                if(type != null) {
-                  types.put(name, type);
+                  types.cache(name, type);
                   return type;
                }
             }   
@@ -122,7 +122,7 @@ public class ImportScanner {
    }
    
    public String importName(Class type) {
-      String result = names.get(type);
+      String result = names.fetch(type);
       
       if(result == null) {
          String absolute = builder.createFullName(type);
@@ -132,14 +132,14 @@ public class ImportScanner {
                int length = prefix.length();
                String name = absolute.substring(length);
                
-               types.put(absolute, type);
-               types.put(name, type);
-               names.put(type, name);
+               types.cache(absolute, type);
+               types.cache(name, type);
+               names.cache(type, name);
                
                return name;
             }
-            types.put(absolute, type);
-            names.put(type, absolute);
+            types.cache(absolute, type);
+            names.cache(type, absolute);
          }   
          return absolute;
       }
@@ -147,7 +147,7 @@ public class ImportScanner {
    }
    
    public String importName(Package module) {
-      String result = names.get(module);
+      String result = names.fetch(module);
       
       if(result == null) {
          String absolute = module.getName();
@@ -157,14 +157,14 @@ public class ImportScanner {
                int length = prefix.length();
                String name = absolute.substring(length);
                
-               packages.put(absolute, module);
-               packages.put(name, module);
-               names.put(module, name);
+               packages.cache(absolute, module);
+               packages.cache(name, module);
+               names.cache(module, name);
                
                return name;
             }
-            packages.put(absolute, module);
-            names.put(module, absolute);
+            packages.cache(absolute, module);
+            names.cache(module, absolute);
          }   
          return absolute;
       }
@@ -176,7 +176,7 @@ public class ImportScanner {
          Class result = loader.loadClass(name);
 
          if(result != null) {
-            types.put(name, result);
+            types.cache(name, result);
          }
          return result;
       }catch(Exception e){
@@ -189,7 +189,7 @@ public class ImportScanner {
          Package result = loader.loadPackage(name);
          
          if(result != null) {
-            packages.put(name, result);
+            packages.cache(name, result);
          }
          return result;
       }catch(Exception e){
