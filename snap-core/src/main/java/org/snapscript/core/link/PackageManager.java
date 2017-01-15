@@ -30,12 +30,14 @@ public class PackageManager {
    }
    
    public Package importType(String module, String name) {
-      String type  = builder.createFullName(module, name);
+      String type  = builder.createFullName(module, name);            
       Object result = scanner.importType(type);
       
       if(result == null) {
+         String outer  = builder.createTopName(module, name); 
+         
          try {
-            return loader.load(type, module);
+            return loader.load(outer, module);
          } catch(Exception e){
             throw new InternalStateException("Problem importing '" + module + "." + name + "'", e);
          }

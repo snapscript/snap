@@ -9,21 +9,25 @@ import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
 import org.snapscript.core.ModuleRegistry;
+import org.snapscript.core.NameBuilder;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeLoader;
+import org.snapscript.core.TypeNameBuilder;
 
 public class ImportManager {
 
    private final Map<String, String> aliases;
    private final Set<String> imports;
+   private final NameBuilder builder;
    private final Context context;
-   private final String prefix;
+   private final String from;
    
-   public ImportManager(Context context, String prefix) {
+   public ImportManager(Context context, String from) {
       this.aliases = new ConcurrentHashMap<String, String>();
       this.imports = new CopyOnWriteArraySet<String>();
+      this.builder = new TypeNameBuilder();
       this.context = context;
-      this.prefix = prefix;
+      this.from = from;
    }
    
    public void addImport(String prefix) {
@@ -56,22 +60,26 @@ public class ImportManager {
             }
          }
          for(String prefix : imports) {
-            Module module = registry.getModule(prefix + "." + name); // get imports from the outer module if it exists
+            String inner = builder.createFullName(prefix, name);
             
-            if(module != null) {
-               return module;
+            if(!inner.equals(from)) { // avoid recursion
+               Module module = registry.getModule(inner); // get imports from the outer module if it exists
+               
+               if(module != null) {
+                  return module;
+               }
             }
          }
          return null;
       } catch(Exception e){
-         throw new InternalStateException("Could not find '" + name + "' in '" + prefix + "'", e);
+         throw new InternalStateException("Could not find '" + name + "' in '" + from + "'", e);
       }
    }
 
    public Type getType(String name) {
       try {
          TypeLoader loader = context.getLoader();
-         Type type = loader.resolveType(prefix, name);
+         Type type = loader.resolveType(from, name);
 
          if(type == null) {
             String alias = aliases.get(name); // fully qualified "tetris.game.Block"
@@ -97,13 +105,15 @@ public class ImportManager {
                ModuleRegistry registry = context.getRegistry();
                
                for(String prefix : imports) {
-                  Module module = registry.getModule(prefix);
-                  
-                  if(module != null) {
-                     type = module.getType(name); // get imports from the outer module if it exists
-
-                     if(type != null) {
-                        return type;
+                  if(!prefix.equals(from)) { // avoid recursion
+                     Module module = registry.getModule(prefix);
+                     
+                     if(module != null) {
+                        type = module.getType(name); // get imports from the outer module if it exists
+   
+                        if(type != null) {
+                           return type;
+                        }
                      }
                   }
                }
@@ -111,7 +121,7 @@ public class ImportManager {
          }
          return type;
       } catch(Exception e){
-         throw new InternalStateException("Could not find '" + name + "' in '" + prefix + "'", e);
+         throw new InternalStateException("Could not find '" + name + "' in '" + from + "'", e);
       }
    }
 

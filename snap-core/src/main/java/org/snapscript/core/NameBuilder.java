@@ -6,4 +6,5 @@ public interface NameBuilder {
    String createFullName(String module, String name);
    String createArrayName(String module, String name, int size);
    String createOuterName(String module, String name);
+   String createTopName(String module, String name);
 }
