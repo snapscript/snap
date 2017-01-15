@@ -1,21 +1,32 @@
 package org.snapscript.parse;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class GrammarCache {
 
-   private final Map<Integer, GrammarMatcher> matchers;
+   private GrammarMatcher[] matchers;
 
    public GrammarCache() {
-      this.matchers = new HashMap<Integer, GrammarMatcher>(); // this cache is no good
+      this(1024);
+   }
+   
+   public GrammarCache(int size) {
    }  
    
    public GrammarMatcher resolve(int index) {
-      return matchers.get(index);
+      if(index < matchers.length) {
+         return matchers[index];
+      }
+      throw new IllegalArgumentException("Grammar for " + index + " not found");
    }
    
    public void cache(int index, GrammarMatcher matcher) {
-      matchers.put(index, matcher);
+      if(index >= matchers.length) {
+         GrammarMatcher[] copy = new GrammarMatcher[index * 2];
+         
+         for(int i = 0; i < matchers.length; i++) {
+            copy[i] = matchers[i];
+         }
+         matchers = copy;
+      }
+      matchers[index] = matcher;
    }
 }
