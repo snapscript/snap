@@ -26,10 +26,10 @@ public class FilePathConverter implements PathConverter {
       
       if(path == null) {
          Path match = convertModule(resource);
-         String value = match.getPath();
+         String alias = match.getPath();
          
-         paths.cache(resource, path);
-         paths.cache(value, path);
+         paths.cache(resource, match);
+         paths.cache(alias, match);
          
          return match;
       }
@@ -69,17 +69,17 @@ public class FilePathConverter implements PathConverter {
    }
    
    private String convertPath(String path) {
-      String qualifier = convertResource(path);
-      int index = qualifier.lastIndexOf('.');
+      String module = convertResource(path);
+      int index = module.lastIndexOf('.');
       
       if(index != -1) {
-         char value = qualifier.charAt(index+1);
+         char value = module.charAt(index+1);
          
          if(Character.isUpperCase(value)) {
-            return qualifier.substring(0,index);
+            return module.substring(0,index);
          }
       }
-      return qualifier;
+      return module;
       
    }
    

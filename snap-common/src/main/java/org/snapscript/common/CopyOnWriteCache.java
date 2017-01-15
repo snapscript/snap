@@ -73,7 +73,7 @@ public class CopyOnWriteCache<K, V> implements Cache<K, V> {
          this.density = density;
          this.size = size;
       }
-      
+
       public synchronized void cache(K key, V value) {
          V existing = cache.get(key);
          

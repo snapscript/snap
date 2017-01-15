@@ -13,18 +13,23 @@ import org.snapscript.core.define.PrimitiveInstance;
 
 public class AnyInstanceBuilder {
    
+   private Module module;
+   
    public AnyInstanceBuilder() {
       super();
    }
 
    public Instance create(Scope scope, Type real) throws Exception {
-      Model model = scope.getModel();
-      Module module = scope.getModule();
-      Context context = module.getContext();
-      ModuleRegistry registry = context.getRegistry();
-      Module parent = registry.addModule(DEFAULT_PACKAGE);
       Scope inner = real.getScope();
+      Model model = scope.getModel();
       
-      return new PrimitiveInstance(parent, model, inner, real); 
+      if(module == null) {
+         Module parent = scope.getModule();
+         Context context = parent.getContext();
+         ModuleRegistry registry = context.getRegistry();
+         
+         module = registry.addModule(DEFAULT_PACKAGE);
+      }
+      return new PrimitiveInstance(module, model, inner, real); 
    }
 }
