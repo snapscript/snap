@@ -75,13 +75,13 @@ public class OperationAssembler implements Assembler {
       int size = children.size();
       
       if (size > 1) {
-         throw new InternalStateException("No type defined for " + grammar);
+         throw new InternalStateException("No type defined for '" + grammar + "'");
       }
       if (size > 0) {
          SyntaxNode child = children.get(0);
 
          if (child == null) {
-            throw new InternalStateException("No child for " + grammar);
+            throw new InternalStateException("No child for '" + grammar + "'");
          }
          return create(child, path, depth);
       }
