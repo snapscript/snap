@@ -49,8 +49,8 @@ public class ImportScanner {
       this.names = new CopyOnWriteCache<Object, String>();
       this.types = new CopyOnWriteCache<String, Class>();
       this.failures = new CopyOnWriteArraySet<String>();
-      this.loader = new ImportLoader();
       this.builder = new TypeNameBuilder();
+      this.loader = new ImportLoader();
       this.prefixes = prefixes;
    }
    

@@ -6,18 +6,20 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Value;
 
-public class ThisResolver {
+public class ThisScopeBinder {
    
-   public ThisResolver() {
+   public ThisScopeBinder() {
       super();
    }
 
-   public Scope resolve(Scope scope, Scope instance) {
+   public Scope bind(Scope scope, Scope instance) {
       if(instance != null) {
          State state = instance.getState();
          Value value = state.get(TYPE_THIS);
          
-         return value.getValue();
+         if(value != null) {
+            return value.getValue();
+         }
       }
       return scope;
    }

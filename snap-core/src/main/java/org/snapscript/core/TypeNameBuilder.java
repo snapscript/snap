@@ -22,11 +22,11 @@ public class TypeNameBuilder implements NameBuilder {
    @Override
    public String createShortName(Class type) {
       Class entry = type.getComponentType();
-      String name = type.getName();
       
       if(entry != null) {
          return createShortName(entry) + DIMENSION;
       }
+      String name = type.getName();
       int index = name.lastIndexOf('.');
       int length = name.length();
       

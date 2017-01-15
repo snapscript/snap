@@ -19,7 +19,7 @@ public class InstanceInvocation implements Invocation<Scope> {
 
    private final ParameterExtractor extractor;
    private final SignatureAligner aligner;
-   private final ThisResolver resolver;
+   private final ThisScopeBinder binder;
    private final Statement statement;
    private final Type constraint;
    private final String name;
@@ -27,7 +27,7 @@ public class InstanceInvocation implements Invocation<Scope> {
    public InstanceInvocation(Signature signature, Statement statement, Type constraint, String name) {
       this.extractor = new ParameterExtractor(signature);
       this.aligner = new SignatureAligner(signature);
-      this.resolver = new ThisResolver();
+      this.binder = new ThisScopeBinder();
       this.constraint = constraint;
       this.statement = statement;
       this.name = name;
@@ -42,7 +42,7 @@ public class InstanceInvocation implements Invocation<Scope> {
 
       Module module = scope.getModule();
       Context context = module.getContext();
-      Scope outer = resolver.resolve(scope, instance);
+      Scope outer = binder.bind(scope, instance);
       Scope inner = outer.getInner(); // create a writable scope
       
       if(arguments.length > 0) {
