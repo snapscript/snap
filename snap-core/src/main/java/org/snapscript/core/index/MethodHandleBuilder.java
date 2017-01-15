@@ -22,10 +22,10 @@ public class MethodHandleBuilder {
       Lookup lookup = MethodHandles.lookup();
       Lookup actual = lookup.in(target);
       Class access = lookup.getClass();
-      Field allowedModes = access.getDeclaredField(ALLOWED_MODES);
+      Field modes = access.getDeclaredField(ALLOWED_MODES);
       
-      allowedModes.setAccessible(true);
-      allowedModes.set(actual, Modifier.PRIVATE);
+      modes.setAccessible(true);
+      modes.set(actual, Modifier.PRIVATE);
       
       return actual.unreflectSpecial(method, target);
    }
