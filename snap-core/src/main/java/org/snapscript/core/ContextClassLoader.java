@@ -10,13 +10,14 @@ public class ContextClassLoader extends ClassLoader {
 
    @Override
    public Class loadClass(String name, boolean resolve) throws ClassNotFoundException {
-      Thread thread = Thread.currentThread();
-      ClassLoader context = thread.getContextClassLoader();
-      ClassLoader caller = type.getClassLoader();
+      ClassLoader loader = type.getClassLoader();
       
       try{
-         return caller.loadClass(name);
+         return loader.loadClass(name);
       } catch(Exception e) {
+         Thread thread = Thread.currentThread();
+         ClassLoader context = thread.getContextClassLoader();
+         
          return context.loadClass(name);
       }
    }
