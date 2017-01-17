@@ -48,5 +48,16 @@ public class TypeLoaderTest extends TestCase {
       assertEquals(type4.getType(), Line2D.Double.class);
       assertEquals(type5.getType(), Ellipse2D.Double.class);
    }
+   
+   public void testImports() throws Exception {
+      Store store = new ClassPathStore();
+      Context context = new StoreContext(store);
+      TypeLoader loader = context.getLoader();
+      org.snapscript.core.link.Package package1 = loader.importType("lang.String");
+      org.snapscript.core.link.Package package2 = loader.importType("lang.Integer");
+
+      assertNotNull(package1);
+      assertNotNull(package2);
+   }
 
 }
