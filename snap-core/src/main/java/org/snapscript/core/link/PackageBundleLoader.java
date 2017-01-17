@@ -32,29 +32,39 @@ public class PackageBundleLoader {
       
       for(String resource : resources) {
          Path path = converter.createPath(resource);
+         
+         try {
+            Package module = load(path);
+            
+            if(module != null) {
+               packages.add(module);
+            }
+         } catch(Exception e) {
+            throw new InternalStateException("Error linking '" + path + "'", e);
+         }
+      }
+      return bundle;
+   }
+   
+   private Package load(Path path) throws Exception {
+      Package module = registry.get(path);
+      
+      if(module == null) {
          String location = path.getPath();
          String source = manager.getString(location); // load source code
          
          if(source != null) {
             Executable executable = new Executable(path, source);
             FutureTask<Package> task = new FutureTask<Package>(executable);
-            FuturePackage result = new FuturePackage(task, path);
+            FuturePackage result = new FuturePackage(task, path);    
             
-            try {
-               Package module = registry.putIfAbsent(path, result);
-               
-               if(module == null) {
-                  task.run();
-                  packages.add(result);
-               } else {
-                  packages.add(module);
-               }
-            } catch(Exception e) {
-               throw new InternalStateException("Error linking '" + path + "'", e);
+            if(registry.putIfAbsent(path, result) == null) {
+               task.run();
             }
+            return registry.get(path);
          }
       }
-      return bundle;  
+      return module;  
    }
    
    private class Executable implements Callable<Package> {
