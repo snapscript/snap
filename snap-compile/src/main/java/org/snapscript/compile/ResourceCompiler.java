@@ -27,11 +27,6 @@ public class ResourceCompiler implements Compiler {
    
    @Override
    public Executable compile(String resource) throws Exception {
-      return compile(resource, false);
-   }
-   
-   @Override
-   public Executable compile(String resource, boolean verbose) throws Exception {
       if(resource == null) {
          throw new NullPointerException("No resource provided");
       }

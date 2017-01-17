@@ -33,11 +33,6 @@ public class StringCompiler implements Compiler {
    
    @Override
    public Executable compile(String source) throws Exception {
-      return compile(source, false);
-   }
-   
-   @Override
-   public Executable compile(String source, boolean verbose) throws Exception {
       if(source == null) {
          throw new NullPointerException("No source provided");
       }
