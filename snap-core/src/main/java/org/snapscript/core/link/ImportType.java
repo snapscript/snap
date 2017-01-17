@@ -1,8 +1,8 @@
 package org.snapscript.core.link;
 
 public enum ImportType {
-   IMPLICIT(false),
-   EXPLICIT(true);
+   IMPLICIT(false), // import foo.blah.*
+   EXPLICIT(true); // import foo.blah.Bar
    
    public final boolean required;
 

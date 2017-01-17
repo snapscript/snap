@@ -1,7 +1,5 @@
 package org.snapscript.compile.assemble;
 
-import static org.snapscript.tree.Instruction.SCRIPT_PACKAGE;
-
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -9,11 +7,10 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.FutureTask;
 
 import org.snapscript.core.Context;
-import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Path;
-import org.snapscript.core.Scope;
+import org.snapscript.core.link.ExceptionPackage;
+import org.snapscript.core.link.FuturePackage;
 import org.snapscript.core.link.Package;
-import org.snapscript.core.link.PackageDefinition;
 import org.snapscript.core.link.PackageLinker;
 
 public class ExecutorLinker implements PackageLinker {
@@ -34,14 +31,25 @@ public class ExecutorLinker implements PackageLinker {
 
    @Override
    public Package link(Path path, String source) throws Exception {
-      return link(path, source, SCRIPT_PACKAGE.name);
+      if(executor != null) {
+         Executable executable = new Executable(path, source);
+         FutureTask<Package> task = new FutureTask<Package>(executable);
+         FuturePackage result = new FuturePackage(task, path);
+         
+         if(registry.putIfAbsent(path, result) == null) {
+            executor.execute(task); 
+            return result;
+         }
+         return registry.get(path);
+      }
+      return linker.link(path, source);
    }
 
    @Override
    public Package link(Path path, String source, String grammar) throws Exception {
       if(executor != null) {
-         PackageCompilation compilation = new PackageCompilation(path, source, grammar);
-         FutureTask<Package> task = new FutureTask<Package>(compilation);
+         Executable executable = new Executable(path, source, grammar);
+         FutureTask<Package> task = new FutureTask<Package>(executable);
          FuturePackage result = new FuturePackage(task, path);
          
          if(registry.putIfAbsent(path, result) == null) {
@@ -53,38 +61,17 @@ public class ExecutorLinker implements PackageLinker {
       return linker.link(path, source, grammar);
    }
    
-   private class FuturePackage implements Package {
-      
-      private final FutureTask<Package> result;
-      private final Path path;
-      
-      public FuturePackage(FutureTask<Package> result, Path path) {
-         this.result = result;
-         this.path = path;
-      }
-      
-      @Override
-      public PackageDefinition define(Scope scope) throws Exception {
-         Package library = result.get();
-         
-         if(library == null) {
-            throw new InternalStateException("Could not link '" + path + "'");
-         }
-         return library.define(scope);
-      }      
-   }
-   
-   private class PackageCompilation implements Callable<Package> {      
+   private class Executable implements Callable<Package> {      
       
       private final String grammar;
       private final String source;  
       private final Path path;
       
-      public PackageCompilation(Path path, String source) {
+      public Executable(Path path, String source) {
          this(path, source, null);
       }
       
-      public PackageCompilation(Path path, String source, String grammar) {
+      public Executable(Path path, String source, String grammar) {
          this.grammar = grammar;
          this.source = source;
          this.path = path;
@@ -102,21 +89,4 @@ public class ExecutorLinker implements PackageLinker {
          } 
       }            
    }
-   
-   private class ExceptionPackage implements Package {
-      
-      private final Exception cause;
-      private final String message;
-      
-      public ExceptionPackage(String message, Exception cause) {
-         this.message = message;
-         this.cause = cause;
-      }  
-      
-      @Override
-      public PackageDefinition define(Scope scope) throws Exception {
-         throw new InternalStateException(message, cause);
-      }             
-   }
-
 }

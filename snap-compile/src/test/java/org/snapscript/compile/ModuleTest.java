@@ -29,6 +29,7 @@ public class ModuleTest extends TestCase {
    private static final String SOURCE_2=
    "module Mod {\n"+
    "   createTyp(i){\n"+
+   "      println(Mod.getContext());\n"+
    "      return new Typ(i);\n"+
    "   }\n"+
    "}\n"+
@@ -44,11 +45,11 @@ public class ModuleTest extends TestCase {
    "System.err.println(Mod.createTyp(55));\n";
 
 
-   public void testModuleInnerClass() throws Exception {
-      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
-      System.err.println(SOURCE_1);
-      compiler.compile(SOURCE_1).execute(new EmptyModel());
-   }
+//   public void testModuleInnerClass() throws Exception {
+//      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
+//      System.err.println(SOURCE_1);
+//      compiler.compile(SOURCE_1).execute(new EmptyModel());
+//   }
    
    public void testModuleOuterClass() throws Exception {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();

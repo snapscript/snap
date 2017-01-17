@@ -14,13 +14,13 @@ import org.snapscript.core.TypeNameBuilder;
 
 public class ImportMatcher {
 
-   private final ImportProcessor processor;
+   private final ImportTaskResolver resolver;
    private final NameBuilder builder;
    private final Context context;
    private final String from;
    
    public ImportMatcher(Context context, Path path, String from) {
-      this.processor = new ImportProcessor(context, path);
+      this.resolver = new ImportTaskResolver(context, path);
       this.builder = new TypeNameBuilder();
       this.context = context;
       this.from = from;
@@ -47,8 +47,10 @@ public class ImportMatcher {
       }
       for(String prefix : imports) {
          String type = builder.createTopName(prefix, name);
+         Runnable task = resolver.importTask(scope, type); // dynamic linking
          
-         if(processor.importType(scope, type)) {
+         if(task != null) {
+            task.run(); // may throw compile exceptions
             return loader.resolveType(prefix, name);
          }
       }
@@ -62,19 +64,18 @@ public class ImportMatcher {
       
       for(String prefix : imports) {
          String inner = builder.createFullName(prefix, name);
+         Module match = registry.getModule(inner); // get imports from the outer module if it exists
          
-         if(!inner.equals(from)) { // avoid recursion
-            Module match = registry.getModule(inner); // get imports from the outer module if it exists
-            
-            if(match != null) {
-               return match;
-            }
+         if(match != null) {
+            return match;
          }
       }
       for(String prefix : imports) {
          String type = builder.createTopName(prefix, name);
+         Runnable task = resolver.importTask(scope, type); // dynamic linking
          
-         if(processor.importType(scope, type)) {
+         if(task != null) {
+            task.run(); // may throw compile exceptions
             return registry.getModule(type);
          }
       }

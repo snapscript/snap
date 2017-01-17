@@ -1,10 +1,6 @@
 package org.snapscript.core.link;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.concurrent.CopyOnWriteArraySet;
 
 import org.snapscript.core.FilePathConverter;
 import org.snapscript.core.InternalStateException;
@@ -14,61 +10,36 @@ import org.snapscript.core.ResourceManager;
 
 public class PackageLoader {
    
+   private final PackageBundleLoader loader;
+   private final PackageBundleMerger merger;
    private final PathConverter converter;
-   private final ResourceManager manager;
-   private final PackageLinker linker;
-   private final PackageMerger merger;
-   private final Set libraries;
-
+   
    public PackageLoader(PackageLinker linker, ResourceManager manager){
-      this.libraries = new CopyOnWriteArraySet();
       this.converter = new FilePathConverter();
-      this.merger = new PackageMerger();
-      this.manager = manager;
-      this.linker = linker;
+      this.loader = new PackageBundleLoader(linker, manager, converter);
+      this.merger = new PackageBundleMerger();
    }
 
-   public Package load(ImportType type, String... list) throws Exception {
-      List<Package> modules = new ArrayList<Package>(list.length);
-      Set<String> complete = new HashSet<String>(list.length);
-      StringBuilder message = new StringBuilder();
+   public Package load(ImportType type, String... resources) throws Exception {
+      PackageBundle bundle = loader.load(resources);
+      List<Package> packages = bundle.getPackages();
       
-      for(int i = 0; i < list.length; i++) {
-         String resource = list[i];
+      if(packages.isEmpty() && type.isRequired()) {
+         StringBuilder message = new StringBuilder();
          
-         if(libraries.add(resource) && complete.add(resource)) { // load only once!
+         for(String resource : resources) {
             Path path = converter.createPath(resource);
-            String location = path.getPath();
-            String source = manager.getString(location); // load source code
+            int size = message.length();
             
-            try {
-               if(source != null) {
-                  Package module = linker.link(path, source);
-                  
-                  if(module != null) {
-                     modules.add(module);
-                  }
-               } else {
-                  int size = message.length();
-                  
-                  if(size > 0) {
-                     message.append(" or ");
-                  }
-                  message.append("'");
-                  message.append(path);
-                  message.append("'");
-               }
-            } catch(Exception e) {
-               throw new InternalStateException("Could not load library '" + resource + "'", e);
+            if(size > 0) {
+               message.append(" or ");
             }
+            message.append("'");
+            message.append(path);
+            message.append("'");
          }
-      }
-      int check = complete.size(); // how many did we check
-      int found = modules.size(); // how many did we find
-      
-      if(found == 0 && check == list.length && type.required) {
          throw new InternalStateException("Could not load library " + message);
       }
-      return merger.merge(modules);
+      return merger.merge(bundle);
    }
 }

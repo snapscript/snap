@@ -1,4 +1,4 @@
-package org.snapscript.common;
+package org.snapscript.parse;
 
 public class ArraySet {
 

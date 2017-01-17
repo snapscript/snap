@@ -1,7 +1,5 @@
 package org.snapscript.parse;
 
-import org.snapscript.common.ArrayQueue;
-import org.snapscript.common.ArraySet;
 
 public class ArrayPositionSet {
 
