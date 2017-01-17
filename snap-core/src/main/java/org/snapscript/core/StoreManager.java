@@ -10,9 +10,15 @@ import org.snapscript.core.store.StoreException;
 public class StoreManager implements ResourceManager {
 
    private final Store store;
+   private final int read;
    
    public StoreManager(Store store) {
+      this(store, 8192);
+   }
+   
+   public StoreManager(Store store, int read) {
       this.store = store;
+      this.read = read;
    }
    
    @Override
@@ -30,8 +36,8 @@ public class StoreManager implements ResourceManager {
       
       try {
          if(source != null) {
-            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-            byte[] array = new byte[1024];
+            ByteArrayOutputStream buffer = new ByteArrayOutputStream(read);
+            byte[] array = new byte[read];
             int count = 0;
             
             while((count = source.read(array)) != -1) {
@@ -51,8 +57,8 @@ public class StoreManager implements ResourceManager {
       
       try {
          if(source != null) {
-            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-            byte[] array = new byte[1024];
+            ByteArrayOutputStream buffer = new ByteArrayOutputStream(read);
+            byte[] array = new byte[read];
             int count = 0;
             
             while((count = source.read(array)) != -1) {

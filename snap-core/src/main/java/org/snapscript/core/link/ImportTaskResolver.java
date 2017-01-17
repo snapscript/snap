@@ -27,7 +27,7 @@ public class ImportTaskResolver {
          Package module = loader.importType(name);
          Path path = converter.createPath(name);
          
-         return new Executable(module, scope, path); // do not catch compile exceptions
+         return new Executable(module, scope, path); // compile exceptions will propagate
       } catch(Exception e) {
          return null;
       }
