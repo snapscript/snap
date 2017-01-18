@@ -18,14 +18,14 @@ public class ImportManager {
    private final Map<String, String> aliases;
    private final Set<String> imports;
    private final ImportMatcher matcher;
-   private final Context context;
+   private final Module parent;
    private final String from;
    
-   public ImportManager(Context context, Path path, String from) {
+   public ImportManager(Module parent, Path path, String from) {
       this.aliases = new ConcurrentHashMap<String, String>();
       this.imports = new CopyOnWriteArraySet<String>();
-      this.matcher = new ImportMatcher(context, path, from);
-      this.context = context;
+      this.matcher = new ImportMatcher(parent, path, from);
+      this.parent = parent;
       this.from = from;
    }
    
@@ -48,6 +48,7 @@ public class ImportManager {
    
    public Module getModule(String name) {
       try {
+         Context context = parent.getContext();
          ModuleRegistry registry = context.getRegistry();
          Module module = registry.getModule(name);
          
@@ -59,7 +60,7 @@ public class ImportManager {
             }
          }
          if(module == null) {
-            module = matcher.importModule(name, imports);
+            module = matcher.importModule(imports, name);
          }
          return module;
       } catch(Exception e){
@@ -69,6 +70,7 @@ public class ImportManager {
 
    public Type getType(String name) {
       try {
+         Context context = parent.getContext();
          TypeLoader loader = context.getLoader();
          Type type = loader.resolveType(from, name);
 
@@ -93,7 +95,7 @@ public class ImportManager {
                type = loader.resolveType(null, name); // null is "java.*"
             }
             if(type == null) {
-               type = matcher.importType(name, imports);
+               type = matcher.importType(imports, name);
             }
          }
          return type;

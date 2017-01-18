@@ -1,68 +1,76 @@
 package org.snapscript.core.link;
 
 import java.util.Set;
+import java.util.concurrent.Callable;
 
 import org.snapscript.core.Context;
 import org.snapscript.core.Module;
 import org.snapscript.core.ModuleRegistry;
 import org.snapscript.core.NameBuilder;
 import org.snapscript.core.Path;
-import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
-import org.snapscript.core.TypeLoader;
 import org.snapscript.core.TypeNameBuilder;
 
 public class ImportMatcher {
 
    private final ImportTaskResolver resolver;
    private final NameBuilder builder;
-   private final Context context;
+   private final Module parent;
    private final String from;
    
-   public ImportMatcher(Context context, Path path, String from) {
-      this.resolver = new ImportTaskResolver(context, path);
+   public ImportMatcher(Module parent, Path path, String from) {
+      this.resolver = new ImportTaskResolver(parent, path);
       this.builder = new TypeNameBuilder();
-      this.context = context;
+      this.parent = parent;
       this.from = from;
    }
 
-   public Type importType(String name, Set<String> imports) throws Exception {
-      TypeLoader loader = context.getLoader();
+   public Type importType(Set<String> prefixes, String name) throws Exception {
+      Context context = parent.getContext();
       ModuleRegistry registry = context.getRegistry();
-      Module module = registry.getModule(from);
-      Scope scope = module.getScope();
 
-      for(String prefix : imports) {
-         if(!prefix.equals(from)) { // avoid recursion
-            Module match = registry.getModule(prefix);
-            
-            if(match != null) {
-               Type type = match.getType(name); // get imports from the outer module if it exists
+      for(String prefix : prefixes) {
+         Module match = registry.getModule(prefix);
+         
+         if(match != parent) {
+            Type type = match.getType(name); // get imports from the outer module if it exists
 
-               if(type != null) {
-                  return type;
-               }
+            if(type != null) {
+               return type;
             }
          }
       }
-      for(String prefix : imports) {
-         String type = builder.createTopName(prefix, name);
-         Runnable task = resolver.importTask(scope, type); // dynamic linking
+      for(String prefix : prefixes) {
+         Type type = importType(prefix, name);
          
-         if(task != null) {
-            task.run(); // may throw compile exceptions
-            return loader.resolveType(prefix, name);
+         if(type != null) {
+            return type;
          }
+      }
+      String type = builder.createFullName(from, name);
+      Module module = registry.getModule(type);
+      
+      if(module == null){ 
+         return importType(from, name); // import from current package
       }
       return null;
    }
    
-   public Module importModule(String name, Set<String> imports) throws Exception {
-      ModuleRegistry registry = context.getRegistry();
-      Module module = registry.getModule(from);
-      Scope scope = module.getScope();
+   private Type importType(String prefix, String name) throws Exception {
+      String type = builder.createFullName(prefix, name);
+      Callable<Type> task = resolver.importType(type);
       
-      for(String prefix : imports) {
+      if(task != null) {
+         return task.call();
+      }
+      return null;
+   }
+   
+   public Module importModule(Set<String> prefixes, String name) throws Exception {
+      Context context = parent.getContext();
+      ModuleRegistry registry = context.getRegistry();
+      
+      for(String prefix : prefixes) {
          String inner = builder.createFullName(prefix, name);
          Module match = registry.getModule(inner); // get imports from the outer module if it exists
          
@@ -70,14 +78,22 @@ public class ImportMatcher {
             return match;
          }
       }
-      for(String prefix : imports) {
-         String type = builder.createTopName(prefix, name);
-         Runnable task = resolver.importTask(scope, type); // dynamic linking
+      for(String prefix : prefixes) {
+         Module module = importModule(prefix, name);
          
-         if(task != null) {
-            task.run(); // may throw compile exceptions
-            return registry.getModule(type);
+         if(module != null) {
+            return module;
          }
+      }
+      return null;
+   }
+   
+   private Module importModule(String prefix, String name) throws Exception {
+      String type = builder.createFullName(prefix, name);
+      Callable<Module> task = resolver.importModule(type);
+      
+      if(task != null) {
+         return task.call();
       }
       return null;
    }

@@ -29,7 +29,7 @@ public class ContextModule implements Module {
    }
    
    public ContextModule(Context context, Path path, String prefix, int order) {
-      this.manager = new ImportManager(context, path, prefix);
+      this.manager = new ImportManager(this, path, prefix);
       this.annotations = new CopyOnWriteArrayList<Annotation>();
       this.functions = new CopyOnWriteArrayList<Function>();
       this.modules = new ConcurrentHashMap<String, Module>();
