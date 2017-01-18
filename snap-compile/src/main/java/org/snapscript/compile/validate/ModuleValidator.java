@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
-import org.snapscript.core.Path;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.convert.ConstraintMatcher;
@@ -19,13 +18,13 @@ public class ModuleValidator {
    
    public void validate(Module module) throws Exception {
       List<Type> types = module.getTypes();
-      Path resource = module.getPath();
+      String name = module.getName();
       
       for(Type type : types) {
          try {
             validator.validate(type);
          }catch(Exception e) {
-            throw new InternalStateException("Invalid reference to '" + type +"' in '" + resource + "'", e);
+            throw new InternalStateException("Invalid reference to '" + type +"' in '" + name + "'", e);
          }
       }
    }
