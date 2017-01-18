@@ -63,8 +63,10 @@ public class StatementDefinition implements PackageDefinition {
             Context context = module.getContext();
             ModuleRegistry registry = context.getRegistry();
             Module library = registry.addModule(name, path);
+            ImportManager manager = library.getManager();
             Scope inner = library.getScope();
             
+            manager.addImport(name); // import other types from here
             statement.compile(inner);
          } catch(Exception cause) {
             return new ExceptionStatement("Error occured compiling '" + path + "'", cause);
