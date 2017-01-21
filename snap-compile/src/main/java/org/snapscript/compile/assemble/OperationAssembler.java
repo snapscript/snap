@@ -6,7 +6,7 @@ import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Path;
 import org.snapscript.core.Type;
-import org.snapscript.core.error.ThreadStack;
+import org.snapscript.core.stack.ThreadStack;
 import org.snapscript.parse.Line;
 import org.snapscript.parse.SyntaxNode;
 import org.snapscript.parse.Token;

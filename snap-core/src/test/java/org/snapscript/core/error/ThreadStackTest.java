@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import org.snapscript.core.stack.ThreadStack;
+
 import junit.framework.TestCase;
 
 public class ThreadStackTest extends TestCase {

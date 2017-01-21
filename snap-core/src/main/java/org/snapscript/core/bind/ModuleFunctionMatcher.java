@@ -7,11 +7,11 @@ import java.util.List;
 import org.snapscript.core.Module;
 import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.convert.Score;
-import org.snapscript.core.error.ThreadStack;
 import org.snapscript.core.function.ArgumentConverter;
 import org.snapscript.core.function.EmptyFunction;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Signature;
+import org.snapscript.core.stack.ThreadStack;
 
 public class ModuleFunctionMatcher {
    

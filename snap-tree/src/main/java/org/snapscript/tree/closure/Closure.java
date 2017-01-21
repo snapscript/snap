@@ -43,7 +43,7 @@ public class Closure implements Compilation {
       if(closure == null) {
          closure = compilation.compile(module, path, line);
       }
-      return new CompileResult(parameters, closure);
+      return new CompileResult(parameters, closure, module);
    }
   
    private static class CompileResult implements Evaluation {
@@ -53,18 +53,21 @@ public class Closure implements Compilation {
       private final ClosureBuilder builder;
       private final AtomicBoolean compile;
       private final Statement closure;
+      private final Module module;
 
-      public CompileResult(ClosureParameterList parameters, Statement closure){
+      public CompileResult(ClosureParameterList parameters, Statement closure, Module module){
+         this.builder = new ClosureBuilder(closure, module);
          this.extractor = new ClosureScopeExtractor();
-         this.builder = new ClosureBuilder(closure);
          this.compile = new AtomicBoolean();
          this.parameters = parameters;
          this.closure = closure;
+         this.module = module;
       }
       
       @Override
       public Value evaluate(Scope scope, Object left) throws Exception {
-         Signature signature = parameters.create(scope);
+         Scope parent = module.getScope();
+         Signature signature = parameters.create(parent);
          Scope capture = extractor.extract(scope);
          Function function = builder.create(signature, capture); // creating new function each time
          

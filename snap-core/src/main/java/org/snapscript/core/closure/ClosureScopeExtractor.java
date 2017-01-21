@@ -21,10 +21,10 @@ public class ClosureScopeExtractor {
          Scope capture = new ClosureScope(model, scope);
          
          while(names.hasNext()) {
-            State inner = capture.getState();
             String name = names.next();
+            State inner = capture.getState();
             
-            inner.get(name);
+            inner.get(name); // pull from outer scope
          }
          return capture;
       }

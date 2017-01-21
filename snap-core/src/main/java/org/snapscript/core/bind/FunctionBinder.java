@@ -8,7 +8,7 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.Value;
-import org.snapscript.core.error.ThreadStack;
+import org.snapscript.core.stack.ThreadStack;
 
 public class FunctionBinder {
    

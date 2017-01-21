@@ -2,23 +2,20 @@ package org.snapscript.tree.variable;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
-import org.snapscript.core.Type;
-import org.snapscript.core.TypeTraverser;
 import org.snapscript.core.Value;
 import org.snapscript.core.ValueType;
 
 public class LocalResolver implements ValueResolver<Object> {
    
    private final AtomicReference<Object> reference;
-   private final TypeTraverser finder;
+   private final ConstantMatcher matcher;
    private final String name;
    
    public LocalResolver(String name) {
       this.reference = new AtomicReference<Object>();
-      this.finder = new TypeTraverser();
+      this.matcher = new ConstantMatcher(name);
       this.name = name;
    }
    
@@ -31,7 +28,7 @@ public class LocalResolver implements ValueResolver<Object> {
          Value variable = state.get(name);
          
          if(variable == null) { 
-            Object value = match(scope, left);
+            Object value = matcher.match(scope);
             
             if(value != null) {
                reference.set(value);
@@ -41,21 +38,5 @@ public class LocalResolver implements ValueResolver<Object> {
          return variable;
       }
       return ValueType.getTransient(result);
-   }
-   
-   private Object match(Scope scope, Object left) {
-      Module module = scope.getModule();
-      Type type = module.getType(name);
-      Type parent = scope.getType();
-      
-      if(type == null) {
-         Object result = module.getModule(name);
-         
-         if(result == null && parent != null) {
-            result = finder.findEnclosing(parent, name);
-         }
-         return result;
-      }
-      return type;
    }
 }

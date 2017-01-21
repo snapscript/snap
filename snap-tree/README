@@ -1,3 +1,17 @@
+IT LOOKS LIKE FUNCTION CALLS ACROSS PACKAGES/MODULES PICK THE BASE CLASS
+
+trait blah.Foo{
+	func() {
+		// imports for foo here, rather than blah
+	}
+}
+class foo.Blah with blah.Foo{
+	func(){
+		super.func();
+	}
+}
+
+
 Expresions like blah.wait(12); // wait might not work for proxied objects via ScopeProxyHandler
 
 interface Any {

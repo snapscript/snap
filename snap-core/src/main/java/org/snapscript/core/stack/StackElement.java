@@ -1,4 +1,4 @@
-package org.snapscript.core.error;
+package org.snapscript.core.stack;
 
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;

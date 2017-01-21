@@ -1,10 +1,8 @@
-package org.snapscript.core.error;
+package org.snapscript.core.stack;
 
 import static org.snapscript.core.Reserved.IMPORT_SNAPSCRIPT;
 
 import java.util.List;
-
-import org.snapscript.common.Stack;
 
 public class StackTraceBuilder {
    
@@ -18,11 +16,11 @@ public class StackTraceBuilder {
       this.empty = new StackTraceElement[]{};
    }
    
-   public StackTraceElement[] create(Stack stack) {
+   public StackTraceElement[] create(TraceStack stack) {
       return create(stack, null);
    }
    
-   public StackTraceElement[] create(Stack stack, Throwable origin) {
+   public StackTraceElement[] create(TraceStack stack, Throwable origin) {
       Thread thread = Thread.currentThread();
       List<StackTraceElement> list = extractor.extract(origin); // debug cause
       List<StackTraceElement> context = builder.create(stack); // script stack

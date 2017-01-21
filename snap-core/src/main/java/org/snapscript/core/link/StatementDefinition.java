@@ -62,7 +62,7 @@ public class StatementDefinition implements PackageDefinition {
             Module module = scope.getModule();
             Context context = module.getContext();
             ModuleRegistry registry = context.getRegistry();
-            Module library = registry.addModule(name, path);
+            Module library = registry.addModule(name);
             Scope inner = library.getScope();
             
             statement.compile(inner);

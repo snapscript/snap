@@ -6,10 +6,10 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Value;
 import org.snapscript.core.convert.Score;
-import org.snapscript.core.error.ThreadStack;
 import org.snapscript.core.function.ArgumentConverter;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Signature;
+import org.snapscript.core.stack.ThreadStack;
 
 public class ScopeFunctionMatcher {
    

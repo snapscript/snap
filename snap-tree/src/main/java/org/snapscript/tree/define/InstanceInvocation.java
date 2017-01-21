@@ -39,7 +39,6 @@ public class InstanceInvocation implements Invocation<Scope> {
          throw new InternalStateException("Function '" + name + "' is abstract");
       }
       Object[] arguments = aligner.align(list); 
-
       Module module = scope.getModule();
       Context context = module.getContext();
       Scope outer = binder.bind(scope, instance);

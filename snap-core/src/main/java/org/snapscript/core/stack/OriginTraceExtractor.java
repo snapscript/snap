@@ -1,4 +1,4 @@
-package org.snapscript.core.error;
+package org.snapscript.core.stack;
 
 import static org.snapscript.core.Reserved.IMPORT_JAVA;
 import static org.snapscript.core.Reserved.IMPORT_SNAPSCRIPT;
