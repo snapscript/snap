@@ -10,12 +10,12 @@ import org.snapscript.core.ValueType;
 public class LocalResolver implements ValueResolver<Object> {
    
    private final AtomicReference<Object> reference;
-   private final ConstantMatcher matcher;
+   private final ModuleConstantFinder matcher;
    private final String name;
    
    public LocalResolver(String name) {
       this.reference = new AtomicReference<Object>();
-      this.matcher = new ConstantMatcher(name);
+      this.matcher = new ModuleConstantFinder();
       this.name = name;
    }
    
@@ -28,7 +28,7 @@ public class LocalResolver implements ValueResolver<Object> {
          Value variable = state.get(name);
          
          if(variable == null) { 
-            Object value = matcher.match(scope);
+            Object value = matcher.find(scope, name);
             
             if(value != null) {
                reference.set(value);

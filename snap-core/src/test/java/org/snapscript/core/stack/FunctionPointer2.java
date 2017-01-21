@@ -1,7 +1,6 @@
 package org.snapscript.core.stack;
 
 import org.snapscript.core.Result;
-import org.snapscript.core.Scope;
 import org.snapscript.core.function.ArgumentConverter;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
