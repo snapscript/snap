@@ -30,6 +30,7 @@ public class TraceStatement extends Statement {
          interceptor.before(scope, trace);
          return statement.execute(scope); 
       } catch(Exception cause) {
+         interceptor.error(scope, trace, cause);
          return handler.throwInternal(scope, cause);
       } finally {
          interceptor.after(scope, trace);
