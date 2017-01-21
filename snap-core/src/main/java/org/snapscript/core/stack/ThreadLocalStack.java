@@ -1,9 +1,12 @@
 package org.snapscript.core.stack;
 
-public class ThreadLocalStack extends ThreadLocal<TraceStack> {
+import org.snapscript.common.ArrayStack;
+import org.snapscript.common.Stack;
+
+public class ThreadLocalStack extends ThreadLocal<Stack> {
    
    @Override
-   public TraceStack initialValue() {
-      return new TraceStack();
+   public Stack initialValue() {
+      return new ArrayStack();
    }
 }

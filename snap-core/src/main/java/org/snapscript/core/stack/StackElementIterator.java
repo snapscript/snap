@@ -2,6 +2,7 @@ package org.snapscript.core.stack;
 
 import java.util.Iterator;
 
+import org.snapscript.common.Stack;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.trace.Trace;
 
@@ -9,7 +10,7 @@ public class StackElementIterator {
    
    private final Iterator iterator;
    
-   public StackElementIterator(TraceStack stack) {
+   public StackElementIterator(Stack stack) {
       this.iterator = stack.iterator();
    }
    

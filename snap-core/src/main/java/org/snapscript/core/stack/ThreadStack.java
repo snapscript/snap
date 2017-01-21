@@ -1,7 +1,7 @@
 package org.snapscript.core.stack;
 
+import org.snapscript.common.Stack;
 import org.snapscript.core.function.Function;
-import org.snapscript.core.trace.Trace;
 
 public class ThreadStack {
    
@@ -14,8 +14,14 @@ public class ThreadStack {
    }
    
    public Function current() {
-      TraceStack stack = local.get();
-      return stack.peek();
+      Stack stack = local.get();
+      
+      for(Object entry : stack) {
+         if(Function.class.isInstance(entry)) {
+            return (Function)entry;
+         }
+      }
+      return null;
    }
    
    public StackTraceElement[] build() {
@@ -23,7 +29,7 @@ public class ThreadStack {
    }
    
    public StackTraceElement[] build(Throwable cause) {
-      TraceStack stack = local.get();
+      Stack stack = local.get();
       
       if(cause != null) {
          return builder.create(stack, cause);   
@@ -31,40 +37,28 @@ public class ThreadStack {
       return builder.create(stack);
    }
    
-   public void before(Trace trace) {
-      TraceStack stack = local.get();
+   public void before(Object trace) {
+      Stack stack = local.get();
       
       if(trace != null) {
          stack.push(trace);
       }
    }
    
-   public void after(Trace trace) { // remove from stack
-      TraceStack stack = local.get();
+   public void after(Object trace) { // remove from stack
+      Stack stack = local.get();
       
-      if(trace != null) {
-         stack.pop(trace);
-      }
-   }
-   
-   public void before(Function function) {
-      TraceStack stack = local.get();
-      
-      if(function != null) {
-         stack.push(function);
-      }
-   }
-   
-   public void after(Function function) { // remove from stack
-      TraceStack stack = local.get();
-      
-      if(function != null) {
-         stack.pop(function);
+      while(!stack.isEmpty()) {
+         Object next = stack.pop();
+         
+         if(next == trace) {
+            break;
+         }
       }
    }
    
    public void clear() {
-      TraceStack stack = local.get();
+      Stack stack = local.get();
       stack.clear();
    }
 

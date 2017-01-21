@@ -3,13 +3,15 @@ package org.snapscript.core.stack;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.snapscript.common.Stack;
+
 public class StackElementConverter {
    
    public StackElementConverter() {
       super();
    }
    
-   public List<StackTraceElement> create(TraceStack stack) {
+   public List<StackTraceElement> create(Stack stack) {
       List<StackTraceElement> list = new LinkedList<StackTraceElement>();
       StackElementIterator iterator = new StackElementIterator(stack);
       
