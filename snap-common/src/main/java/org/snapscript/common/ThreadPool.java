@@ -22,7 +22,11 @@ public class ThreadPool implements ScheduledExecutorService {
    }
    
    public ThreadPool(int threads) {
-      this.factory = new ThreadBuilder();
+      this(threads, 0);
+   }
+   
+   public ThreadPool(int threads, int stack) {
+      this.factory = new ThreadBuilder(true, stack);
       this.executor = new ScheduledThreadPoolExecutor(threads, factory);
    }
 
