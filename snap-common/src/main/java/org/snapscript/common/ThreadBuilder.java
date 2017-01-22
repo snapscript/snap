@@ -6,7 +6,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ThreadBuilder implements ThreadFactory {   
    
    private static final String THREAD_TEMPLATE = "%s: Thread-%s";
-   private static final String THREAD_DEFAULT = "Worker";
+   private static final String THREAD_DEFAULT = "Thread";
    
    private final AtomicInteger counter;
    private final boolean daemon;   
