@@ -1,25 +1,37 @@
 package org.snapscript.common;
 
 import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ThreadBuilder implements ThreadFactory {   
    
+   private static final String THREAD_TEMPLATE = "%s: Thread-%s";
+   private static final String THREAD_DEFAULT = "Worker";
+   
+   private final AtomicInteger counter;
    private final boolean daemon;   
+   private final int stack;
    
    public ThreadBuilder() {
       this(true);
    }   
 
    public ThreadBuilder(boolean daemon) {
+      this(daemon, 0);
+   }
+   
+   public ThreadBuilder(boolean daemon, int stack) {
+      this.counter = new AtomicInteger(1);
       this.daemon = daemon;
+      this.stack = stack;
    }
    
    @Override
    public Thread newThread(Runnable task) {
-      Thread thread = new Thread(task);
+      Thread thread = new Thread(null, task, THREAD_DEFAULT, stack);
       
       if(task != null) {
-         String name = createName(task, thread);
+         String name = createName(task);
          
          thread.setDaemon(daemon);
          thread.setName(name);
@@ -28,10 +40,10 @@ public class ThreadBuilder implements ThreadFactory {
    }
 
    public Thread newThread(Runnable task, Class type) {
-      Thread thread = new Thread(task);
+      Thread thread = new Thread(null, task, THREAD_DEFAULT, stack);
       
       if(task != null) {
-         String name = createName(type, thread);
+         String name = createName(type);
          
          thread.setDaemon(daemon);
          thread.setName(name);
@@ -39,18 +51,18 @@ public class ThreadBuilder implements ThreadFactory {
       return thread;
    }
    
-   private String createName(Runnable task, Thread thread) {
+   private String createName(Runnable task) {
       Class type = task.getClass();
       String prefix = type.getSimpleName();      
-      String name = thread.getName();
+      int count = counter.getAndIncrement();
 
-      return String.format("%s: %s", prefix, name);
+      return String.format(THREAD_TEMPLATE, prefix, count);
    }
    
-   private String createName(Class type, Thread thread) {
+   private String createName(Class type) {
       String prefix = type.getSimpleName();
-      String name = thread.getName();
+      int count = counter.getAndIncrement();
 
-      return String.format("%s: %s", prefix, name);
+      return String.format(THREAD_TEMPLATE, prefix, count);
    }
 }
