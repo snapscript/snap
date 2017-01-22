@@ -8,7 +8,7 @@ public class ThreadBuilder implements ThreadFactory {
    private static final String THREAD_TEMPLATE = "%s: Thread-%s";
    private static final String THREAD_DEFAULT = "Thread";
    
-   private final AtomicInteger counter;
+   private final ThreadNameBuilder builder;
    private final boolean daemon;   
    private final int stack;
    
@@ -21,7 +21,7 @@ public class ThreadBuilder implements ThreadFactory {
    }
    
    public ThreadBuilder(boolean daemon, int stack) {
-      this.counter = new AtomicInteger(1);
+      this.builder = new ThreadNameBuilder();
       this.daemon = daemon;
       this.stack = stack;
    }
@@ -31,7 +31,7 @@ public class ThreadBuilder implements ThreadFactory {
       Thread thread = new Thread(null, task, THREAD_DEFAULT, stack);
       
       if(task != null) {
-         String name = createName(task);
+         String name = builder.createName(task);
          
          thread.setDaemon(daemon);
          thread.setName(name);
@@ -43,7 +43,7 @@ public class ThreadBuilder implements ThreadFactory {
       Thread thread = new Thread(null, task, THREAD_DEFAULT, stack);
       
       if(task != null) {
-         String name = createName(type);
+         String name = builder.createName(type);
          
          thread.setDaemon(daemon);
          thread.setName(name);
@@ -51,18 +51,27 @@ public class ThreadBuilder implements ThreadFactory {
       return thread;
    }
    
-   private String createName(Runnable task) {
-      Class type = task.getClass();
-      String prefix = type.getSimpleName();      
-      int count = counter.getAndIncrement();
-
-      return String.format(THREAD_TEMPLATE, prefix, count);
-   }
+   private class ThreadNameBuilder {
+      
+      private final AtomicInteger counter;
+      
+      public ThreadNameBuilder() {
+         this.counter = new AtomicInteger(1);
+      }
    
-   private String createName(Class type) {
-      String prefix = type.getSimpleName();
-      int count = counter.getAndIncrement();
-
-      return String.format(THREAD_TEMPLATE, prefix, count);
+      private String createName(Runnable task) {
+         Class type = task.getClass();
+         String prefix = type.getSimpleName();      
+         int count = counter.getAndIncrement();
+   
+         return String.format(THREAD_TEMPLATE, prefix, count);
+      }
+      
+      private String createName(Class type) {
+         String prefix = type.getSimpleName();
+         int count = counter.getAndIncrement();
+   
+         return String.format(THREAD_TEMPLATE, prefix, count);
+      }
    }
 }
