@@ -80,6 +80,7 @@ public class CompilePerformanceTest extends TestCase {
       //compileScript("perf4.js");  
      // compileScript("/script/script13.snap"); 
       compileScript("/perf/perf4.snap"); 
+      compileScript("/perf/perf1.snap");
  /*     executeScript("perf2.js");    
       executeScript("perf3.js"); */   
    }
