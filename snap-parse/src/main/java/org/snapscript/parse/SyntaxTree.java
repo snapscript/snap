@@ -17,6 +17,7 @@ public class SyntaxTree {
    private final PositionStack stack;
    private final String resource;
    private final String grammar;
+   private final int length;
 
    public SyntaxTree(GrammarIndexer indexer, String resource, String grammar, char[] original, char[] source, short[] lines, short[] types) {
       this.analyzer = new TokenScanner(indexer, resource, original, source, lines, types);
@@ -24,6 +25,7 @@ public class SyntaxTree {
       this.nodes = new LinkedList<SyntaxCursor>();
       this.commit = new AtomicInteger();
       this.stack = new PositionStack();
+      this.length = source.length;
       this.resource = resource;
       this.indexer = indexer;
       this.grammar = grammar;
@@ -77,6 +79,7 @@ public class SyntaxTree {
    }
    
    public int length() {
+      return length;
    }
 
    private class SyntaxCursor implements SyntaxBuilder {
