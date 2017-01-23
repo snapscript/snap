@@ -1,59 +1,60 @@
 package org.snapscript.parse;
 
-
 public enum Symbol {
-   IDENTIFIER("identifier") {
+   IDENTIFIER(TokenType.IDENTIFIER, "identifier") {
       @Override
       public boolean read(SyntaxBuilder builder) {
          return builder.identifier();
       }
    },
-   TYPE("type") {
+   TYPE(TokenType.TYPE, "type") {
       @Override
       public boolean read(SyntaxBuilder builder) {
          return builder.type();
       }
    },   
-   QUALIFIER("qualifier") {
+   QUALIFIER(TokenType.QUALIFIER, "qualifier") {
       @Override
       public boolean read(SyntaxBuilder builder) {
          return builder.qualifier();
       }
    },   
-   HEXIDECIMAL("hexidecimal") {
+   HEXIDECIMAL(TokenType.HEXIDECIMAL, "hexidecimal") {
       @Override
       public boolean read(SyntaxBuilder builder) {
          return builder.hexidecimal();
       }
    },   
-   BINARY("binary") {
+   BINARY(TokenType.BINARY, "binary") {
       @Override
       public boolean read(SyntaxBuilder builder) {
          return builder.binary();
       }
    },
-   DECIMAL("decimal") {
+   DECIMAL(TokenType.DECIMAL, "decimal") {
       @Override
       public boolean read(SyntaxBuilder builder) {
          return builder.decimal();
       }
    },
-   TEXT("text") {
+   TEXT(TokenType.TEXT, "text") {
       @Override
       public boolean read(SyntaxBuilder builder) {
          return builder.text();
       }
    },
-   TEMPLATE("template") {
+   TEMPLATE(TokenType.TEMPLATE, "template") {
       @Override
       public boolean read(SyntaxBuilder builder) {
          return builder.template();
       }
    };
    
+   public final TokenType type;
    public final String name;
    
-   private Symbol(String name) {
+   private Symbol(TokenType type, String name) {
+      this.type = type;
       this.name = name;
    }
 

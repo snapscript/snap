@@ -11,11 +11,19 @@ public enum TokenType {
    LITERAL(7, 0x0080),
    TEMPLATE(8, 0x0100);
    
+   public final short mask;
    public final int index;
-   public final int mask;
    
    private TokenType(int index, int mask) {
+      this.mask = (short)mask;
       this.index = index;
-      this.mask = mask;
+   }
+   
+   public int getIndex(){
+      return index;
+   }
+   
+   public int getMask(){
+      return mask;
    }
 }

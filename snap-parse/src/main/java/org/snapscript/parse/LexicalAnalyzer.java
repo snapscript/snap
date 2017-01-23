@@ -13,5 +13,6 @@ public interface LexicalAnalyzer {
    Line line(int mark);
    int reset(int mark);
    int count();
+   int peek();
    int mark();  
 }

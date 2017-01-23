@@ -4,15 +4,15 @@ public class NumberToken implements Token<Number> {
    
    private final Number value;
    private final Line line;
-   private final int type;
+   private final short type;
 
    public NumberToken(Number value) {
       this(value, null, 0);
    }
    
    public NumberToken(Number value, Line line, int type) {
+      this.type = (short)type;
       this.value = value;
-      this.type = type;
       this.line = line;
    }
    
@@ -27,7 +27,7 @@ public class NumberToken implements Token<Number> {
    }
    
    @Override
-   public int getType() {
+   public short getType() {
       return type;
    }
 }

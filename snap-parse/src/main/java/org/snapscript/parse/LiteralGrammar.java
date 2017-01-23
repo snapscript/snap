@@ -9,7 +9,7 @@ public class LiteralGrammar implements Grammar {
    }
    
    @Override
-   public GrammarMatcher create(GrammarCache cache) {
+   public GrammarMatcher create(GrammarCache cache, int length) {
       return matcher;
    } 
    

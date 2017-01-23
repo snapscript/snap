@@ -32,7 +32,7 @@ public class TokenIndexer {
       this.lines = lines;
    }
 
-   public int[] index(List<Token> tokens) {
+   public short[] index(List<Token> tokens) {
       if(values.isEmpty()) {
          List<String> literals = indexer.list();
         
@@ -44,7 +44,7 @@ public class TokenIndexer {
       return scan(tokens);
    }
    
-   private int[] scan(List<Token> tokens) {
+   private short[] scan(List<Token> tokens) {
       int count = reader.count();
 
       while (true) {
@@ -84,11 +84,11 @@ public class TokenIndexer {
       }
    }
    
-   private int[] create(List<Token> tokens) {
+   private short[] create(List<Token> tokens) {
       int length = tokens.size();
       
       if(length > 0) {
-         int[] masks = new int[length];
+         short[] masks = new short[length];
          
          for(int i = 0; i < length; i++) {
             Token token = tokens.get(i);
@@ -99,7 +99,7 @@ public class TokenIndexer {
          }
          return masks;
       }
-      return new int[]{};
+      return new short[]{};
    }
    
    private Token type(int number) {

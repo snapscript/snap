@@ -10,8 +10,9 @@ public interface SyntaxBuilder {
    boolean qualifier();
    boolean template();
    boolean text();
-   boolean type();  
+   boolean type(); 
    int position(); 
    void commit();
    int reset();
+   int peek();
 }

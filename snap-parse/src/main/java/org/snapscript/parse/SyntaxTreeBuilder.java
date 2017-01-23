@@ -1,6 +1,5 @@
 package org.snapscript.parse;
 
-
 public class SyntaxTreeBuilder {
 
    private final SourceProcessor processor;

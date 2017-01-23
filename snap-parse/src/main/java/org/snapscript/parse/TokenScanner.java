@@ -17,7 +17,7 @@ public class TokenScanner implements LexicalAnalyzer {
 
    private TokenIndexer indexer;
    private List<Token> tokens;
-   private int[] masks;
+   private short[] masks;
    private int count;
    private int mark;
 
@@ -162,6 +162,17 @@ public class TokenScanner implements LexicalAnalyzer {
       return null;
    }
 
+   @Override
+   public int peek() {
+      if (masks == null) {
+         masks = indexer.index(tokens);
+      }
+      if (mark < masks.length) {
+         return masks[mark];
+      }
+      return 0;
+   }
+   
    @Override
    public int reset(int position) {
       int current = mark;

@@ -1,11 +1,10 @@
 package org.snapscript.parse;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
+
+import org.snapscript.common.BitSet;
+import org.snapscript.common.SparseArray;
 
 public class MatchOneGrammar implements Grammar {
    
@@ -20,27 +19,27 @@ public class MatchOneGrammar implements Grammar {
    }       
    
    @Override
-   public GrammarMatcher create(GrammarCache cache) {
+   public GrammarMatcher create(GrammarCache cache, int length) {
       List<GrammarMatcher> matchers = new ArrayList<GrammarMatcher>();
       
       for(Grammar grammar : grammars) {
-         GrammarMatcher matcher = grammar.create(cache);
+         GrammarMatcher matcher = grammar.create(cache, length);
          matchers.add(matcher);
       }
-      return new MatchOneMatcher(matchers, name, index);
+      return new MatchOneMatcher(matchers, name, index, length);
    }
    
    private static class MatchOneMatcher implements GrammarMatcher {
       
-      private final Map<Integer, GrammarMatcher> cache;
+      private final SparseArray<GrammarMatcher> cache;
       private final List<GrammarMatcher> matchers;
-      private final Set<Integer> failure;
+      private final BitSet failure;
       private final String name;
       private final int index;
 
-      public MatchOneMatcher(List<GrammarMatcher> matchers, String name, int index) {
-         this.cache = new HashMap<Integer, GrammarMatcher>();
-         this.failure = new HashSet<Integer>();
+      public MatchOneMatcher(List<GrammarMatcher> matchers, String name, int index, int length) {
+         this.cache = new SparseArray<GrammarMatcher>(length);
+         this.failure = new BitSet(length);
          this.matchers = matchers;
          this.index = index;
          this.name = name;
@@ -48,9 +47,9 @@ public class MatchOneGrammar implements Grammar {
    
       @Override
       public boolean match(SyntaxBuilder builder, int depth) {
-         Integer position = builder.position();
+         int position = builder.position();
          
-         if(!failure.contains(position)) {
+         if(!failure.get(position)) {
             GrammarMatcher best = cache.get(position);
             
             if(best == null) {
@@ -75,9 +74,9 @@ public class MatchOneGrammar implements Grammar {
                   }
                }                  
                if(best != null) {
-                  cache.put(position, best);
+                  cache.set(position, best);
                } else {
-                  failure.add(position);
+                  failure.set(position);
                }
             }
             if(best != null) {            

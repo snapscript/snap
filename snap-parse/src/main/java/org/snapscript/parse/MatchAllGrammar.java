@@ -1,9 +1,9 @@
 package org.snapscript.parse;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
+import org.snapscript.common.BitSet;
 
 public class MatchAllGrammar implements Grammar {
 
@@ -18,27 +18,27 @@ public class MatchAllGrammar implements Grammar {
    }  
 
    @Override
-   public GrammarMatcher create(GrammarCache cache) {
+   public GrammarMatcher create(GrammarCache cache, int length) {
       List<GrammarMatcher> matchers = new ArrayList<GrammarMatcher>();
       
       for(Grammar grammar : grammars) {
-         GrammarMatcher matcher = grammar.create(cache);
+         GrammarMatcher matcher = grammar.create(cache, length);
          matchers.add(matcher);
       }
-      return new MatchAllMatcher(matchers, name, index);
+      return new MatchAllMatcher(matchers, name, index, length);
    } 
    
    public static class MatchAllMatcher implements GrammarMatcher {
       
       private final List<GrammarMatcher> matchers;
-      private final Set<Integer> success;
-      private final Set<Integer> failure;
+      private final BitSet success;
+      private final BitSet failure;
       private final String name;
       private final int index;
 
-      public MatchAllMatcher(List<GrammarMatcher> matchers, String name, int index) {
-         this.success = new HashSet<Integer>();
-         this.failure = new HashSet<Integer>();
+      public MatchAllMatcher(List<GrammarMatcher> matchers, String name, int index, int length) {
+         this.success = new BitSet(length);
+         this.failure = new BitSet(length);
          this.matchers = matchers;
          this.index = index;
          this.name = name;
@@ -46,7 +46,7 @@ public class MatchAllGrammar implements Grammar {
    
       @Override
       public boolean match(SyntaxBuilder builder, int depth) {
-         Integer position = builder.position();
+         int position = builder.position();
          
          if(depth == 0) {
             for(GrammarMatcher matcher : matchers) {               
@@ -56,8 +56,8 @@ public class MatchAllGrammar implements Grammar {
             }
             return true;
          }
-         if(!failure.contains(position)) {
-            if(!success.contains(position)) {
+         if(!failure.get(position)) {
+            if(!success.get(position)) {
                SyntaxBuilder child = builder.mark(index);   
                int require = matchers.size();
                int count = 0;
@@ -65,7 +65,7 @@ public class MatchAllGrammar implements Grammar {
                if(child != null) {            
                   for(GrammarMatcher grammar : matchers) {               
                      if(!grammar.match(child, 0)) {
-                        failure.add(position);
+                        failure.set(position);
                         break;
                      }
                      count++;
@@ -73,10 +73,10 @@ public class MatchAllGrammar implements Grammar {
                   child.reset();
                }           
                if(count == require) {
-                  success.add(position);
+                  success.set(position);
                }
             }
-            if(success.contains(position)) {
+            if(success.get(position)) {
                for(GrammarMatcher grammar : matchers) {               
                   if(!grammar.match(builder, 0)) {
                      throw new ParseException("Could not read node in " + name);  

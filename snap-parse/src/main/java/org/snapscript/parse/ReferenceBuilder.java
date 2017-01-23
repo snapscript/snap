@@ -14,13 +14,13 @@ public class ReferenceBuilder {
       this.name = name;
    }   
    
-   public GrammarMatcher create(GrammarCache cache) {
+   public GrammarMatcher create(GrammarCache cache, int length) {
       Grammar grammar = resolver.resolve(name);
       
       if(grammar == null) {
          throw new ParseException("Grammar '" + name + "' not found");
       }
-      return new ReferenceMatcher(cache, grammar, name, index);
+      return new ReferenceMatcher(cache, grammar, name, index, length);
    }  
    
    private static class ReferenceMatcher implements GrammarMatcher {
@@ -29,11 +29,13 @@ public class ReferenceBuilder {
       private final GrammarCache cache;
       private final Grammar grammar;
       private final String name;
+      private final int length;
       private final int index;
       
-      public ReferenceMatcher(GrammarCache cache, Grammar grammar, String name, int index) {
+      public ReferenceMatcher(GrammarCache cache, Grammar grammar, String name, int index, int length) {
          this.reference = new AtomicReference<GrammarMatcher>();
          this.grammar = grammar;
+         this.length = length;
          this.cache = cache;
          this.index = index;
          this.name = name;
@@ -44,7 +46,7 @@ public class ReferenceBuilder {
          GrammarMatcher matcher = reference.get();
          
          if(matcher == null) {
-            matcher = grammar.create(cache);
+            matcher = grammar.create(cache, length);
             reference.set(matcher);
          }
          SyntaxBuilder child = builder.mark(index);   

@@ -11,11 +11,11 @@ public class ReferenceGrammar implements Grammar {
    }   
    
    @Override
-   public GrammarMatcher create(GrammarCache cache) {
+   public GrammarMatcher create(GrammarCache cache, int length) {
       GrammarMatcher matcher = cache.resolve(index); 
       
       if(matcher == null) {
-         matcher = resolver.create(cache);
+         matcher = resolver.create(cache, length);
          cache.cache(index, matcher);
       }
       return matcher;

@@ -9,7 +9,7 @@ public class SymbolGrammar implements Grammar {
    }
 
    @Override
-   public GrammarMatcher create(GrammarCache cache) {
+   public GrammarMatcher create(GrammarCache cache, int length) {
       return matcher;
    }  
    
@@ -27,11 +27,15 @@ public class SymbolGrammar implements Grammar {
    
       @Override
       public boolean match(SyntaxBuilder builder, int depth) {
-         SyntaxBuilder child = builder.mark(index);
-   
-         if(symbol.read(child)) {
-            child.commit();
-            return true;
+         int mask = builder.peek();
+         
+         if((mask & symbol.type.mask) != 0) {
+            SyntaxBuilder child = builder.mark(index);
+      
+            if(symbol.read(child)) {
+               child.commit();
+               return true;
+            }
          }
          return false;
       }

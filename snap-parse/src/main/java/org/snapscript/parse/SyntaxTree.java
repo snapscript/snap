@@ -75,6 +75,9 @@ public class SyntaxTree {
       }
       return node;
    }
+   
+   public int length() {
+   }
 
    private class SyntaxCursor implements SyntaxBuilder {
 
@@ -232,6 +235,11 @@ public class SyntaxTree {
             return true;
          }
          return false;
+      }
+      
+      @Override
+      public int peek() {
+         return analyzer.peek();
       }
    }
 

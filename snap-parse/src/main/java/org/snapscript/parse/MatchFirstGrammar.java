@@ -1,11 +1,10 @@
 package org.snapscript.parse;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
+
+import org.snapscript.common.BitSet;
+import org.snapscript.common.SparseArray;
 
 public class MatchFirstGrammar implements Grammar {
    
@@ -18,35 +17,35 @@ public class MatchFirstGrammar implements Grammar {
    }       
 
    @Override
-   public GrammarMatcher create(GrammarCache cache) {
+   public GrammarMatcher create(GrammarCache cache, int length) {
       List<GrammarMatcher> matchers = new ArrayList<GrammarMatcher>();
       
       for(Grammar grammar : grammars) {
-         GrammarMatcher matcher = grammar.create(cache);
+         GrammarMatcher matcher = grammar.create(cache, length);
          matchers.add(matcher);
       }
-      return new MatchFirstMatcher(matchers, name);
+      return new MatchFirstMatcher(matchers, name, length);
    } 
    
    private static class MatchFirstMatcher implements GrammarMatcher {
       
-      private final Map<Integer, GrammarMatcher> cache;
+      private final SparseArray<GrammarMatcher> cache;
       private final List<GrammarMatcher> matchers;
-      private final Set<Integer> failure;
+      private final BitSet failure;
       private final String name;
       
-      public MatchFirstMatcher(List<GrammarMatcher> matchers, String name) {
-         this.cache = new HashMap<Integer, GrammarMatcher>();
-         this.failure = new HashSet<Integer>();
+      public MatchFirstMatcher(List<GrammarMatcher> matchers, String name, int length) {
+         this.cache = new SparseArray<GrammarMatcher>(length);
+         this.failure = new BitSet(length);
          this.matchers = matchers;
          this.name = name;
       }    
    
       @Override
       public boolean match(SyntaxBuilder builder, int depth) {
-         Integer position = builder.position();
+         int position = builder.position();
          
-         if(!failure.contains(position)) {
+         if(!failure.get(position)) {
             GrammarMatcher best = cache.get(position);
             
             if(best == null) {
@@ -56,11 +55,11 @@ public class MatchFirstGrammar implements Grammar {
                   GrammarMatcher matcher = matchers.get(i);   
          
                   if(matcher.match(builder, depth + 1)) {
-                     cache.put(position, matcher);
+                     cache.set(position, matcher);
                      return true;
                   }               
                }                  
-               failure.add(position);            
+               failure.set(position);            
             }
             if(best != null) {            
                if(!best.match(builder, 0)) {

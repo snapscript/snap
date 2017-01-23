@@ -20,14 +20,18 @@ public class SyntaxParser {
       
       if(grammar == null) {
          throw new IllegalArgumentException("Grammar '" + name + "' is not defined");
-      }
-      GrammarMatcher matcher = grammar.create(cache);
+      }               
       SyntaxTree tree = builder.create(resource, expression, name);
-      SyntaxBuilder root = tree.mark();
-         
-      if(matcher.match(root, 0)) {
-         root.commit();
-         return tree.commit();
+      int length = tree.length();
+      
+      if(length > 0) {
+         GrammarMatcher matcher = grammar.create(cache, length);
+         SyntaxBuilder root = tree.mark();
+            
+         if(matcher.match(root, 0)) {
+            root.commit();
+            return tree.commit();
+         }
       }
       return null;
    } 
