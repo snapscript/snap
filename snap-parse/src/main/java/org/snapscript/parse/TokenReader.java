@@ -1,6 +1,6 @@
 package org.snapscript.parse;
 
-public interface SyntaxReader {
+public interface TokenReader {
    boolean literal(String value);   
    boolean decimal();
    boolean binary();

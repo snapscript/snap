@@ -69,5 +69,15 @@ public class PositionStack {
       }
       return -1;
    }
-
+   
+   public void clear() {
+      for(int i = 0; i < visit.length; i++) {
+         visit[i] = 0;
+      }
+      top =0;
+   }
+   
+   public int size() {
+      return top;
+   }
 }
