@@ -65,7 +65,7 @@ parse memory=222,557,832
              214,916,328
              198,752,824
              181,242,224
-              15,694,712 <-- check + build steps
+              15,694,712 <-- check + build steps (two phase compiler)
 Time taken to parse /perf/perf4.snap was 161 size was 69220 compressed to 48660 and 2799 lines
  */
 
