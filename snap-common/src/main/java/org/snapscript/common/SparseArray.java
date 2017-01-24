@@ -6,7 +6,7 @@ public class SparseArray<T> {
    private final int block;
 
    public SparseArray(int length) {
-      this(length, 32);
+      this(length, 32); // compute better default distribution
    }
    
    public SparseArray(int length, int block) {
