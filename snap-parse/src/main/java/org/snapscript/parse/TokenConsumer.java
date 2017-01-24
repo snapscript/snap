@@ -1,5 +1,6 @@
 package org.snapscript.parse;
 
+public abstract class TokenConsumer implements TokenReader {
 
    protected LexicalAnalyzer analyzer;
    protected Token value;

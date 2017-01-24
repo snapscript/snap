@@ -44,7 +44,9 @@ public class SyntaxTree {
 
    public SyntaxBuilder build() {   
       int index = indexer.index(grammar);
+      int mark = analyzer.mark();
 
+      if (mark == 0) {
          throw new ParseException("Syntax has not been validated");
       }
       analyzer.reset(0);
