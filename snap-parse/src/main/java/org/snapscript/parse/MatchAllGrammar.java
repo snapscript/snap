@@ -43,14 +43,58 @@ public class MatchAllGrammar implements Grammar {
          this.index = index;
          this.name = name;
       }
+      
+      @Override
+      public boolean check(SyntaxChecker checker, int depth) {
+         int position = checker.position();
+         
+         if(depth == 0) {
+            for(GrammarMatcher matcher : matchers) {               
+               if(!matcher.check(checker, depth + 1)) {
+                  return false; 
+               }
+            }
+            return true;
+         }
+         if(!failure.get(position)) {
+            if(!success.get(position)) {
+               int mark = checker.mark(index);   
+               int require = matchers.size();
+               int count = 0;
+               
+               if(mark != -1) {            
+                  for(GrammarMatcher grammar : matchers) {               
+                     if(!grammar.check(checker, 0)) {
+                        failure.set(position);
+                        return false;
+                     }
+                     count++;                     
+                  }
+                  checker.reset(mark, index);
+               }           
+               if(count == require) {
+                  success.set(position);
+               }
+            }
+            if(success.get(position)) {
+               for(GrammarMatcher grammar : matchers) {               
+                  if(!grammar.check(checker, 0)) {
+                     throw new ParseException("Could not read node in " + name);  
+                  }
+               }
+               return true;
+            } 
+         }
+         return false;
+      }
    
       @Override
-      public boolean match(SyntaxBuilder builder, int depth) {
+      public boolean build(SyntaxBuilder builder, int depth) {
          int position = builder.position();
          
          if(depth == 0) {
             for(GrammarMatcher matcher : matchers) {               
-               if(!matcher.match(builder, depth + 1)) {
+               if(!matcher.build(builder, depth + 1)) {
                   return false; 
                }
             }
@@ -64,7 +108,7 @@ public class MatchAllGrammar implements Grammar {
                
                if(child != null) {            
                   for(GrammarMatcher grammar : matchers) {               
-                     if(!grammar.match(child, 0)) {
+                     if(!grammar.build(child, 0)) {
                         failure.set(position);
                         break;
                      }
@@ -78,7 +122,7 @@ public class MatchAllGrammar implements Grammar {
             }
             if(success.get(position)) {
                for(GrammarMatcher grammar : matchers) {               
-                  if(!grammar.match(builder, 0)) {
+                  if(!grammar.build(builder, 0)) {
                      throw new ParseException("Could not read node in " + name);  
                   }
                }

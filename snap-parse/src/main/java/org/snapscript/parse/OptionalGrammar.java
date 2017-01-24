@@ -21,10 +21,16 @@ public class OptionalGrammar implements Grammar {
       public OptionalMatcher(GrammarMatcher matcher) {
          this.matcher = matcher; 
       }
+      
+      @Override
+      public boolean check(SyntaxChecker checker, int depth) {      
+         matcher.check(checker, depth);
+         return true;
+      }
    
       @Override
-      public boolean match(SyntaxBuilder builder, int depth) {      
-         matcher.match(builder, depth);
+      public boolean build(SyntaxBuilder builder, int depth) {      
+         matcher.build(builder, depth);
          return true;
       }
       

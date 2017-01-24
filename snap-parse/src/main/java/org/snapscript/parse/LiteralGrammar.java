@@ -22,7 +22,12 @@ public class LiteralGrammar implements Grammar {
       }
       
       @Override
-      public boolean match(SyntaxBuilder builder, int depth) {
+      public boolean check(SyntaxChecker checker, int depth) {
+         return checker.literal(value);
+      }
+      
+      @Override
+      public boolean build(SyntaxBuilder builder, int depth) {
          return builder.literal(value);
       }
       

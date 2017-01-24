@@ -43,10 +43,53 @@ public class MatchOneGrammar implements Grammar {
          this.matchers = matchers;
          this.index = index;
          this.name = name;
-      }    
+      }  
+      
+      @Override
+      public boolean check(SyntaxChecker checker, int depth) {
+         int position = checker.position();
+         
+         if(!failure.get(position)) {
+            GrammarMatcher best = cache.get(position);
+            
+            if(best == null) {
+               int count = matchers.size();
+               int size = -1;     
+                  
+               for(int i = 0; i < count; i++) {
+                  GrammarMatcher matcher = matchers.get(i);
+                  int mark = checker.mark(index);   
+         
+                  if(mark != -1) {
+                     if(matcher.check(checker, 0)) {
+                        int offset = checker.reset(mark, index);
+                        
+                        if(offset > size) {
+                           size = offset;
+                           best = matcher;
+                        }
+                     }
+                     checker.reset(mark, index);
+                  }
+               }                  
+               if(best != null) {
+                  cache.set(position, best);
+               } else {
+                  failure.set(position);
+               }
+            }   
+            if(best != null) {            
+               if(!best.check(checker, 0)) {
+                  throw new ParseException("Could not read node in " + name);  
+               }     
+               return true;
+            } 
+         }
+         return false;
+      }
    
       @Override
-      public boolean match(SyntaxBuilder builder, int depth) {
+      public boolean build(SyntaxBuilder builder, int depth) {
          int position = builder.position();
          
          if(!failure.get(position)) {
@@ -61,7 +104,7 @@ public class MatchOneGrammar implements Grammar {
                   SyntaxBuilder child = builder.mark(index);   
          
                   if(child != null) {
-                     if(matcher.match(child, 0)) {
+                     if(matcher.build(child, 0)) {
                         int offset = child.reset();
                         
                         if(offset > size) {
@@ -80,7 +123,7 @@ public class MatchOneGrammar implements Grammar {
                }
             }
             if(best != null) {            
-               if(!best.match(builder, 0)) {
+               if(!best.build(builder, 0)) {
                   throw new ParseException("Could not read node in " + name);  
                }     
                return true;

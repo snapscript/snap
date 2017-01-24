@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 
 public class SyntaxParserTest extends TestCase {
    
-   private static final String SOURCE =
+   private static final String SOURCE_1 =
    "/* simple test class */\r\n"+
    "class Blah {\r\n"+
    "  var x;\r\n"+
@@ -18,12 +18,22 @@ public class SyntaxParserTest extends TestCase {
    "    return x+y;\r\n"+
    "  }\r\n"+
    "}\r\n";
+
+   private static final String SOURCE_2 =
+   "trait Scene {}\n"+
+   "class Sphere with Scene {}\n";
    
-   public void testSyntaxParser() throws Exception {
-      System.err.println(SOURCE);
+   public void testSimpleParser() throws Exception {
+      System.err.println(SOURCE_1);
       SyntaxCompiler builder = new SyntaxCompiler();
       SyntaxParser parser = builder.compile();
-      LexerBuilder.print(parser, SOURCE, "script");
+      LexerBuilder.print(parser, SOURCE_1, "script");
    }
 
+   public void testComplexParser() throws Exception {
+      System.err.println(SOURCE_2);
+      SyntaxCompiler builder = new SyntaxCompiler();
+      SyntaxParser parser = builder.compile();
+      LexerBuilder.print(parser, SOURCE_2, "script");
+   }
 }

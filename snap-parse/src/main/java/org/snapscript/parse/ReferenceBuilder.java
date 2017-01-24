@@ -40,9 +40,29 @@ public class ReferenceBuilder {
          this.index = index;
          this.name = name;
       }  
+      
+      @Override
+      public boolean check(SyntaxChecker checker, int depth) {  
+         GrammarMatcher matcher = reference.get();
+         
+         if(matcher == null) {
+            matcher = grammar.create(cache, length);
+            reference.set(matcher);
+         }
+         int mark = checker.mark(index);   
+   
+         if(mark != -1) {
+            if(matcher.check(checker, 0)) {
+               checker.commit(mark, index);
+               return true;
+            }
+            checker.reset(mark, index);
+         }
+         return false;
+      }
    
       @Override
-      public boolean match(SyntaxBuilder builder, int depth) {  
+      public boolean build(SyntaxBuilder builder, int depth) {  
          GrammarMatcher matcher = reference.get();
          
          if(matcher == null) {
@@ -52,7 +72,7 @@ public class ReferenceBuilder {
          SyntaxBuilder child = builder.mark(index);   
    
          if(child != null) {
-            if(matcher.match(child, 0)) {
+            if(matcher.build(child, 0)) {
                child.commit();
                return true;
             }

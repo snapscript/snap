@@ -3,14 +3,15 @@ package org.snapscript.parse;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import org.snapscript.common.Vector;
 
 public class SyntaxTree {
 
    private final Comparator<SyntaxNode> comparator;
-   private final List<SyntaxCursor> nodes;
+   private final Vector<SyntaxCursor> nodes;
    private final LexicalAnalyzer analyzer;
    private final GrammarIndexer indexer;
    private final AtomicInteger commit;
@@ -22,7 +23,7 @@ public class SyntaxTree {
    public SyntaxTree(GrammarIndexer indexer, String resource, String grammar, char[] original, char[] source, short[] lines, short[] types) {
       this.analyzer = new TokenScanner(indexer, resource, original, source, lines, types);
       this.comparator = new SyntaxNodeComparator();
-      this.nodes = new LinkedList<SyntaxCursor>();
+      this.nodes = new Vector<SyntaxCursor>();
       this.commit = new AtomicInteger();
       this.stack = new PositionStack();
       this.length = source.length;
@@ -30,8 +31,18 @@ public class SyntaxTree {
       this.indexer = indexer;
       this.grammar = grammar;
    } 
+   
+   public SyntaxChecker check() {   
+      int index = indexer.index(grammar);
+      int depth = stack.depth(0, index);
 
-   public SyntaxBuilder mark() {   
+      if (depth >= 0) {
+         throw new ParseException("Tree has been created");
+      }
+      return new SyntaxValidator(index);
+   }
+
+   public SyntaxBuilder build() {   
       int index = indexer.index(grammar);
       int depth = stack.depth(0, index);
 
@@ -69,7 +80,7 @@ public class SyntaxTree {
       if(size > 2) {
          throw new ParseException("Tree has more than one root");
       }
-      SyntaxCursor cursor = nodes.get(0);
+      SyntaxCursor cursor = nodes.first();
       SyntaxNode node = cursor.create();
       
       if(node == null) {
@@ -81,65 +92,14 @@ public class SyntaxTree {
    public int length() {
       return length;
    }
+   
+   private abstract class SyntaxConsumer implements SyntaxReader {
 
-   private class SyntaxCursor implements SyntaxBuilder {
+      protected Token value;
 
-      private List<SyntaxCursor> parent;
-      private List<SyntaxCursor> nodes;
-      private Token value;
-      private int grammar;
-      private int start;
-
-      public SyntaxCursor(List<SyntaxCursor> parent, int grammar, int start) {
-         this.nodes = new LinkedList<SyntaxCursor>();
-         this.grammar = grammar;
-         this.parent = parent;
-         this.start = start;
+      protected SyntaxConsumer() {
+         super();
       }      
-      
-      public SyntaxNode create() {
-         return new SyntaxResult(nodes, value, grammar, start);
-      }
-
-      @Override
-      public int position() {
-         return analyzer.mark();
-      }
-
-      @Override
-      public SyntaxBuilder mark(int grammar) {              
-         int off = analyzer.mark();
-         int index = stack.depth(off, grammar); // this is slow!!
-
-         if (index <= 0) {
-            stack.push(off, grammar);
-            return new SyntaxCursor(nodes, grammar, off);
-         }
-         return null;
-      }    
-
-      @Override
-      public int reset() {
-         int mark = analyzer.mark();
-            
-         stack.pop(start, grammar);
-         analyzer.reset(start); // sets the global offset
-         return mark;
-      }
-
-      @Override
-      public void commit() {
-         int mark = analyzer.mark();
-         int error = commit.get();
-         int value = stack.pop(start, grammar);
-
-         if (value != -1) {
-            if(mark > error) {
-               commit.set(mark);
-            }
-            parent.add(this);
-         }
-      }
 
       @Override
       public boolean literal(String text) {
@@ -239,6 +199,130 @@ public class SyntaxTree {
          }
          return false;
       }
+   }
+
+   private class SyntaxCursor extends SyntaxConsumer implements SyntaxBuilder {
+
+      private final Vector<SyntaxCursor> parent;
+      private final Vector<SyntaxCursor> nodes;
+      private final int grammar;
+      private final int start;
+
+      public SyntaxCursor(Vector<SyntaxCursor> parent, int grammar, int start) {
+         this.nodes = new Vector<SyntaxCursor>();
+         this.grammar = grammar;
+         this.parent = parent;
+         this.start = start;
+      }      
+      
+      public SyntaxNode create() {
+         return new SyntaxResult(nodes, value, grammar, start);
+      }
+
+      @Override
+      public SyntaxBuilder mark(int grammar) {              
+         int off = analyzer.mark();
+         int index = stack.depth(off, grammar); // this is slow!!
+
+         if (index <= 0) {
+            stack.push(off, grammar);
+            return new SyntaxCursor(nodes, grammar, off);
+         }
+         return null;
+      }    
+
+      @Override
+      public int reset() {
+         int mark = analyzer.mark();
+            
+         stack.pop(start, grammar);
+         analyzer.reset(start); // sets the global offset
+         return mark;
+      }
+
+      @Override
+      public void commit() {
+         int mark = analyzer.mark();
+         int error = commit.get();
+         int value = stack.pop(start, grammar);
+
+         if (value != -1) {
+            if(mark > error) {
+               commit.set(mark);
+            }
+            parent.add(this);
+         }
+      }
+
+      @Override
+      public int position() {
+         return analyzer.mark();
+      }
+      
+      @Override
+      public int peek() {
+         return analyzer.peek();
+      }
+   }
+   
+   private class SyntaxValidator extends SyntaxConsumer implements SyntaxChecker {
+      
+      private final AtomicInteger counter;
+      private final PositionStack stack;
+      private final int root;
+
+      public SyntaxValidator(int root) {
+         this.counter = new AtomicInteger();
+         this.stack = new PositionStack();
+         this.root = root;
+      }        
+      public void finish(){
+         analyzer.reset(0);
+      }
+
+      @Override
+      public int reset(int start, int grammar) {
+         int mark = analyzer.mark();
+            
+         stack.pop(start, grammar);
+         analyzer.reset(start); // sets the global offset
+         return mark;
+      }
+
+      @Override
+      public void commit(int start, int grammar) {
+         int mark = analyzer.mark();
+         int error = commit.get();
+         int value = stack.pop(start, grammar);
+
+         if (value != -1) {
+            if(mark > error) {
+               commit.set(mark);
+            }
+         }
+      }
+      
+      @Override
+      public int mark(int grammar) {              
+         int off = analyzer.mark();
+         int count = counter.getAndIncrement();
+         
+         if(count == 0) {
+            stack.push(0, root);
+         }
+         int index = stack.depth(off, grammar); // this is slow!!
+
+         if (index <= 0) {
+            stack.push(off, grammar);
+            return off;
+         }
+         return -1;
+      }  
+
+      @Override
+      public int position() {
+         return analyzer.mark();
+      }
       
       @Override
       public int peek() {
@@ -248,26 +332,26 @@ public class SyntaxTree {
 
    private class SyntaxResult implements SyntaxNode {
 
-      private List<SyntaxCursor> children;
+      private Vector<SyntaxCursor> nodes;
       private Token token;
       private int grammar;
       private int start;
 
-      public SyntaxResult(List<SyntaxCursor> children, Token token, int grammar, int start) {
-         this.children = children;
+      public SyntaxResult(Vector<SyntaxCursor> nodes, Token token, int grammar, int start) {
          this.grammar = grammar;
          this.token = token;
          this.start = start;
+         this.nodes = nodes;
       }
 
       @Override
       public List<SyntaxNode> getNodes() {
-         int size = children.size();
+         int size = nodes.size();
          
          if(size > 0) {
             List<SyntaxNode> result = new ArrayList<SyntaxNode>(size);
             
-            for(SyntaxCursor child : children) {
+            for(SyntaxCursor child : nodes) {
                SyntaxNode node = child.create();
                
                if(node != null) {

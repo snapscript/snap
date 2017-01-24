@@ -26,10 +26,16 @@ public class SyntaxParser {
       
       if(length > 0) {
          GrammarMatcher matcher = grammar.create(cache, length);
-         SyntaxBuilder root = tree.mark();
+         SyntaxChecker checker = tree.check();
+         
+         if(!matcher.check(checker, 0)) {
+            throw new IllegalStateException("FUCK!!!");
+         }
+         checker.finish();
+         SyntaxBuilder builder = tree.build();
             
-         if(matcher.match(root, 0)) {
-            root.commit();
+         if(matcher.build(builder, 0)) {
+            builder.commit();
             return tree.commit();
          }
       }

@@ -1,16 +1,7 @@
 package org.snapscript.parse;
 
-public interface SyntaxBuilder {
-   SyntaxBuilder mark(int index); 
-   boolean literal(String value);   
-   boolean decimal();
-   boolean binary();
-   boolean hexidecimal();
-   boolean identifier();
-   boolean qualifier();
-   boolean template();
-   boolean text();
-   boolean type(); 
+public interface SyntaxBuilder extends SyntaxReader {
+   SyntaxBuilder mark(int grammar); 
    int position(); 
    void commit();
    int reset();

@@ -10,9 +10,11 @@ public class MatchFirstGrammar implements Grammar {
    
    private final List<Grammar> grammars;
    private final String name;
+   private final int index;
    
-   public MatchFirstGrammar(List<Grammar> grammars, String name) {
+   public MatchFirstGrammar(List<Grammar> grammars, String name, int index) {
       this.grammars = grammars;
+      this.index = index;
       this.name = name;
    }       
 
@@ -24,7 +26,7 @@ public class MatchFirstGrammar implements Grammar {
          GrammarMatcher matcher = grammar.create(cache, length);
          matchers.add(matcher);
       }
-      return new MatchFirstMatcher(matchers, name, length);
+      return new MatchFirstMatcher(matchers, name, index, length);
    } 
    
    private static class MatchFirstMatcher implements GrammarMatcher {
@@ -33,16 +35,50 @@ public class MatchFirstGrammar implements Grammar {
       private final List<GrammarMatcher> matchers;
       private final BitSet failure;
       private final String name;
+      private final int index;
       
-      public MatchFirstMatcher(List<GrammarMatcher> matchers, String name, int length) {
+      public MatchFirstMatcher(List<GrammarMatcher> matchers, String name, int index, int length) {
          this.cache = new SparseArray<GrammarMatcher>(length);
          this.failure = new BitSet(length);
          this.matchers = matchers;
+         this.index = index;
          this.name = name;
       }    
    
       @Override
-      public boolean match(SyntaxBuilder builder, int depth) {
+      public boolean check(SyntaxChecker checker, int depth) {
+         int position = checker.position();
+         
+         if(!failure.get(position)) {
+            GrammarMatcher best = cache.get(position);
+            
+            if(best == null) {
+               int mark = checker.mark(index);
+               int count = matchers.size();    
+                  
+               for(int i = 0; i < count; i++) {
+                  GrammarMatcher matcher = matchers.get(i);   
+         
+                  if(matcher.check(checker, depth + 1)) {
+                     cache.set(position, matcher);
+                     return true;
+                  }               
+               }                  
+               failure.set(position);  
+               checker.reset(mark, index);
+            }  
+            if(best != null) {            
+               if(!best.check(checker, 0)) {
+                  throw new ParseException("Could not read node in " + name);  
+               }     
+               return true;
+            } 
+         }
+         return false;
+      }
+      
+      @Override
+      public boolean build(SyntaxBuilder builder, int depth) {
          int position = builder.position();
          
          if(!failure.get(position)) {
@@ -54,7 +90,7 @@ public class MatchFirstGrammar implements Grammar {
                for(int i = 0; i < count; i++) {
                   GrammarMatcher matcher = matchers.get(i);   
          
-                  if(matcher.match(builder, depth + 1)) {
+                  if(matcher.build(builder, depth + 1)) {
                      cache.set(position, matcher);
                      return true;
                   }               
@@ -62,7 +98,7 @@ public class MatchFirstGrammar implements Grammar {
                failure.set(position);            
             }
             if(best != null) {            
-               if(!best.match(builder, 0)) {
+               if(!best.build(builder, 0)) {
                   throw new ParseException("Could not read node in " + name);  
                }     
                return true;

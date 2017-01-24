@@ -29,13 +29,29 @@ public class RepeatGrammar implements Grammar {
          this.matcher = matcher;   
          this.once = once;
       } 
-   
+      
       @Override
-      public boolean match(SyntaxBuilder builder, int depth) {    
+      public boolean check(SyntaxChecker checker, int depth) {    
          int count = 0;
    
          while(true) {   
-            if(!matcher.match(builder, depth)) {            
+            if(!matcher.check(checker, depth)) {            
+               break;               
+            }      
+            count++;
+         }
+         if(once) {
+            return count > 0;
+         }
+         return true;
+      }
+   
+      @Override
+      public boolean build(SyntaxBuilder builder, int depth) {    
+         int count = 0;
+   
+         while(true) {   
+            if(!matcher.build(builder, depth)) {            
                break;               
             }      
             count++;

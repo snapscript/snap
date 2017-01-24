@@ -64,10 +64,11 @@ public class GrammarBuilder {
    public Grammar createMatchFirst(List<Grammar> nodes, String origin) {
       Grammar top = nodes.get(0);      
       int count = nodes.size();
+      int index = indexer.index(origin);
       
       if(count > 1) {
          List<Grammar> copy = new ArrayList<Grammar>(nodes);         
-         MatchFirstGrammar choice = new MatchFirstGrammar(copy, origin);  
+         MatchFirstGrammar choice = new MatchFirstGrammar(copy, origin, index);  
          
          return choice;
       }
