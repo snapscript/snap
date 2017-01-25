@@ -23,32 +23,46 @@ public class ReferenceBuilder {
       return new ReferenceMatcher(cache, grammar, name, index, length);
    }  
    
-   private static class ReferenceMatcher implements GrammarMatcher {
+   private static class ReferenceResolver {
       
       private final AtomicReference<GrammarMatcher> reference;
-      private final GrammarCache cache;
       private final Grammar grammar;
-      private final String name;
+      private final GrammarCache cache;
       private final int length;
-      private final int index;
       
-      public ReferenceMatcher(GrammarCache cache, Grammar grammar, String name, int index, int length) {
+      public ReferenceResolver(GrammarCache cache, Grammar grammar, int length) {
          this.reference = new AtomicReference<GrammarMatcher>();
          this.grammar = grammar;
          this.length = length;
-         this.cache = cache;
-         this.index = index;
-         this.name = name;
+         this.cache = cache;;
       }  
       
-      @Override
-      public boolean check(SyntaxChecker checker, int depth) {  
+      public GrammarMatcher resolve() {  
          GrammarMatcher matcher = reference.get();
          
          if(matcher == null) {
             matcher = grammar.create(cache, length);
             reference.set(matcher);
          }
+         return matcher;
+      }
+   }
+   
+   private static class ReferenceMatcher implements GrammarMatcher {
+      
+      private final ReferenceResolver resolver;
+      private final String name;
+      private final int index;
+      
+      public ReferenceMatcher(GrammarCache cache, Grammar grammar, String name, int index, int length) {
+         this.resolver = new ReferenceResolver(cache, grammar, length);
+         this.index = index;
+         this.name = name;
+      }  
+      
+      @Override
+      public boolean check(SyntaxChecker checker, int depth) {  
+         GrammarMatcher matcher = resolver.resolve();
          int mark = checker.mark(index);   
    
          if(mark != -1) {
@@ -63,12 +77,7 @@ public class ReferenceBuilder {
    
       @Override
       public boolean build(SyntaxBuilder builder, int depth) {  
-         GrammarMatcher matcher = reference.get();
-         
-         if(matcher == null) {
-            matcher = grammar.create(cache, length);
-            reference.set(matcher);
-         }
+         GrammarMatcher matcher = resolver.resolve();
          SyntaxBuilder child = builder.mark(index);   
    
          if(child != null) {
