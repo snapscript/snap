@@ -112,6 +112,9 @@ public class CompilePerformanceTest extends TestCase {
       for(int j=0;j<ITERATIONS;j++){
          checkMemory(source, script, compressed, maxLine);
       }
+      for(int j=0;j<ITERATIONS;j++){
+         checkMemoryForParseOnly(source, script, compressed, maxLine);
+      }
       return ResultType.getNormal();
    } 
    
@@ -156,5 +159,24 @@ public class CompilePerformanceTest extends TestCase {
       parseScript(source, script, compressed, maxLine);
       long after = bean.getThreadAllocatedBytes(id);
       System.out.println("parse memory=" + format.format(after - before));
+   }
+   
+   private static void checkMemoryForParseOnly(String source, String script, int compressed, int maxLine) throws Exception {
+      DecimalFormat format = new DecimalFormat("###,###,###,###,###");
+      SyntaxParser p=new SyntaxCompiler().compile();
+      ThreadMXBean bean = (ThreadMXBean) ManagementFactory.getThreadMXBean();
+      Thread thread = Thread.currentThread();
+      long id = thread.getId();
+      System.gc();
+      System.gc();
+      Thread.sleep(100);
+      long before = bean.getThreadAllocatedBytes(id);
+      long start=System.currentTimeMillis();
+      p.parse(source, script, "script");
+      long finish=System.currentTimeMillis();
+      long duration=finish-start;
+      long after = bean.getThreadAllocatedBytes(id);
+      System.out.println("Time taken to parse "+source+" was " + duration+" size was "+script.length() + " compressed to " + 
+               compressed + " and " + maxLine + " lines and memory used " + format.format(after - before));
    }
 }
