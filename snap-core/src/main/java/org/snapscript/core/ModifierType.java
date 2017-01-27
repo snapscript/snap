@@ -31,6 +31,10 @@ public enum ModifierType {
       return modifier >= 0 && (CONSTANT.mask & modifier) != 0;
    }  
    
+   public static boolean isVariable(int modifier){
+      return modifier >= 0 && (VARIABLE.mask & modifier) != 0;
+   }  
+   
    public static boolean isOverride(int modifier) {
       return modifier >= 0 && (OVERRIDE.mask & modifier) != 0;
    }

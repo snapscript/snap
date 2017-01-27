@@ -30,7 +30,7 @@ public class ModuleFunctionMatcher {
    }
 
    public FunctionPointer match(Module module, String name, Object... values) throws Exception {
-      Object key = builder.create(module, name, values);
+      Object key = builder.create(name, values);
       FunctionCache cache = table.get(module);
       Function function = cache.fetch(key); // static and module functions
       

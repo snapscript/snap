@@ -23,6 +23,13 @@ public class SyntaxParserTest extends TestCase {
    "trait Scene {}\n"+
    "class Sphere with Scene {}\n";
    
+   private static final String SOURCE_3 = 
+   "class Operation {\n"+
+   "   operate(){\n"+
+   "     return 'Operation.operate()'\n"+ 
+   "   }\n"+
+   "}\n";
+   
    public void testSimpleParser() throws Exception {
       System.err.println(SOURCE_1);
       SyntaxCompiler builder = new SyntaxCompiler();
@@ -35,5 +42,20 @@ public class SyntaxParserTest extends TestCase {
       SyntaxCompiler builder = new SyntaxCompiler();
       SyntaxParser parser = builder.compile();
       LexerBuilder.print(parser, SOURCE_2, "script");
+   }
+   
+   public void testSyntaxErrorParser() throws Exception {
+      boolean failure = false;
+      try {
+         System.err.println(SOURCE_3);
+         SyntaxCompiler builder = new SyntaxCompiler();
+         SyntaxParser parser = builder.compile();
+         LexerBuilder.print(parser, SOURCE_3, "script");
+      }catch(Exception e) {
+         assertEquals(e.getMessage(), "Syntax error at line 4");
+         failure = true;
+         e.printStackTrace();
+      }
+      assertTrue(failure);
    }
 }

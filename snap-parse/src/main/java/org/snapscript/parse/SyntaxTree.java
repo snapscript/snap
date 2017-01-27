@@ -45,9 +45,16 @@ public class SyntaxTree {
    public SyntaxBuilder build() {   
       int index = indexer.index(grammar);
       int mark = analyzer.mark();
-
-      if (mark == 0) {
-         throw new ParseException("Syntax has not been validated");
+      int count = analyzer.count();
+      
+      if(mark != count) {
+         int error = commit.get(); // last successful commit
+         Line line = analyzer.line(error);
+         
+         if(resource != null) {
+            throw new ParseException("Syntax error in '" + resource + "' at line " + line);
+         }  
+         throw new ParseException("Syntax error at line " + line);
       }
       analyzer.reset(0);
       stack.clear();

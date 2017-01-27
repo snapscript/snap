@@ -31,7 +31,7 @@ public class TypeFunctionMatcher {
    }
    
    public FunctionPointer match(Type type, String name, Object... values) throws Exception { 
-      Object key = builder.create(type, name, values); 
+      Object key = builder.create( name, values); 
       FunctionCache cache = table.get(type);
       Function function = cache.fetch(key); // static and module functions
       

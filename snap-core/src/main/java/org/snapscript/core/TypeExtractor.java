@@ -20,13 +20,14 @@ public class TypeExtractor {
    public Type getType(Object value) {
       if(value != null) {
          Class type = value.getClass();
+         
+         if(Handle.class.isAssignableFrom(type)) {
+            Handle handle = (Handle)value;
+            return handle.getHandle();
+         }
          Type match = matches.fetch(type);
          
-         if(match == null) {
-            if(Handle.class.isAssignableFrom(type)) {
-               Handle handle = (Handle)value;
-               return handle.getHandle();
-            }             
+         if(match == null) {    
             Type actual = loader.loadType(type);
             
             if(actual != null) {
