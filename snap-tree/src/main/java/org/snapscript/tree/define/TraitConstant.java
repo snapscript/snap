@@ -55,6 +55,7 @@ public class TraitConstant implements TypePart {
       String name = value.getString();
       
       if(!checker.isConstant()) {
+         throw new InternalStateException("Variable '" + name + "' for '" + type + "' must be constant");
       }
       Accessor accessor = new StaticAccessor(initializer, scope, type, name);
       Property property = new AccessorProperty(name, type, constraint, accessor, ModifierType.STATIC.mask | ModifierType.CONSTANT.mask);
