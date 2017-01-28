@@ -17,6 +17,18 @@ public class SparseArrayTest extends TestCase {
       }
    }
    
+   public void testSparseArrayGrowth() {
+      SparseArray sparseArray = new SparseArray(VALUES);
+      for(int i = 0; i <100; i++) {
+         int step = i*100;
+         sparseArray.set(VALUES +step, String.valueOf(i));
+      }
+      for(int i = 0; i <100; i++) {
+         int step = i*100;
+         assertEquals(sparseArray.get(VALUES +step), String.valueOf(i));
+      }
+   }
+   
    private static void compareWithBlock(int block){
       SparseArray sparseArray = new SparseArray(VALUES, block);
       Map hashMap = new HashMap(VALUES);

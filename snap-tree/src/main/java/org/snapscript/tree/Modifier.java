@@ -5,8 +5,9 @@ import org.snapscript.parse.StringToken;
 
 public class Modifier {
    
-   private final StringToken token;
-   
+   private ModifierType type;
+   private StringToken token;
+
    public Modifier(StringToken token) {
       this.token = token;
    }
@@ -14,10 +15,10 @@ public class Modifier {
    public ModifierType getType() {
       String name = token.getValue();
 
-      if(name != null) {
-         return ModifierType.resolveModifier(name);
+      if(type == null) {
+         type =  ModifierType.resolveModifier(name);
       }
-      return null;
-   }
+      return type;
+   } 
 
 }

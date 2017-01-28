@@ -2,25 +2,21 @@ package org.snapscript.core;
 
 import org.snapscript.common.Cache;
 import org.snapscript.common.CopyOnWriteCache;
+import org.snapscript.common.CopyOnWriteSparseArray;
+import org.snapscript.common.SparseArray;
 
 public class TypeCache<V> {
 
-   private volatile TypeCacheArray<V> array;
-   private volatile Cache<Type, V> cache;
-   private volatile CacheUpdater updater;
+   private final SparseArray<V> array;
+   private final Cache<Type, V> cache;
    
    public TypeCache() {
       this(1000);
    }
    
    public TypeCache(int capacity) {
-      this(capacity, 1000);
-   }
-   
-   public TypeCache(int capacity, int expand) {
-      this.array = new TypeCacheArray<V>(capacity, expand);
-      this.cache = new CopyOnWriteCache<Type, V>();
-      this.updater = new CacheUpdater(capacity);
+      this.array = new CopyOnWriteSparseArray<V>(capacity); // for order > 0
+      this.cache = new CopyOnWriteCache<Type, V>(); // for order = 0
    }
 
    public V take(Type type) {
@@ -29,12 +25,7 @@ public class TypeCache<V> {
       if(order == 0) {
          return cache.take(type);
       }
-      int length = array.length();
-      
-      if(length > order) {
-         return updater.take(order);
-      }
-      return null;
+      return array.remove(order);
    }
 
    public V fetch(Type type) {
@@ -43,12 +34,7 @@ public class TypeCache<V> {
       if(order == 0) {
          return cache.fetch(type);
       }
-      int length = array.length();
-      
-      if(length > order) {
-         return array.get(order);
-      }
-      return null;
+      return array.get(order);
    }
 
    public boolean contains(Type type) {
@@ -57,12 +43,7 @@ public class TypeCache<V> {
       if(order == 0) {
          return cache.contains(type);
       }
-      int length = array.length();
-      
-      if(length > order) {
-         return array.get(order) != null;
-      }
-      return false;
+      return array.get(order) != null;
    }
 
    public void cache(Type type, V value) {
@@ -71,41 +52,6 @@ public class TypeCache<V> {
       if(order == 0) {
          cache.cache(type, value);
       }
-      int length = array.length();
-      
-      if(length > order) {
-         array.set(order, value);
-      } else {
-         updater.cache(order, value);
-      }
-   }
-
-   private class CacheUpdater {
-      
-      private final int expand;
-      
-      public CacheUpdater(int expand) {
-         this.expand = expand;
-      }
-      
-      public synchronized void cache(int order, V value) {
-         int length = array.length();
-         
-         if(order >= length) {
-            TypeCacheArray<V> copy = array.copy(order + expand);
-
-            copy.set(order, value);
-            array = copy;
-         }
-      }
-      
-      public synchronized V take(int order) {
-         int length = array.length();
-         
-         if(length > order) {
-            return array.set(order, null);
-         }
-         return null;
-      }
+      array.set(order, value);
    }
 }

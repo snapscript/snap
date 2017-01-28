@@ -1,5 +1,6 @@
 package org.snapscript.core.bind;
 
+import org.snapscript.core.Type;
 import org.snapscript.core.TypeExtractor;
 
 public class FunctionKeyBuilder {
@@ -12,7 +13,7 @@ public class FunctionKeyBuilder {
 
    public Object create(String function, Object... list) throws Exception {
       if(list.length > 0) {
-         Object[] types = new Object[list.length];
+         Type[] types = new Type[list.length];
          
          for(int i = 0; i < list.length; i++) {
             Object value = list[i];

@@ -1,11 +1,14 @@
 package org.snapscript.core.bind;
 
+import org.snapscript.core.Type;
+
 public class FunctionKey {      
 
-   private final Object[] types;
-   private final String function;
+   private Type[] types;
+   private String function;
+   private int hash;
    
-   public FunctionKey(String function, Object[] types) {
+   public FunctionKey(String function, Type[] types) {
       this.function = function;
       this.types = types;
    }
@@ -32,10 +35,19 @@ public class FunctionKey {
    
    @Override
    public int hashCode() {
-      int hash = function.hashCode();
-      
-      hash = hash *31 + types.length;
-      
+      if(hash == 0) {
+         int value = function.hashCode();
+         
+         for(Type type : types) {
+            int order = 1;
+            
+            if(type != null) {
+               order = type.getOrder();
+            }
+            value = value *31 + order;
+         }
+         hash = value;
+      }
       return hash;
    }
 }
