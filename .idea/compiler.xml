@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="snap-common" />
+        <module name="snap-compile" />
+        <module name="snap-core" />
+        <module name="snap-parse" />
+        <module name="snap-tree" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="snap" target="1.6" />
+      <module name="snap-common" target="1.6" />
+      <module name="snap-compile" target="1.6" />
+      <module name="snap-core" target="1.6" />
+      <module name="snap-parse" target="1.6" />
+      <module name="snap-tree" target="1.6" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
