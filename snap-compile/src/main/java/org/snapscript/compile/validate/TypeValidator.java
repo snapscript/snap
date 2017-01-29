@@ -86,7 +86,7 @@ public class TypeValidator {
             properties.validate(property);
          }
          if(matches == 0) {
-            throw new InternalStateException("Type '" + type + "' have property '" + require + "'");
+            throw new InternalStateException("Type '" + type + "' has no property '" + require + "'");
          }
       }
    }
