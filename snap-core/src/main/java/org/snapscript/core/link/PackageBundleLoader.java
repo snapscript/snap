@@ -59,9 +59,9 @@ public class PackageBundleLoader {
             FuturePackage result = new FuturePackage(task, path);    
             
             if(registry.putIfAbsent(path, result) == null) {
-               task.run();
+               task.run(); // call a validate method here
             }
-            return registry.get(path);
+            return registry.get(path); // return the future package
          }
       }
       return module;  

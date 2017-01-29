@@ -39,8 +39,8 @@ public class ClassBuilder extends Statement {
       Scope scope = type.getScope();
       
       annotations.apply(scope, type);
-      hierarchy.update(scope, type); 
       builder.declare(scope, type);
+      hierarchy.update(scope, type); // this may throw exception if missing type
       
       return ResultType.getNormal(type);
    }

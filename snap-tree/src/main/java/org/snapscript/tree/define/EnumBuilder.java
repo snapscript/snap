@@ -40,8 +40,8 @@ public class EnumBuilder extends Statement {
       Type type = module.getType(alias);
       Scope scope = type.getScope();
       
-      hierarchy.update(scope, type); 
       builder.declare(scope, type, values);
+      hierarchy.update(scope, type); // this may throw exception if missing type
       
       return ResultType.getNormal(type);
    }

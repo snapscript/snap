@@ -38,10 +38,10 @@ public class StatementPackage implements Package {
          
          if(reference.compareAndSet(null, result)) {
             task.run();
-            return definition;
+            return result; // must be future package for errors
          }
       }
-      return reference.get();
+      return reference.get(); // return future package
    }
    
    private class Executable implements Callable<PackageDefinition> {

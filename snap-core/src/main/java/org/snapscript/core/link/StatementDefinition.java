@@ -40,10 +40,10 @@ public class StatementDefinition implements PackageDefinition {
             
             if(reference.compareAndSet(null, result)) {
                task.run();
-               return statement;
+               return result;
             }
          }
-         return reference.get();
+         return reference.get(); // return future package
       }
       return empty;
    }
