@@ -6,7 +6,6 @@ import org.snapscript.core.Module;
 import org.snapscript.core.ModuleRegistry;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
-import org.snapscript.core.SystemConsole;
 import org.snapscript.core.TypeLoader;
 import org.snapscript.core.link.Package;
 import org.snapscript.core.link.PackageDefinition;
@@ -40,35 +39,22 @@ public class ScopeExtension {
    }
    
    public void printf(Scope scope, Object value, Object... values)  throws Exception{
-      Module module = scope.getModule();
-      Context context = module.getContext();
-      SystemConsole console = context.getConsole();
+      String text = String.valueOf(value);
+      String result = String.format(text, values);
       
-      console.printf(value, values);
+      System.out.print(result);
    }   
    
    public void print(Scope scope, Object value)  throws Exception{
-      Module module = scope.getModule();
-      Context context = module.getContext();
-      SystemConsole console = context.getConsole();
-      
-      console.print(value);
+      System.out.print(value);
    }
    
    public void println(Scope scope, Object value) throws Exception{
-      Module module = scope.getModule();
-      Context context = module.getContext();
-      SystemConsole console = context.getConsole();
-      
-      console.println(value);
+      System.out.println(value);
    }
    
    public void println(Scope scope) throws Exception{
-      Module module = scope.getModule();
-      Context context = module.getContext();
-      SystemConsole console = context.getConsole();
-      
-      console.println();
+      System.out.println();
    }
    
    public void sleep(Scope scope, long time) throws Exception {

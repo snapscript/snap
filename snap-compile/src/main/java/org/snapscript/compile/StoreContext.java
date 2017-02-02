@@ -5,11 +5,9 @@ import java.util.concurrent.Executor;
 import org.snapscript.compile.assemble.ExecutorLinker;
 import org.snapscript.compile.assemble.OperationEvaluator;
 import org.snapscript.compile.validate.ExecutableValidator;
-import org.snapscript.core.Console;
 import org.snapscript.core.Context;
 import org.snapscript.core.ExpressionEvaluator;
 import org.snapscript.core.ModuleRegistry;
-import org.snapscript.core.SystemConsole;
 import org.snapscript.core.ProgramValidator;
 import org.snapscript.core.ResourceManager;
 import org.snapscript.core.StoreManager;
@@ -34,7 +32,6 @@ public class StoreContext implements Context {
    private final FunctionBinder binder;
    private final TypeExtractor extractor;
    private final ModuleRegistry registry;
-   private final SystemConsole console;
    private final ErrorHandler handler;
    private final ProxyWrapper wrapper;
    private final PackageLinker linker;
@@ -46,10 +43,6 @@ public class StoreContext implements Context {
    }
    
    public StoreContext(Store store, Executor executor){
-      this(store, executor, null);
-   }
-   
-   public StoreContext(Store store, Executor executor, Console console){
       this.stack = new ThreadStack();
       this.wrapper = new ProxyWrapper(this);
       this.handler = new ErrorHandler(stack);
@@ -63,7 +56,6 @@ public class StoreContext implements Context {
       this.validator = new ExecutableValidator(matcher, extractor);
       this.binder = new FunctionBinder(extractor, stack);
       this.evaluator = new OperationEvaluator(this);
-      this.console = new SystemConsole(console);
    }
    
    @Override
@@ -114,12 +106,7 @@ public class StoreContext implements Context {
    @Override
    public ModuleRegistry getRegistry() {
       return registry;
-   }   
-   
-   @Override
-   public SystemConsole getConsole() {
-      return console;
-   }
+   }  
 
    @Override
    public FunctionBinder getBinder() {
