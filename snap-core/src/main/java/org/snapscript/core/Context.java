@@ -19,6 +19,7 @@ public interface Context extends Any {
    TraceInterceptor getInterceptor();
    ExpressionEvaluator getEvaluator();
    FunctionBinder getBinder();
+   SystemConsole getConsole();
    PackageLinker getLinker();
    ProxyWrapper getWrapper();
    TypeLoader getLoader();  
