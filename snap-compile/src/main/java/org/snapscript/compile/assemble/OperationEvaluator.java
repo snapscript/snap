@@ -1,45 +1,32 @@
 package org.snapscript.compile.assemble;
 
 import static org.snapscript.core.Reserved.DEFAULT_PACKAGE;
-import static org.snapscript.tree.Instruction.EXPRESSION;
 
-import org.snapscript.common.Cache;
-import org.snapscript.common.LeastRecentlyUsedCache;
+import java.util.concurrent.Executor;
+
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.ExpressionEvaluator;
-import org.snapscript.core.FilePathConverter;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Model;
-import org.snapscript.core.Path;
-import org.snapscript.core.PathConverter;
 import org.snapscript.core.Scope;
 import org.snapscript.core.ScopeMerger;
 import org.snapscript.core.Value;
-import org.snapscript.parse.SyntaxCompiler;
-import org.snapscript.parse.SyntaxNode;
-import org.snapscript.parse.SyntaxParser;
 
 public class OperationEvaluator implements ExpressionEvaluator {
    
-   private final Cache<String, Evaluation> cache;
-   private final PathConverter converter;
-   private final SyntaxCompiler compiler;
+   private final EvaluationBuilder builder;
    private final ScopeMerger merger;
    private final Assembler assembler;
-   private final int limit;
    
-   public OperationEvaluator(Context context){
-      this(context, 200);
+   public OperationEvaluator(Context context, Executor executor){
+      this(context, executor, 200);
    }
    
-   public OperationEvaluator(Context context, int limit) {
-      this.cache = new LeastRecentlyUsedCache<String, Evaluation>();
+   public OperationEvaluator(Context context, Executor executor, int limit) {
       this.assembler = new OperationAssembler(context);
-      this.converter = new FilePathConverter();
+      this.builder = new EvaluationBuilder(assembler, executor, limit);
       this.merger = new ScopeMerger(context);
-      this.compiler = new SyntaxCompiler();
-      this.limit = limit;
    }
    
    @Override
@@ -59,22 +46,9 @@ public class OperationEvaluator implements ExpressionEvaluator {
    }
    
    @Override
-   public <T> T evaluate(Scope scope, String source, String module) throws Exception{
-      Evaluation evaluation = cache.fetch(source);
-      
+   public <T> T evaluate(Scope scope, String source, String module) throws Exception{ 
       try {
-         if(evaluation == null) {
-            SyntaxParser parser = compiler.compile();
-            SyntaxNode node = parser.parse(module, source, EXPRESSION.name);
-            Path path = converter.createPath(module);
-            int length = source.length();
-            
-            evaluation = assembler.assemble(node, path);
-            
-            if(length < limit) {
-               cache.cache(source, evaluation);
-            }
-         }
+         Evaluation evaluation = builder.create(source, module);
          Value reference = evaluation.evaluate(scope,null);
          
          return (T)reference.getValue();

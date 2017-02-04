@@ -53,11 +53,9 @@ public class MatchOneGrammar implements Grammar {
             GrammarMatcher best = cache.get(position);
             
             if(best == null) {
-               int count = matchers.size();
                int size = -1;     
                   
-               for(int i = 0; i < count; i++) {
-                  GrammarMatcher matcher = matchers.get(i);
+               for(GrammarMatcher matcher : matchers) {
                   int mark = checker.mark(index);   
          
                   if(mark != -1) {
@@ -96,11 +94,9 @@ public class MatchOneGrammar implements Grammar {
             GrammarMatcher best = cache.get(position);
             
             if(best == null) {
-               int count = matchers.size();
                int size = -1;     
                   
-               for(int i = 0; i < count; i++) {
-                  GrammarMatcher matcher = matchers.get(i);
+               for(GrammarMatcher matcher : matchers) {
                   SyntaxBuilder child = builder.mark(index);   
          
                   if(child != null) {

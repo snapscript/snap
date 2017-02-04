@@ -42,7 +42,7 @@ public class ScriptFunction extends Statement {
       Signature signature = parameters.create(scope);
       String name = extractor.extract(scope);
       Type returns = constraint.extract(scope);
-      Function function = builder.create(signature, returns, name);
+      Function function = builder.create(signature, module, returns, name);
       
       functions.add(function);
       body.compile(scope);

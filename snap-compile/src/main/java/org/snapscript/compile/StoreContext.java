@@ -55,7 +55,7 @@ public class StoreContext implements Context {
       this.extractor = new TypeExtractor(loader);
       this.validator = new ExecutableValidator(matcher, extractor);
       this.binder = new FunctionBinder(extractor, stack);
-      this.evaluator = new OperationEvaluator(this);
+      this.evaluator = new OperationEvaluator(this, executor);
    }
    
    @Override

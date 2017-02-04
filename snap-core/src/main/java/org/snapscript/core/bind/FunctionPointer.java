@@ -2,6 +2,7 @@ package org.snapscript.core.bind;
 
 import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
+import org.snapscript.core.Type;
 import org.snapscript.core.function.ArgumentConverter;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
@@ -25,12 +26,17 @@ public class FunctionPointer {
       ArgumentConverter converter = signature.getConverter();
       Object[] list = converter.convert(arguments);
       Invocation invocation = function.getInvocation();
+      Type type = function.getType();
       
       try {
-         stack.before(function);
+         if(type != null) {
+            stack.before(function);
+         }
          return invocation.invoke(scope, object, list);
       } finally {
-         stack.after(function);
+         if(type != null) {
+            stack.after(function);
+         }
       }
    }
 }

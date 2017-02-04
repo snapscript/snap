@@ -54,11 +54,8 @@ public class MatchFirstGrammar implements Grammar {
             
             if(best == null) {
                int mark = checker.mark(index);
-               int count = matchers.size();    
                   
-               for(int i = 0; i < count; i++) {
-                  GrammarMatcher matcher = matchers.get(i);   
-         
+               for(GrammarMatcher matcher : matchers) {
                   if(matcher.check(checker, depth + 1)) {
                      cache.set(position, matcher);
                      return true;
@@ -85,11 +82,7 @@ public class MatchFirstGrammar implements Grammar {
             GrammarMatcher best = cache.get(position);
             
             if(best == null) {
-               int count = matchers.size();    
-                  
-               for(int i = 0; i < count; i++) {
-                  GrammarMatcher matcher = matchers.get(i);   
-         
+               for(GrammarMatcher matcher : matchers) {
                   if(matcher.build(builder, depth + 1)) {
                      cache.set(position, matcher);
                      return true;

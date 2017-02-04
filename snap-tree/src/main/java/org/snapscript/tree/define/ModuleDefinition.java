@@ -44,7 +44,7 @@ public class ModuleDefinition extends Statement {
       
       state.add(TYPE_THIS, value);
       
-      return body.compile(inner); 
+      return body.compile(inner); // must be module scope
    }
    
    @Override
