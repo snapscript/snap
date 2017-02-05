@@ -29,7 +29,7 @@ public class ScopeExtension {
    public <T> T eval(Scope scope, String source, String name) throws Exception {
       ExpressionEvaluator executor = context.getEvaluator();
       ModuleRegistry registry = context.getRegistry();
-      Module module = registry.getModule(name);
+      Module module = registry.addModule(name);
       Scope inner = module.getScope();
       
       return executor.evaluate(inner, source, name);
