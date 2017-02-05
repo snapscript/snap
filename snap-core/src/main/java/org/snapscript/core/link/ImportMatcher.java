@@ -85,7 +85,7 @@ public class ImportMatcher {
             return module;
          }
       }
-      return null;
+      return importModule(from, name); // import from current package
    }
    
    private Module importModule(String prefix, String name) throws Exception {
