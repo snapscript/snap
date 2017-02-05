@@ -19,7 +19,8 @@ public enum Syntax {
    THIS("this", "'this'"),
    CLASS("class", "'class'"),
    SUPER("super", "'super'"),
-   VARIABLE("variable", "{<this>|<class>|[identifier]|[type]}"),          // ((array[x])[x] -> (<var>[])
+   MODULE("module", "'module'"),
+   VARIABLE("variable", "{<this>|<class>|<module>|[identifier]|[type]}"),          // ((array[x])[x] -> (<var>[])
    VARIABLE_REFERENCE("variable-reference", "{<super>|<variable>}"),
    RANGE("range", "<number>'..'<number>"),
    COLLECTION_INDEX("collection-index", "<variable-reference>('['<argument>']')*{'('<reference-invocation>')'|'['<reference-index>']'}"), 

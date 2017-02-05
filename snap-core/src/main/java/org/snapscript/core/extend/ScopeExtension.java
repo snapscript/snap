@@ -26,6 +26,15 @@ public class ScopeExtension {
       return executor.evaluate(scope, source, name);
    }
    
+   public <T> T eval(Scope scope, String source, String name) throws Exception {
+      ExpressionEvaluator executor = context.getEvaluator();
+      ModuleRegistry registry = context.getRegistry();
+      Module module = registry.getModule(name);
+      Scope inner = module.getScope();
+      
+      return executor.evaluate(inner, source, name);
+   }
+   
    public Module load(Scope scope, String name) throws Exception {
       ModuleRegistry registry = context.getRegistry();
       TypeLoader loader = context.getLoader();

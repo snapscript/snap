@@ -96,6 +96,7 @@ public enum Instruction {
    TEMPLATE(TextTemplate.class, "template"),
    CONSTRUCTOR(TextLiteral.class, "constructor"),
    CLASS(TextLiteral.class, "class"), // identifier
+   MODULE(TextLiteral.class, "module"), // identifier
    TYPE(TextLiteral.class, "type"),  // identifier
    TEXT(TextLiteral.class, "text"),
    THIS(TextLiteral.class, "this"), // identifier
