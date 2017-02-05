@@ -18,7 +18,7 @@ public class FunctionBuilder {
    }
 
    public Function create(Signature signature, Module module, Type constraint, String name) {
-      Type type = new FunctionType(signature, module);
+      Type type = new FunctionType(signature, module, null);
       Invocation invocation = new StatementInvocation(signature, statement, constraint);
       
       return new InvocationFunction(signature, invocation, type, constraint, name, 0);

@@ -19,12 +19,18 @@ public class FunctionType implements Type {
    private final Function function;
    private final Module module;
    private final Scope scope;
+   private final String name;
    
    public FunctionType(Signature signature, Module module) {
+      this(signature, module, METHOD_CLOSURE); // poor name for hash?
+   }
+   
+   public FunctionType(Signature signature, Module module, String name) {
       this.function = new EmptyFunction(signature, METHOD_CLOSURE);
       this.description = new TypeDescription(this);
       this.scope = new TypeScope(this);
       this.module = module;
+      this.name = name;
    }
    
    @Override
@@ -74,7 +80,7 @@ public class FunctionType implements Type {
 
    @Override
    public String getName() {
-      return METHOD_CLOSURE; // poor name for hash?
+      return name; 
    }
    
    @Override

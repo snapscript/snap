@@ -29,8 +29,11 @@ public class FunctionDescription {
          
          builder.append(prefix);
          builder.append(".");
-         builder.append(name);
-         builder.append(".");
+         
+         if(name != null) {
+            builder.append(name);
+            builder.append(".");
+         }
       } 
       builder.append(name);
       builder.append(description);

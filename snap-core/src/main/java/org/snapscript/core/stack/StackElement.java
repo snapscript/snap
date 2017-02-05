@@ -3,6 +3,7 @@ package org.snapscript.core.stack;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
 import org.snapscript.core.Type;
+import org.snapscript.core.TypeNameBuilder;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.trace.Trace;
 
@@ -10,6 +11,7 @@ public class StackElement {
    
    private static final String MAIN_FUNCTION = "main";
    
+   private final TypeNameBuilder builder;
    private final Function function;
    private final Trace trace;
    
@@ -18,6 +20,7 @@ public class StackElement {
    }
    
    public StackElement(Trace trace, Function function) {
+      this.builder = new TypeNameBuilder();
       this.function = function;
       this.trace = trace;
    }
@@ -41,9 +44,10 @@ public class StackElement {
          if(type != null) {
             Module parent = type.getModule();
             String prefix = parent.getName();
-            String suffix = type.getName();
+            String suffix = type.getName(); // module functions have no type name
+            String qualifier = builder.createFullName(prefix, suffix);
             
-            return new StackTraceElement(prefix + "." + suffix, name, resource, line);
+            return new StackTraceElement(qualifier, name, resource, line);
          }
          return new StackTraceElement(module, name, resource, line);
       }

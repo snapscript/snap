@@ -38,14 +38,13 @@ public class TypeNameBuilder implements NameBuilder {
    
    @Override
    public String createFullName(String module, String name) {
-      if(module != null) { // is a null module legal?
-         int length = module.length();
-         
-         if(length > 0) {
-            return module + "." + name;
-         }
+      if(module == null) { // is a null module legal?
+         return name;
       }
-      return name;
+      if(name == null) {
+         return module;
+      }
+      return module + "." + name;
    }
    
    @Override
@@ -58,11 +57,7 @@ public class TypeNameBuilder implements NameBuilder {
       String bounds = DIMENSIONS[size];
       
       if(module != null) { // is a null module legal?
-         int length = module.length();
-         
-         if(length > 0) {
-            return module + "." + name + bounds;
-         }
+         return createFullName(module, name) + bounds;
       }
       return name + bounds;
    }

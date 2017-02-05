@@ -16,8 +16,11 @@ public class TypeDescription {
          Module module = type.getModule();
          
          builder.append(module);
-         builder.append(".");
-         builder.append(name);
+         
+         if(name != null) {
+            builder.append(".");
+            builder.append(name);
+         }
       }
       return builder.toString();
    }
