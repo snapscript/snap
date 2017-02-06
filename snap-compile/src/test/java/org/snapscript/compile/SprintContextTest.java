@@ -12,11 +12,11 @@ import java.util.Map;
 
 public class SprintContextTest extends TestCase {
 
-    private static interface ApplicationContext {
+    public static interface ApplicationContext {
         <T> T getBean(String name);
     }
 
-    private static class MapApplicationContext implements ApplicationContext {
+    public static class MapApplicationContext implements ApplicationContext {
 
         private final Map<String, Object> beans;
 
@@ -30,7 +30,7 @@ public class SprintContextTest extends TestCase {
         }
     }
 
-    private static class ApplicationContextModel implements Model {
+    public static class ApplicationContextModel implements Model {
 
         private final ApplicationContext context;
 
@@ -43,21 +43,29 @@ public class SprintContextTest extends TestCase {
         }
     }
 
-    private static class Foo {
+    public static class Foo {
 
         public String callFoo(Bar bar, int value) {
             return "bar=" + bar + " value="+value;
         }
+
+        public String doFunc(FuncInterface func, Bar bar) {
+            return func.callFunc(11, "blah", bar);
+        }
     }
 
-    private static class BarFactory {
+    public static class BarFactory {
 
         public Bar createBar(String name, int value) {
             return new Bar(name, value);
         }
     }
 
-    private static class Bar {
+    public static interface FuncInterface{
+        String callFunc(int value, String text, Bar bar);
+    }
+
+    public static class Bar {
 
         private final String name;
         private final int value;
@@ -81,7 +89,7 @@ public class SprintContextTest extends TestCase {
         }
     }
 
-    private static ApplicationContext createMockApplicationContext(){
+    public static ApplicationContext createMockApplicationContext(){
         Map<String, Object> beans = new HashMap<String, Object>();
         beans.put("foo", new Foo());
         beans.put("barFactory", new BarFactory());
@@ -105,7 +113,20 @@ public class SprintContextTest extends TestCase {
         ExpressionEvaluator evaluator = createEvaluator();
         Model model = createModelAdapter(context); // provide an adapter to the Spring context
 
+        // basic bean references and math
         assertEquals("bar=(blah, 33) value=44", evaluator.evaluate(model, "foo.callFoo(barFactory.createBar('blah', 11 + x), 44f)"));
-        assertEquals("bar=(xx, 3456) value=-94", evaluator.evaluate(model, "foo.callFoo(barFactory.createBar('xx', 3456), -94)"));
+        assertEquals("bar=(xx, 3456) value=-94", evaluator.evaluate(model, "foo.callFoo(barFactory.createBar('xx', Math.round(3456.33)), -94)"));
+
+        // function interfaces
+        assertEquals("a=11, b=blah, c=(xx, 3456)", evaluator.evaluate(model, "foo.doFunc((a, b, c) -> \"a=${a}, b=${b}, c=${c}\", barFactory.createBar('xx', Math.round(3456.33)))"));
+        assertEquals("a=11, b=blah, c=(xx, 3456)", evaluator.evaluate(model,
+                "foo.doFunc((a, b, c) -> {\n"+
+                "   for(var i in 0..10){\n"+
+                "        println(\"i=${i} a=${a}\");\n"+
+                "   }\n"+
+                "   var bar = barFactory.createBar('nee', 5);\n"+
+                "   println('bar='+bar);\n"+
+                "   return \"a=${a}, b=${b}, c=${c}\";\n"+
+                "}, barFactory.createBar('xx', Math.round(3456.33)))"));
     }
 }
