@@ -81,15 +81,28 @@ public class SprintContextTest extends TestCase {
         }
     }
 
-    public void testContextModel() throws Exception {
+    private static ApplicationContext createMockApplicationContext(){
         Map<String, Object> beans = new HashMap<String, Object>();
         beans.put("foo", new Foo());
         beans.put("barFactory", new BarFactory());
-        ApplicationContext mock = new MapApplicationContext(beans);
-        Model model = new ApplicationContextModel(mock);
+
+        return new MapApplicationContext(beans);
+    }
+
+    public static Model createModelAdapter(ApplicationContext context) {
+        return new ApplicationContextModel(context);
+    }
+
+    public static ExpressionEvaluator createEvaluator() {
         Store store = new ClassPathStore();
         Context context = new StoreContext(store);
-        ExpressionEvaluator evaluator = context.getEvaluator();
+        return context.getEvaluator();
+    }
+
+    public void testContextModel() throws Exception {
+        ApplicationContext context = createMockApplicationContext();
+        ExpressionEvaluator evaluator = createEvaluator();
+        Model model = createModelAdapter(context); // provide an adapter to the Spring context
 
         assertEquals("bar=(blah, 11) value=44", evaluator.evaluate(model, "foo.callFoo(barFactory.createBar('blah', 11), 44f)"));
         assertEquals("bar=(xx, 3456) value=-94", evaluator.evaluate(model, "foo.callFoo(barFactory.createBar('xx', 3456), -94)"));
