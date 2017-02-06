@@ -85,6 +85,7 @@ public class SprintContextTest extends TestCase {
         Map<String, Object> beans = new HashMap<String, Object>();
         beans.put("foo", new Foo());
         beans.put("barFactory", new BarFactory());
+        beans.put("x", 22); // put in a simple variable
 
         return new MapApplicationContext(beans);
     }
@@ -104,7 +105,7 @@ public class SprintContextTest extends TestCase {
         ExpressionEvaluator evaluator = createEvaluator();
         Model model = createModelAdapter(context); // provide an adapter to the Spring context
 
-        assertEquals("bar=(blah, 11) value=44", evaluator.evaluate(model, "foo.callFoo(barFactory.createBar('blah', 11), 44f)"));
+        assertEquals("bar=(blah, 33) value=44", evaluator.evaluate(model, "foo.callFoo(barFactory.createBar('blah', 11 + x), 44f)"));
         assertEquals("bar=(xx, 3456) value=-94", evaluator.evaluate(model, "foo.callFoo(barFactory.createBar('xx', 3456), -94)"));
     }
 }
