@@ -4,19 +4,15 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
-
 import org.snapscript.core.Context;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.Value;
-import org.snapscript.core.property.ConstantProperty;
 import org.snapscript.core.property.ConstantPropertyBuilder;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.property.PropertyValue;
-
-import static org.snapscript.core.ModifierType.CONSTANT;
 
 public class ObjectResolver implements ValueResolver<Object> {
    
