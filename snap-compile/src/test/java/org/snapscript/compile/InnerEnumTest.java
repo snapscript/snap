@@ -4,7 +4,13 @@ import junit.framework.TestCase;
 
 public class InnerEnumTest extends TestCase {
 
-   private static final String SOURCE = 
+   public enum Config{
+      A_888,
+      B_888,
+      C_888
+   }
+
+   private static final String SOURCE_1 =
    "class Palatte {\n"+
    "\n"+
    "   enum Color {\n"+
@@ -37,11 +43,22 @@ public class InnerEnumTest extends TestCase {
    "   }\n"+
    "}\n"+
    "println(Palatte.Color.RED);\n";
-         
+
+   private static final String SOURCE_2 =
+   "import org.snapscript.compile.InnerEnumTest;\n"+
+   "println(InnerEnumTest.Config.A_888);\n";
+
    public void testInnerEnum() throws Exception {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
-      System.err.println(SOURCE);
-      Executable executable = compiler.compile(SOURCE);
+      System.err.println(SOURCE_1);
+      Executable executable = compiler.compile(SOURCE_1);
+      executable.execute();
+   }
+
+   public void testNativeInnerEnum() throws Exception {
+      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
+      System.err.println(SOURCE_2);
+      Executable executable = compiler.compile(SOURCE_2);
       executable.execute();
    }
 }

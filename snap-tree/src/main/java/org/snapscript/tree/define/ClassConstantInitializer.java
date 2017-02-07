@@ -12,6 +12,7 @@ import org.snapscript.core.State;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.ValueType;
+import org.snapscript.core.property.ConstantPropertyBuilder;
 import org.snapscript.core.property.Property;
 
 public class ClassConstantInitializer {

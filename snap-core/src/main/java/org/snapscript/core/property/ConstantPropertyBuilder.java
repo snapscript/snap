@@ -1,4 +1,4 @@
-package org.snapscript.tree.define;
+package org.snapscript.core.property;
 
 import static org.snapscript.core.ModifierType.CONSTANT;
 

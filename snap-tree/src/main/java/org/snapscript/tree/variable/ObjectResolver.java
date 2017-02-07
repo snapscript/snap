@@ -4,22 +4,31 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
+
 import org.snapscript.core.Context;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.Value;
+import org.snapscript.core.property.ConstantProperty;
+import org.snapscript.core.property.ConstantPropertyBuilder;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.property.PropertyValue;
+
+import static org.snapscript.core.ModifierType.CONSTANT;
 
 public class ObjectResolver implements ValueResolver<Object> {
    
    private final AtomicReference<Property> reference;
+   private final ConstantPropertyBuilder builder;
+   private final ModuleConstantFinder matcher;
    private final String name;
    
    public ObjectResolver(String name) {
       this.reference = new AtomicReference<Property>();
+      this.builder = new ConstantPropertyBuilder();
+      this.matcher = new ModuleConstantFinder();
       this.name = name;
    }
    
@@ -40,9 +49,9 @@ public class ObjectResolver implements ValueResolver<Object> {
    }
    
    public Property match(Scope scope, Object left) {
-      Module module = scope.getModule();
       Class type = left.getClass();
       String alias = type.getName();
+      Module module = scope.getModule();
       Type source = module.getType(alias);
       
       if(source != null) {
@@ -70,6 +79,12 @@ public class ObjectResolver implements ValueResolver<Object> {
          if(field.equals(name)) {
             return property;
          }
+      }
+      Scope outer = type.getScope();
+      Object value = matcher.find(outer, name);
+
+      if(value != null) {
+         return builder.createConstant(name, value);
       }
       return null;
    }
