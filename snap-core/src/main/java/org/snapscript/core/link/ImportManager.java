@@ -59,7 +59,9 @@ public class ImportManager {
                module = registry.getModule(alias);
             }
          }
-         if(module == null) {
+         Type type = getType(name); // do a quick check
+         
+         if(module == null && type == null) {
             module = matcher.importModule(imports, name);
          }
          return module;

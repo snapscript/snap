@@ -1,6 +1,8 @@
 package org.snapscript.core.link;
 
+import java.util.Set;
 import java.util.concurrent.Callable;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 import org.snapscript.core.Context;
 import org.snapscript.core.FilePathConverter;
@@ -17,10 +19,12 @@ import org.snapscript.core.TypeLoader;
 public class ImportTaskResolver {
 
    private final PathConverter converter;
+   private final Set<Path> imports;
    private final Module parent;
    private final Path from;
    
    public ImportTaskResolver(Module parent, Path from) {
+      this.imports = new CopyOnWriteArraySet<Path>();
       this.converter = new FilePathConverter();
       this.parent = parent;
       this.from = from;
@@ -70,11 +74,14 @@ public class ImportTaskResolver {
       @Override
       public Type call() {
          try {
-            Scope scope = parent.getScope();
-            PackageDefinition definition = module.define(scope);
-            Statement statement = definition.compile(scope, from);
+            if(!imports.contains(path)) {
+               Scope scope = parent.getScope();
+               PackageDefinition definition = module.define(scope);
+               Statement statement = definition.compile(scope, from);
             
-            statement.execute(scope); 
+               statement.execute(scope); 
+               imports.add(path);
+            }
          } catch(Exception e) {
             throw new InternalStateException("Could not import '" + path+"'", e);
          }
@@ -99,11 +106,14 @@ public class ImportTaskResolver {
       @Override
       public Module call() {
          try {
-            Scope scope = parent.getScope();
-            PackageDefinition definition = module.define(scope);
-            Statement statement = definition.compile(scope, from);
-            
-            statement.execute(scope); 
+            if(!imports.contains(path)) {
+               Scope scope = parent.getScope();
+               PackageDefinition definition = module.define(scope);
+               Statement statement = definition.compile(scope, from);
+               
+               statement.execute(scope); 
+               imports.add(path);
+            }
          } catch(Exception e) {
             throw new InternalStateException("Could not import '" + path+"'", e);
          }

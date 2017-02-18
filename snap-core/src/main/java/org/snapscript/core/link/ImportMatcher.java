@@ -32,7 +32,7 @@ public class ImportMatcher {
       for(String prefix : prefixes) {
          Module match = registry.getModule(prefix);
          
-         if(match != parent) {
+         if(match != parent && match != null) {
             Type type = match.getType(name); // get imports from the outer module if it exists
 
             if(type != null) {

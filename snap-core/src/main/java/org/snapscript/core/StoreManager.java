@@ -3,6 +3,7 @@ package org.snapscript.core;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
+import org.snapscript.core.store.CacheStore;
 import org.snapscript.core.store.NotFoundException;
 import org.snapscript.core.store.Store;
 import org.snapscript.core.store.StoreException;
@@ -13,11 +14,15 @@ public class StoreManager implements ResourceManager {
    private final int read;
    
    public StoreManager(Store store) {
-      this(store, 8192);
+      this(store, 100);
    }
    
-   public StoreManager(Store store, int read) {
-      this.store = store;
+   public StoreManager(Store store, int capacity) {
+      this(store, capacity, 8192);
+   }
+   
+   public StoreManager(Store store, int capacity, int read) {
+      this.store = new CacheStore(store, capacity, read);
       this.read = read;
    }
    
