@@ -9,7 +9,7 @@ import org.snapscript.common.Cache;
 import org.snapscript.common.LeastRecentlyUsedSet;
 import org.snapscript.common.SoftCache;
 
-public class CacheStore implements Store{
+public class CacheStore implements Store {
 
    private final Cache<String, byte[]> cache;
    private final Set<String> failures;
@@ -30,9 +30,8 @@ public class CacheStore implements Store{
       this.reader = new StoreReader(store, read);
       this.store = store;
    }
-
-   @Override
-   public InputStream getInputStream(String path) {
+   
+   public byte[] getBytes(String path) {
       if(!failures.contains(path)) {
          byte[] resource = cache.fetch(path);
          
@@ -48,11 +47,38 @@ public class CacheStore implements Store{
          if(resource == null) {
             throw new NotFoundException("Could not find '" + path + "'");
          }
-         return new ByteArrayInputStream(resource);
+         return resource;
       }
       return null;
    }
-
+   
+   public String getString(String path) {
+      byte[] resource = getBytes(path);
+      
+      try {
+         if(resource != null) {
+            return new String(resource, "UTF-8");
+         }
+      }catch(Exception e) {
+         throw new StoreException("Could not read resource '" + path + "'", e);
+      }
+      return null;
+   }
+   
+   @Override
+   public InputStream getInputStream(String path) {
+      byte[] resource = getBytes(path);
+      
+      try {
+         if(resource != null) {
+            return new ByteArrayInputStream(resource);
+         }
+      }catch(Exception e) {
+         throw new StoreException("Could not read resource '" + path + "'", e);
+      }
+      return null;
+   }
+   
    @Override
    public OutputStream getOutputStream(String path) {
       return store.getOutputStream(path);
