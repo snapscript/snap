@@ -13,11 +13,11 @@ Snap comes with a development environment that is available over HTTP on any web
 
 *java -jar snapd.jar --mode=develop --directory=work --port=4457*
 
-The development environment can use hot stand-by agents to improve responsiveness, the agent pool can be configured on the command line. In addition the agent connect port can be specified to enable Android applications to connect to the development environment. An example configuration is shown below.
+The development environment can use hot stand-by agents to improve responsiveness, the agent pool can be configured on the command line. In addition an agent can connect through the HTTP port using the HTTP CONNECT request and begin a debug session. An example configuration is shown below.
 
-*java -jar snapd.jar --mode=develop --directory=work --port=4457 --agent-pool=4 --agent-port=4456*
+*java -jar snapd.jar --mode=develop --directory=work --port=4457 --agent-pool=4 --server-only=true*
 
-Below are some screenshots of the development environment hosted in Chrome.
+Below are some screenshots of the development environment. 
 
 ##### Breakpoints
 ![Developer Breakpoints](https://raw.githubusercontent.com/snapscript/snap-site/master/images/debugger_breakpoints.png)
@@ -27,10 +27,22 @@ Below are some screenshots of the development environment hosted in Chrome.
 ![Developer Variables](https://raw.githubusercontent.com/snapscript/snap-site/master/images/debugger_variables.png)
 ##### Threads
 ![Developer Threads](https://raw.githubusercontent.com/snapscript/snap-site/master/images/debugger_threads.png)
-##### Profiler
-![Developer Profiler](https://raw.githubusercontent.com/snapscript/snap-site/master/images/debugger_profiler.png)
 ##### Process View
 ![Developer Debug](https://raw.githubusercontent.com/snapscript/snap-site/master/images/debugger_agents.png)
+##### Profiler
+![Developer Profiler](https://raw.githubusercontent.com/snapscript/snap-site/master/images/debugger_profiler.png)
+##### Debug Perspective
+![Developer Debug Perspective](https://raw.githubusercontent.com/snapscript/snap-site/master/images/debugger_changelayout.png)
+##### Full Screen
+![Developer Full Screen](https://raw.githubusercontent.com/snapscript/snap-site/master/images/debugger_fullscreen.png)
+##### Dark Theme
+![Developer Dark Theme](https://raw.githubusercontent.com/snapscript/snap-site/master/images/debugger_darktheme.png)
+##### Search Types
+![Developer Search Types](https://raw.githubusercontent.com/snapscript/snap-site/master/images/debugger_searchtypes.png)
+##### Search Files
+![Developer Search Files](https://raw.githubusercontent.com/snapscript/snap-site/master/images/debugger_searchfiles.png)
+##### File Files
+![Developer Find Files](https://raw.githubusercontent.com/snapscript/snap-site/master/images/debugger_findfiles.png)
 ##### Save Resources
 ![Developer Debug](https://raw.githubusercontent.com/snapscript/snap-site/master/images/debugger_save.png)
 ##### Open Projects
