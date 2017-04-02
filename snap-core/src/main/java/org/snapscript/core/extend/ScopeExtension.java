@@ -1,6 +1,12 @@
 
 package org.snapscript.core.extend;
 
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Callable;
+
+import org.snapscript.common.command.CommandBuilder;
+import org.snapscript.common.command.Console;
 import org.snapscript.core.Context;
 import org.snapscript.core.ExpressionEvaluator;
 import org.snapscript.core.Module;
@@ -13,9 +19,11 @@ import org.snapscript.core.link.PackageDefinition;
 
 public class ScopeExtension {
 
+   private final CommandBuilder builder;
    private final Context context;
    
    public ScopeExtension(Context context) {
+      this.builder = new CommandBuilder();
       this.context = context;
    }
    
@@ -46,6 +54,34 @@ public class ScopeExtension {
       statement.execute(scope);
       
       return registry.getModule(name);
+   }
+   
+   public List<String> exec(Scope scope, String command) throws Exception {
+      Callable<Console> task = builder.create(command);
+      Console console = task.call();
+      
+      return console.readAll();
+   }
+   
+   public List<String> exec(Scope scope, String command, String directory) throws Exception {
+      Callable<Console> task = builder.create(command, directory);
+      Console console = task.call();
+      
+      return console.readAll();
+   }
+   
+   public List<String> exec(Scope scope, String command, Map<String, String> environment) throws Exception {
+      Callable<Console> task = builder.create(command, environment);
+      Console console = task.call();
+      
+      return console.readAll();
+   }
+   
+   public List<String> exec(Scope scope, String command, String directory, Map<String, String> environment) throws Exception {
+      Callable<Console> task = builder.create(command, directory, environment);
+      Console console = task.call();
+      
+      return console.readAll();
    }
    
    public void printf(Scope scope, Object value, Object... values)  throws Exception{
