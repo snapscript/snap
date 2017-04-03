@@ -27,7 +27,7 @@ public class ClassBuilder extends Statement {
    public Result define(Scope outer) throws Exception {
       Module module = outer.getModule();
       String alias = name.getName(outer);
-      Type type = module.addType(alias);
+      Type type = module.addType(alias); // TODO type available before compilation
       
       return ResultType.getNormal(type);
    }
