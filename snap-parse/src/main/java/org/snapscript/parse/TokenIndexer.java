@@ -188,7 +188,7 @@ public class TokenIndexer {
             if (identifier(last) && identifier(peek)) {
                reader.reset(mark);
             } else {
-               if(identifier(last) && brace(peek)) {
+               if(identifier(last) && special(peek)) {
                   return new StringToken(token, line, LITERAL.mask | IDENTIFIER.mask);
                }
                return new StringToken(token, line, LITERAL.mask);
@@ -210,9 +210,9 @@ public class TokenIndexer {
       return false;
    }
    
-   private boolean brace(Character value) {
+   private boolean special(Character value) {
       if(value != null) {
-         return value.equals('(');
+         return ")(.?".indexOf(value) != -1;
       }
       return false;
    }
