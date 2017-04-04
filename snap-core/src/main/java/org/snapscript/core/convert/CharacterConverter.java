@@ -5,15 +5,50 @@ import static org.snapscript.core.convert.Score.EXACT;
 import static org.snapscript.core.convert.Score.INVALID;
 import static org.snapscript.core.convert.Score.POSSIBLE;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
+
 import org.snapscript.core.InternalArgumentException;
 import org.snapscript.core.Type;
 
 public class CharacterConverter extends ConstraintConverter {
 
+   private static final Class[] CHARACTER_TYPES = {
+      Character.class,
+      Double.class, 
+      Float.class, 
+      BigDecimal.class, 
+      Long.class, 
+      AtomicLong.class,
+      Integer.class, 
+      BigInteger.class, 
+      AtomicInteger.class, 
+      Short.class, 
+      Byte.class
+   };
+   
+   private static final Score[] CHARACTER_SCORES = {
+      EXACT,
+      POSSIBLE,
+      POSSIBLE,
+      POSSIBLE,
+      POSSIBLE,
+      POSSIBLE,
+      POSSIBLE,
+      POSSIBLE,
+      POSSIBLE,
+      POSSIBLE,
+      POSSIBLE
+   };   
+   
    private final CharacterMatcher matcher;
+   private final ScoreChecker checker;
    private final Type type;
    
    public CharacterConverter(Type type) {
+      this.checker = new ScoreChecker(CHARACTER_TYPES, CHARACTER_SCORES);
       this.matcher = new CharacterMatcher();
       this.type = type;
    }
@@ -24,8 +59,10 @@ public class CharacterConverter extends ConstraintConverter {
          Class real = actual.getType();
          
          if(real != null) {
-            if(real == Character.class) {
-               return EXACT;
+            Score score = checker.score(real);
+            
+            if(score != null) {
+               return score;
             }
             if(real == String.class) {
                return POSSIBLE;
@@ -42,18 +79,19 @@ public class CharacterConverter extends ConstraintConverter {
       
       if(value != null) {
          Class actual = value.getClass();
+         Score score = checker.score(actual);
          
-         if(actual == Character.class) {
-            return EXACT;
-         }
-         if(actual == String.class) {
-            String text = String.valueOf(value);
-            
-            if(matcher.matchCharacter(text)) {
-               return POSSIBLE;
+         if(score == null) {
+            if(actual == String.class) {
+               String text = String.valueOf(value);
+               
+               if(matcher.matchCharacter(text)) {
+                  return POSSIBLE;
+               }
             }
+            return INVALID;
          }
-         return INVALID;
+         return score;
       }
       if(require.isPrimitive()) {
          return INVALID;
@@ -68,11 +106,16 @@ public class CharacterConverter extends ConstraintConverter {
       if(value != null) {
          Class type = value.getClass();
          
+         if(type == Character.class) {
+            return value;
+         }
          if(type == String.class) {
             return convert(require, (String)value);
          }
-         if(type == Character.class) {
-            return value;
+         Class parent = type.getSuperclass();
+         
+         if(parent == Number.class) {
+            return convert(require, (Number)value);
          }
          throw new InternalArgumentException("Conversion from " + type + " to character is not possible");
       }

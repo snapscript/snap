@@ -1,25 +1,25 @@
 
 package org.snapscript.parse;
 
+import static org.snapscript.parse.NumberType.DOUBLE;
+import static org.snapscript.parse.NumberType.INTEGER;
 import static org.snapscript.parse.TextCategory.BINARY;
 import static org.snapscript.parse.TextCategory.CAPITAL;
 import static org.snapscript.parse.TextCategory.DIGIT;
 import static org.snapscript.parse.TextCategory.DOLLAR;
-import static org.snapscript.parse.TextCategory.DOUBLE;
 import static org.snapscript.parse.TextCategory.ESCAPE;
-import static org.snapscript.parse.TextCategory.FLOAT;
 import static org.snapscript.parse.TextCategory.HEXIDECIMAL;
 import static org.snapscript.parse.TextCategory.IDENTIFIER;
 import static org.snapscript.parse.TextCategory.LETTER;
-import static org.snapscript.parse.TextCategory.LONG;
 import static org.snapscript.parse.TextCategory.MINUS;
+import static org.snapscript.parse.TextCategory.SUFFIX;
 import static org.snapscript.parse.TextCategory.PERIOD;
 import static org.snapscript.parse.TextCategory.QUOTE;
 import static org.snapscript.parse.TextCategory.SPECIAL;
 
 public class TextReader {
 
-   private NumberConverter converter;
+   private NumberTypeMatcher matcher;
    private TextDecoder decoder;
    private short[] types;
    private char[] source;
@@ -32,7 +32,7 @@ public class TextReader {
    
    public TextReader(char[] source, short[] types, int off, int count) {
       this.decoder = new TextDecoder(source, off, count);
-      this.converter = new NumberConverter();
+      this.matcher = new NumberTypeMatcher();
       this.source = source;
       this.count = count;
       this.types = types;
@@ -136,22 +136,21 @@ public class TextReader {
          if(second != 'b' && second != 'B') {
             return null;
          }
-         Class type = int.class;
+         NumberType type = INTEGER;
          int pos = off + 2;
          int mark = off;
          int value = 0;
          
          while(pos < count) {
             short mask = types[pos];
+            char next = source[pos];
             
             if((mask & BINARY) == BINARY) {
-               char next = source[pos];
-               
                value <<= 1;
                value |= decoder.binary(next);
             } else {
-               if((mask & LONG) == LONG) {
-                  type = long.class;
+               if((mask & SUFFIX) == SUFFIX) {
+                  type = matcher.match(next);
                   off++;
                } 
                break;
@@ -160,7 +159,7 @@ public class TextReader {
          }
          if(pos > mark + 2) {                  
             off = pos;
-            return converter.convert(type, value);
+            return type.convert(value);
          }
       }
       return null;      
@@ -177,22 +176,21 @@ public class TextReader {
          if(second != 'x' && second != 'X') {
             return null;
          }
-         Class type = int.class;
+         NumberType type = INTEGER;
          int pos = off + 2;
          int mark = off;
          int value = 0;
          
          while(pos < count) {
             short mask = types[pos];
+            char next = source[pos];
             
-            if((mask & HEXIDECIMAL) == HEXIDECIMAL) {
-               char next = source[pos];
-               
+            if((mask & HEXIDECIMAL) == HEXIDECIMAL) {   
                value <<= 4;
                value |= decoder.hexidecimal(next);
             } else {
-               if((mask & LONG) == LONG) {
-                  type = long.class;
+               if((mask & SUFFIX) == SUFFIX) {
+                  type = matcher.match(next);
                   off++;
                } 
                break;
@@ -201,14 +199,14 @@ public class TextReader {
          }
          if(pos > mark + 2) {                  
             off = pos;
-            return converter.convert(type, value);
+            return type.convert(value);
          }
       }
       return null;      
    }    
    
    public Number decimal() {
-      Class type = int.class;
+      NumberType type = INTEGER;
       double scale = 0;
       long value = 0;
       int mark = off;
@@ -225,21 +223,15 @@ public class TextReader {
                      mask = types[off + 1];
                      
                      if((mask & DIGIT) == DIGIT) {
-                        type = double.class;
+                        type = DOUBLE;
                         scale = 1.0d;
                         off++;
                         continue;
                      }
                   }
-               } else if ((mask & FLOAT) == FLOAT) {
-                  type = float.class;
+               } else if((mask & SUFFIX) == SUFFIX) {
+                  type = matcher.match(next);
                   off++; 
-               } else if ((mask & DOUBLE) == DOUBLE) {
-                  type = double.class;
-                  off++;    
-               } else if((mask & LONG) == LONG) {
-                  type = long.class;
-                  off++;
                }               
                break;
             } else {
@@ -270,7 +262,7 @@ public class TextReader {
          if(scale > 0) {
             result /= scale;
          }         
-         return converter.convert(type, result);
+         return type.convert(result);
       }
       return null;
    }   

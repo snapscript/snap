@@ -2,22 +2,20 @@ package org.snapscript.parse;
 
 public class TableGenerator {   
    
-   public static final short NONE = 0x0000;
-   public static final short LETTER = 0x0001;
-   public static final short DIGIT = 0x0002;
-   public static final short HEXIDECIMAL = 0x0004;
-   public static final short BINARY = 0x0008;
-   public static final short IDENTIFIER = 0x0010;   
-   public static final short QUOTE = 0x0020;
-   public static final short PERIOD = 0x0040;
-   public static final short LONG = 0x0080;
-   public static final short DOUBLE = 0x0100;
-   public static final short FLOAT = 0x0200;
-   public static final short MINUS = 0x0400;    
-   public static final short ESCAPE = 0x0800;
-   public static final short SPECIAL = 0x1000;
-   public static final short DOLLAR = 0x2000;
-   public static final short CAPITAL = 0x4000; 
+   short NONE = 0x0000;
+   short LETTER = 0x0001;
+   short DIGIT = 0x0002;
+   short HEXIDECIMAL = 0x0004;
+   short BINARY = 0x0008;
+   short IDENTIFIER = 0x0010;   
+   short QUOTE = 0x0020;
+   short PERIOD = 0x0040;
+   short SUFFIX = 0x0080;
+   short MINUS = 0x0100;    
+   short ESCAPE = 0x0200;
+   short SPECIAL = 0x0400;
+   short DOLLAR = 0x0800;
+   short CAPITAL = 0x1000;
    
    public static void main(String[] list) {
       System.out.println("private static final short[] TYPES = {");
@@ -39,14 +37,8 @@ public class TableGenerator {
             if(hexidecimal(next)) {
                System.out.print(" | TextCategory.HEXIDECIMAL");
             } 
-            if(next == 'l' || next == 'L') {
-               System.out.print(" | TextCategory.LONG");
-            }
-            if(next == 'd' || next == 'D') {
-               System.out.print(" | TextCategory.DOUBLE");
-            }
-            if(next == 'f' || next == 'F') {
-               System.out.print(" | TextCategory.FLOAT");
+            if(suffix(next)) {
+               System.out.print(" | TextCategory.SUFFIX");
             }
             if(Character.isUpperCase(next)) {
                System.out.print(" | TextCategory.CAPITAL");
@@ -136,4 +128,18 @@ public class TableGenerator {
    private static boolean quote(char value) {
       return value == '\'' || value == '"';
    } 
+   
+   private static boolean numeric(char value) {
+      return digit(value) || suffix(value);
+   }
+   
+   private static boolean suffix(char value) {
+      switch(value) {
+      case 'l': case 'L':
+      case 'd': case 'D':
+      case 'f': case 'F':
+         return true;
+      }
+      return false;
+   }
 }
