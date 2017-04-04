@@ -41,7 +41,7 @@ public class TextDecoder {
                   result[write++] = escape(read + 2, 4);
                   read += 6;
                } else {
-                  if(next == '\\' || next == '\'' || next == '\"'){ // skip
+                  if(literal(next)){ // skip
                      result[write++] = source[read + 1];
                   } else if(next == 'r') {                  
                      result[write++] = '\r';
@@ -65,7 +65,7 @@ public class TextDecoder {
       return interner.intern(source, off, length);
    }
    
-   public char escape(int off, int length) {
+   private char escape(int off, int length) {
       int value = 0;
       
       for(int i = 0; i < length; i++) {
@@ -75,6 +75,16 @@ public class TextDecoder {
          value |= hexidecimal(next);
       }
       return (char)value;
+   }
+   
+   private boolean literal(char value) {
+      switch(value) {
+      case '\\': case '\'':
+      case '\"': case '`':
+         return true;
+      default:
+         return false;
+      }
    }
    
    public int binary(char value) {
