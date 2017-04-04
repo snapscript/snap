@@ -9,13 +9,14 @@ public class TableGenerator {
    short BINARY = 0x0008;
    short IDENTIFIER = 0x0010;   
    short QUOTE = 0x0020;
-   short PERIOD = 0x0040;
-   short SUFFIX = 0x0080;
-   short MINUS = 0x0100;    
-   short ESCAPE = 0x0200;
-   short SPECIAL = 0x0400;
-   short DOLLAR = 0x0800;
-   short CAPITAL = 0x1000;
+   short TEMPLATE = 0x0040;
+   short PERIOD = 0x0080;
+   short SUFFIX = 0x0100;
+   short MINUS = 0x0200;    
+   short ESCAPE = 0x0400;
+   short SPECIAL = 0x0800;
+   short DOLLAR = 0x1000;
+   short CAPITAL = 0x2000;
    
    public static void main(String[] list) {
       System.out.println("private static final short[] TYPES = {");
@@ -56,12 +57,15 @@ public class TableGenerator {
             System.out.println("TextCategory.PERIOD,"); 
          } else if(quote(next)){
             System.out.print("TextCategory.QUOTE");
+            if(template(next)) {
+               System.out.print(" | TextCategory.TEMPLATE");
+            }
             switch(next){
             case '\'': case '"':
                System.out.println(" | TextCategory.SPECIAL,");
                break;
             default:
-               System.err.println(",");
+               System.out.println(",");
             }            
          } else if(next == '-') {
             System.out.println("TextCategory.MINUS,"); 
@@ -125,14 +129,14 @@ public class TableGenerator {
       return value >= '0' && value <= '9';
    }
    
-   private static boolean quote(char value) {
-      return value == '\'' || value == '"';
+   private static boolean template(char value) {
+      return value == '"' || value == '`';
    } 
    
-   private static boolean numeric(char value) {
-      return digit(value) || suffix(value);
-   }
-   
+   private static boolean quote(char value) {
+      return value == '\'' || template(value);
+   } 
+
    private static boolean suffix(char value) {
       switch(value) {
       case 'l': case 'L':

@@ -223,16 +223,22 @@ public class SourceCompressor {
       return value == '\\';
    }
    
-   private boolean quote(char value) {
-      return value == '"' || value == '\'';
-   }
-   
    private boolean directive(char value) {
       return value == '#';
    }
    
    private boolean comment(char value) {
       return value == '/';
+   }
+   
+   private boolean quote(char value) {
+      switch(value){
+      case '"': case '\'':
+      case '`':
+         return true;
+      default:
+         return false;
+      }
    }
    
    private boolean space(char value) {

@@ -12,10 +12,11 @@ import static org.snapscript.parse.TextCategory.HEXIDECIMAL;
 import static org.snapscript.parse.TextCategory.IDENTIFIER;
 import static org.snapscript.parse.TextCategory.LETTER;
 import static org.snapscript.parse.TextCategory.MINUS;
-import static org.snapscript.parse.TextCategory.SUFFIX;
 import static org.snapscript.parse.TextCategory.PERIOD;
 import static org.snapscript.parse.TextCategory.QUOTE;
 import static org.snapscript.parse.TextCategory.SPECIAL;
+import static org.snapscript.parse.TextCategory.SUFFIX;
+import static org.snapscript.parse.TextCategory.TEMPLATE;
 
 public class TextReader {
 
@@ -319,7 +320,7 @@ public class TextReader {
          short mask = types[off];
          char next = start;
          
-         if(next == '"') {
+         if((mask & TEMPLATE) == TEMPLATE) {
             int escape = 0;
             int length = 0;
             int variable = 0;

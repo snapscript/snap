@@ -59,7 +59,7 @@ public class TextCategoryBuilder {
       TextCategory.NONE,
       TextCategory.NONE,
       TextCategory.NONE,
-      TextCategory.QUOTE | TextCategory.SPECIAL,
+      TextCategory.QUOTE | TextCategory.TEMPLATE | TextCategory.SPECIAL,
       TextCategory.NONE,
       TextCategory.DOLLAR,
       TextCategory.NONE,
@@ -121,7 +121,7 @@ public class TextCategoryBuilder {
       TextCategory.NONE,
       TextCategory.NONE,
       TextCategory.IDENTIFIER,
-      TextCategory.NONE,
+      TextCategory.QUOTE | TextCategory.TEMPLATE,
       TextCategory.LETTER | TextCategory.IDENTIFIER | TextCategory.HEXIDECIMAL,
       TextCategory.LETTER | TextCategory.IDENTIFIER | TextCategory.HEXIDECIMAL | TextCategory.SPECIAL,
       TextCategory.LETTER | TextCategory.IDENTIFIER | TextCategory.HEXIDECIMAL,
@@ -281,6 +281,7 @@ public class TextCategoryBuilder {
       TextCategory.NONE,
       TextCategory.NONE,
       };
+
 
 
 
