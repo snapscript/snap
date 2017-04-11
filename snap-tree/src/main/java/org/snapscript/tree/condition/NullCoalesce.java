@@ -19,7 +19,7 @@ public class NullCoalesce implements Evaluation {
    public Value evaluate(Scope scope, Object left) throws Exception {
       Value result = evaluation.evaluate(scope, null);
       Object value = result.getValue();
-      System.out.println(value);
+      
       if(value == null) {
          return substitute.evaluate(scope, left);
       } 

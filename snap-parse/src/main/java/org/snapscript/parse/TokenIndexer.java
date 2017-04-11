@@ -212,7 +212,12 @@ public class TokenIndexer {
    
    private boolean special(Character value) {
       if(value != null) {
-         return ")(.?".indexOf(value) != -1;
+         switch(value) {
+         case ')': case '(':
+         case '.': case '?':
+         case ',':
+            return true;
+         }
       }
       return false;
    }

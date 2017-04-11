@@ -1,6 +1,9 @@
 
 package org.snapscript.tree.condition;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.snapscript.core.BooleanValue;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
@@ -97,13 +100,37 @@ public enum RelationalOperator {
          return BooleanValue.FALSE;
       }      
    },
+   MATCH("=~"){
+      @Override
+      public Value operate(Scope scope, Value left, Value right) {
+         Object first = left.getValue();
+         Object second = right.getValue();
+         
+         if(checker.isMatch(scope, first, second)){
+            return BooleanValue.TRUE;
+         }
+         return BooleanValue.FALSE;
+      }      
+   },
+   NOT_MATCH("!=~"){
+      @Override
+      public Value operate(Scope scope, Value left, Value right) {
+         Object first = left.getValue();
+         Object second = right.getValue();
+         
+         if(!checker.isMatch(scope, first, second)){
+            return BooleanValue.TRUE;
+         }
+         return BooleanValue.FALSE;
+      }      
+   },
    INSTANCE_OF("instanceof"){
       @Override
       public Value operate(Scope scope, Value left, Value right) {
          Object first = left.getValue();
          Object second = right.getValue();
          
-         if(checker.instanceOf(scope, first, second)){
+         if(checker.isInstance(scope, first, second)){
             return BooleanValue.TRUE;
          }
          return BooleanValue.FALSE;
@@ -115,18 +142,18 @@ public enum RelationalOperator {
          Object first = left.getValue();
          Object second = right.getValue();
          
-         if(!checker.instanceOf(scope, first, second)){
+         if(!checker.isInstance(scope, first, second)){
             return BooleanValue.TRUE;
          }
          return BooleanValue.FALSE;
       }      
    };
    
-   public final InstanceChecker checker;
+   public final RelationalChecker checker;
    public final String operator;
    
    private RelationalOperator(String operator) {
-      this.checker = new InstanceChecker();
+      this.checker = new RelationalChecker();
       this.operator = operator;
    }
    
