@@ -6,7 +6,7 @@ import java.util.List;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
-import org.snapscript.core.define.Initializer;
+import org.snapscript.core.TypeFactory;
 import org.snapscript.core.function.Function;
 import org.snapscript.tree.ModifierList;
 import org.snapscript.tree.annotation.AnnotationList;
@@ -31,14 +31,14 @@ public abstract class MemberConstructor implements TypePart {
    } 
    
    @Override
-   public Initializer define(Initializer initializer, Type type) throws Exception {
+   public TypeFactory define(TypeFactory factory, Type type) throws Exception {
       return null;
    }
 
-   protected Initializer compile(Initializer initializer, Type type, boolean compile) throws Exception {
+   protected TypeFactory compile(TypeFactory factory, Type type, boolean compile) throws Exception {
       int modifiers = list.getModifiers();
-      ConstructorBuilder builder = assembler.assemble(initializer, type);
-      Function constructor = builder.create(initializer, type, modifiers, compile);
+      ConstructorBuilder builder = assembler.assemble(factory, type);
+      Function constructor = builder.create(factory, type, modifiers, compile);
       List<Function> functions = type.getFunctions();
       Scope scope = type.getScope();
       
