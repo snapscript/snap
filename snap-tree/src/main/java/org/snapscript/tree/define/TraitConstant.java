@@ -8,8 +8,8 @@ import org.snapscript.core.InternalStateException;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
+import org.snapscript.core.TypeFactory;
 import org.snapscript.core.Value;
-import org.snapscript.core.define.Initializer;
 import org.snapscript.core.function.Accessor;
 import org.snapscript.core.function.AccessorProperty;
 import org.snapscript.core.function.StaticAccessor;
@@ -42,14 +42,14 @@ public class TraitConstant implements TypePart {
    }
    
    @Override
-   public Initializer define(Initializer initializer, Type type) throws Exception {
+   public TypeFactory define(TypeFactory factory, Type type) throws Exception {
       return null;
    }
 
    @Override
-   public Initializer compile(Initializer initializer, Type type) throws Exception {
+   public TypeFactory compile(TypeFactory factory, Type type) throws Exception {
       Scope scope = type.getScope();
-      Initializer declare = declaration.declare(initializer, type);
+      TypeFactory declare = declaration.declare(factory, type);
       List<Property> properties = type.getProperties();
       Value value = identifier.evaluate(scope, null);
       Type constraint = extractor.extract(scope);
@@ -58,7 +58,7 @@ public class TraitConstant implements TypePart {
       if(!checker.isConstant()) {
          throw new InternalStateException("Variable '" + name + "' for '" + type + "' must be constant");
       }
-      Accessor accessor = new StaticAccessor(initializer, scope, type, name);
+      Accessor accessor = new StaticAccessor(factory, scope, type, name);
       Property property = new AccessorProperty(name, type, constraint, accessor, ModifierType.STATIC.mask | ModifierType.CONSTANT.mask);
       
       annotations.apply(scope, property);

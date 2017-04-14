@@ -11,13 +11,13 @@ import org.snapscript.tree.annotation.AnnotationList;
 
 public class ClassBuilder extends Statement {   
    
-   private final ClassConstantInitializer builder;
+   private final ClassConstantBuilder builder;
    private final AnnotationList annotations;
    private final TypeHierarchy hierarchy;
    private final TypeName name;
    
    public ClassBuilder(AnnotationList annotations, TypeName name, TypeHierarchy hierarchy) {
-      this.builder = new ClassConstantInitializer();
+      this.builder = new ClassConstantBuilder();
       this.annotations = annotations;
       this.hierarchy = hierarchy;
       this.name = name;

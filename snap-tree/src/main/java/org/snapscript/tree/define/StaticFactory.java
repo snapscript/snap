@@ -10,14 +10,14 @@ import org.snapscript.core.Result;
 import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
-import org.snapscript.core.define.Initializer;
+import org.snapscript.core.TypeFactory;
 
-public abstract class StaticInitializer extends Initializer {
+public abstract class StaticFactory extends TypeFactory {
 
    private final AtomicReference<Result> reference;
    private final AtomicBoolean compile;
  
-   protected StaticInitializer() {
+   protected StaticFactory() {
       this.reference = new AtomicReference<Result>();
       this.compile = new AtomicBoolean();
    }

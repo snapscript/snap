@@ -8,15 +8,15 @@ import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
-import org.snapscript.core.define.Initializer;
+import org.snapscript.core.TypeFactory;
 import org.snapscript.tree.annotation.AnnotationList;
 
 public class ClassDefinition extends Statement {   
    
    private final FunctionPropertyGenerator generator;
    private final DefaultConstructor constructor;
-   private final InitializerCollector collector;
-   private final Initializer constants;
+   private final TypeFactoryCollector collector;
+   private final TypeFactory constants;
    private final AtomicBoolean compile;
    private final AtomicBoolean define;
    private final ClassBuilder builder;
@@ -25,8 +25,8 @@ public class ClassDefinition extends Statement {
    public ClassDefinition(AnnotationList annotations, TypeName name, TypeHierarchy hierarchy, TypePart... parts) {
       this.builder = new ClassBuilder(annotations, name, hierarchy);
       this.generator = new FunctionPropertyGenerator(); 
-      this.constants = new StaticConstantInitializer();
-      this.collector = new InitializerCollector();
+      this.constants = new StaticConstantFactory();
+      this.collector = new TypeFactoryCollector();
       this.constructor = new DefaultConstructor();
       this.compile = new AtomicBoolean(true);
       this.define = new AtomicBoolean(true);
@@ -40,8 +40,8 @@ public class ClassDefinition extends Statement {
          Type type = result.getValue();
          
          for(TypePart part : parts) {
-            Initializer initializer = part.define(collector, type);
-            collector.update(initializer);
+            TypeFactory factory = part.define(collector, type);
+            collector.update(factory);
          } 
          return result;
       }
@@ -57,8 +57,8 @@ public class ClassDefinition extends Statement {
          collector.update(constants); // collect static constants first
          
          for(TypePart part : parts) {
-            Initializer initializer = part.compile(collector, type);
-            collector.update(initializer);
+            TypeFactory factory = part.compile(collector, type);
+            collector.update(factory);
          } 
          constructor.compile(collector, type);
          generator.generate(type);

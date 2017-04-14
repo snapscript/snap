@@ -8,19 +8,19 @@ import org.snapscript.core.Result;
 import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
-import org.snapscript.core.define.Initializer;
+import org.snapscript.core.TypeFactory;
 
-public class InitializerCollector extends Initializer {
+public class TypeFactoryCollector extends TypeFactory {
    
-   private final List<Initializer> list;
+   private final List<TypeFactory> list;
    
-   public InitializerCollector(){
-      this.list = new ArrayList<Initializer>();
+   public TypeFactoryCollector(){
+      this.list = new ArrayList<TypeFactory>();
    }
 
-   public void update(Initializer initializer) throws Exception {
-      if(initializer != null) {         
-         list.add(initializer);
+   public void update(TypeFactory factory) throws Exception {
+      if(factory != null) {         
+         list.add(factory);
       }
    }
    
@@ -28,8 +28,8 @@ public class InitializerCollector extends Initializer {
    public Result compile(Scope scope, Type type) throws Exception {
       Result last = null;
       
-      for(Initializer initializer : list) {
-         Result result = initializer.compile(scope, type);
+      for(TypeFactory factory : list) {
+         Result result = factory.compile(scope, type);
          
          if(!result.isNormal()){
             return result;
@@ -46,8 +46,8 @@ public class InitializerCollector extends Initializer {
    public Result execute(Scope scope, Type type) throws Exception {
       Result last = null;
 
-      for(Initializer initializer : list) {
-         Result result = initializer.execute(scope, type);
+      for(TypeFactory factory : list) {
+         Result result = factory.execute(scope, type);
          
          if(!result.isNormal()){
             return result;

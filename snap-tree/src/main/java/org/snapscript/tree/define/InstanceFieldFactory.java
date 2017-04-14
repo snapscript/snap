@@ -6,13 +6,13 @@ import org.snapscript.core.Result;
 import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
-import org.snapscript.core.define.Initializer;
+import org.snapscript.core.TypeFactory;
 
-public class InstanceFieldInitializer extends Initializer {
+public class InstanceFieldFactory extends TypeFactory {
    
    private final Evaluation evaluation;
    
-   public InstanceFieldInitializer(Evaluation evaluation){
+   public InstanceFieldFactory(Evaluation evaluation){
       this.evaluation = evaluation;
    }
 

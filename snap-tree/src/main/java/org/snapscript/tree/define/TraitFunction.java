@@ -5,7 +5,7 @@ import org.snapscript.core.Evaluation;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
-import org.snapscript.core.define.Initializer;
+import org.snapscript.core.TypeFactory;
 import org.snapscript.tree.ModifierList;
 import org.snapscript.tree.annotation.AnnotationList;
 import org.snapscript.tree.constraint.Constraint;
@@ -30,10 +30,10 @@ public class TraitFunction extends MemberFunction {
    } 
    
    @Override
-   protected Initializer assemble(Initializer initializer, Type type, int mask) throws Exception {
+   protected TypeFactory assemble(TypeFactory factory, Type type, int mask) throws Exception {
       if(body == null) {
-         return super.assemble(initializer, type, ModifierType.ABSTRACT.mask);
+         return super.assemble(factory, type, ModifierType.ABSTRACT.mask);
       }  
-      return super.assemble(initializer, type, 0);
+      return super.assemble(factory, type, 0);
    }
 }

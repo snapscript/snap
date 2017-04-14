@@ -6,7 +6,7 @@ import org.snapscript.core.ModifierType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
-import org.snapscript.core.define.Initializer;
+import org.snapscript.core.TypeFactory;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationFunction;
@@ -29,7 +29,7 @@ public class InstanceFunctionBuilder implements MemberFunctionBuilder {
    }
    
    @Override
-   public Function create(Scope scope, Initializer initializer, Type type){
+   public Function create(TypeFactory factory, Scope scope, Type type){
       Invocation invocation = new InstanceInvocation(signature, body, constraint, name);
       Function function = new InvocationFunction(signature, invocation, type, constraint, name, modifiers);
       

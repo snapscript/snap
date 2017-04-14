@@ -7,27 +7,27 @@ import org.snapscript.core.Result;
 import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
-import org.snapscript.core.define.Initializer;
+import org.snapscript.core.TypeFactory;
 import org.snapscript.core.define.Instance;
 import org.snapscript.core.function.Invocation;
 
 public class NewInvocation implements Invocation<Instance>{
    
    private final StaticInstanceBuilder builder;
-   private final Initializer initializer;
+   private final TypeAllocator allocator;
    private final AtomicBoolean compile;
-   private final Allocator allocator;
+   private final TypeFactory factory;
    private final Type type;
    
-   public NewInvocation(Initializer initializer, Allocator allocator, Type type) {
-      this(initializer, allocator, type, true);
+   public NewInvocation(TypeFactory factory, TypeAllocator allocator, Type type) {
+      this(factory, allocator, type, true);
    }
    
-   public NewInvocation(Initializer initializer, Allocator allocator, Type type, boolean compile) {
+   public NewInvocation(TypeFactory factory, TypeAllocator allocator, Type type, boolean compile) {
       this.builder = new StaticInstanceBuilder(type);
       this.compile = new AtomicBoolean(compile);
-      this.initializer = initializer;
       this.allocator = allocator;
+      this.factory = factory;
       this.type = type;
    }
 
@@ -37,7 +37,7 @@ public class NewInvocation implements Invocation<Instance>{
       Instance inner = builder.create(scope, base, real);
 
       if(compile.compareAndSet(true, false)) {
-         initializer.compile(scope, type); // static stuff if needed
+         factory.compile(scope, type); // static stuff if needed
       }
       Instance result = allocator.allocate(scope, inner, list);
       return ResultType.getNormal(result);

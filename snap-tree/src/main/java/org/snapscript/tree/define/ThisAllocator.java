@@ -6,20 +6,20 @@ import static org.snapscript.core.Reserved.TYPE_THIS;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Type;
+import org.snapscript.core.TypeFactory;
 import org.snapscript.core.Value;
-import org.snapscript.core.define.Initializer;
 import org.snapscript.core.define.Instance;
 import org.snapscript.core.function.Invocation;
 
-public class InstanceAllocator implements Allocator {
+public class ThisAllocator implements TypeAllocator {
    
    private final ObjectInstanceBuilder builder;
-   private final Initializer initializer;
+   private final TypeFactory factory;
    private final Invocation invocation;
    
-   public InstanceAllocator(Initializer initializer, Invocation invocation, Type type) {
+   public ThisAllocator(TypeFactory factory, Invocation invocation, Type type) {
       this.builder = new ObjectInstanceBuilder(type);
-      this.initializer = initializer;
+      this.factory = factory;
       this.invocation = invocation;
    }
    
@@ -32,7 +32,7 @@ public class InstanceAllocator implements Allocator {
       
       if(instance != base) { // false if this(...) is called
          value.setValue(instance); // set the 'this' variable
-         initializer.execute(instance, real);
+         factory.execute(instance, real);
          invocation.invoke(instance, instance, list);
          
          return instance;

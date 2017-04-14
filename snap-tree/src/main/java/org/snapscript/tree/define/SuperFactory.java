@@ -6,15 +6,15 @@ import org.snapscript.core.Result;
 import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
+import org.snapscript.core.TypeFactory;
 import org.snapscript.core.Value;
-import org.snapscript.core.define.Initializer;
 
-public class SuperInitializer extends Initializer {
+public class SuperFactory extends TypeFactory {
    
    private final SuperInstanceBuilder builder;
    private final Evaluation expression;
    
-   public SuperInitializer(Evaluation expression, Type type) {
+   public SuperFactory(Evaluation expression, Type type) {
       this.builder = new SuperInstanceBuilder(type);
       this.expression = expression;
    }

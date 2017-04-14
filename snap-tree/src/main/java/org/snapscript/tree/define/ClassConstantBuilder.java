@@ -16,11 +16,11 @@ import org.snapscript.core.ValueType;
 import org.snapscript.core.property.ConstantPropertyBuilder;
 import org.snapscript.core.property.Property;
 
-public class ClassConstantInitializer {
+public class ClassConstantBuilder {
    
    private final ConstantPropertyBuilder builder;
    
-   public ClassConstantInitializer() {
+   public ClassConstantBuilder() {
       this.builder = new ConstantPropertyBuilder();
    }
 

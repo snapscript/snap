@@ -9,7 +9,7 @@ import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
-import org.snapscript.core.define.Initializer;
+import org.snapscript.core.TypeFactory;
 import org.snapscript.core.function.Function;
 import org.snapscript.tree.ModifierList;
 import org.snapscript.tree.annotation.AnnotationList;
@@ -41,19 +41,19 @@ public class MemberFunction implements TypePart {
    } 
    
    @Override
-   public Initializer define(Initializer initializer, Type type) throws Exception {
+   public TypeFactory define(TypeFactory factory, Type type) throws Exception {
       return null;
    }
 
    @Override
-   public Initializer compile(Initializer initializer, Type type) throws Exception {
-      return assemble(initializer, type, 0);
+   public TypeFactory compile(TypeFactory factory, Type type) throws Exception {
+      return assemble(factory, type, 0);
    }
    
-   protected Initializer assemble(Initializer initializer, Type type, int mask) throws Exception {
+   protected TypeFactory assemble(TypeFactory factory, Type type, int mask) throws Exception {
       Scope scope = type.getScope();
       MemberFunctionBuilder builder = assembler.assemble(type, mask);
-      Function function = builder.create(scope, initializer, type);
+      Function function = builder.create(factory, scope, type);
       List<Function> functions = type.getFunctions();
       int modifiers = function.getModifiers();
 

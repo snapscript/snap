@@ -13,13 +13,13 @@ import org.snapscript.core.Type;
 
 public class EnumBuilder extends Statement {
 
-   private final EnumConstantInitializer builder;
+   private final EnumConstantBuilder builder;
    private final TypeHierarchy hierarchy;
    private final TypeName name;
    private final List values;
    
    public EnumBuilder(TypeName name, TypeHierarchy hierarchy) {
-      this.builder = new EnumConstantInitializer();
+      this.builder = new EnumConstantBuilder();
       this.values = new ArrayList();
       this.hierarchy = hierarchy;
       this.name = name;

@@ -5,7 +5,7 @@ import org.snapscript.core.Evaluation;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
 import org.snapscript.core.Identity;
-import org.snapscript.core.define.Initializer;
+import org.snapscript.core.TypeFactory;
 import org.snapscript.parse.StringToken;
 import org.snapscript.tree.ArgumentList;
 import org.snapscript.tree.construct.CreateObject;
@@ -27,16 +27,16 @@ public class ThisConstructor implements TypePart {
    }
 
    @Override
-   public Initializer define(Initializer initializer, Type type) throws Exception {
+   public TypeFactory define(TypeFactory factory, Type type) throws Exception {
       return null;
    }
    
    @Override
-   public Initializer compile(Initializer initializer, Type type) throws Exception {  
-      Statement statement = new StaticBody(initializer, type);
+   public TypeFactory compile(TypeFactory factory, Type type) throws Exception {  
+      Statement statement = new StaticBody(factory, type);
       Evaluation reference = new Identity(type);
       CreateObject evaluation = new CreateObject(reference, arguments);
       
-      return new ThisInitializer(statement, evaluation);
+      return new ThisFactory(statement, evaluation);
    }
 }

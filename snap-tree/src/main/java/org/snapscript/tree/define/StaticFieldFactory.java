@@ -7,11 +7,11 @@ import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 
-public class StaticFieldInitializer extends StaticInitializer {
+public class StaticFieldFactory extends StaticFactory {
    
    private final Evaluation evaluation;
    
-   public StaticFieldInitializer(Evaluation evaluation){
+   public StaticFieldFactory(Evaluation evaluation){
       this.evaluation = evaluation;
    }
 

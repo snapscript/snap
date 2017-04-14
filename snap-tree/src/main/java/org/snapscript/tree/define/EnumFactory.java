@@ -16,21 +16,21 @@ import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Type;
+import org.snapscript.core.TypeFactory;
 import org.snapscript.core.Value;
 import org.snapscript.core.convert.ProxyWrapper;
-import org.snapscript.core.define.Initializer;
 import org.snapscript.tree.ArgumentList;
 import org.snapscript.tree.NameExtractor;
 
-public class EnumInitializer extends Initializer {
+public class EnumFactory extends TypeFactory {
    
-   private final EnumConstantInitializer initializer;
+   private final EnumConstantBuilder initializer;
    private final EnumConstructorBinder binder;
    private final NameExtractor extractor;
    private final int index;
    
-   public EnumInitializer(EnumKey key, ArgumentList arguments, int index) {
-      this.initializer = new EnumConstantInitializer();
+   public EnumFactory(EnumKey key, ArgumentList arguments, int index) {
+      this.initializer = new EnumConstantBuilder();
       this.binder = new EnumConstructorBinder(arguments);
       this.extractor = new NameExtractor(key);
       this.index = index;

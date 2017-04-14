@@ -8,7 +8,7 @@ import java.util.List;
 import org.snapscript.core.NoStatement;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
-import org.snapscript.core.define.Initializer;
+import org.snapscript.core.TypeFactory;
 import org.snapscript.core.function.Function;
 import org.snapscript.tree.ModifierList;
 import org.snapscript.tree.annotation.AnnotationList;
@@ -33,12 +33,12 @@ public class DefaultConstructor implements TypePart {
    } 
    
    @Override
-   public Initializer define(Initializer initializer, Type type) throws Exception {
+   public TypeFactory define(TypeFactory factory, Type type) throws Exception {
       return null;
    }
    
    @Override
-   public Initializer compile(Initializer initializer, Type type) throws Exception {
+   public TypeFactory compile(TypeFactory factory, Type type) throws Exception {
       List<Function> functions = type.getFunctions();
       
       for(Function function : functions) {
@@ -48,13 +48,13 @@ public class DefaultConstructor implements TypePart {
             return null;
          }
       }
-      return define(initializer, type, compile);
+      return define(factory, type, compile);
    }
    
-   protected Initializer define(Initializer initializer, Type type, boolean compile) throws Exception {
+   protected TypeFactory define(TypeFactory factory, Type type, boolean compile) throws Exception {
       Statement statement = new NoStatement();
       ClassConstructor constructor = new ClassConstructor(annotations, modifiers, parameters, statement);
       
-      return constructor.compile(initializer, type, compile);
+      return constructor.compile(factory, type, compile);
    }
 }

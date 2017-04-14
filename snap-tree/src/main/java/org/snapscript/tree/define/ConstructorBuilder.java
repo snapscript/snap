@@ -6,7 +6,7 @@ import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
 
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
-import org.snapscript.core.define.Initializer;
+import org.snapscript.core.TypeFactory;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationFunction;
@@ -15,25 +15,25 @@ import org.snapscript.tree.function.StatementInvocation;
 
 public class ConstructorBuilder {
    
-   private final Initializer delegate;
+   private final TypeFactory delegate;
    private final Statement statement;
    private final Signature signature;
 
-   public ConstructorBuilder(Signature signature, Statement statement, Initializer delegate) {
+   public ConstructorBuilder(TypeFactory delegate, Signature signature, Statement statement) {
       this.signature = signature;
       this.statement = statement;
       this.delegate = delegate;
    }
    
-   public Function create(Initializer initializer, Type type, int modifiers) {
-      return create(initializer, type, modifiers);
+   public Function create(TypeFactory factory, Type type, int modifiers) {
+      return create(factory, type, modifiers);
    }
    
-   public Function create(Initializer initializer, Type type, int modifiers, boolean compile) {
+   public Function create(TypeFactory factory, Type type, int modifiers, boolean compile) {
       Invocation body = new StatementInvocation(signature, statement, null);
-      Allocator instance = new InstanceAllocator(initializer, body, type);
-      Allocator base = new SuperAllocator(signature, delegate, instance); 
-      Invocation constructor = new NewInvocation(initializer, base, type, compile);
+      TypeAllocator instance = new ThisAllocator(factory, body, type);
+      TypeAllocator base = new SuperAllocator(delegate, instance, signature); 
+      Invocation constructor = new NewInvocation(factory, base, type, compile);
       
       return new InvocationFunction(signature, constructor, type, type, TYPE_CONSTRUCTOR, modifiers | STATIC.mask, 1);
    }

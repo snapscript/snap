@@ -7,8 +7,8 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Type;
 import org.snapscript.core.Identity;
+import org.snapscript.core.TypeFactory;
 import org.snapscript.core.Value;
-import org.snapscript.core.define.Initializer;
 import org.snapscript.tree.DeclarationAllocator;
 import org.snapscript.tree.ModifierChecker;
 import org.snapscript.tree.ModifierData;
@@ -22,13 +22,13 @@ public class MemberFieldAssembler {
       this.checker = new ModifierChecker(modifiers);
    }
    
-   public Initializer assemble(MemberFieldData data) throws Exception {
+   public TypeFactory assemble(MemberFieldData data) throws Exception {
       Evaluation declaration = create(data);
       
       if (checker.isStatic()) {
-         return new StaticFieldInitializer(declaration);
+         return new StaticFieldFactory(declaration);
       }
-      return new InstanceFieldInitializer(declaration);
+      return new InstanceFieldFactory(declaration);
    }
    
    private Evaluation create(MemberFieldData data) throws Exception {

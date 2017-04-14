@@ -5,11 +5,11 @@ import org.snapscript.core.Result;
 import org.snapscript.core.ResultType;
 import org.snapscript.core.Type;
 
-public class StaticConstantInitializer extends StaticInitializer {
+public class StaticConstantFactory extends StaticFactory {
    
    private final StaticConstantCollector collector;
    
-   public StaticConstantInitializer() {
+   public StaticConstantFactory() {
       this.collector = new StaticConstantCollector();
    }
 

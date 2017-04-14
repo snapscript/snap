@@ -9,17 +9,17 @@ import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
+import org.snapscript.core.TypeFactory;
 import org.snapscript.core.Value;
-import org.snapscript.core.define.Initializer;
 import org.snapscript.core.define.Instance;
 
-public class ThisInitializer extends Initializer {
+public class ThisFactory extends TypeFactory {
    
    private final Evaluation expression;
    private final Statement statement;
    private final AtomicBoolean done;
    
-   public ThisInitializer(Statement statement, Evaluation expression) {
+   public ThisFactory(Statement statement, Evaluation expression) {
       this.done = new AtomicBoolean();
       this.expression = expression;
       this.statement = statement;

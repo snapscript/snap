@@ -7,7 +7,7 @@ import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
-import org.snapscript.core.define.Initializer;
+import org.snapscript.core.TypeFactory;
 import org.snapscript.core.property.ConstantPropertyBuilder;
 import org.snapscript.core.property.Property;
 
@@ -22,14 +22,14 @@ public class InnerDefinition implements TypePart {
    }
 
    @Override
-   public Initializer define(Initializer initializer, Type outer) throws Exception {
+   public TypeFactory define(TypeFactory factory, Type outer) throws Exception {
       Scope scope = outer.getScope();
       statement.define(scope);
       return null;
    }
 
    @Override
-   public Initializer compile(Initializer initializer, Type outer) throws Exception {
+   public TypeFactory compile(TypeFactory factory, Type outer) throws Exception {
       List<Property> properties = outer.getProperties();
       Scope scope = outer.getScope();
       Result result = statement.compile(scope);

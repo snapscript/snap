@@ -2,7 +2,7 @@
 package org.snapscript.tree.define;
 
 import org.snapscript.core.Type;
-import org.snapscript.core.define.Initializer;
+import org.snapscript.core.TypeFactory;
 
 public class EnumList implements TypePart {
    
@@ -13,17 +13,17 @@ public class EnumList implements TypePart {
    }
    
    @Override
-   public Initializer define(Initializer initializer, Type type) throws Exception {
+   public TypeFactory define(TypeFactory factory, Type type) throws Exception {
       return null;
    }
 
    @Override
-   public Initializer compile(Initializer statement, Type type) throws Exception {
-      InitializerCollector collector = new InitializerCollector();
+   public TypeFactory compile(TypeFactory factory, Type type) throws Exception {
+      TypeFactoryCollector collector = new TypeFactoryCollector();
       int index = 0;
       
       for(EnumValue value : values) {
-         Initializer initializer = value.compile(type, index++);
+         TypeFactory initializer = value.compile(type, index++);
          
          if(initializer != null) {
             collector.update(initializer);

@@ -10,9 +10,9 @@ import java.util.List;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 
-public class EnumConstantInitializer extends ClassConstantInitializer {
+public class EnumConstantBuilder extends ClassConstantBuilder {
 
-   public EnumConstantInitializer() {
+   public EnumConstantBuilder() {
       super();
    }
    

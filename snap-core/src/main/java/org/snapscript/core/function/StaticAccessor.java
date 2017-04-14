@@ -5,20 +5,20 @@ import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Type;
+import org.snapscript.core.TypeFactory;
 import org.snapscript.core.Value;
-import org.snapscript.core.define.Initializer;
 
 public class StaticAccessor implements Accessor {
 
-   private final Initializer initializer;
+   private final TypeFactory factory;
    private final Accessor accessor;
    private final Scope scope;
    private final String name;
    private final Type type;
    
-   public StaticAccessor(Initializer initializer, Scope scope, Type type, String name) {
+   public StaticAccessor(TypeFactory factory, Scope scope, Type type, String name) {
       this.accessor = new ScopeAccessor(name);
-      this.initializer = initializer;
+      this.factory = factory;
       this.scope = scope;
       this.name = name;
       this.type = type;
@@ -31,7 +31,7 @@ public class StaticAccessor implements Accessor {
          Value field = state.get(name);
          
          if(field == null) {
-            initializer.compile(scope, type);           
+            factory.compile(scope, type);           
          }
       }catch(Exception e){
          throw new InternalStateException("Static reference of '" + name + "' in '" + type + "' failed", e);
@@ -46,7 +46,7 @@ public class StaticAccessor implements Accessor {
          Value field = state.get(name);
          
          if(field == null) {
-            initializer.compile(scope, type);           
+            factory.compile(scope, type);           
          }    
       }catch(Exception e){
          throw new InternalStateException("Static reference of '" + name + "' in '" + type + "' failed", e);
