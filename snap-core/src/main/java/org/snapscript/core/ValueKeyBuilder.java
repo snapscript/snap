@@ -7,7 +7,7 @@ public class ValueKeyBuilder {
       super();
    }
 
-   public Object create(Scope scope, Object left, String name) throws Exception {
+   public Object create(Scope scope, Object left, String name){
       if(left != null) {
          Module module = scope.getModule();
          Context context = module.getContext();

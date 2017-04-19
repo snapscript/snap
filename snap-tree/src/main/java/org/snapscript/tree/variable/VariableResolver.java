@@ -1,32 +1,32 @@
 
 package org.snapscript.tree.variable;
 
-import org.snapscript.common.Cache;
-import org.snapscript.common.CopyOnWriteCache;
+import org.snapscript.core.Context;
+import org.snapscript.core.InternalStateException;
+import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueKeyBuilder;
+import org.snapscript.core.convert.ProxyWrapper;
 
 public class VariableResolver {
-   
-   private final Cache<Object, ValueResolver> resolvers;
-   private final ValueKeyBuilder builder;
+
    private final VariableBinder binder;
    
    public VariableResolver() {
-      this.resolvers = new CopyOnWriteCache<Object, ValueResolver>();
-      this.builder = new ValueKeyBuilder();
       this.binder = new VariableBinder();
    }
    
    public Value resolve(Scope scope, Object left, String name) throws Exception {
-      Object key = builder.create(scope, left, name);
-      ValueResolver resolver = resolvers.fetch(key);
+      Module module = scope.getModule();
+      Context context = module.getContext();
+      ProxyWrapper wrapper = context.getWrapper();
+      Object object = wrapper.fromProxy(left);
+      ValueResolver resolver = binder.bind(scope, object, name);
+      Value value = resolver.resolve(scope, object);
       
-      if(resolver == null) { 
-         resolver = binder.bind(scope, left, name);
-         resolvers.cache(key, resolver);
+      if(value == null) {
+         throw new InternalStateException("Could not resolve '" + name +"' in scope");
       }
-      return resolver.resolve(scope, left);
+      return value;
    }
 }
