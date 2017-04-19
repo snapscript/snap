@@ -9,12 +9,12 @@ import org.snapscript.tree.NameExtractor;
 
 public class Variable implements Evaluation {
    
-   private final VariableResolver resolver;
    private final NameExtractor extractor;
+   private final VariableBinder binder;
    
    public Variable(Evaluation identifier) {
       this.extractor = new NameExtractor(identifier);
-      this.resolver = new VariableResolver();
+      this.binder = new VariableBinder();
    }
    
    @Override
@@ -29,6 +29,6 @@ public class Variable implements Evaluation {
             return value;
          }
       }
-      return resolver.resolve(scope, left, name);
+      return binder.bind(scope, left, name);
    }  
 }

@@ -3,28 +3,28 @@ package org.snapscript.tree.variable;
 
 import static org.snapscript.core.Reserved.PROPERTY_LENGTH;
 
-import java.util.Collection;
+import java.lang.reflect.Array;
 
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
 import org.snapscript.core.ValueType;
 
-public class CollectionResolver implements ValueResolver<Collection> {
+public class ArrayPointer implements VariablePointer<Object> {
    
-   private final ObjectResolver resolver;
+   private final ObjectPointer pointer;
    private final String name;
    
-   public CollectionResolver(String name) {
-      this.resolver = new ObjectResolver(name);
+   public ArrayPointer(String name) {
+      this.pointer = new ObjectPointer(name);
       this.name = name;
    }
    
    @Override
-   public Value resolve(Scope scope, Collection left) {
+   public Value get(Scope scope, Object left) {
       if(name.equals(PROPERTY_LENGTH)) {
-         int length = left.size();
+         int length = Array.getLength(left);
          return ValueType.getConstant(length);
       }
-      return resolver.resolve(scope, left);
+      return pointer.get(scope, left);
    }
 }

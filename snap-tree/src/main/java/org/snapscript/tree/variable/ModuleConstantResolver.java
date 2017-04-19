@@ -7,17 +7,17 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeTraverser;
 
-public class ModuleConstantFinder {
+public class ModuleConstantResolver {
    
    private final ModuleScopeBinder binder;
    private final TypeTraverser finder;
    
-   public ModuleConstantFinder() {
+   public ModuleConstantResolver() {
       this.binder = new ModuleScopeBinder();
       this.finder = new TypeTraverser();
    }
    
-   public Object find(Scope scope, String name) {
+   public Object resolve(Scope scope, String name) {
       Scope current = binder.bind(scope); // this could be slow
       Module module = current.getModule();
       Type type = module.getType(name);

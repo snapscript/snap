@@ -15,18 +15,18 @@ import org.snapscript.core.Value;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.property.PropertyValue;
 
-public class ScopeResolver implements ValueResolver<Scope> {
+public class ScopePointer implements VariablePointer<Scope> {
    
    private final AtomicReference<Property> reference;
    private final String name;
    
-   public ScopeResolver(String name) {
+   public ScopePointer(String name) {
       this.reference = new AtomicReference<Property>();
       this.name = name;
    }
    
    @Override
-   public Value resolve(Scope scope, Scope left) {
+   public Value get(Scope scope, Scope left) {
       State state = left.getState();
       Value value = state.get(name);
       

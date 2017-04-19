@@ -1,9 +1,15 @@
 
-package org.snapscript.core;
+package org.snapscript.tree.variable;
 
-public class ValueKeyBuilder {
+import org.snapscript.core.Context;
+import org.snapscript.core.Module;
+import org.snapscript.core.Scope;
+import org.snapscript.core.Type;
+import org.snapscript.core.TypeExtractor;
+
+public class VariableKeyBuilder {
    
-   public ValueKeyBuilder() {
+   public VariableKeyBuilder() {
       super();
    }
 
@@ -15,7 +21,7 @@ public class ValueKeyBuilder {
          Type type = extractor.getType(left);
          
          if(type != null) {
-            return new ValueKey(name, type);
+            return new VariableKey(name, type);
          }
       }
       return name;

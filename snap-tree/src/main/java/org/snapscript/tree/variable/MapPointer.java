@@ -9,26 +9,25 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
-import org.snapscript.core.TypeTraverser;
 import org.snapscript.core.Value;
 import org.snapscript.core.property.MapProperty;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.property.PropertyValue;
 
-public class MapResolver implements ValueResolver<Map> {
+public class MapPointer implements VariablePointer<Map> {
    
    private final AtomicReference<Property> reference;
-   private final ObjectResolver resolver;
+   private final ObjectPointer pointer;
    private final String name;
    
-   public MapResolver(String name) {
+   public MapPointer(String name) {
       this.reference = new AtomicReference<Property>();
-      this.resolver = new ObjectResolver(name);
+      this.pointer = new ObjectPointer(name);
       this.name = name;
    }
    
    @Override
-   public Value resolve(Scope scope, Map left) {
+   public Value get(Scope scope, Map left) {
       Property accessor = reference.get();
       
       if(accessor == null) {
@@ -44,7 +43,7 @@ public class MapResolver implements ValueResolver<Map> {
    }
       
    public Property match(Scope scope, Object left) {
-      Property property = resolver.match(scope, left);
+      Property property = pointer.match(scope, left);
    
       if(property == null) {
          Module module = scope.getModule();

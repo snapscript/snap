@@ -8,20 +8,20 @@ import org.snapscript.core.State;
 import org.snapscript.core.Value;
 import org.snapscript.core.ValueType;
 
-public class LocalResolver implements ValueResolver<Object> {
+public class LocalPointer implements VariablePointer<Object> {
    
    private final AtomicReference<Object> reference;
-   private final ModuleConstantFinder matcher;
+   private final ModuleConstantResolver resolver;
    private final String name;
    
-   public LocalResolver(String name) {
+   public LocalPointer(String name) {
       this.reference = new AtomicReference<Object>();
-      this.matcher = new ModuleConstantFinder();
+      this.resolver = new ModuleConstantResolver();
       this.name = name;
    }
    
    @Override
-   public Value resolve(Scope scope, Object left) {
+   public Value get(Scope scope, Object left) {
       Object result = reference.get();
       
       if(result == null) {
@@ -29,7 +29,7 @@ public class LocalResolver implements ValueResolver<Object> {
          Value variable = state.get(name);
          
          if(variable == null) { 
-            Object value = matcher.find(scope, name);
+            Object value = resolver.resolve(scope, name);
             
             if(value != null) {
                reference.set(value);
