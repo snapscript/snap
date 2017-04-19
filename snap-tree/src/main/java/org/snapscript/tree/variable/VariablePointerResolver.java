@@ -54,9 +54,6 @@ public class VariablePointerResolver {
          if(Collection.class.isInstance(left)) {
             return new CollectionPointer(name);
          }
-         if(Proxy.class.isInstance(left)) {
-            return new ProxyPointer(binder, name);
-         }
          if(type.isArray()) {
             return new ArrayPointer(name);
          }
