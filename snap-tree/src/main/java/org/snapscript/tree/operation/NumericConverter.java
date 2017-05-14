@@ -8,102 +8,102 @@ public enum NumericConverter {
    DOUBLE {
       @Override
       public Value convert(Number reference) {
-         Double value = reference.doubleValue();
+         double value = reference.doubleValue();
          return ValueType.getTransient(value);
       }
       @Override
       public Value increment(Number reference) {
-         Double value = reference.doubleValue();
+         double value = reference.doubleValue();
          return ValueType.getTransient(value + 1.0d);
       }
       @Override
       public Value decrement(Number reference) {
-         Double value = reference.doubleValue();
+         double value = reference.doubleValue();
          return ValueType.getTransient(value - 1.0d);
       }
    },
    LONG {
       @Override
       public Value convert(Number reference) {
-         Long value = reference.longValue();
+         long value = reference.longValue();
          return ValueType.getTransient(value);
       }
       @Override
       public Value increment(Number reference) {
-         Long value = reference.longValue();
+         long value = reference.longValue();
          return ValueType.getTransient(value + 1L);
       }
       @Override
       public Value decrement(Number reference) {
-         Long value = reference.longValue();
+         long value = reference.longValue();
          return ValueType.getTransient(value - 1L);
       }
    },
    FLOAT {
       @Override
       public Value convert(Number reference) {
-         Float value = reference.floatValue();
+         float value = reference.floatValue();
          return ValueType.getTransient(value);
       }
       @Override
       public Value increment(Number reference) {
-         Float value = reference.floatValue();
+         float value = reference.floatValue();
          return ValueType.getTransient(value + 1.0f);
       }
       @Override
       public Value decrement(Number reference) {
-         Float value = reference.floatValue();
+         float value = reference.floatValue();
          return ValueType.getTransient(value - 1.0f);
       }
    },
    INTEGER {
       @Override
       public Value convert(Number reference) {
-         Integer value = reference.intValue();
+         int value = reference.intValue();
          return ValueType.getTransient(value);
       }
       @Override
       public Value increment(Number reference) {
-         Integer value = reference.intValue();
+         int value = reference.intValue();
          return ValueType.getTransient(value + 1);
       }
       @Override
       public Value decrement(Number reference) {
-         Integer value = reference.intValue();
+         int value = reference.intValue();
          return ValueType.getTransient(value - 1);
       }
    },
    SHORT {
       @Override
       public Value convert(Number reference) {
-         Short value = reference.shortValue();
+         short value = reference.shortValue();
          return ValueType.getTransient(value);
       }
       @Override
       public Value increment(Number reference) {
-         Short value = reference.shortValue();
+         short value = reference.shortValue();
          return ValueType.getTransient(value + 1);
       }
       @Override
       public Value decrement(Number reference) {
-         Short value = reference.shortValue();
+         short value = reference.shortValue();
          return ValueType.getTransient(value - 1);
       }
    },
    BYTE {
       @Override
       public Value convert(Number reference) {
-         Byte value = reference.byteValue();
+         byte value = reference.byteValue();
          return ValueType.getTransient(value);
       }
       @Override
       public Value increment(Number reference) {
-         Byte value = reference.byteValue();
+         byte value = reference.byteValue();
          return ValueType.getTransient(value + 1);
       }
       @Override
       public Value decrement(Number reference) {
-         Byte value = reference.byteValue();
+         byte value = reference.byteValue();
          return ValueType.getTransient(value - 1);
       }
    };
