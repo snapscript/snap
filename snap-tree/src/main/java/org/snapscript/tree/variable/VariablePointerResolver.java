@@ -1,7 +1,6 @@
 
 package org.snapscript.tree.variable;
 
-import java.lang.reflect.Proxy;
 import java.util.Collection;
 import java.util.Map;
 
