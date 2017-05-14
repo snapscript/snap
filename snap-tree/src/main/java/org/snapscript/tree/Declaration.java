@@ -12,7 +12,7 @@ import org.snapscript.tree.literal.TextLiteral;
 public class Declaration {
 
    private final DeclarationAllocator allocator;
-   private final NameExtractor extractor;
+   private final NameReference reference;
    
    public Declaration(TextLiteral identifier) {
       this(identifier, null, null);
@@ -28,11 +28,11 @@ public class Declaration {
    
    public Declaration(TextLiteral identifier, Constraint constraint, Evaluation value) {
       this.allocator = new DeclarationAllocator(constraint, value);
-      this.extractor = new NameExtractor(identifier);
+      this.reference = new NameReference(identifier);
    }   
 
    public Value create(Scope scope, int modifiers) throws Exception {
-      String name = extractor.extract(scope);
+      String name = reference.getName(scope);
       Value value = allocator.allocate(scope, name, modifiers);
       State state = scope.getState();
       

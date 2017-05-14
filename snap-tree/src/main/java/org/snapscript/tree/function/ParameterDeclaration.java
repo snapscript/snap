@@ -8,14 +8,14 @@ import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.tree.Modifier;
-import org.snapscript.tree.NameExtractor;
+import org.snapscript.tree.NameReference;
 import org.snapscript.tree.annotation.AnnotationList;
 import org.snapscript.tree.constraint.Constraint;
 
 public class ParameterDeclaration {
    
    private AnnotationList annotations;
-   private NameExtractor extractor;
+   private NameReference reference;
    private Constraint constraint;
    private Parameter parameter;
    private Modifier modifier;
@@ -33,7 +33,7 @@ public class ParameterDeclaration {
    }
    
    public ParameterDeclaration(AnnotationList annotations, Evaluation identifier, Modifier modifier, Constraint constraint){
-      this.extractor = new NameExtractor(identifier);
+      this.reference = new NameReference(identifier);
       this.annotations = annotations;
       this.constraint = constraint;
       this.modifier = modifier;
@@ -51,7 +51,7 @@ public class ParameterDeclaration {
    }
    
    private Parameter create(Scope scope) throws Exception {
-      String name = extractor.extract(scope);
+      String name = reference.getName(scope);
       
       if(constraint != null && name != null) {
          Value value = constraint.evaluate(scope, null);

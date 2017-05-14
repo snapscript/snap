@@ -20,25 +20,25 @@ import org.snapscript.core.TypeFactory;
 import org.snapscript.core.Value;
 import org.snapscript.core.convert.ProxyWrapper;
 import org.snapscript.tree.ArgumentList;
-import org.snapscript.tree.NameExtractor;
+import org.snapscript.tree.NameReference;
 
 public class EnumFactory extends TypeFactory {
    
    private final EnumConstantBuilder initializer;
    private final EnumConstructorBinder binder;
-   private final NameExtractor extractor;
+   private final NameReference reference;
    private final int index;
    
    public EnumFactory(EnumKey key, ArgumentList arguments, int index) {
       this.initializer = new EnumConstantBuilder();
       this.binder = new EnumConstructorBinder(arguments);
-      this.extractor = new NameExtractor(key);
+      this.reference = new NameReference(key);
       this.index = index;
    }
    
    @Override
    public Result execute(Scope scope, Type type) throws Exception {
-      String name = extractor.extract(scope);
+      String name = reference.getName(scope);
       State state = scope.getState();
 
       if(type == null) {

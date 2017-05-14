@@ -13,20 +13,20 @@ import org.snapscript.core.Type;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Signature;
 import org.snapscript.tree.ModifierList;
-import org.snapscript.tree.NameExtractor;
+import org.snapscript.tree.NameReference;
 import org.snapscript.tree.annotation.AnnotationList;
 import org.snapscript.tree.constraint.Constraint;
-import org.snapscript.tree.constraint.ConstraintExtractor;
+import org.snapscript.tree.constraint.ConstraintReference;
 import org.snapscript.tree.function.FunctionBuilder;
 import org.snapscript.tree.function.ParameterList;
 
 public class ModuleFunction extends Statement {
    
-   private final ConstraintExtractor constraint;
+   private final ConstraintReference constraint;
    private final AnnotationList annotations;
    private final ParameterList parameters;
    private final FunctionBuilder builder;
-   private final NameExtractor extractor;
+   private final NameReference reference;
    private final Statement body;
    
    public ModuleFunction(AnnotationList annotations, ModifierList modifiers, Evaluation identifier, ParameterList parameters, Statement body){  
@@ -34,8 +34,8 @@ public class ModuleFunction extends Statement {
    }
    
    public ModuleFunction(AnnotationList annotations, ModifierList modifiers, Evaluation identifier, ParameterList parameters, Constraint constraint, Statement body){  
-      this.constraint = new ConstraintExtractor(constraint);
-      this.extractor = new NameExtractor(identifier);
+      this.constraint = new ConstraintReference(constraint);
+      this.reference = new NameReference(identifier);
       this.builder = new FunctionBuilder(body);
       this.annotations = annotations;
       this.parameters = parameters;
@@ -47,8 +47,8 @@ public class ModuleFunction extends Statement {
       Module module = scope.getModule();
       List<Function> functions = module.getFunctions();
       Signature signature = parameters.create(scope);
-      String name = extractor.extract(scope);
-      Type returns = constraint.extract(scope);
+      String name = reference.getName(scope);
+      Type returns = constraint.getConstraint(scope);
       Function function = builder.create(signature, module, returns, name);
       
       annotations.apply(scope, function);

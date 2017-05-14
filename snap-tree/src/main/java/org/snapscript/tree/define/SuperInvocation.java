@@ -7,7 +7,7 @@ import org.snapscript.core.ScopeCombiner;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.tree.ArgumentList;
-import org.snapscript.tree.NameExtractor;
+import org.snapscript.tree.NameReference;
 import org.snapscript.tree.dispatch.InvocationBinder;
 import org.snapscript.tree.dispatch.InvocationDispatcher;
 
@@ -15,22 +15,22 @@ public class SuperInvocation implements Evaluation {
 
    private final SuperInstanceBuilder builder;
    private final InvocationBinder dispatcher;
-   private final NameExtractor extractor;
+   private final NameReference reference;
    private final ArgumentList arguments;
    
    public SuperInvocation(Evaluation function, ArgumentList arguments, Type type) {
       this.builder = new SuperInstanceBuilder(type);
-      this.extractor = new NameExtractor(function);
+      this.reference = new NameReference(function);
       this.dispatcher = new InvocationBinder();
       this.arguments = arguments;
    }
    
    @Override
    public Value evaluate(Scope scope, Object left) throws Exception {
-      Scope instance = builder.create(scope, left);
       Type real = scope.getType();
-      InvocationDispatcher handler = dispatcher.bind(instance, null);
-      String name = extractor.extract(scope);     
+      String name = reference.getName(scope);   
+      Scope instance = builder.create(scope, left);
+      InvocationDispatcher handler = dispatcher.bind(instance, null);  
       
       if(arguments != null) {
          Scope outer = real.getScope();

@@ -14,7 +14,7 @@ import org.snapscript.core.trace.TraceEvaluation;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.trace.TraceType;
 import org.snapscript.tree.ArgumentList;
-import org.snapscript.tree.NameExtractor;
+import org.snapscript.tree.NameReference;
 import org.snapscript.tree.dispatch.InvocationBinder;
 import org.snapscript.tree.dispatch.InvocationDispatcher;
 
@@ -38,12 +38,12 @@ public class FunctionInvocation implements Compilation {
    private static class CompileResult implements Evaluation {
    
       private final InvocationBinder dispatcher;
-      private final NameExtractor extractor;
+      private final NameReference reference;
       private final ArgumentList arguments;
       private final Evaluation[] evaluations;
       
       public CompileResult(Evaluation function, ArgumentList arguments, Evaluation... evaluations) {
-         this.extractor = new NameExtractor(function);
+         this.reference = new NameReference(function);
          this.dispatcher = new InvocationBinder();
          this.evaluations = evaluations;
          this.arguments = arguments;
@@ -51,7 +51,7 @@ public class FunctionInvocation implements Compilation {
       
       @Override
       public Value evaluate(Scope scope, Object left) throws Exception {
-         String name = extractor.extract(scope); 
+         String name = reference.getName(scope); 
          Value array = arguments.create(scope); 
          Object[] arguments = array.getValue();
          InvocationDispatcher handler = dispatcher.bind(scope, left);

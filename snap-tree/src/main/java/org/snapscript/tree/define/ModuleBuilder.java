@@ -8,23 +8,23 @@ import org.snapscript.core.Path;
 import org.snapscript.core.Scope;
 import org.snapscript.core.TypeNameBuilder;
 import org.snapscript.core.link.ImportManager;
-import org.snapscript.tree.NameExtractor;
+import org.snapscript.tree.NameReference;
 import org.snapscript.tree.annotation.AnnotationList;
 
 public class ModuleBuilder {
 
    private final AnnotationList annotations;
    private final TypeNameBuilder builder;
-   private final NameExtractor extractor;
+   private final NameReference reference;
    
    public ModuleBuilder(AnnotationList annotations, ModuleName module) {
-      this.extractor = new NameExtractor(module);
+      this.reference = new NameReference(module);
       this.builder = new TypeNameBuilder();
       this.annotations = annotations;
    }
 
    public Module create(Scope scope) throws Exception {
-      String name = extractor.extract(scope);
+      String name = reference.getName(scope);
       Module parent = scope.getModule();
       Module module = create(parent, name);
       ImportManager manager = module.getManager();

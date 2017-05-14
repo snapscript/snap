@@ -18,13 +18,13 @@ import org.snapscript.tree.ModifierChecker;
 import org.snapscript.tree.ModifierList;
 import org.snapscript.tree.annotation.AnnotationList;
 import org.snapscript.tree.constraint.Constraint;
-import org.snapscript.tree.constraint.ConstraintExtractor;
+import org.snapscript.tree.constraint.ConstraintReference;
 import org.snapscript.tree.literal.TextLiteral;
 
 public class TraitConstant implements TypePart {
 
    private final TraitConstantDeclaration declaration;
-   private final ConstraintExtractor extractor;
+   private final ConstraintReference extractor;
    private final AnnotationList annotations;
    private final ModifierChecker checker;
    private final TextLiteral identifier;
@@ -35,7 +35,7 @@ public class TraitConstant implements TypePart {
    
    public TraitConstant(AnnotationList annotations, ModifierList list, TextLiteral identifier, Constraint constraint, Evaluation value) {
       this.declaration = new TraitConstantDeclaration(identifier, constraint, value);
-      this.extractor = new ConstraintExtractor(constraint);
+      this.extractor = new ConstraintReference(constraint);
       this.checker = new ModifierChecker(list);
       this.annotations = annotations;
       this.identifier = identifier;
@@ -52,7 +52,7 @@ public class TraitConstant implements TypePart {
       TypeFactory declare = declaration.declare(factory, type);
       List<Property> properties = type.getProperties();
       Value value = identifier.evaluate(scope, null);
-      Type constraint = extractor.extract(scope);
+      Type constraint = extractor.getConstraint(scope);
       String name = value.getString();
       
       if(!checker.isConstant()) {

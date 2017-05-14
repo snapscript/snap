@@ -6,18 +6,18 @@ import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
 
-public class NameExtractor {
+public class NameReference {
 
-   private Evaluation evaluation;
+   private Evaluation identifier;
    private String name;
    
-   public NameExtractor(Evaluation evaluation) {
-      this.evaluation = evaluation;
+   public NameReference(Evaluation identifier) {
+      this.identifier = identifier;
    }
    
-   public String extract(Scope scope) throws Exception {
+   public String getName(Scope scope) throws Exception {
       if(name == null) {
-         Value value = evaluation.evaluate(scope, null);
+         Value value = identifier.evaluate(scope, null);
          String identifier = value.getString();
          
          if(identifier == null) {

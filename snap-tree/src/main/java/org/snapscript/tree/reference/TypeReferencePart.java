@@ -9,15 +9,15 @@ import org.snapscript.core.Type;
 import org.snapscript.core.TypeTraverser;
 import org.snapscript.core.Value;
 import org.snapscript.core.ValueType;
-import org.snapscript.tree.NameExtractor;
+import org.snapscript.tree.NameReference;
 
 public class TypeReferencePart implements Evaluation {
 
    private final TypeTraverser traverser;
-   private final NameExtractor extractor;
+   private final NameReference reference;
 
    public TypeReferencePart(Evaluation type) {
-      this.extractor = new NameExtractor(type);
+      this.reference = new NameReference(type);
       this.traverser = new TypeTraverser();
    }   
    
@@ -26,7 +26,7 @@ public class TypeReferencePart implements Evaluation {
       Module module = scope.getModule();
       
       if(left != null) {
-         String name = extractor.extract(scope);
+         String name = reference.getName(scope);
          
          if(Module.class.isInstance(left)) {
             return create(scope, (Module)left);
@@ -40,7 +40,7 @@ public class TypeReferencePart implements Evaluation {
    }
    
    private Value create(Scope scope, Module module) throws Exception {
-      String name = extractor.extract(scope);
+      String name = reference.getName(scope);
       Object result = module.getModule(name);
       Type type = scope.getType();
       
@@ -58,7 +58,7 @@ public class TypeReferencePart implements Evaluation {
    
    
    private Value create(Scope scope, Type type) throws Exception {
-      String name = extractor.extract(scope);
+      String name = reference.getName(scope);
       Module module = type.getModule();
       String parent = type.getName();
       Type result = module.getType(parent + "$"+name);

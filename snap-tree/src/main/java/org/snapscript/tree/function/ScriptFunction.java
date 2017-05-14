@@ -12,16 +12,16 @@ import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Signature;
-import org.snapscript.tree.NameExtractor;
+import org.snapscript.tree.NameReference;
 import org.snapscript.tree.constraint.Constraint;
-import org.snapscript.tree.constraint.ConstraintExtractor;
+import org.snapscript.tree.constraint.ConstraintReference;
 
 public class ScriptFunction extends Statement {
    
-   private final ConstraintExtractor constraint;
+   private final ConstraintReference constraint;
    private final ParameterList parameters;
    private final FunctionBuilder builder;
-   private final NameExtractor extractor;
+   private final NameReference identifier;
    private final Statement body;
    
    public ScriptFunction(Evaluation identifier, ParameterList parameters, Statement body){  
@@ -29,8 +29,8 @@ public class ScriptFunction extends Statement {
    }
    
    public ScriptFunction(Evaluation identifier, ParameterList parameters, Constraint constraint, Statement body){  
-      this.constraint = new ConstraintExtractor(constraint);
-      this.extractor = new NameExtractor(identifier);
+      this.constraint = new ConstraintReference(constraint);
+      this.identifier = new NameReference(identifier);
       this.builder = new FunctionBuilder(body);
       this.parameters = parameters;
       this.body = body;
@@ -41,8 +41,8 @@ public class ScriptFunction extends Statement {
       Module module = scope.getModule();
       List<Function> functions = module.getFunctions();
       Signature signature = parameters.create(scope);
-      String name = extractor.extract(scope);
-      Type returns = constraint.extract(scope);
+      String name = identifier.getName(scope);
+      Type returns = constraint.getConstraint(scope);
       Function function = builder.create(signature, module, returns, name);
       
       functions.add(function);

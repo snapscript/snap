@@ -6,19 +6,19 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Value;
 import org.snapscript.core.ValueType;
-import org.snapscript.tree.NameExtractor;
+import org.snapscript.tree.NameReference;
 
 public class MapKey implements Evaluation {
    
-   private final NameExtractor extractor;
+   private final NameReference reference;
    
    public MapKey(Evaluation key) {
-      this.extractor = new NameExtractor(key);
+      this.reference = new NameReference(key);
    }
    
    @Override
    public Value evaluate(Scope scope, Object left) throws Exception{
-      String name = extractor.extract(scope);
+      String name = reference.getName(scope);
       State state = scope.getState();
       Value value = state.get(name);
       

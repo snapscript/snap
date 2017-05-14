@@ -18,7 +18,7 @@ import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.trace.TraceStatement;
 import org.snapscript.core.trace.TraceType;
-import org.snapscript.tree.NameExtractor;
+import org.snapscript.tree.NameReference;
 import org.snapscript.tree.collection.Iteration;
 import org.snapscript.tree.collection.IterationConverter;
 
@@ -43,12 +43,12 @@ public class ForInStatement implements Compilation {
    private static class CompileResult extends Statement {
    
       private final IterationConverter converter;
-      private final NameExtractor extractor;
+      private final NameReference reference;
       private final Evaluation collection;
       private final Statement body;
    
       public CompileResult(Evaluation identifier, Evaluation collection, Statement body) {
-         this.extractor = new NameExtractor(identifier);
+         this.reference = new NameReference(identifier);
          this.converter = new IterationConverter();
          this.collection = collection;
          this.body = body;
@@ -62,7 +62,7 @@ public class ForInStatement implements Compilation {
       @Override
       public Result execute(Scope scope) throws Exception { 
          Value list = collection.evaluate(scope, null);
-         String name = extractor.extract(scope);
+         String name = reference.getName(scope);
          Object object = list.getValue();
          Iteration iteration = converter.convert(scope, object);
          Iterable iterable = iteration.getIterable(scope);
