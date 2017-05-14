@@ -1,4 +1,4 @@
-package org.snapscript.instruction.template;
+package org.snapscript.tree.template;
 
 import java.util.Arrays;
 import java.util.List;
