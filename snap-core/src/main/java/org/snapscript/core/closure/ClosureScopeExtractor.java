@@ -16,10 +16,11 @@ public class ClosureScopeExtractor {
    public Scope extract(Scope scope) {
       Model model = scope.getModel();
       State state = scope.getState();
+      Scope outer = scope.getOuter();
       Iterator<String> names = state.iterator();
       
       if(names.hasNext()) {
-         Scope capture = new ClosureScope(model, scope);
+         Scope capture = new ClosureScope(model, scope, outer);
          
          while(names.hasNext()) {
             String name = names.next();

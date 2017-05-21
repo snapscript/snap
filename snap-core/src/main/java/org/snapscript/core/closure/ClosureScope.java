@@ -11,38 +11,40 @@ import org.snapscript.core.Type;
 public class ClosureScope implements Scope {
    
    private final State state;
-   private final Scope scope;
+   private final Scope inner;
+   private final Scope outer;
    private final Model model;
    
-   public ClosureScope(Model model, Scope scope) {
-      this.state = new ClosureState(scope);
-      this.scope = scope;
+   public ClosureScope(Model model, Scope inner, Scope outer) {
+      this.state = new ClosureState(inner);
+      this.inner = inner;
+      this.outer = outer;
       this.model = model;
    }
 
    @Override
    public Scope getInner() {
-      return new CompoundScope(model, this, scope);
+      return new CompoundScope(model, this, outer);
    }
    
    @Override
    public Scope getOuter() {
-      return scope;
+      return outer;
    }
    
    @Override
    public Type getHandle() {
-      return scope.getType();
+      return inner.getType();
    }
 
    @Override
    public Type getType() {
-      return scope.getType();
+      return inner.getType();
    }
 
    @Override
    public Module getModule() {
-      return scope.getModule();
+      return inner.getModule();
    }
    
    @Override
