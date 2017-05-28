@@ -7,26 +7,26 @@ import java.util.List;
 import org.snapscript.core.Type;
 import org.snapscript.core.annotation.Annotation;
 
-public class InvocationFunction<T> implements Function<T> {
+public class InvocationFunction implements Function {
 
    private final FunctionDescription description;
    private final List<Annotation> annotations;
-   private final Invocation<T> invocation;
+   private final Invocation invocation;
    private final Signature signature;
    private final Type constraint;
    private final Type parent;
    private final String name;
    private final int modifiers;
 
-   public InvocationFunction(Signature signature, Invocation<T> invocation, Type parent, Type constraint, String name){
+   public InvocationFunction(Signature signature, Invocation invocation, Type parent, Type constraint, String name){
       this(signature, invocation, parent, constraint, name, 0);
    }
    
-   public InvocationFunction(Signature signature, Invocation<T> invocation, Type parent, Type constraint, String name, int modifiers){
+   public InvocationFunction(Signature signature, Invocation invocation, Type parent, Type constraint, String name, int modifiers){
       this(signature, invocation, parent, constraint, name, modifiers, 0);
    }
    
-   public InvocationFunction(Signature signature, Invocation<T> invocation, Type parent, Type constraint, String name, int modifiers, int start){
+   public InvocationFunction(Signature signature, Invocation invocation, Type parent, Type constraint, String name, int modifiers, int start){
       this.description = new FunctionDescription(signature, parent, name, start);
       this.annotations = new ArrayList<Annotation>();
       this.invocation = invocation;
@@ -73,7 +73,7 @@ public class InvocationFunction<T> implements Function<T> {
    }
    
    @Override
-   public Invocation<T> getInvocation(){
+   public Invocation getInvocation(){
       return invocation;
    }
    

@@ -10,7 +10,7 @@ import java.util.List;
 import org.snapscript.core.Type;
 import org.snapscript.core.annotation.Annotation;
 
-public class EmptyFunction<T> implements Function<T> {
+public class EmptyFunction implements Function {
 
    private final FunctionDescription description;
    private final List<Annotation> annotations;
@@ -70,7 +70,7 @@ public class EmptyFunction<T> implements Function<T> {
    }
    
    @Override
-   public Invocation<T> getInvocation(){
+   public Invocation getInvocation(){
       return null;
    }
    

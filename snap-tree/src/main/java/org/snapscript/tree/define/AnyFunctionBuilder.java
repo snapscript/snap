@@ -52,6 +52,6 @@ public class AnyFunctionBuilder {
          }
          parameters.add(parameter);
       }
-      return new InvocationFunction<Object>(signature, invocation, type, null, name, PUBLIC.mask);
+      return new InvocationFunction(signature, invocation, type, null, name, PUBLIC.mask);
    }
 }
