@@ -9,6 +9,7 @@ public interface TokenReader {
    boolean identifier();
    boolean qualifier();
    boolean template();
+   boolean space();
    boolean text();
    boolean type(); 
 }

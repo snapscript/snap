@@ -7,6 +7,7 @@ import static org.snapscript.parse.TokenType.HEXIDECIMAL;
 import static org.snapscript.parse.TokenType.IDENTIFIER;
 import static org.snapscript.parse.TokenType.LITERAL;
 import static org.snapscript.parse.TokenType.QUALIFIER;
+import static org.snapscript.parse.TokenType.SPACE;
 import static org.snapscript.parse.TokenType.TEMPLATE;
 import static org.snapscript.parse.TokenType.TEXT;
 import static org.snapscript.parse.TokenType.TYPE;
@@ -57,6 +58,9 @@ public class TokenIndexer {
          int line = lines[mark];
          Token token = literal(line);
          
+         if (token == null) {
+            token = space(line);
+         }
          if (token == null) {
             token = template(line);
          }
@@ -169,6 +173,16 @@ public class TokenIndexer {
       
       if (token != null) {
          return new StringToken(token, line, TEXT.mask);
+      }
+      return null;
+   }
+   
+   private Token space(int number) {
+      Line line = extractor.extract(number);
+      Character token = reader.space();
+      
+      if (token != null) {
+         return new CharacterToken(token, line, SPACE.mask);
       }
       return null;
    }

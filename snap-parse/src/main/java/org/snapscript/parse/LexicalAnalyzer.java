@@ -11,6 +11,7 @@ public interface LexicalAnalyzer {
    Token<Number> hexidecimal();
    Token<Number> binary();
    Token<Number> decimal();
+   Token<Character> space();
    Line line(int mark);
    int reset(int mark);
    int count();

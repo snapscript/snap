@@ -44,15 +44,14 @@ public class SourceCompressor {
             lines[write] = line;
             compress[write++] = original[read++];
          } else {
-            if(write > 0 && read + 1< count) {
+            if(write > 0 && read + 1< count) { // some read and not finished
                char before = compress[write-1];
                char after = original[read+1];
                
                if(identifier(before) && identifier(after)) {
                   lines[write] = line;
                   compress[write++] = ' ';               
-               }
-               if(operator(before) && operator(after)) {
+               } else if(operator(before) && operator(after)) {
                   lines[write] = line;
                   compress[write++] = ' ';               
                }               

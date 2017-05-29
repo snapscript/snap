@@ -87,7 +87,9 @@ public class TableGenerator {
                   System.out.println("TextCategory.DOLLAR,");
                }else if(next=='_'){
                   System.out.println("TextCategory.IDENTIFIER,");
-               } else{
+               } else if(space(next)){
+                  System.out.println("TextCategory.SPACE,");
+               } else {
                   System.out.println("TextCategory.NONE,");
                }
             } 
@@ -98,6 +100,15 @@ public class TableGenerator {
    }
    private static boolean binary(char value){
       return value =='1'||value=='0';
+   }
+   
+   private static boolean space(char value) {
+      switch(value) {
+      case ' ': case '\t':
+      case '\r': case '\n':
+         return true;
+      }
+      return false;
    }
    private static boolean hexidecimal(char value) {
       if(value >= 'a' && value <= 'f') {

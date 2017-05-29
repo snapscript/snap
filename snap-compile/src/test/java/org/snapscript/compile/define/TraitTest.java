@@ -20,14 +20,14 @@ public class TraitTest extends TestCase{
    "   comeToMaster();\n"+
    "}\n"+
    "\n"+
-   "class Dog extends Pet {\n"+
+   "class Dog with Pet {\n"+
    "  // don't need to implement 'speak' if you don't want to\n"+
    "   comeToMaster() {\n"+
    "      out.println('I\\'m coming!');\n"+
    "   }\n"+
    "}\n"+
    "\n"+
-   "class Cat extends Pet {\n"+
+   "class Cat with Pet {\n"+
    "  speak() {\n"+
    "      out.println('meow');\n"+
    "  }\n"+
@@ -62,17 +62,17 @@ public class TraitTest extends TestCase{
    "}\n"+
    "X.x;\n";   
          
-//   public void testTraits() throws Exception {
-//      Map map = new HashMap<String,Value>();
-//      map.put("out",System.out);
-//      Model s = new MapModel(map);
-//      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
-//      boolean failure=false;
-//      System.err.println(SOURCE_1);
-//      compiler.compile(SOURCE_1).execute(s);
-//      System.err.println();
-//
-//   }
+   public void testTraits() throws Exception {
+      Map map = new HashMap<String,Value>();
+      map.put("out",System.out);
+      Model s = new MapModel(map);
+      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
+      boolean failure=false;
+      System.err.println(SOURCE_1);
+      compiler.compile(SOURCE_1).execute(s);
+      System.err.println();
+
+   }
    
    public void testTraitConstants() throws Exception {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
@@ -83,12 +83,12 @@ public class TraitTest extends TestCase{
 
    }
    
-//   public void testClassConstants() throws Exception {
-//      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
-//      boolean failure=false;
-//      System.err.println(SOURCE_3);
-//      compiler.compile(SOURCE_3).execute();
-//      System.err.println();
-//
-//   }   
+   public void testClassConstants() throws Exception {
+      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
+      boolean failure=false;
+      System.err.println(SOURCE_3);
+      compiler.compile(SOURCE_3).execute();
+      System.err.println();
+
+   }   
 }

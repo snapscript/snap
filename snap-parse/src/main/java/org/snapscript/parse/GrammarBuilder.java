@@ -14,6 +14,10 @@ public class GrammarBuilder {
       this.indexer = indexer;      
    }
    
+   public Grammar createSpace(String text, String origin) { 
+      return new SpaceGrammar();
+   }
+   
    public Grammar createLiteral(String text, String origin) { 
       String value = indexer.literal(text);
       return new LiteralGrammar(value);
@@ -34,7 +38,7 @@ public class GrammarBuilder {
    
    public Grammar createRepeatOnce(Grammar node, String origin) {
       return new RepeatGrammar(node, true);
-   }   
+   }
    
    public Grammar createSpecial(String text, String origin) {
       Symbol[] symbols = Symbol.values();

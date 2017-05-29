@@ -10,6 +10,7 @@ public enum RuleType {
    CLOSE_GROUP(")"),
    OPEN_CHOICE("{"),
    CLOSE_CHOICE("}"),   
+   SPACE("_"), 
    SPECIAL("[", "]"),   
    REFERENCE("<", ">"),
    LITERAL("'", "'");
@@ -24,6 +25,10 @@ public enum RuleType {
    private RuleType(String start, String terminal) {
       this.terminal = terminal;
       this.start = start;
+   }
+   
+   public boolean isToken() {
+      return this == SPECIAL || this == REFERENCE || this == LITERAL || this == SPACE;
    }
    
    public boolean isOptional() {
@@ -68,5 +73,9 @@ public enum RuleType {
    
    public boolean isLiteral() {
       return this == LITERAL;
+   }
+   
+   public boolean isSpace() {
+      return this == SPACE;
    }
 }

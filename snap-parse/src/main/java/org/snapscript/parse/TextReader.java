@@ -14,6 +14,7 @@ import static org.snapscript.parse.TextCategory.LETTER;
 import static org.snapscript.parse.TextCategory.MINUS;
 import static org.snapscript.parse.TextCategory.PERIOD;
 import static org.snapscript.parse.TextCategory.QUOTE;
+import static org.snapscript.parse.TextCategory.SPACE;
 import static org.snapscript.parse.TextCategory.SPECIAL;
 import static org.snapscript.parse.TextCategory.SUFFIX;
 import static org.snapscript.parse.TextCategory.TEMPLATE;
@@ -103,6 +104,17 @@ public class TextReader {
       return null;
    }
    
+   public Character space() {
+      if(off < count) {
+         short type = types[off];
+         
+         if((type & SPACE) == SPACE) {           
+            return source[off++];
+         }
+      }
+      return null;
+   }
+   
    public Character letter() {
       if(off < count) {
          short type = types[off];
@@ -113,7 +125,6 @@ public class TextReader {
       }
       return null;
    }
-   
    
    public Character digit() {      
       if(off < count) {

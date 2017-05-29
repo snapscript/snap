@@ -34,6 +34,11 @@ public class TextCategoryBuilder {
       TextCategory.NONE,
       TextCategory.NONE,
       TextCategory.NONE,
+      TextCategory.SPACE,
+      TextCategory.SPACE,
+      TextCategory.NONE,
+      TextCategory.NONE,
+      TextCategory.SPACE,
       TextCategory.NONE,
       TextCategory.NONE,
       TextCategory.NONE,
@@ -52,12 +57,7 @@ public class TextCategoryBuilder {
       TextCategory.NONE,
       TextCategory.NONE,
       TextCategory.NONE,
-      TextCategory.NONE,
-      TextCategory.NONE,
-      TextCategory.NONE,
-      TextCategory.NONE,
-      TextCategory.NONE,
-      TextCategory.NONE,
+      TextCategory.SPACE,
       TextCategory.NONE,
       TextCategory.QUOTE | TextCategory.TEMPLATE | TextCategory.SPECIAL,
       TextCategory.NONE,
@@ -281,7 +281,6 @@ public class TextCategoryBuilder {
       TextCategory.NONE,
       TextCategory.NONE,
       };
-
 
 
 

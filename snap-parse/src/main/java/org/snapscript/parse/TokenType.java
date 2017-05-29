@@ -10,7 +10,8 @@ public enum TokenType {
    DECIMAL(5, 0x0020),
    TEXT(6, 0x0040),
    LITERAL(7, 0x0080),
-   TEMPLATE(8, 0x0100);
+   TEMPLATE(8, 0x0100),
+   SPACE(9, 0x0200);
    
    public final short mask;
    public final int index;

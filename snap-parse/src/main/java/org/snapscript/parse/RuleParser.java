@@ -75,6 +75,8 @@ public class RuleParser extends StringParser implements RuleIterator {
             digest(RuleType.REFERENCE);            
          } else if(skip("'")) {
             digest(RuleType.LITERAL);
+         } else if(skip("_")) {
+            digest(RuleType.SPACE);
          } else {
             throw new ParseException("Invalid syntax in " + name + " at " + off);
          }

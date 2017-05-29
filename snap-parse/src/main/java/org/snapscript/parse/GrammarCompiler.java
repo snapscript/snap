@@ -38,7 +38,6 @@ public class GrammarCompiler {
       RuleType type = rule.getType();
       String origin = rule.getOrigin();
       
-      if(type.isReference() || type.isLiteral() || type.isSpecial()) {
          Grammar node = next(iterator, previous);
          
          iterator.next();
@@ -66,7 +65,6 @@ public class GrammarCompiler {
       RuleType type = rule.getType();
       String origin = rule.getOrigin();
 
-      if(type.isReference() || type.isLiteral() || type.isSpecial()) {
          Grammar node = next(iterator, previous);         
          
          iterator.next();
@@ -151,7 +149,6 @@ public class GrammarCompiler {
             sequence.clear();
             choices.add(group);
             iterator.next();
-         } else if(type.isReference() || type.isLiteral() || type.isSpecial()) {
             Grammar next = next(iterator, previous);
             
             if(next != null) {
@@ -190,6 +187,9 @@ public class GrammarCompiler {
       String origin = rule.getOrigin();
       String text = rule.getSymbol();
       
+      if(type.isSpace()) {
+         return builder.createSpace(text, origin);
+      }
       if(type.isLiteral()){         
          return builder.createLiteral(text, origin);
       } 
@@ -206,7 +206,6 @@ public class GrammarCompiler {
       Rule rule = iterator.peek();
       RuleType type = rule.getType();      
       
-      if(type.isReference() || type.isLiteral() || type.isSpecial()) {
          return sequence(iterator, previous);
       } 
       if(type.isOpenGroup() || type.isOpenChoice()) {

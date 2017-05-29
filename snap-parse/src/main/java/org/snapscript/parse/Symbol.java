@@ -49,7 +49,7 @@ public enum Symbol {
       public boolean read(TokenReader reader) {
          return reader.template();
       }
-   };
+   }; 
    
    public final TokenType type;
    public final String name;

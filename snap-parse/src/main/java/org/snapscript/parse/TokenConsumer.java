@@ -112,4 +112,15 @@ public abstract class TokenConsumer implements TokenReader {
       }
       return false;
    }
+   
+   @Override
+   public boolean space() {
+      Token token = analyzer.space();
+
+      if (token != null) {
+         value = token;
+         return true;
+      }
+      return false;
+   }
 }

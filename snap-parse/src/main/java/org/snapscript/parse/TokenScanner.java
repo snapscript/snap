@@ -7,6 +7,7 @@ import static org.snapscript.parse.TokenType.HEXIDECIMAL;
 import static org.snapscript.parse.TokenType.IDENTIFIER;
 import static org.snapscript.parse.TokenType.LITERAL;
 import static org.snapscript.parse.TokenType.QUALIFIER;
+import static org.snapscript.parse.TokenType.SPACE;
 import static org.snapscript.parse.TokenType.TEMPLATE;
 import static org.snapscript.parse.TokenType.TEXT;
 import static org.snapscript.parse.TokenType.TYPE;
@@ -87,6 +88,19 @@ public class TokenScanner implements LexicalAnalyzer {
       }
       if (mark < masks.length) {
          if ((masks[mark] & QUALIFIER.mask) != 0) {
+            return tokens.get(mark++);
+         }
+      }
+      return null;
+   }
+   
+   @Override
+   public Token<Character> space() {
+      if (masks == null) {
+         masks = indexer.index(tokens);
+      }
+      if (mark < masks.length) {
+         if ((masks[mark] & SPACE.mask) != 0) {
             return tokens.get(mark++);
          }
       }
