@@ -38,6 +38,7 @@ public class GrammarCompiler {
       RuleType type = rule.getType();
       String origin = rule.getOrigin();
       
+      if(type.isToken()) {
          Grammar node = next(iterator, previous);
          
          iterator.next();
@@ -65,6 +66,7 @@ public class GrammarCompiler {
       RuleType type = rule.getType();
       String origin = rule.getOrigin();
 
+      if(type.isToken()) {
          Grammar node = next(iterator, previous);         
          
          iterator.next();
@@ -149,6 +151,7 @@ public class GrammarCompiler {
             sequence.clear();
             choices.add(group);
             iterator.next();
+         } else if(type.isToken()) {
             Grammar next = next(iterator, previous);
             
             if(next != null) {
@@ -206,6 +209,7 @@ public class GrammarCompiler {
       Rule rule = iterator.peek();
       RuleType type = rule.getType();      
       
+      if(type.isToken()) {
          return sequence(iterator, previous);
       } 
       if(type.isOpenGroup() || type.isOpenChoice()) {
