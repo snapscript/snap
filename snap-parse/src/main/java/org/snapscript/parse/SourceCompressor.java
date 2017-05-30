@@ -11,6 +11,7 @@ public class SourceCompressor {
    private char[] compress;
    private short[] lines;
    private short line;
+   private char space;
    private int write;
    private int read;
    private int count;
@@ -20,6 +21,7 @@ public class SourceCompressor {
       this.compress = new char[original.length];
       this.count = original.length;
       this.original = original;
+      this.space = ' ';
       this.line = 1; // lines start at 1
    }
    
@@ -43,26 +45,9 @@ public class SourceCompressor {
          } else if(!space(next)) {
             lines[write] = line;
             compress[write++] = original[read++];
+            space = ' ';
          } else {
-            if(write > 0 && read + 1< count) { // some read and not finished
-               char before = compress[write-1];
-               char after = original[read+1];
-               
-               if(identifier(before) && identifier(after)) {
-                  lines[write] = line;
-                  compress[write++] = ' ';               
-               } else if(operator(before) && operator(after)) {
-                  lines[write] = line;
-                  compress[write++] = ' ';               
-               }               
-            }
-            if(next == '\n') {
-               if(line > LINE_LIMIT) {
-                  throw new SourceException("Source exceeds " + LINE_LIMIT + " lines");
-               }
-               line++;
-            }
-            read++;
+            replace();
          }
       }
       return create();
@@ -214,6 +199,34 @@ public class SourceCompressor {
             size++;
          }
          throw new SourceException("String literal not closed at line " + line);
+      }
+      return false;
+   }
+   
+   private boolean replace() { // replace spaces
+      char start = original[read];
+      
+      if(space(start)) {
+         if(write > 0 && read +1 < count) { // some read and not finished
+            char before = compress[write-1];
+            char after = original[read+1];
+            
+            if(identifier(before) && identifier(after)) {
+               lines[write] = line;
+               compress[write++] = space;  
+            } else if(operator(before) && operator(after)) {
+               lines[write] = line;
+               compress[write++] = space;
+            }
+         }
+         if(start == '\n') {
+            if(line > LINE_LIMIT) {
+               throw new SourceException("Source exceeds " + LINE_LIMIT + " lines");
+            }
+            line++;
+         }
+         read++;
+         return true;
       }
       return false;
    }

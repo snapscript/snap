@@ -47,7 +47,7 @@ public class SemiColonInsertionTest extends TestCase {
    public void testSemiColonInsertion() throws Exception {
      // List<Token> tokens = createTokens(SOURCE, "/test.snap");
       
-      //System.err.println(compressText(SOURCE));
+      System.err.println(compressText(SOURCE));
       System.err.println(compressText(SOURCE.replace(";", "")));
       //assertFalse(tokens.isEmpty());
    }
