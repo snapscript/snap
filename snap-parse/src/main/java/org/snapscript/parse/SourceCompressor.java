@@ -223,6 +223,7 @@ public class SourceCompressor {
             if(line > LINE_LIMIT) {
                throw new SourceException("Source exceeds " + LINE_LIMIT + " lines");
             }
+            space = '\n'; // replace next with space
             line++;
          }
          read++;
