@@ -47,7 +47,28 @@ public class SourceCompressor {
             compress[write++] = original[read++];
             space = ' ';
          } else {
-            replace();
+            if(write > 0 && read +1 < count) { // some read and not finished
+               char before = compress[write-1];
+               char after = original[read+1];
+               
+               if(identifier(before) && identifier(after)) {
+                  lines[write] = line;
+                  compress[write++] = space;  
+               } else if(operator(before) && operator(after)) {
+                  lines[write] = line;
+                  compress[write++] = space;
+               }
+            }
+            if(next == '\n') {
+               if(line > LINE_LIMIT) {
+                  throw new SourceException("Source exceeds " + LINE_LIMIT + " lines");
+               }
+               space = '\n'; // replace next with line feed
+               line++;
+            } else if(next == '\r') {
+               space = '\n'; // replace carriage return
+            }
+            read++;
          }
       }
       return create();
@@ -199,35 +220,6 @@ public class SourceCompressor {
             size++;
          }
          throw new SourceException("String literal not closed at line " + line);
-      }
-      return false;
-   }
-   
-   private boolean replace() { // replace spaces
-      char start = original[read];
-      
-      if(space(start)) {
-         if(write > 0 && read +1 < count) { // some read and not finished
-            char before = compress[write-1];
-            char after = original[read+1];
-            
-            if(identifier(before) && identifier(after)) {
-               lines[write] = line;
-               compress[write++] = space;  
-            } else if(operator(before) && operator(after)) {
-               lines[write] = line;
-               compress[write++] = space;
-            }
-         }
-         if(start == '\n') {
-            if(line > LINE_LIMIT) {
-               throw new SourceException("Source exceeds " + LINE_LIMIT + " lines");
-            }
-            space = '\n'; // replace next with space
-            line++;
-         }
-         read++;
-         return true;
       }
       return false;
    }
