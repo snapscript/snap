@@ -60,17 +60,30 @@ public class RuleParser extends StringParser implements RuleIterator {
       if(off < count) {
          char last = source[off];
          int size = count;
+         int write = 0;
+         int read = 0;
+
+         while(read < size){
+            char next = source[read++];
             
             if(next == '\'' && last != '\\'){ 
+               source[write++] = next;
                
+               while(read < size){
+                  last = source[read-1];
+                  next = source[read++];  
+                  source[write++] = next;
                   
                   if(next =='\'' && last!='\\'){  
                      break;
                   }
                }
             }else if(!space(next)){            
+               last = source[read - 1];  
+               source[write++] = last;                   
             }         
          }
+         count = write;
       }
    }
    
