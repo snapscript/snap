@@ -8,8 +8,8 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
+import org.snapscript.common.store.Store;
 import org.snapscript.core.Context;
-import org.snapscript.core.store.Store;
 
 public class ImportResourceTest extends TestCase {
    

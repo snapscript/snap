@@ -52,6 +52,29 @@ public class RuleParser extends StringParser implements RuleIterator {
 
    @Override
    protected void parse() {
+      pack();
+      digest();
+   }   
+   
+   private void pack() {
+      if(off < count) {
+         char last = source[off];
+         int size = count;
+            
+            if(next == '\'' && last != '\\'){ 
+               
+                  
+                  if(next =='\'' && last!='\\'){  
+                     break;
+                  }
+               }
+            }else if(!space(next)){            
+            }         
+         }
+      }
+   }
+   
+   private void digest() {
       while(off < count) {
          if(skip("|")){
             digest(RuleType.SPLITTER);
@@ -81,7 +104,7 @@ public class RuleParser extends StringParser implements RuleIterator {
             throw new ParseException("Invalid syntax in " + name + " at " + off);
          }
       } 
-   }   
+   }
    
    private void digest(RuleType type) {
       int mark = off - 1;

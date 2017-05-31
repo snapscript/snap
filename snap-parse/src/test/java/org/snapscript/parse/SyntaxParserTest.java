@@ -4,6 +4,8 @@ import junit.framework.TestCase;
 
 public class SyntaxParserTest extends TestCase {
    
+   private static final String GRAMMAR_FILE = "grammar.bnf";
+   
    private static final String SOURCE_1 =
    "/* simple test class */\r\n"+
    "class Blah {\r\n"+
@@ -32,14 +34,14 @@ public class SyntaxParserTest extends TestCase {
    
    public void testSimpleParser() throws Exception {
       System.err.println(SOURCE_1);
-      SyntaxCompiler builder = new SyntaxCompiler();
+      SyntaxCompiler builder = new SyntaxCompiler(GRAMMAR_FILE);
       SyntaxParser parser = builder.compile();
       LexerBuilder.print(parser, SOURCE_1, "script");
    }
 
    public void testComplexParser() throws Exception {
       System.err.println(SOURCE_2);
-      SyntaxCompiler builder = new SyntaxCompiler();
+      SyntaxCompiler builder = new SyntaxCompiler(GRAMMAR_FILE);
       SyntaxParser parser = builder.compile();
       LexerBuilder.print(parser, SOURCE_2, "script");
    }
@@ -48,7 +50,7 @@ public class SyntaxParserTest extends TestCase {
       boolean failure = false;
       try {
          System.err.println(SOURCE_3);
-         SyntaxCompiler builder = new SyntaxCompiler();
+         SyntaxCompiler builder = new SyntaxCompiler(GRAMMAR_FILE);
          SyntaxParser parser = builder.compile();
          LexerBuilder.print(parser, SOURCE_3, "script");
       }catch(Exception e) {

@@ -3,9 +3,9 @@ package org.snapscript.core;
 
 import java.io.InputStream;
 
-import org.snapscript.core.store.CacheStore;
-import org.snapscript.core.store.NotFoundException;
-import org.snapscript.core.store.Store;
+import org.snapscript.common.store.CacheStore;
+import org.snapscript.common.store.NotFoundException;
+import org.snapscript.common.store.Store;
 
 public class StoreManager implements ResourceManager {
 

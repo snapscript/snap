@@ -10,13 +10,13 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 import junit.framework.TestCase;
 
+import org.snapscript.common.store.Store;
 import org.snapscript.core.Context;
 import org.snapscript.core.EmptyModel;
 import org.snapscript.core.Model;
 import org.snapscript.core.Module;
 import org.snapscript.core.ModuleRegistry;
 import org.snapscript.core.Scope;
-import org.snapscript.core.store.Store;
 
 public class NewInstanceEvaluationTest extends TestCase {
    

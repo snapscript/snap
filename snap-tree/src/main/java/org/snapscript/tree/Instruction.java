@@ -249,18 +249,5 @@ public enum Instruction {
    public Class getType(){
       return type;
    }
-   
-   public int getCode() {
-      return ordinal();
-   }
-   
-   public static Instruction resolveInstruction(int code) {
-      Instruction[] instruction = Instruction.values();
-      
-      if(instruction.length > code) {
-         return instruction[code];
-      }
-      return null;
-   }
 }
    

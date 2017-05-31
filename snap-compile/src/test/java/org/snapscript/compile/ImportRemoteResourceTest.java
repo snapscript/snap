@@ -19,9 +19,9 @@ import java.util.regex.Pattern;
 
 import junit.framework.TestCase;
 
+import org.snapscript.common.store.RemoteStore;
+import org.snapscript.common.store.Store;
 import org.snapscript.core.Context;
-import org.snapscript.core.store.RemoteStore;
-import org.snapscript.core.store.Store;
 
 public class ImportRemoteResourceTest extends TestCase {
    

@@ -3,6 +3,7 @@ package org.snapscript.compile;
 
 import java.util.concurrent.Executor;
 
+import org.snapscript.common.store.Store;
 import org.snapscript.compile.assemble.ExecutorLinker;
 import org.snapscript.compile.assemble.OperationEvaluator;
 import org.snapscript.compile.validate.ExecutableValidator;
@@ -20,7 +21,6 @@ import org.snapscript.core.convert.ProxyWrapper;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.link.PackageLinker;
 import org.snapscript.core.stack.ThreadStack;
-import org.snapscript.core.store.Store;
 import org.snapscript.core.trace.TraceInterceptor;
 
 public class StoreContext implements Context {

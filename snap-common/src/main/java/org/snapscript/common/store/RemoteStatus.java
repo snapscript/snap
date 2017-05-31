@@ -1,5 +1,5 @@
 
-package org.snapscript.core.store;
+package org.snapscript.common.store;
 
 public enum RemoteStatus {
    SUCCESS,

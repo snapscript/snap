@@ -4,6 +4,8 @@ import java.util.Arrays;
 
 import junit.framework.TestCase;
 
+import org.snapscript.common.store.ClassPathStore;
+import org.snapscript.common.store.Store;
 import org.snapscript.core.Context;
 import org.snapscript.core.ContextModule;
 import org.snapscript.core.Module;
@@ -19,8 +21,6 @@ import org.snapscript.core.function.Function;
 import org.snapscript.core.function.InvocationFunction;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.Signature;
-import org.snapscript.core.store.ClassPathStore;
-import org.snapscript.core.store.Store;
 
 public class ClosureMatcherTest extends TestCase {
 

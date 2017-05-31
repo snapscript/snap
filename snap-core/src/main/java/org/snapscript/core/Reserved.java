@@ -33,5 +33,6 @@ public interface Reserved {
    String DEFAULT_PACKAGE = "default";
    String DEFAULT_RESOURCE = "Unknown Source";
    String DEFAULT_PARAMETER = "a";
+   String GRAMMAR_FILE = "grammar.bnf";
 }
 

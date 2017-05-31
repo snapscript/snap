@@ -6,6 +6,9 @@ import java.util.Set;
 import junit.framework.TestCase;
 
 public class LexicalAnalyzerTest extends TestCase {
+   
+   private static final String GRAMMAR_FILE = "grammar.bnf";
+   
    /*
     * for(int i = 0; i < 0xff; i++){ if(!Character.isWhitespace((char)i) &&
     * !Character.isISOControl((char)i) && !Character.isDigit((char)i) &&
@@ -17,7 +20,7 @@ public class LexicalAnalyzerTest extends TestCase {
     * System.err.print((char)i); System.err.print("'"); } }
     */
    public void testGrammarTree() throws Exception {
-      SyntaxParser tree = LexerBuilder.create(); 
+      SyntaxParser tree = LexerBuilder.create(GRAMMAR_FILE); 
 
       assertNotNull(tree);
 

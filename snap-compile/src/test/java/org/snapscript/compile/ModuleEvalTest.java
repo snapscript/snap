@@ -6,8 +6,8 @@ import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.snapscript.common.store.Store;
 import org.snapscript.core.Context;
-import org.snapscript.core.store.Store;
 
 import junit.framework.TestCase;
 

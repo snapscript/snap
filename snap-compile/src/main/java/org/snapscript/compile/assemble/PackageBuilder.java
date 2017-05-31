@@ -1,6 +1,8 @@
 
 package org.snapscript.compile.assemble;
 
+import static org.snapscript.core.Reserved.GRAMMAR_FILE;
+
 import org.snapscript.core.Context;
 import org.snapscript.core.FilePathConverter;
 import org.snapscript.core.Path;
@@ -19,9 +21,9 @@ public class PackageBuilder {
    private final Assembler assembler;   
    
    public PackageBuilder(Context context) {
+      this.compiler = new SyntaxCompiler(GRAMMAR_FILE);
       this.assembler = new OperationAssembler(context);
       this.converter = new FilePathConverter();
-      this.compiler = new SyntaxCompiler();
    }
 
    public Package create(Path path, String source, String grammar) throws Exception {

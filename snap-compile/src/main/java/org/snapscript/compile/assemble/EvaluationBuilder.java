@@ -1,6 +1,7 @@
 
 package org.snapscript.compile.assemble;
 
+import static org.snapscript.core.Reserved.GRAMMAR_FILE;
 import static org.snapscript.tree.Instruction.EXPRESSION;
 
 import java.util.concurrent.Callable;
@@ -13,6 +14,7 @@ import org.snapscript.core.Evaluation;
 import org.snapscript.core.FilePathConverter;
 import org.snapscript.core.Path;
 import org.snapscript.core.PathConverter;
+import org.snapscript.core.Reserved;
 import org.snapscript.parse.SyntaxCompiler;
 import org.snapscript.parse.SyntaxNode;
 import org.snapscript.parse.SyntaxParser;
@@ -32,8 +34,8 @@ public class EvaluationBuilder {
    
    public EvaluationBuilder(Assembler assembler, Executor executor, int limit) {
       this.cache = new LeastRecentlyUsedCache<String, Evaluation>();
+      this.compiler = new SyntaxCompiler(GRAMMAR_FILE);
       this.converter = new FilePathConverter();
-      this.compiler = new SyntaxCompiler();
       this.assembler = assembler;
       this.executor = executor;
       this.limit = limit;

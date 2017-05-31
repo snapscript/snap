@@ -11,6 +11,10 @@ import java.util.Date;
 import java.util.TimeZone;
 import java.util.concurrent.CountDownLatch;
 
+import org.snapscript.common.store.NotFoundException;
+import org.snapscript.common.store.RemoteStore;
+import org.snapscript.common.store.StoreException;
+
 import junit.framework.TestCase;
 
 public class RemoteStoreTest extends TestCase {

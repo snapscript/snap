@@ -2,7 +2,7 @@ package org.snapscript.core.store;
 
 import java.net.URI;
 
-import org.snapscript.core.store.RemoteLocation;
+import org.snapscript.common.store.RemoteLocation;
 
 import junit.framework.TestCase;
 

@@ -10,8 +10,8 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 import junit.framework.TestCase;
 
+import org.snapscript.common.store.Store;
 import org.snapscript.core.Context;
-import org.snapscript.core.store.Store;
 
 public class NestedEvalTest extends TestCase {
    

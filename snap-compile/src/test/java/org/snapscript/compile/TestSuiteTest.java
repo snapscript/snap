@@ -4,9 +4,9 @@ import java.io.File;
 
 import junit.framework.TestCase;
 
+import org.snapscript.common.store.FileStore;
+import org.snapscript.common.store.Store;
 import org.snapscript.core.Context;
-import org.snapscript.core.store.FileStore;
-import org.snapscript.core.store.Store;
 
 // this test can be disabled
 public class TestSuiteTest extends TestCase {

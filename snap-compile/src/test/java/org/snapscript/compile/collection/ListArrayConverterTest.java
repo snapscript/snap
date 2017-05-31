@@ -5,6 +5,8 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+import org.snapscript.common.store.ClassPathStore;
+import org.snapscript.common.store.Store;
 import org.snapscript.compile.StoreContext;
 import org.snapscript.core.Context;
 import org.snapscript.core.Type;
@@ -12,8 +14,6 @@ import org.snapscript.core.TypeLoader;
 import org.snapscript.core.convert.ConstraintConverter;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.Score;
-import org.snapscript.core.store.ClassPathStore;
-import org.snapscript.core.store.Store;
 
 public class ListArrayConverterTest extends TestCase {
 

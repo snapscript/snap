@@ -6,12 +6,12 @@ import java.util.concurrent.TimeUnit;
 
 import junit.framework.TestCase;
 
+import org.snapscript.common.store.ClassPathStore;
+import org.snapscript.common.store.Store;
 import org.snapscript.core.Context;
 import org.snapscript.core.ExpressionEvaluator;
 import org.snapscript.core.MapModel;
 import org.snapscript.core.Model;
-import org.snapscript.core.store.ClassPathStore;
-import org.snapscript.core.store.Store;
 
 public class MathTest extends TestCase{
    

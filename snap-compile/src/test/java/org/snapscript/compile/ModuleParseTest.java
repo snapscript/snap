@@ -1,10 +1,13 @@
 package org.snapscript.compile;
 
+import static org.snapscript.core.Reserved.GRAMMAR_FILE;
+
 import java.util.HashSet;
 import java.util.Set;
 
 import junit.framework.TestCase;
 
+import org.snapscript.core.Reserved;
 import org.snapscript.parse.SyntaxCompiler;
 import org.snapscript.parse.SyntaxNode;
 import org.snapscript.parse.SyntaxParser;
@@ -12,7 +15,7 @@ import org.snapscript.parse.SyntaxParser;
 public class ModuleParseTest extends TestCase {
 
    public void testParse() throws Exception {
-      SyntaxCompiler bb = new SyntaxCompiler();
+      SyntaxCompiler bb = new SyntaxCompiler(GRAMMAR_FILE);
       SyntaxParser tree =  bb.compile();
 
       assertNotNull(tree);

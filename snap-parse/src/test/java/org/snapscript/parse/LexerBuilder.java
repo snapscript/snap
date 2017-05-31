@@ -8,8 +8,8 @@ import org.snapscript.parse.SyntaxParser;
 
 public class LexerBuilder {
 
-   public static SyntaxParser create(){
-      SyntaxCompiler builder = new SyntaxCompiler();
+   public static SyntaxParser create(String file){
+      SyntaxCompiler builder = new SyntaxCompiler(file);
       return builder.compile();
    }
   

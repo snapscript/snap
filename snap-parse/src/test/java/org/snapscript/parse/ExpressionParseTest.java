@@ -3,9 +3,11 @@ package org.snapscript.parse;
 import junit.framework.TestCase;
 
 public class ExpressionParseTest extends TestCase {
+   
+   private static final String GRAMMAR_FILE = "grammar.bnf";
 
    public void testParse() throws Exception {
-      SyntaxParser tree = LexerBuilder.create();
+      SyntaxParser tree = LexerBuilder.create(GRAMMAR_FILE);
 
       assertNotNull(tree);
       analyze(tree, "return i;", "statement");

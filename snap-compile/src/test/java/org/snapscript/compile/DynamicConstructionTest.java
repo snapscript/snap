@@ -7,6 +7,8 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
+import org.snapscript.common.store.ClassPathStore;
+import org.snapscript.common.store.Store;
 import org.snapscript.compile.Compiler;
 import org.snapscript.compile.Executable;
 import org.snapscript.compile.StoreContext;
@@ -16,8 +18,6 @@ import org.snapscript.core.EmptyModel;
 import org.snapscript.core.ExpressionEvaluator;
 import org.snapscript.core.MapModel;
 import org.snapscript.core.Model;
-import org.snapscript.core.store.ClassPathStore;
-import org.snapscript.core.store.Store;
 
 public class DynamicConstructionTest extends TestCase {
 

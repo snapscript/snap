@@ -9,6 +9,7 @@ import junit.framework.TestCase;
 
 import org.snapscript.core.MapModel;
 import org.snapscript.core.Model;
+import org.snapscript.core.Reserved;
 import org.snapscript.core.ResultType;
 import org.snapscript.parse.SourceCode;
 import org.snapscript.parse.SourceProcessor;
@@ -140,7 +141,7 @@ public class CompilePerformanceTest extends TestCase {
    
    private static void parseScript(String source, String script, int compressed, int maxLine) throws Exception {
       long start=System.currentTimeMillis();
-      SyntaxParser p=new SyntaxCompiler().compile();
+      SyntaxParser p=new SyntaxCompiler(Reserved.GRAMMAR_FILE).compile();
       p.parse(source, script, "script");
       long finish=System.currentTimeMillis();
       long duration=finish-start;
@@ -163,7 +164,7 @@ public class CompilePerformanceTest extends TestCase {
    
    private static void checkMemoryForParseOnly(String source, String script, int compressed, int maxLine) throws Exception {
       DecimalFormat format = new DecimalFormat("###,###,###,###,###");
-      SyntaxParser p=new SyntaxCompiler().compile();
+      SyntaxParser p=new SyntaxCompiler(Reserved.GRAMMAR_FILE).compile();
       ThreadMXBean bean = (ThreadMXBean) ManagementFactory.getThreadMXBean();
       Thread thread = Thread.currentThread();
       long id = thread.getId();

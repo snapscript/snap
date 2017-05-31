@@ -1,9 +1,9 @@
 
-package org.snapscript.core.store;
+package org.snapscript.common.store;
 
-import static org.snapscript.core.store.RemoteStatus.ERROR;
-import static org.snapscript.core.store.RemoteStatus.NOT_FOUND;
-import static org.snapscript.core.store.RemoteStatus.SUCCESS;
+import static org.snapscript.common.store.RemoteStatus.ERROR;
+import static org.snapscript.common.store.RemoteStatus.NOT_FOUND;
+import static org.snapscript.common.store.RemoteStatus.SUCCESS;
 
 import java.net.HttpURLConnection;
 import java.net.URI;

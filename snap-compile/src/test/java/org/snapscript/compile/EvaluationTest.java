@@ -1,5 +1,7 @@
 package org.snapscript.compile;
 
+import static org.snapscript.core.Reserved.GRAMMAR_FILE;
+
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -8,6 +10,8 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
+import org.snapscript.common.store.ClassPathStore;
+import org.snapscript.common.store.Store;
 import org.snapscript.compile.assemble.Assembler;
 import org.snapscript.compile.assemble.OperationAssembler;
 import org.snapscript.core.Context;
@@ -15,12 +19,11 @@ import org.snapscript.core.ExpressionEvaluator;
 import org.snapscript.core.MapModel;
 import org.snapscript.core.Model;
 import org.snapscript.core.Path;
+import org.snapscript.core.Reserved;
 import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.ScopeMerger;
 import org.snapscript.core.Statement;
-import org.snapscript.core.store.ClassPathStore;
-import org.snapscript.core.store.Store;
 import org.snapscript.parse.SyntaxCompiler;
 import org.snapscript.parse.SyntaxNode;
 import org.snapscript.parse.SyntaxParser;
@@ -198,7 +201,7 @@ public class EvaluationTest extends TestCase {
       Store store = new ClassPathStore();
       Context context = new StoreContext(store);
       Assembler builder = new OperationAssembler(context);
-      SyntaxCompiler compiler = new SyntaxCompiler();
+      SyntaxCompiler compiler = new SyntaxCompiler(GRAMMAR_FILE);
       ScopeMerger merger = new ScopeMerger(context);
       Scope scope = merger.merge(model, "default", new Path("/default.snap"));
       SyntaxParser analyzer = compiler.compile();
