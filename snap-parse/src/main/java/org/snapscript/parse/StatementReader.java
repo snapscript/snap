@@ -15,7 +15,7 @@ public abstract class StatementReader<T> implements Iterable<T> {
    protected final Store store;
    protected final String file;
 
-   public StatementReader(String file) {
+   protected StatementReader(String file) {
       this.store = new ClassPathStore();
       this.cache = new CacheStore(store);
       this.list = new ArrayList<T>();
@@ -75,7 +75,7 @@ public abstract class StatementReader<T> implements Iterable<T> {
                   }
                   copy[write++] = value;
                }
-            } else if(terminal(data, read-1, count -read)) {
+            } else if(terminal(next)) {
                int length = write;
                
                while(read < count) {
@@ -100,7 +100,10 @@ public abstract class StatementReader<T> implements Iterable<T> {
       }
    }  
    
-   private void process(char[] data, int start, int finish, int line){
+   private void process(char[] data, int off, int length, int line){
+      int finish = off + length;
+      int start = off;
+      
       while(start < finish) {
          char next = data[start];
          
@@ -151,6 +154,10 @@ public abstract class StatementReader<T> implements Iterable<T> {
       }
    } 
    
+   protected boolean terminal(char value) {
+      return value == '\n';
+   }
+   
    protected abstract T create(char[] data, int off, int length, int line);
-   protected abstract boolean terminal(char[] data, int off, int length);
+
 }
