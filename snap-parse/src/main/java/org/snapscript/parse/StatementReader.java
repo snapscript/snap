@@ -78,18 +78,20 @@ public abstract class StatementReader<T> implements Iterable<T> {
             } else if(terminal(next)) {
                int length = write;
                
-               while(read < count) {
-                  char value = data[read++];
-                  
-                  if(line(value)) {
-                     write = 0;
-                     line++;
-                     break;
-                  }
-                  if(!space(value)) {
-                     throw new StatementException("Error in '" + file + "' at line " + line);
+               if(!line(next)) {
+                  while(read < count) {
+                     char value = data[read++];
+                     
+                     if(line(value)) {
+                        line++;
+                        break;
+                     }
+                     if(!space(value)) {
+                        throw new StatementException("Error in '" + file + "' at line " + line);
+                     }
                   }
                }
+               write = 0;
                process(copy, 0, length, line);
             } else if(line(next)) {
                line++;

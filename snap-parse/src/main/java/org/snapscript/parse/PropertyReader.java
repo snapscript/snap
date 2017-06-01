@@ -45,11 +45,6 @@ public abstract class PropertyReader<T> extends StatementReader<T> {
       }
       return new String(data, start, finish -start);
    }
-
-   @Override
-   protected boolean terminal(char value) {
-      return value == ';';
-   }
    
    protected boolean separator(char value) {
       return value == '=';

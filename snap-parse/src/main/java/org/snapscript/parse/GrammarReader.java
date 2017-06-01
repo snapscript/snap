@@ -10,4 +10,10 @@ public class GrammarReader extends PropertyReader<GrammarDefinition> {
    protected GrammarDefinition create(String name, String value) {
       return new GrammarDefinition(name, value);
    }
+   
+
+   @Override
+   protected boolean terminal(char value) {
+      return value == ';';
+   }
 }
