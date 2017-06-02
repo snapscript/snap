@@ -20,6 +20,7 @@ import org.snapscript.core.function.Function;
 public class FunctionProxyHandler implements ProxyHandler { 
    
    private final ProxyArgumentExtractor extractor;
+   private final ProxyWrapper wrapper;
    private final Function function;
    private final Context context;
    private final Value value;
@@ -28,6 +29,7 @@ public class FunctionProxyHandler implements ProxyHandler {
       this.extractor = new ProxyArgumentExtractor(wrapper);
       this.value = new Transient(function);
       this.function = function;
+      this.wrapper = wrapper;
       this.context = context;
    }
    
@@ -69,7 +71,7 @@ public class FunctionProxyHandler implements ProxyHandler {
       Result result = call.call();
       Object data = result.getValue();
       
-      return data;  
+      return wrapper.toProxy(data);  
    }
    
    @Override
