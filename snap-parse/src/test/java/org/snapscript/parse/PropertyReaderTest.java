@@ -46,25 +46,31 @@ public class PropertyReaderTest extends TestCase {
             return new ByteArrayInputStream(SOURCE.getBytes());
          }
       };
-      Thread.currentThread().setContextClassLoader(loader);
-      PropertyReader<Property> reader = new PropertyReader<Property>("file.properties") {
-         public Property create(String name, String value) {
-            return new Property(name, value);
+      ClassLoader original = Thread.currentThread().getContextClassLoader();
+      
+      try {
+         Thread.currentThread().setContextClassLoader(loader);
+         PropertyReader<Property> reader = new PropertyReader<Property>("file.properties") {
+            public Property create(String name, String value) {
+               return new Property(name, value);
+            }
+         };
+         Properties properties = new Properties();
+         for(Property property : reader){
+            String name = property.getName();
+            String value = property.getValue();
+            
+            properties.setProperty(name, value);
+            assertEquals(name, name.trim());
+            System.err.println("["+name + "]=" + value);
+            System.err.println();
          }
-      };
-      Properties properties = new Properties();
-      for(Property property : reader){
-         String name = property.getName();
-         String value = property.getValue();
-         
-         properties.setProperty(name, value);
-         assertEquals(name, name.trim());
-         System.err.println("["+name + "]=" + value);
-         System.err.println();
+         assertEquals(properties.size(), 3);
+         assertEquals(properties.getProperty("a.b"), "1");
+         assertEquals(properties.getProperty("name"), "value");
+         assertEquals(properties.getProperty("blah.blah"), "foo");
+      }finally {
+         Thread.currentThread().setContextClassLoader(original);
       }
-      assertEquals(properties.size(), 3);
-      assertEquals(properties.getProperty("a.b"), "1");
-      assertEquals(properties.getProperty("name"), "value");
-      assertEquals(properties.getProperty("blah.blah"), "foo");
    }
 }
