@@ -7,17 +7,30 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-public class TokenIndexerTest extends TestCase {
+import org.snapscript.common.store.CacheStore;
+import org.snapscript.common.store.ClassPathStore;
+import org.snapscript.common.store.Store;
+
+public class BraceStackTest extends TestCase {
    
-   public void testTokenIndexer() throws Exception {
-      List<Token> tokens = createTokens("return 1+2;");
+   public void testBraceStack() throws Exception {
+      List<Token> tokens = createTokens("test_source1.snap");
+      BraceStack stack = new BraceStack();
       
-      assertEquals(tokens.get(0).getType(), TokenType.LITERAL.mask);
-      assertEquals(tokens.get(1).getType(), TokenType.SPACE.mask);
-      assertEquals(tokens.get(2).getType(), TokenType.DECIMAL.mask);
+      for(Token token : tokens) {
+         try{
+            System.err.println("["+token.getValue()+"]");
+            stack.update(token);
+         }catch(Exception e){
+            throw new IllegalStateException("Unbalanced braces at line "+token.getLine().getNumber()+": " + token.getLine().getSource(), e);
+         }
+      }
+      assertTrue("Braces should be empty", stack.isEmpty());
    }
    
-   private List<Token> createTokens(String text) {
+   private List<Token> createTokens(String resource) {
+      Store store = new ClassPathStore();
+      CacheStore cache = new CacheStore(store);
       List<Token> tokens = new ArrayList<Token>();
       GrammarIndexer grammarIndexer = new GrammarIndexer();
       Map<String, Grammar> grammars = new LinkedHashMap<String, Grammar>();      
@@ -33,15 +46,16 @@ public class TokenIndexerTest extends TestCase {
          
          grammars.put(name, grammar);
       }
+      String text = cache.getString(resource);
       SourceCode source = sourceProcessor.process(text);
       char[] original = source.getOriginal();
       char[] compress = source.getSource();
       short[] lines = source.getLines();
       short[]types = source.getTypes();
 
-      TokenIndexer tokenIndexer = new TokenIndexer(grammarIndexer, text, original, compress, lines, types);
+      TokenIndexer tokenIndexer = new TokenIndexer(grammarIndexer, resource, original, compress, lines, types);
       tokenIndexer.index(tokens);
       return tokens;
    }
-
+   
 }

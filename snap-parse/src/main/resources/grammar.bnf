@@ -202,13 +202,13 @@ declaration-modifier = {'var' | 'const'};
 declaration = <assignment-variable>?(':'<constraint>)?('='<assignment-expression>);
 declaration-statement = <declaration-modifier>_<declaration>*(','<declaration>)';';
    
-if-statement = 'if('<conditional>')'<statement>?('else'?_<statement>);  
+if-statement = 'if''('<conditional>')'<statement>?('else'?_<statement>);  
 
-while-statement = 'while('<conditional>')'<statement>;
+while-statement = 'while''('<conditional>')'<statement>;
 for-assignment = {<assignment> | <increment-decrement> | <reference>};
 for-assignment-list = <for-assignment>*(','<for-assignment>);
-for-statement = 'for('(<declaration-statement> | <assignment-statement> | <terminal-statement>)<conditional>';'?(<for-assignment-list>)')'<statement>;
-for-in-statement = 'for('?('var'_)([identifier])_'in'?_{<range> | <reference>}')'<statement>;
+for-statement = 'for''('(<declaration-statement> | <assignment-statement> | <terminal-statement>)<conditional>';'?(<for-assignment-list>)')'<statement>;
+for-in-statement = 'for''('?('var'_)([identifier])_'in'?_{<range> | <reference>}')'<statement>;
 loop-statement = {'loop' | 'for(;;)'}<statement>;
 conditional-statement = { <if-statement> | 
 						  <while-statement> | 
@@ -229,7 +229,7 @@ match-default = 'default'':'<expression-statement>;
 synchronized-statement = 'synchronized' '(' <reference> ')' <compound-statement>;
 
 try-block = 'try'<group-statement>;
-catch-block = 'catch(' <parameter-declaration> ')' <group-statement>;
+catch-block = 'catch''(' <parameter-declaration> ')' <group-statement>;
 finally-block = 'finally' <group-statement>;
 catch-block-list = +<catch-block>;
 try-statement = <try-block>? <catch-block-list>? <finally-block>};
@@ -260,8 +260,8 @@ function-modifier-list = *(<function-modifier>_);
 access-modifier = {'public' | 'private'};
 access-modifier-list = *(<access-modifier>_);
  
-super-constructor = 'super('?<argument-list>')';
-this-constructor = 'this('?<argument-list>')';
+super-constructor = 'super''('?<argument-list>')';
+this-constructor = 'this''('?<argument-list>')';
 
 class-field-declaration = <assignment-variable>?(':'<constraint>)?('='<assignment-expression>);
 class-field = <annotation-list><field-modifier-list><class-field-declaration>*(','<class-field-declaration>)';';

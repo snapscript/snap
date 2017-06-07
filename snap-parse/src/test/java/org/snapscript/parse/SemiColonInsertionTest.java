@@ -87,11 +87,11 @@ public class SemiColonInsertionTest extends TestCase {
       GrammarResolver grammarResolver = new GrammarResolver(grammars);
       GrammarCompiler grammarCompiler = new GrammarCompiler(grammarResolver, grammarIndexer);  
       SourceProcessor sourceProcessor = new SourceProcessor(100);
-      Syntax[] language = Syntax.values();
+      GrammarReader reader = new GrammarReader("grammar.bnf");
       
-      for(Syntax syntax : language) {
-         String name = syntax.getName();
-         String value = syntax.getGrammar();
+      for(GrammarDefinition definition : reader){
+         String name = definition.getName();
+         String value = definition.getDefinition();
          Grammar grammar = grammarCompiler.process(name, value);
          
          grammars.put(name, grammar);
@@ -109,6 +109,7 @@ public class SemiColonInsertionTest extends TestCase {
    
    public List<Token> replaceTokens(List<Token> tokens) {
       List<Token> done = new ArrayList<Token>();
+      BraceStack stack = new BraceStack();
       Token prev = null;
       if(tokens.isEmpty()){
          throw new IllegalStateException("No tokens");
@@ -118,6 +119,7 @@ public class SemiColonInsertionTest extends TestCase {
             List<Token> converted = convertTo(tokens, i);
             
             for(Token token: converted) {
+               stack.update(token);
                if(isText(token)) {
                   System.err.print("'"+token.getValue()+"'");
                } else {
@@ -218,14 +220,26 @@ public class SemiColonInsertionTest extends TestCase {
    
    public boolean isLiteralBefore(List<Token> tokens, int index) {
       if(index > 0){
-         return (tokens.get(index-1).getType() & TokenType.LITERAL.mask) == TokenType.LITERAL.mask;
+         Token token = tokens.get(index-1);
+         if((token.getType() & TokenType.LITERAL.mask) == TokenType.LITERAL.mask){
+            if(token.getValue().equals("true") || token.getValue().equals("false") || token.getValue().equals("null")){
+               return false;
+            }
+            return true;
+         }
       }
       return false;
    }
    
    public boolean isLiteralAfter(List<Token> tokens, int index) {
       if(tokens.size() > index+1){
-         return (tokens.get(index+1).getType() & TokenType.LITERAL.mask) == TokenType.LITERAL.mask;
+         Token token = tokens.get(index+1);
+         if((token.getType() & TokenType.LITERAL.mask) == TokenType.LITERAL.mask){
+            if(token.getValue().equals("true") || token.getValue().equals("false") || token.getValue().equals("null")){
+               return false;
+            }
+            return true;
+         }
       }
       return false;
    }
