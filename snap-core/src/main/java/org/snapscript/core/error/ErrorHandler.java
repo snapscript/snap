@@ -1,6 +1,7 @@
 
 package org.snapscript.core.error;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.stack.ThreadStack;
@@ -10,8 +11,9 @@ public class ErrorHandler {
    private final ExternalErrorHandler external;
    private final InternalErrorHandler internal;
    
+   @Bug("wrong default????")
    public ErrorHandler(ThreadStack stack) {
-      this(stack, true);
+      this(stack, false);
    }
    
    public ErrorHandler(ThreadStack stack, boolean replace) {

@@ -6,6 +6,7 @@ import java.util.Map;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
+import org.snapscript.core.convert.Delegate;
 import org.snapscript.core.function.Function;
 
 public class InvocationBinder {
@@ -33,6 +34,8 @@ public class InvocationBinder {
          if(Function.class.isInstance(left)) {
             return new FunctionDispatcher(scope, left);
          }
+         if(Delegate.class.isInstance(left)) { // this is a function 
+            return new DelegateDispatcher(scope, left);
          }
          if(type.isArray()) {
             return new ArrayDispatcher(scope, left);

@@ -1,6 +1,7 @@
 
 package org.snapscript.core.error;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.stack.ThreadStack;
 
 public class InternalErrorBuilder {
@@ -17,6 +18,7 @@ public class InternalErrorBuilder {
       this.stack = stack;
    }
    
+   @Bug("clean this up")
    public InternalError create(Object value) {
       InternalError error = new InternalError(value);
       
@@ -34,6 +36,15 @@ public class InternalErrorBuilder {
             
             if(trace.length > 0) {
                error.setStackTrace(trace); // when there is no cause
+            }
+         }
+      } else {
+         if(Throwable.class.isInstance(value)) {
+            Throwable cause = (Throwable)value;
+            StackTraceElement[] trace = cause.getStackTrace();
+            
+            if(trace.length > 0) {
+               error.setStackTrace(trace);
             }
          }
       }
