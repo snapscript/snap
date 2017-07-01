@@ -66,7 +66,7 @@ public class TypeValidator {
             }
          }
          if(matches == 0) {
-            throw new InternalStateException("Type '" + type + "' not defined");
+            throw new InternalStateException("Type '" + type + "' has an invalid hierarchy");
          }
       }
    }

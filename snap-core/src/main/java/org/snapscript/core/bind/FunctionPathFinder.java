@@ -3,11 +3,13 @@ package org.snapscript.core.bind;
 
 import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
 
+import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeCache;
 
@@ -60,11 +62,15 @@ public class FunctionPathFinder {
       }
    }
    
+   @Bug("here we can reuse the filter to prevent the use of Proxy objects - real == null || !Proxy.class.isAssignableFrom(real)")
    private void findClasses(Type type, List<Type> done) {
       List<Type> types = type.getTypes();
       Iterator<Type> iterator = types.iterator();
+      Class real = type.getType();
       
-      done.add(type);
+      if(real == null || !Proxy.class.isAssignableFrom(real)) {
+         done.add(type);
+      }
       
       while(iterator.hasNext()) {
          Type next = iterator.next();

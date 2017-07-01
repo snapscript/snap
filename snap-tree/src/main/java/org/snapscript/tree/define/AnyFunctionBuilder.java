@@ -38,7 +38,7 @@ public class AnyFunctionBuilder {
          throw new InternalStateException("Could not create invocation for " + invoke);
       }
       List<Parameter> parameters = new ArrayList<Parameter>();
-      Signature signature = new Signature(parameters, module);
+      Signature signature = new Signature(parameters, module, null);
       
       for(int i = 0; i < types.length; i++){
          Class require = types[i];

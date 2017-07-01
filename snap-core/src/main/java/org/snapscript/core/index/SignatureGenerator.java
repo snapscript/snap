@@ -55,7 +55,7 @@ public class SignatureGenerator {
             }
             parameters.add(parameter);
          }
-         return new Signature(parameters, module, variable);
+         return new Signature(parameters, module, method, variable);
       } catch(Exception e) {
          throw new InternalStateException("Could not create function for " + method, e);
       }
@@ -89,7 +89,7 @@ public class SignatureGenerator {
             }
             parameters.add(parameter);
          }
-         return new Signature(parameters, module, variable);
+         return new Signature(parameters, module, constructor, variable);
       } catch(Exception e) {
          throw new InternalStateException("Could not create constructor for " + constructor, e);
       }

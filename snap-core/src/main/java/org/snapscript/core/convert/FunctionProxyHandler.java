@@ -5,14 +5,15 @@ import static org.snapscript.core.Reserved.METHOD_EQUALS;
 import static org.snapscript.core.Reserved.METHOD_HASH_CODE;
 import static org.snapscript.core.Reserved.METHOD_TO_STRING;
 
-import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.concurrent.Callable;
 
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Result;
+import org.snapscript.core.Scope;
 import org.snapscript.core.Transient;
+import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.core.function.Function;
@@ -57,12 +58,14 @@ public class FunctionProxyHandler implements ProxyHandler {
          }
          return function.equals(convert[0]);
       }
-      return invoke(convert);
+      if(convert.length > 0) {
+         return invoke(proxy, name, convert, arguments); // arguments could be null
+      }
+      return invoke(proxy, name, convert, convert);
    }
    
-   private Object invoke(Object[] arguments) throws Throwable {
-      FunctionBinder binder = context.getBinder();  
-      Callable<Result> call = binder.bind(value, arguments); // here arguments can be null!!!
+   private Object invoke(Object proxy, String name, Object[] convert, Object[] arguments) throws Throwable {
+      Callable<Result> call = resolve(proxy, name, convert, arguments);  
       int width = arguments.length;
       
       if(call == null) {
@@ -72,6 +75,21 @@ public class FunctionProxyHandler implements ProxyHandler {
       Object data = result.getValue();
       
       return wrapper.toProxy(data);  
+   }
+   
+   private Callable<Result> resolve(Object proxy, String name, Object[] convert, Object[] arguments) throws Throwable {
+      Type type = function.getType();
+      FunctionBinder binder = context.getBinder();  
+
+      if(type != null) {
+         Scope scope = type.getScope();
+         Callable<Result> call = binder.bind(scope, proxy, name, arguments); 
+         
+         if(call != null) {
+            return call;
+         }
+      }
+      return binder.bind(value, convert); // here arguments can be null!!! 
    }
    
    @Override

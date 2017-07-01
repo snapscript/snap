@@ -43,7 +43,7 @@ public class FunctionIndexer {
          for(Method method : methods){
             int modifiers = converter.convert(method);
             
-            if(ModifierType.isPublic(modifiers)) {
+            if(ModifierType.isPublic(modifiers) || ModifierType.isProtected(modifiers)) {
                String name = method.getName();
                Class[] parameters = method.getParameterTypes();
                Function function = generator.generate(type, method, parameters, name, modifiers);

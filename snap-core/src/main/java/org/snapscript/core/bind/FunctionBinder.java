@@ -9,10 +9,12 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.Value;
+import org.snapscript.core.convert.Delegate;
 import org.snapscript.core.stack.ThreadStack;
 
 public class FunctionBinder {
    
+   private final DelegateFunctionMatcher delegates;
    private final ObjectFunctionMatcher objects;
    private final ModuleFunctionMatcher modules;
    private final ValueFunctionMatcher values;
@@ -20,6 +22,7 @@ public class FunctionBinder {
    private final TypeFunctionMatcher types;
    
    public FunctionBinder(TypeExtractor extractor, ThreadStack stack) {
+      this.delegates = new DelegateFunctionMatcher(extractor, stack);
       this.objects = new ObjectFunctionMatcher(extractor, stack);
       this.modules = new ModuleFunctionMatcher(extractor, stack);
       this.types = new TypeFunctionMatcher(extractor, stack);
@@ -59,6 +62,15 @@ public class FunctionBinder {
       
       if(call != null) {
          return new FunctionCall(call, scope, null);
+      }
+      return null;
+   }
+   
+   public Callable<Result> bind(Scope scope, Delegate delegate, String name, Object... list) throws Exception {
+      FunctionPointer call = delegates.match(delegate, name, list);
+      
+      if(call != null) {
+         return new FunctionCall(call, scope, delegate);
       }
       return null;
    }

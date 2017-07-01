@@ -51,9 +51,9 @@ public class AssignmentTest extends TestCase{
       assertTrue(failure);
    }
    
-//   public void testAssignmentInCondition() throws Exception{
-//      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
-//      Executable executable = compiler.compile(SOURCE_2);
-//      executable.execute();
-//   }
+   public void testAssignmentInCondition() throws Exception{
+      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
+      Executable executable = compiler.compile(SOURCE_2);
+      executable.execute();
+   }
 }

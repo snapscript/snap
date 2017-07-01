@@ -4,9 +4,10 @@ package org.snapscript.core.index;
 import static org.snapscript.core.ModifierType.ABSTRACT;
 import static org.snapscript.core.ModifierType.CONSTANT;
 import static org.snapscript.core.ModifierType.PRIVATE;
+import static org.snapscript.core.ModifierType.PROTECTED;
 import static org.snapscript.core.ModifierType.PUBLIC;
 import static org.snapscript.core.ModifierType.STATIC;
-import static org.snapscript.core.ModifierType.*;
+import static org.snapscript.core.ModifierType.VARARGS;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;

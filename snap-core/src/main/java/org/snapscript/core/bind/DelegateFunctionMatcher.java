@@ -1,13 +1,14 @@
-
 package org.snapscript.core.bind;
 
 import static org.snapscript.core.convert.Score.INVALID;
 
+import java.lang.reflect.Proxy;
 import java.util.List;
 
-import org.snapscript.core.ModifierType;
+import org.snapscript.core.Bug;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeExtractor;
+import org.snapscript.core.convert.Delegate;
 import org.snapscript.core.convert.Score;
 import org.snapscript.core.function.ArgumentConverter;
 import org.snapscript.core.function.EmptyFunction;
@@ -15,7 +16,7 @@ import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Signature;
 import org.snapscript.core.stack.ThreadStack;
 
-public class ObjectFunctionMatcher {
+public class DelegateFunctionMatcher {
    
    private final FunctionCacheIndexer<Type> indexer;
    private final FunctionCacheTable<Type> table;
@@ -25,7 +26,7 @@ public class ObjectFunctionMatcher {
    private final ThreadStack stack;
    private final Function invalid;
    
-   public ObjectFunctionMatcher(TypeExtractor extractor, ThreadStack stack) {
+   public DelegateFunctionMatcher(TypeExtractor extractor, ThreadStack stack) {
       this.indexer = new TypeCacheIndexer();
       this.table = new FunctionCacheTable<Type>(indexer);
       this.builder = new FunctionKeyBuilder(extractor);
@@ -34,8 +35,8 @@ public class ObjectFunctionMatcher {
       this.extractor = extractor;
       this.stack = stack;
    }
-
-   public FunctionPointer match(Object value, String name, Object... values) throws Exception { 
+   
+   public FunctionPointer match(Delegate value, String name, Object... values) throws Exception { 
       Type type = extractor.getType(value);
       Function function = resolve(type, name, values);
       
@@ -44,7 +45,8 @@ public class ObjectFunctionMatcher {
       }
       return null;
    }
-   
+
+   @Bug("this should be filtered in a better way - real == null || !Proxy.class.isAssignableFrom(real)")
    public Function resolve(Type type, String name, Object... values) throws Exception { 
       Object key = builder.create(name, values);
       FunctionCache cache = table.get(type);
@@ -55,14 +57,14 @@ public class ObjectFunctionMatcher {
          Score best = INVALID;
          
          for(Type entry : path) {
-            List<Function> functions = entry.getFunctions();
-            int size = functions.size();
+            Class real = entry.getType();
             
-            for(int i = size - 1; i >= 0; i--) {
-               Function next = functions.get(i);
-               int modifiers = next.getModifiers();
+            if(real == null || !Proxy.class.isAssignableFrom(real)) {
+               List<Function> functions = entry.getFunctions();
+               int size = functions.size();
                
-               if(!ModifierType.isAbstract(modifiers)) {
+               for(int i = size - 1; i >= 0; i--) {
+                  Function next = functions.get(i);
                   String method = next.getName();
                   
                   if(name.equals(method)) {

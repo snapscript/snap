@@ -203,7 +203,7 @@ public class TokenIndexer {
                reader.reset(mark);
             } else {
                if(identifier(last) && special(peek)) {
-                  return new StringToken(token, line, LITERAL.mask | IDENTIFIER.mask);
+                  return new StringToken(token, line, LITERAL.mask | IDENTIFIER.mask | QUALIFIER.mask);
                }
                return new StringToken(token, line, LITERAL.mask);
             }
@@ -229,7 +229,7 @@ public class TokenIndexer {
          switch(value) {
          case ')': case '(':
          case '.': case '?':
-         case ',':
+         case ',': 
             return true;
          }
       }

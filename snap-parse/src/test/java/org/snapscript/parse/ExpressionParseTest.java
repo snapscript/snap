@@ -10,6 +10,8 @@ public class ExpressionParseTest extends TestCase {
       SyntaxParser tree = LexerBuilder.create(GRAMMAR_FILE);
 
       assertNotNull(tree);
+      analyze(tree, "util.function.Function", "full-qualifier");
+      analyze(tree, "import util.function.Function;", "import");
       analyze(tree, "return i;", "statement");
       analyze(tree, "in.x", "expression");
       analyze(tree, "try{}catch(e){}finally{}", "try-statement");

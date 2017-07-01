@@ -51,7 +51,7 @@ public class ThreadStackTest extends TestCase {
       Module module = new ContextModule(null, converter.createPath(moduleName), moduleName, -1);
       TestType type = new TestType(module, typeName, null, null);
       List<Parameter> parameters = new ArrayList<Parameter>();
-      Signature signature = new Signature(parameters, module);
+      Signature signature = new Signature(parameters, module, null);
       
       stack.before(new InvocationFunction(signature, null, type, null, functionName, 11));
    }
@@ -60,7 +60,7 @@ public class ThreadStackTest extends TestCase {
       FilePathConverter converter = new FilePathConverter();
       Module module = new ContextModule(null, converter.createPath(moduleName), moduleName, -1);
       List<Parameter> parameters = new ArrayList<Parameter>();
-      Signature signature = new Signature(parameters, module);
+      Signature signature = new Signature(parameters, module, null);
       FunctionType type = new FunctionType(signature, module, null);
       
       stack.before(new InvocationFunction(signature, null, type, null, functionName, 11));

@@ -33,6 +33,7 @@ public class InvocationBinder {
          if(Function.class.isInstance(left)) {
             return new FunctionDispatcher(scope, left);
          }
+         }
          if(type.isArray()) {
             return new ArrayDispatcher(scope, left);
          }

@@ -24,7 +24,7 @@ public class FunctionReferenceBuilder {
    
    public Function create(Module module, Object value, String method) throws Exception {
       List<Parameter> parameters = new ArrayList<Parameter>();
-      Signature signature = new Signature(parameters, module, true);
+      Signature signature = new Signature(parameters, module, null, true);
       Invocation invocation = new FunctionReferenceInvocation(module, value, method);
       
       parameters.add(parameter);

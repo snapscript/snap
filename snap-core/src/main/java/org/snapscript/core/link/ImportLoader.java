@@ -5,6 +5,7 @@ import org.snapscript.common.Cache;
 import org.snapscript.common.CopyOnWriteCache;
 import org.snapscript.core.Any;
 import org.snapscript.core.ContextClassLoader;
+
 import java.lang.Package;
 
 public class ImportLoader {
@@ -37,7 +38,7 @@ public class ImportLoader {
       try {
          if(!types.contains(name)) {
             Class match = loader.loadClass(name);
-            
+
             types.cache(name, match);
          }
       } catch(Exception e) {

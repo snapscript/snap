@@ -30,6 +30,6 @@ public class FunctionTypeTest extends TestCase {
    
    public static Signature createSignature(String functionName, Module module){
       List<Parameter> parameters = new ArrayList<Parameter>();
-      return new Signature(parameters, module);
+      return new Signature(parameters, module, null);
    }
 }

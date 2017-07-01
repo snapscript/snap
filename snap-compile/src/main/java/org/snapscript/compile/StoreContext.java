@@ -19,6 +19,7 @@ import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.ProxyWrapper;
 import org.snapscript.core.error.ErrorHandler;
+import org.snapscript.core.extend.ExtensionProvider;
 import org.snapscript.core.link.PackageLinker;
 import org.snapscript.core.stack.ThreadStack;
 import org.snapscript.core.trace.TraceInterceptor;
@@ -28,6 +29,7 @@ public class StoreContext implements Context {
    private final ExecutableValidator validator;
    private final ExpressionEvaluator evaluator;
    private final TraceInterceptor interceptor;
+   private final ExtensionProvider provider;
    private final ConstraintMatcher matcher;
    private final ResourceManager manager;
    private final FunctionBinder binder;
@@ -57,6 +59,7 @@ public class StoreContext implements Context {
       this.validator = new ExecutableValidator(matcher, extractor);
       this.binder = new FunctionBinder(extractor, stack);
       this.evaluator = new OperationEvaluator(this, executor);
+      this.provider = new ExtensionProvider(extractor, stack);
    }
    
    @Override
@@ -108,6 +111,11 @@ public class StoreContext implements Context {
    public ModuleRegistry getRegistry() {
       return registry;
    }  
+   
+   @Override
+   public ExtensionProvider getProvider() {
+      return provider;
+   }
 
    @Override
    public FunctionBinder getBinder() {

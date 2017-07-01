@@ -11,6 +11,7 @@ import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.ProxyWrapper;
 import org.snapscript.core.error.ErrorHandler;
+import org.snapscript.core.extend.ExtensionProvider;
 import org.snapscript.core.link.NoPackage;
 import org.snapscript.core.link.Package;
 import org.snapscript.core.link.PackageLinker;
@@ -186,6 +187,11 @@ public class FunctionBinderTest extends TestCase {
       public ExpressionEvaluator getEvaluator() {
          return null;
       }
+      
+      @Override
+      public ExtensionProvider getProvider() {
+         return null;
+      }
 
       @Override
       public FunctionBinder getBinder() {
@@ -206,6 +212,5 @@ public class FunctionBinderTest extends TestCase {
       public TypeLoader getLoader() {
          return loader;
       }
-      
    }
 }

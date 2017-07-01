@@ -54,7 +54,7 @@ public class ParameterList {
                parameters.add(parameter);
             }
          }
-         signature = new Signature(parameters, module, variable);
+         signature = new Signature(parameters, module, null, variable);
       }
       return signature;
    }

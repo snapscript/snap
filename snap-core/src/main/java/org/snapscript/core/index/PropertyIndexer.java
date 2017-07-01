@@ -48,7 +48,7 @@ public class PropertyIndexer {
          for(Field field : fields) {
             int modifiers = converter.convert(field);
             
-            if(ModifierType.isPublic(modifiers)) {
+            if(ModifierType.isPublic(modifiers) || ModifierType.isProtected(modifiers)) {
                String name = field.getName();
                Class declaration = field.getType();
                Type constraint = indexer.loadType(declaration);

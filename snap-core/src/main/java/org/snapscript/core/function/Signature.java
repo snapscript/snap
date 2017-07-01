@@ -1,6 +1,7 @@
 
 package org.snapscript.core.function;
 
+import java.lang.reflect.Member;
 import java.util.List;
 
 import org.snapscript.core.Module;
@@ -12,18 +13,24 @@ public class Signature {
    private final SignatureDescription description;
    private final SignatureMatcher matcher;
    private final Type definition;
+   private final Object source;
    private final boolean variable;
 
-   public Signature(List<Parameter> parameters, Module module){
-      this(parameters, module, false);
+   public Signature(List<Parameter> parameters, Module module, Member source){
+      this(parameters, module, source, false);
    }
    
-   public Signature(List<Parameter> parameters, Module module, boolean variable){
+   public Signature(List<Parameter> parameters, Module module, Member source, boolean variable){
       this.description = new SignatureDescription(this);
       this.matcher = new SignatureMatcher(this, module);
       this.definition = new FunctionType(this, module);
       this.parameters = parameters;
       this.variable = variable;
+      this.source = source;
+   }
+   
+   public Object getSource() {
+      return source;
    }
    
    public Type getDefinition() {

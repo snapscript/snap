@@ -75,7 +75,7 @@ public class FunctionExtractor {
    
       if(length > 0) {
          List<Parameter> copy = new ArrayList<Parameter>();
-         Signature reduced = new Signature(copy, module, variable);
+         Signature reduced = new Signature(copy, module, null, variable);
          Invocation adapter = new ExportInvocation(invocation, value, extend);
          
          for(int i = 1; i < length; i++) {

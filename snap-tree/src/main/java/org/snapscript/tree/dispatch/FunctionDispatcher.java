@@ -6,6 +6,7 @@ import java.util.concurrent.Callable;
 
 import org.snapscript.core.Any;
 import org.snapscript.core.Context;
+import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
 import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
@@ -20,32 +21,39 @@ import org.snapscript.core.function.Signature;
 
 public class FunctionDispatcher implements InvocationDispatcher {
    
-   private final ObjectDispatcher dispatcher;
    private final FunctionAdapter adapter;
    private final Object function;
    private final Scope scope;      
    
    public FunctionDispatcher(Scope scope, Object function) {
       this.adapter = new FunctionAdapter(function);
-      this.dispatcher = new ObjectDispatcher(scope, adapter);
       this.function = function;
       this.scope = scope;
    }
 
    @Override
    public Value dispatch(String name, Object... arguments) throws Exception {
+      Callable<Result> call = bind(name, arguments); // this is not used often
+      
+      if(call == null) {
+         throw new InternalStateException("Method '" + name + "' not found for function " + function + "");
+      }
+      Result result = call.call();
+      Object value = result.getValue();
+
+      return ValueType.getTransient(value);
+   }
+   
+   private Callable<Result> bind(String name, Object... arguments) throws Exception {
       Module module = scope.getModule();
       Context context = module.getContext();
       FunctionBinder binder = context.getBinder();
       Callable<Result> call = binder.bind(scope, function, name, arguments); // this is not used often
       
       if(call == null) {
-         return dispatcher.dispatch(name, arguments);
+         return binder.bind(scope, adapter, name, arguments);
       }
-      Result result = call.call();
-      Object value = result.getValue();
-
-      return ValueType.getTransient(value);
+      return call;
    }
    
    private static class FunctionAdapter implements Any {
