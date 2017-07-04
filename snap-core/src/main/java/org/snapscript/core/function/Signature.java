@@ -13,7 +13,7 @@ public class Signature {
    private final SignatureDescription description;
    private final SignatureMatcher matcher;
    private final Type definition;
-   private final Object source;
+   private final Member source;
    private final boolean variable;
 
    public Signature(List<Parameter> parameters, Module module, Member source){
@@ -29,20 +29,20 @@ public class Signature {
       this.source = source;
    }
    
-   public Object getSource() {
-      return source;
-   }
-   
-   public Type getDefinition() {
-      return definition;
-   }
-   
    public ArgumentConverter getConverter() {
       return matcher.getConverter();
    }
    
    public List<Parameter> getParameters(){
       return parameters;
+   }
+   
+   public Type getDefinition() {
+      return definition;
+   }
+   
+   public Object getSource() {
+      return source;
    }
    
    public boolean isVariable() {
