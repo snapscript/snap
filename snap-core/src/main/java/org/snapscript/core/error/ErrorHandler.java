@@ -13,7 +13,7 @@ public class ErrorHandler {
    
    @Bug("wrong default????")
    public ErrorHandler(ThreadStack stack) {
-      this(stack, false);
+      this(stack, true);
    }
    
    public ErrorHandler(ThreadStack stack, boolean replace) {

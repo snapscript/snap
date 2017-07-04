@@ -15,7 +15,7 @@ import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Signature;
 import org.snapscript.core.stack.ThreadStack;
 
-public class ObjectFunctionMatcher {
+public class ObjectFunctionMatcher implements FunctionResolver {
    
    private final FunctionCacheIndexer<Type> indexer;
    private final FunctionCacheTable<Type> table;
@@ -45,6 +45,7 @@ public class ObjectFunctionMatcher {
       return null;
    }
    
+   @Override
    public Function resolve(Type type, String name, Object... values) throws Exception { 
       Object key = builder.create(name, values);
       FunctionCache cache = table.get(type);

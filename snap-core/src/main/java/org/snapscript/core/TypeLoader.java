@@ -46,7 +46,7 @@ public class TypeLoader {
    }
    
    public Type resolveType(String module, String name, int size) {
-      return indexer.loadType(module, name, size);
+      return indexer.loadType(module, name, size); // array type
    }
    
    public Type resolveType(String type) {

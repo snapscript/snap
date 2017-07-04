@@ -4,6 +4,7 @@ import org.snapscript.core.Bug;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeCache;
 import org.snapscript.core.TypeExtractor;
+import org.snapscript.core.bind.FunctionResolver;
 import org.snapscript.core.bind.ObjectFunctionMatcher;
 import org.snapscript.core.stack.ThreadStack;
 
@@ -12,10 +13,10 @@ public class ExtensionProvider {
    
    //private volatile TypeExtender extender;
    private final TypeCache<TypeExtender> cache;
-   private final ObjectFunctionMatcher matcher;
+   private final FunctionResolver resolver;
    
    public ExtensionProvider(TypeExtractor extractor, ThreadStack stack) {
-      this.matcher = new ObjectFunctionMatcher(extractor, stack);
+      this.resolver = new ObjectFunctionMatcher(extractor, stack);
       this.cache = new TypeCache<TypeExtender>();
    }
 
@@ -31,9 +32,9 @@ public class ExtensionProvider {
             }catch(Exception e){}
             try {
                if(android) {
-                  extender = (TypeExtender)Class.forName("org.snapscript.extend.android.AndroidExtender").getDeclaredConstructor(ObjectFunctionMatcher.class, Type.class).newInstance(matcher, type);
+                  extender = (TypeExtender)Class.forName("org.snapscript.extend.android.AndroidExtender").getDeclaredConstructor(FunctionResolver.class, Type.class).newInstance(resolver, type);
                } else {
-                  extender = (TypeExtender)Class.forName("org.snapscript.extend.normal.ClassExtender").getDeclaredConstructor(ObjectFunctionMatcher.class, Type.class).newInstance(matcher, type);
+                  extender = (TypeExtender)Class.forName("org.snapscript.extend.normal.NormalExtender").getDeclaredConstructor(FunctionResolver.class, Type.class).newInstance(resolver, type);
                }
                cache.cache(type, extender);
             }catch(Exception e) {
