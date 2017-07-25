@@ -16,11 +16,13 @@ import org.snapscript.core.TypeExtractor;
 public class InterfaceCollector {
 
    private final TypeCache<Class[]> cache;
+   private final Class[] include;
    private final Class[] empty;
    
-   public InterfaceCollector() {
+   public InterfaceCollector(Class... include) {
       this.cache = new TypeCache<Class[]>();
       this.empty = new Class[]{};
+      this.include = include;
    }
    
    public Class[] collect(Scope scope) {
@@ -74,6 +76,9 @@ public class InterfaceCollector {
                   interfaces.add(part);
                }
             }
+         }
+         for(Class entry : include) {
+            interfaces.add(entry);
          }
          interfaces.add(Any.class);
          return interfaces;

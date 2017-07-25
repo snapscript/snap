@@ -12,9 +12,9 @@ public class MethodCallBinder {
    private final MethodCall base;
    
    public MethodCallBinder(Method method) {
-      this.instance = new BaseCall(method);
-      this.object = new ObjectCall(method);
-      this.base = new SuperCall(method);
+      this.instance = new BaseCall(method); 
+      this.object = new ObjectCall(method); // this.
+      this.base = new SuperCall(method); // super.
    }
    
    public MethodCall bind(Object target) {
