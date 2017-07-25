@@ -65,7 +65,7 @@ public class CompoundInstance implements Instance {
    public State getState() {
       return state;
    }
-   
+
    @Override
    public String toString(){
       return outer.toString();

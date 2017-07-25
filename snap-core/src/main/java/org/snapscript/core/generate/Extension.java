@@ -1,4 +1,4 @@
-package org.snapscript.core.extend;
+package org.snapscript.core.generate;
 
 import org.snapscript.core.Bug;
 

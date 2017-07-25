@@ -15,11 +15,11 @@ import org.snapscript.core.function.Invocation;
 
 public class MethodInvocation implements Invocation<Object>{
 
-   private final MethodCall call;
+   private final MethodCallBinder binder;
    private final Method method;
    
    public MethodInvocation(Method method) {
-      this.call = new MethodCall(method);
+      this.binder = new MethodCallBinder(method);
       this.method = method;
    }
    
@@ -58,6 +58,7 @@ public class MethodInvocation implements Invocation<Object>{
       Module module = scope.getModule();
       Context context = module.getContext();
       ProxyWrapper wrapper = context.getWrapper();
+      MethodCall call = binder.bind(left);
       Object value = call.call(left, list);
       Object result = wrapper.fromProxy(value);
       

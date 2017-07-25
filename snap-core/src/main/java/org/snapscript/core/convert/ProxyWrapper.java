@@ -1,6 +1,8 @@
 
 package org.snapscript.core.convert;
 
+import static org.snapscript.core.Reserved.TYPE_SUPER;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 
@@ -39,7 +41,7 @@ public class ProxyWrapper {
    public Object toProxy(Object object, Class... require) { 
       if(object != null) {
          if(Instance.class.isInstance(object)) {
-            Value value = ((Instance)object).getState().get("real");
+            Value value = ((Instance)object).getState().get(TYPE_SUPER);
             if(value != null){
                return value.getValue();
             }

@@ -1,4 +1,4 @@
-package org.snapscript.core.extend;
+package org.snapscript.core.generate;
 
 import java.lang.reflect.Method;
 
