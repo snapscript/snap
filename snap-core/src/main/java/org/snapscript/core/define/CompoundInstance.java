@@ -40,6 +40,11 @@ public class CompoundInstance implements Instance {
    public Instance getSuper() {
       return instance.getSuper();
    }
+   
+   @Override
+   public Object getObject() {
+      return instance.getObject();
+   }
   
    @Override
    public Module getModule() {

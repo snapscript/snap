@@ -23,7 +23,7 @@ public class ProxyFactory {
       this.context = context;
    }
    
-   public Object create(Scope scope, Class... require) {
+   public Object create(Scope scope) {
       Class[] interfaces = collector.collect(scope);
       
       if(interfaces.length > 0) {

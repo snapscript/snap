@@ -5,7 +5,6 @@ public interface Reserved {
    String ANY_TYPE = "Any";
    String TYPE_CLASS = "class";
    String TYPE_THIS = "this";
-   String TYPE_SUPER = "super";
    String TYPE_CONSTRUCTOR = "new";
    String ENUM_VALUES = "values";
    String ENUM_ORDINAL = "ordinal";

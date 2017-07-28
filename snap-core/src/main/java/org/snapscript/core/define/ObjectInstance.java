@@ -9,13 +9,15 @@ import org.snapscript.core.Type;
 public class ObjectInstance implements Instance {
 
    private final Instance base;
+   private final Object object;
    private final Module module;
    private final State state;
    private final Model model;
    private final Type type;
    
-   public ObjectInstance(Module module, Model model, Instance base, Type type) {
+   public ObjectInstance(Module module, Model model, Instance base, Object object, Type type) {
       this.state = new InstanceState(base);
+      this.object = object;
       this.module = module;
       this.model = model;
       this.type = type;
@@ -35,6 +37,11 @@ public class ObjectInstance implements Instance {
    @Override
    public Instance getSuper(){
       return base;
+   }
+   
+   @Override
+   public Object getObject() {
+      return object;
    }
   
    @Override

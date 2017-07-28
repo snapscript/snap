@@ -33,13 +33,18 @@ public class SuperInstance implements Instance {
    }
    
    @Override
-   public State getState() {
-      return scope.getState();
+   public Instance getSuper(){
+      return scope.getSuper();
    }
    
    @Override
-   public Instance getSuper(){
-      return scope.getSuper();
+   public Object getObject() {
+      return scope.getObject();
+   }
+   
+   @Override
+   public State getState() {
+      return scope.getState();
    }
    
    public Type getHandle() {

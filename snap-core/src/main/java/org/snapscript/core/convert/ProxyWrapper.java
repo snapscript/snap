@@ -1,17 +1,13 @@
 
 package org.snapscript.core.convert;
 
-import static org.snapscript.core.Reserved.TYPE_SUPER;
-
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 
-import org.snapscript.core.Any;
 import org.snapscript.core.Bug;
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
-import org.snapscript.core.Value;
 import org.snapscript.core.define.Instance;
 import org.snapscript.core.function.Function;
 
@@ -24,52 +20,47 @@ public class ProxyWrapper {
    }
    
    public Object toProxy(Object object) { 
-      if(Function.class.isInstance(object)) {
-         return toProxy(object, Delegate.class);
+      if(object != null) {
+         if(Scope.class.isInstance(object)) {
+            return factory.create((Scope)object);
+         }
+         if(Function.class.isInstance(object)) {
+            return factory.create((Function)object, Delegate.class);
+         }
       }
-      return toProxy(object, Any.class);
+      return object;
    }
    
+   @Bug("casting")
    public Object toProxy(Object object, Class require) { 
-      if(Function.class.isInstance(object)) {
-         return toProxy(object, require, Delegate.class);
-      }
-      return toProxy(object, require, Any.class);
-   }
-   
-   @Bug("here we need to create an interface that will have a function such as getReal() on ExtendedInstance")
-   public Object toProxy(Object object, Class... require) { 
       if(object != null) {
          if(Instance.class.isInstance(object)) {
-            Value value = ((Instance)object).getState().get(TYPE_SUPER);
-            if(value != null){
-               return value.getValue();
+            Object val = ((Instance)object).getObject();
+               
+            if(require.isInstance(val)) {
+               return val;
             }
          }
          if(Scope.class.isInstance(object)) {
-            Object proxy = factory.create((Scope)object, require);
+            Object proxy = factory.create((Scope)object);
             
-            for(Class type : require) {
-               if(!type.isInstance(proxy)) {
-                  throw new InternalStateException("Proxy does not implement " + type);
-               }
+            if(!require.isInstance(proxy)) {
+               throw new InternalStateException("Proxy does not implement " + require);
             }
             return proxy;
          }
          if(Function.class.isInstance(object)) {
-            Object proxy = factory.create((Function)object, require);
+            Object proxy = factory.create((Function)object, require, Delegate.class);
             
-            for(Class type : require) {
-               if(!type.isInstance(proxy)) {
-                  throw new InternalStateException("Proxy does not implement " + type);
-               }
+            if(!require.isInstance(proxy)) {
+               throw new InternalStateException("Proxy does not implement " + require);
             }
             return proxy;
          }
       }
       return object;
    }
-   
+
    public Object fromProxy(Object object) {
       if(object != null) {
          if(Proxy.class.isInstance(object)) {

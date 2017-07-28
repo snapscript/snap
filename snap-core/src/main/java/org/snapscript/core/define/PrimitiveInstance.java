@@ -32,7 +32,13 @@ public class PrimitiveInstance implements Instance {
       return this;
    } 
    
+   @Override
    public Instance getSuper(){
+      return null;
+   }
+   
+   @Override
+   public Object getObject(){
       return null;
    }
   
