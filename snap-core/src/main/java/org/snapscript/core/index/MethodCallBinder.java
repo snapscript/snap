@@ -7,12 +7,12 @@ import org.snapscript.core.define.SuperInstance;
 
 public class MethodCallBinder {
    
-   private final MethodCall instance;
+   private final MethodCall bridge;
    private final MethodCall object;
    private final MethodCall base;
    
    public MethodCallBinder(Method method) {
-      this.instance = new BaseCall(method); 
+      this.bridge = new BridgeCall(method); 
       this.object = new ObjectCall(method); // this.
       this.base = new SuperCall(method); // super.
    }
@@ -22,7 +22,7 @@ public class MethodCallBinder {
          return base;
       }
       if(Instance.class.isInstance(target)) {
-         return instance;
+         return bridge;
       }
       return object;
    }

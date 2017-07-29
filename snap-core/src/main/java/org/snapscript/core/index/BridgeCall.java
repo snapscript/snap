@@ -5,11 +5,11 @@ import java.lang.reflect.Method;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.define.Instance;
 
-public class BaseCall implements MethodCall<Instance> {
+public class BridgeCall implements MethodCall<Instance> {
 
    private final Method method;
    
-   public BaseCall(Method method) {
+   public BridgeCall(Method method) {
       this.method = method;
    }
    
