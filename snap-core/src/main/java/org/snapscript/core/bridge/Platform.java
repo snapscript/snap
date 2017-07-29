@@ -1,8 +1,8 @@
 package org.snapscript.core.bridge;
 
 public enum Platform {
-   ANDROID("android.os.Build", "org.snapscript.extend.android.AndroidExtender"),
-   STANDARD("java.awt.Frame", "org.snapscript.extend.standard.StandardExtender");
+   ANDROID("android.os.Build", "org.snapscript.bridge.android.AndroidBuilder"),
+   STANDARD("java.awt.Frame", "org.snapscript.bridge.standard.StandardBuilder");
    
    public final String verify;
    public final String type;
