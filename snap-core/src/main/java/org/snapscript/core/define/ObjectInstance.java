@@ -40,7 +40,7 @@ public class ObjectInstance implements Instance {
    }
    
    @Override
-   public Object getObject() {
+   public Object getBridge() {
       return object;
    }
   

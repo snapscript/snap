@@ -7,5 +7,5 @@ public interface Instance extends Scope {
    Instance getInner();
    Instance getOuter();
    Instance getSuper();
-   Object getObject();
+   Object getBridge();
 }

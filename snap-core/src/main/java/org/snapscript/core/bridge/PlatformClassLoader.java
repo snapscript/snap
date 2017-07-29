@@ -1,26 +1,26 @@
-package org.snapscript.core.generate;
+package org.snapscript.core.bridge;
 
 import java.lang.reflect.Constructor;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.Any;
-import org.snapscript.core.Bug;
 import org.snapscript.core.ContextClassLoader;
 import org.snapscript.core.Type;
 import org.snapscript.core.bind.FunctionResolver;
 
-public class TypeExtenderLoader {
+public class PlatformClassLoader {
    
    private final AtomicReference<Constructor> reference;
    private final ClassLoader loader;
+   private final Class[] types;
    
-   public TypeExtenderLoader() {
+   public PlatformClassLoader() {
+      this.types = new Class[]{FunctionResolver.class, Type.class};
       this.reference = new AtomicReference<Constructor>();
       this.loader = new ContextClassLoader(Any.class);
    }
-   
-   @Bug("exception description")
-   public Constructor load(){
+
+   public Constructor loadConstructor(){
       Constructor constructor = reference.get();
       
       if(constructor == null) {
@@ -28,11 +28,11 @@ public class TypeExtenderLoader {
             Platform platform = Platform.resolvePlatform();
             Class value = loader.loadClass(platform.type);
             
-            constructor = value.getDeclaredConstructor(FunctionResolver.class, Type.class);
+            constructor = value.getDeclaredConstructor(types);
+            reference.set(constructor);
          }catch(Exception e) {
-            throw new IllegalStateException("Could not load extender", e);
+            throw new IllegalStateException("Could not load constructor", e);
          }
-         reference.set(constructor);
       }
       return constructor;
    }

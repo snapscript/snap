@@ -22,7 +22,7 @@ public class ObjectInstanceBuilder {
       if(actual != ObjectInstance.class) { // false if this(...) is called
          Model model = scope.getModel();
          Module module = type.getModule();
-         Object object = base.getObject();
+         Object object = base.getBridge();
          
          return new ObjectInstance(module, model, base, object, real); // create the first instance
       }

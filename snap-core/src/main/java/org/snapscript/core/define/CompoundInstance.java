@@ -42,8 +42,8 @@ public class CompoundInstance implements Instance {
    }
    
    @Override
-   public Object getObject() {
-      return instance.getObject();
+   public Object getBridge() {
+      return instance.getBridge();
    }
   
    @Override

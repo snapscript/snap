@@ -33,20 +33,20 @@ public class ProxyWrapper {
    public Object toProxy(Object object, Class require) { 
       if(object != null) {
          if(Instance.class.isInstance(object)) {
-            Object proxy = ((Instance)object).getObject();
+            Object proxy = ((Instance)object).getBridge();
                
             if(require.isInstance(proxy)) {
                return proxy;
             }
             if(!require.isInterface()) {
-               throw new InternalStateException("Proxy does not implement " + require);
+               throw new InternalStateException("Type does not extend " + require);
             }
          }
          if(Scope.class.isInstance(object)) {
             Object proxy = factory.create((Scope)object);
             
             if(!require.isInstance(proxy)) {
-               throw new InternalStateException("Proxy does not implement " + require);
+               throw new InternalStateException("Type does not implement " + require);
             }
             return proxy;
          }
@@ -54,7 +54,7 @@ public class ProxyWrapper {
             Object proxy = factory.create((Function)object, require, Delegate.class);
             
             if(!require.isInstance(proxy)) {
-               throw new InternalStateException("Proxy does not implement " + require);
+               throw new InternalStateException("Type does not implement " + require);
             }
             return proxy;
          }

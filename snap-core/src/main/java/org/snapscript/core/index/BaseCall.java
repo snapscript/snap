@@ -15,7 +15,7 @@ public class BaseCall implements MethodCall<Instance> {
    
    @Override
    public Object call(Instance instance, Object[] arguments) throws Exception {
-      Object value = instance.getObject();
+      Object value = instance.getBridge();
       
       if(value == null) {
          throw new InternalStateException("No 'super' object could be found");

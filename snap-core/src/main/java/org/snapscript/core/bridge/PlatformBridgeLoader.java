@@ -1,4 +1,4 @@
-package org.snapscript.core.generate;
+package org.snapscript.core.bridge;
 
 import java.lang.reflect.Constructor;
 
@@ -8,23 +8,23 @@ import org.snapscript.core.bind.FunctionResolver;
 import org.snapscript.core.bind.ObjectFunctionMatcher;
 import org.snapscript.core.stack.ThreadStack;
 
-public class TypeExtenderBuilder {
+public class PlatformBridgeLoader {
    
-   private final TypeExtenderLoader loader;
+   private final PlatformClassLoader loader;
    private final FunctionResolver resolver;
    
-   public TypeExtenderBuilder(TypeExtractor extractor, ThreadStack stack) {
+   public PlatformBridgeLoader(TypeExtractor extractor, ThreadStack stack) {
       this.resolver = new ObjectFunctionMatcher(extractor, stack);
-      this.loader = new TypeExtenderLoader();
+      this.loader = new PlatformClassLoader();
    }
 
-   public TypeExtender create(Type type) {
+   public BridgeBuilder create(Type type) {
       if(type != null) {
          try {
-            Constructor constructor = loader.load();
+            Constructor constructor = loader.loadConstructor();
             Object extender = constructor.newInstance(resolver, type);
             
-            return (TypeExtender)extender;
+            return (BridgeBuilder)extender;
          }catch(Exception e) {
             throw new IllegalStateException("Could not extend " + type, e);
          }

@@ -38,7 +38,7 @@ public class PrimitiveInstance implements Instance {
    }
    
    @Override
-   public Object getObject(){
+   public Object getBridge(){
       return null;
    }
   

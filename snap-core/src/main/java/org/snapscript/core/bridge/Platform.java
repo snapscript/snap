@@ -1,14 +1,14 @@
-package org.snapscript.core.generate;
+package org.snapscript.core.bridge;
 
 public enum Platform {
    ANDROID("android.os.Build", "org.snapscript.extend.android.AndroidExtender"),
-   DEFAULT("java.awt.Frame", "org.snapscript.extend.normal.NormalExtender");
+   STANDARD("java.awt.Frame", "org.snapscript.extend.standard.StandardExtender");
    
-   public final String require;
+   public final String verify;
    public final String type;
    
-   private Platform(String require, String type) {
-      this.require = require;
+   private Platform(String verify, String type) {
+      this.verify = verify;
       this.type = type;
    }
    
@@ -21,12 +21,12 @@ public enum Platform {
       
       for(Platform type : types) {
          try {
-            Class.forName(type.require); // check if this is android
+            Class.forName(type.verify); // check if this is android
          }catch(Exception e) {
             continue;
          }
          return type;
       }
-      return DEFAULT;
+      return STANDARD;
    }
 }

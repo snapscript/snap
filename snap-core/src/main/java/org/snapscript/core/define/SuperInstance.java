@@ -38,8 +38,8 @@ public class SuperInstance implements Instance {
    }
    
    @Override
-   public Object getObject() {
-      return scope.getObject();
+   public Object getBridge() {
+      return scope.getBridge();
    }
    
    @Override

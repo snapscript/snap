@@ -8,10 +8,10 @@ import junit.framework.TestCase;
 import org.snapscript.common.store.ClassPathStore;
 import org.snapscript.common.store.Store;
 import org.snapscript.core.bind.FunctionBinder;
+import org.snapscript.core.bridge.BridgeProvider;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.ProxyWrapper;
 import org.snapscript.core.error.ErrorHandler;
-import org.snapscript.core.generate.ExtensionProvider;
 import org.snapscript.core.link.NoPackage;
 import org.snapscript.core.link.Package;
 import org.snapscript.core.link.PackageLinker;
@@ -189,7 +189,7 @@ public class FunctionBinderTest extends TestCase {
       }
       
       @Override
-      public ExtensionProvider getProvider() {
+      public BridgeProvider getProvider() {
          return null;
       }
 
