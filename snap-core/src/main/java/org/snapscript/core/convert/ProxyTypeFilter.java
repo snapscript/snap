@@ -1,11 +1,15 @@
-package org.snapscript.core.bind;
+package org.snapscript.core.convert;
 
 import java.lang.reflect.Proxy;
 
 import org.snapscript.core.Type;
 
-public class ValidTypeFilter {
+public class ProxyTypeFilter {
 
+   public ProxyTypeFilter() {
+      super();
+   }
+   
    public boolean accept(Type type) {
       Class real = type.getType();
       

@@ -10,15 +10,16 @@ import java.util.List;
 
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeCache;
+import org.snapscript.core.convert.ProxyTypeFilter;
 
 public class FunctionPathFinder {
    
    private final TypeCache<List<Type>> paths;
-   private final ValidTypeFilter filter;
+   private final ProxyTypeFilter filter;
    
    public FunctionPathFinder() {
       this.paths = new TypeCache<List<Type>>();
-      this.filter = new ValidTypeFilter();
+      this.filter = new ProxyTypeFilter();
    }
 
    public List<Type> findPath(Type type, String name) {

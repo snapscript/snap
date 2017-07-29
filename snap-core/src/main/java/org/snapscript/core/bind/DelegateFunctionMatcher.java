@@ -9,6 +9,7 @@ import org.snapscript.core.Bug;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.convert.Delegate;
+import org.snapscript.core.convert.ProxyTypeFilter;
 import org.snapscript.core.convert.Score;
 import org.snapscript.core.function.ArgumentConverter;
 import org.snapscript.core.function.EmptyFunction;
@@ -22,7 +23,7 @@ public class DelegateFunctionMatcher {
    private final FunctionCacheTable<Type> table;
    private final FunctionKeyBuilder builder;
    private final FunctionPathFinder finder;
-   private final ValidTypeFilter filter;
+   private final ProxyTypeFilter filter;
    private final TypeExtractor extractor;
    private final ThreadStack stack;
    private final Function invalid;
@@ -33,7 +34,7 @@ public class DelegateFunctionMatcher {
       this.builder = new FunctionKeyBuilder(extractor);
       this.finder = new FunctionPathFinder();
       this.invalid = new EmptyFunction(null);
-      this.filter = new ValidTypeFilter();
+      this.filter = new ProxyTypeFilter();
       this.extractor = extractor;
       this.stack = stack;
    }
