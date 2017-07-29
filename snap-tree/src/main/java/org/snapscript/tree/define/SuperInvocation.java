@@ -8,14 +8,12 @@ import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.tree.ArgumentList;
 import org.snapscript.tree.NameReference;
-import org.snapscript.tree.dispatch.InvocationBinder;
 import org.snapscript.tree.dispatch.InvocationDispatcher;
-import org.snapscript.tree.dispatch.SuperInvocationBinder;
 
 public class SuperInvocation implements Evaluation {
 
    private final SuperInstanceBuilder builder;
-   private final InvocationBinder binder;
+   private final SuperInvocationBinder binder;
    private final NameReference reference;
    private final ArgumentList arguments;
    

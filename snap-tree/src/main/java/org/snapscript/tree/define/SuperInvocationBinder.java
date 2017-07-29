@@ -1,7 +1,9 @@
-package org.snapscript.tree.dispatch;
+package org.snapscript.tree.define;
 
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
+import org.snapscript.tree.dispatch.InvocationBinder;
+import org.snapscript.tree.dispatch.InvocationDispatcher;
 
 public class SuperInvocationBinder extends InvocationBinder {
 
@@ -16,7 +18,7 @@ public class SuperInvocationBinder extends InvocationBinder {
       Class base = type.getType();
       
       if(base != null) {
-         return new BridgeDispatcher(scope, type); // native java object
+         return new SuperDispatcher(scope, type); // native java object
       }
       return super.bind(scope, left);
    }

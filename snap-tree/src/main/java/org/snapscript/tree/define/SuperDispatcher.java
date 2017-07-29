@@ -1,4 +1,4 @@
-package org.snapscript.tree.dispatch;
+package org.snapscript.tree.define;
 
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
@@ -10,13 +10,14 @@ import org.snapscript.core.ValueType;
 import org.snapscript.core.bridge.BridgeBuilder;
 import org.snapscript.core.bridge.BridgeProvider;
 import org.snapscript.core.define.Instance;
+import org.snapscript.tree.dispatch.InvocationDispatcher;
 
-public class BridgeDispatcher implements InvocationDispatcher{
+public class SuperDispatcher implements InvocationDispatcher{
 
    private final Scope scope;
    private final Type type;
    
-   public BridgeDispatcher(Scope scope, Type type) {
+   public SuperDispatcher(Scope scope, Type type) {
       this.scope = scope;
       this.type = type;
    }
