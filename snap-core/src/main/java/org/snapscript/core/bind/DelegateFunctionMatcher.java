@@ -22,6 +22,7 @@ public class DelegateFunctionMatcher {
    private final FunctionCacheTable<Type> table;
    private final FunctionKeyBuilder builder;
    private final FunctionPathFinder finder;
+   private final ValidTypeFilter filter;
    private final TypeExtractor extractor;
    private final ThreadStack stack;
    private final Function invalid;
@@ -32,6 +33,7 @@ public class DelegateFunctionMatcher {
       this.builder = new FunctionKeyBuilder(extractor);
       this.finder = new FunctionPathFinder();
       this.invalid = new EmptyFunction(null);
+      this.filter = new ValidTypeFilter();
       this.extractor = extractor;
       this.stack = stack;
    }
@@ -46,7 +48,6 @@ public class DelegateFunctionMatcher {
       return null;
    }
 
-   @Bug("this should be filtered in a better way - real == null || !Proxy.class.isAssignableFrom(real)")
    public Function resolve(Type type, String name, Object... values) throws Exception { 
       Object key = builder.create(name, values);
       FunctionCache cache = table.get(type);
@@ -57,9 +58,7 @@ public class DelegateFunctionMatcher {
          Score best = INVALID;
          
          for(Type entry : path) {
-            Class real = entry.getType();
-            
-            if(real == null || !Proxy.class.isAssignableFrom(real)) {
+            if(filter.accept(entry)) {
                List<Function> functions = entry.getFunctions();
                int size = functions.size();
                

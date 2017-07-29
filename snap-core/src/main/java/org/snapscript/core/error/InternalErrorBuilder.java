@@ -1,7 +1,6 @@
 
 package org.snapscript.core.error;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.stack.ThreadStack;
 
 public class InternalErrorBuilder {
@@ -18,7 +17,6 @@ public class InternalErrorBuilder {
       this.stack = stack;
    }
    
-   @Bug("clean this up")
    public InternalError create(Object value) {
       InternalError error = new InternalError(value);
       

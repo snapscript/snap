@@ -4,7 +4,6 @@ package org.snapscript.core.convert;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
@@ -30,15 +29,17 @@ public class ProxyWrapper {
       }
       return object;
    }
-   
-   @Bug("casting")
+
    public Object toProxy(Object object, Class require) { 
       if(object != null) {
          if(Instance.class.isInstance(object)) {
-            Object val = ((Instance)object).getObject();
+            Object proxy = ((Instance)object).getObject();
                
-            if(require.isInstance(val)) {
-               return val;
+            if(require.isInstance(proxy)) {
+               return proxy;
+            }
+            if(!require.isInterface()) {
+               throw new InternalStateException("Proxy does not implement " + require);
             }
          }
          if(Scope.class.isInstance(object)) {
