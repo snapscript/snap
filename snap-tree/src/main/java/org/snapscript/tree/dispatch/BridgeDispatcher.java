@@ -38,7 +38,7 @@ public class BridgeDispatcher implements InvocationDispatcher{
       }
       BridgeProvider provider = context.getProvider();
       BridgeBuilder builder = provider.create(type);
-      Instance instance = builder.createInstance(scope, real, copy);
+      Instance instance = builder.superInstance(scope, real, copy);
       
       return ValueType.getTransient(instance, type);
    }

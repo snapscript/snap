@@ -38,7 +38,7 @@ public class SuperCall implements MethodCall<SuperInstance> {
          throw new InternalStateException("No 'super' method for '" + name + "' found in '" + type + "'");
       }
       Class base = value.getClass();
-      Invocation invocation = extender.createInvocation(instance, base, method);
+      Invocation invocation = extender.superInvocation(instance, base, method);
       Result result = invocation.invoke(instance, value, arguments);
       
       return result.getValue();

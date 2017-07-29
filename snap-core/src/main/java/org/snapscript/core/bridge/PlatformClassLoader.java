@@ -11,6 +11,7 @@ import org.snapscript.core.bind.FunctionResolver;
 public class PlatformClassLoader {
    
    private final AtomicReference<Constructor> reference;
+   private final PlatformNameBuilder builder;
    private final ClassLoader loader;
    private final Class[] types;
    
@@ -18,6 +19,7 @@ public class PlatformClassLoader {
       this.types = new Class[]{FunctionResolver.class, Type.class};
       this.reference = new AtomicReference<Constructor>();
       this.loader = new ContextClassLoader(Any.class);
+      this.builder = new PlatformNameBuilder();
    }
 
    public Constructor loadConstructor(){
@@ -26,7 +28,8 @@ public class PlatformClassLoader {
       if(constructor == null) {
          try {
             Platform platform = Platform.resolvePlatform();
-            Class value = loader.loadClass(platform.type);
+            String type = builder.createFullName(platform);
+            Class value = loader.loadClass(type);
             
             constructor = value.getDeclaredConstructor(types);
             reference.set(constructor);

@@ -8,6 +8,6 @@ import org.snapscript.core.define.Instance;
 import org.snapscript.core.function.Invocation;
 
 public interface BridgeBuilder {
-   Instance createInstance(Scope scope, Type real, Object... args); // super object
-   Invocation createInvocation(Scope scope, Class proxy, Method method); // super invocation
+   Instance superInstance(Scope scope, Type real, Object... list);
+   Invocation superInvocation(Scope scope, Class proxy, Method method); 
 }
