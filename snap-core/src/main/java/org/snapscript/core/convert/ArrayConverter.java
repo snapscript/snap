@@ -14,11 +14,13 @@ import org.snapscript.core.Type;
 
 public class ArrayConverter extends ConstraintConverter {
 
+   private final ArrayTypeComparator comparator;
    private final ConstraintMatcher matcher;
    private final ProxyWrapper wrapper;
    private final Type type;
    
    public ArrayConverter(ConstraintMatcher matcher, ProxyWrapper wrapper, Type type) {
+      this.comparator = new ArrayTypeComparator();
       this.wrapper = wrapper;
       this.matcher = matcher;
       this.type = type;
@@ -31,7 +33,9 @@ public class ArrayConverter extends ConstraintConverter {
          Class real = actual.getType();
          
          if(require != real) {
-            return INVALID; // this should be better!!
+            if(!comparator.isEqual(require, real)) {
+               return INVALID; 
+            }
          }
       }
       return EXACT;
@@ -45,7 +49,9 @@ public class ArrayConverter extends ConstraintConverter {
          
          if(actual.isArray()) {
             if(require != actual) {
-               return score(object, type);
+               if(!comparator.isEqual(require, actual)) {
+                  return score(object, type);
+               }
             }
             return EXACT;
          }

@@ -64,17 +64,30 @@ public class ArrayCoercionTest extends TestCase {
    "println(array3.class);\n"+       
    "println(array4);\n"+        
    "println(array4.class);\n"; 
+   
+   private static final String SOURCE_3 =
+   "var array: Byte[] = 'hello world'.getBytes();\n"+
+   "for(var item in array){\n"+
+   "   println(item);\n"+
+   "}\n";
     
-   public void testArrayCoercion() throws Exception {;
+   public void testArrayCoercion() throws Exception {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
       Executable executable = compiler.compile(SOURCE_1);
       executable.execute();
    }  
    
-   public void testScopeArrayCoercion() throws Exception {;
+   public void testScopeArrayCoercion() throws Exception {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
       Executable executable = compiler.compile(SOURCE_2);
       System.err.println(SOURCE_2);
       executable.execute();
    }   
-}
+   
+   public void testPrimitiveArrayCoercion() throws Exception {
+      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
+      Executable executable = compiler.compile(SOURCE_3);
+      System.err.println(SOURCE_3);
+      executable.execute();
+   }
+}  
