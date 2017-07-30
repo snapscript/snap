@@ -7,6 +7,7 @@ import java.lang.reflect.Proxy;
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
+import org.snapscript.core.bridge.Bridge;
 import org.snapscript.core.define.Instance;
 import org.snapscript.core.function.Function;
 
@@ -73,6 +74,12 @@ public class ProxyWrapper {
                
                return value;
             }
+         }
+         if(Bridge.class.isInstance(object)) {
+            Bridge bridge = (Bridge)object;
+            Object value = bridge.extract();
+            
+            return value;
          }
       }
       return object;
