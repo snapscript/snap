@@ -3,7 +3,6 @@ package org.snapscript.tree.dispatch;
 
 import java.util.concurrent.Callable;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
@@ -16,7 +15,6 @@ import org.snapscript.core.ValueType;
 import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.core.convert.Delegate;
 
-@Bug("review this")
 public class DelegateDispatcher implements InvocationDispatcher {
    
    private final Delegate object;
