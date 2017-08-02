@@ -1,5 +1,6 @@
 package org.snapscript.core.convert;
 
+import java.lang.reflect.Modifier;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -28,18 +29,22 @@ public class InterfaceCollector {
       Type type = scope.getType();
       
       if(type != null) {
-         Class[] interfaces = cache.fetch(type);
-         
-         if(interfaces == null) {
-            Set<Class> types = traverse(type);
-            Class[] result = types.toArray(empty);
-            
-            cache.cache(type, result);
-            return result;
-         }
-         return interfaces;
+         return collect(type);
       }
       return empty;
+   }
+   
+   public Class[] collect(Type type) {
+      Class[] interfaces = cache.fetch(type);
+      
+      if(interfaces == null) {
+         Set<Class> types = traverse(type);
+         Class[] result = types.toArray(empty);
+         
+         cache.cache(type, result);
+         return result;
+      }
+      return interfaces;
    }
    
    public Class[] filter(Class... types) {
@@ -71,7 +76,9 @@ public class InterfaceCollector {
             Class part = entry.getType();
             
             if(part != null) {
-               if(part.isInterface()) {
+               int modifiers = part.getModifiers();
+               
+               if(part.isInterface() && Modifier.isPublic(modifiers)) {
                   interfaces.add(part);
                }
             }
