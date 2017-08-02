@@ -1,4 +1,3 @@
-
 package org.snapscript.core;
 
 public interface Reserved {
@@ -35,4 +34,3 @@ public interface Reserved {
    String DEFAULT_PARAMETER = "a";
    String GRAMMAR_FILE = "grammar.bnf";
 }
-

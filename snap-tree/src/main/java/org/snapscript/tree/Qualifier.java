@@ -1,4 +1,3 @@
-
 package org.snapscript.tree;
 
 public interface Qualifier {

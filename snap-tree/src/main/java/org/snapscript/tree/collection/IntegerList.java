@@ -1,4 +1,3 @@
-
 package org.snapscript.tree.collection;
 
 import org.snapscript.core.InternalArgumentException;

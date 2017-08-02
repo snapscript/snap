@@ -1,4 +1,3 @@
-
 package org.snapscript.core.trace;
 
 import java.util.Set;

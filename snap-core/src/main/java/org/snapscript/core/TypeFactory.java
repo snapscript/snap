@@ -1,4 +1,3 @@
-
 package org.snapscript.core;
 
 public abstract class TypeFactory {

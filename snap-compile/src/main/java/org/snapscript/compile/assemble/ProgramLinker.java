@@ -1,4 +1,3 @@
-
 package org.snapscript.compile.assemble;
 
 import static org.snapscript.tree.Instruction.SCRIPT_PACKAGE;

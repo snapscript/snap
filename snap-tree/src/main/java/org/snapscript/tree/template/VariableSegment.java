@@ -1,4 +1,3 @@
-
 package org.snapscript.tree.template;
 
 import java.io.Writer;

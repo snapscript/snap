@@ -1,4 +1,3 @@
-
 package org.snapscript.compile;
 
 import java.util.concurrent.Executor;

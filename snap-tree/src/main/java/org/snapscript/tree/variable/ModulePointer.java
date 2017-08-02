@@ -1,4 +1,3 @@
-
 package org.snapscript.tree.variable;
 
 import java.util.concurrent.atomic.AtomicReference;

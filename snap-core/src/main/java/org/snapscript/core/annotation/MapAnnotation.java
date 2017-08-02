@@ -1,4 +1,3 @@
-
 package org.snapscript.core.annotation;
 
 import java.util.Map;

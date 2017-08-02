@@ -1,4 +1,3 @@
-
 package org.snapscript.core.bind;
 
 public class FunctionCacheTable<T> {

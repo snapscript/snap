@@ -1,4 +1,3 @@
-
 package org.snapscript.tree.define;
 
 import java.util.List;
@@ -66,4 +65,3 @@ public class MemberField implements TypePart {
       return collector;
    }
 }
-

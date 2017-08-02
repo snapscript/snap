@@ -1,4 +1,3 @@
-
 package org.snapscript.tree.variable;
 
 import org.snapscript.core.Scope;

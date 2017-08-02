@@ -1,4 +1,3 @@
-
 package org.snapscript.core.stack;
 
 import static org.snapscript.core.Reserved.IMPORT_SNAPSCRIPT;

@@ -1,4 +1,3 @@
-
 package org.snapscript.common.store;
 
 import static org.snapscript.common.store.RemoteStatus.ERROR;

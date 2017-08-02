@@ -1,4 +1,3 @@
-
 package org.snapscript.tree.dispatch;
 
 import java.util.Map;

@@ -1,4 +1,3 @@
-
 package org.snapscript.core.bind;
 
 import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;

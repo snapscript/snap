@@ -1,4 +1,3 @@
-
 package org.snapscript.tree.closure;
 
 import static org.snapscript.core.Reserved.METHOD_CLOSURE;

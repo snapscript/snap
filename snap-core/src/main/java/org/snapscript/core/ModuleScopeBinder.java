@@ -1,4 +1,3 @@
-
 package org.snapscript.core;
 
 import org.snapscript.core.function.Function;

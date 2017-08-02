@@ -1,4 +1,3 @@
-
 package org.snapscript.tree.collection;
 
 import java.util.List;
@@ -49,4 +48,3 @@ public class CollectionConverter {
       return null;
    }
 }
-

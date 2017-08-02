@@ -1,4 +1,3 @@
-
 package org.snapscript.core.trace;
 
 import org.snapscript.core.Scope;

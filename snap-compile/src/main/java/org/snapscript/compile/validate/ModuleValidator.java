@@ -1,4 +1,3 @@
-
 package org.snapscript.compile.validate;
 
 import java.util.List;

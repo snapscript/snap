@@ -1,4 +1,3 @@
-
 package org.snapscript.tree.literal;
 
 import org.snapscript.core.Evaluation;

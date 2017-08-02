@@ -1,4 +1,3 @@
-
 package org.snapscript.tree.construct;
 
 import java.util.LinkedHashMap;

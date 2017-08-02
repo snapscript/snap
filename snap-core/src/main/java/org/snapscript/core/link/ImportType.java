@@ -1,4 +1,3 @@
-
 package org.snapscript.core.link;
 
 public enum ImportType {

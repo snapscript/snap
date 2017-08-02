@@ -1,4 +1,3 @@
-
 package org.snapscript.tree.constraint;
 
 import org.snapscript.core.Scope;

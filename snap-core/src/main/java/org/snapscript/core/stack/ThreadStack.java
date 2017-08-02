@@ -1,4 +1,3 @@
-
 package org.snapscript.core.stack;
 
 import org.snapscript.common.Stack;

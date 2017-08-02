@@ -1,4 +1,3 @@
-
 package org.snapscript.tree;
 
 import org.snapscript.tree.annotation.AnnotationDeclaration;
@@ -250,4 +249,3 @@ public enum Instruction {
       return type;
    }
 }
-   

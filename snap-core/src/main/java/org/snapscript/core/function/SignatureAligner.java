@@ -1,4 +1,3 @@
-
 package org.snapscript.core.function;
 
 import java.lang.reflect.Array;

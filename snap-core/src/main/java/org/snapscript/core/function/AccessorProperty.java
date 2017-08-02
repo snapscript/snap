@@ -1,4 +1,3 @@
-
 package org.snapscript.core.function;
 
 import java.util.ArrayList;

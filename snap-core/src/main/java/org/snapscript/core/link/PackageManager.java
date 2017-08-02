@@ -1,4 +1,3 @@
-
 package org.snapscript.core.link;
 
 import static org.snapscript.core.link.ImportType.EXPLICIT;

@@ -1,4 +1,3 @@
-
 package org.snapscript.tree.collection;
 
 import java.lang.reflect.Array;
@@ -68,4 +67,3 @@ public class ObjectList extends ArrayWrapper<Object> {
       return -1;
    }
 }
-

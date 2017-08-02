@@ -1,4 +1,3 @@
-
 package org.snapscript.tree.define;
 
 import java.lang.reflect.Constructor;

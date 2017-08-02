@@ -1,4 +1,3 @@
-
 package org.snapscript.common;
 
 public class SparseArray<T> {
@@ -84,4 +83,3 @@ public class SparseArray<T> {
       return capacity;
    }
 }
-

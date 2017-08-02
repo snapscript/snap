@@ -1,4 +1,3 @@
-
 package org.snapscript.tree.closure;
 
 import java.util.concurrent.atomic.AtomicBoolean;

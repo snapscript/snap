@@ -1,4 +1,3 @@
-
 package org.snapscript.core.link;
 
 import org.snapscript.core.Scope;

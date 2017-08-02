@@ -1,4 +1,3 @@
-
 package org.snapscript.tree.operation;
 
 import static org.snapscript.core.convert.Score.INVALID;

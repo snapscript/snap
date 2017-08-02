@@ -1,4 +1,3 @@
-
 package org.snapscript.core;
 
 public class InternalArgumentException extends InternalException {

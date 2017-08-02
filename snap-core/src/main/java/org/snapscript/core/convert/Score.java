@@ -1,4 +1,3 @@
-
 package org.snapscript.core.convert;
 
 public class Score implements Comparable<Score> {

@@ -1,4 +1,3 @@
-
 package org.snapscript.common;
 
 public class BitSet {

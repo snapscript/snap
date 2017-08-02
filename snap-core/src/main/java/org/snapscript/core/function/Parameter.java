@@ -1,4 +1,3 @@
-
 package org.snapscript.core.function;
 
 import java.util.ArrayList;
@@ -40,4 +39,4 @@ public class Parameter {
    public Type getType() {
       return type;
    }
-}  
+}

@@ -1,4 +1,3 @@
-
 package org.snapscript.tree.define;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -59,4 +58,3 @@ public class StaticInvocation implements Invocation<Object> {
       return ResultType.getNormal(value);
    }
 }
-

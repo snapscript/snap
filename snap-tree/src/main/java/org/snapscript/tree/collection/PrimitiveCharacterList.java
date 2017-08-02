@@ -1,4 +1,3 @@
-
 package org.snapscript.tree.collection;
 
 import org.snapscript.core.InternalArgumentException;
@@ -75,5 +74,3 @@ public class PrimitiveCharacterList extends ArrayWrapper<Character> {
       return -1;
    }
 }
-
-

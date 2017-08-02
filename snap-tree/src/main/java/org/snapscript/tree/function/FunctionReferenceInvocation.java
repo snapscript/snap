@@ -1,4 +1,3 @@
-
 package org.snapscript.tree.function;
 
 import org.snapscript.core.Module;

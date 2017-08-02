@@ -1,4 +1,3 @@
-
 package org.snapscript.core;
 
 import java.util.concurrent.atomic.AtomicReference;

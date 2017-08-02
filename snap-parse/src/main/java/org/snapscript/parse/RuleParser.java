@@ -1,4 +1,3 @@
-
 package org.snapscript.parse;
 
 import java.util.ArrayList;
@@ -145,4 +144,3 @@ public class RuleParser extends StringParser implements RuleIterator {
       rules.add(token);
    }
 }
-

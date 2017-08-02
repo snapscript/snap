@@ -1,4 +1,3 @@
-
 package org.snapscript.tree;
 
 import org.snapscript.core.Result;

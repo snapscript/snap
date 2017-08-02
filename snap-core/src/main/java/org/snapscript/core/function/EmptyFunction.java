@@ -1,4 +1,3 @@
-
 package org.snapscript.core.function;
 
 import static org.snapscript.core.ModifierType.ABSTRACT;

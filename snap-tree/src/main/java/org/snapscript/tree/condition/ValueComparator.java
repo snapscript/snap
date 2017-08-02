@@ -1,4 +1,3 @@
-
 package org.snapscript.tree.condition;
 
 import org.snapscript.core.Value;

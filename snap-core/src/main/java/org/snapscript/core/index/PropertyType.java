@@ -1,4 +1,3 @@
-
 package org.snapscript.core.index;
 
 import static org.snapscript.core.Reserved.PROPERTY_GET;

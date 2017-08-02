@@ -1,4 +1,3 @@
-
 package org.snapscript.parse;
 
 import java.util.concurrent.atomic.AtomicReference;

@@ -1,4 +1,3 @@
-
 package org.snapscript.tree.reference;
 
 import java.util.concurrent.Callable;

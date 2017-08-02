@@ -1,4 +1,3 @@
-
 package org.snapscript.tree.construct;
 
 import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;

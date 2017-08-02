@@ -1,4 +1,3 @@
-
 package org.snapscript.parse;
 
 public class OptionalGrammar implements Grammar {
@@ -41,4 +40,3 @@ public class OptionalGrammar implements Grammar {
       }    
    }
 }
-

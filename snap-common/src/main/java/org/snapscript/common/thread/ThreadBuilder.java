@@ -1,4 +1,3 @@
-
 package org.snapscript.common.thread;
 
 import java.util.concurrent.ThreadFactory;

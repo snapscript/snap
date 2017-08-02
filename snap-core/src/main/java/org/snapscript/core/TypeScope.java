@@ -1,4 +1,3 @@
-
 package org.snapscript.core;
 
 public class TypeScope implements Scope {

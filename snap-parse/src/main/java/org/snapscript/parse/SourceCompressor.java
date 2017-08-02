@@ -1,4 +1,3 @@
-
 package org.snapscript.parse;
 
 import static org.snapscript.parse.TextCategory.INDEX;

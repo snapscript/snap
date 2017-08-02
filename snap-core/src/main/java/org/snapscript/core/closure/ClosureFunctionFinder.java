@@ -1,4 +1,3 @@
-
 package org.snapscript.core.closure;
 
 import static org.snapscript.core.Reserved.METHOD_EQUALS;

@@ -1,4 +1,3 @@
-
 package org.snapscript.core.property;
 
 import java.util.List;

@@ -1,4 +1,3 @@
-
 package org.snapscript.common.store;
 
 import java.io.File;

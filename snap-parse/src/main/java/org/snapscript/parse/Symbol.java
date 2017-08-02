@@ -1,4 +1,3 @@
-
 package org.snapscript.parse;
 
 public enum Symbol {

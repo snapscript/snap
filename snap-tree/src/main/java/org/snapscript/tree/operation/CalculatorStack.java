@@ -1,4 +1,3 @@
-
 package org.snapscript.tree.operation;
 
 import java.util.ArrayList;

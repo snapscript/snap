@@ -1,4 +1,3 @@
-
 package org.snapscript.tree.template;
 
 import java.io.StringWriter;
@@ -56,5 +55,3 @@ public class TextTemplate implements Evaluation {
       return writer.toString();
    }
 }
-
-

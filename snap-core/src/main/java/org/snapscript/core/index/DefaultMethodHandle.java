@@ -1,4 +1,3 @@
-
 package org.snapscript.core.index;
 
 import java.lang.invoke.MethodHandle;

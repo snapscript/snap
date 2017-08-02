@@ -1,4 +1,3 @@
-
 package org.snapscript.core;
 
 public class CompoundScope implements Scope {

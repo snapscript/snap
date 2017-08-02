@@ -1,4 +1,3 @@
-
 package org.snapscript.tree;
 
 import static org.snapscript.core.ModifierType.ABSTRACT;

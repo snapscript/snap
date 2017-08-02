@@ -1,4 +1,3 @@
-
 package org.snapscript.core;
 
 public class Constant extends Value {

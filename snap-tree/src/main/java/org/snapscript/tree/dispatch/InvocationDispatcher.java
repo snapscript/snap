@@ -1,4 +1,3 @@
-
 package org.snapscript.tree.dispatch;
 
 import org.snapscript.core.Value;

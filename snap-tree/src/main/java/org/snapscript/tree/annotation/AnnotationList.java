@@ -1,4 +1,3 @@
-
 package org.snapscript.tree.annotation;
 
 import java.util.List;

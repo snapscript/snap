@@ -1,4 +1,3 @@
-
 package org.snapscript.tree.function;
 
 import static org.snapscript.core.ModifierType.PUBLIC;

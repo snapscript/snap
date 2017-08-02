@@ -1,4 +1,3 @@
-
 package org.snapscript.tree.define;
 
 import static org.snapscript.core.Reserved.ENUM_NAME;

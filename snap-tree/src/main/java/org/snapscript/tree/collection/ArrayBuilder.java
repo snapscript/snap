@@ -1,4 +1,3 @@
-
 package org.snapscript.tree.collection;
 
 import java.lang.reflect.Array;

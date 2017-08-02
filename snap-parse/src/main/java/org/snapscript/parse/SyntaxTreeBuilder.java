@@ -1,4 +1,3 @@
-
 package org.snapscript.parse;
 
 public class SyntaxTreeBuilder {
@@ -26,4 +25,3 @@ public class SyntaxTreeBuilder {
       return new SyntaxTree(indexer, resource, grammar, original, compress, lines, types);
    }       
 }
-

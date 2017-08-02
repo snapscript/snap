@@ -1,4 +1,3 @@
-
 package org.snapscript.core.convert;
 
 import java.lang.reflect.Proxy;

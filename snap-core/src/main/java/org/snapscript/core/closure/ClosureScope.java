@@ -1,4 +1,3 @@
-
 package org.snapscript.core.closure;
 
 import org.snapscript.core.CompoundScope;

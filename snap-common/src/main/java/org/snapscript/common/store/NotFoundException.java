@@ -1,4 +1,3 @@
-
 package org.snapscript.common.store;
 
 public class NotFoundException extends StoreException {

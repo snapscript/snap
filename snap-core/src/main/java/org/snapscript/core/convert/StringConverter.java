@@ -1,4 +1,3 @@
-
 package org.snapscript.core.convert;
 
 import static org.snapscript.core.convert.Score.EXACT;

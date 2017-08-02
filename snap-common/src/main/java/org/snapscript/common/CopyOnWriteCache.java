@@ -1,4 +1,3 @@
-
 package org.snapscript.common;
 
 import java.util.HashMap;

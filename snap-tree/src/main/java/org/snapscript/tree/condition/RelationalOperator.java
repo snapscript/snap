@@ -1,4 +1,3 @@
-
 package org.snapscript.tree.condition;
 
 import java.util.regex.Matcher;

@@ -1,4 +1,3 @@
-
 package org.snapscript.core.error;
 
 import org.snapscript.core.Scope;

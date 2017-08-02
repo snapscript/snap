@@ -1,4 +1,3 @@
-
 package org.snapscript.core;
 
 public class InternalException extends RuntimeException {

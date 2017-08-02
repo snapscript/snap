@@ -1,4 +1,3 @@
-
 package org.snapscript.core.function;
 
 public interface Accessor<T> {

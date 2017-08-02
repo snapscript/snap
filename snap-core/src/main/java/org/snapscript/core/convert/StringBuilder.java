@@ -1,4 +1,3 @@
-
 package org.snapscript.core.convert;
 
 import org.snapscript.core.Context;

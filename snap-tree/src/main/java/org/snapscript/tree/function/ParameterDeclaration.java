@@ -1,4 +1,3 @@
-
 package org.snapscript.tree.function;
 
 import org.snapscript.core.Evaluation;
@@ -64,4 +63,4 @@ public class ParameterDeclaration {
       }
       return new Parameter(name, null, modifier != null);
    }
-}  
+}

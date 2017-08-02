@@ -1,4 +1,3 @@
-
 package org.snapscript.tree.template;
 
 public class SegmentIterator {

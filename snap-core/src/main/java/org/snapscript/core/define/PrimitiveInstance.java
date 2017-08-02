@@ -1,4 +1,3 @@
-
 package org.snapscript.core.define;
 
 import org.snapscript.core.MapState;

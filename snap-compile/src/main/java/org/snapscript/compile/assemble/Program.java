@@ -1,4 +1,3 @@
-
 package org.snapscript.compile.assemble;
 
 import org.snapscript.compile.Executable;

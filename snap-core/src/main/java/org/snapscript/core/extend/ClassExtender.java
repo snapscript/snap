@@ -1,4 +1,3 @@
-
 package org.snapscript.core.extend;
 
 import java.io.File;

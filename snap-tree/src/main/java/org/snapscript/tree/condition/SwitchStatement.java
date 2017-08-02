@@ -1,4 +1,3 @@
-
 package org.snapscript.tree.condition;
 
 import static org.snapscript.tree.condition.RelationalOperator.EQUALS;

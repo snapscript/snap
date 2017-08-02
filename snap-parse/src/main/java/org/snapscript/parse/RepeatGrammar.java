@@ -1,4 +1,3 @@
-
 package org.snapscript.parse;
 
 public class RepeatGrammar implements Grammar {
@@ -69,4 +68,3 @@ public class RepeatGrammar implements Grammar {
       }
    }
 }
-

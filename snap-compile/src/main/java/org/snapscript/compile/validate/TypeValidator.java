@@ -1,4 +1,3 @@
-
 package org.snapscript.compile.validate;
 
 import static org.snapscript.core.Reserved.ANY_TYPE;

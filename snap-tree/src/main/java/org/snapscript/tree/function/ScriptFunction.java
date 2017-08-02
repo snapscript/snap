@@ -1,4 +1,3 @@
-
 package org.snapscript.tree.function;
 
 import java.util.List;

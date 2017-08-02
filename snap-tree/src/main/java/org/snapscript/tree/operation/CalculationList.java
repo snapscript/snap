@@ -1,4 +1,3 @@
-
 package org.snapscript.tree.operation;
 
 import org.snapscript.core.Compilation;

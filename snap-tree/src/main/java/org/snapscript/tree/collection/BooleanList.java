@@ -1,4 +1,3 @@
-
 package org.snapscript.tree.collection;
 
 import org.snapscript.core.InternalArgumentException;
@@ -77,4 +76,3 @@ public class BooleanList extends ArrayWrapper<Boolean> {
       return -1;
    }
 }
-

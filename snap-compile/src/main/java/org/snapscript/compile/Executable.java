@@ -1,4 +1,3 @@
-
 package org.snapscript.compile;
 
 import org.snapscript.core.Any;

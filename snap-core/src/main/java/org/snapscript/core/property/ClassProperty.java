@@ -1,4 +1,3 @@
-
 package org.snapscript.core.property;
 
 import static java.util.Collections.EMPTY_LIST;
