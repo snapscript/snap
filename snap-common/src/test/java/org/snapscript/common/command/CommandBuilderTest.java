@@ -8,7 +8,7 @@ public class CommandBuilderTest extends TestCase {
    
    public void testExecutor() throws Exception{
       CommandBuilder executor = new CommandBuilder();
-      List<String> list = executor.create("ls -al", "c:\\Work").call().readAll();
+      List<String> list = executor.create("ls -al", ".").call().readAll();
       
       for(String entry : list) {
          System.err.println(entry);
