@@ -1,5 +1,7 @@
 package org.snapscript.tree.define;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 import org.snapscript.core.Module;
 import org.snapscript.core.Result;
 import org.snapscript.core.ResultType;
@@ -10,12 +12,14 @@ import org.snapscript.tree.annotation.AnnotationList;
 
 public class ClassBuilder extends Statement {   
    
+   private final AtomicReference<Type> reference;
    private final ClassConstantBuilder builder;
    private final AnnotationList annotations;
    private final TypeHierarchy hierarchy;
    private final TypeName name;
    
    public ClassBuilder(AnnotationList annotations, TypeName name, TypeHierarchy hierarchy) {
+      this.reference = new AtomicReference<Type>();
       this.builder = new ClassConstantBuilder();
       this.annotations = annotations;
       this.hierarchy = hierarchy;
@@ -26,21 +30,21 @@ public class ClassBuilder extends Statement {
    public Result define(Scope outer) throws Exception {
       Module module = outer.getModule();
       String alias = name.getName(outer);
-      Type type = module.addType(alias); // TODO type available before compilation
+      Type type = module.addType(alias); 
+      
+      reference.set(type);
       
       return ResultType.getNormal(type);
    }
    
    @Override
    public Result compile(Scope outer) throws Exception {
-      Module module = outer.getModule();
-      String alias = name.getName(outer);
-      Type type = module.getType(alias);
+      Type type = reference.get();
       Scope scope = type.getScope();
       
       annotations.apply(scope, type);
       builder.declare(scope, type);
-      hierarchy.update(scope, type); // this may throw exception if missing type
+      hierarchy.extend(scope, type); 
       
       return ResultType.getNormal(type);
    }

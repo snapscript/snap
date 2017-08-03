@@ -3,6 +3,8 @@ package org.snapscript.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.snapscript.common.CompleteProgress;
+import org.snapscript.common.Progress;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.property.Property;
@@ -13,6 +15,7 @@ public class TestType implements Type {
    private final List<Annotation> annotations;
    private final List<Property> properties;
    private final List<Function> functions;
+   private final Progress<Phase> progress;
    private final List<Type> types;
    private final Module module;
    private final Scope scope;
@@ -21,6 +24,7 @@ public class TestType implements Type {
    private final String name;
 
    public TestType(Module module, String name, Type entry, Class type){
+      this.progress = new CompleteProgress<Phase>();
       this.description = new TypeDescription(this);
       this.annotations = new ArrayList<Annotation>();
       this.properties = new ArrayList<Property>();
@@ -31,6 +35,11 @@ public class TestType implements Type {
       this.entry = entry;
       this.type = type;
       this.name = name;
+   }
+   
+   @Override
+   public Progress<Phase> getProgress() {
+      return progress;
    }
    
    @Override

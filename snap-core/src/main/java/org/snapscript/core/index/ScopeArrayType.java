@@ -3,7 +3,10 @@ package org.snapscript.core.index;
 import java.util.Collections;
 import java.util.List;
 
+import org.snapscript.common.CompleteProgress;
+import org.snapscript.common.Progress;
 import org.snapscript.core.Module;
+import org.snapscript.core.Phase;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeDescription;
@@ -22,6 +25,7 @@ public class ScopeArrayType implements Type {
    };
    
    private final TypeDescription description;
+   private final Progress<Phase> progress;
    private final Module module;
    private final Scope scope;
    private final Type entry;
@@ -30,6 +34,7 @@ public class ScopeArrayType implements Type {
    private final int size;
    
    public ScopeArrayType(Module module, String name, Type entry, int size, int order){
+      this.progress = new CompleteProgress<Phase>();
       this.description = new TypeDescription(this);
       this.scope = new TypeScope(this);
       this.module = module;
@@ -37,6 +42,11 @@ public class ScopeArrayType implements Type {
       this.entry = entry;
       this.name = name;
       this.size = size;
+   }
+   
+   @Override
+   public Progress<Phase> getProgress() {
+      return progress;
    }
    
    @Override

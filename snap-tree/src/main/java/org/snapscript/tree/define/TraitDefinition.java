@@ -1,7 +1,12 @@
 package org.snapscript.tree.define;
 
+import static org.snapscript.core.Phase.COMPILED;
+import static org.snapscript.core.Phase.DEFINED;
+
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.snapscript.common.Progress;
+import org.snapscript.core.Phase;
 import org.snapscript.core.Result;
 import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
@@ -35,11 +40,14 @@ public class TraitDefinition extends Statement {
       if(!define.compareAndSet(false, true)) {
          Result result = builder.define(outer);
          Type type = result.getValue();
+         Progress<Phase> progress = type.getProgress();
          
          for(TypePart part : parts) {
             TypeFactory factory = part.define(collector, type);
             collector.update(factory);
          } 
+         progress.done(DEFINED);
+         
          return result;
       }
       return ResultType.getNormal();
@@ -50,6 +58,7 @@ public class TraitDefinition extends Statement {
       if(!compile.compareAndSet(false, true)) {
          Result result = builder.compile(outer);
          Type type = result.getValue();
+         Progress<Phase> progress = type.getProgress();
          
          collector.update(constants); // collect static constants first
          
@@ -58,6 +67,7 @@ public class TraitDefinition extends Statement {
             collector.update(factory);
          } 
          generator.generate(type);
+         progress.done(COMPILED);
          
          return result;
       }

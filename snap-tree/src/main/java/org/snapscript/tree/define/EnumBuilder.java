@@ -2,6 +2,7 @@ package org.snapscript.tree.define;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.Module;
 import org.snapscript.core.Result;
@@ -12,12 +13,14 @@ import org.snapscript.core.Type;
 
 public class EnumBuilder extends Statement {
 
+   private final AtomicReference<Type> reference;
    private final EnumConstantBuilder builder;
    private final TypeHierarchy hierarchy;
    private final TypeName name;
    private final List values;
    
    public EnumBuilder(TypeName name, TypeHierarchy hierarchy) {
+      this.reference = new AtomicReference<Type>();
       this.builder = new EnumConstantBuilder();
       this.values = new ArrayList();
       this.hierarchy = hierarchy;
@@ -30,18 +33,18 @@ public class EnumBuilder extends Statement {
       String alias = name.getName(outer);
       Type type = module.addType(alias);
       
+      reference.set(type);
+      
       return ResultType.getNormal(type);
    }
    
    @Override
    public Result compile(Scope outer) throws Exception {
-      Module module = outer.getModule();
-      String alias = name.getName(outer);
-      Type type = module.getType(alias);
+      Type type = reference.get();
       Scope scope = type.getScope();
       
       builder.declare(scope, type, values);
-      hierarchy.update(scope, type); // this may throw exception if missing type
+      hierarchy.extend(scope, type); // this may throw exception if missing type
       
       return ResultType.getNormal(type);
    }

@@ -5,10 +5,13 @@ import static org.snapscript.core.Reserved.METHOD_CLOSURE;
 import java.util.Collections;
 import java.util.List;
 
-import org.snapscript.core.TypeDescription;
+import org.snapscript.common.CompleteProgress;
+import org.snapscript.common.Progress;
 import org.snapscript.core.Module;
+import org.snapscript.core.Phase;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
+import org.snapscript.core.TypeDescription;
 import org.snapscript.core.TypeScope;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.property.Property;
@@ -16,6 +19,7 @@ import org.snapscript.core.property.Property;
 public class FunctionType implements Type {
    
    private final TypeDescription description;
+   private final Progress<Phase> progress;
    private final Function function;
    private final Module module;
    private final Scope scope;
@@ -27,10 +31,16 @@ public class FunctionType implements Type {
    
    public FunctionType(Signature signature, Module module, String name) {
       this.function = new EmptyFunction(signature, METHOD_CLOSURE);
+      this.progress = new CompleteProgress<Phase>();
       this.description = new TypeDescription(this);
       this.scope = new TypeScope(this);
       this.module = module;
       this.name = name;
+   }
+   
+   @Override
+   public Progress<Phase> getProgress() {
+      return progress;
    }
    
    @Override

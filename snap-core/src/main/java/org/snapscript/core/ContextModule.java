@@ -2,19 +2,19 @@ package org.snapscript.core;
 
 import java.io.InputStream;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import org.snapscript.common.Cache;
+import org.snapscript.common.CopyOnWriteCache;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.link.ImportManager;
 
 public class ContextModule implements Module {
    
-   private final Map<String, Module> modules;
+   private final Cache<String, Module> modules;
+   private final Cache<String, Type> types;
    private final List<Annotation> annotations;   
-   private final Map<String, Type> types;
    private final List<Function> functions; 
    private final List<Type> references;
    private final ImportManager manager;
@@ -32,9 +32,9 @@ public class ContextModule implements Module {
       this.manager = new ImportManager(this, path, prefix);
       this.annotations = new CopyOnWriteArrayList<Annotation>();
       this.functions = new CopyOnWriteArrayList<Function>();
-      this.modules = new ConcurrentHashMap<String, Module>();
-      this.types = new ConcurrentHashMap<String, Type>();
       this.references = new CopyOnWriteArrayList<Type>();
+      this.modules = new CopyOnWriteCache<String, Module>();
+      this.types = new CopyOnWriteCache<String, Type>(); 
       this.scope = new ModuleScope(this);
       this.context = context;
       this.prefix = prefix;
@@ -69,7 +69,7 @@ public class ContextModule implements Module {
    
    @Override
    public Type addType(String name) {
-      Type type = types.get(name); 
+      Type type = types.fetch(name); 
       
       if(type != null) {
          throw new ModuleException("Type '" + prefix + "." + name + "' already defined");
@@ -81,7 +81,7 @@ public class ContextModule implements Module {
             type = loader.defineType(prefix, name);
          }
          if(type != null) {
-            types.put(name, type);
+            types.cache(name, type);
             references.add(type);
          }
          return type;
@@ -93,14 +93,14 @@ public class ContextModule implements Module {
    @Override
    public Module getModule(String name) {
       try {
-         Module module = modules.get(name);
+         Module module = modules.fetch(name);
          
          if(module == null) {
-            if(!types.containsKey(name)) { // don't resolve if its a type
+            if(!types.contains(name)) { // don't resolve if its a type
                module = manager.getModule(name); // import tetris.game.*
                
                if(module != null) {
-                  modules.put(name, module);
+                  modules.cache(name, module);
                }
             }
          }
@@ -113,14 +113,14 @@ public class ContextModule implements Module {
    @Override
    public Type getType(String name) {
       try {
-         Type type = types.get(name);
+         Type type = types.fetch(name);
          
          if(type == null) {
-            if(!modules.containsKey(name)) {// don't resolve if its a module
+            if(!modules.contains(name)) {// don't resolve if its a module
                type = manager.getType(name);
             
                if(type != null) {
-                  types.put(name, type);
+                  types.cache(name, type);
                   references.add(type);
                }
             }

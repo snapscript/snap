@@ -76,7 +76,7 @@ public class ImportTaskResolver {
          try {
             if(!imports.contains(path)) {
                Scope scope = parent.getScope();
-               PackageDefinition definition = module.define(scope); // TODO race condition here, Module.addType
+               PackageDefinition definition = module.define(scope); 
                Statement statement = definition.compile(scope, from);
             
                statement.execute(scope); 

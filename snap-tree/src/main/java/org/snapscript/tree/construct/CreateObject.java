@@ -15,6 +15,7 @@ import org.snapscript.core.Value;
 import org.snapscript.core.ValueType;
 import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.tree.ArgumentList;
+import org.snapscript.tree.reference.CompiledReference;
 
 public class CreateObject implements Evaluation {
    
@@ -22,7 +23,7 @@ public class CreateObject implements Evaluation {
    private final Evaluation reference;
 
    public CreateObject(Evaluation reference, ArgumentList arguments) {
-      this.reference = reference;
+      this.reference = new CompiledReference(reference);
       this.arguments = arguments;
    }      
    

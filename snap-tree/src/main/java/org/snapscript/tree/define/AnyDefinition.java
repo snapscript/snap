@@ -2,6 +2,8 @@ package org.snapscript.tree.define;
 
 import static org.snapscript.core.ModifierType.CONSTANT;
 import static org.snapscript.core.ModifierType.PUBLIC;
+import static org.snapscript.core.Phase.COMPILED;
+import static org.snapscript.core.Phase.DEFINED;
 import static org.snapscript.core.Reserved.ANY_TYPE;
 import static org.snapscript.core.Reserved.DEFAULT_PACKAGE;
 import static org.snapscript.core.Reserved.METHOD_EQUALS;
@@ -15,9 +17,10 @@ import static org.snapscript.core.Reserved.TYPE_THIS;
 
 import java.util.List;
 
+import org.snapscript.common.Progress;
 import org.snapscript.core.Context;
-import org.snapscript.core.ModifierType;
 import org.snapscript.core.Module;
+import org.snapscript.core.Phase;
 import org.snapscript.core.Result;
 import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
@@ -43,9 +46,10 @@ public class AnyDefinition{
       Context context = module.getContext();
       TypeLoader loader = context.getLoader();
       Type result = loader.defineType(DEFAULT_PACKAGE, ANY_TYPE);
+      Progress<Phase> progress = result.getProgress();
       List<Function> functions = result.getFunctions();
       
-      if(functions.isEmpty()) { // thread safe?
+      if(progress.done(DEFINED)) {
          Function constructor = builder.create(result, TYPE_CONSTRUCTOR, NewInvocation.class, Type.class);
          Function hashCode = builder.create(result, METHOD_HASH_CODE, HashCodeInvocation.class);
          Function toString = builder.create(result, METHOD_TO_STRING, ToStringInvocation.class);
@@ -63,7 +67,9 @@ public class AnyDefinition{
          functions.add(hashCode);
          functions.add(equals);
          functions.add(toString);
+         progress.done(COMPILED);
       }
+      progress.wait(COMPILED);
       return result;
    }
    

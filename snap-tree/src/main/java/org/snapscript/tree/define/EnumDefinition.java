@@ -1,7 +1,12 @@
 package org.snapscript.tree.define;
 
+import static org.snapscript.core.Phase.COMPILED;
+import static org.snapscript.core.Phase.DEFINED;
+
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.snapscript.common.Progress;
+import org.snapscript.core.Phase;
 import org.snapscript.core.Result;
 import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
@@ -15,6 +20,7 @@ public class EnumDefinition extends Statement {
    private final DefaultConstructor constructor;
    private final TypeFactoryCollector collector;
    private final AtomicBoolean compile;
+   private final AtomicBoolean define;
    private final EnumBuilder builder;
    private final EnumList list;
    private final TypePart[] parts;
@@ -24,13 +30,23 @@ public class EnumDefinition extends Statement {
       this.constructor = new DefaultConstructor(true);
       this.collector = new TypeFactoryCollector();
       this.compile = new AtomicBoolean(true);
+      this.define = new AtomicBoolean(true);
       this.parts = parts;
       this.list = list;
    }
    
    @Override
    public Result define(Scope outer) throws Exception {
-      return builder.define(outer);
+      if(!define.compareAndSet(false, true)) {
+         Result result = builder.define(outer);
+         Type type = result.getValue();
+         Progress<Phase> progress = type.getProgress();
+      
+         progress.done(DEFINED);
+         
+         return result;
+      }
+      return ResultType.getNormal();
    }
 
    @Override
@@ -40,6 +56,7 @@ public class EnumDefinition extends Statement {
          Type type = result.getValue();
          TypeFactory keys = list.compile(collector, type);
          Scope scope = type.getScope();
+         Progress<Phase> progress = type.getProgress();
          
          for(TypePart part : parts) {
             TypeFactory factory = part.compile(collector, type);
@@ -48,6 +65,7 @@ public class EnumDefinition extends Statement {
          constructor.compile(collector, type); 
          keys.execute(scope, type);
          collector.compile(scope, type); 
+         progress.done(COMPILED);
          
          return result;
       }

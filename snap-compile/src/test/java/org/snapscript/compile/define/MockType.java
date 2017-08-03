@@ -3,11 +3,14 @@ package org.snapscript.compile.define;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.snapscript.core.TypeDescription;
+import org.snapscript.common.CompleteProgress;
+import org.snapscript.common.Progress;
 import org.snapscript.core.Module;
+import org.snapscript.core.Phase;
 import org.snapscript.core.Scope;
-import org.snapscript.core.TypeScope;
 import org.snapscript.core.Type;
+import org.snapscript.core.TypeDescription;
+import org.snapscript.core.TypeScope;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.property.Property;
@@ -18,6 +21,7 @@ public class MockType implements Type {
    private final List<Annotation> annotations;
    private final List<Property> properties;
    private final List<Function> functions;
+   private final Progress<Phase> progress;
    private final List<Type> types;
    private final Module module;
    private final Scope scope;
@@ -26,6 +30,7 @@ public class MockType implements Type {
    private final String name;
 
    public MockType(Module module, String name, Type entry, Class type){
+      this.progress = new CompleteProgress<Phase>();
       this.description = new TypeDescription(this);
       this.annotations = new ArrayList<Annotation>();
       this.properties = new ArrayList<Property>();
@@ -36,6 +41,11 @@ public class MockType implements Type {
       this.entry = entry;
       this.type = type;
       this.name = name;
+   }
+   
+   @Override
+   public Progress<Phase> getProgress() {
+      return progress;
    }
    
    @Override
