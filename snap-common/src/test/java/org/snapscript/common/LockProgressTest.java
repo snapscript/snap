@@ -47,10 +47,13 @@ public class LockProgressTest extends TestCase {
          public void run() {
             try {
                Thread.sleep(1000);
+               System.err.println("done="+progress.done(Stage.FIRST));
                System.err.println("Done "+Stage.FIRST);
                Thread.sleep(1000);
+               System.err.println("done="+progress.done(Stage.SECOND));
                System.err.println("Done "+Stage.SECOND);
                Thread.sleep(1000);
+               System.err.println("done="+progress.done(Stage.THIRD));
                System.err.println("Done "+Stage.THIRD);
             }catch(Exception e){
                e.printStackTrace();
@@ -59,8 +62,11 @@ public class LockProgressTest extends TestCase {
          
       }).start();
       System.err.println("Waiting for "+Stage.FOURTH);
+      System.err.println("wait="+progress.wait(Stage.FOURTH, 5000));
       System.err.println("Finished waiting 5 secs for "+Stage.FOURTH);
+      System.err.println("wait="+progress.wait(Stage.THIRD, 5000));
       System.err.println("Finished waiting 5 secs for "+Stage.THIRD);
+      System.err.println("wait="+progress.wait(Stage.FOURTH, 5000));
       System.err.println("Finished waiting 5 secs for "+Stage.FOURTH);
       
    }
