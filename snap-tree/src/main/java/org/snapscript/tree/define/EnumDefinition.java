@@ -58,15 +58,17 @@ public class EnumDefinition extends Statement {
          Scope scope = type.getScope();
          Progress<Phase> progress = type.getProgress();
          
-         for(TypePart part : parts) {
-            TypeFactory factory = part.compile(collector, type);
-            collector.update(factory);
-         }  
-         constructor.compile(collector, type); 
-         keys.execute(scope, type);
-         collector.compile(scope, type); 
-         progress.done(COMPILED);
-         
+         try {
+            for(TypePart part : parts) {
+               TypeFactory factory = part.compile(collector, type);
+               collector.update(factory);
+            }  
+            constructor.compile(collector, type); 
+            keys.execute(scope, type);
+            collector.compile(scope, type); 
+         } finally {
+            progress.done(COMPILED);
+         }
          return result;
       }
       return ResultType.getNormal();

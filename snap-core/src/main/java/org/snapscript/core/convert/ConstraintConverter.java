@@ -24,43 +24,46 @@ public abstract class ConstraintConverter  {
       Class actual = promoter.promote(type);
       
       try {
-         if (actual == String.class) {
+         if(actual == type) {
             return text;
          }
-         if (actual == Integer.class) {
+         if(actual == String.class) {
+            return text;
+         }
+         if(actual == Integer.class) {
             return adapter.createInteger(text);
          }
-         if (actual == Double.class) {
+         if(actual == Double.class) {
             return adapter.createDouble(text);
          }
-         if (actual == Float.class) {
+         if(actual == Float.class) {
             return adapter.createFloat(text);
          }
-         if (actual == Boolean.class) {
+         if(actual == Boolean.class) {
             return adapter.createBoolean(text);
          }
-         if (actual == Byte.class) {
+         if(actual == Byte.class) {
             return adapter.createByte(text);
          }
-         if (actual == Short.class) {
+         if(actual == Short.class) {
             return adapter.createShort(text);
          }
-         if (actual == Long.class) {
+         if(actual == Long.class) {
             return adapter.createLong(text);
          }
-         if (actual == AtomicLong.class) {
+         if(actual == AtomicLong.class) {
             return adapter.createAtomicLong(text);
          }
-         if (actual == AtomicInteger.class) {
+         if(actual == AtomicInteger.class) {
             return adapter.createAtomicInteger(text);
          }
-         if (actual == BigDecimal.class) {
+         if(actual == BigDecimal.class) {
             return adapter.createBigDecimal(text);
          }
-         if (actual == BigInteger.class) {
+         if(actual == BigInteger.class) {
             return adapter.createBigInteger(text);
          }
-         if (actual == Character.class) {
+         if(actual == Character.class) {
             return adapter.createCharacter(text);
          }
       } catch(Exception e) {
@@ -73,6 +76,9 @@ public abstract class ConstraintConverter  {
       Class actual = promoter.promote(type);
       
       try {
+         if(actual == type) {
+            return number;
+         }
          if(actual == Number.class) {
             return number;
          }

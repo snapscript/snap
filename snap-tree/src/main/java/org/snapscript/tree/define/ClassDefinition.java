@@ -44,12 +44,14 @@ public class ClassDefinition extends Statement {
          Type type = result.getValue();
          Progress<Phase> progress = type.getProgress();
          
-         for(TypePart part : parts) {
-            TypeFactory factory = part.define(collector, type);
-            collector.update(factory);
-         } 
-         progress.done(DEFINED);
-         
+         try {
+            for(TypePart part : parts) {
+               TypeFactory factory = part.define(collector, type);
+               collector.update(factory);
+            } 
+         } finally {
+            progress.done(DEFINED);
+         }
          return result;
       }
       return ResultType.getNormal();
@@ -62,16 +64,18 @@ public class ClassDefinition extends Statement {
          Type type = result.getValue();
          Progress<Phase> progress = type.getProgress();
          
-         collector.update(constants); // collect static constants first
-         
-         for(TypePart part : parts) {
-            TypeFactory factory = part.compile(collector, type);
-            collector.update(factory);
-         } 
-         constructor.compile(collector, type);
-         generator.generate(type);
-         progress.done(COMPILED);
-         
+         try {
+            collector.update(constants); // collect static constants first
+            
+            for(TypePart part : parts) {
+               TypeFactory factory = part.compile(collector, type);
+               collector.update(factory);
+            } 
+            constructor.compile(collector, type);
+            generator.generate(type);
+         } finally {
+            progress.done(COMPILED);
+         }
          return result;
       }
       return ResultType.getNormal();
