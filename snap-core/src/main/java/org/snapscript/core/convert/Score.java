@@ -21,6 +21,10 @@ public class Score implements Comparable<Score> {
       this.cache = cache;
    }
    
+   public double getScore() {
+      return score;
+   }
+   
    public boolean isFinal() {
       return cache;
    }

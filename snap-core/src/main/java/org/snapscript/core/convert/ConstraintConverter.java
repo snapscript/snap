@@ -24,9 +24,6 @@ public abstract class ConstraintConverter  {
       Class actual = promoter.promote(type);
       
       try {
-         if(actual == type) {
-            return text;
-         }
          if(actual == String.class) {
             return text;
          }
@@ -74,9 +71,10 @@ public abstract class ConstraintConverter  {
    
    protected Object convert(Class type, Number number) {
       Class actual = promoter.promote(type);
+      Class real = number.getClass();
       
       try {
-         if(actual == type) {
+         if(actual == real) {
             return number;
          }
          if(actual == Number.class) {
