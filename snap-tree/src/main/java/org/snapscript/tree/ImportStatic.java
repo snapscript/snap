@@ -54,6 +54,7 @@ public class ImportStatic implements Compilation {
          Type type = module.getType(parent); // this is a type name
          
          if(type == null) {
+            throw new InternalStateException("Could not import '" + parent + "'");
          }
          List<Function> methods = type.getFunctions();
          List<Function> functions = module.getFunctions();
