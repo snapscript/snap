@@ -3,6 +3,7 @@ package org.snapscript.tree;
 import java.util.List;
 
 import org.snapscript.core.Compilation;
+import org.snapscript.core.InternalStateException;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.Module;
 import org.snapscript.core.NameBuilder;
@@ -51,6 +52,9 @@ public class ImportStatic implements Compilation {
          Module module = scope.getModule();
          String parent = builder.createFullName(location, target);
          Type type = module.getType(parent); // this is a type name
+         
+         if(type == null) {
+         }
          List<Function> methods = type.getFunctions();
          List<Function> functions = module.getFunctions();
          

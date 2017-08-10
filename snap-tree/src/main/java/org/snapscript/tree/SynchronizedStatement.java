@@ -1,5 +1,6 @@
 package org.snapscript.tree;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
@@ -9,6 +10,7 @@ import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Value;
+import org.snapscript.core.define.Instance;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceInterceptor;
@@ -50,12 +52,26 @@ public class SynchronizedStatement implements Compilation {
       
       @Override
       public Result execute(Scope scope) throws Exception {
-         Value value = reference.evaluate(scope, null);
-         Object object = value.getValue();
+         Object object = resolve(scope);
          
          synchronized(object) {
             return statement.execute(scope);
          }
+      }
+      
+      private Object resolve(Scope scope) throws Exception {
+         Value value = reference.evaluate(scope, null);
+         Object object = value.getValue();
+         
+         if(Instance.class.isInstance(object)) {
+            Instance instance = (Instance)object;
+            Object bridge = instance.getBridge();
+            
+            if(bridge != null) {
+               return bridge;
+            }
+         }
+         return object;
       }
    }
 }
