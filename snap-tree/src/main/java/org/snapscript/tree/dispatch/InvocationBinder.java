@@ -1,7 +1,9 @@
 package org.snapscript.tree.dispatch;
 
+import java.lang.reflect.Proxy;
 import java.util.Map;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
@@ -14,6 +16,7 @@ public class InvocationBinder {
       super();
    }
 
+   @Bug("we should never really have Proxy objects here, Proxy objects are only for invocation of native Java methods... Delegates are ok")
    public InvocationDispatcher bind(Scope scope, Object left) {
       if(left != null) {
          Class type = left.getClass();
@@ -36,6 +39,9 @@ public class InvocationBinder {
          if(Delegate.class.isInstance(left)) { // this is a function 
             return new DelegateDispatcher(scope, left);
          }
+         if(Proxy.class.isInstance(left)) { 
+            return new DelegateDispatcher(scope, left);
+         }         
          if(type.isArray()) {
             return new ArrayDispatcher(scope, left);
          }

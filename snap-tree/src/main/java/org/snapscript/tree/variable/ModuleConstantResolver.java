@@ -1,5 +1,6 @@
 package org.snapscript.tree.variable;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.Module;
 import org.snapscript.core.ModuleScopeBinder;
 import org.snapscript.core.Scope;
@@ -16,10 +17,11 @@ public class ModuleConstantResolver {
       this.finder = new TypeTraverser();
    }
    
+   @Bug("TypePointer.get() for someting like SomeClass.class.type is very very slow")
    public Object resolve(Scope scope, String name) {
       Scope current = binder.bind(scope); // this could be slow
       Module module = current.getModule();
-      Type type = module.getType(name);
+      Type type = module.getType(name); // this is super slow if a variable is referenced
       Type parent = current.getType();
       
       if(type == null) {

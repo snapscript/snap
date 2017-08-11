@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
@@ -13,6 +14,7 @@ import org.snapscript.core.Path;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeLoader;
 
+@Bug("this is super slow and needs to remember failures")
 public class ImportManager {
 
    private final Map<String, String> aliases;

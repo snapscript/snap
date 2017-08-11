@@ -19,6 +19,15 @@ public abstract class Value {
       }
       return null;
    }
+   
+   public Character getCharacter() {
+      Object value = getValue();
+
+      if (value != null) {
+         return (Character) value; // optimistic!!
+      }
+      return null;
+   }
 
    public Double getDouble() {
       Number number = getNumber();
