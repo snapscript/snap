@@ -120,6 +120,9 @@ public class ConstraintMatcher {
       if(comparator.isLike(type, Enum.class)) {
          return new EnumConverter(type);
       }      
+      if(comparator.isSame(type, Class.class)) {
+         return new ClassConverter(type);
+      }  
       if(comparator.isArray(type)) {
          return new ArrayConverter(this, wrapper, type);
       }

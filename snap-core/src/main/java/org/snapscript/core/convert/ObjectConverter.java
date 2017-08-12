@@ -36,9 +36,9 @@ public class ObjectConverter extends ConstraintConverter {
 
    @Override
    public Score score(Object value) throws Exception { // argument type
-      Type match = extractor.getType(value);
+      if(value != null) {
+         Type match = extractor.getType(value);
       
-      if(match != null) {
          if(match.equals(constraint)) {
             return EXACT;
          }
@@ -49,14 +49,16 @@ public class ObjectConverter extends ConstraintConverter {
    
    @Override
    public Object assign(Object object) throws Exception {
-      Class actual = object.getClass();
-      Class require = constraint.getType();
-      
-      if(actual != require) {
-         Score score = checker.cast(actual, constraint);
+      if(object != null) {
+         Class actual = object.getClass();
+         Class require = constraint.getType();
          
-         if(score.compareTo(Score.INVALID) == 0) {
-            return convert(object);
+         if(actual != require) {
+            Score score = checker.cast(actual, constraint);
+            
+            if(score.compareTo(Score.INVALID) == 0) {
+               return convert(object);
+            }
          }
       }
       return object;
@@ -64,10 +66,12 @@ public class ObjectConverter extends ConstraintConverter {
 
    @Override
    public Object convert(Object object) throws Exception {
-      Class require = constraint.getType();
-      
-      if(require != null) {
-         return wrapper.toProxy(object, require);
+      if(object != null) {
+         Class require = constraint.getType();
+         
+         if(require != null) {
+            return wrapper.toProxy(object, require);
+         }
       }
       return object;
    }
