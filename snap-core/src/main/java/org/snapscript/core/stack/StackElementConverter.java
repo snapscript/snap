@@ -11,7 +11,7 @@ public class StackElementConverter {
       super();
    }
    
-   public List<StackTraceElement> create(Stack stack) {
+   public List<StackTraceElement> create(StackTrace stack) {
       List<StackTraceElement> list = new LinkedList<StackTraceElement>();
       StackElementIterator iterator = new StackElementIterator(stack);
       

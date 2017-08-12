@@ -1,10 +1,12 @@
 package org.snapscript.core;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.snapscript.core.function.Function;
 import org.snapscript.core.stack.ThreadStack;
 
 public class ModuleScopeBinder {
-   
+
    public ModuleScopeBinder() {
       super();
    }

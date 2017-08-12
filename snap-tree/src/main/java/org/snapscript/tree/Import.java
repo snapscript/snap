@@ -45,7 +45,7 @@ public class Import implements Compilation {
          Package library = loader.importPackage(location);
          
          if(library != null) {
-            return new CompileResult(library, module, path, location, null, name);
+            return new CompileResult(library, path, location, null, name);
          }
       }
       Package library = loader.importType(location, target);
@@ -56,9 +56,9 @@ public class Import implements Compilation {
             Value value = alias.evaluate(scope, null);
             String alias = value.getString();
             
-            return new CompileResult(library, module, path, location, target, alias);
+            return new CompileResult(library, path, location, target, alias);
          } 
-         return new CompileResult(library, module, path, location, target, target, name);
+         return new CompileResult(library, path, location, target, target, name);
       }
       return new NoStatement();
    }
@@ -69,17 +69,15 @@ public class Import implements Compilation {
       private NameBuilder builder;
       private Statement statement;
       private Package library;
-      private Module module;
       private Path path;
       private String location;
       private String target;
       private String[] alias;
 
-      public CompileResult(Package library, Module module, Path path, String location, String target, String... alias) {
+      public CompileResult(Package library, Path path, String location, String target, String... alias) {
          this.builder = new TypeNameBuilder();
          this.location = location;
          this.library = library;
-         this.module = module;
          this.target = target;
          this.alias = alias;
          this.path = path;
@@ -116,6 +114,7 @@ public class Import implements Compilation {
       }
       
       private PackageDefinition create(Scope scope) throws Exception {
+         Module module = scope.getModule();
          ImportManager manager = module.getManager();
          String type = builder.createFullName(location, target);
              

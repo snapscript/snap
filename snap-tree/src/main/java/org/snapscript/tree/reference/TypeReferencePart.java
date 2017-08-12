@@ -1,5 +1,6 @@
 package org.snapscript.tree.reference;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
@@ -53,11 +54,16 @@ public class TypeReferencePart implements Compilation {
          return create(scope, source);
       }
       
+      @Bug("This should not automatically search the scope")
       private Value create(Scope scope, Module module) throws Exception {
          String name = reference.getName(scope);
          Object result = module.getModule(name);
+         Module parent = scope.getModule();
          Type type = scope.getType();
          
+         if(result == null) {
+            result = parent.getType(name); // find classes declared in the Scope module
+         }
          if(result == null) {
             result = module.getType(name); 
          }

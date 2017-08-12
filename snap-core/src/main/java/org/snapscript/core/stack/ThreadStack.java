@@ -1,7 +1,7 @@
 package org.snapscript.core.stack;
 
-import org.snapscript.common.Stack;
 import org.snapscript.core.function.Function;
+import org.snapscript.core.trace.Trace;
 
 public class ThreadStack {
    
@@ -13,23 +13,12 @@ public class ThreadStack {
       this.local = new ThreadLocalStack();
    }
    
-   public Function current() {
-      Stack stack = local.get();
-      
-      for(Object entry : stack) {
-         if(Function.class.isInstance(entry)) {
-            return (Function)entry;
-         }
-      }
-      return null;
-   }
-   
    public StackTraceElement[] build() {
       return build(null);
    }
    
    public StackTraceElement[] build(Throwable cause) {
-      Stack stack = local.get();
+      StackTrace stack = local.get();
       
       if(cause != null) {
          return builder.create(stack, cause);   
@@ -37,29 +26,45 @@ public class ThreadStack {
       return builder.create(stack);
    }
    
-   public void before(Object trace) {
-      Stack stack = local.get();
+   public void before(Trace trace) {
+      StackTrace stack = local.get();
       
       if(trace != null) {
-         stack.push(trace);
+         stack.before(trace);
       }
    }
    
-   public void after(Object trace) { // remove from stack
-      Stack stack = local.get();
+   public void before(Function function) {
+      StackTrace stack = local.get();
       
-      while(!stack.isEmpty()) {
-         Object next = stack.pop();
-         
-         if(next == trace) {
-            break;
-         }
+      if(function != null) {
+         stack.before(function);
       }
+   }
+   
+   public void after(Trace trace) { // remove from stack
+      StackTrace stack = local.get();
+      
+      if(trace != null) {
+         stack.after(trace);
+      }
+   }
+   
+   public void after(Function function) {
+      StackTrace stack = local.get();
+      
+      if(function != null) {
+         stack.after(function);
+      }
+   }
+  
+   public Function current() {
+      StackTrace stack = local.get();
+      return stack.current();
    }
    
    public void clear() {
-      Stack stack = local.get();
+      StackTrace stack = local.get();
       stack.clear();
    }
-
 }
