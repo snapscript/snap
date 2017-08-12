@@ -17,6 +17,13 @@ public class TypeExtractor {
       this.loader = loader;
    }
    
+   public Type getType(Class type) {
+      if(type != null) {
+         return loader.loadType(type);
+      }
+      return null;
+   }
+   
    public Type getType(Object value) {
       if(value != null) {
          Class type = value.getClass();

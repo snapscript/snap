@@ -117,6 +117,26 @@ public class ArrayConverter extends ConstraintConverter {
    }
    
    @Override
+   public Object assign(Object object) throws Exception {
+      if(object != null) {
+         Class require = type.getType();
+         Class actual = object.getClass();
+         
+         if(actual.isArray()) {
+            if(!comparator.isEqual(require, actual)) {
+               return convert(object, type);
+            }
+            return object;
+         }
+         if(List.class.isInstance(object)) {
+            return convert((List)object, type);
+         }
+         throw new InternalStateException("Array can not be assigned from " + actual);
+      }
+      return object;
+   }
+   
+   @Override
    public Object convert(Object object) throws Exception {
       if(object != null) {
          Class require = type.getType();

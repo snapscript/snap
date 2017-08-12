@@ -21,6 +21,11 @@ public class AnyConverter extends ConstraintConverter {
    public Score score(Object value) throws Exception {
       return EXACT;
    }
+ 
+   @Override
+   public Object assign(Object object) {
+      return object;
+   }
    
    @Override
    public Object convert(Object object) {

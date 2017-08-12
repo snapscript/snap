@@ -52,7 +52,7 @@ public enum AssignmentOperator {
             throw new InternalStateException("Illegal assignment to variable of type '" + type + "'");
          }
          if(value != null) {
-            value = converter.convert(value);
+            value = converter.assign(value);
          }
       }
       left.setValue(value);

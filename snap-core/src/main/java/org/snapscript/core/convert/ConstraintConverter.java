@@ -119,7 +119,11 @@ public abstract class ConstraintConverter  {
       throw new InternalArgumentException("Could not convert '" + number + "' to " + actual);
    }
    
+   public Object assign(Object value) throws Exception {
+      return convert(value);
+   }
+   
+   public abstract Object convert(Object value) throws Exception;
    public abstract Score score(Type type) throws Exception;
    public abstract Score score(Object type) throws Exception;
-   public abstract Object convert(Object value) throws Exception;
 }

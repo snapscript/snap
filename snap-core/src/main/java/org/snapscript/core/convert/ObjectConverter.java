@@ -2,7 +2,6 @@ package org.snapscript.core.convert;
 
 import static org.snapscript.core.convert.Score.EXACT;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeCastChecker;
 import org.snapscript.core.TypeExtractor;
@@ -48,9 +47,23 @@ public class ObjectConverter extends ConstraintConverter {
       return EXACT;
    }
    
-   @Bug("in a scenarion of a method line getTask(): Runnable, you do not want a proxy passed back")
    @Override
-   public Object convert(Object object) {
+   public Object assign(Object object) throws Exception {
+      Class actual = object.getClass();
+      Class require = constraint.getType();
+      
+      if(actual != require) {
+         Score score = checker.cast(actual, constraint);
+         
+         if(score.compareTo(Score.INVALID) == 0) {
+            return convert(object);
+         }
+      }
+      return object;
+   }
+
+   @Override
+   public Object convert(Object object) throws Exception {
       Class require = constraint.getType();
       
       if(require != null) {

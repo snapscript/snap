@@ -32,9 +32,17 @@ public class StringConverter extends ConstraintConverter {
    }
    
    @Override
+   public Object assign(Object object) throws Exception {
+      if(object != null) {
+         return object.toString();
+      }
+      return null;
+   }
+   
+   @Override
    public Object convert(Object object) throws Exception {
       if(object != null) {
-         return String.valueOf(object);
+         return object.toString();
       }
       return null;
    }

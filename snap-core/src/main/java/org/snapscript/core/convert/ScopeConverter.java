@@ -34,6 +34,11 @@ public class ScopeConverter extends ConstraintConverter {
    }
    
    @Override
+   public Object assign(Object object) {
+      return object;
+   }
+   
+   @Override
    public Object convert(Object object) {
       return object;
    }

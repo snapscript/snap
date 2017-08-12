@@ -16,12 +16,12 @@ import org.snapscript.core.ValueType;
 import org.snapscript.core.bind.FunctionBinder;
 
 @Bug("This should work for delegates only")
-public class DelegateDispatcher implements InvocationDispatcher {
+public class ProxyDispatcher implements InvocationDispatcher {
    
    private final Proxy object;
    private final Scope scope;      
    
-   public DelegateDispatcher(Scope scope, Object object) {
+   public ProxyDispatcher(Scope scope, Object object) {
       this.object = (Proxy)object;
       this.scope = scope;
    }

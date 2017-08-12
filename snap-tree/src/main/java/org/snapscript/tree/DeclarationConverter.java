@@ -28,7 +28,7 @@ public class DeclarationConverter {
          if(score.compareTo(INVALID) == 0) {
             throw new InternalStateException("Variable '" + name + "' does not match constraint '" + type + "'");
          }
-         return converter.convert(value);
+         return converter.assign(value);
       }
       return value;
    }

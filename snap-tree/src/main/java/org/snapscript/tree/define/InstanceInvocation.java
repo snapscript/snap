@@ -53,7 +53,7 @@ public class InstanceInvocation implements Invocation<Scope> {
       Object value = result.getValue();
       
       if(value != null) {
-         value = converter.convert(value);
+         value = converter.assign(value);
       }
       return ResultType.getNormal(value);
    }

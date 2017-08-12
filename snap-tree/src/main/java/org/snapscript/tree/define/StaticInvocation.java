@@ -53,7 +53,7 @@ public class StaticInvocation implements Invocation<Object> {
       Object value = result.getValue();
       
       if(value != null) {
-         value = converter.convert(value);
+         value = converter.assign(value);
       }
       return ResultType.getNormal(value);
    }
