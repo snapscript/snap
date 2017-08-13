@@ -1,9 +1,7 @@
 package org.snapscript.tree.dispatch;
 
-import java.lang.reflect.Proxy;
 import java.util.concurrent.Callable;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
@@ -14,15 +12,15 @@ import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.Value;
 import org.snapscript.core.ValueType;
 import org.snapscript.core.bind.FunctionBinder;
+import org.snapscript.core.convert.Delegate;
 
-@Bug("This should work for delegates only")
-public class ProxyDispatcher implements InvocationDispatcher {
+public class DelegateDispatcher implements InvocationDispatcher {
    
-   private final Proxy object;
+   private final Delegate object;
    private final Scope scope;      
    
-   public ProxyDispatcher(Scope scope, Object object) {
-      this.object = (Proxy)object;
+   public DelegateDispatcher(Scope scope, Object object) {
+      this.object = (Delegate)object;
       this.scope = scope;
    }
 

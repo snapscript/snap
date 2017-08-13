@@ -1,6 +1,5 @@
 package org.snapscript.core.bind;
 
-import java.lang.reflect.Proxy;
 import java.util.concurrent.Callable;
 
 import org.snapscript.core.Bug;
@@ -10,6 +9,7 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.Value;
+import org.snapscript.core.convert.Delegate;
 import org.snapscript.core.stack.ThreadStack;
 
 public class FunctionBinder {
@@ -66,8 +66,7 @@ public class FunctionBinder {
       return null;
    }
    
-   @Bug("this should be for Delegates only")
-   public Callable<Result> bind(Scope scope, Proxy delegate, String name, Object... list) throws Exception {
+   public Callable<Result> bind(Scope scope, Delegate delegate, String name, Object... list) throws Exception {
       FunctionPointer call = delegates.match(delegate, name, list);
       
       if(call != null) {

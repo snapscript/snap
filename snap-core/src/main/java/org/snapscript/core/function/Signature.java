@@ -40,7 +40,7 @@ public class Signature {
       return definition;
    }
    
-   public Object getSource() {
+   public Member getSource() {
       return source;
    }
    

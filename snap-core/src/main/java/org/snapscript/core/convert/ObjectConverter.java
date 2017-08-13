@@ -35,14 +35,14 @@ public class ObjectConverter extends ConstraintConverter {
    }
 
    @Override
-   public Score score(Object value) throws Exception { // argument type
-      if(value != null) {
-         Type match = extractor.getType(value);
+   public Score score(Object object) throws Exception { // argument type
+      if(object != null) {
+         Type match = extractor.getType(object);
       
          if(match.equals(constraint)) {
             return EXACT;
          }
-         return checker.cast(match, constraint, value);
+         return checker.cast(match, constraint, object);
       }
       return EXACT;
    }
@@ -50,11 +50,10 @@ public class ObjectConverter extends ConstraintConverter {
    @Override
    public Object assign(Object object) throws Exception {
       if(object != null) {
-         Class actual = object.getClass();
-         Class require = constraint.getType();
+         Type match = extractor.getType(object);
          
-         if(actual != require) {
-            Score score = checker.cast(actual, constraint);
+         if(match != constraint) {
+            Score score = checker.cast(match, constraint);
             
             if(score.compareTo(Score.INVALID) == 0) {
                return convert(object);

@@ -57,7 +57,6 @@ public class ByteArrayDataInputStreamTest extends TestCase {
       dumpBytes("hello world");
    }
    
-   @Bug("this is fixed by Converter.cast() or Converter.assign() that will not actually coerce")
    public void testByteArrayBackingClass() throws Exception {
       Map<Class, Class> map = new HashMap<Class, Class>();
       map.put(int.class, Integer.class);

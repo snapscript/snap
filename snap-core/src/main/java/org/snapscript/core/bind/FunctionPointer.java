@@ -24,13 +24,20 @@ public class FunctionPointer {
    public Result call(Scope scope, Object object) throws Exception{
       Signature signature = function.getSignature();
       ArgumentConverter converter = signature.getConverter();
-      Object[] list = converter.convert(arguments);
       Invocation invocation = function.getInvocation();
+      Object source = signature.getSource();
       Type type = function.getType();
       
       try {
+         Object[] list = arguments;
+         
          if(type != null) {
             stack.before(function);
+         }
+         if(source != null) {
+            list = converter.convert(arguments);
+         } else {
+            list = converter.assign(arguments);
          }
          return invocation.invoke(scope, object, list);
       } finally {
@@ -39,4 +46,5 @@ public class FunctionPointer {
          }
       }
    }
+   
 }

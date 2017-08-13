@@ -2,11 +2,11 @@ package org.snapscript.core.bind;
 
 import static org.snapscript.core.convert.Score.INVALID;
 
-import java.lang.reflect.Proxy;
 import java.util.List;
 
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeExtractor;
+import org.snapscript.core.convert.Delegate;
 import org.snapscript.core.convert.ProxyTypeFilter;
 import org.snapscript.core.convert.Score;
 import org.snapscript.core.function.ArgumentConverter;
@@ -37,7 +37,7 @@ public class DelegateFunctionMatcher {
       this.stack = stack;
    }
    
-   public FunctionPointer match(Proxy value, String name, Object... values) throws Exception { 
+   public FunctionPointer match(Delegate value, String name, Object... values) throws Exception { 
       Type type = extractor.getType(value);
       Function function = resolve(type, name, values);
       
