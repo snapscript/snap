@@ -3,8 +3,6 @@ package org.snapscript.core.stack;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.snapscript.common.Stack;
-
 public class StackElementConverter {
    
    public StackElementConverter() {
