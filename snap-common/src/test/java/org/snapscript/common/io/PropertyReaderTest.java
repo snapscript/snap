@@ -1,10 +1,12 @@
-package org.snapscript.parse;
+package org.snapscript.common.io;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Properties;
+
+import org.snapscript.common.io.PropertyReader;
 
 import junit.framework.TestCase;
 
@@ -51,7 +53,8 @@ public class PropertyReaderTest extends TestCase {
       try {
          Thread.currentThread().setContextClassLoader(loader);
          PropertyReader<Property> reader = new PropertyReader<Property>("file.properties") {
-            public Property create(String name, String value) {
+            public Property create(String name, char[] data, int off, int length, int line) {
+               String value = format(data, off, length);
                return new Property(name, value);
             }
          };

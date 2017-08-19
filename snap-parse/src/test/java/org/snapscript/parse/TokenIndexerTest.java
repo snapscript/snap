@@ -24,7 +24,7 @@ public class TokenIndexerTest extends TestCase {
       GrammarResolver grammarResolver = new GrammarResolver(grammars);
       GrammarCompiler grammarCompiler = new GrammarCompiler(grammarResolver, grammarIndexer);  
       SourceProcessor sourceProcessor = new SourceProcessor(100);
-      GrammarReader reader = new GrammarReader("grammar.bnf");
+      GrammarReader reader = new GrammarReader("grammar.txt");
       
       for(GrammarDefinition definition : reader){
          String name = definition.getName();

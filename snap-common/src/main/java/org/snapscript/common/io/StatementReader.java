@@ -1,4 +1,4 @@
-package org.snapscript.parse;
+package org.snapscript.common.io;
 
 import java.util.ArrayList;
 import java.util.Iterator;

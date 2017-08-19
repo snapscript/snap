@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.Context;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
@@ -46,9 +47,8 @@ public class ObjectPointer implements VariablePointer<Object> {
    
    public Property match(Scope scope, Object left) {
       Class type = left.getClass();
-      String alias = type.getName();
       Module module = scope.getModule();
-      Type source = module.getType(alias);
+      Type source = module.getType(type);
       
       if(source != null) {
          Context context = module.getContext();

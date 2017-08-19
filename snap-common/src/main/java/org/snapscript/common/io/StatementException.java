@@ -1,4 +1,4 @@
-package org.snapscript.parse;
+package org.snapscript.common.io;
 
 public class StatementException extends RuntimeException {
    

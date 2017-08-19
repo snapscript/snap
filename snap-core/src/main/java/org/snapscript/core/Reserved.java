@@ -21,16 +21,11 @@ public interface Reserved {
    String METHOD_NOTIFY = "notify";
    String METHOD_NOTIFY_ALL = "notifyAll";
    String IMPORT_JAVA = "java.";
-   String IMPORT_JAVAX = "javax.";
-   String IMPORT_JAVA_UTIL = "java.util.";
-   String IMPORT_JAVA_MATH = "java.math.";
-   String IMPORT_JAVA_IO = "java.io.";
-   String IMPORT_JAVA_LANG = "java.lang.";
-   String IMPORT_JAVA_NET = "java.net.";
    String IMPORT_SNAPSCRIPT = "org.snapscript.";
    String SCRIPT_EXTENSION = ".snap";
    String DEFAULT_PACKAGE = "default";
    String DEFAULT_RESOURCE = "Unknown Source";
    String DEFAULT_PARAMETER = "a";
-   String GRAMMAR_FILE = "grammar.bnf";
+   String GRAMMAR_FILE = "grammar.txt";
+   String IMPORT_FILE = "import.txt";
 }

@@ -1,4 +1,4 @@
-package org.snapscript.parse;
+package org.snapscript.common.io;
 
 public abstract class PropertyReader<T> extends StatementReader<T> {
    
@@ -15,9 +15,11 @@ public abstract class PropertyReader<T> extends StatementReader<T> {
          
          if(separator(next)) {
             String name = format(data, off, seek - 1);
-            String value = format(data, off + seek, length - seek);
-               
-            return create(name, value);
+            
+            if(seek >= length) {
+               throw new StatementException("No value in '" + file + "' at line " + line);
+            }
+            return create(name, data, off + seek, length - seek, line);
          }
       }
       throw new StatementException("Error in '" + file + "' at line " + line);
@@ -50,5 +52,5 @@ public abstract class PropertyReader<T> extends StatementReader<T> {
       return value == '=';
    }
    
-   protected abstract T create(String name, String value);
+   protected abstract T create(String name, char[] data, int off, int length, int line);
 }

@@ -17,7 +17,7 @@ public class TypeLoader {
    private final ClassExtender extender;
    
    public TypeLoader(PackageLinker linker, ModuleRegistry registry, ResourceManager manager){
-      this.scanner = new ImportScanner();
+      this.scanner = new ImportScanner(manager);
       this.extender = new ClassExtender(this);
       this.indexer = new TypeIndexer(registry, scanner, extender);
       this.loader = new PackageLoader(linker, manager);

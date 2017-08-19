@@ -13,7 +13,7 @@ import junit.framework.TestCase;
 public class ImportScannerTest extends TestCase {
 
    public void testScanner() throws Exception {
-      ImportScanner scanner = new ImportScanner();
+      ImportScanner scanner = new ImportScanner(null);
       
       assertEquals(scanner.importType("lang.String"), String.class);
       assertEquals(scanner.importType("lang.String"), String.class);

@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 
 public class SyntaxParserTest extends TestCase {
    
-   private static final String GRAMMAR_FILE = "grammar.bnf";
+   private static final String GRAMMAR_FILE = "grammar.txt";
    
    private static final String SOURCE_1 =
    "/* simple test class */\r\n"+

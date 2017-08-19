@@ -7,7 +7,7 @@ import junit.framework.TestCase;
 
 public class FunctionParseTest extends TestCase {
    
-   private static final String GRAMMAR_FILE = "grammar.bnf";
+   private static final String GRAMMAR_FILE = "grammar.txt";
    
    public static void main(String[] l)throws Exception{
       new FunctionParseTest().testParse();

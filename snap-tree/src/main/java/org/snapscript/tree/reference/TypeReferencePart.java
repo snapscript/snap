@@ -55,15 +55,15 @@ public class TypeReferencePart implements Compilation {
       
       private Value create(Scope scope, Module module) throws Exception {
          String name = reference.getName(scope);
-         Object result = module.getModule(name);
          Module parent = scope.getModule();
+         Object result = parent.getType(name);
          Type type = scope.getType();
          
-         if(result == null) {
-            result = parent.getType(name); // find classes declared in the Scope module
+         if(result == null && parent != module) {
+            result = module.getType(name); // find classes declared in the Scope module
          }
          if(result == null) {
-            result = module.getType(name); 
+            result = module.getModule(name); 
          }
          if(result == null && type != null) {
             result = traverser.findEnclosing(type, name);

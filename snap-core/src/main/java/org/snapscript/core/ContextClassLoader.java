@@ -14,11 +14,14 @@ public class ContextClassLoader extends ClassLoader {
       
       try{
          return loader.loadClass(name);
-      } catch(Exception e) {
+      } catch(ClassNotFoundException cause) {
          Thread thread = Thread.currentThread();
          ClassLoader context = thread.getContextClassLoader();
          
-         return context.loadClass(name);
+         if(context != loader) {
+            return context.loadClass(name);
+         }
+         throw cause;
       }
    }
 }

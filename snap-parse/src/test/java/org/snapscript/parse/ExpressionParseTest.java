@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 
 public class ExpressionParseTest extends TestCase {
    
-   private static final String GRAMMAR_FILE = "grammar.bnf";
+   private static final String GRAMMAR_FILE = "grammar.txt";
 
    public void testParse() throws Exception {
       SyntaxParser tree = LexerBuilder.create(GRAMMAR_FILE);

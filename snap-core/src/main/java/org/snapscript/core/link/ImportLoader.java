@@ -22,7 +22,7 @@ public class ImportLoader {
    public Package loadPackage(String name) {
       try {
          if(!packages.contains(name)) {
-            Package match = Package.getPackage(name);
+            Package match = Package.getPackage(name); // this does not really work!!
             
             packages.cache(name, match);
          }

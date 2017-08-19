@@ -7,7 +7,7 @@ import junit.framework.TestCase;
 
 public class LexicalAnalyzerTest extends TestCase {
    
-   private static final String GRAMMAR_FILE = "grammar.bnf";
+   private static final String GRAMMAR_FILE = "grammar.txt";
    
    /*
     * for(int i = 0; i < 0xff; i++){ if(!Character.isWhitespace((char)i) &&
