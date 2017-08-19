@@ -9,7 +9,7 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-public class ImportHintReaderTest extends TestCase {
+public class DefaultImportReaderTest extends TestCase {
    
    private static final String SOURCE =
    "lang = java.lang {\n"+
@@ -53,10 +53,10 @@ public class ImportHintReaderTest extends TestCase {
          String name = hint.getAlias();
          map.put(name, hint);
       }
-      assertEquals("java.lang.", map.get("lang").getPackage());
-      assertEquals("java.util.", map.get("util").getPackage());
-      assertEquals("java.rmi.", map.get("rmi").getPackage());
-      assertEquals("java.awt.", map.get("awt").getPackage());
+      assertEquals("java.lang", map.get("lang").getPackage());
+      assertEquals("java.util", map.get("util").getPackage());
+      assertEquals("java.rmi", map.get("rmi").getPackage());
+      assertEquals("java.awt", map.get("awt").getPackage());
       
       assertEquals(map.get("lang").getImports().size(), 2);
       assertEquals(map.get("util").getImports().size(), 4);
