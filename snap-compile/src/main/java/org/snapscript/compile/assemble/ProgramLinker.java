@@ -2,6 +2,8 @@ package org.snapscript.compile.assemble;
 
 import static org.snapscript.tree.Instruction.SCRIPT_PACKAGE;
 
+import java.util.concurrent.Executor;
+
 import org.snapscript.common.Cache;
 import org.snapscript.common.LeastRecentlyUsedCache;
 import org.snapscript.core.Context;
@@ -14,9 +16,9 @@ public class ProgramLinker implements PackageLinker {
    private final Cache<Path, Package> cache;
    private final PackageBuilder builder;  
    
-   public ProgramLinker(Context context) {
+   public ProgramLinker(Context context, Executor executor) {
       this.cache = new LeastRecentlyUsedCache<Path, Package>();
-      this.builder = new PackageBuilder(context);
+      this.builder = new PackageBuilder(context, executor);
    }
    
    @Override

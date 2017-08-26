@@ -45,7 +45,7 @@ public class NestedEvalTest extends TestCase {
       sources.put("/test/Other.snap", SOURCE_2);   
       sources.put("/test.snap", SOURCE_3);  
       Store store = new MapStore(sources);
-      Executor executor = new ScheduledThreadPoolExecutor(1);
+      Executor executor = new ScheduledThreadPoolExecutor(5);
       Context context = new StoreContext(store, executor);
       Compiler compiler = new ResourceCompiler(context);
       Timer.timeExecution(compiler.compile("/test.snap")); 

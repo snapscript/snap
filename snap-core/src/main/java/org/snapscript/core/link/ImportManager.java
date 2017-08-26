@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.Executor;
 
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
@@ -21,10 +22,10 @@ public class ImportManager {
    private final Module parent;
    private final String from;
    
-   public ImportManager(Module parent, Path path, String from) {
+   public ImportManager(Module parent, Executor executor, Path path, String from) {
       this.aliases = new ConcurrentHashMap<String, String>();
       this.imports = new CopyOnWriteArraySet<String>();
-      this.matcher = new ImportMatcher(parent, path, from);
+      this.matcher = new ImportMatcher(parent, executor, path, from);
       this.parent = parent;
       this.from = from;
    }

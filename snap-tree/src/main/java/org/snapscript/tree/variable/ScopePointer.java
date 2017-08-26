@@ -13,31 +13,35 @@ import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.Value;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.property.PropertyValue;
+import org.snapscript.tree.define.ThisScopeBinder;
 
 public class ScopePointer implements VariablePointer<Scope> {
    
    private final AtomicReference<Property> reference;
+   private final ThisScopeBinder binder;
    private final String name;
    
    public ScopePointer(String name) {
       this.reference = new AtomicReference<Property>();
+      this.binder = new ThisScopeBinder();
       this.name = name;
    }
    
    @Override
    public Value get(Scope scope, Scope left) {
-      State state = left.getState();
+      Scope instance = binder.bind(left, left);
+      State state = instance.getState();
       Value value = state.get(name);
       
       if(value == null) {
          Type type = left.getType();
          
          if(type != null) {
-            Property property = match(scope, left);
+            Property property = match(scope, instance);
             
             if(property != null) {
                reference.set(property);
-               return new PropertyValue(property, left, name);
+               return new PropertyValue(property, instance, name);
             }
          }
       }

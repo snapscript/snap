@@ -27,7 +27,7 @@ public class FunctionBinderTest extends TestCase {
       Context context = new TestContext();
       Model model = new EmptyModel();
       Path path = new Path(Reserved.DEFAULT_RESOURCE);
-      Module module = new ContextModule(context, path, Reserved.DEFAULT_PACKAGE);
+      Module module = new ContextModule(context, null, path, Reserved.DEFAULT_PACKAGE);
       Scope scope = new ModelScope(model, module);
       
       context.getBinder().bind(scope, map, "put", "x", 11).call();
@@ -134,7 +134,7 @@ public class FunctionBinderTest extends TestCase {
          this.linker = new TestLinker();
          this.store = new ClassPathStore();
          this.manager = new StoreManager(store);
-         this.registry = new ModuleRegistry(this);
+         this.registry = new ModuleRegistry(this, null);
          this.loader = new TypeLoader(linker, registry, manager);
          this.extractor = new TypeExtractor(loader);
          this.stack = new ThreadStack();

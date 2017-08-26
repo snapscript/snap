@@ -1,123 +1,71 @@
 package org.snapscript.core.link;
 
-import java.util.Set;
 import java.util.concurrent.Callable;
-import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
 
-import org.snapscript.core.Context;
 import org.snapscript.core.FilePathConverter;
-import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
-import org.snapscript.core.ModuleRegistry;
 import org.snapscript.core.Path;
 import org.snapscript.core.PathConverter;
-import org.snapscript.core.Scope;
-import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
-import org.snapscript.core.TypeLoader;
 
 public class ImportTaskResolver {
 
+   private final ConcurrentMap<Path, Future<Module>> modules;
+   private final ConcurrentMap<Path, Future<Type>> types;
+   private final ImportTaskBuilder builder;
    private final PathConverter converter;
-   private final Set<Path> imports;
-   private final Module parent;
-   private final Path from;
+   private final Executor executor;
    
-   public ImportTaskResolver(Module parent, Path from) {
-      this.imports = new CopyOnWriteArraySet<Path>();
+   public ImportTaskResolver(Module parent, Executor executor, Path from) {
+      this.modules = new ConcurrentHashMap<Path, Future<Module>>();
+      this.types = new ConcurrentHashMap<Path, Future<Type>>();
+      this.builder = new ImportTaskBuilder(parent, from);
       this.converter = new FilePathConverter();
-      this.parent = parent;
-      this.from = from;
+      this.executor = executor;
    }
    
-   public Callable<Type> importType(String name) throws Exception{
-      try {
-         Context context = parent.getContext();
-         TypeLoader loader = context.getLoader();
-         Package module = loader.importType(name);
-         Path path = converter.createPath(name);
+   public Future<Type> importType(String name) throws Exception{
+      Path path = converter.createPath(name);
+      Callable<Type> task = builder.createType(name, path);
+      
+      if(task != null) {
+         FutureTask<Type> future = new FutureTask<Type>(task);
          
-         return new TypeImport(loader, module, path, name); // import exceptions will propagate
-      } catch(Exception e) {
-         return null;
+         if(types.putIfAbsent(path, future) == null) {
+            if(executor != null) {
+               executor.execute(future); 
+            } else {
+               future.run();
+            }
+            return future;
+         }
+         return types.get(path);
       }
+      return null;
    }
    
-   public Callable<Module> importModule(String name) throws Exception{
-      try {
-         Context context = parent.getContext();
-         TypeLoader loader = context.getLoader();
-         ModuleRegistry registry = context.getRegistry();
-         Package module = loader.importType(name);
-         Path path = converter.createPath(name);
+   public Future<Module> importModule(String name) throws Exception{
+      Path path = converter.createPath(name);
+      Callable<Module> task = builder.createModule(name, path);
+      
+      if(task != null) {
+         FutureTask<Module> future = new FutureTask<Module>(task);
          
-         return new ModuleImport(registry, module, path, name); // import exceptions will propagate
-      } catch(Exception e) {
-         return null;
-      }
-   }
-   
-   private class TypeImport implements Callable<Type> {
-      
-      private final TypeLoader loader;
-      private final Package module;
-      private final String name;
-      private final Path path;
-      
-      public TypeImport(TypeLoader loader, Package module, Path path, String name){
-         this.loader = loader;
-         this.module = module;
-         this.name = name;
-         this.path = path;
-      }
-
-      @Override
-      public Type call() {
-         try {
-            if(!imports.contains(path)) {
-               Scope scope = parent.getScope();
-               PackageDefinition definition = module.define(scope); 
-               Statement statement = definition.compile(scope, from);
-            
-               statement.execute(scope); 
-               imports.add(path);
+         if(modules.putIfAbsent(path, future) == null) {
+            if(executor != null) {
+               executor.execute(future); 
+            } else {
+               future.run();
             }
-         } catch(Exception e) {
-            throw new InternalStateException("Could not import '" + path+"'", e);
+            return future;
          }
-         return loader.resolveType(name);
+         return modules.get(path);
       }
-   }
-   
-   private class ModuleImport implements Callable<Module> {
-      
-      private final ModuleRegistry registry;
-      private final Package module;
-      private final String name;
-      private final Path path;
-      
-      public ModuleImport(ModuleRegistry registry, Package module, Path path, String name){
-         this.registry = registry;
-         this.module = module;
-         this.name = name;
-         this.path = path;
-      }
-
-      @Override
-      public Module call() {
-         try {
-            if(!imports.contains(path)) {
-               Scope scope = parent.getScope();
-               PackageDefinition definition = module.define(scope);
-               Statement statement = definition.compile(scope, from);
-               
-               statement.execute(scope); 
-               imports.add(path);
-            }
-         } catch(Exception e) {
-            throw new InternalStateException("Could not import '" + path+"'", e);
-         }
-         return registry.getModule(name);
-      }
+      return null;
    }
 }

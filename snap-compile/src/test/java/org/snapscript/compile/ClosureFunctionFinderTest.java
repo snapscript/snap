@@ -24,7 +24,8 @@ public class ClosureFunctionFinderTest extends TestCase {
       Store store = new ClassPathStore();
       Context context = new StoreContext(store);
       TypeLoader loader = context.getLoader();
-      Module module = new ContextModule(context, new Path("/"), "yy", 1);
+      Path path = new Path("/");
+      Module module = new ContextModule(context, null, path, "yy", 1);
       ClosureFunctionFinder finder = new ClosureFunctionFinder(loader);
       Signature signature = new Signature(Arrays.asList(new Parameter("n", loader.loadType(String.class))), module, null);
       Type type = new InvocationFunction(signature, null, null, null, "xx").getHandle();

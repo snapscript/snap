@@ -51,7 +51,7 @@ public class StoreContext implements Context {
       this.handler = new ErrorHandler(stack);
       this.interceptor = new TraceInterceptor(stack);
       this.manager = new StoreManager(store);
-      this.registry = new ModuleRegistry(this);
+      this.registry = new ModuleRegistry(this, executor);
       this.linker = new ExecutorLinker(this, executor);      
       this.loader = new TypeLoader(linker, registry, manager);
       this.matcher = new ConstraintMatcher(loader, wrapper);

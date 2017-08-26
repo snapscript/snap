@@ -5,6 +5,7 @@ import static org.snapscript.core.Reserved.DEFAULT_RESOURCE;
 import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
 
 import java.util.concurrent.Callable;
+import java.util.concurrent.Executor;
 
 import org.snapscript.core.Context;
 import org.snapscript.core.ContextModule;
@@ -23,9 +24,9 @@ public class OperationBuilder {
    private final Module module;
    private final Path path;
 
-   public OperationBuilder(Context context) {
+   public OperationBuilder(Context context, Executor executor) {
       this.path = new Path(DEFAULT_RESOURCE);
-      this.module = new ContextModule(context, path, DEFAULT_PACKAGE, 0);
+      this.module = new ContextModule(context, executor, path, DEFAULT_PACKAGE, 0);
       this.processor = new OperationProcessor(context);
    }
    

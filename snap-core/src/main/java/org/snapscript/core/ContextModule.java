@@ -3,6 +3,7 @@ package org.snapscript.core;
 import java.io.InputStream;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.Executor;
 
 import org.snapscript.common.Cache;
 import org.snapscript.common.CopyOnWriteCache;
@@ -24,12 +25,12 @@ public class ContextModule implements Module {
    private final Path path;
    private final int order;
    
-   public ContextModule(Context context, Path path, String prefix) {
-      this(context, path, prefix, 0);
+   public ContextModule(Context context, Executor executor, Path path, String prefix) {
+      this(context, executor, path, prefix, 0);
    }
    
-   public ContextModule(Context context, Path path, String prefix, int order) {
-      this.manager = new ImportManager(this, path, prefix);
+   public ContextModule(Context context, Executor executor, Path path, String prefix, int order) {
+      this.manager = new ImportManager(this, executor, path, prefix);
       this.annotations = new CopyOnWriteArrayList<Annotation>();
       this.functions = new CopyOnWriteArrayList<Function>();
       this.references = new CopyOnWriteArrayList<Type>();

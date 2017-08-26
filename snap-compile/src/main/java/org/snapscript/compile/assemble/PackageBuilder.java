@@ -2,6 +2,8 @@ package org.snapscript.compile.assemble;
 
 import static org.snapscript.core.Reserved.GRAMMAR_FILE;
 
+import java.util.concurrent.Executor;
+
 import org.snapscript.core.Context;
 import org.snapscript.core.FilePathConverter;
 import org.snapscript.core.Path;
@@ -19,9 +21,9 @@ public class PackageBuilder {
    private final PathConverter converter;
    private final Assembler assembler;   
    
-   public PackageBuilder(Context context) {
+   public PackageBuilder(Context context, Executor executor) {
       this.compiler = new SyntaxCompiler(GRAMMAR_FILE);
-      this.assembler = new OperationAssembler(context);
+      this.assembler = new OperationAssembler(context, executor);
       this.converter = new FilePathConverter();
    }
 

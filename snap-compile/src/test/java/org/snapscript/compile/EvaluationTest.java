@@ -200,7 +200,7 @@ public class EvaluationTest extends TestCase {
       Model model = new MapModel(map);
       Store store = new ClassPathStore();
       Context context = new StoreContext(store);
-      Assembler builder = new OperationAssembler(context);
+      Assembler builder = new OperationAssembler(context, null);
       SyntaxCompiler compiler = new SyntaxCompiler(GRAMMAR_FILE);
       ScopeMerger merger = new ScopeMerger(context);
       Scope scope = merger.merge(model, "default", new Path("/default.snap"));

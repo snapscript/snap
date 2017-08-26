@@ -1,6 +1,7 @@
 package org.snapscript.compile.assemble;
 
 import java.util.List;
+import java.util.concurrent.Executor;
 
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
@@ -20,8 +21,8 @@ public class OperationAssembler implements Assembler {
    private final Context context;
    private final Object[] empty;
 
-   public OperationAssembler(Context context) {
-      this.builder = new OperationBuilder(context);
+   public OperationAssembler(Context context, Executor executor) {
+      this.builder = new OperationBuilder(context, executor);
       this.resolver = new OperationResolver(context);
       this.empty = new Object[]{};
       this.context = context;

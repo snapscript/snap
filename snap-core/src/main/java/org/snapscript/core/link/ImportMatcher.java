@@ -1,7 +1,8 @@
 package org.snapscript.core.link;
 
 import java.util.Set;
-import java.util.concurrent.Callable;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Future;
 
 import org.snapscript.core.Context;
 import org.snapscript.core.Module;
@@ -18,8 +19,8 @@ public class ImportMatcher {
    private final Module parent;
    private final String from;
    
-   public ImportMatcher(Module parent, Path path, String from) {
-      this.resolver = new ImportTaskResolver(parent, path);
+   public ImportMatcher(Module parent, Executor executor, Path path, String from) {
+      this.resolver = new ImportTaskResolver(parent, executor, path);
       this.builder = new TypeNameBuilder();
       this.parent = parent;
       this.from = from;
@@ -58,10 +59,10 @@ public class ImportMatcher {
    
    private Type importType(String prefix, String name) throws Exception {
       String type = builder.createFullName(prefix, name);
-      Callable<Type> task = resolver.importType(type);
+      Future<Type> task = resolver.importType(type);
       
       if(task != null) {
-         return task.call();
+         return task.get();
       }
       return null;
    }
@@ -90,10 +91,10 @@ public class ImportMatcher {
    
    private Module importModule(String prefix, String name) throws Exception {
       String type = builder.createFullName(prefix, name);
-      Callable<Module> task = resolver.importModule(type);
+      Future<Module> task = resolver.importModule(type);
       
       if(task != null) {
-         return task.call();
+         return task.get();
       }
       return null;
    }

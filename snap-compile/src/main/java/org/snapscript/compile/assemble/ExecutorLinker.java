@@ -25,7 +25,7 @@ public class ExecutorLinker implements PackageLinker {
    
    public ExecutorLinker(Context context, Executor executor) {
       this.registry = new ConcurrentHashMap<Path, Package>();
-      this.linker = new ProgramLinker(context);
+      this.linker = new ProgramLinker(context, executor);
       this.executor = executor;
    }
 
