@@ -6,6 +6,7 @@ import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Type;
+import org.snapscript.core.bridge.Bridge;
 
 public class CompoundInstance implements Instance {
    
@@ -41,7 +42,7 @@ public class CompoundInstance implements Instance {
    }
    
    @Override
-   public Object getBridge() {
+   public Bridge getBridge() {
       return instance.getBridge();
    }
   

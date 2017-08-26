@@ -1,5 +1,6 @@
 package org.snapscript.core.bridge;
 
 public interface Bridge {
-   Object extract();
+   Object getInstance();
+   void setInstance(Object object);
 }

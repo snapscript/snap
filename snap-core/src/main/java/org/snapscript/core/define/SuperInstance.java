@@ -4,6 +4,7 @@ import org.snapscript.core.Model;
 import org.snapscript.core.Module;
 import org.snapscript.core.State;
 import org.snapscript.core.Type;
+import org.snapscript.core.bridge.Bridge;
 
 public class SuperInstance implements Instance {
 
@@ -37,7 +38,7 @@ public class SuperInstance implements Instance {
    }
    
    @Override
-   public Object getBridge() {
+   public Bridge getBridge() {
       return scope.getBridge();
    }
    

@@ -4,17 +4,18 @@ import org.snapscript.core.Model;
 import org.snapscript.core.Module;
 import org.snapscript.core.State;
 import org.snapscript.core.Type;
+import org.snapscript.core.bridge.Bridge;
 
 public class ObjectInstance implements Instance {
 
    private final Instance base;
-   private final Object object;
+   private final Bridge object;
    private final Module module;
    private final State state;
    private final Model model;
    private final Type type;
    
-   public ObjectInstance(Module module, Model model, Instance base, Object object, Type type) {
+   public ObjectInstance(Module module, Model model, Instance base, Bridge object, Type type) {
       this.state = new InstanceState(base);
       this.object = object;
       this.module = module;
@@ -39,7 +40,7 @@ public class ObjectInstance implements Instance {
    }
    
    @Override
-   public Object getBridge() {
+   public Bridge getBridge() {
       return object;
    }
   

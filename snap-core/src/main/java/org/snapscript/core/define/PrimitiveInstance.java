@@ -6,6 +6,7 @@ import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Type;
+import org.snapscript.core.bridge.Bridge;
 
 public class PrimitiveInstance implements Instance {
    
@@ -37,7 +38,7 @@ public class PrimitiveInstance implements Instance {
    }
    
    @Override
-   public Object getBridge(){
+   public Bridge getBridge(){
       return null;
    }
   

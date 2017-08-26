@@ -76,7 +76,7 @@ public class ProxyWrapper {
          }
          if(Bridge.class.isInstance(object)) {
             Bridge bridge = (Bridge)object;
-            Object value = bridge.extract();
+            Object value = bridge.getInstance();
             
             return value;
          }
