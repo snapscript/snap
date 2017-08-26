@@ -46,8 +46,10 @@ public class ReturnStatement implements Compilation {
    private static class CompileResult extends Statement {
    
       private final Evaluation evaluation;
+      private final Result result;
 
       public CompileResult(Evaluation evaluation){
+         this.result = ResultType.getReturn();
          this.evaluation = evaluation;
       }
       
@@ -59,7 +61,7 @@ public class ReturnStatement implements Compilation {
             
             return ResultType.getReturn(object);
          }
-         return ResultType.getReturn();
+         return result;
       }
    }
 }

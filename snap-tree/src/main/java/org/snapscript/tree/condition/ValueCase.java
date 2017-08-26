@@ -2,7 +2,7 @@ package org.snapscript.tree.condition;
 
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Statement;
-import org.snapscript.tree.CompoundStatement;
+import org.snapscript.tree.StatementBlock;
 
 public class ValueCase implements Case {
 
@@ -10,7 +10,7 @@ public class ValueCase implements Case {
    private final Statement statement;
    
    public ValueCase(Evaluation evaluation, Statement... statements) {
-      this.statement = new CompoundStatement(statements);
+      this.statement = new StatementBlock(statements);
       this.evaluation = evaluation;
    }
    

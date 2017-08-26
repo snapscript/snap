@@ -1,9 +1,7 @@
 package org.snapscript.tree.dispatch;
 
-import java.lang.reflect.Proxy;
 import java.util.Map;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;

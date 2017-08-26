@@ -37,7 +37,7 @@ variable = {<this> | <class> | <module> | [identifier] | [type]};
          
 variable-reference = {<super> | <variable>};
 
-range = <number>'..'<number>;
+range = <argument>'..'<argument>;
 
 collection-index = <variable-reference> ( '[' <argument> ']' ) * { '('<reference-invocation>')' | '['<reference-index>']' };
  

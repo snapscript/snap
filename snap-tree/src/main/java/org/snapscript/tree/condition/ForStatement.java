@@ -44,8 +44,10 @@ public class ForStatement implements Compilation {
       private final Statement declaration;
       private final Evaluation assignment;
       private final Statement body;
+      private final Result normal;
 
       public CompileResult(Statement declaration, Evaluation condition, Evaluation assignment, Statement body) {
+         this.normal = ResultType.getNormal();
          this.declaration = declaration;
          this.assignment = assignment;
          this.condition = condition;
@@ -74,10 +76,10 @@ public class ForStatement implements Compilation {
                   return next;
                }
                if(next.isBreak()) {
-                  return ResultType.getNormal();
+                  return normal;
                }
             } else {
-               return ResultType.getNormal();
+               return normal;
             } 
             if(assignment != null) {
                assignment.evaluate(compound, null);

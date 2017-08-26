@@ -38,7 +38,7 @@ public class ImportTaskResolver {
          
          if(types.putIfAbsent(path, future) == null) {
             if(executor != null) {
-               executor.execute(future); 
+               executor.execute(future); // reduce the stack depth
             } else {
                future.run();
             }
@@ -58,7 +58,7 @@ public class ImportTaskResolver {
          
          if(modules.putIfAbsent(path, future) == null) {
             if(executor != null) {
-               executor.execute(future); 
+               executor.execute(future); // reduce the stack depth
             } else {
                future.run();
             }

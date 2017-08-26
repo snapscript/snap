@@ -32,6 +32,9 @@ public class IterationConverter {
       if(type.isArray()) {
          return new ArrayIteration(wrapper, value);
       } 
+      if(Sequence.class.isInstance(value)) {
+         return new SequenceIteration(value);
+      }
       if(Iterable.class.isInstance(value)) {
          return new IterableIteration(wrapper, value);
       } 
@@ -99,6 +102,29 @@ public class IterationConverter {
             return new ProxyIterable(wrapper, set);
          }
          return set;
+      }
+   }
+   
+   private class SequenceIteration implements Iteration {
+      
+      private final Object value;
+      
+      public SequenceIteration(Object value) {
+         this.value = value;
+      }
+      
+      @Override
+      public Type getEntry(Scope scope) throws Exception {
+         Module module = scope.getModule();
+         return module.getType(Number.class);
+      }
+      
+      @Override
+      public Iterable getIterable(Scope scope) throws Exception {
+         if(value != null) {
+            return (Iterable)value;
+         }
+         return Collections.emptyList();
       }
    }
    

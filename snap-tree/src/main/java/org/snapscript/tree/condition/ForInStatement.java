@@ -61,22 +61,24 @@ public class ForInStatement implements Compilation {
       @Override
       public Result execute(Scope scope) throws Exception { 
          Value list = collection.evaluate(scope, null);
-         String name = reference.getName(scope);
          Object object = list.getValue();
          Iteration iteration = converter.convert(scope, object);
          Iterable iterable = iteration.getIterable(scope);
+         
+         return execute(scope, iterable);
+      }
+
+      private Result execute(Scope scope, Iterable iterable) throws Exception {
+         Value value = ValueType.getReference(null);
+         String name = reference.getName(scope);
          Scope inner = scope.getInner();
          State state = inner.getState();
          
+         state.add(name, value);
+         
          for (Object entry : iterable) {
-            Value variable = state.get(name);
+            value.setValue(entry);
             
-            if(variable == null) {
-               Value value = ValueType.getReference(entry);
-               state.add(name, value);
-            } else {
-               variable.setValue(entry);
-            }
             Result result = body.execute(inner);   
    
             if (result.isReturn()) {

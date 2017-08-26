@@ -43,8 +43,10 @@ public class IfStatement implements Compilation {
       private final Evaluation condition;
       private final Statement positive;
       private final Statement negative;
+      private final Result normal;
       
       public CompileResult(Evaluation evaluation, Statement positive, Statement negative) {
+         this.normal = ResultType.getNormal();
          this.condition = evaluation;
          this.positive = positive;
          this.negative = negative;
@@ -70,7 +72,7 @@ public class IfStatement implements Compilation {
                return negative.execute(scope);
             }
          }            
-         return ResultType.getNormal();
+         return normal;
       }
    }
 }
