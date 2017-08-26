@@ -8,7 +8,6 @@ import org.snapscript.common.CopyOnWriteCache;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
-import org.snapscript.core.bridge.Bridge;
 import org.snapscript.core.define.Instance;
 
 public class VariablePointerResolver {
