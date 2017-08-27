@@ -15,12 +15,11 @@ public class ObjectCall implements MethodCall {
    
    @Override
    public Object call(Object object, Object[] arguments) throws Exception {
-      String name = method.getName();
-      
       try {
          return method.invoke(object, arguments);
       }catch(InvocationTargetException cause) {
          Throwable target = cause.getTargetException();
+         String name = method.getName();
          
          if(target != null) {
             throw new InternalStateException("Error occured invoking '" + name + "'", target);
