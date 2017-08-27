@@ -54,4 +54,8 @@ public class TraceInterceptor implements TraceListener {
    public void remove(TraceListener listener) {
       listeners.remove(listener);
    }
+   
+   public void clear() {
+      listeners.clear();
+   }
 }
