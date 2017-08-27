@@ -22,18 +22,23 @@ public class ParameterExtractor {
       this.signature = signature;
    }
 
-   public void extract(Scope scope, Object... arguments) throws Exception {
-      List<Parameter> parameters = signature.getParameters();
-      State state = scope.getState();
-      
-      for(int i = 0; i < arguments.length; i++) {
-         Parameter parameter = parameters.get(i);
-         String name = parameter.getName();
-         Object argument = arguments[i];
-         Value value = create(scope, argument, i);
+   public Scope extract(Scope scope, Object[] arguments) throws Exception {
+      if(arguments.length > 0) {
+         List<Parameter> parameters = signature.getParameters();
+         Scope inner = scope.getInner();
+         State state = inner.getState();
          
-         state.add(name, value);
+         for(int i = 0; i < arguments.length; i++) {
+            Parameter parameter = parameters.get(i);
+            String name = parameter.getName();
+            Object argument = arguments[i];
+            Value value = create(inner, argument, i);
+            
+            state.add(name, value);
+         }
+         return inner;
       }
+      return scope;
    }
 
    private Value create(Scope scope, Object value, int index) throws Exception {

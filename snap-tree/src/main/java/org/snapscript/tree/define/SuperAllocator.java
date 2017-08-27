@@ -27,11 +27,7 @@ public class SuperAllocator implements TypeAllocator {
    public Instance allocate(Scope scope, Instance object, Object... list) throws Exception {
       Type real = (Type)list[0];
       Object[] arguments = aligner.align(list);
-      Scope inner = object.getInner();
-      
-      if(arguments.length > 0) {
-         extractor.extract(inner, arguments);
-      }
+      Scope inner = extractor.extract(object, arguments);
       Result result = factory.execute(inner, real);
       Instance base = result.getValue();
       

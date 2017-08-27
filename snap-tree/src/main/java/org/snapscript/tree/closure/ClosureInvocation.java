@@ -29,11 +29,8 @@ public class ClosureInvocation implements Invocation<Object> {
    @Override
    public Result invoke(Scope scope, Object object, Object... list) throws Exception {
       Object[] arguments = aligner.align(list); 
-      Scope inner = outer.getInner();
+      Scope inner = extractor.extract(outer, arguments);
       
-      if(arguments.length > 0) {
-         extractor.extract(inner, arguments);
-      }
       if(compile.compareAndSet(false, true)) {
          statement.compile(inner);
       }
