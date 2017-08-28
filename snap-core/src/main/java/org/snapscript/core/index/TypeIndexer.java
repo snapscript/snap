@@ -10,6 +10,7 @@ import org.snapscript.core.ModuleRegistry;
 import org.snapscript.core.NameBuilder;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeNameBuilder;
+import org.snapscript.core.bridge.BridgeProvider;
 import org.snapscript.core.extend.ClassExtender;
 import org.snapscript.core.link.ImportScanner;
 
@@ -23,12 +24,12 @@ public class TypeIndexer {
    private final NameBuilder builder;
    private final int limit;
    
-   public TypeIndexer(ModuleRegistry registry, ImportScanner scanner, ClassExtender extender) {
-      this(registry, scanner, extender, 100000);
+   public TypeIndexer(ModuleRegistry registry, ImportScanner scanner, ClassExtender extender, BridgeProvider provider) {
+      this(registry, scanner, extender, provider, 100000);
    }
    
-   public TypeIndexer(ModuleRegistry registry, ImportScanner scanner, ClassExtender extender, int limit) {
-      this.indexer = new ClassIndexer(this, registry, scanner, extender);
+   public TypeIndexer(ModuleRegistry registry, ImportScanner scanner, ClassExtender extender, BridgeProvider provider, int limit) {
+      this.indexer = new ClassIndexer(this, registry, scanner, extender, provider);
       this.types = new LinkedHashMap<Object, Type>();
       this.builder = new TypeNameBuilder();
       this.counter = new AtomicInteger(1); // consider function types which own 0

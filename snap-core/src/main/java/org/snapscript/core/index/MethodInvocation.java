@@ -17,8 +17,8 @@ public class MethodInvocation implements Invocation<Object>{
    private final MethodCallBinder binder;
    private final Method method;
    
-   public MethodInvocation(Method method) {
-      this.binder = new MethodCallBinder(method);
+   public MethodInvocation(Invocation invocation, Method method) {
+      this.binder = new MethodCallBinder(invocation, method);
       this.method = method;
    }
    

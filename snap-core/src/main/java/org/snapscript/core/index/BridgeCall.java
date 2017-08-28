@@ -1,25 +1,26 @@
 package org.snapscript.core.index;
 
-import java.lang.reflect.Method;
-
 import org.snapscript.core.InternalStateException;
+import org.snapscript.core.Result;
 import org.snapscript.core.define.Instance;
+import org.snapscript.core.function.Invocation;
 
 public class BridgeCall implements MethodCall<Instance> {
 
-   private final Method method;
+   private final Invocation invocation;
    
-   public BridgeCall(Method method) {
-      this.method = method;
+   public BridgeCall(Invocation invocation) {
+      this.invocation = invocation;
    }
    
    @Override
-   public Object call(Instance instance, Object[] arguments) throws Exception {
+   public Object call(Instance instance, Object[] list) throws Exception {
       Object value = instance.getBridge();
       
       if(value == null) {
          throw new InternalStateException("No 'super' object could be found");
       }
-      return method.invoke(value, arguments);
+      Result result = invocation.invoke(instance, value, list);
+      return result.getValue();
    }
 }

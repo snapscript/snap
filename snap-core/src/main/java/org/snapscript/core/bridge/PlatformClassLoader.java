@@ -1,6 +1,7 @@
 package org.snapscript.core.bridge;
 
 import java.lang.reflect.Constructor;
+import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.Any;
@@ -16,7 +17,7 @@ public class PlatformClassLoader {
    private final Class[] types;
    
    public PlatformClassLoader() {
-      this.types = new Class[]{FunctionResolver.class, Type.class};
+      this.types = new Class[]{FunctionResolver.class, Executor.class, Type.class};
       this.reference = new AtomicReference<Constructor>();
       this.loader = new ContextClassLoader(Any.class);
       this.builder = new PlatformNameBuilder();

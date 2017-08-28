@@ -4,7 +4,10 @@ import java.lang.reflect.Method;
 
 import org.snapscript.core.Any;
 import org.snapscript.core.InternalStateException;
+import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
+import org.snapscript.core.bridge.BridgeBuilder;
+import org.snapscript.core.bridge.BridgeProvider;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationFunction;
@@ -14,11 +17,13 @@ public class FunctionGenerator {
    
    private final SignatureGenerator generator;
    private final DefaultMethodChecker checker;
+   private final BridgeProvider provider;
    private final TypeIndexer indexer;
    
-   public FunctionGenerator(TypeIndexer indexer) {
+   public FunctionGenerator(TypeIndexer indexer, BridgeProvider provider) {
       this.generator = new SignatureGenerator(indexer);
       this.checker = new DefaultMethodChecker();
+      this.provider = provider;
       this.indexer = indexer;
    }
 
@@ -27,12 +32,14 @@ public class FunctionGenerator {
       Class real = method.getReturnType();
       
       try {
-         Invocation invocation = null;
+         Scope scope = type.getScope();
+         BridgeBuilder builder = provider.create(type);
+         Invocation invocation = builder.thisInvocation(scope, method);
          
          if(checker.check(method)) {
             invocation = new DefaultMethodInvocation(method);
          } else {
-            invocation = new MethodInvocation(method);
+            invocation = new MethodInvocation(invocation, method);
          }
          Type returns = indexer.loadType(real);
          

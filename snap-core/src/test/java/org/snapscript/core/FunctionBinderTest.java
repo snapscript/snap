@@ -133,11 +133,11 @@ public class FunctionBinderTest extends TestCase {
       public TestContext(){
          this.linker = new TestLinker();
          this.store = new ClassPathStore();
+         this.stack = new ThreadStack();
          this.manager = new StoreManager(store);
          this.registry = new ModuleRegistry(this, null);
-         this.loader = new TypeLoader(linker, registry, manager);
+         this.loader = new TypeLoader(linker, registry, manager, stack);
          this.extractor = new TypeExtractor(loader);
-         this.stack = new ThreadStack();
          this.binder = new FunctionBinder(extractor, stack);
          this.wrapper = new ProxyWrapper(this);
          this.matcher = new ConstraintMatcher(loader, wrapper);

@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 
 import org.snapscript.core.define.Instance;
 import org.snapscript.core.define.SuperInstance;
+import org.snapscript.core.function.Invocation;
 
 public class MethodCallBinder {
    
@@ -11,9 +12,9 @@ public class MethodCallBinder {
    private final MethodCall object;
    private final MethodCall base;
    
-   public MethodCallBinder(Method method) {
-      this.bridge = new BridgeCall(method); 
-      this.object = new ObjectCall(method); // this.
+   public MethodCallBinder(Invocation invocation, Method method) {
+      this.object = new ObjectCall(invocation, method); // this.
+      this.bridge = new BridgeCall(invocation); 
       this.base = new SuperCall(method); // super.
    }
    

@@ -10,4 +10,5 @@ import org.snapscript.core.function.Invocation;
 public interface BridgeBuilder {
    Instance superInstance(Scope scope, Type real, Object... list);
    Invocation superInvocation(Scope scope, Class proxy, Method method); 
+   Invocation thisInvocation(Scope scope, Method method);
 }
