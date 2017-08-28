@@ -1,5 +1,6 @@
 package org.snapscript.core.bridge;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
 import org.snapscript.core.InternalStateException;
@@ -28,14 +29,19 @@ public class PartialBridgeBuilder implements BridgeBuilder {
 
    @Override
    public Invocation thisInvocation(Scope scope, Method method) {
-      return new DelegateInvocation(method);
+      return new DelegateMethodInvocation(method);
    }
 
-   public class DelegateInvocation implements Invocation {
+   @Override
+   public Invocation thisInvocation(Scope scope, Constructor constructor) {
+      return new DelegateConstructorInvocation(constructor);
+   } 
+   
+   public class DelegateMethodInvocation implements Invocation {
       
       private final Method method;
       
-      public DelegateInvocation(Method method) {
+      public DelegateMethodInvocation(Method method) {
          this.method = method;
       }
 
@@ -45,8 +51,27 @@ public class PartialBridgeBuilder implements BridgeBuilder {
             Object result = method.invoke(value, arguments);
             return ResultType.getNormal(result);
          }catch(Throwable e) {
-            throw new InternalStateException("Could not invoke super", e);
+            throw new InternalStateException("Could not invoke method " + method, e);
          }
       }
-   } 
+   }
+   
+   public class DelegateConstructorInvocation implements Invocation {
+      
+      private final Constructor constructor;
+      
+      public DelegateConstructorInvocation(Constructor constructor) {
+         this.constructor = constructor;
+      }
+
+      @Override
+      public Result invoke(Scope scope, Object value, Object... arguments) {
+         try {
+            Object result = constructor.newInstance(arguments);
+            return ResultType.getNormal(result);
+         }catch(Throwable e) {
+            throw new InternalStateException("Could not invoke constructor " + constructor, e);
+         }
+      }
+   }
 }

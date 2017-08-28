@@ -1,5 +1,6 @@
 package org.snapscript.core.bridge;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
 import org.snapscript.core.Scope;
@@ -11,4 +12,5 @@ public interface BridgeBuilder {
    Instance superInstance(Scope scope, Type real, Object... list);
    Invocation superInvocation(Scope scope, Class proxy, Method method); 
    Invocation thisInvocation(Scope scope, Method method);
+   Invocation thisInvocation(Scope scope, Constructor constructor);
 }

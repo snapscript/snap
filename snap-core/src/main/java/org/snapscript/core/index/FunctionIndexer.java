@@ -22,7 +22,7 @@ public class FunctionIndexer {
    
    public FunctionIndexer(TypeIndexer indexer, ClassExtender extender, BridgeProvider provider){
       this.generator = new FunctionGenerator(indexer, provider);
-      this.indexer = new ConstructorIndexer(indexer);
+      this.indexer = new ConstructorIndexer(indexer, provider);
       this.extractor = new AnnotationExtractor();
       this.converter = new ModifierConverter();
       this.extender = extender;

@@ -12,9 +12,11 @@ import org.snapscript.core.function.Invocation;
 public class ConstructorInvocation implements Invocation<Object> {
 
    private final Constructor constructor;
+   private final Invocation invocation;
    
-   public ConstructorInvocation(Constructor constructor) {
+   public ConstructorInvocation(Invocation invocation, Constructor constructor) {
       this.constructor = constructor;
+      this.invocation = invocation;
    }
    
    @Override
@@ -49,7 +51,6 @@ public class ConstructorInvocation implements Invocation<Object> {
             list = copy;
          }
       }     
-      Object value = constructor.newInstance(list);
-      return ResultType.getNormal(value);
+      return invocation.invoke(scope, null, list);
    }
 }

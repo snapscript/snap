@@ -5,7 +5,10 @@ import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
 import java.lang.reflect.Constructor;
 
 import org.snapscript.core.InternalStateException;
+import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
+import org.snapscript.core.bridge.BridgeBuilder;
+import org.snapscript.core.bridge.BridgeProvider;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationFunction;
@@ -14,16 +17,21 @@ import org.snapscript.core.function.Signature;
 public class ConstructorGenerator {
 
    private final SignatureGenerator generator;
+   private final BridgeProvider provider;
    
-   public ConstructorGenerator(TypeIndexer indexer) {
+   public ConstructorGenerator(TypeIndexer indexer, BridgeProvider provider) {
       this.generator = new SignatureGenerator(indexer);
+      this.provider = provider;
    }
    
    public Function generate(Type type, Constructor constructor, Class[] types, int modifiers) {
       Signature signature = generator.generate(type, constructor);
+      Scope scope = type.getScope();
+      BridgeBuilder builder = provider.create(type);
+      Invocation invocation = builder.thisInvocation(scope, constructor);
       
       try {
-         Invocation invocation = new ConstructorInvocation(constructor);
+         invocation = new ConstructorInvocation(invocation, constructor);
          
          if(!constructor.isAccessible()) {
             constructor.setAccessible(true);
