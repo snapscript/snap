@@ -73,6 +73,7 @@ public class ProxyWrapper {
                
                return value;
             }
+            return object;
          }
          if(Bridge.class.isInstance(object)) {
             Bridge bridge = (Bridge)object;
