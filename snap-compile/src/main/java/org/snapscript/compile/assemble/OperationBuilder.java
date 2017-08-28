@@ -19,7 +19,7 @@ import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.parse.Line;
 
 public class OperationBuilder {
-   
+
    private final OperationProcessor processor;
    private final Module module;
    private final Path path;

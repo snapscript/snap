@@ -4,9 +4,9 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 import org.snapscript.common.Cache;
-import org.snapscript.common.LeastRecentlyUsedSet;
 import org.snapscript.common.SoftCache;
 
 public class CacheStore implements Store {
@@ -17,7 +17,7 @@ public class CacheStore implements Store {
    private final Store store;
    
    public CacheStore(Store store) {
-      this(store, 100);
+      this(store, 200);
    }
    
    public CacheStore(Store store, int capacity) {
@@ -25,8 +25,8 @@ public class CacheStore implements Store {
    }
    
    public CacheStore(Store store, int capacity, int read) {
-      this.failures = new LeastRecentlyUsedSet<String>(capacity);
       this.cache = new SoftCache<String, byte[]>(capacity);
+      this.failures = new CopyOnWriteArraySet<String>();
       this.reader = new StoreReader(store, read);
       this.store = store;
    }
