@@ -1,5 +1,6 @@
 package org.snapscript.tree.define;
 
+import static org.snapscript.core.Category.CLASS;
 import static org.snapscript.core.ModifierType.CONSTANT;
 import static org.snapscript.core.ModifierType.PUBLIC;
 import static org.snapscript.core.Phase.COMPILED;
@@ -18,6 +19,7 @@ import static org.snapscript.core.Reserved.TYPE_THIS;
 import java.util.List;
 
 import org.snapscript.common.Progress;
+import org.snapscript.core.Category;
 import org.snapscript.core.Context;
 import org.snapscript.core.Module;
 import org.snapscript.core.Phase;
@@ -45,6 +47,7 @@ public class AnyDefinition{
       Module module = scope.getModule();
       Context context = module.getContext();
       TypeLoader loader = context.getLoader();
+      Type result = loader.defineType(DEFAULT_PACKAGE, ANY_TYPE, CLASS);
       Progress<Phase> progress = result.getProgress();
       List<Function> functions = result.getFunctions();
       

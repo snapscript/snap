@@ -1,5 +1,6 @@
 package org.snapscript.tree.define;
 
+import static org.snapscript.core.Category.CLASS;
 import static org.snapscript.core.Phase.COMPILED;
 import static org.snapscript.core.Phase.DEFINED;
 
@@ -27,6 +28,7 @@ public class ClassDefinition extends Statement {
    private final TypePart[] parts;
    
    public ClassDefinition(AnnotationList annotations, TypeName name, TypeHierarchy hierarchy, TypePart... parts) {
+      this.builder = new ClassBuilder(annotations, name, hierarchy, CLASS);
       this.generator = new FunctionPropertyGenerator(); 
       this.constants = new StaticConstantFactory();
       this.collector = new TypeFactoryCollector();

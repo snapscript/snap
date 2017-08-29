@@ -31,14 +31,18 @@ public class TypeVerifier {
    }
    
    public boolean isFunction(Type type) throws Exception {
+      Category category = type.getCategory();
 
+      if(category.isFunction()){
          return true;
       }
       return false;
    }
    
    public boolean isArray(Type type) throws Exception {
+      Category category = type.getCategory();
       
+      if(category.isArray()){
          return true;
       }
       return false;

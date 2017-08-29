@@ -2,6 +2,7 @@ package org.snapscript.core.convert;
 
 import static org.snapscript.core.convert.Score.EXACT;
 
+import org.snapscript.core.Category;
 import org.snapscript.core.InternalArgumentException;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeCastChecker;
@@ -54,6 +55,7 @@ public class ObjectConverter extends ConstraintConverter {
          Type match = extractor.getType(object);
          
          if(match != constraint) {
+            Category category = match.getCategory();
             Score score = checker.cast(match, constraint, object);
             
             if(score.isInvalid()) {
@@ -65,6 +67,7 @@ public class ObjectConverter extends ConstraintConverter {
                return convert(object);
             }
             
+            if(category.isFunction()) {
                return convert(object);
             }
          }

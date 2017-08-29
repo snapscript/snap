@@ -1,6 +1,5 @@
 package org.snapscript.core;
 
-
 import org.snapscript.core.bridge.BridgeProvider;
 import org.snapscript.core.bridge.PlatformBridgeProvider;
 import org.snapscript.core.extend.ClassExtender;
@@ -44,6 +43,7 @@ public class TypeLoader {
       return manager.importType(module, name); 
    }
    
+   public Type defineType(String module, String name, Category category) {
       return indexer.defineType(module, name, category);
    }
    

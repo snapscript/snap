@@ -69,6 +69,7 @@ public class ContextModule implements Module {
    }
    
    @Override
+   public Type addType(String name, Category category) {
       Type type = types.fetch(name); 
       
       if(type != null) {
