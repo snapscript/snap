@@ -77,7 +77,7 @@ public class ArrayConverter extends ConstraintConverter {
                Object object = wrapper.fromProxy(element);
                Score score = converter.score(object);
    
-               if(score.compareTo(INVALID) == 0) {
+               if(score.isInvalid()) {
                   return INVALID;
                }
                total = Score.average(score, total);
@@ -104,7 +104,7 @@ public class ArrayConverter extends ConstraintConverter {
                Object object = wrapper.fromProxy(element);
                Score score = converter.score(object);
    
-               if(score.compareTo(INVALID) == 0) {
+               if(score.isInvalid()) {
                   return INVALID;
                }
                total = Score.average(score, total);
@@ -173,7 +173,7 @@ public class ArrayConverter extends ConstraintConverter {
             if(object != null) {
                Score score = converter.score(object);
    
-               if(score.compareTo(INVALID) == 0) {
+               if(score.isInvalid()) {
                   throw new InternalStateException("Array element is not '" + require + "'");
                }
                element = converter.convert(object);
@@ -202,7 +202,7 @@ public class ArrayConverter extends ConstraintConverter {
             if(object != null) {
                Score score = converter.score(object);
    
-               if(score.compareTo(INVALID) == 0) {
+               if(score.isInvalid()) {
                   throw new InternalStateException("Array element is not '" + require + "'");
                }
                element = converter.convert(object);

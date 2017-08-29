@@ -1,10 +1,13 @@
 package org.snapscript.compile.define;
 
+import static org.snapscript.core.Category.CLASS;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.snapscript.common.CompleteProgress;
 import org.snapscript.common.Progress;
+import org.snapscript.core.Category;
 import org.snapscript.core.Module;
 import org.snapscript.core.Phase;
 import org.snapscript.core.Scope;
@@ -66,6 +69,11 @@ public class MockType implements Type {
    @Override
    public List<Type> getTypes(){
       return types;
+   }
+   
+   @Override
+   public Category getCategory(){
+      return CLASS;
    }
    
    @Override

@@ -25,7 +25,7 @@ public class DeclarationConverter {
          ConstraintConverter converter = matcher.match(type);
          Score score = converter.score(value);
          
-         if(score.compareTo(INVALID) == 0) {
+         if(score.isInvalid()) {
             throw new InternalStateException("Variable '" + name + "' does not match constraint '" + type + "'");
          }
          return converter.assign(value);

@@ -1,5 +1,7 @@
 package org.snapscript.tree.define;
 
+import static org.snapscript.core.Category.ENUM;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -31,7 +33,7 @@ public class EnumBuilder extends Statement {
    public Result define(Scope outer) throws Exception {
       Module module = outer.getModule();
       String alias = name.getName(outer);
-      Type type = module.addType(alias);
+      Type type = module.addType(alias, ENUM);
       
       reference.set(type);
       

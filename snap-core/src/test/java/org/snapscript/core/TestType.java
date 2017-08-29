@@ -1,5 +1,7 @@
 package org.snapscript.core;
 
+import static org.snapscript.core.Category.CLASS;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,6 +62,11 @@ public class TestType implements Type {
    @Override
    public List<Type> getTypes(){
       return types;
+   }
+   
+   @Override
+   public Category getCategory(){
+      return CLASS;
    }
    
    @Override

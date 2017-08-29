@@ -20,7 +20,6 @@ public class ClassHierarchyIndexer {
       List<Type> hierarchy = new ArrayList<Type>();
       
       if(source == Object.class) {
-         Type base = indexer.defineType(DEFAULT_PACKAGE, ANY_TYPE);
          
          if(base != null) {
             hierarchy.add(base);

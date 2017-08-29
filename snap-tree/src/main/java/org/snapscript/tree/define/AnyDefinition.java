@@ -45,7 +45,6 @@ public class AnyDefinition{
       Module module = scope.getModule();
       Context context = module.getContext();
       TypeLoader loader = context.getLoader();
-      Type result = loader.defineType(DEFAULT_PACKAGE, ANY_TYPE);
       Progress<Phase> progress = result.getProgress();
       List<Function> functions = result.getFunctions();
       

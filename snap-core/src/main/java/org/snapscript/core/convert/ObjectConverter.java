@@ -2,6 +2,7 @@ package org.snapscript.core.convert;
 
 import static org.snapscript.core.convert.Score.EXACT;
 
+import org.snapscript.core.InternalArgumentException;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeCastChecker;
 import org.snapscript.core.TypeExtractor;
@@ -53,9 +54,17 @@ public class ObjectConverter extends ConstraintConverter {
          Type match = extractor.getType(object);
          
          if(match != constraint) {
-            Score score = checker.cast(match, constraint);
+            Score score = checker.cast(match, constraint, object);
             
-            if(score.compareTo(Score.INVALID) == 0) {
+            if(score.isInvalid()) {
+               Class require = constraint.getType();
+               
+               if(require == null) {
+                  throw new InternalArgumentException("Conversion from " + match + " to '" + constraint + "' is not possible");
+               }
+               return convert(object);
+            }
+            
                return convert(object);
             }
          }

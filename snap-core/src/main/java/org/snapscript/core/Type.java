@@ -13,6 +13,7 @@ public interface Type extends Any {
    List<Property> getProperties();
    List<Function> getFunctions();
    List<Type> getTypes();
+   Category getCategory();
    Module getModule();
    Scope getScope();
    Class getType();

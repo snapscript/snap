@@ -1,5 +1,7 @@
 package org.snapscript.compile;
 
+import static org.snapscript.core.Category.CLASS;
+
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.util.Arrays;
@@ -8,6 +10,7 @@ import junit.framework.TestCase;
 
 import org.snapscript.common.store.ClassPathStore;
 import org.snapscript.common.store.Store;
+import org.snapscript.core.Category;
 import org.snapscript.core.Context;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeLoader;
@@ -32,10 +35,11 @@ public class TypeLoaderTest extends TestCase {
    public void testLoader() throws Exception {
       Store store = new ClassPathStore();
       Context context = new StoreContext(store);
-      TypeLoader loader = context.getLoader();
-      Type type1 = loader.resolveType("org.snapscript.compile", "TypeLoaderTest$ExampleObject", 2);
-      Type type2 = loader.resolveType("lang", "Integer", 3);
-      Type type3 = loader.resolveType("foo", "Blah", 3);
+      TypeLoader loader = context.getLoader();    
+      loader.defineType("foo", "Blah", CLASS);
+      Type type1 = loader.resolveArrayType("org.snapscript.compile", "TypeLoaderTest$ExampleObject", 2);
+      Type type2 = loader.resolveArrayType("lang", "Integer", 3);
+      Type type3 = loader.resolveArrayType("foo", "Blah", 3);
       Type type4 = loader.resolveType("java.awt.geom.Line2D$Double");
       Type type5 = loader.resolveType("java.awt.geom.Ellipse2D$Double");
       

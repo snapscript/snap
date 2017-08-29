@@ -15,7 +15,7 @@ public class FunctionTypeTest extends TestCase {
       Module module = createModule("Mod");
       Signature signature = createSignature("foo", module);
       FunctionType type1 = new FunctionType(signature, module, null);
-      FunctionType type2 = new FunctionType(signature, module);
+      FunctionType type2 = new FunctionType(signature, module, null);
       String name1 = type1.toString();
       String name2 = type2.toString();
       

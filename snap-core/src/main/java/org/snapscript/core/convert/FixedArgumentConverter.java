@@ -26,7 +26,7 @@ public class FixedArgumentConverter implements ArgumentConverter {
             Object value = list[i];
             Score score = converter.score(value);
             
-            if(score.compareTo(INVALID) == 0) {
+            if(score.isInvalid()) {
                return INVALID;
             }
             total = Score.sum(total, score);

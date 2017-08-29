@@ -1,10 +1,13 @@
 package org.snapscript.core.index;
 
+import static org.snapscript.core.Category.ARRAY;
+
 import java.util.Collections;
 import java.util.List;
 
 import org.snapscript.common.CompleteProgress;
 import org.snapscript.common.Progress;
+import org.snapscript.core.Category;
 import org.snapscript.core.Module;
 import org.snapscript.core.Phase;
 import org.snapscript.core.Scope;
@@ -67,6 +70,11 @@ public class ScopeArrayType implements Type {
    @Override
    public List<Type> getTypes(){
       return Collections.emptyList();
+   }
+   
+   @Override
+   public Category getCategory() {
+      return ARRAY;
    }
    
    @Override

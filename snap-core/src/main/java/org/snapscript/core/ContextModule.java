@@ -69,7 +69,6 @@ public class ContextModule implements Module {
    }
    
    @Override
-   public Type addType(String name) {
       Type type = types.fetch(name); 
       
       if(type != null) {
@@ -79,7 +78,7 @@ public class ContextModule implements Module {
          TypeLoader loader = context.getLoader();
          
          if(loader != null) {
-            type = loader.defineType(prefix, name);
+            type = loader.defineType(prefix, name, category);
          }
          if(type != null) {
             types.cache(name, type);

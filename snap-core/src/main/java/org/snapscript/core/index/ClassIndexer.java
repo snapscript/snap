@@ -1,9 +1,14 @@
 package org.snapscript.core.index;
 
+import static org.snapscript.core.Category.ARRAY;
+import static org.snapscript.core.Category.CLASS;
+import static org.snapscript.core.Category.ENUM;
+import static org.snapscript.core.Category.TRAIT;
 import static org.snapscript.core.Reserved.DEFAULT_PACKAGE;
 
 import java.util.List;
 
+import org.snapscript.core.Category;
 import org.snapscript.core.InternalArgumentException;
 import org.snapscript.core.Module;
 import org.snapscript.core.ModuleRegistry;
@@ -129,5 +134,20 @@ public class ClassIndexer {
          return indexer.loadType(actual);
       }
       return null;
+   }
+   
+   public Category indexCategory(ClassType type) throws Exception {
+      Class source = type.getType();
+      
+      if(source.isEnum()) {
+         return ENUM;
+      }
+      if(source.isInterface()) {
+         return TRAIT;
+      } 
+      if(source.isArray()) {
+         return ARRAY;
+      } 
+      return CLASS;
    }
 }

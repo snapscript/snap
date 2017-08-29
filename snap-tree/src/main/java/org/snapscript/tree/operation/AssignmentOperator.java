@@ -48,7 +48,7 @@ public enum AssignmentOperator {
          ConstraintConverter converter = matcher.match(type);
          Score score = converter.score(value);
          
-         if(score.compareTo(INVALID) == 0) {
+         if(score.isInvalid()) {
             throw new InternalStateException("Illegal assignment to variable of type '" + type + "'");
          }
          if(value != null) {

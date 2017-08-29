@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.snapscript.common.LockProgress;
 import org.snapscript.common.Progress;
+import org.snapscript.core.Category;
 import org.snapscript.core.Module;
 import org.snapscript.core.Phase;
 import org.snapscript.core.Scope;
@@ -23,13 +24,14 @@ public class ScopeType implements Type {
    private final List<Function> functions;
    private final Progress<Phase> progress;
    private final List<Type> types;
+   private final Category category;
    private final Module module;
    private final Scope scope;
    private final Type outer;
    private final String name;
    private final int order;
    
-   public ScopeType(Module module, Type outer, String name, int order){
+   public ScopeType(Module module, Type outer, Category category, String name, int order){
       this.description = new TypeDescription(this);
       this.annotations = new ArrayList<Annotation>();
       this.properties = new ArrayList<Property>();
@@ -37,6 +39,7 @@ public class ScopeType implements Type {
       this.progress = new LockProgress<Phase>();
       this.types = new ArrayList<Type>();
       this.scope = new TypeScope(this);
+      this.category = category;
       this.module = module;
       this.outer = outer;
       this.order = order;
@@ -66,6 +69,11 @@ public class ScopeType implements Type {
    @Override
    public List<Type> getTypes(){
       return types;
+   }
+   
+   @Override
+   public Category getCategory() {
+      return category;
    }
    
    @Override

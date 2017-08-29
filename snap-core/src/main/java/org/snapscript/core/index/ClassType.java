@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.snapscript.common.CompleteProgress;
 import org.snapscript.common.Progress;
+import org.snapscript.core.Category;
 import org.snapscript.core.Module;
 import org.snapscript.core.Phase;
 import org.snapscript.core.Scope;
@@ -58,7 +59,12 @@ public class ClassType implements Type {
    public List<Type> getTypes() {
       return index.getTypes();
    }
-
+   
+   @Override
+   public Category getCategory() {
+      return index.getCategory();
+   }
+   
    @Override
    public Module getModule() {
       return index.getModule();

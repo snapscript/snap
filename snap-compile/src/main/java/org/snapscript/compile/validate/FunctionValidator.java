@@ -49,7 +49,7 @@ public class FunctionValidator {
                List<Function> functions = type.getFunctions();
                Score score = comparator.compare(function, functions);
                
-               if(score.compareTo(INVALID) != 0) {
+               if(score.isValid()) {
                   matches++;
                   break;
                }

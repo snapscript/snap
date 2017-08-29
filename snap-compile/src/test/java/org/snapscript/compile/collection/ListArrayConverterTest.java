@@ -112,6 +112,6 @@ public class ListArrayConverterTest extends TestCase {
       ConstraintMatcher matcher = context.getMatcher();
       ConstraintConverter converter = matcher.match(match);
       
-      return converter.score(object).compareTo(Score.INVALID) > 0;
+      return converter.score(object).isValid();
    }
 }

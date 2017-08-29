@@ -37,6 +37,6 @@ public class ArrayConstraint implements Evaluation {
       String prefix = module.getName();
       String name = entry.getName();
       
-      return loader.resolveType(prefix, name, bounds.length);
+      return loader.resolveArrayType(prefix, name, bounds.length);
    }
 }

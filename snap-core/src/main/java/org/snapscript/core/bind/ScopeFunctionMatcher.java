@@ -32,7 +32,7 @@ public class ScopeFunctionMatcher {
             ArgumentConverter match = signature.getConverter();
             Score score = match.score(values);
             
-            if(score.compareTo(INVALID) > 0) {
+            if(score.isValid()) {
                return new FunctionPointer(function, stack, values);
             }
          }

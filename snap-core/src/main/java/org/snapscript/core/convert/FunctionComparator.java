@@ -48,14 +48,14 @@ public class FunctionComparator {
       if(actualSize == requireSize) {
          Score score = compare(actualParameters, requireParameters);
          
-         if(score.compareTo(INVALID) > 0) {
+         if(score.isValid()) {
             return score;
          }
       }
       if(actualVariable && actualSize <= requireSize) {
          Score score = compare(actualParameters, requireParameters); // compare(a...) == compare(a, b)
          
-         if(score.compareTo(INVALID) > 0) {
+         if(score.isValid()) {
             return score;
          }
       }
@@ -73,7 +73,7 @@ public class FunctionComparator {
             Parameter requireParameter = require.get(i);
             Score score = compare(actualParameter, requireParameter);
             
-            if(score.compareTo(INVALID) <= 0) { // must check for numbers
+            if(score.isInvalid()) { // must check for numbers
                return INVALID;
             }
             total = Score.sum(total, score); // sum for better match
@@ -94,7 +94,7 @@ public class FunctionComparator {
       Score score = converter.score(actualType);
       
       if(actual.isVariable()) {
-         if(score.compareTo(INVALID) <= 0) {
+         if(score.isInvalid()) {
             return INVALID;
          }
          return POSSIBLE;

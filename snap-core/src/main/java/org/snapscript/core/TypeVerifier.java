@@ -27,13 +27,18 @@ public class TypeVerifier {
       Type actual = loader.loadType(require);
       Score score = checker.cast(type, actual);
       
-      return score.compareTo(INVALID) > 0;
+      return score.isValid();
+   }
+   
+   public boolean isFunction(Type type) throws Exception {
+
+         return true;
+      }
+      return false;
    }
    
    public boolean isArray(Type type) throws Exception {
-      Type entry = type.getEntry();
       
-      if(entry != null) {
          return true;
       }
       return false;

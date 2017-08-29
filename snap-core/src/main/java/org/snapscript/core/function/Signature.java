@@ -14,7 +14,7 @@ public class Signature {
    private final Type definition;
    private final Member source;
    private final boolean variable;
-
+   
    public Signature(List<Parameter> parameters, Module module, Member source){
       this(parameters, module, source, false);
    }

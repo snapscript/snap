@@ -31,7 +31,7 @@ public class CompatibilityChecker {
          ConstraintConverter converter = matcher.match(type);
          Score score = converter.score(value);
          
-         return score.compareTo(INVALID) > 0;
+         return score.isValid();
       }
       return true;
    }

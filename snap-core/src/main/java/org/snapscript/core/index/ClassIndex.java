@@ -2,6 +2,7 @@ package org.snapscript.core.index;
 
 import java.util.List;
 
+import org.snapscript.core.Category;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
 import org.snapscript.core.Type;
@@ -17,6 +18,7 @@ public class ClassIndex {
    private ClassIndexer indexer;
    private List<Type> types;
    private ClassType require;
+   private Category category;
    private Module module;
    private Type outer;
    private Type entry;
@@ -101,5 +103,16 @@ public class ClassIndex {
          }
       }
       return entry;
+   }
+   
+   public Category getCategory() {
+      if(category == null) {
+         try {
+            category = indexer.indexCategory(require);
+         } catch(Exception e) {
+            throw new InternalStateException("Could not index " + require, e);
+         }
+      }
+      return category;
    }
 }

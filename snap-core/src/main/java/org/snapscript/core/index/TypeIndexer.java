@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.snapscript.core.Category;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
 import org.snapscript.core.ModuleRegistry;
@@ -67,7 +68,7 @@ public class TypeIndexer {
       return done;
    }
 
-   public synchronized Type loadType(String module, String name, int size) {
+   public synchronized Type loadArrayType(String module, String name, int size) {
       String alias = builder.createArrayName(module, name, size);
       Type done = types.get(alias);
       
@@ -77,16 +78,16 @@ public class TypeIndexer {
          
          if (match == null) {
             if(size > 0) {
-               return createType(module, name, size);
+               return createArrayType(module, name, size);
             }
-            return defineType(module, name);
+            return loadType(module, name); 
          }
          return loadType(match);
       }
       return done;
    }   
    
-   public synchronized Type defineType(String module, String name) {
+   public synchronized Type defineType(String module, String name, Category category) {
       String alias = builder.createFullName(module, name);
       Type done = types.get(alias);
 
@@ -94,7 +95,7 @@ public class TypeIndexer {
          Class match = scanner.importType(alias);
          
          if (match == null) {
-            Type type = createType(module, name);
+            Type type = createType(module, name, category);
             
             types.put(type, type);
             types.put(alias, type);
@@ -123,7 +124,7 @@ public class TypeIndexer {
       return done;
    }
 
-   private synchronized Type createType(String module, String name) {
+   private synchronized Type createType(String module, String name, Category category) {
       String alias = builder.createFullName(module, name);
       String prefix = builder.createOuterName(module, name); 
       Module parent = registry.addModule(module);
@@ -136,18 +137,18 @@ public class TypeIndexer {
          if(order > limit) {
             throw new InternalStateException("Type limit of " + limit + " exceeded");
          }
-         return new ScopeType(parent, outer, name, order);
+         return new ScopeType(parent, outer, category, name, order);
       }
       return type;
    }
    
-   private synchronized Type createType(String module, String name, int size) {
+   private synchronized Type createArrayType(String module, String name, int size) {
       String alias = builder.createArrayName(module, name, size);
       Module parent = registry.addModule(module);
       Type type = types.get(alias);
       
       if(type == null) {
-         Type entry = loadType(module, name, size -1);
+         Type entry = loadArrayType(module, name, size -1);
          
          if(entry == null) {
             throw new InternalStateException("Type entry for '" +alias+ "' not found");

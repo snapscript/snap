@@ -27,7 +27,7 @@ public class ClosureBuilder {
    }
    
    public Function create(Signature signature, Scope scope, int modifiers) {
-      Type type = new FunctionType(signature, module);
+      Type type = new FunctionType(signature, module, null);
       Invocation invocation = new ClosureInvocation(signature, statement, scope);
       
       return new InvocationFunction(signature, invocation, type, null, METHOD_CLOSURE, modifiers);

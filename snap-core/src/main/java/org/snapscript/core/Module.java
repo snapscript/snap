@@ -13,7 +13,6 @@ public interface Module extends Any{
    ImportManager getManager();
    Type getType(Class type);   
    Type getType(String name);
-   Type addType(String name);
    Module getModule(String module); 
    InputStream getResource(String path);
    List<Annotation> getAnnotations();

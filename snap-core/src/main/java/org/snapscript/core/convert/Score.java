@@ -29,6 +29,14 @@ public class Score implements Comparable<Score> {
       return cache;
    }
    
+   public boolean isInvalid() {
+      return score <= 0;
+   }
+   
+   public boolean isValid() {
+      return score > 0;
+   }
+   
    @Override
    public int compareTo(Score other) {
       return score.compareTo(other.score);

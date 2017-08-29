@@ -1,5 +1,6 @@
 package org.snapscript.tree.define;
 
+import static org.snapscript.core.Category.TRAIT;
 import static org.snapscript.core.Phase.COMPILED;
 import static org.snapscript.core.Phase.DEFINED;
 
@@ -26,7 +27,7 @@ public class TraitDefinition extends Statement {
    private final TypePart[] parts;
    
    public TraitDefinition(AnnotationList annotations, TraitName name, TypeHierarchy hierarchy, TypePart... parts) {
-      this.builder = new ClassBuilder(annotations, name, hierarchy);
+      this.builder = new ClassBuilder(annotations, name, hierarchy, TRAIT);
       this.generator = new FunctionPropertyGenerator(); 
       this.constants = new StaticConstantFactory();
       this.collector = new TypeFactoryCollector();
