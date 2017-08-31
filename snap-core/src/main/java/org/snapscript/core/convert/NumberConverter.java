@@ -60,7 +60,8 @@ public class NumberConverter extends ConstraintConverter {
          Class real = actual.getType();
          
          if(real != null) {
-            Score score = checker.score(real);
+            Class promote = promoter.promote(real);
+            Score score = checker.score(promote);
             
             if(score != null) {
                return score;

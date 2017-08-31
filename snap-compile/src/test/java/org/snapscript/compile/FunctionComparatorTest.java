@@ -25,14 +25,14 @@ public class FunctionComparatorTest extends TestCase {
    "import org.snapscript.compile.FunctionComparatorTest.Y;\n"+
    "import java.awt.Graphics;\n"+
    "class ExtendY extends Y {\n"+
-   "   override func(g){}\n"+
+   "   override func(g: Graphics){}\n"+
    "}\n"+
    "println('type='+ExtendY.class);";
 
    private static final String SOURCE_3 =
    "import org.snapscript.compile.FunctionComparatorTest.Z;\n"+
    "class ExtendZ extends Z {\n"+
-   "   override func(s, i: Integer){}\n"+
+   "   override func(s: String, i: Integer){}\n"+
    "}\n"+
    "println('type='+ExtendZ.class);";
    

@@ -40,7 +40,7 @@ public class FunctionMatcherTest extends TestCase {
 //      ModuleBuilder builder = new ModuleBuilder(null);
 //      TypeLoader loader = new TypeLoader(resolver, builder);
 //      ConstraintMatcher matcher2 = new ConstraintMatcher(loader);
-//      FunctionMatcher matcher = new FunctionMatcher(matcher2, loader);
+//      FunctionMatcher resolver = new FunctionMatcher(matcher2, loader);
 //      Type type = loader.loadType(ExampleObject.class);
 //      
 //      assertNotNull(type);
@@ -94,7 +94,7 @@ public class FunctionMatcherTest extends TestCase {
 //      ModuleBuilder builder = new ModuleBuilder(null);
 //      TypeLoader loader = new TypeLoader(resolver, builder);
 //      ConstraintMatcher matcher2 = new ConstraintMatcher(loader);
-//      FunctionMatcher matcher = new FunctionMatcher(matcher2, loader);
+//      FunctionMatcher resolver = new FunctionMatcher(matcher2, loader);
 //      Type type = loader.loadType(ExampleObject.class);
 //      
 //      assertNotNull(type);

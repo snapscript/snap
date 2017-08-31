@@ -37,19 +37,20 @@ public class FunctionValidator {
          throw new InternalStateException("Function '" + function + "' does not have a type");
       }
       validateModifiers(function);
+      validateDuplicates(function);
    }
    
    private void validateModifiers(Function function) throws Exception {
-      Type actual = function.getType();
+      Type parent = function.getType();
       int modifiers = function.getModifiers();
       
       if(ModifierType.isOverride(modifiers)) {
-         Set<Type> types = extractor.getTypes(actual);
+         Set<Type> types = extractor.getTypes(parent);
          String name = function.getName();
          int matches = 0;
          
          for(Type type : types) {
-            if(type != actual) {
+            if(type != parent) {
                List<Function> functions = type.getFunctions();
                
                for(Function available : functions) {
@@ -70,7 +71,28 @@ public class FunctionValidator {
             throw new InternalStateException("Function '" + function + "' is not an override");
          }
       }
-      validator.validate(actual, function, modifiers);
+      validator.validate(parent, function, modifiers);
+   }
+   
+   private void validateDuplicates(Function function) throws Exception {
+      Type parent = function.getType();
+      List<Function> functions = parent.getFunctions();
+      String name = function.getName();
+      
+      if(name.equals("getAudioInputStream")){
+         System.err.println();
+      }
+      for(Function available : functions) {
+         String match = available.getName();
+         
+         if(name.equals(match)) {
+            Score compare = comparator.compare(available, function);
+            
+            if(compare.isValid()) {
+               validateDuplicates(available, function);
+            }
+         }
+      }
    }
    
    private void validateModifiers(Function actual, Function require) throws Exception {
@@ -95,7 +117,29 @@ public class FunctionValidator {
             throw new IllegalStateException("Function '" + require +"' does not match override");
          }
       }
-      
    }
    
+   private void validateDuplicates(Function actual, Function require) throws Exception {
+      Signature signature = actual.getSignature();
+      List<Parameter> parameters = signature.getParameters();
+      Type parent = actual.getType();
+      String name = actual.getName();
+      int length = parameters.size();
+      
+      if(length >0) {
+         Type[] types = new Type[length];
+         
+         for(int i = 0; i < length; i++){
+            Parameter parameter = parameters.get(i);
+            Type type = parameter.getType();
+            
+            types[i] = type;
+         }
+         int count = resolver.resolves(parent, name, types);
+         
+         if(count > 1) {
+            throw new IllegalStateException("Function '" + require +"' has a duplicate '" + actual + "'");
+         }
+      }
+   }
 }

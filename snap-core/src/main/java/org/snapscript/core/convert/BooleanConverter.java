@@ -26,6 +26,9 @@ public class BooleanConverter extends ConstraintConverter {
             if(real == Boolean.class) {
                return EXACT;
             }
+            if(real == boolean.class) {
+               return EXACT;
+            }
             if(real == String.class) {
                return POSSIBLE;
             }

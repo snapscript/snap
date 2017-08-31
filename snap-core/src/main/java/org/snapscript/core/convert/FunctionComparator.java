@@ -18,23 +18,6 @@ public class FunctionComparator {
    public FunctionComparator(ConstraintMatcher matcher) {
       this.matcher = matcher;
    }
-   
-   public Score compare(Function actual, List<Function> require) throws Exception{
-      String name = actual.getName();
-      
-      for(Function function : require) {
-         String match = function.getName();
-         
-         if(name.equals(match)) {
-            Score compare = compare(actual, function);
-            
-            if(compare.isValid()) {
-               return compare;
-            }
-         }
-      }
-      return INVALID;
-   }
 
    public Score compare(Function actual, Function require) throws Exception{
       Signature actualSignature = actual.getSignature();

@@ -29,6 +29,31 @@ public class FunctionResolver {
       this.invalid = new EmptyFunction(null);
    }
    
+   public int resolves(Type type, String name, Type... types) throws Exception { 
+      List<Function> functions = type.getFunctions();
+      Score best = INVALID;
+      int count = 0;
+      
+      for(Function function : functions) {
+         String method = function.getName();
+         
+         if(name.equals(method)) {
+            Signature signature = function.getSignature();
+            ArgumentConverter match = signature.getConverter();
+            Score score = match.score(types);
+
+            if(score.compareTo(best) >= 0 && score.isValid()) {
+               if(score.compareTo(best) > 0) {
+                  count = 0; // not an exact match so reset
+               }
+               best = score;
+               count++;
+            }
+         }
+      }
+      return count;
+   }
+   
    public Function resolve(Type type, String name, Type... types) throws Exception { 
       Object key = builder.create(name, types);
       FunctionCache cache = table.get(type);
