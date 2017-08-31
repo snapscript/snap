@@ -4,6 +4,7 @@ import static org.snapscript.core.convert.Score.INVALID;
 
 import java.util.List;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeExtractor;
@@ -29,6 +30,7 @@ public class FunctionResolver {
       this.invalid = new EmptyFunction(null);
    }
    
+   @Bug("this is n squared ..... wich is too much.. we need to cache")
    public int resolves(Type type, String name, Type... types) throws Exception { 
       List<Function> functions = type.getFunctions();
       Score best = INVALID;
