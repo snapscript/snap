@@ -7,8 +7,6 @@ import org.snapscript.common.thread.ThreadPool;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.bind.FunctionResolver;
-import org.snapscript.core.bind.ObjectFunctionMatcher;
-import org.snapscript.core.stack.ThreadStack;
 
 public class PlatformBridgeLoader {
    
@@ -17,8 +15,8 @@ public class PlatformBridgeLoader {
    private final BridgeBuilder builder;
    private final Executor executor;
    
-   public PlatformBridgeLoader(TypeExtractor extractor, ThreadStack stack) {
-      this.resolver = new ObjectFunctionMatcher(extractor, stack);
+   public PlatformBridgeLoader(TypeExtractor extractor) {
+      this.resolver = new FunctionResolver(extractor);
       this.builder = new PartialBridgeBuilder();
       this.loader = new PlatformClassLoader();
       this.executor = new ThreadPool(1);

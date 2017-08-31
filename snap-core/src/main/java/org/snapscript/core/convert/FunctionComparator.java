@@ -28,7 +28,7 @@ public class FunctionComparator {
          if(name.equals(match)) {
             Score compare = compare(actual, function);
             
-            if(compare != INVALID) {
+            if(compare.isValid()) {
                return compare;
             }
          }

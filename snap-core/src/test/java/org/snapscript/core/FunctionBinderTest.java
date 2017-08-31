@@ -8,6 +8,7 @@ import junit.framework.TestCase;
 import org.snapscript.common.store.ClassPathStore;
 import org.snapscript.common.store.Store;
 import org.snapscript.core.bind.FunctionBinder;
+import org.snapscript.core.bind.FunctionResolver;
 import org.snapscript.core.bridge.BridgeProvider;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.ProxyWrapper;
@@ -127,6 +128,7 @@ public class FunctionBinderTest extends TestCase {
       private final ThreadStack stack;
       private final ProxyWrapper wrapper;
       private final FunctionBinder binder;
+      private final FunctionResolver resolver;
       private final PackageLinker linker;
       private final Store store;
       
@@ -136,9 +138,10 @@ public class FunctionBinderTest extends TestCase {
          this.stack = new ThreadStack();
          this.manager = new StoreManager(store);
          this.registry = new ModuleRegistry(this, null);
-         this.loader = new TypeLoader(linker, registry, manager, stack);
+         this.loader = new TypeLoader(linker, registry, manager);
          this.extractor = new TypeExtractor(loader);
-         this.binder = new FunctionBinder(extractor, stack);
+         this.resolver = new FunctionResolver(extractor);
+         this.binder = new FunctionBinder(extractor, stack, resolver);
          this.wrapper = new ProxyWrapper(this);
          this.matcher = new ConstraintMatcher(loader, wrapper);
       }

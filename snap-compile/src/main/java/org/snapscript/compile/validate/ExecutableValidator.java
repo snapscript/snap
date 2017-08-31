@@ -6,15 +6,19 @@ import org.snapscript.core.Context;
 import org.snapscript.core.Module;
 import org.snapscript.core.ModuleRegistry;
 import org.snapscript.core.ProgramValidator;
+import org.snapscript.core.Type;
 import org.snapscript.core.TypeExtractor;
+import org.snapscript.core.bind.FunctionResolver;
 import org.snapscript.core.convert.ConstraintMatcher;
 
 public class ExecutableValidator implements ProgramValidator {
 
-   private final ModuleValidator validator;
+   private final ModuleValidator modules;
+   private final TypeValidator types;
    
-   public ExecutableValidator(ConstraintMatcher matcher, TypeExtractor extractor) {
-      this.validator = new ModuleValidator(matcher, extractor);
+   public ExecutableValidator(ConstraintMatcher matcher, TypeExtractor extractor, FunctionResolver resolver) {
+      this.types = new TypeValidator(matcher, extractor, resolver);
+      this.modules = new ModuleValidator(types);
    }
    
    @Override
@@ -23,7 +27,17 @@ public class ExecutableValidator implements ProgramValidator {
       List<Module> modules = registry.getModules();
       
       for(Module module : modules) {
-         validator.validate(module);
+         validate(module);
       }
+   }
+
+   @Override
+   public void validate(Type type) throws Exception {
+      types.validate(type);
+   }
+
+   @Override
+   public void validate(Module module) throws Exception {
+      modules.validate(module);
    }
 }

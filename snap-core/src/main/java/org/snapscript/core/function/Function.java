@@ -8,7 +8,7 @@ import org.snapscript.core.annotation.Annotation;
 
 public interface Function extends Handle {
    int getModifiers();
-   Type getType();
+   Type getType(); // declared class
    Type getConstraint();
    String getName();
    Signature getSignature();

@@ -9,6 +9,7 @@ import org.snapscript.core.Module;
 import org.snapscript.core.ModuleRegistry;
 import org.snapscript.core.NameBuilder;
 import org.snapscript.core.Path;
+import org.snapscript.core.ProgramValidator;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeNameBuilder;
 
@@ -58,11 +59,18 @@ public class ImportMatcher {
    }
    
    private Type importType(String prefix, String name) throws Exception {
-      String type = builder.createFullName(prefix, name);
-      Future<Type> task = resolver.importType(type);
+      String qualifier = builder.createFullName(prefix, name);
+      Future<Type> task = resolver.importType(qualifier);
       
       if(task != null) {
-         return task.get();
+         Context context = parent.getContext();
+         ProgramValidator validator = context.getValidator();
+         Type type = task.get();
+         
+         if(type != null) {
+            validator.validate(type);
+         }
+         return type;
       }
       return null;
    }
@@ -90,11 +98,18 @@ public class ImportMatcher {
    }
    
    private Module importModule(String prefix, String name) throws Exception {
-      String type = builder.createFullName(prefix, name);
-      Future<Module> task = resolver.importModule(type);
+      String qualifier = builder.createFullName(prefix, name);
+      Future<Module> task = resolver.importModule(qualifier);
       
       if(task != null) {
-         return task.get();
+         Context context = parent.getContext();
+         ProgramValidator validator = context.getValidator();
+         Module module = task.get();
+         
+         if(module != null) {
+            validator.validate(module);
+         }
+         return module;
       }
       return null;
    }

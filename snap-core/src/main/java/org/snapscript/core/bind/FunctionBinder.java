@@ -2,7 +2,6 @@ package org.snapscript.core.bind;
 
 import java.util.concurrent.Callable;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Module;
 import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
@@ -21,9 +20,9 @@ public class FunctionBinder {
    private final ScopeFunctionMatcher scopes;
    private final TypeFunctionMatcher types;
    
-   public FunctionBinder(TypeExtractor extractor, ThreadStack stack) {
+   public FunctionBinder(TypeExtractor extractor, ThreadStack stack, FunctionResolver resolver) {
       this.delegates = new DelegateFunctionMatcher(extractor, stack);
-      this.objects = new ObjectFunctionMatcher(extractor, stack);
+      this.objects = new ObjectFunctionMatcher(extractor, stack, resolver);
       this.modules = new ModuleFunctionMatcher(extractor, stack);
       this.types = new TypeFunctionMatcher(extractor, stack);
       this.values = new ValueFunctionMatcher(stack);

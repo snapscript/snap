@@ -3,6 +3,7 @@ package org.snapscript.core.convert;
 import static org.snapscript.core.convert.Score.EXACT;
 import static org.snapscript.core.convert.Score.INVALID;
 
+import org.snapscript.core.Type;
 import org.snapscript.core.function.ArgumentConverter;
 
 public class FixedArgumentConverter implements ArgumentConverter { 
@@ -11,6 +12,30 @@ public class FixedArgumentConverter implements ArgumentConverter {
 
    public FixedArgumentConverter(ConstraintConverter[] converters) {
       this.converters = converters;
+   }
+   
+   @Override
+   public Score score(Type... list) throws Exception {
+      if(list.length != converters.length) {
+         return INVALID;
+      }
+      if(list.length > 0) {
+         Score total = INVALID; 
+      
+         for(int i = 0; i < list.length; i++){
+            ConstraintConverter converter = converters[i];
+            Type type = list[i];
+            Score score = converter.score(type);
+            
+            if(score.isInvalid()) {
+               return INVALID;
+            }
+            total = Score.sum(total, score);
+            
+         }
+         return total;
+      }
+      return EXACT;
    }
    
    @Override

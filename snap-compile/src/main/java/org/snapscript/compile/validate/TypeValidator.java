@@ -12,6 +12,7 @@ import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeExtractor;
+import org.snapscript.core.bind.FunctionResolver;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.property.Property;
@@ -25,8 +26,8 @@ public class TypeValidator {
    private final FunctionValidator functions;
    private final TypeExtractor extractor;
    
-   public TypeValidator(ConstraintMatcher matcher, TypeExtractor extractor) {
-      this.functions = new FunctionValidator(matcher, extractor);
+   public TypeValidator(ConstraintMatcher matcher, TypeExtractor extractor, FunctionResolver resolver) {
+      this.functions = new FunctionValidator(matcher, extractor, resolver);
       this.properties = new PropertyValidator(matcher);
       this.extractor = extractor;
    }

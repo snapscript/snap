@@ -1,8 +1,9 @@
 package org.snapscript.core.convert;
 
-import static org.snapscript.core.convert.Score.SIMILAR;
 import static org.snapscript.core.convert.Score.INVALID;
+import static org.snapscript.core.convert.Score.SIMILAR;
 
+import org.snapscript.core.Type;
 import org.snapscript.core.function.ArgumentConverter;
 
 public class VariableArgumentConverter implements ArgumentConverter { 
@@ -11,6 +12,48 @@ public class VariableArgumentConverter implements ArgumentConverter {
 
    public VariableArgumentConverter(ConstraintConverter[] converters) {
       this.converters = converters;
+   }
+   
+   @Override
+   public Score score(Type... list) throws Exception {
+      if(list.length > 0) {
+         int require = converters.length;
+         int start = require - 1;
+         int remaining = list.length - start;
+         
+         if(remaining < 0) {
+            return INVALID;
+         }
+         Score total = INVALID;
+         
+         for(int i = 0; i < start; i++){
+            ConstraintConverter converter = converters[i];
+            Type type = list[i];
+            Score score = converter.score(type);
+            
+            if(score.isInvalid()) {
+               return INVALID;
+            }
+            total = Score.sum(total, score);
+         }
+         if (remaining > 0) {
+            for (int i = 0; i < remaining; i++) {
+               ConstraintConverter converter = converters[require - 1];
+               Type value = list[i + start];
+               Score score = converter.score(value);
+               
+               if(score.isInvalid()) {
+                  return INVALID;
+               }
+               total = Score.sum(total, score);
+            }
+         }
+         return total;
+      }
+      if(converters.length == 1) {
+         return SIMILAR;
+      }
+      return INVALID;
    }
    
    @Override
@@ -53,7 +96,6 @@ public class VariableArgumentConverter implements ArgumentConverter {
          return SIMILAR;
       }
       return INVALID;
-      
    }
    
    @Override

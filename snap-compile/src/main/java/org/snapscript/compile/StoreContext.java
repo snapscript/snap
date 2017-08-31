@@ -15,6 +15,7 @@ import org.snapscript.core.StoreManager;
 import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.TypeLoader;
 import org.snapscript.core.bind.FunctionBinder;
+import org.snapscript.core.bind.FunctionResolver;
 import org.snapscript.core.bridge.BridgeProvider;
 import org.snapscript.core.bridge.PlatformBridgeProvider;
 import org.snapscript.core.convert.ConstraintMatcher;
@@ -32,6 +33,7 @@ public class StoreContext implements Context {
    private final BridgeProvider provider;
    private final ConstraintMatcher matcher;
    private final ResourceManager manager;
+   private final FunctionResolver resolver;
    private final FunctionBinder binder;
    private final TypeExtractor extractor;
    private final ModuleRegistry registry;
@@ -53,13 +55,14 @@ public class StoreContext implements Context {
       this.manager = new StoreManager(store);
       this.registry = new ModuleRegistry(this, executor);
       this.linker = new ExecutorLinker(this, executor);      
-      this.loader = new TypeLoader(linker, registry, manager, stack);
+      this.loader = new TypeLoader(linker, registry, manager);
       this.matcher = new ConstraintMatcher(loader, wrapper);
       this.extractor = new TypeExtractor(loader);
-      this.validator = new ExecutableValidator(matcher, extractor);
-      this.binder = new FunctionBinder(extractor, stack);
+      this.resolver = new FunctionResolver(extractor);
+      this.validator = new ExecutableValidator(matcher, extractor, resolver);
+      this.binder = new FunctionBinder(extractor, stack, resolver);
       this.evaluator = new OperationEvaluator(this, executor);
-      this.provider = new PlatformBridgeProvider(extractor, stack);
+      this.provider = new PlatformBridgeProvider(extractor);
    }
    
    @Override

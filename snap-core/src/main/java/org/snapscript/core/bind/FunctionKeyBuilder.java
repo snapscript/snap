@@ -26,4 +26,11 @@ public class FunctionKeyBuilder {
       }
       return function;
    }
+   
+   public Object create(String function, Type... types) throws Exception {
+      if(types != null && types.length > 0) {
+         return new FunctionKey(function, types);
+      }
+      return function;
+   }
 }

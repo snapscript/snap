@@ -1,7 +1,5 @@
 package org.snapscript.compile.validate;
 
-import static org.snapscript.core.convert.Score.INVALID;
-
 import java.util.List;
 import java.util.Set;
 
@@ -9,22 +7,27 @@ import org.snapscript.core.InternalStateException;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeExtractor;
+import org.snapscript.core.bind.FunctionResolver;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.FunctionComparator;
 import org.snapscript.core.convert.Score;
 import org.snapscript.core.function.Function;
+import org.snapscript.core.function.Parameter;
+import org.snapscript.core.function.Signature;
 import org.snapscript.tree.ModifierValidator;
 
 public class FunctionValidator {
    
    private final FunctionComparator comparator;
    private final ModifierValidator validator;
+   private final FunctionResolver resolver;
    private final TypeExtractor extractor;
    
-   public FunctionValidator(ConstraintMatcher matcher, TypeExtractor extractor) {
+   public FunctionValidator(ConstraintMatcher matcher, TypeExtractor extractor, FunctionResolver resolver) {
       this.comparator = new FunctionComparator(matcher);
       this.validator = new ModifierValidator();
       this.extractor = extractor;
+      this.resolver = resolver;
    }
    
    public void validate(Function function) throws Exception {
@@ -42,16 +45,24 @@ public class FunctionValidator {
       
       if(ModifierType.isOverride(modifiers)) {
          Set<Type> types = extractor.getTypes(actual);
+         String name = function.getName();
          int matches = 0;
          
          for(Type type : types) {
             if(type != actual) {
                List<Function> functions = type.getFunctions();
-               Score score = comparator.compare(function, functions);
                
-               if(score.isValid()) {
-                  matches++;
-                  break;
+               for(Function available : functions) {
+                  String match = available.getName();
+                  
+                  if(name.equals(match)) {
+                     Score compare = comparator.compare(available, function);
+                     
+                     if(compare.isValid()) {
+                        validateModifiers(available, function);
+                        matches++;
+                     }
+                  }
                }
             }
          }
@@ -60,6 +71,31 @@ public class FunctionValidator {
          }
       }
       validator.validate(actual, function, modifiers);
+   }
+   
+   private void validateModifiers(Function actual, Function require) throws Exception {
+      Signature signature = actual.getSignature();
+      List<Parameter> parameters = signature.getParameters();
+      Type parent = require.getType();
+      String name = actual.getName();
+      int length = parameters.size();
+      
+      if(length >0) {
+         Type[] types = new Type[length];
+         
+         for(int i = 0; i < length; i++){
+            Parameter parameter = parameters.get(i);
+            Type type = parameter.getType();
+            
+            types[i] = type;
+         }
+         Function match = resolver.resolve(parent, name, types);
+         
+         if(match != require) {
+            throw new IllegalStateException("Function '" + require +"' does not match override");
+         }
+      }
+      
    }
    
 }

@@ -21,9 +21,9 @@ public class TypeLoader {
    private final TypeIndexer indexer;
    private final ClassExtender extender;
    
-   public TypeLoader(PackageLinker linker, ModuleRegistry registry, ResourceManager manager, ThreadStack stack){
+   public TypeLoader(PackageLinker linker, ModuleRegistry registry, ResourceManager manager){
       this.extractor = new TypeExtractor(this);
-      this.provider = new PlatformBridgeProvider(extractor, stack);
+      this.provider = new PlatformBridgeProvider(extractor);
       this.scanner = new ImportScanner(manager);
       this.extender = new ClassExtender(this);
       this.indexer = new TypeIndexer(registry, scanner, extender, provider);
