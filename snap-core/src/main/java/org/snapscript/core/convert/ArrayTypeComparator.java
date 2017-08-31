@@ -11,11 +11,13 @@ public class ArrayTypeComparator {
    }
 
    public boolean isEqual(Class require, Class actual) {
-      if(require.isArray() && actual.isArray()) {
-         Class requireEntry = require.getComponentType();
-         Class actualEntry = actual.getComponentType();
-         
-         return isEqual(requireEntry, actualEntry);
+      if(require != null && actual != null) {
+         if(require.isArray() && actual.isArray()) {
+            Class requireEntry = require.getComponentType();
+            Class actualEntry = actual.getComponentType();
+            
+            return isEqual(requireEntry, actualEntry);
+         }
       }
       Class requireType = promoter.promote(require);
       Class actualType = promoter.promote(actual);

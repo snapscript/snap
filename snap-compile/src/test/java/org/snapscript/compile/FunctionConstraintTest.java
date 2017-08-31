@@ -93,7 +93,23 @@ public class FunctionConstraintTest extends TestCase {
    "function func(a:Foo[]) {\n"+
    "   println('func(a:Foo[])');\n"+
    "}\n";
-
+   
+   private static final String SOURCE_8 =
+   "var f: () = () -> println('hello');\n"+
+   "\n"+
+   "function run(r: Runnable){\n"+
+   "   r.run();\n"+
+   "}\n"+
+   "run(f);\n";
+         
+   private static final String SOURCE_9 =
+   "var f: Runnable = () -> println('hello');\n"+
+   "\n"+
+   "function run(r: ()){\n"+
+   "   r();\n"+
+   "}\n"+
+   "run(f);\n";
+         
    public void testAnyConstraints() throws Exception {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
       Executable executable = compiler.compile(SOURCE_1);
@@ -142,4 +158,19 @@ public class FunctionConstraintTest extends TestCase {
       System.err.println(SOURCE_7);
       executable.execute();
    } 
+   
+   public void testFunctionToInterface() throws Exception {
+      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
+      Executable executable = compiler.compile(SOURCE_8);
+      System.err.println(SOURCE_8);
+      executable.execute();
+   }   
+   
+   public void testInterfaceToFunction() throws Exception {
+      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
+      Executable executable = compiler.compile(SOURCE_9);
+      System.err.println(SOURCE_9);
+      executable.execute();
+   }   
+   
 }

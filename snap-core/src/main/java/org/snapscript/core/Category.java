@@ -1,11 +1,13 @@
 package org.snapscript.core;
 
+@Bug("we are caching proxy classes which is not good")
 public enum Category {
    CLASS(0),
    TRAIT(1),
    ENUM(2),
    FUNCTION(3),
-   ARRAY(4);
+   ARRAY(4),
+   PROXY(5);
    
    public final int index;
    
@@ -31,5 +33,9 @@ public enum Category {
    
    public boolean isArray(){
       return this == ARRAY;
+   }
+   
+   public boolean isProxy(){
+      return this == PROXY;
    }
 }

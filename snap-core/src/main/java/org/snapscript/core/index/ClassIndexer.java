@@ -3,9 +3,11 @@ package org.snapscript.core.index;
 import static org.snapscript.core.Category.ARRAY;
 import static org.snapscript.core.Category.CLASS;
 import static org.snapscript.core.Category.ENUM;
+import static org.snapscript.core.Category.PROXY;
 import static org.snapscript.core.Category.TRAIT;
 import static org.snapscript.core.Reserved.DEFAULT_PACKAGE;
 
+import java.lang.reflect.Proxy;
 import java.util.List;
 
 import org.snapscript.core.Category;
@@ -148,6 +150,9 @@ public class ClassIndexer {
       if(source.isArray()) {
          return ARRAY;
       } 
+      if(Proxy.isProxyClass(source)) {
+         return PROXY;
+      }
       return CLASS;
    }
 }
