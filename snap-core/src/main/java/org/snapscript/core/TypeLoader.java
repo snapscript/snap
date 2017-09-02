@@ -1,7 +1,5 @@
 package org.snapscript.core;
 
-import org.snapscript.core.bridge.BridgeProvider;
-import org.snapscript.core.bridge.PlatformBridgeProvider;
 import org.snapscript.core.extend.ClassExtender;
 import org.snapscript.core.index.TypeIndexer;
 import org.snapscript.core.link.ImportScanner;
@@ -9,12 +7,14 @@ import org.snapscript.core.link.Package;
 import org.snapscript.core.link.PackageLinker;
 import org.snapscript.core.link.PackageLoader;
 import org.snapscript.core.link.PackageManager;
+import org.snapscript.core.platform.CachePlatformProvider;
+import org.snapscript.core.platform.PlatformProvider;
 import org.snapscript.core.stack.ThreadStack;
 
 public class TypeLoader {
    
    private final TypeExtractor extractor;
-   private final BridgeProvider provider;
+   private final PlatformProvider provider;
    private final PackageManager manager;
    private final PackageLoader loader;
    private final ImportScanner scanner;
@@ -23,7 +23,7 @@ public class TypeLoader {
    
    public TypeLoader(PackageLinker linker, ModuleRegistry registry, ResourceManager manager){
       this.extractor = new TypeExtractor(this);
-      this.provider = new PlatformBridgeProvider(extractor);
+      this.provider = new CachePlatformProvider(extractor);
       this.scanner = new ImportScanner(manager);
       this.extender = new ClassExtender(this);
       this.indexer = new TypeIndexer(registry, scanner, extender, provider);

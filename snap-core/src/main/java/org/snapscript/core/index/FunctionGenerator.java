@@ -5,21 +5,21 @@ import java.lang.reflect.Method;
 import org.snapscript.core.Any;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Type;
-import org.snapscript.core.bridge.BridgeBuilder;
-import org.snapscript.core.bridge.BridgeProvider;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationFunction;
 import org.snapscript.core.function.Signature;
+import org.snapscript.core.platform.Platform;
+import org.snapscript.core.platform.PlatformProvider;
 
 public class FunctionGenerator {
    
    private final SignatureGenerator generator;
    private final DefaultMethodChecker checker;
-   private final BridgeProvider provider;
+   private final PlatformProvider provider;
    private final TypeIndexer indexer;
    
-   public FunctionGenerator(TypeIndexer indexer, BridgeProvider provider) {
+   public FunctionGenerator(TypeIndexer indexer, PlatformProvider provider) {
       this.generator = new SignatureGenerator(indexer);
       this.checker = new DefaultMethodChecker();
       this.provider = provider;
@@ -31,8 +31,8 @@ public class FunctionGenerator {
       Class real = method.getReturnType();
       
       try {
-         BridgeBuilder builder = provider.create();
-         Invocation invocation = builder.thisMethod(type, method);
+         Platform platform = provider.create();
+         Invocation invocation = platform.createMethod(type, method);
          
          if(checker.check(method)) {
             invocation = new DefaultMethodInvocation(method);

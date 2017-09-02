@@ -8,9 +8,9 @@ import org.snapscript.core.ModifierType;
 import org.snapscript.core.Type;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.annotation.AnnotationExtractor;
-import org.snapscript.core.bridge.BridgeProvider;
 import org.snapscript.core.extend.ClassExtender;
 import org.snapscript.core.function.Function;
+import org.snapscript.core.platform.PlatformProvider;
 
 public class FunctionIndexer {
    
@@ -20,7 +20,7 @@ public class FunctionIndexer {
    private final ModifierConverter converter;
    private final ClassExtender extender;
    
-   public FunctionIndexer(TypeIndexer indexer, ClassExtender extender, BridgeProvider provider){
+   public FunctionIndexer(TypeIndexer indexer, ClassExtender extender, PlatformProvider provider){
       this.generator = new FunctionGenerator(indexer, provider);
       this.indexer = new ConstructorIndexer(indexer, provider);
       this.extractor = new AnnotationExtractor();

@@ -4,9 +4,9 @@ import org.snapscript.core.Model;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
-import org.snapscript.core.bridge.Bridge;
 import org.snapscript.core.define.Instance;
 import org.snapscript.core.define.ObjectInstance;
+import org.snapscript.core.platform.Bridge;
 
 public class ObjectInstanceBuilder {
  

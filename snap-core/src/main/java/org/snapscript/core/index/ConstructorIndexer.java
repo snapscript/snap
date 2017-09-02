@@ -8,8 +8,8 @@ import java.util.List;
 import org.snapscript.core.Type;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.annotation.AnnotationExtractor;
-import org.snapscript.core.bridge.BridgeProvider;
 import org.snapscript.core.function.Function;
+import org.snapscript.core.platform.PlatformProvider;
 
 public class ConstructorIndexer {
 
@@ -17,7 +17,7 @@ public class ConstructorIndexer {
    private final ConstructorGenerator generator;
    private final ModifierConverter converter;
    
-   public ConstructorIndexer(TypeIndexer indexer, BridgeProvider provider) {
+   public ConstructorIndexer(TypeIndexer indexer, PlatformProvider provider) {
       this.generator = new ConstructorGenerator(indexer, provider);
       this.extractor = new AnnotationExtractor();
       this.converter = new ModifierConverter();

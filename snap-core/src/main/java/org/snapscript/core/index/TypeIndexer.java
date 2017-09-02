@@ -11,9 +11,9 @@ import org.snapscript.core.ModuleRegistry;
 import org.snapscript.core.NameBuilder;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeNameBuilder;
-import org.snapscript.core.bridge.BridgeProvider;
 import org.snapscript.core.extend.ClassExtender;
 import org.snapscript.core.link.ImportScanner;
+import org.snapscript.core.platform.PlatformProvider;
 
 public class TypeIndexer {
 
@@ -25,11 +25,11 @@ public class TypeIndexer {
    private final NameBuilder builder;
    private final int limit;
    
-   public TypeIndexer(ModuleRegistry registry, ImportScanner scanner, ClassExtender extender, BridgeProvider provider) {
+   public TypeIndexer(ModuleRegistry registry, ImportScanner scanner, ClassExtender extender, PlatformProvider provider) {
       this(registry, scanner, extender, provider, 100000);
    }
    
-   public TypeIndexer(ModuleRegistry registry, ImportScanner scanner, ClassExtender extender, BridgeProvider provider, int limit) {
+   public TypeIndexer(ModuleRegistry registry, ImportScanner scanner, ClassExtender extender, PlatformProvider provider, int limit) {
       this.indexer = new ClassIndexer(this, registry, scanner, extender, provider);
       this.types = new LinkedHashMap<Object, Type>();
       this.builder = new TypeNameBuilder();

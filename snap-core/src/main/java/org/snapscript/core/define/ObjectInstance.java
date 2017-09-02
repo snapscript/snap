@@ -4,7 +4,7 @@ import org.snapscript.core.Model;
 import org.snapscript.core.Module;
 import org.snapscript.core.State;
 import org.snapscript.core.Type;
-import org.snapscript.core.bridge.Bridge;
+import org.snapscript.core.platform.Bridge;
 
 public class ObjectInstance implements Instance {
 

@@ -1,7 +1,6 @@
-package org.snapscript.core.bridge;
+package org.snapscript.core.platform;
 
 import java.lang.reflect.Constructor;
-import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.Any;
@@ -13,10 +12,8 @@ public class PlatformClassLoader {
    private final AtomicReference<Constructor> reference;
    private final PlatformNameBuilder builder;
    private final ClassLoader loader;
-   private final Class[] types;
    
    public PlatformClassLoader() {
-      this.types = new Class[]{FunctionResolver.class, Executor.class};
       this.reference = new AtomicReference<Constructor>();
       this.loader = new ContextClassLoader(Any.class);
       this.builder = new PlatformNameBuilder();
@@ -31,7 +28,7 @@ public class PlatformClassLoader {
             String type = builder.createFullName(platform);
             Class value = loader.loadClass(type);
             
-            constructor = value.getDeclaredConstructor(types);
+            constructor = value.getDeclaredConstructor(FunctionResolver.class);
             reference.set(constructor);
          }catch(Exception e) {
             throw new IllegalStateException("Could not load constructor", e);

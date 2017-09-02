@@ -1,4 +1,4 @@
-package org.snapscript.core.bridge;
+package org.snapscript.core.platform;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -10,29 +10,29 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.function.Invocation;
 
-public class PartialBridgeBuilder implements BridgeBuilder {
+public class PartialPlatform implements Platform {
    
-   public PartialBridgeBuilder() {
+   public PartialPlatform() {
       super();
    }
 
    @Override
-   public Invocation superConstructor(Type type, Type real) {
+   public Invocation createSuperConstructor(Type type, Type real) {
       throw new IllegalStateException("Could not create '" + real + "' super constructor");
    }
 
    @Override
-   public Invocation superMethod(Type type, Method method) {
+   public Invocation createSuperMethod(Type type, Method method) {
       throw new IllegalStateException("Could not create " + method + " super method");
    }
 
    @Override
-   public Invocation thisMethod(Type type, Method method) {
+   public Invocation createMethod(Type type, Method method) {
       return new DelegateMethodInvocation(method);
    }
 
    @Override
-   public Invocation thisConstructor(Type type, Constructor constructor) {
+   public Invocation createConstructor(Type type, Constructor constructor) {
       return new DelegateConstructorInvocation(constructor);
    } 
    

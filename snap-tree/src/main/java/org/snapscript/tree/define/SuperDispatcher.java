@@ -8,10 +8,10 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.ValueType;
-import org.snapscript.core.bridge.BridgeBuilder;
-import org.snapscript.core.bridge.BridgeProvider;
 import org.snapscript.core.define.Instance;
 import org.snapscript.core.function.Invocation;
+import org.snapscript.core.platform.Platform;
+import org.snapscript.core.platform.PlatformProvider;
 import org.snapscript.tree.dispatch.InvocationDispatcher;
 
 public class SuperDispatcher implements InvocationDispatcher{
@@ -39,10 +39,10 @@ public class SuperDispatcher implements InvocationDispatcher{
       if(copy.length > 0) {
          System.arraycopy(list, 1, copy, 0, copy.length);
       }
-      BridgeProvider provider = context.getProvider();
-      BridgeBuilder builder = provider.create();
-      Invocation invocation = builder.superConstructor(real, type);
-      Result result = invocation.invoke(scope, null, copy);
+      PlatformProvider provider = context.getProvider();
+      Platform platform = provider.create();
+      Invocation invocation = platform.createSuperConstructor(real, type);
+      Result result = invocation.invoke(scope, real, copy);
       Instance instance = result.getValue();
       
       return ValueType.getTransient(instance, type);

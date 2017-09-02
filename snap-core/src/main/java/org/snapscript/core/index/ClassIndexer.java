@@ -18,10 +18,10 @@ import org.snapscript.core.PrimitivePromoter;
 import org.snapscript.core.Type;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.annotation.AnnotationExtractor;
-import org.snapscript.core.bridge.BridgeProvider;
 import org.snapscript.core.extend.ClassExtender;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.link.ImportScanner;
+import org.snapscript.core.platform.PlatformProvider;
 import org.snapscript.core.property.Property;
 
 public class ClassIndexer {
@@ -35,7 +35,7 @@ public class ClassIndexer {
    private final ImportScanner scanner;
    private final TypeIndexer indexer;
 
-   public ClassIndexer(TypeIndexer indexer, ModuleRegistry registry, ImportScanner scanner, ClassExtender extender, BridgeProvider provider) {
+   public ClassIndexer(TypeIndexer indexer, ModuleRegistry registry, ImportScanner scanner, ClassExtender extender, PlatformProvider provider) {
       this.hierarchy = new ClassHierarchyIndexer(indexer);
       this.properties = new PropertyIndexer(indexer);
       this.functions = new FunctionIndexer(indexer, extender, provider);

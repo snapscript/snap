@@ -1,11 +1,11 @@
-package org.snapscript.core.bridge;
+package org.snapscript.core.platform;
 
 import static org.snapscript.core.Reserved.IMPORT_SNAPSCRIPT;
 
 public class PlatformNameBuilder {
    
-   private static final String DEFAULT_SUFFIX = "BridgeBuilder";
-   private static final String DEFAULT_QUALIFIER = "bridge";
+   private static final String DEFAULT_SUFFIX = "Platform";
+   private static final String DEFAULT_QUALIFIER = "platform";
    
    private final String qualifier;
    private final String suffix;

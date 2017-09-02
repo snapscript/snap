@@ -16,12 +16,12 @@ import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.TypeLoader;
 import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.core.bind.FunctionResolver;
-import org.snapscript.core.bridge.BridgeProvider;
-import org.snapscript.core.bridge.PlatformBridgeProvider;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.ProxyWrapper;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.link.PackageLinker;
+import org.snapscript.core.platform.CachePlatformProvider;
+import org.snapscript.core.platform.PlatformProvider;
 import org.snapscript.core.stack.ThreadStack;
 import org.snapscript.core.trace.TraceInterceptor;
 
@@ -30,7 +30,7 @@ public class StoreContext implements Context {
    private final ExecutableValidator validator;
    private final ExpressionEvaluator evaluator;
    private final TraceInterceptor interceptor;
-   private final BridgeProvider provider;
+   private final PlatformProvider provider;
    private final ConstraintMatcher matcher;
    private final ResourceManager manager;
    private final FunctionResolver resolver;
@@ -62,7 +62,7 @@ public class StoreContext implements Context {
       this.validator = new ExecutableValidator(matcher, extractor, resolver);
       this.binder = new FunctionBinder(extractor, stack, resolver);
       this.evaluator = new OperationEvaluator(this, executor);
-      this.provider = new PlatformBridgeProvider(extractor);
+      this.provider = new CachePlatformProvider(extractor);
    }
    
    @Override
@@ -116,7 +116,7 @@ public class StoreContext implements Context {
    }  
    
    @Override
-   public BridgeProvider getProvider() {
+   public PlatformProvider getProvider() {
       return provider;
    }
 

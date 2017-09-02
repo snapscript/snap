@@ -9,13 +9,13 @@ import org.snapscript.common.store.ClassPathStore;
 import org.snapscript.common.store.Store;
 import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.core.bind.FunctionResolver;
-import org.snapscript.core.bridge.BridgeProvider;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.ProxyWrapper;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.link.NoPackage;
 import org.snapscript.core.link.Package;
 import org.snapscript.core.link.PackageLinker;
+import org.snapscript.core.platform.PlatformProvider;
 import org.snapscript.core.stack.ThreadStack;
 import org.snapscript.core.trace.TraceInterceptor;
 
@@ -192,7 +192,7 @@ public class FunctionBinderTest extends TestCase {
       }
       
       @Override
-      public BridgeProvider getProvider() {
+      public PlatformProvider getProvider() {
          return null;
       }
 

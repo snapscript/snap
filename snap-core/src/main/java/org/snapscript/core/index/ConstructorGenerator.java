@@ -6,27 +6,27 @@ import java.lang.reflect.Constructor;
 
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Type;
-import org.snapscript.core.bridge.BridgeBuilder;
-import org.snapscript.core.bridge.BridgeProvider;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationFunction;
 import org.snapscript.core.function.Signature;
+import org.snapscript.core.platform.Platform;
+import org.snapscript.core.platform.PlatformProvider;
 
 public class ConstructorGenerator {
 
    private final SignatureGenerator generator;
-   private final BridgeProvider provider;
+   private final PlatformProvider provider;
    
-   public ConstructorGenerator(TypeIndexer indexer, BridgeProvider provider) {
+   public ConstructorGenerator(TypeIndexer indexer, PlatformProvider provider) {
       this.generator = new SignatureGenerator(indexer);
       this.provider = provider;
    }
    
    public Function generate(Type type, Constructor constructor, Class[] types, int modifiers) {
-      BridgeBuilder builder = provider.create();
+      Platform platform = provider.create();
       Signature signature = generator.generate(type, constructor);
-      Invocation invocation = builder.thisConstructor(type, constructor);
+      Invocation invocation = platform.createConstructor(type, constructor);
       
       try {
          invocation = new ConstructorInvocation(invocation, constructor);

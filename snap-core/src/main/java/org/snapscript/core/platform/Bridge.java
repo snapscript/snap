@@ -1,4 +1,4 @@
-package org.snapscript.core.bridge;
+package org.snapscript.core.platform;
 
 public interface Bridge {
    Object getInstance();

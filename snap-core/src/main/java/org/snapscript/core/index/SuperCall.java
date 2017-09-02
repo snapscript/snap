@@ -7,10 +7,10 @@ import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
 import org.snapscript.core.Result;
 import org.snapscript.core.Type;
-import org.snapscript.core.bridge.BridgeProvider;
-import org.snapscript.core.bridge.BridgeBuilder;
 import org.snapscript.core.define.SuperInstance;
 import org.snapscript.core.function.Invocation;
+import org.snapscript.core.platform.Platform;
+import org.snapscript.core.platform.PlatformProvider;
 
 public class SuperCall implements MethodCall<SuperInstance> {
    
@@ -31,13 +31,13 @@ public class SuperCall implements MethodCall<SuperInstance> {
       }
       Module module = instance.getModule();
       Context context = module.getContext();
-      BridgeProvider provider = context.getProvider();
-      BridgeBuilder extender = provider.create();
+      PlatformProvider provider = context.getProvider();
+      Platform platform = provider.create();
 
-      if(extender == null) {
+      if(platform == null) {
          throw new InternalStateException("No 'super' method for '" + name + "' found in '" + type + "'");
       }
-      Invocation invocation = extender.superMethod(type, method);
+      Invocation invocation = platform.createSuperMethod(type, method);
       Result result = invocation.invoke(instance, value, arguments);
       
       return result.getValue();
