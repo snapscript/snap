@@ -4,7 +4,6 @@ import java.lang.reflect.Method;
 
 import org.snapscript.core.Any;
 import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.bridge.BridgeBuilder;
 import org.snapscript.core.bridge.BridgeProvider;
@@ -32,9 +31,8 @@ public class FunctionGenerator {
       Class real = method.getReturnType();
       
       try {
-         Scope scope = type.getScope();
-         BridgeBuilder builder = provider.create(type);
-         Invocation invocation = builder.thisInvocation(scope, method);
+         BridgeBuilder builder = provider.create();
+         Invocation invocation = builder.thisMethod(type, method);
          
          if(checker.check(method)) {
             invocation = new DefaultMethodInvocation(method);

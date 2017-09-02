@@ -5,7 +5,6 @@ import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
 import java.lang.reflect.Constructor;
 
 import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.bridge.BridgeBuilder;
 import org.snapscript.core.bridge.BridgeProvider;
@@ -25,10 +24,9 @@ public class ConstructorGenerator {
    }
    
    public Function generate(Type type, Constructor constructor, Class[] types, int modifiers) {
+      BridgeBuilder builder = provider.create();
       Signature signature = generator.generate(type, constructor);
-      Scope scope = type.getScope();
-      BridgeBuilder builder = provider.create(type);
-      Invocation invocation = builder.thisInvocation(scope, constructor);
+      Invocation invocation = builder.thisConstructor(type, constructor);
       
       try {
          invocation = new ConstructorInvocation(invocation, constructor);

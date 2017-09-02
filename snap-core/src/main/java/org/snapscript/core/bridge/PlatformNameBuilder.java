@@ -19,14 +19,14 @@ public class PlatformNameBuilder {
       this.suffix = suffix;
    }
 
-   public String createFullName(Platform platform) {
+   public String createFullName(PlatformType platform) {
       String module = createPackage(platform);
       String name = createClassName(platform);
       
       return module + "." + name;
    }
    
-   private String createClassName(Platform platform) {
+   private String createClassName(PlatformType platform) {
       String name = platform.name();
       String token = name.toLowerCase();
       String prefix = token.substring(1);
@@ -35,7 +35,7 @@ public class PlatformNameBuilder {
       return first + prefix + suffix;
    }
    
-   private String createPackage(Platform platform) {
+   private String createPackage(PlatformType platform) {
       String name = platform.name();
       String token = name.toLowerCase();
       

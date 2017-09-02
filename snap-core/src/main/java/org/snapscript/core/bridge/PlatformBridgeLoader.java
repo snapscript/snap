@@ -4,7 +4,6 @@ import java.lang.reflect.Constructor;
 import java.util.concurrent.Executor;
 
 import org.snapscript.common.thread.ThreadPool;
-import org.snapscript.core.Type;
 import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.bind.FunctionResolver;
 
@@ -22,17 +21,14 @@ public class PlatformBridgeLoader {
       this.executor = new ThreadPool(1);
    }
 
-   public BridgeBuilder create(Type type) {
-      if(type != null) {
-         try {
-            Constructor constructor = loader.loadConstructor();
-            Object extender = constructor.newInstance(resolver, executor, type);
-            
-            return (BridgeBuilder)extender;
-         }catch(Exception e) {
-            return builder; 
-         }
+   public BridgeBuilder create() {
+      try {
+         Constructor constructor = loader.loadConstructor();
+         Object extender = constructor.newInstance(resolver, executor);
+         
+         return (BridgeBuilder)extender;
+      }catch(Exception e) {
+         return builder; 
       }
-      return null;
    }
 }

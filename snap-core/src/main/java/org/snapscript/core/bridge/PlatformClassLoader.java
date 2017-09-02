@@ -6,7 +6,6 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.Any;
 import org.snapscript.core.ContextClassLoader;
-import org.snapscript.core.Type;
 import org.snapscript.core.bind.FunctionResolver;
 
 public class PlatformClassLoader {
@@ -17,7 +16,7 @@ public class PlatformClassLoader {
    private final Class[] types;
    
    public PlatformClassLoader() {
-      this.types = new Class[]{FunctionResolver.class, Executor.class, Type.class};
+      this.types = new Class[]{FunctionResolver.class, Executor.class};
       this.reference = new AtomicReference<Constructor>();
       this.loader = new ContextClassLoader(Any.class);
       this.builder = new PlatformNameBuilder();
@@ -28,7 +27,7 @@ public class PlatformClassLoader {
       
       if(constructor == null) {
          try {
-            Platform platform = Platform.resolvePlatform();
+            PlatformType platform = PlatformType.resolveType();
             String type = builder.createFullName(platform);
             Class value = loader.loadClass(type);
             

@@ -4,7 +4,6 @@ import static org.snapscript.core.convert.Score.INVALID;
 
 import java.util.List;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeExtractor;
@@ -28,32 +27,6 @@ public class FunctionResolver {
       this.builder = new FunctionKeyBuilder(extractor);
       this.finder = new FunctionPathFinder();
       this.invalid = new EmptyFunction(null);
-   }
-   
-   @Bug("this is n squared ..... wich is too much.. we need to cache")
-   public int resolves(Type type, String name, Type... types) throws Exception { 
-      List<Function> functions = type.getFunctions();
-      Score best = INVALID;
-      int count = 0;
-      
-      for(Function function : functions) {
-         String method = function.getName();
-         
-         if(name.equals(method)) {
-            Signature signature = function.getSignature();
-            ArgumentConverter match = signature.getConverter();
-            Score score = match.score(types);
-
-            if(score.compareTo(best) >= 0 && score.isValid()) {
-               if(score.compareTo(best) > 0) {
-                  count = 0; // not an exact match so reset
-               }
-               best = score;
-               count++;
-            }
-         }
-      }
-      return count;
    }
    
    public Function resolve(Type type, String name, Type... types) throws Exception { 

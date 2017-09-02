@@ -74,27 +74,6 @@ public class FunctionValidator {
       validator.validate(parent, function, modifiers);
    }
    
-   private void validateDuplicates(Function function) throws Exception {
-      Type parent = function.getType();
-      List<Function> functions = parent.getFunctions();
-      String name = function.getName();
-      
-      if(name.equals("getAudioInputStream")){
-         System.err.println();
-      }
-      for(Function available : functions) {
-         String match = available.getName();
-         
-         if(name.equals(match)) {
-            Score compare = comparator.compare(available, function);
-            
-            if(compare.isValid()) {
-               validateDuplicates(available, function);
-            }
-         }
-      }
-   }
-   
    private void validateModifiers(Function actual, Function require) throws Exception {
       Signature signature = actual.getSignature();
       List<Parameter> parameters = signature.getParameters();
@@ -119,26 +98,30 @@ public class FunctionValidator {
       }
    }
    
-   private void validateDuplicates(Function actual, Function require) throws Exception {
-      Signature signature = actual.getSignature();
-      List<Parameter> parameters = signature.getParameters();
-      Type parent = actual.getType();
-      String name = actual.getName();
-      int length = parameters.size();
+   private void validateDuplicates(Function function) throws Exception {
+      Type parent = function.getType();
+      int modifiers = function.getModifiers();
       
-      if(length >0) {
-         Type[] types = new Type[length];
+      if(!ModifierType.isAbstract(modifiers)) {
+         Signature signature = function.getSignature();
+         List<Parameter> parameters = signature.getParameters();
+         String name = function.getName();
+         int length = parameters.size();
          
-         for(int i = 0; i < length; i++){
-            Parameter parameter = parameters.get(i);
-            Type type = parameter.getType();
+         if(length >0) {
+            Type[] types = new Type[length];
             
-            types[i] = type;
-         }
-         int count = resolver.resolves(parent, name, types);
-         
-         if(count > 1) {
-            throw new IllegalStateException("Function '" + require +"' has a duplicate '" + actual + "'");
+            for(int i = 0; i < length; i++){
+               Parameter parameter = parameters.get(i);
+               Type type = parameter.getType();
+               
+               types[i] = type;
+            }
+            Function resolved = resolver.resolve(parent, name, types);
+            
+            if(resolved != function) {
+               throw new IllegalStateException("Function '" + function +"' has a duplicate '" + resolved + "'");
+            }
          }
       }
    }

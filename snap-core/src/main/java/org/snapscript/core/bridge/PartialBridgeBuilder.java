@@ -8,7 +8,6 @@ import org.snapscript.core.Result;
 import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
-import org.snapscript.core.define.Instance;
 import org.snapscript.core.function.Invocation;
 
 public class PartialBridgeBuilder implements BridgeBuilder {
@@ -18,22 +17,22 @@ public class PartialBridgeBuilder implements BridgeBuilder {
    }
 
    @Override
-   public Instance superInstance(Scope scope, Type real, Object... list) {
+   public Invocation superConstructor(Type type, Type real) {
       throw new IllegalStateException("Could not create '" + real + "' super constructor");
    }
 
    @Override
-   public Invocation superInvocation(Scope scope, Class proxy, Method method) {
-      throw new IllegalStateException("Could not create " + proxy + " super method");
+   public Invocation superMethod(Type type, Method method) {
+      throw new IllegalStateException("Could not create " + method + " super method");
    }
 
    @Override
-   public Invocation thisInvocation(Scope scope, Method method) {
+   public Invocation thisMethod(Type type, Method method) {
       return new DelegateMethodInvocation(method);
    }
 
    @Override
-   public Invocation thisInvocation(Scope scope, Constructor constructor) {
+   public Invocation thisConstructor(Type type, Constructor constructor) {
       return new DelegateConstructorInvocation(constructor);
    } 
    
