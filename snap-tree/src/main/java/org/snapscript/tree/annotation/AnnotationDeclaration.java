@@ -13,7 +13,7 @@ import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.annotation.MapAnnotation;
 import org.snapscript.tree.construct.MapEntryList;
 
-public class AnnotationDeclaration implements Evaluation {
+public class AnnotationDeclaration extends Evaluation {
 
    private AnnotationName name;
    private MapEntryList list;

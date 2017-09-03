@@ -17,6 +17,12 @@ public class SuperFactory extends TypeFactory {
       this.builder = new SuperInstanceBuilder(type);
       this.expression = expression;
    }
+   
+   @Override
+   public Result compile(Scope instance, Type real) throws Exception {
+      expression.compile(instance, real);
+      return ResultType.getNormal(null);
+   }
 
    @Override
    public Result execute(Scope instance, Type real) throws Exception {

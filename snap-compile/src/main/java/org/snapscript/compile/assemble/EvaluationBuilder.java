@@ -13,7 +13,6 @@ import org.snapscript.core.Evaluation;
 import org.snapscript.core.FilePathConverter;
 import org.snapscript.core.Path;
 import org.snapscript.core.PathConverter;
-import org.snapscript.core.Reserved;
 import org.snapscript.parse.SyntaxCompiler;
 import org.snapscript.parse.SyntaxNode;
 import org.snapscript.parse.SyntaxParser;

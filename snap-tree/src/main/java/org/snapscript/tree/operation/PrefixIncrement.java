@@ -3,9 +3,10 @@ package org.snapscript.tree.operation;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
+import org.snapscript.core.ValueType;
 import org.snapscript.parse.Token;
 
-public class PrefixIncrement implements Evaluation {
+public class PrefixIncrement extends Evaluation {
    
    private final Evaluation evaluation;
    private final Token operator;
@@ -13,6 +14,12 @@ public class PrefixIncrement implements Evaluation {
    public PrefixIncrement(Token operator, Evaluation evaluation) {
       this.evaluation = evaluation;
       this.operator = operator;
+   }
+   
+   @Override
+   public Value compile(Scope scope, Object context) throws Exception {
+      evaluation.compile(scope, null);
+      return ValueType.getTransient(null);
    }
    
    @Override

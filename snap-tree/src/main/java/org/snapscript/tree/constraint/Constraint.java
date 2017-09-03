@@ -5,7 +5,7 @@ import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
 
-public class Constraint implements Evaluation {
+public class Constraint extends Evaluation {
    
    private Evaluation constraint;
    private Value type;

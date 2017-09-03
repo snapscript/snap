@@ -8,7 +8,7 @@ import org.snapscript.core.ValueType;
 import org.snapscript.core.function.Function;
 import org.snapscript.tree.NameReference;
 
-public class FunctionReference implements Evaluation {
+public class FunctionReference extends Evaluation {
    
    private final FunctionReferenceBuilder builder;
    private final NameReference reference;
@@ -18,6 +18,12 @@ public class FunctionReference implements Evaluation {
       this.builder = new FunctionReferenceBuilder();
       this.reference = new NameReference(method);
       this.variable = variable;
+   }
+   
+   @Override
+   public Value compile(Scope scope, Object left) throws Exception {
+      variable.compile(scope, null);
+      return ValueType.getTransient(null);
    }
 
    @Override

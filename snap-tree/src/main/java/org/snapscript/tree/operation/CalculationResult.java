@@ -5,7 +5,7 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
 import org.snapscript.core.ValueType;
 
-public class CalculationResult implements Evaluation {
+public class CalculationResult extends Evaluation {
 
    private final Object value;
 

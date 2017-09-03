@@ -5,7 +5,7 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
 import org.snapscript.parse.StringToken;
 
-public class ReferenceNavigation implements Evaluation {
+public class ReferenceNavigation extends Evaluation {
    
    private final ReferenceOperator operator;
    private final Evaluation part;
@@ -19,6 +19,14 @@ public class ReferenceNavigation implements Evaluation {
       this.operator = ReferenceOperator.resolveOperator(operator);
       this.part = part;
       this.next = next;
+   }
+   
+   @Override
+   public Value compile(Scope scope, Object context) throws Exception {
+      if(next != null) {
+         next.compile(scope, null);
+      }
+      return part.compile(scope, null);
    }
    
    @Override

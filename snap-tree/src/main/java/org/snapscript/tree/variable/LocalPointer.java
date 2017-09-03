@@ -25,7 +25,7 @@ public class LocalPointer implements VariablePointer<Object> {
       
       if(result == null) {
          State state = scope.getState();
-         Value variable = state.get(name);
+         Value variable = state.getScope(name);
          
          if(variable == null) { 
             Object value = resolver.resolve(scope, name);

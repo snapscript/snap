@@ -55,22 +55,26 @@ public class ForStatement implements Compilation {
       }
       
       @Override
-      public Result compile(Scope scope) throws Exception {   
+      public Result compile(Scope scope) throws Exception {
+         declaration.compile(scope);
+         condition.compile(scope, null);
+         assignment.compile(scope, null);
+         
          return body.compile(scope);
       }
       
       @Override
       public Result execute(Scope scope) throws Exception {
-         Scope compound = scope.getInner();
+         //Scope compound = scope.getInner();
          
-         declaration.execute(compound);
+         declaration.execute(scope);
          
          while(true) {
-            Value result = condition.evaluate(compound, null);
+            Value result = condition.evaluate(scope, null);
             Boolean value = result.getBoolean();
             
             if(value.booleanValue()) {
-               Result next = body.execute(compound);
+               Result next = body.execute(scope);
                
                if(next.isReturn()) {
                   return next;
@@ -82,7 +86,7 @@ public class ForStatement implements Compilation {
                return normal;
             } 
             if(assignment != null) {
-               assignment.evaluate(compound, null);
+               assignment.evaluate(scope, null);
             }
          }
       }

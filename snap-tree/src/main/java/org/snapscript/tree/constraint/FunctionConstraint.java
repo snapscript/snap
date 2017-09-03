@@ -8,7 +8,7 @@ import org.snapscript.core.ValueType;
 import org.snapscript.core.function.Signature;
 import org.snapscript.tree.function.ParameterList;
 
-public class FunctionConstraint implements Evaluation {
+public class FunctionConstraint extends Evaluation {
 
    private final ParameterList list;
    

@@ -27,7 +27,7 @@ public class StaticAccessor implements Accessor {
    public Object getValue(Object source) {
       try {
          State state = scope.getState();
-         Value field = state.get(name);
+         Value field = state.getScope(name);
          
          if(field == null) {
             factory.compile(scope, type);           
@@ -42,7 +42,7 @@ public class StaticAccessor implements Accessor {
    public void setValue(Object source, Object value) {
       try {
          State state = scope.getState();
-         Value field = state.get(name);
+         Value field = state.getScope(name);
          
          if(field == null) {
             factory.compile(scope, type);           

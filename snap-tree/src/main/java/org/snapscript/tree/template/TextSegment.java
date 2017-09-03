@@ -4,7 +4,7 @@ import java.io.Writer;
 
 import org.snapscript.core.Scope;
 
-public class TextSegment implements Segment {
+public class TextSegment extends Segment {
    
    private final String text;
    private final char[] source;

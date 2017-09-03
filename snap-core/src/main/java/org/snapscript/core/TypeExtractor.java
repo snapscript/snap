@@ -18,10 +18,17 @@ public class TypeExtractor {
    }
    
    public Type getType(Class type) {
-      if(type != null) {
-         return loader.loadType(type);
+      Type match = matches.fetch(type);
+      
+      if(match == null) {
+         Type actual = loader.loadType(type);
+         
+         if(actual != null) {
+            matches.cache(type, actual);
+         }
+         return actual;
       }
-      return null;
+      return match;
    }
    
    public Type getType(Object value) {

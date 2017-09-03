@@ -1,11 +1,13 @@
 package org.snapscript.tree;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
 import org.snapscript.core.Result;
+import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Value;
@@ -40,6 +42,13 @@ public class ThrowStatement implements Compilation {
       public CompileResult(Evaluation evaluation) {
          this.evaluation = evaluation; 
       }   
+      
+      @Bug("is ResultType.getNormal() a valid return")
+      @Override
+      public Result compile(Scope scope) throws Exception {
+         evaluation.compile(scope, null);
+         return ResultType.getNormal();
+      }
    
       @Override
       public Result execute(Scope scope) throws Exception {

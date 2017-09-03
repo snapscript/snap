@@ -11,7 +11,7 @@ import org.snapscript.core.Model;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SprintContextTest extends TestCase {
+public class SpringContextTest extends TestCase {
 
     public static interface ApplicationContext {
         <T> T getBean(String name);

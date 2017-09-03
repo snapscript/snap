@@ -1,5 +1,8 @@
 package org.snapscript.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CompoundScope implements Scope {
    
    private final State state;
@@ -7,14 +10,19 @@ public class CompoundScope implements Scope {
    private final Model model;
    
    public CompoundScope(Model model, Scope inner, Scope outer) {
-      this.state = new MapState(model, inner);  
+      this(model, inner, outer, null);
+   }
+   
+   public CompoundScope(Model model, Scope inner, Scope outer, List<Value> stack) {
+      this.state = new MapState(model, inner, stack);  
       this.outer = outer;
       this.model = model;
    } 
   
    @Override
    public Scope getInner() {
-      return new StateScope(model, this, outer);
+      throw new IllegalStateException("stack inner");
+      //return new StateScope(model, this, outer, state.getStack());
    }  
    
    @Override
@@ -57,16 +65,22 @@ public class CompoundScope implements Scope {
       private final State state;
       private final Scope outer;
       private final Model model;
+      private final List<Value> stack;
       
       public StateScope(Model model, Scope inner, Scope outer) {
-         this.state = new MapState(null, inner); // ignore model
+         this(model, inner, outer, null);
+      }
+      
+      public StateScope(Model model, Scope inner, Scope outer, List<Value> stack) {
+         this.stack = stack == null ?new ArrayList<Value>() : stack;
+         this.state = new MapState(null, inner, this.stack); // ignore model
          this.outer = outer;
          this.model = model;
       }
 
       @Override
       public Scope getInner() {
-         return new StateScope(model, this, outer);
+         return new StateScope(model, this, outer, stack);
       }
       
       @Override

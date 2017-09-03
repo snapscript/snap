@@ -1,11 +1,14 @@
 package org.snapscript.core.define;
 
+import java.util.List;
+
 import org.snapscript.core.MapState;
 import org.snapscript.core.Model;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Type;
+import org.snapscript.core.Value;
 import org.snapscript.core.platform.Bridge;
 
 public class CompoundInstance implements Instance {
@@ -18,7 +21,11 @@ public class CompoundInstance implements Instance {
    private final Type type;
    
    public CompoundInstance(Module module, Model model, Instance instance, Scope outer, Type type) {
-      this.state = new MapState(model, outer);
+      this(module, model, instance, outer, type, null);
+   }
+   
+   public CompoundInstance(Module module, Model model, Instance instance, Scope outer, Type type, List<Value> stack) {
+      this.state = new MapState(model, outer, stack);
       this.instance = instance;
       this.module = module;
       this.outer = outer;
@@ -28,7 +35,8 @@ public class CompoundInstance implements Instance {
    
    @Override
    public Instance getInner() {
-      return new CompoundInstance(module, model, instance, this, type);
+      throw new IllegalStateException("Unable to get inner");
+      //return new CompoundInstance(module, model, instance, this, type, state.getStack());
    } 
    
    @Override

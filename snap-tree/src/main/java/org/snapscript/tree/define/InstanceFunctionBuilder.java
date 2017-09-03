@@ -8,8 +8,11 @@ import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
+import org.snapscript.core.function.InvocationBuilder;
 import org.snapscript.core.function.InvocationFunction;
 import org.snapscript.core.function.Signature;
+import org.snapscript.core.function.StatementFunction;
+import org.snapscript.tree.StatementConverter;
 
 public class InstanceFunctionBuilder implements MemberFunctionBuilder {
       
@@ -28,8 +31,9 @@ public class InstanceFunctionBuilder implements MemberFunctionBuilder {
    }
    
    @Override
-   public Function create(TypeFactory factory, Scope scope, Type type){
-      Invocation invocation = new InstanceInvocation(signature, body, constraint, name);
+   public StatementFunction create(TypeFactory factory, Scope scope, Type type){
+      InvocationBuilder builder = new StatementConverter(signature, body, body, constraint);
+      Invocation invocation = new InstanceInvocation(builder, signature, name, body == null);
       Function function = new InvocationFunction(signature, invocation, type, constraint, name, modifiers);
       
       if(!ModifierType.isAbstract(modifiers)) {
@@ -37,6 +41,6 @@ public class InstanceFunctionBuilder implements MemberFunctionBuilder {
             throw new InternalStateException("Function '" + function + "' is not abstract");
          }
       }
-      return function;
+      return new StatementFunction(builder, body, function);
    }
 }

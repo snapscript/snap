@@ -4,7 +4,7 @@ import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
 
-public abstract class Literal implements Evaluation {
+public abstract class Literal extends Evaluation {
    
    private volatile Value value;
    

@@ -1,5 +1,7 @@
 package org.snapscript.tree;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.snapscript.core.Result;
 import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
@@ -18,10 +20,12 @@ public class CatchBlockList {
    private final ErrorCauseExtractor extractor;
    private final CompatibilityChecker checker;
    private final CatchBlock[] blocks;
+   private final AtomicInteger index;
    
    public CatchBlockList(CatchBlock... blocks) {
       this.extractor = new ErrorCauseExtractor();
       this.checker = new CompatibilityChecker();
+      this.index = new AtomicInteger(-1);
       this.blocks = blocks;
    }    
    
@@ -30,6 +34,13 @@ public class CatchBlockList {
          Statement statement = block.getStatement();
          
          if(statement != null) {
+            State state = scope.getState();
+            ParameterDeclaration declaration = block.getDeclaration();
+            Parameter parameter = declaration.get(scope);
+            String name = parameter.getName();
+            int value = state.addLocal(name);
+            
+            index.set(value);
             statement.compile(scope);
          }
       }
@@ -53,8 +64,10 @@ public class CatchBlockList {
                Scope compound = scope.getInner();
                State state = compound.getState();
                Value constant = ValueType.getConstant(cause);
+               int val = index.get();
                
-               state.add(name, constant);
+               state.addLocal(val, constant);
+               state.addScope(name, constant);
 
                return statement.execute(compound);
             }

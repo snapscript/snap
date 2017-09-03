@@ -44,13 +44,21 @@ public class ConstructSet implements Compilation {
       return new TraceEvaluation(interceptor, construct, trace);
    }
    
-   private static class CompileResult implements Evaluation {
+   private static class CompileResult extends Evaluation {
 
       private final ArgumentList arguments;
       
       public CompileResult(ArgumentList arguments) {
          this.arguments = arguments;
       }   
+      
+      @Override
+      public Value compile(Scope scope, Object left) throws Exception { // this is rubbish
+         if(arguments != null) {
+            arguments.compile(scope);      
+         }   
+         return ValueType.getTransient(null);
+      }
       
       @Override
       public Value evaluate(Scope scope, Object left) throws Exception { // this is rubbish

@@ -2,6 +2,7 @@ package org.snapscript.tree.function;
 
 import java.util.List;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Module;
 import org.snapscript.core.Result;
@@ -11,6 +12,7 @@ import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Signature;
+import org.snapscript.core.function.StatementFunction;
 import org.snapscript.tree.NameReference;
 import org.snapscript.tree.constraint.Constraint;
 import org.snapscript.tree.constraint.ConstraintReference;
@@ -21,7 +23,6 @@ public class ScriptFunction extends Statement {
    private final ParameterList parameters;
    private final FunctionBuilder builder;
    private final NameReference identifier;
-   private final Statement body;
    
    public ScriptFunction(Evaluation identifier, ParameterList parameters, Statement body){  
       this(identifier, parameters, null, body);
@@ -32,9 +33,9 @@ public class ScriptFunction extends Statement {
       this.identifier = new NameReference(identifier);
       this.builder = new FunctionBuilder(body);
       this.parameters = parameters;
-      this.body = body;
    }  
    
+   @Bug("clean me")
    @Override
    public Result compile(Scope scope) throws Exception {
       Module module = scope.getModule();
@@ -42,10 +43,12 @@ public class ScriptFunction extends Statement {
       Signature signature = parameters.create(scope);
       String name = identifier.getName(scope);
       Type returns = constraint.getConstraint(scope);
-      Function function = builder.create(signature, module, returns, name);
+      StatementFunction f = builder.create(signature, module, returns, name);
+      Function function = f.getFunction(scope);
+      //Scope inner = scope.getInner();
       
       functions.add(function);
-      body.compile(scope);
+      f.compile(scope); // count stack
       
       return ResultType.getNormal(function);
    }

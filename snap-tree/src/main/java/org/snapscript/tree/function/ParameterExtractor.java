@@ -21,24 +21,43 @@ public class ParameterExtractor {
       this.checker = new CompatibilityChecker();
       this.signature = signature;
    }
+   
+   public void compile(Scope scope) throws Exception {
+      List<Parameter> parameters = signature.getParameters();
+      int size = parameters.size();
+      
+      if(size > 0) {
+         State state = scope.getState();
+         
+         for(int i = 0; i < size; i++) {
+            Parameter parameter = parameters.get(i);
+            String name = parameter.getName();
+            
+            state.addLocal(name);
+         }
+      }
+   }
 
    public Scope extract(Scope scope, Object[] arguments) throws Exception {
-      if(arguments.length > 0) {
-         List<Parameter> parameters = signature.getParameters();
-         Scope inner = scope.getInner();
+      List<Parameter> parameters = signature.getParameters();
+      Scope inner = scope.getInner();
+      int size = parameters.size();
+      
+      if(size > 0) {
          State state = inner.getState();
          
-         for(int i = 0; i < arguments.length; i++) {
+         for(int i = 0; i < size; i++) {
             Parameter parameter = parameters.get(i);
             String name = parameter.getName();
             Object argument = arguments[i];
             Value value = create(inner, argument, i);
             
-            state.add(name, value);
+            state.addLocal(i, value);
+            state.addScope(name, value);
          }
          return inner;
       }
-      return scope;
+      return inner;
    }
 
    private Value create(Scope scope, Object value, int index) throws Exception {

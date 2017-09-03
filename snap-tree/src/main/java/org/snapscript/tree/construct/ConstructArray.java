@@ -34,7 +34,7 @@ public class ConstructArray implements Compilation {
       return new TraceEvaluation(interceptor, construct, trace);
    }
    
-   private static class CompileResult implements Evaluation {
+   private static class CompileResult extends Evaluation {
    
       private final ArrayBuilder builder;
       private final Argument[] arguments;
@@ -45,6 +45,16 @@ public class ConstructArray implements Compilation {
          this.reference = reference;
          this.arguments = arguments;
       }      
+
+      @Override
+      public Value compile(Scope scope, Object left) throws Exception { // this is rubbish
+         reference.compile(scope, null);
+         
+         for(int i = 0; i < arguments.length; i++) {
+            arguments[i].compile(scope, null);
+         }
+         return ValueType.getTransient(null);
+      }
       
       @Override
       public Value evaluate(Scope scope, Object left) throws Exception { // this is rubbish

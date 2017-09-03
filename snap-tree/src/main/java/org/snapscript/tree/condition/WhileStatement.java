@@ -39,13 +39,14 @@ public class WhileStatement implements Compilation {
       private final Evaluation condition;
       private final Statement body;
       
-      public CompileResult(Evaluation evaluation, Statement body) {
-         this.condition = evaluation;
+      public CompileResult(Evaluation condition, Statement body) {
+         this.condition = condition;
          this.body = body;
       }
       
       @Override
-      public Result compile(Scope scope) throws Exception {   
+      public Result compile(Scope scope) throws Exception { 
+         condition.compile(scope, null);
          return body.compile(scope);
       }
       

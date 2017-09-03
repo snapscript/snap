@@ -1,11 +1,12 @@
 package org.snapscript.tree.define;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.Identity;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Type;
-import org.snapscript.core.Identity;
 import org.snapscript.core.TypeFactory;
 import org.snapscript.core.Value;
 import org.snapscript.tree.DeclarationAllocator;
@@ -39,7 +40,7 @@ public class MemberFieldAssembler {
       return new Declaration(name, type, declare, modifiers);
    }
    
-   private static class Declaration implements Evaluation {
+   private static class Declaration extends Evaluation {
       
       private final DeclarationAllocator allocator;
       private final Constraint constraint;
@@ -53,7 +54,7 @@ public class MemberFieldAssembler {
          this.allocator = new MemberFieldAllocator(constraint, declare);
          this.modifiers = modifiers;
          this.name = name;
-      }   
+      }  
 
       @Override
       public Value evaluate(Scope scope, Object left) throws Exception {
@@ -61,7 +62,7 @@ public class MemberFieldAssembler {
          State state = scope.getState();
          
          try { 
-            state.add(name, value);
+            state.addScope(name, value);
          }catch(Exception e) {
             throw new InternalStateException("Declaration of variable '" + name +"' failed", e);
          }  

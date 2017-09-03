@@ -9,7 +9,6 @@ import org.snapscript.core.link.PackageLoader;
 import org.snapscript.core.link.PackageManager;
 import org.snapscript.core.platform.CachePlatformProvider;
 import org.snapscript.core.platform.PlatformProvider;
-import org.snapscript.core.stack.ThreadStack;
 
 public class TypeLoader {
    

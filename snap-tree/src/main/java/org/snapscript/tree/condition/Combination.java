@@ -4,9 +4,10 @@ import org.snapscript.core.BooleanValue;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
+import org.snapscript.core.ValueType;
 import org.snapscript.parse.StringToken;
 
-public class Combination implements Evaluation {
+public class Combination extends Evaluation {
    
    private final ConditionalOperator operator;
    private final Evaluation right;
@@ -20,6 +21,14 @@ public class Combination implements Evaluation {
       this.operator = ConditionalOperator.resolveOperator(operator);
       this.right = right;
       this.left = left;
+   }
+
+   @Override
+   public Value compile(Scope scope, Object context) throws Exception { 
+      left.compile(scope, context);
+      right.compile(scope, context);
+      
+      return ValueType.getTransient(null);
    }
    
    @Override

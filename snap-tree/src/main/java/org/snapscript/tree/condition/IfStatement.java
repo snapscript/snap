@@ -54,6 +54,8 @@ public class IfStatement implements Compilation {
       
       @Override
       public Result compile(Scope scope) throws Exception {
+         condition.compile(scope, null);
+         
          if(negative != null) {
             negative.compile(scope);
          }       

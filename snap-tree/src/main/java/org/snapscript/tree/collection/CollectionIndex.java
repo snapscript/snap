@@ -10,13 +10,14 @@ import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
+import org.snapscript.core.ValueType;
 import org.snapscript.core.convert.ProxyWrapper;
 import org.snapscript.tree.Argument;
 
-public class CollectionIndex implements Evaluation {
+public class CollectionIndex extends Evaluation {
    
    private final CollectionConverter converter;
-   private final Evaluation[] evaluations;
+   private final Evaluation[] evaluations; // func()[1][3]
    private final Evaluation variable;
    private final Argument argument;
   
@@ -27,6 +28,17 @@ public class CollectionIndex implements Evaluation {
       this.variable = variable;  
    }
 
+   @Override
+   public Value compile(Scope scope, Object left) throws Exception {
+      variable.compile(scope, left);
+      argument.compile(scope, left);
+      
+      for(Evaluation evaluation : evaluations) {
+         evaluation.compile(scope, left);
+      }
+      return ValueType.getTransient(null);
+   }
+   
    @Override
    public Value evaluate(Scope scope, Object left) throws Exception {
       Value value = variable.evaluate(scope, left);

@@ -17,6 +17,11 @@ public class MapEntry {
       this.key = key;
    }
    
+   public void compile(Scope scope) throws Exception{
+      key.compile(scope, null);
+      value.compile(scope, null);
+   }
+   
    public Entry create(Scope scope) throws Exception{
       Value valueResult = value.evaluate(scope, null);
       Value keyResult = key.evaluate(scope, null);

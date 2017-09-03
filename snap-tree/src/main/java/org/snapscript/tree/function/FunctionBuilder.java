@@ -6,8 +6,11 @@ import org.snapscript.core.Type;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionType;
 import org.snapscript.core.function.Invocation;
+import org.snapscript.core.function.InvocationBuilder;
 import org.snapscript.core.function.InvocationFunction;
 import org.snapscript.core.function.Signature;
+import org.snapscript.core.function.StatementFunction;
+import org.snapscript.tree.StatementConverter;
 
 public class FunctionBuilder {
 
@@ -17,10 +20,12 @@ public class FunctionBuilder {
       this.statement = statement;
    }
 
-   public Function create(Signature signature, Module module, Type constraint, String name) {
+   public StatementFunction create(Signature signature, Module module, Type constraint, String name) {
       Type type = new FunctionType(signature, module, null);
-      Invocation invocation = new StatementInvocation(signature, statement, constraint);
+      InvocationBuilder builder = new StatementConverter(signature, statement, statement, constraint);
+      Invocation invocation = new StatementInvocation(builder, signature);
+      Function function = new InvocationFunction(signature, invocation, type, constraint, name, 0);
       
-      return new InvocationFunction(signature, invocation, type, constraint, name, 0);
+      return new StatementFunction(builder, statement, function);
    }
 }

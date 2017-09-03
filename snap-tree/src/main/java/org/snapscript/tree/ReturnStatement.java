@@ -54,6 +54,14 @@ public class ReturnStatement implements Compilation {
       }
       
       @Override
+      public Result compile(Scope scope) throws Exception {
+         if(evaluation != null) {
+            evaluation.compile(scope, null);
+         }
+         return ResultType.getReturn();
+      }
+      
+      @Override
       public Result execute(Scope scope) throws Exception {
          if(evaluation != null) {
             Value value = evaluation.evaluate(scope, null);

@@ -1,7 +1,9 @@
 package org.snapscript.core;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -9,7 +11,9 @@ import org.snapscript.common.CompoundIterator;
 
 public class MapState implements State {
    
+   private final Map<String, Integer> locals;
    private final Map<String, Value> values;
+   private final List<Value> stack;
    private final Scope scope;
    private final Model model;
    
@@ -20,11 +24,23 @@ public class MapState implements State {
    public MapState(Model model) {
       this(model, null);
    }
-   
+
+   @Bug("set state")
    public MapState(Model model, Scope scope) {
+      this(model, scope, null);
+   }
+   
+   @Bug("set state")
+   public MapState(Model model, Scope scope, List<Value> stack) {
+      this.locals = new HashMap<String, Integer>();
       this.values = new HashMap<String, Value>();
+      this.stack = stack == null  ? new ArrayList<Value>(): stack;
       this.model = model;
       this.scope = scope;
+   }
+   
+   public List<Value> getStack(){
+      return stack;
    }
    
    @Override
@@ -42,7 +58,7 @@ public class MapState implements State {
    }
 
    @Override
-   public Value get(String name) {
+   public Value getScope(String name) {
       Value value = values.get(name);
       
       if(value == null && scope != null) {
@@ -51,7 +67,7 @@ public class MapState implements State {
          if(state == null) {
             throw new InternalStateException("Scope for '" + name + "' does not exist");
          }
-         value = state.get(name);
+         value = state.getScope(name);
       }
       if(value == null && model != null) {
          Object object = model.getAttribute(name);
@@ -64,13 +80,70 @@ public class MapState implements State {
    }
    
    @Override
-   public void add(String name, Value value) {
+   public void addScope(String name, Value value) {
       Value variable = values.get(name);
 
       if(variable != null) {
          throw new InternalStateException("Variable '" + name + "' already exists");
       }
-      values.put(name, value);      
+      values.put(name, value);
+   }
+   
+   @Bug("fix local value get")
+   @Override
+   public Value getLocal(int index) {
+      try {
+         return stack.get(index);
+      }catch(RuntimeException e){
+         e.printStackTrace();
+         throw e;
+      }
+   }
+   
+   @Override
+   public void addLocal(int index, Value value) {
+      int size = stack.size();
+      if(index >= size) {
+         for(int i = size; i <= index; i++){
+            stack.add(null);
+         }
+      }
+      try{
+         stack.set(index, value);
+      }catch(Exception e){
+         e.printStackTrace();
+      }
+   }
+
+   @Bug("fix local value get")
+   @Override
+   public int getLocal(String name) {
+      Integer index = locals.get(name);
+      if(index != null){
+         return index;
+      }
+      return -1;
+   }
+   
+   @Override
+   public int addLocal(String name) {
+      Integer ex=locals.get(name);
+      if(ex==null){
+         int index = locals.size();
+         locals.put(name, index);
+         return index;
+      }
+      return ex;
+   }
+   
+   @Override
+   public Set<String> getLocals(){
+      return locals.keySet();
+   }
+   
+   @Override
+   public int getDepth(){
+      return locals.size();
    }
    
    @Override

@@ -46,7 +46,7 @@ public class Closure implements Compilation {
       return new CompileResult(parameters, closure, module);
    }
   
-   private static class CompileResult implements Evaluation {
+   private static class CompileResult extends Evaluation {
    
       private final ClosureScopeExtractor extractor;
       private final ClosureParameterList parameters;
@@ -62,6 +62,12 @@ public class Closure implements Compilation {
          this.parameters = parameters;
          this.closure = closure;
          this.module = module;
+      }
+
+      @Override
+      public Value compile(Scope scope, Object left) throws Exception {
+         extractor.compile(scope);
+         return ValueType.getTransient(null);
       }
       
       @Override

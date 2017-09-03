@@ -41,6 +41,12 @@ public class ExpressionStatement implements Compilation {
       public CompileResult(Evaluation expression) {
          this.expression = expression;
       }
+      
+      @Override
+      public Result compile(Scope scope) throws Exception {
+         expression.compile(scope, null);
+         return ResultType.getNormal();
+      }
    
       @Override
       public Result execute(Scope scope) throws Exception {

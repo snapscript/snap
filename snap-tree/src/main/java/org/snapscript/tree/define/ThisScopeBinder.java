@@ -15,7 +15,7 @@ public class ThisScopeBinder {
    public Scope bind(Scope scope, Scope instance) {
       if(instance != null) {
          State state = instance.getState();
-         Value value = state.get(TYPE_THIS);
+         Value value = state.getScope(TYPE_THIS);
          
          if(value != null) {
             return value.getValue();

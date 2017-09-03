@@ -17,7 +17,7 @@ public class ArrayIndexTest extends TestCase {
    "   }\n"+
    "}\n"+
    "var arr = new Point[10];\n"+
-   "for(var i in 0..1000000){\n"+
+   "for(var i in 0..2){\n"+
    "   arr[2]=new Point(2,4);\n"+
    "}\n";
    

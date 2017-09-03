@@ -75,6 +75,10 @@ public enum NumericOperator {
       public Value operate(Value left, Value right) {
          NumericConverter converter = NumericConverter.resolveConverter(left, right);
          Double first = left.getDouble(); 
+         Object x = right.getValue();
+         if(x.getClass().toString().contains("SunGraphics2D")){
+            System.err.println(x);
+         }
          Double second = right.getDouble();
 
          return converter.convert(first - second);

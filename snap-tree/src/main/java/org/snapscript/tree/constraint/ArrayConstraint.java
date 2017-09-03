@@ -11,7 +11,7 @@ import org.snapscript.core.ValueType;
 import org.snapscript.parse.StringToken;
 import org.snapscript.tree.reference.TypeReference;
 
-public class ArrayConstraint implements Evaluation {
+public class ArrayConstraint extends Evaluation {
 
    private final TypeReference reference;
    private final StringToken[] bounds;

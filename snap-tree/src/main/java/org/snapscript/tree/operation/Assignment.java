@@ -5,9 +5,10 @@ import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
+import org.snapscript.core.ValueType;
 import org.snapscript.parse.StringToken;
 
-public class Assignment implements Evaluation {
+public class Assignment extends Evaluation {
 
    private final AssignmentOperator operator;
    private final Evaluation left;
@@ -17,6 +18,14 @@ public class Assignment implements Evaluation {
       this.operator = AssignmentOperator.resolveOperator(operator);
       this.left = left;
       this.right = right;
+   }
+   
+   @Override
+   public Value compile(Scope scope, Object context) throws Exception { // this is rubbish
+      left.compile(scope, context);
+      right.compile(scope, context);
+      
+      return ValueType.getTransient(null);
    }
    
    @Override

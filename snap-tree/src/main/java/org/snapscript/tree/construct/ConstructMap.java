@@ -42,13 +42,21 @@ public class ConstructMap implements Compilation {
       return new TraceEvaluation(interceptor, construct, trace);
    }
    
-   private static class CompileResult implements Evaluation {
+   private static class CompileResult extends Evaluation {
 
       private final MapEntryList list;
       
       public CompileResult(MapEntryList list) {
          this.list = list;
       }   
+      
+      @Override
+      public Value compile(Scope scope, Object context) throws Exception { // this is rubbish
+         if(list != null) {
+            return list.compile(scope, context);
+         }
+         return ValueType.getTransient(null);
+      }
       
       @Override
       public Value evaluate(Scope scope, Object context) throws Exception { // this is rubbish

@@ -13,7 +13,7 @@ import org.snapscript.core.ValueType;
 import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.tree.ArgumentList;
 
-public class ReferenceInvocation implements Evaluation {
+public class ReferenceInvocation extends Evaluation {
    
    private final ArgumentList arguments;
    

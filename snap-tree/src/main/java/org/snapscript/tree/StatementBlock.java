@@ -40,16 +40,10 @@ public class StatementBlock extends Statement {
       }
       
       public StatementExecutor compile(Scope scope) throws Exception {
-         int count = 0;
-         
          for(Statement statement : statements) {
-            Result result = statement.compile(scope);
-            
-            if(result.isDeclare()){
-               count++;
-            }
+            statement.compile(scope);
          }
-         return new StatementExecutor(statements, count);
+         return new StatementExecutor(statements);
       }
    }
    
@@ -57,23 +51,17 @@ public class StatementBlock extends Statement {
       
       private final Statement[] statements;
       private final Result normal;
-      private final int depth;
       
-      public StatementExecutor(Statement[] statements, int depth) {
+      public StatementExecutor(Statement[] statements) {
          this.normal = ResultType.getNormal();
          this.statements = statements;
-         this.depth = depth;
       }
       
       public Result execute(Scope scope) throws Exception {
-         Scope compound = scope;
          Result last = normal;
-         
-         if(depth > 0) {
-            compound = compound.getInner();
-         }
+
          for(Statement statement : statements) {
-            Result result = statement.execute(compound);
+            Result result = statement.execute(scope);
             
             if(!result.isNormal()){
                return result;

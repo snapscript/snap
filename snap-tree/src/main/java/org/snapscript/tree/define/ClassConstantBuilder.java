@@ -42,7 +42,7 @@ public class ClassConstantBuilder {
       State state = scope.getState();
 
       properties.add(property);
-      state.add(name, constant);
+      state.addScope(name, constant);
    }
    
    protected void declareConstant(Scope scope, String name, Type type, Type parent, Object value) throws Exception {
@@ -52,6 +52,6 @@ public class ClassConstantBuilder {
       State state = scope.getState();
 
       properties.add(property);
-      state.add(name, constant);
+      state.addScope(name, constant);
    }
 }

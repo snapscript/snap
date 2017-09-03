@@ -17,7 +17,7 @@ import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.tree.ArgumentList;
 import org.snapscript.tree.reference.CompiledReference;
 
-public class CreateObject implements Evaluation {
+public class CreateObject extends Evaluation {
    
    private final ArgumentList arguments;
    private final Evaluation reference;
@@ -26,6 +26,14 @@ public class CreateObject implements Evaluation {
       this.reference = new CompiledReference(reference);
       this.arguments = arguments;
    }      
+
+   @Override
+   public Value compile(Scope scope, Object left) throws Exception { 
+      if(arguments != null) {
+         arguments.compile(scope);
+      }
+      return ValueType.getTransient(null);
+   }
    
    @Override
    public Value evaluate(Scope scope, Object left) throws Exception { // this is rubbish

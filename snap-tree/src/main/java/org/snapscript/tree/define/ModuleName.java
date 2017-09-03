@@ -6,7 +6,7 @@ import org.snapscript.core.Value;
 import org.snapscript.core.ValueType;
 import org.snapscript.tree.literal.TextLiteral;
 
-public class ModuleName implements Evaluation {
+public class ModuleName extends Evaluation {
    
    private final TextLiteral literal;
    

@@ -5,7 +5,7 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
 import org.snapscript.core.ValueType;
 
-public class Range implements Evaluation {
+public class Range extends Evaluation {
 
    private final Evaluation start;
    private final Evaluation finish;
@@ -15,6 +15,14 @@ public class Range implements Evaluation {
       this.finish = finish;
    }
 
+   @Override
+   public Value compile(Scope scope, Object left) throws Exception {
+      start.compile(scope, left); // compile for stack reference
+      finish.compile(scope, left);
+      
+      return ValueType.getTransient(null);
+   }
+   
    @Override
    public Value evaluate(Scope scope, Object left) throws Exception {
       Iterable<Number> range = create(scope, left);

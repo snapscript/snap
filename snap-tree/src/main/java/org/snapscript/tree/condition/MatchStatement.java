@@ -59,6 +59,7 @@ public class MatchStatement implements Compilation {
             }
             last = result;
          }
+         condition.compile(scope, null);
          return last;
       }
       

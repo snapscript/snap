@@ -20,7 +20,7 @@ public class DeclarationAllocator {
       this.converter = new DeclarationConverter();
       this.expression = expression;
    }   
-
+   
    public Value allocate(Scope scope, String name, int modifiers) throws Exception {
       Type type = extractor.getConstraint(scope);
       Object object = null;

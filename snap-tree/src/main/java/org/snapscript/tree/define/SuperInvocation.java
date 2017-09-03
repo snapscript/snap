@@ -9,7 +9,7 @@ import org.snapscript.tree.ArgumentList;
 import org.snapscript.tree.NameReference;
 import org.snapscript.tree.dispatch.InvocationDispatcher;
 
-public class SuperInvocation implements Evaluation {
+public class SuperInvocation extends Evaluation {
 
    private final SuperInstanceBuilder builder;
    private final SuperInvocationBinder binder;

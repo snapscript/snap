@@ -6,7 +6,7 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
 import org.snapscript.core.ValueType;
 
-public class TypeReference implements Evaluation {
+public class TypeReference extends Evaluation {
    
    private Evaluation[] list;
    private Value type;

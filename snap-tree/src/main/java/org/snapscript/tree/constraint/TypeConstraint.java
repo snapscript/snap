@@ -4,7 +4,7 @@ import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
 
-public class TypeConstraint implements Evaluation {
+public class TypeConstraint extends Evaluation {
    
    private final Evaluation constraint;
    

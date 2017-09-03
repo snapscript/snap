@@ -1,7 +1,5 @@
 package org.snapscript.core.bind;
 
-import static org.snapscript.core.convert.Score.INVALID;
-
 import org.snapscript.core.Value;
 import org.snapscript.core.convert.Score;
 import org.snapscript.core.function.ArgumentConverter;

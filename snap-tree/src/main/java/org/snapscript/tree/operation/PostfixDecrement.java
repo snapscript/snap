@@ -6,7 +6,7 @@ import org.snapscript.core.Value;
 import org.snapscript.core.ValueType;
 import org.snapscript.parse.Token;
 
-public class PostfixDecrement implements Evaluation {
+public class PostfixDecrement extends Evaluation {
    
    private final Evaluation evaluation;
    private final Token operator;
@@ -14,6 +14,12 @@ public class PostfixDecrement implements Evaluation {
    public PostfixDecrement(Evaluation evaluation, Token operator) {
       this.evaluation = evaluation;
       this.operator = operator;
+   }
+   
+   @Override
+   public Value compile(Scope scope, Object context) throws Exception {
+      evaluation.compile(scope, null);
+      return ValueType.getTransient(null);
    }
    
    @Override

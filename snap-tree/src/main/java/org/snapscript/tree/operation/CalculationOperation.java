@@ -6,7 +6,7 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
 import org.snapscript.core.ValueType;
 
-public class CalculationOperation implements Evaluation {
+public class CalculationOperation extends Evaluation {
 
    private final NumericOperator operator;
    private final Evaluation left;
@@ -16,6 +16,14 @@ public class CalculationOperation implements Evaluation {
       this.operator = operator;
       this.left = left;
       this.right = right;
+   }
+   
+   @Override
+   public Value compile(Scope scope, Object context) throws Exception {
+      left.compile(scope, null);
+      right.compile(scope, null);
+      
+      return ValueType.getTransient(null);
    }
    
    @Override

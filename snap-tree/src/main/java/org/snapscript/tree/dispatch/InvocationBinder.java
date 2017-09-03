@@ -5,6 +5,7 @@ import java.util.Map;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
+import org.snapscript.core.Value;
 import org.snapscript.core.convert.Delegate;
 import org.snapscript.core.function.Function;
 
@@ -35,7 +36,10 @@ public class InvocationBinder {
          }
          if(Delegate.class.isInstance(left)) { 
             return new DelegateDispatcher(scope, left);
-         }         
+         }     
+         if(Value.class.isInstance(left)) {
+            return new ValueDispatcher(scope, left);
+         }
          if(type.isArray()) {
             return new ArrayDispatcher(scope, left);
          }

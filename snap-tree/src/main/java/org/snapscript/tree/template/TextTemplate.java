@@ -11,7 +11,7 @@ import org.snapscript.core.Value;
 import org.snapscript.core.ValueType;
 import org.snapscript.parse.StringToken;
 
-public class TextTemplate implements Evaluation {
+public class TextTemplate extends Evaluation {
 
    private volatile List<Segment> tokens;
    private volatile StringToken template;
@@ -20,22 +20,14 @@ public class TextTemplate implements Evaluation {
       this.tokens = new ArrayList<Segment>();
       this.template = template;
    }
-
+   
    @Override
-   public Value evaluate(Scope scope, Object left) throws Exception {
+   public Value compile(Scope scope, Object left) throws Exception {
       String text = template.getValue();
       
       if(text == null) {
          throw new InternalStateException("Text value was null");
       }
-      String result = interpolate(scope, text);
-   
-      return ValueType.getTransient(result);
-   }
-   
-   private String interpolate(Scope scope, String text) throws Exception {
-      StringWriter writer = new StringWriter();
-            
       if(tokens.isEmpty()) {
          SegmentIterator iterator = new SegmentIterator(text);
          List<Segment> list = new ArrayList<Segment>();
@@ -50,8 +42,19 @@ public class TextTemplate implements Evaluation {
          tokens = list; // atomic swap
       }
       for(Segment token : tokens) {
+         token.compile(scope);
+      }
+      return ValueType.getTransient(null);
+   }
+
+   @Override
+   public Value evaluate(Scope scope, Object left) throws Exception {
+      StringWriter writer = new StringWriter();
+      
+      for(Segment token : tokens) {
          token.process(scope, writer);
       }
-      return writer.toString();
+      String result = writer.toString();
+      return ValueType.getTransient(result);
    }
 }

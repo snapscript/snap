@@ -1,5 +1,12 @@
 package org.snapscript.core;
 
-public interface Evaluation{
-   Value evaluate(Scope scope, Object left) throws Exception;
+public class Evaluation{
+   
+   public Value compile(Scope scope, Object left) throws Exception {
+      return ValueType.getTransient(null);
+   }
+   
+   public Value evaluate(Scope scope, Object left) throws Exception {
+      return ValueType.getTransient(null);
+   }
 }

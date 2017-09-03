@@ -6,7 +6,7 @@ import org.snapscript.core.Value;
 import org.snapscript.core.ValueType;
 import org.snapscript.tree.literal.TextLiteral;
 
-public class EnumKey implements Evaluation {
+public class EnumKey extends Evaluation {
    
    protected final TextLiteral literal;
    

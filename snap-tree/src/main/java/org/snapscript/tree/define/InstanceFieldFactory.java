@@ -14,6 +14,14 @@ public class InstanceFieldFactory extends TypeFactory {
    public InstanceFieldFactory(Evaluation evaluation){
       this.evaluation = evaluation;
    }
+   
+   @Override
+   public Result compile(Scope scope, Type type) throws Exception {
+      if(evaluation != null) {
+         evaluation.compile(scope, null); 
+      }
+      return ResultType.getNormal();
+   }
 
    @Override
    public Result execute(Scope scope, Type type) throws Exception {

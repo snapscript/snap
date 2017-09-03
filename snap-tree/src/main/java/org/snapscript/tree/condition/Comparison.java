@@ -5,7 +5,7 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
 import org.snapscript.parse.StringToken;
 
-public class Comparison implements Evaluation {   
+public class Comparison extends Evaluation {   
    
    private final RelationalOperator operator;
    private final Evaluation left;
@@ -20,6 +20,14 @@ public class Comparison implements Evaluation {
       this.left = left;
       this.right = right;
    }
+
+   @Override
+   public Value compile(Scope scope, Object context) throws Exception {
+      if(right != null) {
+         right.compile(scope, null);
+      }
+      return left.compile(scope, null);
+   }  
    
    @Override
    public Value evaluate(Scope scope, Object context) throws Exception {

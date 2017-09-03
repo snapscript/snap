@@ -1,5 +1,8 @@
 package org.snapscript.tree.function;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
+import org.snapscript.core.Bug;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
@@ -8,6 +11,8 @@ import org.snapscript.core.Module;
 import org.snapscript.core.Path;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
+import org.snapscript.core.ValueType;
+import org.snapscript.core.function.Function;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceEvaluation;
 import org.snapscript.core.trace.TraceInterceptor;
@@ -34,18 +39,36 @@ public class FunctionInvocation implements Compilation {
       return new TraceEvaluation(interceptor, invocation, trace);
    }
    
-   private static class CompileResult implements Evaluation {
+   private static class CompileResult extends Evaluation {
    
       private final InvocationBinder dispatcher;
       private final NameReference reference;
       private final ArgumentList arguments;
-      private final Evaluation[] evaluations;
+      private final Evaluation[] evaluations; // func()[1][x]
+      private final AtomicInteger index;
       
       public CompileResult(Evaluation function, ArgumentList arguments, Evaluation... evaluations) {
          this.reference = new NameReference(function);
          this.dispatcher = new InvocationBinder();
+         this.index = new AtomicInteger();
          this.evaluations = evaluations;
          this.arguments = arguments;
+      }
+      
+      @Bug("function cleanup")
+      @Override
+      public Value compile(Scope scope, Object left) throws Exception {
+         String name = reference.getName(scope); 
+         int v = scope.getState().getLocal(name);
+         
+         System.err.println("(compile) FUNCTION name="+name+" index="+index);
+         index.set(v);
+         arguments.compile(scope);
+         
+         for(Evaluation evaluation : evaluations) {
+            evaluation.compile(scope, null);
+         }
+         return ValueType.getTransient(null);
       }
       
       @Override
@@ -53,6 +76,17 @@ public class FunctionInvocation implements Compilation {
          String name = reference.getName(scope); 
          Value array = arguments.create(scope); 
          Object[] arguments = array.getValue();
+         
+         if(index.get() != -1 && left == null){
+            try{
+            Value d = scope.getState().getLocal(index.get());
+            if(Function.class.isInstance(d.getValue())){
+               left = d;
+            }
+            }catch(Exception e){
+               e.printStackTrace();
+            }
+         }
          InvocationDispatcher handler = dispatcher.bind(scope, left);
          Value value = handler.dispatch(name, arguments);
          

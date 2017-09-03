@@ -44,6 +44,12 @@ public class AssignmentStatement implements Compilation {
       }
       
       @Override
+      public Result compile(Scope scope) throws Exception {
+         assignment.compile(scope, null);
+         return ResultType.getNormal(null);
+      }
+      
+      @Override
       public Result execute(Scope scope) throws Exception {
          Value reference = assignment.evaluate(scope, null);
          Object value = reference.getValue();

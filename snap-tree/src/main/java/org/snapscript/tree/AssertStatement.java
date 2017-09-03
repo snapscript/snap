@@ -42,6 +42,12 @@ public class AssertStatement implements Compilation {
       public CompileResult(Evaluation evaluation){
          this.evaluation = evaluation;
       }
+
+      @Override
+      public Result compile(Scope scope) throws Exception {
+         evaluation.compile(scope, null);
+         return ResultType.getNormal();
+      }
       
       @Override
       public Result execute(Scope scope) throws Exception {

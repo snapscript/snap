@@ -31,6 +31,7 @@ public class Script extends Statement {
    @Override
    public Result compile(Scope scope) throws Exception {
       Result last = ResultType.getNormal();
+      //Scope inner = scope.getInner();
       
       for(Statement statement : statements) {
          Result result = statement.compile(scope);
@@ -45,9 +46,10 @@ public class Script extends Statement {
    @Override
    public Result execute(Scope scope) throws Exception {
       Result last = ResultType.getNormal();
+      Scope inner = scope.getInner();
       
       for(Statement statement : statements) {
-         Result result = statement.execute(scope);
+         Result result = statement.execute(inner);
          
          if(!result.isNormal()){
             throw new InternalStateException("Illegal statement");

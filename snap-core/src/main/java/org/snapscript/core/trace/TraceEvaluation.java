@@ -4,7 +4,7 @@ import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
 
-public class TraceEvaluation implements Evaluation {
+public class TraceEvaluation extends Evaluation {
 
    private final TraceInterceptor interceptor;
    private final Evaluation evaluation;
@@ -14,6 +14,17 @@ public class TraceEvaluation implements Evaluation {
       this.interceptor = interceptor;
       this.evaluation = evaluation;
       this.trace = trace;
+   }
+
+   @Override
+   public Value compile(Scope scope, Object left) throws Exception {
+      try {
+         return evaluation.compile(scope, left);
+      }catch(Exception e) {
+         System.err.println("trace="+trace);
+         e.printStackTrace();
+         throw e;
+      }
    }
    
    @Override

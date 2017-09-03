@@ -2,6 +2,7 @@ package org.snapscript.tree.define;
 
 import java.util.List;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Module;
 import org.snapscript.core.Result;
@@ -11,6 +12,7 @@ import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Signature;
+import org.snapscript.core.function.StatementFunction;
 import org.snapscript.tree.ModifierList;
 import org.snapscript.tree.NameReference;
 import org.snapscript.tree.annotation.AnnotationList;
@@ -26,7 +28,6 @@ public class ModuleFunction extends Statement {
    private final ParameterList parameters;
    private final FunctionBuilder builder;
    private final NameReference reference;
-   private final Statement body;
    
    public ModuleFunction(AnnotationList annotations, ModifierList modifiers, Evaluation identifier, ParameterList parameters, Statement body){  
       this(annotations, modifiers, identifier, parameters, null, body);
@@ -38,9 +39,9 @@ public class ModuleFunction extends Statement {
       this.builder = new FunctionBuilder(body);
       this.annotations = annotations;
       this.parameters = parameters;
-      this.body = body;
    }  
    
+   @Bug("clean me")
    @Override
    public Result compile(Scope scope) throws Exception {
       Module module = scope.getModule();
@@ -48,11 +49,13 @@ public class ModuleFunction extends Statement {
       Signature signature = parameters.create(scope);
       String name = reference.getName(scope);
       Type returns = constraint.getConstraint(scope);
-      Function function = builder.create(signature, module, returns, name);
+      StatementFunction f = builder.create(signature, module, returns, name);
+      Function function = f.getFunction(scope);
+      Scope inner = scope.getInner();
       
       annotations.apply(scope, function);
       functions.add(function);
-      body.compile(scope);
+      f.compile(inner); // count stack
       
       return ResultType.getNormal(function);
    }

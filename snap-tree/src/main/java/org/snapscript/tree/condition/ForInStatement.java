@@ -1,5 +1,8 @@
 package org.snapscript.tree.condition;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
+import org.snapscript.core.Bug;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
@@ -44,17 +47,24 @@ public class ForInStatement implements Compilation {
       private final IterationConverter converter;
       private final NameReference reference;
       private final Evaluation collection;
+      private final AtomicInteger index;
       private final Statement body;
    
       public CompileResult(Evaluation identifier, Evaluation collection, Statement body) {
          this.reference = new NameReference(identifier);
          this.converter = new IterationConverter();
+         this.index = new AtomicInteger();
          this.collection = collection;
          this.body = body;
       }
       
       @Override
-      public Result compile(Scope scope) throws Exception {   
+      public Result compile(Scope scope) throws Exception { 
+         String name = reference.getName(scope);
+         Value list = collection.compile(scope, null);
+         int x = scope.getState().addLocal(name);
+         System.err.println("(for) DECLARE: name="+name+" depth="+x);
+         index.set(x);
          return body.compile(scope);
       }
    
@@ -68,18 +78,20 @@ public class ForInStatement implements Compilation {
          return execute(scope, iterable);
       }
 
+      @Bug("clean up")
       private Result execute(Scope scope, Iterable iterable) throws Exception {
          Value value = ValueType.getReference(null);
          String name = reference.getName(scope);
-         Scope inner = scope.getInner();
-         State state = inner.getState();
+         //Scope inner = scope.getInner();
+         State state = scope.getState();
          
-         state.add(name, value);
+         state.addLocal(index.get(), value);
+         //state.addScope(name, value);
          
          for (Object entry : iterable) {
             value.setValue(entry);
             
-            Result result = body.execute(inner);   
+            Result result = body.execute(scope);   
    
             if (result.isReturn()) {
                return result;

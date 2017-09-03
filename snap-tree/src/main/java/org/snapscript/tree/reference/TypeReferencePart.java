@@ -25,7 +25,7 @@ public class TypeReferencePart implements Compilation {
       return new CompileResult(type, module);
    }
    
-   private static class CompileResult implements Evaluation {
+   private static class CompileResult extends Evaluation {
       
       private final TypeTraverser traverser;
       private final NameReference reference;

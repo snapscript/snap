@@ -47,10 +47,10 @@ public class LoopStatement implements Compilation {
    
       @Override
       public Result execute(Scope scope) throws Exception {
-         Scope compound = scope.getInner();
+         ///Scope compound = scope.getInner();
          
          while(true) {
-            Result result = body.execute(compound);
+            Result result = body.execute(scope);
             
             if(result.isReturn()) {
                return result;

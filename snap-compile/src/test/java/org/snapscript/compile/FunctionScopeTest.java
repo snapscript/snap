@@ -9,7 +9,7 @@ public class FunctionScopeTest extends TestCase {
    "   var x = 0;\n"+
    "   var func = (a, b) -> isVariableInScope(a, b);\n"+
    "\n"+
-   "   assert !func(1,2);\n"+
+   "   assert !func(1,2);\n"+ // not found?
    "}\n"+
    "\n"+
    "function isVariableInScope(a, b) {\n"+

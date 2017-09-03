@@ -1,6 +1,6 @@
 package org.snapscript.core;
 
-public class Identity implements Evaluation {
+public class Identity extends Evaluation {
    
    private final Object value;
    

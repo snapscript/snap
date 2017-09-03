@@ -3,8 +3,9 @@ package org.snapscript.tree.condition;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
+import org.snapscript.core.ValueType;
 
-public class NullCoalesce implements Evaluation {
+public class NullCoalesce extends Evaluation {
 
    private final Evaluation substitute;
    private final Evaluation evaluation;
@@ -14,6 +15,14 @@ public class NullCoalesce implements Evaluation {
       this.substitute = substitute;
    }
 
+   @Override
+   public Value compile(Scope scope, Object left) throws Exception {
+      evaluation.compile(scope, null);
+      substitute.compile(scope, null);
+       
+      return ValueType.getTransient(null);
+   }
+   
    @Override
    public Value evaluate(Scope scope, Object left) throws Exception {
       Value result = evaluation.evaluate(scope, null);

@@ -16,7 +16,7 @@ import org.snapscript.core.function.Function;
 import org.snapscript.core.stack.ThreadStack;
 import org.snapscript.parse.StringToken;
 
-public class Super implements Evaluation {
+public class Super extends Evaluation {
 
    private final StringToken token;
    
@@ -35,7 +35,7 @@ public class Super implements Evaluation {
          throw new InternalStateException("No enclosing function for 'super' reference");
       }
       State state = scope.getState();
-      Value value = state.get(TYPE_THIS);
+      Value value = state.getScope(TYPE_THIS);
       
       if(value == null) {
          throw new InternalStateException("No enclosing type for 'super' reference");

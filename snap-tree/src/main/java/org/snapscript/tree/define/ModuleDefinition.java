@@ -42,7 +42,7 @@ public class ModuleDefinition extends Statement {
       Scope inner = module.getScope();
       State state = inner.getState();
       
-      state.add(TYPE_THIS, value);
+      state.addScope(TYPE_THIS, value);
       
       return body.compile(inner); // must be module scope
    }

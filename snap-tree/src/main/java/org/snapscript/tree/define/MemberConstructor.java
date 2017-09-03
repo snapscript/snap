@@ -2,11 +2,13 @@ package org.snapscript.tree.define;
 
 import java.util.List;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
 import org.snapscript.core.function.Function;
+import org.snapscript.core.function.StatementFunction;
 import org.snapscript.tree.ModifierList;
 import org.snapscript.tree.annotation.AnnotationList;
 import org.snapscript.tree.function.ParameterList;
@@ -34,16 +36,18 @@ public abstract class MemberConstructor implements TypePart {
       return null;
    }
 
+   @Bug("clean up")
    protected TypeFactory compile(TypeFactory factory, Type type, boolean compile) throws Exception {
       int modifiers = list.getModifiers();
       ConstructorBuilder builder = assembler.assemble(factory, type);
-      Function constructor = builder.create(factory, type, modifiers, compile);
+      StatementFunction f = builder.create(factory, type, modifiers, compile);
+      Function constructor = f.getFunction(null);
       List<Function> functions = type.getFunctions();
       Scope scope = type.getScope();
       
       annotations.apply(scope, constructor);
       functions.add(constructor);
-      body.compile(scope);
+      f.compile(scope);
       
       return null;
    }

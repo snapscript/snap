@@ -7,7 +7,7 @@ import org.snapscript.core.Value;
 import org.snapscript.tree.Argument;
 import org.snapscript.tree.collection.CollectionIndex;
 
-public class ReferenceIndex implements Evaluation {
+public class ReferenceIndex extends Evaluation {
    
    private final Argument argument;
   

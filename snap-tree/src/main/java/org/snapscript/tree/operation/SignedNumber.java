@@ -7,7 +7,7 @@ import org.snapscript.core.Value;
 import org.snapscript.parse.StringToken;
 import org.snapscript.tree.literal.NumberLiteral;
 
-public class SignedNumber implements Evaluation {
+public class SignedNumber extends Evaluation {
    
    private SignOperator operator;
    private NumberLiteral literal;

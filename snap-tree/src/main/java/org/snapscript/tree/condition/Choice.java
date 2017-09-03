@@ -3,8 +3,9 @@ package org.snapscript.tree.condition;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
+import org.snapscript.core.ValueType;
 
-public class Choice implements Evaluation {
+public class Choice extends Evaluation {
    
    private final Evaluation condition;
    private final Evaluation positive;
@@ -16,6 +17,15 @@ public class Choice implements Evaluation {
       this.negative = negative;
    }
 
+   @Override
+   public Value compile(Scope scope, Object left) throws Exception {
+      condition.compile(scope, null);
+      positive.compile(scope, null);
+      negative.compile(scope, null);
+      
+      return ValueType.getTransient(null);
+   }
+   
    @Override
    public Value evaluate(Scope scope, Object left) throws Exception {
       Value result = condition.evaluate(scope, null);

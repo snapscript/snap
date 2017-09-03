@@ -12,12 +12,20 @@ import org.snapscript.core.Value;
 import org.snapscript.core.ValueType;
 import org.snapscript.core.convert.ProxyWrapper;
 
-public class MapEntryList implements Evaluation{
+public class MapEntryList extends Evaluation{
    
    private final MapEntry[] list;
    
    public MapEntryList(MapEntry... list) {
       this.list = list;
+   }
+   
+   @Override
+   public Value compile(Scope scope, Object left) throws Exception{
+      for(int i = 0; i < list.length; i++){
+         list[i].compile(scope);
+      }
+      return ValueType.getTransient(null);
    }
    
    @Override

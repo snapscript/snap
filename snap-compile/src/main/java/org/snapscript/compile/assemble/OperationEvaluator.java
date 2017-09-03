@@ -49,6 +49,7 @@ public class OperationEvaluator implements ExpressionEvaluator {
    public <T> T evaluate(Scope scope, String source, String module) throws Exception{ 
       try {
          Evaluation evaluation = builder.create(source, module);
+         Value result = evaluation.compile(scope, null);
          Value reference = evaluation.evaluate(scope,null);
          
          return (T)reference.getValue();

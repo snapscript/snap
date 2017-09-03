@@ -12,7 +12,7 @@ import org.snapscript.core.Value;
 import org.snapscript.core.ValueType;
 import org.snapscript.parse.StringToken;
 
-public class SetConstraint implements Evaluation {
+public class SetConstraint extends Evaluation {
 
    private final StringToken token;
    

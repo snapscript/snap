@@ -3,8 +3,8 @@ package org.snapscript.tree.define;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
-import org.snapscript.core.function.Function;
+import org.snapscript.core.function.StatementFunction;
 
 public interface MemberFunctionBuilder {
-   Function create(TypeFactory factory, Scope scope, Type type);
+   StatementFunction create(TypeFactory factory, Scope scope, Type type);
 }

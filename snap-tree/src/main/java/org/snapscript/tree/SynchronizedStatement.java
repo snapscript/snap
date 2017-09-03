@@ -47,6 +47,7 @@ public class SynchronizedStatement implements Compilation {
       
       @Override
       public Result compile(Scope scope) throws Exception {
+         reference.compile(scope, null);
          return statement.compile(scope);
       }
       

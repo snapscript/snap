@@ -46,9 +46,11 @@ import org.snapscript.tree.define.InnerDefinition;
 import org.snapscript.tree.define.MemberField;
 import org.snapscript.tree.define.MemberFieldDeclaration;
 import org.snapscript.tree.define.MemberFunction;
+import org.snapscript.tree.define.ModuleDeclaration;
 import org.snapscript.tree.define.ModuleDefinition;
 import org.snapscript.tree.define.ModuleFunction;
 import org.snapscript.tree.define.ModuleName;
+import org.snapscript.tree.define.ModuleProperty;
 import org.snapscript.tree.define.SuperConstructor;
 import org.snapscript.tree.define.ThisConstructor;
 import org.snapscript.tree.define.TraitConstant;
@@ -227,6 +229,8 @@ public enum Instruction {
    IMPORT(Import.class, "import"), 
    IMPORT_STATIC(ImportStatic.class, "import-static"),
    MODULE_NAME(ModuleName.class, "module-name"),    
+   MODULE_PROPERTY(ModuleProperty.class, "module-property"),
+   MODULE_DECLARATION(ModuleDeclaration.class, "module-declaration"),
    MODULE_FUNCTION(ModuleFunction.class, "module-function"),     
    MODULE_DEFINITION(ModuleDefinition.class, "module-definition"),    
    SCRIPT_FUNCTION(ScriptFunction.class, "script-function"),
