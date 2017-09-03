@@ -64,7 +64,7 @@ public class StatementInvocation2  {
    //      if(value != null) {
    //         value = converter.convert(value);
    //      }
-   //      return ResultType.getNormal(value); 
+   //      return Result.getNormal(value); 
       return null;
       } finally {
          next.clear();

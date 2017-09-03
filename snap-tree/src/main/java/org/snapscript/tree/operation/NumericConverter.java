@@ -1,109 +1,108 @@
 package org.snapscript.tree.operation;
 
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 
 public enum NumericConverter {
    DOUBLE {
       @Override
       public Value convert(Number reference) {
          double value = reference.doubleValue();
-         return ValueType.getTransient(value);
+         return Value.getTransient(value);
       }
       @Override
       public Value increment(Number reference) {
          double value = reference.doubleValue();
-         return ValueType.getTransient(value + 1.0d);
+         return Value.getTransient(value + 1.0d);
       }
       @Override
       public Value decrement(Number reference) {
          double value = reference.doubleValue();
-         return ValueType.getTransient(value - 1.0d);
+         return Value.getTransient(value - 1.0d);
       }
    },
    LONG {
       @Override
       public Value convert(Number reference) {
          long value = reference.longValue();
-         return ValueType.getTransient(value);
+         return Value.getTransient(value);
       }
       @Override
       public Value increment(Number reference) {
          long value = reference.longValue();
-         return ValueType.getTransient(value + 1L);
+         return Value.getTransient(value + 1L);
       }
       @Override
       public Value decrement(Number reference) {
          long value = reference.longValue();
-         return ValueType.getTransient(value - 1L);
+         return Value.getTransient(value - 1L);
       }
    },
    FLOAT {
       @Override
       public Value convert(Number reference) {
          float value = reference.floatValue();
-         return ValueType.getTransient(value);
+         return Value.getTransient(value);
       }
       @Override
       public Value increment(Number reference) {
          float value = reference.floatValue();
-         return ValueType.getTransient(value + 1.0f);
+         return Value.getTransient(value + 1.0f);
       }
       @Override
       public Value decrement(Number reference) {
          float value = reference.floatValue();
-         return ValueType.getTransient(value - 1.0f);
+         return Value.getTransient(value - 1.0f);
       }
    },
    INTEGER {
       @Override
       public Value convert(Number reference) {
          int value = reference.intValue();
-         return ValueType.getTransient(value);
+         return Value.getTransient(value);
       }
       @Override
       public Value increment(Number reference) {
          int value = reference.intValue();
-         return ValueType.getTransient(value + 1);
+         return Value.getTransient(value + 1);
       }
       @Override
       public Value decrement(Number reference) {
          int value = reference.intValue();
-         return ValueType.getTransient(value - 1);
+         return Value.getTransient(value - 1);
       }
    },
    SHORT {
       @Override
       public Value convert(Number reference) {
          short value = reference.shortValue();
-         return ValueType.getTransient(value);
+         return Value.getTransient(value);
       }
       @Override
       public Value increment(Number reference) {
          short value = reference.shortValue();
-         return ValueType.getTransient(value + 1);
+         return Value.getTransient(value + 1);
       }
       @Override
       public Value decrement(Number reference) {
          short value = reference.shortValue();
-         return ValueType.getTransient(value - 1);
+         return Value.getTransient(value - 1);
       }
    },
    BYTE {
       @Override
       public Value convert(Number reference) {
          byte value = reference.byteValue();
-         return ValueType.getTransient(value);
+         return Value.getTransient(value);
       }
       @Override
       public Value increment(Number reference) {
          byte value = reference.byteValue();
-         return ValueType.getTransient(value + 1);
+         return Value.getTransient(value + 1);
       }
       @Override
       public Value decrement(Number reference) {
          byte value = reference.byteValue();
-         return ValueType.getTransient(value - 1);
+         return Value.getTransient(value - 1);
       }
    };
    

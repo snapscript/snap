@@ -17,7 +17,7 @@ public class SuperAllocator implements TypeAllocator {
    private final TypeFactory factory;
    
    public SuperAllocator(TypeFactory factory, TypeAllocator allocator, Signature signature) {
-      this.extractor = new ParameterExtractor(signature);
+      this.extractor = new ParameterExtractor(signature, true);
       this.aligner = new SignatureAligner(signature);
       this.allocator = allocator;
       this.factory = factory;

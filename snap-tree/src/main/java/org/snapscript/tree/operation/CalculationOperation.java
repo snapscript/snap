@@ -1,10 +1,9 @@
 package org.snapscript.tree.operation;
 
-import org.snapscript.core.convert.StringBuilder;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
+import org.snapscript.core.convert.StringBuilder;
 
 public class CalculationOperation extends Evaluation {
 
@@ -23,7 +22,7 @@ public class CalculationOperation extends Evaluation {
       left.compile(scope, null);
       right.compile(scope, null);
       
-      return ValueType.getTransient(null);
+      return Value.getTransient(null);
    }
    
    @Override
@@ -40,7 +39,7 @@ public class CalculationOperation extends Evaluation {
             String rightText = StringBuilder.create(scope, rightValue);            
             String text = leftText.concat(rightText);
             
-            return ValueType.getTransient(text);
+            return Value.getTransient(text);
          }
       }
       return operator.operate(leftResult, rightResult);

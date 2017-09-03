@@ -4,7 +4,6 @@ import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 
 public class Expression extends Evaluation {
    
@@ -22,7 +21,7 @@ public class Expression extends Evaluation {
       for(int i = 0; i < list.length; i++){
          list[i].compile(scope, left);
       }
-      return ValueType.getTransient(null);
+      return Value.getTransient(null);
    }
    
    @Override

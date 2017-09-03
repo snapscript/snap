@@ -4,7 +4,6 @@ import org.snapscript.core.BooleanValue;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 import org.snapscript.parse.StringToken;
 
 public class Combination extends Evaluation {
@@ -28,7 +27,7 @@ public class Combination extends Evaluation {
       left.compile(scope, context);
       right.compile(scope, context);
       
-      return ValueType.getTransient(null);
+      return Value.getTransient(null);
    }
    
    @Override

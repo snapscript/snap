@@ -40,7 +40,7 @@ public class PackageDefinitionList implements PackageDefinition {
       }
       
       public Result define(Scope scope) throws Exception {
-         Result last = ResultType.getNormal();
+         Result last = Result.getNormal();
          
          for(Statement statement : statements){
             Result result = statement.define(scope);
@@ -54,7 +54,7 @@ public class PackageDefinitionList implements PackageDefinition {
       }
                      
       public Result compile(Scope scope) throws Exception {
-         Result last = ResultType.getNormal();
+         Result last = Result.getNormal();
          
          for(Statement statement : statements){
             Result result = statement.compile(scope);
@@ -68,7 +68,7 @@ public class PackageDefinitionList implements PackageDefinition {
       }
       
       public Result execute(Scope scope) throws Exception {
-         Result result = ResultType.getNormal();
+         Result result = Result.getNormal();
          
          for(Statement statement : statements){
             Result next = statement.execute(scope);

@@ -30,7 +30,7 @@ public abstract class StaticFactory extends TypeFactory {
          Context context = module.getContext();
          
          synchronized(context) { // static lock to force wait
-            Result value = ResultType.getNormal();
+            Result value = Result.getNormal();
             
             if(compile.compareAndSet(false, true)) { // only do it once
                compile(type);

@@ -46,7 +46,7 @@ public class EnumDefinition extends Statement {
          
          return result;
       }
-      return ResultType.getNormal();
+      return Result.getNormal();
    }
 
    @Override
@@ -71,6 +71,6 @@ public class EnumDefinition extends Statement {
          }
          return result;
       }
-      return ResultType.getNormal();
+      return Result.getNormal();
    }
 }

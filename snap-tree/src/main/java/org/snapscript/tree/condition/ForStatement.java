@@ -33,7 +33,7 @@ public class ForStatement implements Compilation {
       Context context = module.getContext();
       ErrorHandler handler = context.getHandler();
       TraceInterceptor interceptor = context.getInterceptor();
-      Trace trace = TraceType.getNormal(module, path, line);
+      Trace trace = Trace.getNormal(module, path, line);
       
       return new TraceStatement(interceptor, handler, loop, trace);
    }
@@ -47,7 +47,7 @@ public class ForStatement implements Compilation {
       private final Result normal;
 
       public CompileResult(Statement declaration, Evaluation condition, Evaluation assignment, Statement body) {
-         this.normal = ResultType.getNormal();
+         this.normal = Result.getNormal();
          this.declaration = declaration;
          this.assignment = assignment;
          this.condition = condition;

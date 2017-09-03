@@ -37,7 +37,7 @@ public class EnumBuilder extends Statement {
       
       reference.set(type);
       
-      return ResultType.getNormal(type);
+      return Result.getNormal(type);
    }
    
    @Override
@@ -48,6 +48,6 @@ public class EnumBuilder extends Statement {
       builder.declare(scope, type, values);
       hierarchy.extend(scope, type); // this may throw exception if missing type
       
-      return ResultType.getNormal(type);
+      return Result.getNormal(type);
    }
 }

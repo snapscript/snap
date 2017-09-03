@@ -13,7 +13,7 @@ public class CompoundScope implements Scope {
       this(model, inner, outer, null);
    }
    
-   public CompoundScope(Model model, Scope inner, Scope outer, List<Value> stack) {
+   public CompoundScope(Model model, Scope inner, Scope outer, List<Local> stack) {
       this.state = new MapState(model, inner, stack);  
       this.outer = outer;
       this.model = model;
@@ -65,14 +65,14 @@ public class CompoundScope implements Scope {
       private final State state;
       private final Scope outer;
       private final Model model;
-      private final List<Value> stack;
+      private final List<Local> stack;
       
       public StateScope(Model model, Scope inner, Scope outer) {
          this(model, inner, outer, null);
       }
       
-      public StateScope(Model model, Scope inner, Scope outer, List<Value> stack) {
-         this.stack = stack == null ?new ArrayList<Value>() : stack;
+      public StateScope(Model model, Scope inner, Scope outer, List<Local> stack) {
+         this.stack = stack == null ?new ArrayList<Local>() : stack;
          this.state = new MapState(null, inner, this.stack); // ignore model
          this.outer = outer;
          this.model = model;

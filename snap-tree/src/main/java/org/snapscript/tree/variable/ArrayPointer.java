@@ -6,7 +6,6 @@ import java.lang.reflect.Array;
 
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 
 public class ArrayPointer implements VariablePointer<Object> {
    
@@ -22,7 +21,7 @@ public class ArrayPointer implements VariablePointer<Object> {
    public Value get(Scope scope, Object left) {
       if(name.equals(PROPERTY_LENGTH)) {
          int length = Array.getLength(left);
-         return ValueType.getConstant(length);
+         return Value.getConstant(length);
       }
       return pointer.get(scope, left);
    }

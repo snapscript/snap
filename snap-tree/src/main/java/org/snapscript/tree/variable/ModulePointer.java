@@ -7,7 +7,6 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.property.PropertyValue;
 
@@ -36,7 +35,7 @@ public class ModulePointer implements VariablePointer<Module> {
             Type type = left.getType(name);
            
             if(type != null) {
-               return ValueType.getTransient(type);
+               return Value.getTransient(type);
             }
             Property match = pointer.match(scope, left);
             

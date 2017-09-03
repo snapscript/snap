@@ -14,6 +14,11 @@ public class ReferenceIndex extends Evaluation {
    public ReferenceIndex(Argument argument) {     
       this.argument = argument;
    }
+   
+   @Override
+   public Value compile(Scope scope, Object left) throws Exception {
+      return argument.compile(scope, left);
+   }
 
    @Override
    public Value evaluate(Scope scope, Object left) throws Exception {

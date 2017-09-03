@@ -1,7 +1,6 @@
 package org.snapscript.tree.operation;
 
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 
 public class ValueCache {
 
@@ -16,19 +15,19 @@ public class ValueCache {
    
    static {
       for(int i = 0, j = LOW; j <= HIGH; j++, i++) {
-         CONSTANTS[BYTE][i] = ValueType.getTransient((byte)j);
+         CONSTANTS[BYTE][i] = Value.getTransient((byte)j);
       }
       for(int i = 0, j = LOW; j <= HIGH; j++, i++) {
-         CONSTANTS[SHORT][i] = ValueType.getTransient((short)j);
+         CONSTANTS[SHORT][i] = Value.getTransient((short)j);
       }
       for(int i = 0, j = LOW; j <= HIGH; j++, i++) {
-         CONSTANTS[INTEGER][i] = ValueType.getTransient((int)j);
+         CONSTANTS[INTEGER][i] = Value.getTransient((int)j);
       }
       for(int i = 0, j = LOW; j <= HIGH; j++, i++) {
-         CONSTANTS[LONG][i] = ValueType.getTransient((long)j);
+         CONSTANTS[LONG][i] = Value.getTransient((long)j);
       }
       for(int i = 0, j = LOW; j <= HIGH; j++, i++) {
-         CONSTANTS[CHARACTER][i] = ValueType.getTransient((char)j);
+         CONSTANTS[CHARACTER][i] = Value.getTransient((char)j);
       }
    }
    
@@ -36,42 +35,42 @@ public class ValueCache {
       if (value >= LOW && value <= HIGH) {
          return CONSTANTS[BYTE][value + -LOW];
       }
-      return ValueType.getTransient((byte)value);
+      return Value.getTransient((byte)value);
    }
    
    public static Value getShort(int value) {
       if (value >= LOW && value <= HIGH) {
          return CONSTANTS[SHORT][value + -LOW];
       }
-      return ValueType.getTransient((short)value);
+      return Value.getTransient((short)value);
    }
    
    public static Value getInteger(int value) {
       if (value >= LOW && value <= HIGH) {
          return CONSTANTS[INTEGER][value + -LOW];
       }
-      return ValueType.getTransient(value);
+      return Value.getTransient(value);
    }
    
    public static Value getLong(long value) {
       if (value >= LOW && value <= HIGH) {
          return CONSTANTS[LONG][(int)value + -LOW];
       }
-      return ValueType.getTransient(value);
+      return Value.getTransient(value);
    }
    
    public static Value getCharacter(char value){
       if (value >= LOW && value <= HIGH) {
          return CONSTANTS[CHARACTER][(int)value + -LOW];
       }
-      return ValueType.getTransient(value);
+      return Value.getTransient(value);
    }
    
    public static Value getFloat(float value) {
-      return ValueType.getTransient(value);
+      return Value.getTransient(value);
    }
    
    public static Value getDouble(double value) {
-      return ValueType.getTransient(value);
+      return Value.getTransient(value);
    }
 }

@@ -9,7 +9,6 @@ import org.snapscript.core.Evaluation;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 import org.snapscript.core.convert.ProxyWrapper;
 
 public class MapEntryList extends Evaluation{
@@ -25,7 +24,7 @@ public class MapEntryList extends Evaluation{
       for(int i = 0; i < list.length; i++){
          list[i].compile(scope);
       }
-      return ValueType.getTransient(null);
+      return Value.getTransient(null);
    }
    
    @Override
@@ -44,6 +43,6 @@ public class MapEntryList extends Evaluation{
          
          map.put(keyProxy, valueProxy);
       }
-      return ValueType.getTransient(map);
+      return Value.getTransient(map);
    }
 }

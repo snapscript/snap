@@ -31,7 +31,7 @@ public class MatchStatement implements Compilation {
       Context context = module.getContext();
       ErrorHandler handler = context.getHandler();
       TraceInterceptor interceptor = context.getInterceptor();
-      Trace trace = TraceType.getNormal(module, path, line);
+      Trace trace = Trace.getNormal(module, path, line);
       
       return new TraceStatement(interceptor, handler, statement, trace);
    }
@@ -48,7 +48,7 @@ public class MatchStatement implements Compilation {
       
       @Override
       public Result compile(Scope scope) throws Exception {
-         Result last = ResultType.getNormal();
+         Result last = Result.getNormal();
          
          for(int i = 0; i < cases.length; i++){
             Statement statement = cases[i].getStatement();
@@ -84,10 +84,10 @@ public class MatchStatement implements Compilation {
                if(statement != null) {
                   return statement.execute(scope);
                }
-               return ResultType.getNormal();
+               return Result.getNormal();
             }  
          }
-         return ResultType.getNormal();
+         return Result.getNormal();
       }
    }
 }

@@ -28,7 +28,7 @@ public class DeclarationStatement implements Compilation {
       Context context = module.getContext();
       ErrorHandler handler = context.getHandler();
       TraceInterceptor interceptor = context.getInterceptor();
-      Trace trace = TraceType.getNormal(module, path, line);
+      Trace trace = Trace.getNormal(module, path, line);
       
       return new TraceStatement(interceptor, handler, declaration, trace);
    }
@@ -50,7 +50,7 @@ public class DeclarationStatement implements Compilation {
          for(Declaration declaration : declarations) {
             declaration.compile(scope, type.mask); 
          }
-         return ResultType.getDeclare();
+         return Result.getDeclare();
       }
       
       @Override
@@ -60,7 +60,7 @@ public class DeclarationStatement implements Compilation {
          for(Declaration declaration : declarations) {
             declaration.create(scope, type.mask); 
          }
-         return ResultType.getNormal();
+         return Result.getNormal();
       }
    }
 }

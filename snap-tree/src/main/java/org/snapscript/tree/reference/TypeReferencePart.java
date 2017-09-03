@@ -9,7 +9,6 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeTraverser;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 import org.snapscript.tree.NameReference;
 
 public class TypeReferencePart implements Compilation {
@@ -71,7 +70,7 @@ public class TypeReferencePart implements Compilation {
          if(result == null) {
             throw new InternalStateException("No type found for '" + name + "' in '" + module + "'"); // class not found
          }
-         return ValueType.getTransient(result);
+         return Value.getTransient(result);
       }
       
       private Value create(Scope scope, Type type) throws Exception {
@@ -83,7 +82,7 @@ public class TypeReferencePart implements Compilation {
          if(result == null) {
             throw new InternalStateException("No type found for '" + parent + "." + name + "' in '" + module + "'"); // class not found
          }
-         return ValueType.getTransient(result);
+         return Value.getTransient(result);
       }
    }
 }

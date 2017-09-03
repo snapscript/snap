@@ -2,7 +2,7 @@ package org.snapscript.tree.operation;
 
 import junit.framework.TestCase;
 
-import org.snapscript.core.ValueType;
+import org.snapscript.core.Value;
 
 public class ValueCacheTest extends TestCase {
    
@@ -14,7 +14,7 @@ public class ValueCacheTest extends TestCase {
          public void run(){
             for(int i = 0; i < ITERATIONS; i++) {
                for(int j = 0; j < 100; j++) {
-                  ValueType.getTransient(j);
+                  Value.getTransient(j);
                }
             }
          }

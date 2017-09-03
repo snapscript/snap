@@ -2,14 +2,13 @@ package org.snapscript.tree;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.snapscript.core.Local;
 import org.snapscript.core.Result;
 import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
-import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 import org.snapscript.core.convert.CompatibilityChecker;
 import org.snapscript.core.error.ErrorCauseExtractor;
 import org.snapscript.core.function.Parameter;
@@ -44,7 +43,7 @@ public class CatchBlockList {
             statement.compile(scope);
          }
       }
-      return ResultType.getNormal();
+      return Result.getNormal();
    }
 
    public Result execute(Scope scope, Result result) throws Exception {
@@ -61,15 +60,15 @@ public class CatchBlockList {
             Object cause = extractor.extract(scope, data);
             
             if(checker.compatible(scope, cause, type)) {
-               Scope compound = scope.getInner();
-               State state = compound.getState();
-               Value constant = ValueType.getConstant(cause);
+               //Scope compound = scope.getInner();
+               State state = scope.getState();
+               Local local = Local.getConstant(cause, name);
                int val = index.get();
                
-               state.addLocal(val, constant);
-               state.addScope(name, constant);
+               state.addLocal(val, local);
+               //state.addScope(name, constant);
 
-               return statement.execute(compound);
+               return statement.execute(scope);
             }
          }
       }

@@ -22,7 +22,7 @@ public class CompoundStatement2  {
    }
    
    public Result compile(Scope scope) throws Exception {
-      Result last = ResultType.getNormal();
+      Result last = Result.getNormal();
       
       if(compile.get()) {
          throw new InternalStateException("Statement was already compiled");
@@ -42,7 +42,7 @@ public class CompoundStatement2  {
    }
    
    public Result execute(Scope2 scope) throws Exception {
-      Result last = ResultType.getNormal();
+      Result last = Result.getNormal();
       State2 state2 = scope.getStack();
       //int size = state2.size(); // how many will be allocated
       

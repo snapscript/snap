@@ -19,7 +19,6 @@ import org.snapscript.core.ExpressionEvaluator;
 import org.snapscript.core.MapModel;
 import org.snapscript.core.Model;
 import org.snapscript.core.Path;
-import org.snapscript.core.Reserved;
 import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.ScopeMerger;

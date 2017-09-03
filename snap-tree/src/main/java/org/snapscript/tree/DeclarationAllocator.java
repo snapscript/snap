@@ -1,11 +1,11 @@
 package org.snapscript.tree;
 
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.Local;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 import org.snapscript.tree.constraint.Constraint;
 import org.snapscript.tree.constraint.ConstraintReference;
 
@@ -21,7 +21,7 @@ public class DeclarationAllocator {
       this.expression = expression;
    }   
    
-   public Value allocate(Scope scope, String name, int modifiers) throws Exception {
+   public <T extends Value> T allocate(Scope scope, String name, int modifiers) throws Exception {
       Type type = extractor.getConstraint(scope);
       Object object = null;
       
@@ -35,13 +35,13 @@ public class DeclarationAllocator {
             object = original;
          }
       }
-      return create(scope, object, type, modifiers);
+      return create(scope, name, object, type, modifiers);
    }
    
-   protected Value create(Scope scope, Object value, Type type, int modifiers) throws Exception {
+   protected <T extends Value> T create(Scope scope, String name, Object value, Type type, int modifiers) throws Exception {
       if(ModifierType.isConstant(modifiers)) {
-         return ValueType.getConstant(value, type);
+         return (T)Local.getConstant(value, name, type);
       }
-      return ValueType.getReference(value, type);
+      return (T)Local.getReference(value, name, type);
    }
 }

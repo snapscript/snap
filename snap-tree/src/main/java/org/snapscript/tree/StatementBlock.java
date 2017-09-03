@@ -20,7 +20,7 @@ public class StatementBlock extends Statement {
       if(executor == null) {
          executor = compiler.compile(scope);
       }
-      return ResultType.getNormal();
+      return Result.getNormal();
    }
    
    @Override
@@ -53,7 +53,7 @@ public class StatementBlock extends Statement {
       private final Result normal;
       
       public StatementExecutor(Statement[] statements) {
-         this.normal = ResultType.getNormal();
+         this.normal = Result.getNormal();
          this.statements = statements;
       }
       

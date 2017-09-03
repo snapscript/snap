@@ -3,7 +3,6 @@ package org.snapscript.tree.collection;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 
 public class Range extends Evaluation {
 
@@ -20,13 +19,13 @@ public class Range extends Evaluation {
       start.compile(scope, left); // compile for stack reference
       finish.compile(scope, left);
       
-      return ValueType.getTransient(null);
+      return Value.getTransient(null);
    }
    
    @Override
    public Value evaluate(Scope scope, Object left) throws Exception {
       Iterable<Number> range = create(scope, left);
-      return ValueType.getTransient(range);
+      return Value.getTransient(range);
    }
    
    private Sequence create(Scope scope, Object left) throws Exception {

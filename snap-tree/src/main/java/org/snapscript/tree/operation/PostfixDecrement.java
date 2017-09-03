@@ -3,7 +3,6 @@ package org.snapscript.tree.operation;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 import org.snapscript.parse.Token;
 
 public class PostfixDecrement extends Evaluation {
@@ -19,7 +18,7 @@ public class PostfixDecrement extends Evaluation {
    @Override
    public Value compile(Scope scope, Object context) throws Exception {
       evaluation.compile(scope, null);
-      return ValueType.getTransient(null);
+      return Value.getTransient(null);
    }
    
    @Override
@@ -32,6 +31,6 @@ public class PostfixDecrement extends Evaluation {
       
       reference.setValue(result);
 
-      return ValueType.getTransient(number);
+      return Value.getTransient(number);
    }
 }

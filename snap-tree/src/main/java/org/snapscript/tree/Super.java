@@ -10,7 +10,6 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 import org.snapscript.core.define.Instance;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.stack.ThreadStack;
@@ -46,7 +45,7 @@ public class Super extends Evaluation {
       if(base == null) {
          throw new InternalStateException("Illegal reference to 'super'"); // closure?
       }
-      return ValueType.getTransient(base);
+      return Value.getTransient(base);
    }  
    
    private Instance resolve(Instance instance, Function function) {

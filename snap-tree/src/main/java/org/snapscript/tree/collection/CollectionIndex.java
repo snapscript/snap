@@ -10,7 +10,6 @@ import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 import org.snapscript.core.convert.ProxyWrapper;
 import org.snapscript.tree.Argument;
 
@@ -36,7 +35,7 @@ public class CollectionIndex extends Evaluation {
       for(Evaluation evaluation : evaluations) {
          evaluation.compile(scope, left);
       }
-      return ValueType.getTransient(null);
+      return Value.getTransient(null);
    }
    
    @Override

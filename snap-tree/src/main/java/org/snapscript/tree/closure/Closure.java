@@ -9,7 +9,6 @@ import org.snapscript.core.Path;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 import org.snapscript.core.closure.ClosureScopeExtractor;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Signature;
@@ -67,7 +66,7 @@ public class Closure implements Compilation {
       @Override
       public Value compile(Scope scope, Object left) throws Exception {
          extractor.compile(scope);
-         return ValueType.getTransient(null);
+         return Value.getTransient(null);
       }
       
       @Override
@@ -80,7 +79,7 @@ public class Closure implements Compilation {
          if(compile.compareAndSet(false, true)) {
             closure.compile(capture);
          }
-         return ValueType.getTransient(function);
+         return Value.getTransient(function);
       }
    }
 }

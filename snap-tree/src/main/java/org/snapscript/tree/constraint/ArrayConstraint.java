@@ -7,7 +7,6 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeLoader;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 import org.snapscript.parse.StringToken;
 import org.snapscript.tree.reference.TypeReference;
 
@@ -27,7 +26,7 @@ public class ArrayConstraint extends Evaluation {
       Type entry = value.getValue();
       Type array = create(scope, entry);
       
-      return ValueType.getTransient(array);
+      return Value.getTransient(array);
    }
    
    private Type create(Scope scope, Type entry) throws Exception {

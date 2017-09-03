@@ -11,7 +11,6 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 import org.snapscript.core.property.ConstantPropertyBuilder;
 import org.snapscript.core.property.Property;
 
@@ -38,7 +37,7 @@ public class ClassConstantBuilder {
    protected void declareConstant(Scope scope, String name, Type type, Object value) throws Exception {
       List<Property> properties = type.getProperties();
       Property property = builder.createConstant(name, value);
-      Value constant = ValueType.getBlank(value, null, PUBLIC.mask | CONSTANT.mask);
+      Value constant = Value.getBlank(value, null, PUBLIC.mask | CONSTANT.mask);
       State state = scope.getState();
 
       properties.add(property);
@@ -48,7 +47,7 @@ public class ClassConstantBuilder {
    protected void declareConstant(Scope scope, String name, Type type, Type parent, Object value) throws Exception {
       List<Property> properties = type.getProperties();
       Property property = builder.createConstant(name, value, type);
-      Value constant = ValueType.getBlank(value, parent, PUBLIC.mask | CONSTANT.mask);
+      Value constant = Value.getBlank(value, parent, PUBLIC.mask | CONSTANT.mask);
       State state = scope.getState();
 
       properties.add(property);

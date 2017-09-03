@@ -3,7 +3,6 @@ package org.snapscript.tree.reference;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 import org.snapscript.parse.StringToken;
 
 public enum ReferenceOperator {
@@ -26,7 +25,7 @@ public enum ReferenceOperator {
          if(object != null) {
             return next.evaluate(scope, object);
          }
-         return ValueType.getTransient(object);
+         return Value.getTransient(object);
       }
    };
    

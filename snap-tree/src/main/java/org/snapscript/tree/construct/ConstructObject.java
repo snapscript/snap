@@ -27,7 +27,7 @@ public class ConstructObject implements Compilation {
    public Evaluation compile(Module module, Path path, int line) throws Exception {
       Context context = module.getContext();
       TraceInterceptor interceptor = context.getInterceptor();
-      Trace trace = TraceType.getConstruct(module, path, line);
+      Trace trace = Trace.getConstruct(module, path, line);
       
       return new TraceEvaluation(interceptor, construct, trace);
    }

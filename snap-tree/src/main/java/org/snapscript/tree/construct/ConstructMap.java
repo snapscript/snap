@@ -10,7 +10,6 @@ import org.snapscript.core.Module;
 import org.snapscript.core.Path;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceEvaluation;
 import org.snapscript.core.trace.TraceInterceptor;
@@ -37,7 +36,7 @@ public class ConstructMap implements Compilation {
    public Evaluation compile(Module module, Path path, int line) throws Exception {
       Context context = module.getContext();
       TraceInterceptor interceptor = context.getInterceptor();
-      Trace trace = TraceType.getConstruct(module, path, line);
+      Trace trace = Trace.getConstruct(module, path, line);
       
       return new TraceEvaluation(interceptor, construct, trace);
    }
@@ -55,7 +54,7 @@ public class ConstructMap implements Compilation {
          if(list != null) {
             return list.compile(scope, context);
          }
-         return ValueType.getTransient(null);
+         return Value.getTransient(null);
       }
       
       @Override
@@ -65,7 +64,7 @@ public class ConstructMap implements Compilation {
          if(list != null) {
             return list.evaluate(scope, context);
          }
-         return ValueType.getTransient(map);
+         return Value.getTransient(map);
       }
    }
 }

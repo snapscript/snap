@@ -30,7 +30,7 @@ public class SynchronizedStatement implements Compilation {
       Context context = module.getContext();
       ErrorHandler handler = context.getHandler();
       TraceInterceptor interceptor = context.getInterceptor();
-      Trace trace = TraceType.getNormal(module, path, line);
+      Trace trace = Trace.getNormal(module, path, line);
       
       return new TraceStatement(interceptor, handler, statement, trace);
    }

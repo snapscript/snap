@@ -37,7 +37,7 @@ public class ClassBuilder extends Statement {
       
       reference.set(type);
       
-      return ResultType.getNormal(type);
+      return Result.getNormal(type);
    }
    
    @Override
@@ -49,6 +49,6 @@ public class ClassBuilder extends Statement {
       builder.declare(scope, type);
       hierarchy.extend(scope, type); 
       
-      return ResultType.getNormal(type);
+      return Result.getNormal(type);
    }
 }

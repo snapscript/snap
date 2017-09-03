@@ -11,7 +11,6 @@ import org.snapscript.core.State;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 
 public class RelationalChecker {
    
@@ -51,7 +50,7 @@ public class RelationalChecker {
                for(int i = 0; i <= count; i++) {
                   String index = String.valueOf(i);
                   String match = matcher.group(i);
-                  Value value = ValueType.getTransient(match);
+                  Value value = Value.getTransient(match);
                   
                   state.addScope(index, value);
                }

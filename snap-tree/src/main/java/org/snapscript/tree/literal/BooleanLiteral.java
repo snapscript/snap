@@ -3,7 +3,6 @@ package org.snapscript.tree.literal;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 import org.snapscript.parse.StringToken;
 
 public class BooleanLiteral extends Literal {
@@ -25,6 +24,6 @@ public class BooleanLiteral extends Literal {
          }
          value = Boolean.parseBoolean(text);
       }
-      return ValueType.getTransient(value);
+      return Value.getTransient(value);
    }      
 }

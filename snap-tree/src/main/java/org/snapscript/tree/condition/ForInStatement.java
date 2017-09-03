@@ -6,6 +6,7 @@ import org.snapscript.core.Bug;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.Local;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
 import org.snapscript.core.Result;
@@ -14,7 +15,6 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceInterceptor;
@@ -37,7 +37,7 @@ public class ForInStatement implements Compilation {
       Context context = module.getContext();
       ErrorHandler handler = context.getHandler();
       TraceInterceptor interceptor = context.getInterceptor();
-      Trace trace = TraceType.getNormal(module, path, line);
+      Trace trace = Trace.getNormal(module, path, line);
       
       return new TraceStatement(interceptor, handler, loop, trace);
    }
@@ -80,16 +80,18 @@ public class ForInStatement implements Compilation {
 
       @Bug("clean up")
       private Result execute(Scope scope, Iterable iterable) throws Exception {
-         Value value = ValueType.getReference(null);
+         //Value value = Value.getReference(null);
          String name = reference.getName(scope);
          //Scope inner = scope.getInner();
          State state = scope.getState();
+         //Object object = value.getValue();
+         Local local = Local.getReference(null, name);
          
-         state.addLocal(index.get(), value);
+         state.addLocal(index.get(), local);
          //state.addScope(name, value);
          
          for (Object entry : iterable) {
-            value.setValue(entry);
+            local.setValue(entry);
             
             Result result = body.execute(scope);   
    
@@ -97,10 +99,10 @@ public class ForInStatement implements Compilation {
                return result;
             }
             if (result.isBreak()) {
-               return ResultType.getNormal();
+               return Result.getNormal();
             }
          }    
-         return ResultType.getNormal();
+         return Result.getNormal();
       }
    }
 }

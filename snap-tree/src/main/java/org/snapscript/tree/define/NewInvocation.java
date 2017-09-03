@@ -39,6 +39,6 @@ public class NewInvocation implements Invocation<Instance>{
          factory.compile(scope, type); // static stuff if needed
       }
       Instance result = allocator.allocate(scope, inner, list);
-      return ResultType.getNormal(result);
+      return Result.getNormal(result);
    }
 }

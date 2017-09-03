@@ -36,7 +36,7 @@ public class TypeFactoryCollector extends TypeFactory {
          last = result;
       }
       if(last == null) {
-         return ResultType.getNormal();
+         return Result.getNormal();
       }
       return last;
    } 
@@ -54,7 +54,7 @@ public class TypeFactoryCollector extends TypeFactory {
          last = result;
       }
       if(last == null) {
-         return ResultType.getNormal();
+         return Result.getNormal();
       }
       return last;
    }              

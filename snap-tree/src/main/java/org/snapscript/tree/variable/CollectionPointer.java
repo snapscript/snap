@@ -6,7 +6,6 @@ import java.util.Collection;
 
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 
 public class CollectionPointer implements VariablePointer<Collection> {
    
@@ -22,7 +21,7 @@ public class CollectionPointer implements VariablePointer<Collection> {
    public Value get(Scope scope, Collection left) {
       if(name.equals(PROPERTY_LENGTH)) {
          int length = left.size();
-         return ValueType.getConstant(length);
+         return Value.getConstant(length);
       }
       return pointer.get(scope, left);
    }

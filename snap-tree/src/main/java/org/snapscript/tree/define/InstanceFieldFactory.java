@@ -20,7 +20,7 @@ public class InstanceFieldFactory extends TypeFactory {
       if(evaluation != null) {
          evaluation.compile(scope, null); 
       }
-      return ResultType.getNormal();
+      return Result.getNormal();
    }
 
    @Override
@@ -28,6 +28,6 @@ public class InstanceFieldFactory extends TypeFactory {
       if(evaluation != null) {
          evaluation.evaluate(scope, null); 
       }
-      return ResultType.getNormal();
+      return Result.getNormal();
    }
 }

@@ -11,7 +11,6 @@ import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.core.function.Function;
@@ -40,7 +39,7 @@ public class FunctionDispatcher implements InvocationDispatcher {
       Result result = call.call();
       Object value = result.getValue();
 
-      return ValueType.getTransient(value);
+      return Value.getTransient(value);
    }
    
    private Callable<Result> bind(String name, Object... arguments) throws Exception {

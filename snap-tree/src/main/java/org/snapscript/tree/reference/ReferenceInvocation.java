@@ -9,7 +9,6 @@ import org.snapscript.core.Module;
 import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.tree.ArgumentList;
 
@@ -26,7 +25,7 @@ public class ReferenceInvocation extends Evaluation {
       Module module = scope.getModule();
       Context context = module.getContext();
       FunctionBinder binder = context.getBinder();
-      Value value = ValueType.getTransient(left);        
+      Value value = Value.getTransient(left);        
       Value array = arguments.create(scope); 
       Object[] arguments = array.getValue();
       Callable<Result> call = binder.bind(value, arguments);
@@ -38,6 +37,6 @@ public class ReferenceInvocation extends Evaluation {
       Result result = call.call();
       Object object = result.getValue();
       
-      return ValueType.getTransient(object);
+      return Value.getTransient(object);
    }
 }

@@ -16,7 +16,7 @@ public class Script extends Statement {
    
    @Override
    public Result define(Scope scope) throws Exception {
-      Result last = ResultType.getNormal();
+      Result last = Result.getNormal();
       
       for(Statement statement : statements) {
          Result result = statement.define(scope);
@@ -30,7 +30,7 @@ public class Script extends Statement {
    
    @Override
    public Result compile(Scope scope) throws Exception {
-      Result last = ResultType.getNormal();
+      Result last = Result.getNormal();
       //Scope inner = scope.getInner();
       
       for(Statement statement : statements) {
@@ -45,7 +45,7 @@ public class Script extends Statement {
    
    @Override
    public Result execute(Scope scope) throws Exception {
-      Result last = ResultType.getNormal();
+      Result last = Result.getNormal();
       Scope inner = scope.getInner();
       
       for(Statement statement : statements) {

@@ -25,7 +25,7 @@ public class ClosureStatement extends Statement {
       if(statement != null) {
          statement.compile(scope);
       }
-      return ResultType.getNormal();
+      return Result.getNormal();
    }
 
    @Override
@@ -34,7 +34,7 @@ public class ClosureStatement extends Statement {
          Value value = evaluation.evaluate(scope, null);
          Object object = value.getValue();
          
-         return ResultType.getNormal(object);
+         return Result.getNormal(object);
       }
       return statement.execute(scope);
    }

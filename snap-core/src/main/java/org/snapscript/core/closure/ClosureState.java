@@ -10,30 +10,30 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.snapscript.common.CompoundIterator;
 import org.snapscript.core.Bug;
 import org.snapscript.core.InternalStateException;
+import org.snapscript.core.Local;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 
 public class ClosureState implements State {
    
    private final Map<String, Integer> locals;
    private final Map<String, Value> values;
-   private final List<Value> stack;
+   private final List<Local> stack;
    private final Scope scope;
 
    public ClosureState(Scope scope) {
       this(scope, null);
    }
    
-   public ClosureState(Scope scope, List<Value> stack) {
+   public ClosureState(Scope scope, List<Local> stack) {
       this.locals = new ConcurrentHashMap<String, Integer>();
       this.values = new ConcurrentHashMap<String, Value>();
-      this.stack = stack == null ?new ArrayList<Value>() :stack;
+      this.stack = stack == null ?new ArrayList<Local>() :stack;
       this.scope = scope;
    }
    
-   public List<Value> getStack(){
+   public List<Local> getStack(){
       return stack;
    }
    
@@ -66,7 +66,7 @@ public class ClosureState implements State {
          if(value != null) {
             if(!value.isProperty()) { // this does not really work
                Object object = value.getValue();
-               Value constant = ValueType.getConstant(object);
+               Value constant = Value.getConstant(object);
                
                values.put(name, constant); // cache as constant
             }
@@ -87,12 +87,12 @@ public class ClosureState implements State {
    
    @Bug("fix local value get")
    @Override
-   public Value getLocal(int index) {
+   public Local getLocal(int index) {
       return stack.get(index);
    }
    
    @Override
-   public void addLocal(int index, Value value) {
+   public void addLocal(int index, Local value) {
       int size = stack.size();
       if(index >= size) {
          for(int i = size; i <= index; i++){

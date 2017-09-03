@@ -28,7 +28,7 @@ public class ContinueStatement implements Compilation {
       Context context = module.getContext();
       ErrorHandler handler = context.getHandler();
       TraceInterceptor interceptor = context.getInterceptor();
-      Trace trace = TraceType.getNormal(module, path, line);
+      Trace trace = Trace.getNormal(module, path, line);
       
       return new TraceStatement(interceptor, handler, control, trace);
    }
@@ -38,7 +38,7 @@ public class ContinueStatement implements Compilation {
       private final Result result;
       
       public CompileResult(){
-         this.result = ResultType.getContinue();
+         this.result = Result.getContinue();
       }      
       
       @Override

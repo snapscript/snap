@@ -30,7 +30,7 @@ public class AssertStatement implements Compilation {
       Context context = module.getContext();
       ErrorHandler handler = context.getHandler();
       TraceInterceptor interceptor = context.getInterceptor();
-      Trace trace = TraceType.getNormal(module, path, line);
+      Trace trace = Trace.getNormal(module, path, line);
       
       return new TraceStatement(interceptor, handler, assertion, trace);
    }
@@ -46,7 +46,7 @@ public class AssertStatement implements Compilation {
       @Override
       public Result compile(Scope scope) throws Exception {
          evaluation.compile(scope, null);
-         return ResultType.getNormal();
+         return Result.getNormal();
       }
       
       @Override
@@ -57,7 +57,7 @@ public class AssertStatement implements Compilation {
          if(!Boolean.TRUE.equals(object)) {
             throw new AssertionException("Assertion failed");
          }
-         return ResultType.getNormal();
+         return Result.getNormal();
       }
    }
 }

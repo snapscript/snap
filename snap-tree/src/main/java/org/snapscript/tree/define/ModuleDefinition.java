@@ -10,7 +10,6 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 import org.snapscript.tree.annotation.AnnotationList;
 
 public class ModuleDefinition extends Statement {   
@@ -38,7 +37,7 @@ public class ModuleDefinition extends Statement {
    @Override
    public Result compile(Scope scope) throws Exception {
       Module module = reference.get();
-      Value value = ValueType.getTransient(module);
+      Value value = Value.getTransient(module);
       Scope inner = module.getScope();
       State state = inner.getState();
       

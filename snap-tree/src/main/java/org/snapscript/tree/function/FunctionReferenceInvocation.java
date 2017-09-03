@@ -33,6 +33,6 @@ public class FunctionReferenceInvocation implements Invocation {
       Value value = dispatcher.dispatch(method, arguments);
       Object result = value.getValue();
       
-      return ResultType.getNormal(result);
+      return Result.getNormal(result);
    }
 }

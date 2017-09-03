@@ -11,7 +11,6 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.core.convert.ProxyWrapper;
 
@@ -41,7 +40,7 @@ public class MapDispatcher implements InvocationDispatcher {
       Result result = call.call();
       Object value = result.getValue();
 
-      return ValueType.getTransient(value);
+      return Value.getTransient(value);
    }
    
    private Callable<Result> bind(String name, Object... arguments) throws Exception {
@@ -57,7 +56,7 @@ public class MapDispatcher implements InvocationDispatcher {
          if(object != null) {
             ProxyWrapper wrapper = context.getWrapper();
             Object function = wrapper.fromProxy(object);
-            Value reference = ValueType.getTransient(function);
+            Value reference = Value.getTransient(function);
             
             return binder.bind(reference, arguments);
          }

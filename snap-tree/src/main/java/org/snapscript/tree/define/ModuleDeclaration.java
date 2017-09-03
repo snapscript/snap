@@ -30,7 +30,7 @@ public class ModuleDeclaration implements Compilation {
       Context context = module.getContext();
       ErrorHandler handler = context.getHandler();
       TraceInterceptor interceptor = context.getInterceptor();
-      Trace trace = TraceType.getNormal(module, path, line);
+      Trace trace = Trace.getNormal(module, path, line);
       
       return new TraceStatement(interceptor, handler, declaration, trace);
    }
@@ -52,7 +52,7 @@ public class ModuleDeclaration implements Compilation {
          for(ModuleProperty declaration : properties) {
             declaration.create(scope, mask); 
          }
-         return ResultType.getNormal();
+         return Result.getNormal();
       }
    }
 }

@@ -23,7 +23,7 @@ public class ModuleBody extends Statement {
    
    @Override
    public Result define(Scope scope) throws Exception {
-      Result last = ResultType.getNormal();
+      Result last = Result.getNormal();
       
       if(define.compareAndSet(true, false)) {
          for(Statement statement : statements) {
@@ -40,7 +40,7 @@ public class ModuleBody extends Statement {
    
    @Override
    public Result compile(Scope scope) throws Exception {
-      Result last = ResultType.getNormal();
+      Result last = Result.getNormal();
       
       if(compile.compareAndSet(true, false)) {
          for(Statement statement : statements) {
@@ -57,7 +57,7 @@ public class ModuleBody extends Statement {
    
    @Override
    public Result execute(Scope scope) throws Exception {
-      Result last = ResultType.getNormal();
+      Result last = Result.getNormal();
       
       if(execute.compareAndSet(true, false)) {
          for(Statement statement : statements) {

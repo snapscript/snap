@@ -3,7 +3,6 @@ package org.snapscript.tree.condition;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 
 public class NullCoalesce extends Evaluation {
 
@@ -20,7 +19,7 @@ public class NullCoalesce extends Evaluation {
       evaluation.compile(scope, null);
       substitute.compile(scope, null);
        
-      return ValueType.getTransient(null);
+      return Value.getTransient(null);
    }
    
    @Override

@@ -77,7 +77,7 @@ public class StatementConverter implements InvocationBuilder {
          if(value != null) {
             value = converter.assign(value);
          }
-         return ResultType.getNormal(value);
+         return Result.getNormal(value);
       }
    }
 }

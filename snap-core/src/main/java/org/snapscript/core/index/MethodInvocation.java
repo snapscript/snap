@@ -61,6 +61,6 @@ public class MethodInvocation implements Invocation<Object>{
       Object value = call.call(left, list);
       Object result = wrapper.fromProxy(value);
       
-      return ResultType.getNormal(result);
+      return Result.getNormal(result);
    }
 }

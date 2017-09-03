@@ -5,7 +5,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 
 public class LocalPointer implements VariablePointer<Object> {
    
@@ -32,11 +31,11 @@ public class LocalPointer implements VariablePointer<Object> {
             
             if(value != null) {
                reference.set(value);
-               return ValueType.getTransient(value);
+               return Value.getTransient(value);
             }
          }
          return variable;
       }
-      return ValueType.getTransient(result);
+      return Value.getTransient(result);
    }
 }

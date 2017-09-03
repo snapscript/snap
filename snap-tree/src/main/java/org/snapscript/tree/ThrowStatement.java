@@ -30,7 +30,7 @@ public class ThrowStatement implements Compilation {
       Context context = module.getContext();
       ErrorHandler handler = context.getHandler();
       TraceInterceptor interceptor = context.getInterceptor();
-      Trace trace = TraceType.getConstruct(module, path, line);
+      Trace trace = Trace.getConstruct(module, path, line);
       
       return new TraceStatement(interceptor, handler, control, trace);
    }
@@ -43,11 +43,11 @@ public class ThrowStatement implements Compilation {
          this.evaluation = evaluation; 
       }   
       
-      @Bug("is ResultType.getNormal() a valid return")
+      @Bug("is Result.getNormal() a valid return")
       @Override
       public Result compile(Scope scope) throws Exception {
          evaluation.compile(scope, null);
-         return ResultType.getNormal();
+         return Result.getNormal();
       }
    
       @Override

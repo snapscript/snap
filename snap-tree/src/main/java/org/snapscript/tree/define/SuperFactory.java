@@ -21,7 +21,7 @@ public class SuperFactory extends TypeFactory {
    @Override
    public Result compile(Scope instance, Type real) throws Exception {
       expression.compile(instance, real);
-      return ResultType.getNormal(null);
+      return Result.getNormal(null);
    }
 
    @Override
@@ -30,6 +30,6 @@ public class SuperFactory extends TypeFactory {
       Scope value = reference.getValue();
       Scope base = builder.create(value, real);
       
-      return ResultType.getNormal(base);
+      return Result.getNormal(base);
    }
 }

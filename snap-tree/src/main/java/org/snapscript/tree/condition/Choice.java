@@ -3,7 +3,6 @@ package org.snapscript.tree.condition;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 
 public class Choice extends Evaluation {
    
@@ -23,7 +22,7 @@ public class Choice extends Evaluation {
       positive.compile(scope, null);
       negative.compile(scope, null);
       
-      return ValueType.getTransient(null);
+      return Value.getTransient(null);
    }
    
    @Override

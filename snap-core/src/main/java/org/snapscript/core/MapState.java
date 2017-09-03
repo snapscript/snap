@@ -13,7 +13,7 @@ public class MapState implements State {
    
    private final Map<String, Integer> locals;
    private final Map<String, Value> values;
-   private final List<Value> stack;
+   private final List<Local> stack;
    private final Scope scope;
    private final Model model;
    
@@ -31,15 +31,15 @@ public class MapState implements State {
    }
    
    @Bug("set state")
-   public MapState(Model model, Scope scope, List<Value> stack) {
+   public MapState(Model model, Scope scope, List<Local> stack) {
       this.locals = new HashMap<String, Integer>();
       this.values = new HashMap<String, Value>();
-      this.stack = stack == null  ? new ArrayList<Value>(): stack;
+      this.stack = stack == null  ? new ArrayList<Local>(): stack;
       this.model = model;
       this.scope = scope;
    }
    
-   public List<Value> getStack(){
+   public List<Local> getStack(){
       return stack;
    }
    
@@ -73,7 +73,7 @@ public class MapState implements State {
          Object object = model.getAttribute(name);
          
          if(object != null) {
-            return ValueType.getConstant(object);
+            return Value.getConstant(object);
          }
       }
       return value;
@@ -91,7 +91,7 @@ public class MapState implements State {
    
    @Bug("fix local value get")
    @Override
-   public Value getLocal(int index) {
+   public Local getLocal(int index) {
       try {
          return stack.get(index);
       }catch(RuntimeException e){
@@ -101,7 +101,7 @@ public class MapState implements State {
    }
    
    @Override
-   public void addLocal(int index, Value value) {
+   public void addLocal(int index, Local value) {
       int size = stack.size();
       if(index >= size) {
          for(int i = size; i <= index; i++){

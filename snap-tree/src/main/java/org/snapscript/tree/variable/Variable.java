@@ -6,7 +6,6 @@ import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 import org.snapscript.tree.NameReference;
 
 public class Variable extends Evaluation {
@@ -31,7 +30,7 @@ public class Variable extends Evaluation {
          System.err.println("REF >> name=" +name + " index="+value+" "+System.identityHashCode(this));
          index.set(value);
       }
-      return ValueType.getTransient(null);
+      return Value.getTransient(null);
    }
    
    @Override

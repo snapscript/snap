@@ -6,11 +6,11 @@ import java.util.Set;
 public interface State extends Iterable<String> {
    Value getScope(String name);
    void addScope(String name, Value value);
-   Value getLocal(int index);
-   void addLocal(int index, Value value);
+   Local getLocal(int index);
+   void addLocal(int index, Local local);
    int getLocal(String name);
    int addLocal(String name);
    Set<String> getLocals();
-   List<Value> getStack();
+   List<Local> getStack();
    int getDepth();
 }

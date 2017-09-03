@@ -4,7 +4,6 @@ import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 import org.snapscript.tree.NameReference;
 
 public class MapKey extends Evaluation {
@@ -22,7 +21,7 @@ public class MapKey extends Evaluation {
       Value value = state.getScope(name);
       
       if(value == null) {
-         return ValueType.getTransient(name);
+         return Value.getTransient(name);
       }
       return value;
    }

@@ -19,7 +19,6 @@ import static org.snapscript.core.Reserved.TYPE_THIS;
 import java.util.List;
 
 import org.snapscript.common.Progress;
-import org.snapscript.core.Category;
 import org.snapscript.core.Context;
 import org.snapscript.core.Module;
 import org.snapscript.core.Phase;
@@ -30,7 +29,6 @@ import org.snapscript.core.State;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeLoader;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 import org.snapscript.core.define.Instance;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
@@ -88,11 +86,11 @@ public class AnyDefinition{
          Type real = (Type)list[0];
          Instance instance = builder.create(scope, real);
          State state = instance.getState();
-         Value value = ValueType.getProperty(object, real, PUBLIC.mask | CONSTANT.mask); // this needs to be a blank
+         Value value = Value.getProperty(object, real, PUBLIC.mask | CONSTANT.mask); // this needs to be a blank
          
          state.addScope(TYPE_THIS, value); // reference to 'this'
          
-         return ResultType.getNormal(instance);
+         return Result.getNormal(instance);
       }
    }
    
@@ -105,7 +103,7 @@ public class AnyDefinition{
       @Override
       public Result invoke(Scope scope, Object object, Object... list) throws Exception {
          object.wait();
-         return ResultType.getNormal();
+         return Result.getNormal();
       }
    }
    
@@ -121,7 +119,7 @@ public class AnyDefinition{
          long time = argument.longValue();
          
          object.wait(time);
-         return ResultType.getNormal();
+         return Result.getNormal();
       }
    }
    
@@ -134,7 +132,7 @@ public class AnyDefinition{
       @Override
       public Result invoke(Scope scope, Object object, Object... list) throws Exception {
          object.notify();
-         return ResultType.getNormal();
+         return Result.getNormal();
       }
    }
    
@@ -147,7 +145,7 @@ public class AnyDefinition{
       @Override
       public Result invoke(Scope scope, Object object, Object... list) throws Exception {
          object.notifyAll();
-         return ResultType.getNormal();
+         return Result.getNormal();
       }
    }
    
@@ -160,7 +158,7 @@ public class AnyDefinition{
       @Override
       public Result invoke(Scope scope, Object object, Object... list) throws Exception {
          int hash = object.hashCode();
-         return ResultType.getNormal(hash);
+         return Result.getNormal(hash);
       }
    }
    
@@ -175,7 +173,7 @@ public class AnyDefinition{
          Object argument = list[0];
          boolean equal = object.equals(argument);
          
-         return ResultType.getNormal(equal);
+         return Result.getNormal(equal);
       }
    }
    
@@ -190,7 +188,7 @@ public class AnyDefinition{
          String value = object.toString();
          int hash = object.hashCode();
          
-         return ResultType.getNormal(value + "@" + hash);
+         return Result.getNormal(value + "@" + hash);
       }
    }
 }

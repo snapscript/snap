@@ -5,10 +5,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.snapscript.core.Bug;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
+import org.snapscript.core.Local;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 import org.snapscript.tree.constraint.Constraint;
 import org.snapscript.tree.literal.TextLiteral;
 
@@ -50,22 +50,20 @@ public class Declaration {
       System.err.println("DECLARE: name="+name+" depth="+depth);
       index.set(depth);
 
-      return ValueType.getTransient(null);
+      return Value.getTransient(null);
    }
    
    public Value create(Scope scope, int modifiers) throws Exception {
       String name = reference.getName(scope);
-      Value value = allocator.allocate(scope, name, modifiers);
+      Local local = allocator.allocate(scope, name, modifiers);
       State state = scope.getState();
+      int position = index.get();
       
       try { 
-         int v = index.get();
-
-         state.addLocal(v, value);
-         //state.addScope(name, value);
+         state.addLocal(position, local);
       }catch(Exception e) {
          throw new InternalStateException("Declaration of variable '" + name +"' failed", e);
       }  
-      return value;
+      return local;
    }
 }

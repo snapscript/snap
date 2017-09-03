@@ -3,7 +3,6 @@ package org.snapscript.tree.operation;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 
 public class CalculationResult extends Evaluation {
 
@@ -15,7 +14,7 @@ public class CalculationResult extends Evaluation {
 
    @Override
    public Value evaluate(Scope scope, Object left) throws Exception {
-      return ValueType.getTransient(value);
+      return Value.getTransient(value);
    }
 
 }

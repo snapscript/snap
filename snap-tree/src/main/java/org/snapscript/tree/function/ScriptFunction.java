@@ -50,6 +50,6 @@ public class ScriptFunction extends Statement {
       functions.add(function);
       f.compile(scope); // count stack
       
-      return ResultType.getNormal(function);
+      return Result.getNormal(function);
    }
 }

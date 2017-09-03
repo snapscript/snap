@@ -10,7 +10,6 @@ import org.snapscript.core.Module;
 import org.snapscript.core.Path;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 import org.snapscript.core.convert.ProxyWrapper;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceEvaluation;
@@ -39,7 +38,7 @@ public class ConstructSet implements Compilation {
    public Evaluation compile(Module module, Path path, int line) throws Exception {
       Context context = module.getContext();
       TraceInterceptor interceptor = context.getInterceptor();
-      Trace trace = TraceType.getConstruct(module, path, line);
+      Trace trace = Trace.getConstruct(module, path, line);
       
       return new TraceEvaluation(interceptor, construct, trace);
    }
@@ -57,7 +56,7 @@ public class ConstructSet implements Compilation {
          if(arguments != null) {
             arguments.compile(scope);      
          }   
-         return ValueType.getTransient(null);
+         return Value.getTransient(null);
       }
       
       @Override
@@ -76,7 +75,7 @@ public class ConstructSet implements Compilation {
                result.add(proxy);
             }         
          }   
-         return ValueType.getTransient(result);
+         return Value.getTransient(result);
       }
    }
 }

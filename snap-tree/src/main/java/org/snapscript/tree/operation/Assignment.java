@@ -1,11 +1,10 @@
 package org.snapscript.tree.operation;
 
-import org.snapscript.core.convert.StringBuilder;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
+import org.snapscript.core.convert.StringBuilder;
 import org.snapscript.parse.StringToken;
 
 public class Assignment extends Evaluation {
@@ -24,8 +23,8 @@ public class Assignment extends Evaluation {
    public Value compile(Scope scope, Object context) throws Exception { // this is rubbish
       left.compile(scope, context);
       right.compile(scope, context);
-      
-      return ValueType.getTransient(null);
+
+      return Value.getTransient(null);
    }
    
    @Override

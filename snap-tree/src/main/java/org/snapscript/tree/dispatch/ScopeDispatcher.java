@@ -10,7 +10,6 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 import org.snapscript.core.bind.FunctionBinder;
 
 public class ScopeDispatcher implements InvocationDispatcher {
@@ -38,7 +37,7 @@ public class ScopeDispatcher implements InvocationDispatcher {
       Result result = match.call();
       Object data = result.getValue();
       
-      return ValueType.getTransient(data);           
+      return Value.getTransient(data);           
    }
    
    private Callable<Result> bind(String name, Object... arguments) throws Exception {

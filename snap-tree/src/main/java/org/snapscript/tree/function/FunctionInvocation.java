@@ -11,7 +11,6 @@ import org.snapscript.core.Module;
 import org.snapscript.core.Path;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceEvaluation;
@@ -34,7 +33,7 @@ public class FunctionInvocation implements Compilation {
    public Evaluation compile(Module module, Path path, int line) throws Exception {
       Context context = module.getContext();
       TraceInterceptor interceptor = context.getInterceptor();
-      Trace trace = TraceType.getInvoke(module, path, line);
+      Trace trace = Trace.getInvoke(module, path, line);
       
       return new TraceEvaluation(interceptor, invocation, trace);
    }
@@ -68,7 +67,7 @@ public class FunctionInvocation implements Compilation {
          for(Evaluation evaluation : evaluations) {
             evaluation.compile(scope, null);
          }
-         return ValueType.getTransient(null);
+         return Value.getTransient(null);
       }
       
       @Override

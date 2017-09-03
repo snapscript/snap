@@ -4,7 +4,6 @@ import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 
 public class TypeReference extends Evaluation {
    
@@ -26,7 +25,7 @@ public class TypeReference extends Evaluation {
             }
             left = value.getValue();
          }
-         type = ValueType.getTransient(left);
+         type = Value.getTransient(left);
       }
       return type;
    }

@@ -9,7 +9,6 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeLoader;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 import org.snapscript.parse.StringToken;
 
 public class MapConstraint extends Evaluation {
@@ -27,6 +26,6 @@ public class MapConstraint extends Evaluation {
       TypeLoader loader = context.getLoader();
       Type type = loader.loadType(Map.class);
       
-      return ValueType.getTransient(type);
+      return Value.getTransient(type);
    }
 }

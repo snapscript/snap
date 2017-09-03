@@ -8,6 +8,14 @@ public class Score implements Comparable<Score> {
    public static final Score TRANSIENT = new Score(20, false);
    public static final Score POSSIBLE = new Score(10, true);
    public static final Score INVALID = new Score(0, true);
+   
+   public static Score sum(Score left, Score right) {
+      return new Score(left.score + right.score, left.cache && right.cache);
+   }
+   
+   public static Score average(Score left, Score right) {
+      return new Score((left.score + right.score) / 2, left.cache && right.cache);
+   }
 
    private final boolean cache;
    private final Double score;
@@ -45,13 +53,5 @@ public class Score implements Comparable<Score> {
    @Override
    public String toString() {
       return score.toString();
-   }
-   
-   public static Score sum(Score left, Score right) {
-      return new Score(left.score + right.score, left.cache && right.cache);
-   }
-   
-   public static Score average(Score left, Score right) {
-      return new Score((left.score + right.score) / 2, left.cache && right.cache);
    }
 }

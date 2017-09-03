@@ -62,7 +62,7 @@ public class EnumFactory extends TypeFactory {
       initializer.declareConstant(instance, ENUM_ORDINAL, type, index);
       values.add(object);
       
-      return ResultType.getNormal(instance);
+      return Result.getNormal(instance);
    }
 
 }

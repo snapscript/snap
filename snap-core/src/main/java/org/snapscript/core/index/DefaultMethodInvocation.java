@@ -60,6 +60,6 @@ public class DefaultMethodInvocation implements Invocation<Object>{
       Object value = handle.invoke(scope, left, list);
       Object result = wrapper.fromProxy(value);
       
-      return ResultType.getNormal(result);
+      return Result.getNormal(result);
    }
 }

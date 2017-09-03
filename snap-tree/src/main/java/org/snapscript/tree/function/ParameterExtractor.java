@@ -2,12 +2,12 @@ package org.snapscript.tree.function;
 
 import java.util.List;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.InternalStateException;
+import org.snapscript.core.Local;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Type;
-import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 import org.snapscript.core.convert.CompatibilityChecker;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.Signature;
@@ -17,9 +17,17 @@ public class ParameterExtractor {
    private final CompatibilityChecker checker;
    private final Signature signature;
    
+   @Bug("this crap is for the SuperAllocator...")
+   private final boolean global;
+   
    public ParameterExtractor(Signature signature) {
+      this(signature, false);
+   }
+   
+   public ParameterExtractor(Signature signature, boolean global) {
       this.checker = new CompatibilityChecker();
       this.signature = signature;
+      this.global = global;
    }
    
    public void compile(Scope scope) throws Exception {
@@ -32,7 +40,7 @@ public class ParameterExtractor {
          for(int i = 0; i < size; i++) {
             Parameter parameter = parameters.get(i);
             String name = parameter.getName();
-            
+
             state.addLocal(name);
          }
       }
@@ -50,17 +58,19 @@ public class ParameterExtractor {
             Parameter parameter = parameters.get(i);
             String name = parameter.getName();
             Object argument = arguments[i];
-            Value value = create(inner, argument, i);
+            Local local = create(inner, argument, i);
             
-            state.addLocal(i, value);
-            state.addScope(name, value);
+            if(global) {
+               state.addScope(name, local);
+            }
+            state.addLocal(i, local);
          }
          return inner;
       }
       return inner;
    }
 
-   private Value create(Scope scope, Object value, int index) throws Exception {
+   private Local create(Scope scope, Object value, int index) throws Exception {
       List<Parameter> parameters = signature.getParameters();
       Parameter parameter = parameters.get(index);
       Type type = parameter.getType();
@@ -78,12 +88,12 @@ public class ParameterExtractor {
                   throw new InternalStateException("Parameter '" + name + "...' does not match constraint '" + type + "'");
                }
             }
-            return ValueType.getReference(value, type);
+            return Local.getReference(value, name, type);
          }
       }
       if(!checker.compatible(scope, value, type)) {
          throw new InternalStateException("Parameter '" + name + "' does not match constraint '" + type + "'");
       }
-      return ValueType.getReference(value, type);         
+      return Local.getReference(value, name, type);         
    }
 }

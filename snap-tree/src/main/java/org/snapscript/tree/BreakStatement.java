@@ -5,14 +5,12 @@ import org.snapscript.core.Context;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
 import org.snapscript.core.Result;
-import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.trace.TraceStatement;
-import org.snapscript.core.trace.TraceType;
 import org.snapscript.parse.StringToken;
 
 public class BreakStatement implements Compilation {
@@ -28,7 +26,7 @@ public class BreakStatement implements Compilation {
       Context context = module.getContext();
       ErrorHandler handler = context.getHandler();
       TraceInterceptor interceptor = context.getInterceptor();
-      Trace trace = TraceType.getNormal(module, path, line);
+      Trace trace = Trace.getNormal(module, path, line);
       
       return new TraceStatement(interceptor, handler, control, trace);
    }
@@ -38,7 +36,7 @@ public class BreakStatement implements Compilation {
       private final Result result;
       
       public CompileResult(){
-         this.result = ResultType.getBreak();
+         this.result = Result.getBreak();
       }
       
       @Override

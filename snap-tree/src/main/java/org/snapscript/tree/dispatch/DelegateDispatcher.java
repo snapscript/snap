@@ -10,7 +10,6 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.core.convert.Delegate;
 
@@ -40,6 +39,6 @@ public class DelegateDispatcher implements InvocationDispatcher {
       Result result = call.call();
       Object value = result.getValue();
 
-      return ValueType.getTransient(value);
+      return Value.getTransient(value);
    }
 }

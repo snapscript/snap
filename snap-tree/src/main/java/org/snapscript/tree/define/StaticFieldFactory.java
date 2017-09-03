@@ -23,6 +23,6 @@ public class StaticFieldFactory extends StaticFactory {
       evaluation.compile(scope, null);
       evaluation.evaluate(scope, null);
       
-      return ResultType.getNormal();
+      return Result.getNormal();
    }
 }

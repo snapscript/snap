@@ -48,6 +48,6 @@ public class ThisFactory extends TypeFactory {
       Value value = expression.evaluate(scope, null);
       Instance result = value.getValue();
       
-      return ResultType.getNormal(result); // this will return the instance created!!
+      return Result.getNormal(result); // this will return the instance created!!
    }
 }

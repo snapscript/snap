@@ -91,7 +91,7 @@ public class Import implements Compilation {
          if(definition == null) { // define once
             definition = create(scope);
          }
-         return ResultType.getNormal(); 
+         return Result.getNormal(); 
       }
 
       @Override
@@ -102,7 +102,7 @@ public class Import implements Compilation {
          if(statement == null) { // compile once
             statement = definition.compile(scope, path);
          }
-         return ResultType.getNormal();
+         return Result.getNormal();
       }
       
       @Override

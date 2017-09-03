@@ -1,7 +1,6 @@
 package org.snapscript.tree.operation;
 
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 import org.snapscript.parse.StringToken;
 
 public enum PrefixOperator {
@@ -9,7 +8,7 @@ public enum PrefixOperator {
       @Override
       public Value operate(Value right) { 
          Boolean value = right.getBoolean();         
-         return ValueType.getTransient(!value);
+         return Value.getTransient(!value);
       }      
    }, 
    COMPLEMENT("~"){

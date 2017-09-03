@@ -12,7 +12,6 @@ import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.tree.ArgumentList;
 import org.snapscript.tree.reference.CompiledReference;
@@ -32,7 +31,7 @@ public class CreateObject extends Evaluation {
       if(arguments != null) {
          arguments.compile(scope);
       }
-      return ValueType.getTransient(null);
+      return Value.getTransient(null);
    }
    
    @Override
@@ -47,7 +46,7 @@ public class CreateObject extends Evaluation {
       Result result = call.call();
       Object instance = result.getValue();
       
-      return ValueType.getTransient(instance);
+      return Value.getTransient(instance);
    }
    
    private Callable<Result> bind(Scope scope, Type type) throws Exception {

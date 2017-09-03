@@ -2,7 +2,6 @@ package org.snapscript.tree;
 
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 
 public class ArgumentList {
    
@@ -36,6 +35,6 @@ public class ArgumentList {
       for(int i = 0; i < prefix.length; i++) {
          values[i] = prefix[i];
       }
-      return ValueType.getTransient(values);
+      return Value.getTransient(values);
    }
 }

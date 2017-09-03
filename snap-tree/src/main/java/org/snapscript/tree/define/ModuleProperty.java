@@ -1,14 +1,10 @@
 package org.snapscript.tree.define;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
-import org.snapscript.core.Bug;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 import org.snapscript.tree.DeclarationAllocator;
 import org.snapscript.tree.NameReference;
 import org.snapscript.tree.constraint.Constraint;

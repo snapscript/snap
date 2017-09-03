@@ -48,7 +48,7 @@ public class PartialPlatform implements Platform {
       public Result invoke(Scope scope, Object value, Object... arguments) {
          try {
             Object result = method.invoke(value, arguments);
-            return ResultType.getNormal(result);
+            return Result.getNormal(result);
          }catch(Throwable e) {
             throw new InternalStateException("Could not invoke method " + method, e);
          }
@@ -67,7 +67,7 @@ public class PartialPlatform implements Platform {
       public Result invoke(Scope scope, Object value, Object... arguments) {
          try {
             Object result = constructor.newInstance(arguments);
-            return ResultType.getNormal(result);
+            return Result.getNormal(result);
          }catch(Throwable e) {
             throw new InternalStateException("Could not invoke constructor " + constructor, e);
          }

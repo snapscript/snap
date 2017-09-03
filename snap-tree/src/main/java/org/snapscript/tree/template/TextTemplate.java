@@ -8,7 +8,6 @@ import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 import org.snapscript.parse.StringToken;
 
 public class TextTemplate extends Evaluation {
@@ -44,7 +43,7 @@ public class TextTemplate extends Evaluation {
       for(Segment token : tokens) {
          token.compile(scope);
       }
-      return ValueType.getTransient(null);
+      return Value.getTransient(null);
    }
 
    @Override
@@ -55,6 +54,6 @@ public class TextTemplate extends Evaluation {
          token.process(scope, writer);
       }
       String result = writer.toString();
-      return ValueType.getTransient(result);
+      return Value.getTransient(result);
    }
 }

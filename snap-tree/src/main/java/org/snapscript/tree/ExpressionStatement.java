@@ -29,7 +29,7 @@ public class ExpressionStatement implements Compilation {
       Context context = module.getContext();
       ErrorHandler handler = context.getHandler();
       TraceInterceptor interceptor = context.getInterceptor();
-      Trace trace = TraceType.getNormal(module, path, line);
+      Trace trace = Trace.getNormal(module, path, line);
       
       return new TraceStatement(interceptor, handler, expression, trace);
    }
@@ -45,7 +45,7 @@ public class ExpressionStatement implements Compilation {
       @Override
       public Result compile(Scope scope) throws Exception {
          expression.compile(scope, null);
-         return ResultType.getNormal();
+         return Result.getNormal();
       }
    
       @Override
@@ -53,7 +53,7 @@ public class ExpressionStatement implements Compilation {
          Value reference = expression.evaluate(scope, null);
          Object value = reference.getValue();
          
-         return ResultType.getNormal(value);
+         return Result.getNormal(value);
       }
    }
 }

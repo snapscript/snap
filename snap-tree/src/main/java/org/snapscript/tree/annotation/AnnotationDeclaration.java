@@ -8,7 +8,6 @@ import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.annotation.MapAnnotation;
 import org.snapscript.tree.construct.MapEntryList;
@@ -36,7 +35,7 @@ public class AnnotationDeclaration extends Evaluation {
          if(annotation == null) {
             throw new InternalStateException("Could not create annotation");
          }
-         value = ValueType.getTransient(annotation);
+         value = Value.getTransient(annotation);
       }
       return value;
    }

@@ -70,7 +70,7 @@ public class ImportStatic implements Compilation {
                }
             }
          }
-         return ResultType.getNormal();
+         return Result.getNormal();
       }
       
    }

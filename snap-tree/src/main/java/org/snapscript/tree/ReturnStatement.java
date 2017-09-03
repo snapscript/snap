@@ -38,7 +38,7 @@ public class ReturnStatement implements Compilation {
       Context context = module.getContext();
       ErrorHandler handler = context.getHandler();
       TraceInterceptor interceptor = context.getInterceptor();
-      Trace trace = TraceType.getNormal(module, path, line);
+      Trace trace = Trace.getNormal(module, path, line);
       
       return new TraceStatement(interceptor, handler, control, trace);
    }
@@ -49,7 +49,7 @@ public class ReturnStatement implements Compilation {
       private final Result result;
 
       public CompileResult(Evaluation evaluation){
-         this.result = ResultType.getReturn();
+         this.result = Result.getReturn();
          this.evaluation = evaluation;
       }
       
@@ -58,7 +58,7 @@ public class ReturnStatement implements Compilation {
          if(evaluation != null) {
             evaluation.compile(scope, null);
          }
-         return ResultType.getReturn();
+         return Result.getReturn();
       }
       
       @Override
@@ -67,7 +67,7 @@ public class ReturnStatement implements Compilation {
             Value value = evaluation.evaluate(scope, null);
             Object object = value.getValue();
             
-            return ResultType.getReturn(object);
+            return Result.getReturn(object);
          }
          return result;
       }

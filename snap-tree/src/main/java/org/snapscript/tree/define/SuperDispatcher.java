@@ -7,7 +7,6 @@ import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 import org.snapscript.core.define.Instance;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.platform.Platform;
@@ -45,6 +44,6 @@ public class SuperDispatcher implements InvocationDispatcher{
       Result result = invocation.invoke(scope, real, copy);
       Instance instance = result.getValue();
       
-      return ValueType.getTransient(instance, type);
+      return Value.getTransient(instance, type);
    }
 }

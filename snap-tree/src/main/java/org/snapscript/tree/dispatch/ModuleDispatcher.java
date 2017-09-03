@@ -8,7 +8,6 @@ import org.snapscript.core.Module;
 import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 import org.snapscript.core.bind.FunctionBinder;
 
 public class ModuleDispatcher implements InvocationDispatcher {
@@ -31,7 +30,7 @@ public class ModuleDispatcher implements InvocationDispatcher {
       Result result = call.call();
       Object data = result.getValue();
 
-      return ValueType.getTransient(data);           
+      return Value.getTransient(data);           
    }
    
    private Callable<Result> bind(String name, Object... arguments) throws Exception {

@@ -30,7 +30,7 @@ public class AssignmentStatement implements Compilation {
       Context context = module.getContext();
       ErrorHandler handler = context.getHandler();
       TraceInterceptor interceptor = context.getInterceptor();
-      Trace trace = TraceType.getNormal(module, path, line);
+      Trace trace = Trace.getNormal(module, path, line);
       
       return new TraceStatement(interceptor, handler, assignment, trace);
    }
@@ -46,7 +46,7 @@ public class AssignmentStatement implements Compilation {
       @Override
       public Result compile(Scope scope) throws Exception {
          assignment.compile(scope, null);
-         return ResultType.getNormal(null);
+         return Result.getNormal(null);
       }
       
       @Override
@@ -54,7 +54,7 @@ public class AssignmentStatement implements Compilation {
          Value reference = assignment.evaluate(scope, null);
          Object value = reference.getValue();
          
-         return ResultType.getNormal(value);
+         return Result.getNormal(value);
       }
    }
 }

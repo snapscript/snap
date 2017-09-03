@@ -28,7 +28,7 @@ public class TraceProxyHandler implements ProxyHandler {
    public Object invoke(Object proxy, Method method, Object[] list) throws Throwable {
       Module module = scope.getModule();
       Path path = module.getPath();
-      Trace trace = TraceType.getNative(module, path); 
+      Trace trace = Trace.getNative(module, path); 
       TraceInterceptor interceptor = context.getInterceptor();
       ErrorHandler handler = context.getHandler();
       

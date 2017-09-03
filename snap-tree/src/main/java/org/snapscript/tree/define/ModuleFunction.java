@@ -57,6 +57,6 @@ public class ModuleFunction extends Statement {
       functions.add(function);
       f.compile(inner); // count stack
       
-      return ResultType.getNormal(function);
+      return Result.getNormal(function);
    }
 }

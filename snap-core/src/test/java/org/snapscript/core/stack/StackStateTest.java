@@ -9,7 +9,6 @@ import java.util.Random;
 import junit.framework.TestCase;
 
 import org.snapscript.core.Value;
-import org.snapscript.core.ValueType;
 
 import com.sun.management.ThreadMXBean;
 
@@ -31,7 +30,7 @@ public class StackStateTest extends TestCase {
       for(int i = 0; i < ELEMENTS; i++) {
          int number = random.nextInt(ELEMENTS);
          String key = String.valueOf(number);
-         Value value = ValueType.getReference(key);
+         Value value = Value.getReference(key);
          names[i] = key;
          map.put(key, value);
          stack.add(key, value);  
@@ -80,7 +79,7 @@ public class StackStateTest extends TestCase {
                   if(index ==0){
                      local = new HashMap<String, Object>();
                   }
-                  Value value = ValueType.getReference(name);
+                  Value value = Value.getReference(name);
                   String key = names[index];
                   local.put(key, value);
                }
@@ -97,7 +96,7 @@ public class StackStateTest extends TestCase {
                   if(index ==0){
                      stack.clear(); // copy
                   }
-                  Value value = ValueType.getReference(name);
+                  Value value = Value.getReference(name);
                   String key = names[index];
                   local.add(key, value);
                }
@@ -114,7 +113,7 @@ public class StackStateTest extends TestCase {
                   if(index ==0){
                      local = new HashMap<String, Object>();
                   }
-                  Value value = ValueType.getReference(name);
+                  Value value = Value.getReference(name);
                   String key = names[index];
                   local.put(key, value);
                }
@@ -131,7 +130,7 @@ public class StackStateTest extends TestCase {
                   if(index ==0){
                      stack.clear(); 
                   }
-                  Value value = ValueType.getReference(name);
+                  Value value = Value.getReference(name);
                   String key = names[index];
                   local.add(key, value);
                }

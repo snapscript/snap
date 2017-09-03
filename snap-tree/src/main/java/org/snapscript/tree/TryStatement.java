@@ -90,7 +90,7 @@ public class TryStatement implements Compilation {
          try {
             return statement.execute(scope);
          } catch(Throwable cause) {
-            return ResultType.getThrow(cause);
+            return Result.getThrow(cause);
          }
       }
    }
