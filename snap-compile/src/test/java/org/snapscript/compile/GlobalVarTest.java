@@ -25,6 +25,7 @@ public class GlobalVarTest extends TestCase {
 
    public void testGlobalVar() throws Exception {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
+      System.err.println(SOURCE_1);
       Executable executable = compiler.compile(SOURCE_1);
       executable.execute();
    }

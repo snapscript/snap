@@ -5,7 +5,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.snapscript.core.Context;
 import org.snapscript.core.Module;
 import org.snapscript.core.Result;
-import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
@@ -25,7 +24,11 @@ public class StatementConverter implements InvocationBuilder {
    private Type constraint;
 
    public StatementConverter(Signature signature, Statement compile, Statement execute, Type constraint) {
-      this.extractor = new ParameterExtractor(signature);
+      this(signature, compile, execute, constraint, false);
+   }
+   
+   public StatementConverter(Signature signature, Statement compile, Statement execute, Type constraint, boolean closure) {
+      this.extractor = new ParameterExtractor(signature, closure);
       this.constraint = constraint;
       this.execute = execute;
       this.compile = compile;

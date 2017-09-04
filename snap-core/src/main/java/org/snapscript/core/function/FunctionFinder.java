@@ -1,4 +1,4 @@
-package org.snapscript.core.closure;
+package org.snapscript.core.function;
 
 import static org.snapscript.core.Reserved.METHOD_EQUALS;
 import static org.snapscript.core.Reserved.METHOD_HASH_CODE;
@@ -14,17 +14,14 @@ import org.snapscript.common.CopyOnWriteCache;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeLoader;
-import org.snapscript.core.function.Function;
-import org.snapscript.core.function.Parameter;
-import org.snapscript.core.function.Signature;
 
-public class ClosureFunctionFinder {
+public class FunctionFinder {
    
    private final Cache<Class, Function> functions;
    private final Set<Class> failures;
    private final TypeLoader loader;
    
-   public ClosureFunctionFinder(TypeLoader loader) {
+   public FunctionFinder(TypeLoader loader) {
       this.functions = new CopyOnWriteCache<Class, Function>();
       this.failures = new CopyOnWriteArraySet<Class>();
       this.loader = loader;

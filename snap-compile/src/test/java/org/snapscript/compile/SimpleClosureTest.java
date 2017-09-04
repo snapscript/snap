@@ -6,7 +6,7 @@ public class SimpleClosureTest extends TestCase {
 
    private static final String SOURCE =
    "var x = 2;\n"+
-   "var f = ->x;\n"+
+   "var f = ->println(x);\n"+
    "f();\n";
    
    public void testFunctionScope() throws Exception {

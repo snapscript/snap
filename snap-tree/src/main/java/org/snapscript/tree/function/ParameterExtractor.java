@@ -17,17 +17,17 @@ public class ParameterExtractor {
    private final CompatibilityChecker checker;
    private final Signature signature;
    
-   @Bug("this crap is for the SuperAllocator...")
-   private final boolean global;
+   @Bug("this crap is for the SuperAllocator... and nested closures")
+   private final boolean closure;
    
    public ParameterExtractor(Signature signature) {
       this(signature, false);
    }
    
-   public ParameterExtractor(Signature signature, boolean global) {
+   public ParameterExtractor(Signature signature, boolean closure) {
       this.checker = new CompatibilityChecker();
       this.signature = signature;
-      this.global = global;
+      this.closure = closure;
    }
    
    public void compile(Scope scope) throws Exception {
@@ -60,8 +60,8 @@ public class ParameterExtractor {
             Object argument = arguments[i];
             Local local = create(inner, argument, i);
             
-            if(global) {
-               state.addScope(name, local);
+            if(closure) {
+               state.addScope(name, local); 
             }
             state.addLocal(i, local);
          }

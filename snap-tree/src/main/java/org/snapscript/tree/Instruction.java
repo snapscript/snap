@@ -63,7 +63,6 @@ import org.snapscript.tree.function.FunctionInvocation;
 import org.snapscript.tree.function.FunctionReference;
 import org.snapscript.tree.function.ParameterDeclaration;
 import org.snapscript.tree.function.ParameterList;
-import org.snapscript.tree.function.ScriptFunction;
 import org.snapscript.tree.literal.BooleanLiteral;
 import org.snapscript.tree.literal.NullLiteral;
 import org.snapscript.tree.literal.NumberLiteral;
@@ -86,6 +85,9 @@ import org.snapscript.tree.reference.ReferencePart;
 import org.snapscript.tree.reference.TraitReference;
 import org.snapscript.tree.reference.TypeReference;
 import org.snapscript.tree.reference.TypeReferencePart;
+import org.snapscript.tree.script.Script;
+import org.snapscript.tree.script.ScriptFunction;
+import org.snapscript.tree.script.ScriptPackage;
 import org.snapscript.tree.template.TextTemplate;
 import org.snapscript.tree.variable.Variable;
 

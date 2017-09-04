@@ -19,13 +19,16 @@ public class Variable extends Evaluation {
       this.binder = new VariableBinder();
       this.index = new AtomicInteger(-1);
    }
-   
+   private boolean compiled=false;
    @Override
    public Value compile(Scope scope, Object left) throws Exception{
       String name = reference.getName(scope);
       State state = scope.getState();
       int value = state.getLocal(name);
-      
+      if(name.equals("a") && value ==-1){
+         System.err.println();
+      }
+      compiled=true;
       if(value != -1) {
          System.err.println("REF >> name=" +name + " index="+value+" "+System.identityHashCode(this));
          index.set(value);

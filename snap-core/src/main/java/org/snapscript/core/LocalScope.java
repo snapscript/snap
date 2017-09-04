@@ -1,21 +1,15 @@
-package org.snapscript.core.closure;
+package org.snapscript.core;
 
-import org.snapscript.core.CompoundScope;
-import org.snapscript.core.Model;
-import org.snapscript.core.Module;
-import org.snapscript.core.Scope;
-import org.snapscript.core.State;
-import org.snapscript.core.Type;
 
-public class ClosureScope implements Scope {
+public class LocalScope implements Scope {
    
    private final State state;
    private final Scope inner;
    private final Scope outer;
    private final Model model;
    
-   public ClosureScope(Model model, Scope inner, Scope outer) {
-      this.state = new ClosureState(inner);
+   public LocalScope(Model model, Scope inner, Scope outer) {
+      this.state = new LocalState(inner);
       this.inner = inner;
       this.outer = outer;
       this.model = model;

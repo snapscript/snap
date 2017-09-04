@@ -4,6 +4,7 @@ import static org.snapscript.core.Reserved.DEFAULT_PACKAGE;
 
 import java.util.concurrent.Executor;
 
+import org.snapscript.core.LocalScopeExtractor;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.ExpressionEvaluator;
@@ -15,6 +16,7 @@ import org.snapscript.core.Value;
 
 public class OperationEvaluator implements ExpressionEvaluator {
    
+   private final LocalScopeExtractor extractor;
    private final EvaluationBuilder builder;
    private final ScopeMerger merger;
    private final Assembler assembler;
@@ -26,6 +28,7 @@ public class OperationEvaluator implements ExpressionEvaluator {
    public OperationEvaluator(Context context, Executor executor, int limit) {
       this.assembler = new OperationAssembler(context, executor);
       this.builder = new EvaluationBuilder(assembler, executor, limit);
+      this.extractor = new LocalScopeExtractor();
       this.merger = new ScopeMerger(context);
    }
    
@@ -48,9 +51,9 @@ public class OperationEvaluator implements ExpressionEvaluator {
    @Override
    public <T> T evaluate(Scope scope, String source, String module) throws Exception{ 
       try {
+         Scope capture = extractor.extract(scope);
          Evaluation evaluation = builder.create(source, module);
-         Value result = evaluation.compile(scope, null);
-         Value reference = evaluation.evaluate(scope,null);
+         Value reference = evaluation.evaluate(capture,null);
          
          return (T)reference.getValue();
       } catch(Exception e) {

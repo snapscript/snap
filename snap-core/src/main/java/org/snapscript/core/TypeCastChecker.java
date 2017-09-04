@@ -6,22 +6,22 @@ import static org.snapscript.core.convert.Score.SIMILAR;
 
 import java.util.Set;
 
-import org.snapscript.core.closure.ClosureFunctionFinder;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.FunctionComparator;
 import org.snapscript.core.convert.Score;
 import org.snapscript.core.function.Function;
+import org.snapscript.core.function.FunctionFinder;
 
 public class TypeCastChecker {
 
    private final FunctionComparator comparator;
-   private final ClosureFunctionFinder finder;
+   private final FunctionFinder finder;
    private final TypeExtractor extractor;
    private final TypeLoader loader;
    
    public TypeCastChecker(ConstraintMatcher matcher, TypeExtractor extractor, TypeLoader loader) {
       this.comparator = new FunctionComparator(matcher);
-      this.finder = new ClosureFunctionFinder(loader);
+      this.finder = new FunctionFinder(loader);
       this.extractor = extractor;
       this.loader = loader;
    }

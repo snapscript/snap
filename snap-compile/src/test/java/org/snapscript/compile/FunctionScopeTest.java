@@ -14,7 +14,7 @@ public class FunctionScopeTest extends TestCase {
    "\n"+
    "function isVariableInScope(a, b) {\n"+
    "   try {\n"+
-   "      x++;\n"+
+   "      x++;\n"+ // trying to access 'x' which is not in scope causes an exception
    "      println('OK');\n"+
    "      return true;\n"+
    "   }catch(e){\n"+
@@ -27,6 +27,7 @@ public class FunctionScopeTest extends TestCase {
    
    public void testFunctionScope() throws Exception {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
+      System.err.println(SOURCE);
       Executable executable = compiler.compile(SOURCE);
       executable.execute();
    }

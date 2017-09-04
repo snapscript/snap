@@ -8,20 +8,19 @@ import org.snapscript.core.ExpressionEvaluator;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 
-public class ExpressionSegment extends Segment {
+public class ExpressionSegment implements Segment {
    
    private String expression;
    private char[] source;
    private int off;
    private int length;
-   private int index;
    
    public ExpressionSegment(char[] source, int off, int length) {
       this.expression = new String(source, off + 2, length - 3);
       this.source = source;
       this.length = length;
       this.off = off;         
-   } 
+   }
    
    @Override
    public void process(Scope scope, Writer writer) throws Exception {

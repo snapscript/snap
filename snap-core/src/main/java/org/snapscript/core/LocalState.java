@@ -1,4 +1,4 @@
-package org.snapscript.core.closure;
+package org.snapscript.core;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -8,25 +8,19 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.snapscript.common.CompoundIterator;
-import org.snapscript.core.Bug;
-import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Local;
-import org.snapscript.core.Scope;
-import org.snapscript.core.State;
-import org.snapscript.core.Value;
 
-public class ClosureState implements State {
+public class LocalState implements State {
    
    private final Map<String, Integer> locals;
    private final Map<String, Value> values;
    private final List<Local> stack;
    private final Scope scope;
 
-   public ClosureState(Scope scope) {
+   public LocalState(Scope scope) {
       this(scope, null);
    }
    
-   public ClosureState(Scope scope, List<Local> stack) {
+   public LocalState(Scope scope, List<Local> stack) {
       this.locals = new ConcurrentHashMap<String, Integer>();
       this.values = new ConcurrentHashMap<String, Value>();
       this.stack = stack == null ?new ArrayList<Local>() :stack;

@@ -2,19 +2,17 @@ package org.snapscript.tree.template;
 
 import java.io.Writer;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Value;
 import org.snapscript.core.convert.StringBuilder;
 
-public class VariableSegment extends Segment {
+public class VariableSegment implements Segment {
    
    private String variable;
    private char[] source;
    private int off;
    private int length;
-   private int index;
    
    public VariableSegment(char[] source, int off, int length) {
       this.variable = new String(source, off + 2, length - 3);
@@ -24,20 +22,13 @@ public class VariableSegment extends Segment {
    }
    
    @Override
-   public void compile(Scope scope) throws Exception {
-      State state = scope.getState();
-      index = state.addLocal(variable);
-      System.err.println("(template) DECLARE: name="+variable+" index="+index);
-   }  
-   
-   @Override
    public void process(Scope scope, Writer writer) throws Exception {
       State state = scope.getState();
+      Value value = state.getScope(variable);
       
-      if(index != -1) {
+      if(value == null) {
          writer.write(source, off, length);
       } else {
-         Value value = state.getLocal(index);
          Object token = value.getValue();
          String text = StringBuilder.create(scope, token);
          

@@ -1,4 +1,4 @@
-package org.snapscript.tree.function;
+package org.snapscript.tree.script;
 
 import org.snapscript.core.Module;
 import org.snapscript.core.Statement;
@@ -11,19 +11,19 @@ import org.snapscript.core.function.InvocationFunction;
 import org.snapscript.core.function.Signature;
 import org.snapscript.core.function.StatementFunction;
 import org.snapscript.tree.StatementConverter;
+import org.snapscript.tree.function.FunctionBuilder;
 
-public class FunctionBuilder {
-
-   protected final Statement statement;
+public class ScriptFunctionBuilder extends FunctionBuilder {
    
-   public FunctionBuilder(Statement statement) {
-      this.statement = statement;
+   public ScriptFunctionBuilder(Statement statement) {
+      super(statement);
    }
 
+   @Override
    public StatementFunction create(Signature signature, Module module, Type constraint, String name) {
       Type type = new FunctionType(signature, module, null);
       InvocationBuilder builder = new StatementConverter(signature, statement, statement, constraint);
-      Invocation invocation = new StatementInvocation(builder, signature);
+      Invocation invocation = new ScriptInvocation(builder, signature);
       Function function = new InvocationFunction(signature, invocation, type, constraint, name, 0);
       
       return new StatementFunction(builder, statement, function);

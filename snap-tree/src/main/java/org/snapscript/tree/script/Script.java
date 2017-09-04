@@ -1,4 +1,4 @@
-package org.snapscript.tree;
+package org.snapscript.tree.script;
 
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Result;
@@ -46,10 +46,10 @@ public class Script extends Statement {
    @Override
    public Result execute(Scope scope) throws Exception {
       Result last = Result.getNormal();
-      Scope inner = scope.getInner();
+      ///Scope inner = scope.getInner();
       
       for(Statement statement : statements) {
-         Result result = statement.execute(inner);
+         Result result = statement.execute(scope);
          
          if(!result.isNormal()){
             throw new InternalStateException("Illegal statement");

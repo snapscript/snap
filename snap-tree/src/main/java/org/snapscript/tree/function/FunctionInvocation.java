@@ -53,6 +53,7 @@ public class FunctionInvocation implements Compilation {
          this.evaluations = evaluations;
          this.arguments = arguments;
       }
+      private boolean compiled=false;
       
       @Bug("function cleanup")
       @Override
@@ -63,6 +64,7 @@ public class FunctionInvocation implements Compilation {
          System.err.println("(compile) FUNCTION name="+name+" index="+index);
          index.set(v);
          arguments.compile(scope);
+         compiled=true;
          
          for(Evaluation evaluation : evaluations) {
             evaluation.compile(scope, null);
