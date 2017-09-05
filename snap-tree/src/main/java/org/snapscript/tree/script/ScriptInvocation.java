@@ -15,8 +15,8 @@ public class ScriptInvocation implements Invocation<Object> {
    private final SignatureAligner aligner;
    
    public ScriptInvocation(InvocationBuilder builder, Signature signature) {
+      this.extractor = new LocalScopeExtractor(true, false);
       this.aligner = new SignatureAligner(signature);
-      this.extractor = new LocalScopeExtractor();
       this.builder = builder;
    }
    

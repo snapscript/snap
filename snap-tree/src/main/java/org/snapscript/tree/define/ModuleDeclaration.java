@@ -1,18 +1,18 @@
 package org.snapscript.tree.define;
 
+import static org.snapscript.core.ModifierType.STATIC;
+
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
 import org.snapscript.core.Result;
-import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.trace.TraceStatement;
-import org.snapscript.core.trace.TraceType;
 import org.snapscript.tree.ModifierChecker;
 import org.snapscript.tree.ModifierData;
 import org.snapscript.tree.ModifierList;
@@ -50,7 +50,7 @@ public class ModuleDeclaration implements Compilation {
          int mask = modifiers.getModifiers();
          
          for(ModuleProperty declaration : properties) {
-            declaration.create(scope, mask); 
+            declaration.create(scope, mask | STATIC.mask); 
          }
          return Result.getNormal();
       }

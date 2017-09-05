@@ -49,7 +49,7 @@ public class LocalState implements State {
    public Value getScope(String name) {
       Value value = values.get(name);
       
-      if(value == null) {
+      if(value == null && scope != null) {
          State state = scope.getState();
          
          if(state == null) {
@@ -87,6 +87,9 @@ public class LocalState implements State {
    
    @Override
    public void addLocal(int index, Local value) {
+      if(value == null) {
+         throw new IllegalStateException("Local was null");
+      }
       int size = stack.size();
       if(index >= size) {
          for(int i = size; i <= index; i++){

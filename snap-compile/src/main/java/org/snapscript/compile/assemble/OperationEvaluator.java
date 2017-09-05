@@ -28,7 +28,7 @@ public class OperationEvaluator implements ExpressionEvaluator {
    public OperationEvaluator(Context context, Executor executor, int limit) {
       this.assembler = new OperationAssembler(context, executor);
       this.builder = new EvaluationBuilder(assembler, executor, limit);
-      this.extractor = new LocalScopeExtractor();
+      this.extractor = new LocalScopeExtractor(true, true);
       this.merger = new ScopeMerger(context);
    }
    

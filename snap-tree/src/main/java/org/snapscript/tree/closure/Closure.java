@@ -52,8 +52,8 @@ public class Closure implements Compilation {
       private final Module module;
 
       public CompileResult(ClosureParameterList parameters, Statement closure, Module module){
+         this.extractor = new LocalScopeExtractor(false, true);
          this.builder = new ClosureBuilder(closure, module);
-         this.extractor = new LocalScopeExtractor();
          this.parameters = parameters;
          this.module = module;
       }

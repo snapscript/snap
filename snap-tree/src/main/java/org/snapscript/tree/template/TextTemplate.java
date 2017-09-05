@@ -6,28 +6,31 @@ import java.util.List;
 
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
+import org.snapscript.core.LocalScopeExtractor;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
 import org.snapscript.parse.StringToken;
 
 public class TextTemplate extends Evaluation {
 
-   private volatile List<Segment> tokens;
-   private volatile StringToken template;
+   private LocalScopeExtractor extractor;
+   private List<Segment> tokens;
+   private StringToken template;
    
    public TextTemplate(StringToken template) {
-      this.tokens = new ArrayList<Segment>();
+      this.extractor = new LocalScopeExtractor(true, true);
       this.template = template;
    }
 
    @Override
    public Value evaluate(Scope scope, Object left) throws Exception {
       String text = template.getValue();
+      Scope capture = extractor.extract(scope);
       
       if(text == null) {
          throw new InternalStateException("Text value was null");
       }
-      String result = interpolate(scope, text);
+      String result = interpolate(capture, text);
    
       return Value.getTransient(result);
    }
@@ -35,7 +38,7 @@ public class TextTemplate extends Evaluation {
    private String interpolate(Scope scope, String text) throws Exception {
       StringWriter writer = new StringWriter();
             
-      if(tokens.isEmpty()) {
+      if(tokens == null) {
          SegmentIterator iterator = new SegmentIterator(text);
          List<Segment> list = new ArrayList<Segment>();
          

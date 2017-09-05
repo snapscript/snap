@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 
 public class FunctionScopeTest extends TestCase {
 
-   private static final String SOURCE =
+   private static final String SOURCE_1 =
    "function checkWithClosureCall() {\n"+
    "   var x = 0;\n"+
    "   var func = (a, b) -> isVariableInScope(a, b);\n"+
@@ -25,11 +25,40 @@ public class FunctionScopeTest extends TestCase {
    "}\n"+
    "checkWithClosureCall();\n";
    
+   private static final String SOURCE_2 =
+   "var global = 1;\n"+
+   "function foo(){\n"+
+   "   var x = 11;\n"+
+   "   var canSeeX = canSeeX(x+1);\n"+
+   "   assert x == 11;\n"+
+   "   return canSeeX;\n"+
+   "}\n"+
+   "function canSeeX(b){\n"+
+   "   assert b == 12;\n"+
+   "   global++;\n"+
+   "   try{\n"+
+   "      x++;\n"+
+   "      return true;\n"+
+   "   }catch(e){\n"+
+   "      e.printStackTrace();\n"+
+   "   }\n"+
+   "   return false;\n"+
+   "}\n"+
+   "assert foo() == false;\n"+
+   "assert global == 2;\n";
+
+   
    public void testFunctionScope() throws Exception {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
-      System.err.println(SOURCE);
-      Executable executable = compiler.compile(SOURCE);
+      System.err.println(SOURCE_1);
+      Executable executable = compiler.compile(SOURCE_1);
       executable.execute();
    }
-         
+   
+   public void testFunctionCallingFunctionInScope() throws Exception {
+      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
+      System.err.println(SOURCE_2);
+      Executable executable = compiler.compile(SOURCE_2);
+      executable.execute();
+   }
 }

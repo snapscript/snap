@@ -7,6 +7,8 @@ public class GlobalVarTest extends TestCase {
    private static final String SOURCE_1=
    "const GLOBAL = 11;\n"+
    "function fun(n) {\n"+
+   "   println(\"global=${GLOBAL}\");\n"+
+   "   assert \"global=${GLOBAL}\" == 'global=11';\n"+
    "   return GLOBAL + n;\n"+
    "}\n"+
    "var result = fun(30);\n"+

@@ -102,6 +102,9 @@ public class MapState implements State {
    
    @Override
    public void addLocal(int index, Local value) {
+      if(value == null) {
+         throw new IllegalStateException("Local was null");
+      }
       int size = stack.size();
       if(index >= size) {
          for(int i = size; i <= index; i++){

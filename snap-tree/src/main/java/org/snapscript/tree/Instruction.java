@@ -234,7 +234,7 @@ public enum Instruction {
    MODULE_PROPERTY(ModuleProperty.class, "module-property"),
    MODULE_DECLARATION(ModuleDeclaration.class, "module-declaration"),
    MODULE_FUNCTION(ModuleFunction.class, "module-function"),     
-   MODULE_DEFINITION(ModuleDefinition.class, "module-definition"),    
+   MODULE_DEFINITION(ModuleDefinition.class, "module-definition"),     
    SCRIPT_FUNCTION(ScriptFunction.class, "script-function"),
    SCRIPT_PACKAGE(ScriptPackage.class, "script-package"),
    SCRIPT(Script.class, "script");
