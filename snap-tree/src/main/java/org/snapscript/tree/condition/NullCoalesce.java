@@ -15,11 +15,9 @@ public class NullCoalesce extends Evaluation {
    }
 
    @Override
-   public Value compile(Scope scope, Object left) throws Exception {
-      evaluation.compile(scope, null);
-      substitute.compile(scope, null);
-       
-      return Value.getTransient(null);
+   public void compile(Scope scope) throws Exception {
+      evaluation.compile(scope);
+      substitute.compile(scope);
    }
    
    @Override

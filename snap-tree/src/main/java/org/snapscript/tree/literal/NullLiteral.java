@@ -18,6 +18,6 @@ public class NullLiteral extends Literal {
 
    @Override
    protected Value create(Scope scope) throws Exception {
-      return Value.getTransient(null);
+      return Value.getNull();
    }
 }

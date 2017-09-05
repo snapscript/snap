@@ -14,14 +14,13 @@ public class Expression extends Evaluation {
    }
 
    @Override
-   public Value compile(Scope scope, Object left) throws Exception {
+   public void compile(Scope scope) throws Exception {
       if(list.length <= 0) {
          throw new InternalStateException("Expression is empty");
       }
       for(int i = 0; i < list.length; i++){
-         list[i].compile(scope, left);
+         list[i].compile(scope);
       }
-      return Value.getTransient(null);
    }
    
    @Override

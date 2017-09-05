@@ -22,11 +22,11 @@ public class ReferenceNavigation extends Evaluation {
    }
    
    @Override
-   public Value compile(Scope scope, Object context) throws Exception {
+   public void compile(Scope scope) throws Exception {
       if(next != null) {
-         next.compile(scope, null);
+         next.compile(scope);
       }
-      return part.compile(scope, null);
+      part.compile(scope);
    }
    
    @Override

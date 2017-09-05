@@ -20,11 +20,10 @@ public class MapEntryList extends Evaluation{
    }
    
    @Override
-   public Value compile(Scope scope, Object left) throws Exception{
+   public void compile(Scope scope) throws Exception{
       for(int i = 0; i < list.length; i++){
          list[i].compile(scope);
       }
-      return Value.getTransient(null);
    }
    
    @Override

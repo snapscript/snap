@@ -17,14 +17,8 @@ public class TraceEvaluation extends Evaluation {
    }
 
    @Override
-   public Value compile(Scope scope, Object left) throws Exception {
-      try {
-         return evaluation.compile(scope, left);
-      }catch(Exception e) {
-         System.err.println("trace="+trace);
-         e.printStackTrace();
-         throw e;
-      }
+   public void compile(Scope scope) throws Exception {
+      evaluation.compile(scope);
    }
    
    @Override

@@ -4,7 +4,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Result;
-import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
@@ -29,7 +28,7 @@ public class ThisFactory extends TypeFactory {
    @Override
    public Result compile(Scope instance, Type real) throws Exception {
       if(compile.compareAndSet(false, true)) {
-         expression.compile(instance, null);
+         expression.compile(instance);
       }
       return create(instance, real);
    }
@@ -37,14 +36,13 @@ public class ThisFactory extends TypeFactory {
    @Override
    public Result execute(Scope instance, Type real) throws Exception {
       if(execute.compareAndSet(false, true)) {
-         expression.compile(instance, null);
+         expression.compile(instance);
          statement.compile(instance);
       }
       return create(instance, real);
    }
 
    private Result create(Scope scope, Type real) throws Exception {
-      //Scope inner = scope.getInner();
       Value value = expression.evaluate(scope, null);
       Instance result = value.getValue();
       

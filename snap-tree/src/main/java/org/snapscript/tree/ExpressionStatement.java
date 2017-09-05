@@ -6,7 +6,6 @@ import org.snapscript.core.Evaluation;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
 import org.snapscript.core.Result;
-import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Value;
@@ -14,7 +13,6 @@ import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.trace.TraceStatement;
-import org.snapscript.core.trace.TraceType;
 
 public class ExpressionStatement implements Compilation {
    
@@ -44,7 +42,7 @@ public class ExpressionStatement implements Compilation {
       
       @Override
       public Result compile(Scope scope) throws Exception {
-         expression.compile(scope, null);
+         expression.compile(scope);
          return Result.getNormal();
       }
    

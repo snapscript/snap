@@ -2,7 +2,6 @@ package org.snapscript.tree;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Local;
@@ -38,19 +37,16 @@ public class Declaration {
       this.value = value;
    }   
 
-   @Bug("fix allocator")
-   public Value compile(Scope scope, int modifiers) throws Exception {
+   public void compile(Scope scope, int modifiers) throws Exception {
       String name = reference.getName(scope);
       
-      if(value !=null){
-         value.compile(scope, null);
+      if(value != null){
+         value.compile(scope); // must compile value first
       }
-      int depth = scope.getState().addLocal(name);
-
-      System.err.println("DECLARE: name="+name+" depth="+depth);
+      State state = scope.getState();
+      int depth = state.addLocal(name);
+      
       index.set(depth);
-
-      return Value.getTransient(null);
    }
    
    public Value create(Scope scope, int modifiers) throws Exception {

@@ -46,17 +46,16 @@ public class ConstructArray implements Compilation {
       }      
 
       @Override
-      public Value compile(Scope scope, Object left) throws Exception { // this is rubbish
-         reference.compile(scope, null);
+      public void compile(Scope scope) throws Exception { 
+         reference.compile(scope);
          
          for(int i = 0; i < arguments.length; i++) {
-            arguments[i].compile(scope, null);
+            arguments[i].compile(scope);
          }
-         return Value.getTransient(null);
       }
       
       @Override
-      public Value evaluate(Scope scope, Object left) throws Exception { // this is rubbish
+      public Value evaluate(Scope scope, Object left) throws Exception {
          Value value = reference.evaluate(scope, null);
          Type type = value.getValue();
          Class entry = type.getType();

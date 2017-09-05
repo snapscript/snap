@@ -28,14 +28,13 @@ public class CollectionIndex extends Evaluation {
    }
 
    @Override
-   public Value compile(Scope scope, Object left) throws Exception {
-      variable.compile(scope, left);
-      argument.compile(scope, left);
+   public void compile(Scope scope) throws Exception {
+      variable.compile(scope);
+      argument.compile(scope);
       
       for(Evaluation evaluation : evaluations) {
-         evaluation.compile(scope, left);
+         evaluation.compile(scope);
       }
-      return Value.getTransient(null);
    }
    
    @Override

@@ -23,11 +23,9 @@ public class Combination extends Evaluation {
    }
 
    @Override
-   public Value compile(Scope scope, Object context) throws Exception { 
-      left.compile(scope, context);
-      right.compile(scope, context);
-      
-      return Value.getTransient(null);
+   public void compile(Scope scope) throws Exception { 
+      left.compile(scope);
+      right.compile(scope);
    }
    
    @Override

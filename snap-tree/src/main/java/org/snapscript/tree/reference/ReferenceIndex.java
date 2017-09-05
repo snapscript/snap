@@ -16,8 +16,8 @@ public class ReferenceIndex extends Evaluation {
    }
    
    @Override
-   public Value compile(Scope scope, Object left) throws Exception {
-      return argument.compile(scope, left);
+   public void compile(Scope scope) throws Exception {
+      argument.compile(scope);
    }
 
    @Override

@@ -20,9 +20,8 @@ public class FunctionReference extends Evaluation {
    }
    
    @Override
-   public Value compile(Scope scope, Object left) throws Exception {
-      variable.compile(scope, null);
-      return Value.getTransient(null);
+   public void compile(Scope scope) throws Exception {
+      variable.compile(scope);
    }
 
    @Override

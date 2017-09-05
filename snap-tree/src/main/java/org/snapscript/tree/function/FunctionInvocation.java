@@ -10,12 +10,12 @@ import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
 import org.snapscript.core.Scope;
+import org.snapscript.core.State;
 import org.snapscript.core.Value;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceEvaluation;
 import org.snapscript.core.trace.TraceInterceptor;
-import org.snapscript.core.trace.TraceType;
 import org.snapscript.tree.ArgumentList;
 import org.snapscript.tree.NameReference;
 import org.snapscript.tree.dispatch.InvocationBinder;
@@ -53,23 +53,20 @@ public class FunctionInvocation implements Compilation {
          this.evaluations = evaluations;
          this.arguments = arguments;
       }
-      private boolean compiled=false;
       
       @Bug("function cleanup")
       @Override
-      public Value compile(Scope scope, Object left) throws Exception {
+      public void compile(Scope scope) throws Exception {
          String name = reference.getName(scope); 
-         int v = scope.getState().getLocal(name);
+         State state = scope.getState();
+         int depth = state.getLocal(name);
          
-         System.err.println("(compile) FUNCTION name="+name+" index="+index);
-         index.set(v);
+         index.set(depth);
          arguments.compile(scope);
-         compiled=true;
          
          for(Evaluation evaluation : evaluations) {
-            evaluation.compile(scope, null);
+            evaluation.compile(scope);
          }
-         return Value.getTransient(null);
       }
       
       @Override

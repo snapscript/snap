@@ -13,8 +13,8 @@ public class Argument extends Evaluation{
    }
    
    @Override
-   public Value compile(Scope scope, Object left) throws Exception {
-      return evaluation.compile(scope, left);
+   public void compile(Scope scope) throws Exception {
+      evaluation.compile(scope);
    }
    
    @Override

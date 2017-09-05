@@ -19,21 +19,14 @@ public class Variable extends Evaluation {
       this.binder = new VariableBinder();
       this.index = new AtomicInteger(-1);
    }
-   private boolean compiled=false;
+
    @Override
-   public Value compile(Scope scope, Object left) throws Exception{
+   public void compile(Scope scope) throws Exception{
       String name = reference.getName(scope);
       State state = scope.getState();
-      int value = state.getLocal(name);
-      if(name.equals("a") && value ==-1){
-         System.err.println();
-      }
-      compiled=true;
-      if(value != -1) {
-         System.err.println("REF >> name=" +name + " index="+value+" "+System.identityHashCode(this));
-         index.set(value);
-      }
-      return Value.getTransient(null);
+      int depth = state.getLocal(name);
+
+      index.set(depth);
    }
    
    @Override
@@ -41,10 +34,10 @@ public class Variable extends Evaluation {
       String name = reference.getName(scope);
       
       if(left == null) {
-         int s = index.get();
+         int depth = index.get();
          
-         if(s == -1){
-            State state = scope.getState(); // here we use the stack
+         if(depth == -1){
+            State state = scope.getState();
             Value value = state.getScope(name);
             
             if(value != null) { 
@@ -52,8 +45,8 @@ public class Variable extends Evaluation {
             }
          }else {
             State state = scope.getState(); // here we use the stack
-            Value value = state.getLocal(s);
-            //System.err.println("ref="+name+" index="+s);
+            Value value = state.getLocal(depth);
+
             if(value != null) { 
                return value;
             }

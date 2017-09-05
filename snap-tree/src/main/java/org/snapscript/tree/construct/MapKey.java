@@ -21,16 +21,12 @@ public class MapKey extends Evaluation {
    
    @Bug
    @Override
-   public Value compile(Scope scope, Object left) throws Exception{
+   public void compile(Scope scope) throws Exception{
       String name = reference.getName(scope);
       State state = scope.getState();
       int value = state.getLocal(name);
 
-      if(value != -1) {
-         System.err.println("REF >> name=" +name + " index="+value+" "+System.identityHashCode(this));
-         index.set(value);
-      }
-      return Value.getTransient(null);
+      index.set(value);
    }
    
    @Override

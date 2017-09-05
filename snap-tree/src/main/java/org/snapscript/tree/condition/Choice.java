@@ -17,12 +17,10 @@ public class Choice extends Evaluation {
    }
 
    @Override
-   public Value compile(Scope scope, Object left) throws Exception {
-      condition.compile(scope, null);
-      positive.compile(scope, null);
-      negative.compile(scope, null);
-      
-      return Value.getTransient(null);
+   public void compile(Scope scope) throws Exception {
+      condition.compile(scope);
+      positive.compile(scope);
+      negative.compile(scope);
    }
    
    @Override

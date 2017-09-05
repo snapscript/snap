@@ -72,6 +72,7 @@ public class StatementConverter implements InvocationBuilder {
          Scope inner = extractor.extract(scope, list);
          
          if(compile.compareAndSet(false, true)) {
+            extractor.compile(inner); // update stack
             statement.compile(inner); // this is for static calls
          }
          Result result = statement.execute(inner);

@@ -22,11 +22,11 @@ public class Comparison extends Evaluation {
    }
 
    @Override
-   public Value compile(Scope scope, Object context) throws Exception {
+   public void compile(Scope scope) throws Exception {
       if(right != null) {
-         right.compile(scope, null);
+         right.compile(scope);
       }
-      return left.compile(scope, null);
+      left.compile(scope);
    }  
    
    @Override

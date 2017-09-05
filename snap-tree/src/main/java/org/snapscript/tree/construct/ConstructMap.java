@@ -50,15 +50,14 @@ public class ConstructMap implements Compilation {
       }   
       
       @Override
-      public Value compile(Scope scope, Object context) throws Exception { // this is rubbish
+      public void compile(Scope scope) throws Exception {
          if(list != null) {
-            return list.compile(scope, context);
+            list.compile(scope);
          }
-         return Value.getTransient(null);
       }
       
       @Override
-      public Value evaluate(Scope scope, Object context) throws Exception { // this is rubbish
+      public Value evaluate(Scope scope, Object context) throws Exception { 
          Map map = new LinkedHashMap();
          
          if(list != null) {

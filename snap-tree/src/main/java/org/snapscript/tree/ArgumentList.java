@@ -15,7 +15,7 @@ public class ArgumentList {
    
    public void compile(Scope scope) throws Exception{
       for(int i = 0; i < list.length; i++){
-         list[i].compile(scope, null);
+         list[i].compile(scope);
       }
    }
    

@@ -15,11 +15,9 @@ public class Range extends Evaluation {
    }
 
    @Override
-   public Value compile(Scope scope, Object left) throws Exception {
-      start.compile(scope, left); // compile for stack reference
-      finish.compile(scope, left);
-      
-      return Value.getTransient(null);
+   public void compile(Scope scope) throws Exception {
+      start.compile(scope); // compile for stack reference
+      finish.compile(scope);
    }
    
    @Override

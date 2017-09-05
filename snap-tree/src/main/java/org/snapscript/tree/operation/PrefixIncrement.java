@@ -16,9 +16,8 @@ public class PrefixIncrement extends Evaluation {
    }
    
    @Override
-   public Value compile(Scope scope, Object context) throws Exception {
-      evaluation.compile(scope, null);
-      return Value.getTransient(null);
+   public void compile(Scope scope) throws Exception {
+      evaluation.compile(scope);
    }
    
    @Override

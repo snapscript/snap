@@ -52,11 +52,10 @@ public class ConstructList implements Compilation {
       }
       
       @Override
-      public Value compile(Scope scope, Object left) throws Exception { // this is rubbish
+      public void compile(Scope scope) throws Exception { // this is rubbish
          if(arguments != null) {
             arguments.compile(scope);      
          }   
-         return Value.getTransient(null);
       }
       
       @Override

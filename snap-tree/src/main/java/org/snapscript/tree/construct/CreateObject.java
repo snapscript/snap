@@ -27,11 +27,10 @@ public class CreateObject extends Evaluation {
    }      
 
    @Override
-   public Value compile(Scope scope, Object left) throws Exception { 
+   public void compile(Scope scope) throws Exception { 
       if(arguments != null) {
          arguments.compile(scope);
       }
-      return Value.getTransient(null);
    }
    
    @Override

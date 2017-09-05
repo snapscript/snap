@@ -2,7 +2,6 @@ package org.snapscript.tree.define;
 
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Result;
-import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
@@ -20,7 +19,7 @@ public class SuperFactory extends TypeFactory {
    
    @Override
    public Result compile(Scope instance, Type real) throws Exception {
-      expression.compile(instance, real);
+      expression.compile(instance);
       return Result.getNormal(null);
    }
 

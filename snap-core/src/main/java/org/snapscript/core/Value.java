@@ -2,6 +2,10 @@ package org.snapscript.core;
 
 public abstract class Value {
    
+   public static Value getNull() {
+      return new Null();
+   }
+   
    public static Value getConstant(Object value) {
       return new Constant(value);
    }

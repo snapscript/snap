@@ -52,15 +52,14 @@ public class ConstructSet implements Compilation {
       }   
       
       @Override
-      public Value compile(Scope scope, Object left) throws Exception { // this is rubbish
+      public void compile(Scope scope) throws Exception { 
          if(arguments != null) {
             arguments.compile(scope);      
          }   
-         return Value.getTransient(null);
       }
       
       @Override
-      public Value evaluate(Scope scope, Object left) throws Exception { // this is rubbish
+      public Value evaluate(Scope scope, Object left) throws Exception { 
          Set result = new LinkedHashSet();
          
          if(arguments != null) {

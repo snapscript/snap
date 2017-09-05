@@ -2,7 +2,6 @@ package org.snapscript.tree.condition;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
@@ -10,7 +9,6 @@ import org.snapscript.core.Local;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
 import org.snapscript.core.Result;
-import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Statement;
@@ -19,7 +17,6 @@ import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.trace.TraceStatement;
-import org.snapscript.core.trace.TraceType;
 import org.snapscript.tree.NameReference;
 import org.snapscript.tree.collection.Iteration;
 import org.snapscript.tree.collection.IterationConverter;
@@ -61,10 +58,12 @@ public class ForInStatement implements Compilation {
       @Override
       public Result compile(Scope scope) throws Exception { 
          String name = reference.getName(scope);
-         Value list = collection.compile(scope, null);
-         int x = scope.getState().addLocal(name);
-         System.err.println("(for) DECLARE: name="+name+" depth="+x);
-         index.set(x);
+         State state = scope.getState();
+         int depth = state.addLocal(name);
+         
+         collection.compile(scope);
+         index.set(depth);
+         
          return body.compile(scope);
       }
    
@@ -78,17 +77,13 @@ public class ForInStatement implements Compilation {
          return execute(scope, iterable);
       }
 
-      @Bug("clean up")
       private Result execute(Scope scope, Iterable iterable) throws Exception {
-         //Value value = Value.getReference(null);
          String name = reference.getName(scope);
-         //Scope inner = scope.getInner();
          State state = scope.getState();
-         //Object object = value.getValue();
-         Local local = Local.getReference(null, name);
+         Local local = Local.getReference(name, name);
+         int depth = index.get();
          
-         state.addLocal(index.get(), local);
-         //state.addScope(name, value);
+         state.addLocal(depth, local);
          
          for (Object entry : iterable) {
             local.setValue(entry);

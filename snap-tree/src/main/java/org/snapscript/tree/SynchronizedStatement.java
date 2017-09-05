@@ -1,6 +1,5 @@
 package org.snapscript.tree;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
@@ -15,7 +14,6 @@ import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.trace.TraceStatement;
-import org.snapscript.core.trace.TraceType;
 
 public class SynchronizedStatement implements Compilation {
    
@@ -47,7 +45,7 @@ public class SynchronizedStatement implements Compilation {
       
       @Override
       public Result compile(Scope scope) throws Exception {
-         reference.compile(scope, null);
+         reference.compile(scope);
          return statement.compile(scope);
       }
       
