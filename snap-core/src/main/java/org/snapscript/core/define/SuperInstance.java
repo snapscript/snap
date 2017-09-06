@@ -1,5 +1,6 @@
 package org.snapscript.core.define;
 
+import org.snapscript.core.Counter;
 import org.snapscript.core.Model;
 import org.snapscript.core.Module;
 import org.snapscript.core.State;
@@ -45,6 +46,11 @@ public class SuperInstance implements Instance {
    @Override
    public State getState() {
       return scope.getState();
+   }
+   
+   @Override
+   public Counter getCounter(){
+      return scope.getCounter();
    }
    
    public Type getHandle() {

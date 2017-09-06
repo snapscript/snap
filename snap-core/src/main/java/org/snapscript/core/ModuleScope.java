@@ -2,11 +2,13 @@ package org.snapscript.core;
 
 public class ModuleScope implements Scope {
    
+   private final Counter counter;
    private final Module module;
    private final State state;
    
    public ModuleScope(Module module) {
       this.state = new MapState(null);
+      this.counter = new Counter();
       this.module = module;
    }
    
@@ -23,6 +25,11 @@ public class ModuleScope implements Scope {
    @Override
    public State getState() {
       return state;
+   }
+   
+   @Override
+   public Counter getCounter(){
+      return counter;
    }
    
    @Override

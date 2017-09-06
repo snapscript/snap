@@ -6,7 +6,6 @@ import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
 import org.snapscript.core.bind.FunctionBinder;
@@ -28,15 +27,12 @@ public class ReferenceInvocation extends Evaluation {
       Value value = Value.getTransient(left);        
       Value array = arguments.create(scope); 
       Object[] arguments = array.getValue();
-      Callable<Result> call = binder.bind(value, arguments);
+      Callable<Value> call = binder.bind(value, arguments);
       int width = arguments.length;
       
       if(call == null) {
          throw new InternalStateException("Result was not a closure of " + width +" arguments");
       }
-      Result result = call.call();
-      Object object = result.getValue();
-      
-      return Value.getTransient(object);
+      return call.call();
    }
 }

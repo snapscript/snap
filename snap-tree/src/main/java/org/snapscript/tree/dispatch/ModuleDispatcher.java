@@ -22,22 +22,19 @@ public class ModuleDispatcher implements InvocationDispatcher {
 
    @Override
    public Value dispatch(String name, Object... arguments) throws Exception {   
-      Callable<Result> call = bind(name, arguments);
+      Callable<Value> call = bind(name, arguments);
       
       if(call == null) {
          throw new InternalStateException("Method '" + name + "' not found for module '" + module + "'");
       }
-      Result result = call.call();
-      Object data = result.getValue();
-
-      return Value.getTransient(data);           
+      return call.call();           
    }
    
-   private Callable<Result> bind(String name, Object... arguments) throws Exception {
+   private Callable<Value> bind(String name, Object... arguments) throws Exception {
       Scope scope = module.getScope();
       Context context = module.getContext();
       FunctionBinder binder = context.getBinder();    
-      Callable<Result> call = binder.bind(scope, module, name, arguments);
+      Callable<Value> call = binder.bind(scope, module, name, arguments);
       
       if(call == null) {
          return binder.bind(scope, object, name, arguments);

@@ -7,6 +7,7 @@ import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Path;
 import org.snapscript.core.Type;
+import org.snapscript.core.Value;
 import org.snapscript.core.stack.ThreadStack;
 import org.snapscript.parse.Line;
 import org.snapscript.parse.SyntaxNode;
@@ -64,6 +65,9 @@ public class OperationAssembler implements Assembler {
             SyntaxNode child = children.get(i);
             Object argument = create(child, path, depth+1);
 
+            if(argument instanceof Value){
+               System.err.println();
+            }
             arguments[i] = argument;
          }
          return builder.create(type, arguments, line);

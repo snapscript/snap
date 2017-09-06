@@ -47,11 +47,12 @@ public class SuperInvocationBuilder implements InvocationBuilder {
          this.factory = factory;
       }
       
-      public Result invoke(Scope scope, Object object, Object... list) throws Exception {
+      public Object invoke(Scope scope, Object object, Object... list) throws Exception {
          Type real = (Type)list[0];
          Scope inner = extractor.extract(scope, list);
+         Result result = factory.execute(inner, real);
          
-         return factory.execute(inner, real);
+         return result.getValue();
       }
    }
 }

@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.snapscript.core.Module;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeLoader;
@@ -103,7 +102,7 @@ public class FunctionExtractor {
       }
       
       @Override
-      public Result invoke(Scope scope, Object left, Object... list) throws Exception {
+      public Object invoke(Scope scope, Object left, Object... list) throws Exception {
          Object[] arguments = new Object[list.length + 1];
          
          for(int i = 0; i < list.length; i++) {

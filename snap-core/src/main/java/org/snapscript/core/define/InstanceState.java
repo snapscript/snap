@@ -16,7 +16,6 @@ import org.snapscript.core.Value;
 
 public class InstanceState implements State {
    
-   private final Map<String, Integer> locals;
    private final Map<String, Value> values;
    private final List<Local> stack;
    private final Instance instance;
@@ -26,7 +25,6 @@ public class InstanceState implements State {
    }
    
    public InstanceState(Instance instance, List<Local> stack) {
-      this.locals = new HashMap<String, Integer>();
       this.values = new HashMap<String, Value>();
       this.stack = stack == null ? new ArrayList<Local>() : stack;
       this.instance = instance;
@@ -93,33 +91,6 @@ public class InstanceState implements State {
          }
       }
       stack.set(index, value);
-   }
-   
-   @Bug("fix local value get")
-   @Override
-   public int getLocal(String name) {
-      Integer index = locals.get(name);
-      if(index != null){
-         return index;
-      }
-      return -1;
-   }
-   
-   @Override
-   public int addLocal(String name) {
-      int index = locals.size();
-      locals.put(name, index);
-      return index;
-   }
-   
-   @Override
-   public Set<String> getLocals(){
-      return locals.keySet();
-   }
-   
-   @Override
-   public int getDepth(){
-      return locals.size();
    }
    
    @Override

@@ -29,7 +29,7 @@ public class FunctionBinder {
       this.scopes = new ScopeFunctionMatcher(stack);
    }
    
-   public Callable<Result> bind(Value value, Object... list) throws Exception { // closures
+   public Callable<Value> bind(Value value, Object... list) throws Exception { // closures
       FunctionPointer call = values.match(value, list);
       
       if(call != null) {
@@ -38,7 +38,7 @@ public class FunctionBinder {
       return null;
    }
    
-   public Callable<Result> bind(Scope scope, String name, Object... list) throws Exception { // function variable
+   public Callable<Value> bind(Scope scope, String name, Object... list) throws Exception { // function variable
       FunctionPointer call = scopes.match(scope, name, list);
       
       if(call != null) {
@@ -47,7 +47,7 @@ public class FunctionBinder {
       return null;
    }
    
-   public Callable<Result> bind(Scope scope, Module module, String name, Object... list) throws Exception {
+   public Callable<Value> bind(Scope scope, Module module, String name, Object... list) throws Exception {
       FunctionPointer call = modules.match(module, name, list);
       
       if(call != null) {
@@ -56,7 +56,7 @@ public class FunctionBinder {
       return null;
    }
    
-   public Callable<Result> bind(Scope scope, Type type, String name, Object... list) throws Exception {
+   public Callable<Value> bind(Scope scope, Type type, String name, Object... list) throws Exception {
       FunctionPointer call = types.match(type, name, list);
       
       if(call != null) {
@@ -65,7 +65,7 @@ public class FunctionBinder {
       return null;
    }
    
-   public Callable<Result> bind(Scope scope, Delegate delegate, String name, Object... list) throws Exception {
+   public Callable<Value> bind(Scope scope, Delegate delegate, String name, Object... list) throws Exception {
       FunctionPointer call = delegates.match(delegate, name, list);
       
       if(call != null) {
@@ -74,7 +74,7 @@ public class FunctionBinder {
       return null;
    }
 
-   public Callable<Result> bind(Scope scope, Object source, String name, Object... list) throws Exception {
+   public Callable<Value> bind(Scope scope, Object source, String name, Object... list) throws Exception {
       FunctionPointer call = objects.match(source, name, list);
       
       if(call != null) {

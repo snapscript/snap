@@ -20,8 +20,7 @@ public class ObjectCall implements MethodCall {
    @Override
    public Object call(Object object, Object[] arguments) throws Exception {
       try {
-         Result result = invocation.invoke(null, object, arguments);
-         return result.getValue();
+         return invocation.invoke(null, object, arguments);
       }catch(InvocationTargetException cause) {
          Throwable target = cause.getTargetException();
          String name = method.getName();

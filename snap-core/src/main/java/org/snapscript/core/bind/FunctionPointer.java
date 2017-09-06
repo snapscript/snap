@@ -21,7 +21,7 @@ public class FunctionPointer {
       this.stack = stack;
    }
    
-   public Result call(Scope scope, Object object) throws Exception{
+   public Object call(Scope scope, Object object) throws Exception{
       Signature signature = function.getSignature();
       ArgumentConverter converter = signature.getConverter();
       Invocation invocation = function.getInvocation();

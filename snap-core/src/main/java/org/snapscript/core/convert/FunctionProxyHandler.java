@@ -9,7 +9,6 @@ import java.util.concurrent.Callable;
 
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Transient;
 import org.snapscript.core.Type;
@@ -64,25 +63,25 @@ public class FunctionProxyHandler implements ProxyHandler {
    }
    
    private Object invoke(Object proxy, String name, Object[] convert, Object[] arguments) throws Throwable {
-      Callable<Result> call = resolve(proxy, name, convert, arguments);  
+      Callable<Value> call = resolve(proxy, name, convert, arguments);  
       int width = arguments.length;
       
       if(call == null) {
          throw new InternalStateException("Closure not matched with " + width +" arguments");
       }
-      Result result = call.call();
-      Object data = result.getValue();
+      Value value = call.call();
+      Object data  = value.getValue();
       
       return wrapper.toProxy(data);  
    }
    
-   private Callable<Result> resolve(Object proxy, String name, Object[] convert, Object[] arguments) throws Throwable {
+   private Callable<Value> resolve(Object proxy, String name, Object[] convert, Object[] arguments) throws Throwable {
       Type type = function.getType();
       FunctionBinder binder = context.getBinder();  
 
       if(type != null) {
          Scope scope = type.getScope();
-         Callable<Result> call = binder.bind(scope, proxy, name, arguments); 
+         Callable<Value> call = binder.bind(scope, proxy, name, arguments); 
          
          if(call != null) {
             return call;

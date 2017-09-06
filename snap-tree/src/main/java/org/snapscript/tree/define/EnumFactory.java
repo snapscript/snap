@@ -11,7 +11,6 @@ import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
 import org.snapscript.core.Result;
-import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Type;
@@ -43,7 +42,7 @@ public class EnumFactory extends TypeFactory {
       if(type == null) {
          throw new InternalStateException("No type found for enum " + name); // class not found
       }
-      Callable<Result> call = binder.bind(scope, type);
+      Callable<Value> call = binder.bind(scope, type);
       Module module = scope.getModule();
       Context context = module.getContext();
       ProxyWrapper wrapper = context.getWrapper();
@@ -51,7 +50,7 @@ public class EnumFactory extends TypeFactory {
       if(call == null){
          throw new InternalStateException("No constructor for enum '" + name + "' in '" + type+ "'");
       }
-      Result result = call.call();
+      Value result = call.call();
       Scope instance = result.getValue();
       Value value = state.getScope(ENUM_VALUES);
       List values = value.getValue();
@@ -64,5 +63,4 @@ public class EnumFactory extends TypeFactory {
       
       return Result.getNormal(instance);
    }
-
 }

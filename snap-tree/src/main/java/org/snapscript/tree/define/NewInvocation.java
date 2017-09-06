@@ -31,14 +31,13 @@ public class NewInvocation implements Invocation<Instance>{
    }
 
    @Override
-   public Result invoke(Scope scope, Instance base, Object... list) throws Exception {
+   public Object invoke(Scope scope, Instance base, Object... list) throws Exception {
       Type real = (Type)list[0];
       Instance inner = builder.create(scope, base, real);
 
       if(compile.compareAndSet(true, false)) {
          factory.compile(scope, type); // static stuff if needed
       }
-      Instance result = allocator.allocate(scope, inner, list);
-      return Result.getNormal(result);
+      return allocator.allocate(scope, inner, list);
    }
 }

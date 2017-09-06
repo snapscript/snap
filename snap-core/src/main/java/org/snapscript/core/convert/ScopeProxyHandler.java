@@ -5,8 +5,8 @@ import java.util.concurrent.Callable;
 
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
+import org.snapscript.core.Value;
 import org.snapscript.core.bind.FunctionBinder;
 
 public class ScopeProxyHandler implements ProxyHandler {
@@ -26,15 +26,15 @@ public class ScopeProxyHandler implements ProxyHandler {
       String name = method.getName();
       FunctionBinder binder = context.getBinder();  
       Object[] convert = extractor.extract(arguments);
-      Callable<Result> call = binder.bind(scope, scope, name, convert); // here arguments can be null!!!
+      Callable<Value> call = binder.bind(scope, scope, name, convert); // here arguments can be null!!!
       
       if(call == null) {
          throw new InternalStateException("Method '" + name + "' not found");
       }
-      Result result = call.call();
-      Object data = result.getValue();
+      Value value = call.call();
+      Object result = value.getValue();
       
-      return data;   
+      return result;
    }
    
    @Override

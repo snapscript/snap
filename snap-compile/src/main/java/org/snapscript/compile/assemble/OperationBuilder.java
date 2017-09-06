@@ -7,19 +7,20 @@ import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 
+import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.ContextModule;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
+import org.snapscript.core.Value;
 import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.parse.Line;
 
 public class OperationBuilder {
-
+   
    private final OperationProcessor processor;
    private final Module module;
    private final Path path;
@@ -34,15 +35,15 @@ public class OperationBuilder {
       Scope scope = module.getScope();
       Context context = module.getContext();
       FunctionBinder binder = context.getBinder();
-      Callable<Result> callable = binder.bind(scope, type, TYPE_CONSTRUCTOR, arguments);
+      Callable<Value> callable = binder.bind(scope, type, TYPE_CONSTRUCTOR, arguments);
       
       if(callable == null) {
          throw new InternalStateException("No constructor for '" + type + "' at line " + line);
       }
-      Result result = callable.call();
-      Object value = result.getValue();
+      Value value = callable.call();
+      Object result = value.getValue();
       
-      return processor.process(value, line);
+      return processor.process(result, line);
    }
 
 

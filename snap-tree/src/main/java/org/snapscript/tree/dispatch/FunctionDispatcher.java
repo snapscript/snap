@@ -7,7 +7,6 @@ import org.snapscript.core.Any;
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
@@ -31,22 +30,19 @@ public class FunctionDispatcher implements InvocationDispatcher {
 
    @Override
    public Value dispatch(String name, Object... arguments) throws Exception {
-      Callable<Result> call = bind(name, arguments); // this is not used often
+      Callable<Value> call = bind(name, arguments); // this is not used often
       
       if(call == null) {
          throw new InternalStateException("Method '" + name + "' not found for function " + function + "");
       }
-      Result result = call.call();
-      Object value = result.getValue();
-
-      return Value.getTransient(value);
+      return call.call();
    }
    
-   private Callable<Result> bind(String name, Object... arguments) throws Exception {
+   private Callable<Value> bind(String name, Object... arguments) throws Exception {
       Module module = scope.getModule();
       Context context = module.getContext();
       FunctionBinder binder = context.getBinder();
-      Callable<Result> call = binder.bind(scope, function, name, arguments); // this is not used often
+      Callable<Value> call = binder.bind(scope, function, name, arguments); // this is not used often
       
       if(call == null) {
          return binder.bind(scope, adapter, name, arguments);

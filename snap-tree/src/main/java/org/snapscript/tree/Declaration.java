@@ -2,6 +2,7 @@ package org.snapscript.tree;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.snapscript.core.Counter;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Local;
@@ -43,8 +44,8 @@ public class Declaration {
       if(value != null){
          value.compile(scope); // must compile value first
       }
-      State state = scope.getState();
-      int depth = state.addLocal(name);
+      Counter counter = scope.getCounter();
+      int depth = counter.add(name);
       
       index.set(depth);
    }

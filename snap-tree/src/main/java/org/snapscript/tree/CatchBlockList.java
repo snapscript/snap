@@ -2,9 +2,9 @@ package org.snapscript.tree;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.snapscript.core.Counter;
 import org.snapscript.core.Local;
 import org.snapscript.core.Result;
-import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Statement;
@@ -33,11 +33,11 @@ public class CatchBlockList {
          Statement statement = block.getStatement();
          
          if(statement != null) {
-            State state = scope.getState();
+            Counter counter = scope.getCounter();
             ParameterDeclaration declaration = block.getDeclaration();
             Parameter parameter = declaration.get(scope);
             String name = parameter.getName();
-            int value = state.addLocal(name);
+            int value = counter.add(name);
             
             index.set(value);
             statement.compile(scope);

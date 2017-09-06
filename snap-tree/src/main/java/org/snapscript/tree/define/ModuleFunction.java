@@ -51,11 +51,11 @@ public class ModuleFunction extends Statement {
       Type returns = constraint.getConstraint(scope);
       StatementFunction f = builder.create(signature, module, returns, name);
       Function function = f.getFunction(scope);
-      Scope inner = scope.getInner();
+      //Scope inner = scope.getInner();
       
       annotations.apply(scope, function);
       functions.add(function);
-      f.compile(inner); // count stack
+      f.compile(scope); // count stack
       
       return Result.getNormal(function);
    }

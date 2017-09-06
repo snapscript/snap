@@ -2,6 +2,7 @@ package org.snapscript.core.define;
 
 import java.util.List;
 
+import org.snapscript.core.Counter;
 import org.snapscript.core.Local;
 import org.snapscript.core.MapState;
 import org.snapscript.core.Model;
@@ -14,6 +15,7 @@ import org.snapscript.core.platform.Bridge;
 public class CompoundInstance implements Instance {
    
    private final Instance instance;
+   private final Counter counter;
    private final Module module;
    private final State state;
    private final Model model;
@@ -26,6 +28,7 @@ public class CompoundInstance implements Instance {
    
    public CompoundInstance(Module module, Model model, Instance instance, Scope outer, Type type, List<Local> stack) {
       this.state = new MapState(model, outer, stack);
+      this.counter = new Counter();
       this.instance = instance;
       this.module = module;
       this.outer = outer;
@@ -52,6 +55,11 @@ public class CompoundInstance implements Instance {
    @Override
    public Bridge getBridge() {
       return instance.getBridge();
+   }
+   
+   @Override
+   public Counter getCounter(){
+      return counter;
    }
   
    @Override

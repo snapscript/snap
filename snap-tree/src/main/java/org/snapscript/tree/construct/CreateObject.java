@@ -37,18 +37,15 @@ public class CreateObject extends Evaluation {
    public Value evaluate(Scope scope, Object left) throws Exception { // this is rubbish
       Value value = reference.evaluate(scope, null);
       Type type = value.getValue();
-      Callable<Result> call = bind(scope, type);
+      Callable<Value> call = bind(scope, type);
            
       if(call == null){
          throw new InternalStateException("No constructor for '" + type + "'");
       }
-      Result result = call.call();
-      Object instance = result.getValue();
-      
-      return Value.getTransient(instance);
+      return call.call();
    }
    
-   private Callable<Result> bind(Scope scope, Type type) throws Exception {
+   private Callable<Value> bind(Scope scope, Type type) throws Exception {
       Module module = scope.getModule();
       Context context = module.getContext();
       FunctionBinder binder = context.getBinder();

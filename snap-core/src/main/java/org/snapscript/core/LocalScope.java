@@ -3,6 +3,7 @@ package org.snapscript.core;
 
 public class LocalScope implements Scope {
    
+   private final Counter counter;
    private final State state;
    private final Scope inner;
    private final Scope outer;
@@ -10,6 +11,7 @@ public class LocalScope implements Scope {
    
    public LocalScope(Model model, Scope inner, Scope outer) {
       this.state = new LocalState(inner);
+      this.counter = new Counter();
       this.inner = inner;
       this.outer = outer;
       this.model = model;
@@ -38,6 +40,11 @@ public class LocalScope implements Scope {
    @Override
    public Module getModule() {
       return inner.getModule();
+   }
+   
+   @Override
+   public Counter getCounter(){
+      return counter;
    }
    
    @Override

@@ -1,5 +1,6 @@
 package org.snapscript.core.define;
 
+import org.snapscript.core.Counter;
 import org.snapscript.core.Model;
 import org.snapscript.core.Module;
 import org.snapscript.core.State;
@@ -8,6 +9,7 @@ import org.snapscript.core.platform.Bridge;
 
 public class ObjectInstance implements Instance {
 
+   private final Counter counter;
    private final Instance base;
    private final Bridge object;
    private final Module module;
@@ -17,6 +19,7 @@ public class ObjectInstance implements Instance {
    
    public ObjectInstance(Module module, Model model, Instance base, Bridge object, Type type) {
       this.state = new InstanceState(base);
+      this.counter = new Counter();
       this.object = object;
       this.module = module;
       this.model = model;
@@ -42,6 +45,11 @@ public class ObjectInstance implements Instance {
    @Override
    public Bridge getBridge() {
       return object;
+   }
+   
+   @Override
+   public Counter getCounter(){
+      return counter;
    }
   
    @Override

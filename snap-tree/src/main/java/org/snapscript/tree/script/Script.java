@@ -30,7 +30,6 @@ public class Script extends Statement {
    @Override
    public Result compile(Scope scope) throws Exception {
       Result last = Result.getNormal();
-      //Scope inner = scope.getInner();
       
       for(Statement statement : statements) {
          Result result = statement.compile(scope);
@@ -45,7 +44,6 @@ public class Script extends Statement {
    @Override
    public Result execute(Scope scope) throws Exception {
       Result last = Result.getNormal();
-      ///Scope inner = scope.getInner();
       
       for(Statement statement : statements) {
          Result result = statement.execute(scope);

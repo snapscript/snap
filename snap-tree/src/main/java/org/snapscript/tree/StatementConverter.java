@@ -68,7 +68,7 @@ public class StatementConverter implements InvocationBuilder {
          this.statement = statement;
       }
       
-      public Result invoke(Scope scope, Object object, Object... list) throws Exception {
+      public Object invoke(Scope scope, Object object, Object... list) throws Exception {
          Scope inner = extractor.extract(scope, list);
          
          if(compile.compareAndSet(false, true)) {
@@ -81,7 +81,7 @@ public class StatementConverter implements InvocationBuilder {
          if(value != null) {
             value = converter.assign(value);
          }
-         return Result.getNormal(value);
+         return value;
       }
    }
 }

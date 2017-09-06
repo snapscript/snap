@@ -3,6 +3,7 @@ package org.snapscript.tree.function;
 import java.util.List;
 
 import org.snapscript.core.Bug;
+import org.snapscript.core.Counter;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Local;
 import org.snapscript.core.Scope;
@@ -35,13 +36,13 @@ public class ParameterExtractor {
       int size = parameters.size();
       
       if(size > 0) {
-         State state = scope.getState();
+         Counter counter = scope.getCounter();
          
          for(int i = 0; i < size; i++) {
             Parameter parameter = parameters.get(i);
             String name = parameter.getName();
 
-            state.addLocal(name);
+            counter.add(name);
          }
       }
    }

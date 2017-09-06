@@ -1,7 +1,6 @@
 package org.snapscript.tree.define;
 
 import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.function.Accessor;
 import org.snapscript.core.function.Function;
@@ -17,11 +16,10 @@ public class FunctionAccessor implements Accessor<Scope> {
    
    @Override
    public Object getValue(Scope source) {
+      Invocation invocation = function.getInvocation();
+      
       try {
-         Invocation invocation = function.getInvocation();
-         Result result = invocation.invoke(source, source);
-         
-         return result.getValue();
+         return invocation.invoke(source, source);
       } catch(Exception e) {
          throw new InternalStateException("Illegal read access to " + function, e);
       }

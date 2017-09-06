@@ -2,10 +2,10 @@ package org.snapscript.core.bind;
 
 import java.util.concurrent.Callable;
 
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
+import org.snapscript.core.Value;
 
-public class FunctionCall implements Callable<Result> {
+public class FunctionCall implements Callable<Value> {
    
    private final FunctionPointer pointer;
    private final Object source;
@@ -18,7 +18,8 @@ public class FunctionCall implements Callable<Result> {
    }
    
    @Override
-   public Result call() throws Exception {
-      return pointer.call(scope, source);
+   public Value call() throws Exception {
+      Object result = pointer.call(scope, source);
+      return Value.getTransient(result);
    }
 }

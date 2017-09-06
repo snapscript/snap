@@ -1,17 +1,16 @@
 package org.snapscript.core;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.snapscript.common.CompoundIterator;
 
 public class LocalState implements State {
    
-   private final Map<String, Integer> locals;
    private final Map<String, Value> values;
    private final List<Local> stack;
    private final Scope scope;
@@ -21,9 +20,8 @@ public class LocalState implements State {
    }
    
    public LocalState(Scope scope, List<Local> stack) {
-      this.locals = new ConcurrentHashMap<String, Integer>();
-      this.values = new ConcurrentHashMap<String, Value>();
-      this.stack = stack == null ?new ArrayList<Local>() :stack;
+      this.values = new HashMap<String, Value>();
+      this.stack = stack == null ?new ArrayList<Local>(1) :stack;
       this.scope = scope;
    }
    
@@ -55,16 +53,7 @@ public class LocalState implements State {
          if(state == null) {
             throw new InternalStateException("Scope for '" + name + "' does not exist");
          }
-         value = state.getScope(name);
-         
-         if(value != null) {
-            if(!value.isProperty()) { // this does not really work
-               Object object = value.getValue();
-               Value constant = Value.getConstant(object);
-               
-               values.put(name, constant); // cache as constant
-            }
-         }
+         return state.getScope(name);
       }
       return value;
    }
@@ -97,33 +86,6 @@ public class LocalState implements State {
          }
       }
       stack.set(index, value);
-   }
-   
-   @Bug("fix local value get")
-   @Override
-   public int getLocal(String name) {
-      Integer index = locals.get(name);
-      if(index != null){
-         return index;
-      }
-      return -1;
-   }
-   
-   @Override
-   public int addLocal(String name) {
-      int index = locals.size();
-      locals.put(name, index);
-      return index;
-   }
-   
-   @Override
-   public Set<String> getLocals(){
-      return locals.keySet();
-   }
-   
-   @Override
-   public int getDepth(){
-      return locals.size();
    }
    
    @Override

@@ -6,7 +6,6 @@ import java.util.concurrent.Callable;
 
 import org.snapscript.core.Context;
 import org.snapscript.core.Module;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
@@ -21,7 +20,7 @@ public class EnumConstructorBinder {
       this.arguments = arguments;
    }
    
-   public Callable<Result> bind(Scope scope, Type type) throws Exception {
+   public Callable<Value> bind(Scope scope, Type type) throws Exception {
       Module module = scope.getModule();
       Context context = module.getContext();
       FunctionBinder binder = context.getBinder();

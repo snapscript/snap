@@ -5,7 +5,6 @@ import java.lang.reflect.Method;
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
-import org.snapscript.core.Result;
 import org.snapscript.core.Type;
 import org.snapscript.core.define.SuperInstance;
 import org.snapscript.core.function.Invocation;
@@ -38,8 +37,8 @@ public class SuperCall implements MethodCall<SuperInstance> {
          throw new InternalStateException("No 'super' method for '" + name + "' found in '" + type + "'");
       }
       Invocation invocation = platform.createSuperMethod(type, method);
-      Result result = invocation.invoke(instance, value, arguments);
+      Object result = invocation.invoke(instance, value, arguments);
       
-      return result.getValue();
+      return result;
    }
 }

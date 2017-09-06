@@ -6,8 +6,6 @@ import java.lang.reflect.Method;
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
-import org.snapscript.core.Result;
-import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.convert.ProxyWrapper;
 import org.snapscript.core.function.Invocation;
@@ -23,7 +21,7 @@ public class DefaultMethodInvocation implements Invocation<Object>{
    }
    
    @Override
-   public Result invoke(Scope scope, Object left, Object... list) throws Exception {
+   public Object invoke(Scope scope, Object left, Object... list) throws Exception {
       if(method.isVarArgs()) {
          Class[] types = method.getParameterTypes();
          int require = types.length;
@@ -58,8 +56,7 @@ public class DefaultMethodInvocation implements Invocation<Object>{
       Context context = module.getContext();
       ProxyWrapper wrapper = context.getWrapper();
       Object value = handle.invoke(scope, left, list);
-      Object result = wrapper.fromProxy(value);
       
-      return Result.getNormal(result);
+      return wrapper.fromProxy(value);
    }
 }

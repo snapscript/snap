@@ -23,7 +23,6 @@ import org.snapscript.core.Context;
 import org.snapscript.core.Module;
 import org.snapscript.core.Phase;
 import org.snapscript.core.Result;
-import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Type;
@@ -82,7 +81,7 @@ public class AnyDefinition{
       }
       
       @Override
-      public Result invoke(Scope scope, Object object, Object... list) throws Exception {
+      public Object invoke(Scope scope, Object object, Object... list) throws Exception {
          Type real = (Type)list[0];
          Instance instance = builder.create(scope, real);
          State state = instance.getState();
@@ -90,7 +89,7 @@ public class AnyDefinition{
          
          state.addScope(TYPE_THIS, value); // reference to 'this'
          
-         return Result.getNormal(instance);
+         return instance;
       }
    }
    
@@ -101,9 +100,9 @@ public class AnyDefinition{
       }
       
       @Override
-      public Result invoke(Scope scope, Object object, Object... list) throws Exception {
+      public Object invoke(Scope scope, Object object, Object... list) throws Exception {
          object.wait();
-         return Result.getNormal();
+         return null;
       }
    }
    
@@ -114,12 +113,12 @@ public class AnyDefinition{
       }
       
       @Override
-      public Result invoke(Scope scope, Object object, Object... list) throws Exception {
+      public Object invoke(Scope scope, Object object, Object... list) throws Exception {
          Number argument = (Number)list[0];
          long time = argument.longValue();
          
          object.wait(time);
-         return Result.getNormal();
+         return null;
       }
    }
    
@@ -132,7 +131,7 @@ public class AnyDefinition{
       @Override
       public Result invoke(Scope scope, Object object, Object... list) throws Exception {
          object.notify();
-         return Result.getNormal();
+         return null;
       }
    }
    
@@ -143,9 +142,9 @@ public class AnyDefinition{
       }
       
       @Override
-      public Result invoke(Scope scope, Object object, Object... list) throws Exception {
+      public Object invoke(Scope scope, Object object, Object... list) throws Exception {
          object.notifyAll();
-         return Result.getNormal();
+         return null;
       }
    }
    
@@ -156,9 +155,8 @@ public class AnyDefinition{
       }
 
       @Override
-      public Result invoke(Scope scope, Object object, Object... list) throws Exception {
-         int hash = object.hashCode();
-         return Result.getNormal(hash);
+      public Object invoke(Scope scope, Object object, Object... list) throws Exception {
+         return object.hashCode();
       }
    }
    
@@ -169,11 +167,8 @@ public class AnyDefinition{
       }
 
       @Override
-      public Result invoke(Scope scope, Object object, Object... list) throws Exception {
-         Object argument = list[0];
-         boolean equal = object.equals(argument);
-         
-         return Result.getNormal(equal);
+      public Object invoke(Scope scope, Object object, Object... list) throws Exception {
+         return object.equals(list[0]);
       }
    }
    
@@ -184,11 +179,8 @@ public class AnyDefinition{
       }
       
       @Override
-      public Result invoke(Scope scope, Object object, Object... list) throws Exception {
-         String value = object.toString();
-         int hash = object.hashCode();
-         
-         return Result.getNormal(value + "@" + hash);
+      public Object invoke(Scope scope, Object object, Object... list) throws Exception {
+         return object + "@" + object.hashCode();
       }
    }
 }

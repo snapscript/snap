@@ -3,11 +3,9 @@ package org.snapscript.tree.define;
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
-import org.snapscript.core.define.Instance;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.platform.Platform;
 import org.snapscript.core.platform.PlatformProvider;
@@ -41,8 +39,7 @@ public class SuperDispatcher implements InvocationDispatcher{
       PlatformProvider provider = context.getProvider();
       Platform platform = provider.create();
       Invocation invocation = platform.createSuperConstructor(real, type);
-      Result result = invocation.invoke(scope, real, copy);
-      Instance instance = result.getValue();
+      Object instance = invocation.invoke(scope, real, copy);
       
       return Value.getTransient(instance, type);
    }

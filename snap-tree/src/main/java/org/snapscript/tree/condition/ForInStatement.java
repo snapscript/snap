@@ -4,6 +4,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
+import org.snapscript.core.Counter;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Local;
 import org.snapscript.core.Module;
@@ -58,8 +59,8 @@ public class ForInStatement implements Compilation {
       @Override
       public Result compile(Scope scope) throws Exception { 
          String name = reference.getName(scope);
-         State state = scope.getState();
-         int depth = state.addLocal(name);
+         Counter counter = scope.getCounter();
+         int depth = counter.add(name);
          
          collection.compile(scope);
          index.set(depth);

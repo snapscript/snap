@@ -5,7 +5,6 @@ import java.util.concurrent.Callable;
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
 import org.snapscript.core.bind.FunctionBinder;
@@ -23,25 +22,19 @@ public class LocalDispatcher implements InvocationDispatcher {
       Module module = scope.getModule();
       Context context = module.getContext();
       FunctionBinder binder = context.getBinder();
-      Callable<Result> local = binder.bind(scope, module, name, arguments);
+      Callable<Value> local = binder.bind(scope, module, name, arguments);
       
       if(local == null) {
-         Callable<Result> closure = binder.bind(scope, name, arguments); // function variable
+         Callable<Value> closure = binder.bind(scope, name, arguments); // function variable
          
          if(closure != null) {
-            Result result = closure.call();
-            Object data = result.getValue();
-            
-            return Value.getTransient(data);   
+            return closure.call();   
          }
       }
       if(local == null) {
          throw new InternalStateException("Method '" + name + "' not found in scope");
       }
-      Result result = local.call();
-      Object value = result.getValue();
-      
-      return Value.getTransient(value);  
+      return local.call();  
    }
    
 }

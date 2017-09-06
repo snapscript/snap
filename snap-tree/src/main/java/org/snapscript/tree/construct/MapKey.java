@@ -3,6 +3,7 @@ package org.snapscript.tree.construct;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.snapscript.core.Bug;
+import org.snapscript.core.Counter;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
@@ -23,8 +24,8 @@ public class MapKey extends Evaluation {
    @Override
    public void compile(Scope scope) throws Exception{
       String name = reference.getName(scope);
-      State state = scope.getState();
-      int value = state.getLocal(name);
+      Counter counter = scope.getCounter();
+      int value = counter.get(name);
 
       index.set(value);
    }

@@ -45,10 +45,9 @@ public class PartialPlatform implements Platform {
       }
 
       @Override
-      public Result invoke(Scope scope, Object value, Object... arguments) {
+      public Object invoke(Scope scope, Object value, Object... arguments) {
          try {
-            Object result = method.invoke(value, arguments);
-            return Result.getNormal(result);
+            return method.invoke(value, arguments);
          }catch(Throwable e) {
             throw new InternalStateException("Could not invoke method " + method, e);
          }
@@ -64,10 +63,9 @@ public class PartialPlatform implements Platform {
       }
 
       @Override
-      public Result invoke(Scope scope, Object value, Object... arguments) {
+      public Object invoke(Scope scope, Object value, Object... arguments) {
          try {
-            Object result = constructor.newInstance(arguments);
-            return Result.getNormal(result);
+            return constructor.newInstance(arguments);
          }catch(Throwable e) {
             throw new InternalStateException("Could not invoke constructor " + constructor, e);
          }

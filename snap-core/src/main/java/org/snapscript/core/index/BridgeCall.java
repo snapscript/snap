@@ -20,7 +20,6 @@ public class BridgeCall implements MethodCall<Instance> {
       if(value == null) {
          throw new InternalStateException("No 'super' object could be found");
       }
-      Result result = invocation.invoke(instance, value, list);
-      return result.getValue();
+      return invocation.invoke(instance, value, list);
    }
 }

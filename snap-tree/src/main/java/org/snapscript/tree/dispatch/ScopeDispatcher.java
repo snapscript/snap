@@ -5,7 +5,6 @@ import java.util.concurrent.Callable;
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeExtractor;
@@ -24,7 +23,7 @@ public class ScopeDispatcher implements InvocationDispatcher {
 
    @Override
    public Value dispatch(String name, Object... arguments) throws Exception {
-      Callable<Result> match = bind(name, arguments);
+      Callable<Value> match = bind(name, arguments);
       
       if(match == null) {
          Module module = scope.getModule();
@@ -34,25 +33,22 @@ public class ScopeDispatcher implements InvocationDispatcher {
          
          throw new InternalStateException("Method '" + name + "' not found for '" + type + "'");   
       }
-      Result result = match.call();
-      Object data = result.getValue();
-      
-      return Value.getTransient(data);           
+      return match.call();          
    }
    
-   private Callable<Result> bind(String name, Object... arguments) throws Exception {
+   private Callable<Value> bind(String name, Object... arguments) throws Exception {
       Module module = scope.getModule();
       Context context = module.getContext();
       FunctionBinder binder = context.getBinder();
-      Callable<Result> local = binder.bind(scope, object, name, arguments);
+      Callable<Value> local = binder.bind(scope, object, name, arguments);
       
       if(local == null) {
-         Callable<Result> external = binder.bind(scope, module, name, arguments); // maybe closure should be first
+         Callable<Value> external = binder.bind(scope, module, name, arguments); // maybe closure should be first
          
          if(external != null) {
             return external;
          }
-         Callable<Result> closure = binder.bind(object, name, arguments); // closure
+         Callable<Value> closure = binder.bind(object, name, arguments); // closure
          
          if(closure != null) {
             return closure;

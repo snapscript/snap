@@ -5,7 +5,6 @@ import java.util.concurrent.Callable;
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
 import org.snapscript.core.bind.FunctionBinder;
@@ -25,15 +24,12 @@ public class ValueDispatcher implements InvocationDispatcher {
       Module module = scope.getModule();
       Context context = module.getContext();
       FunctionBinder binder = context.getBinder();
-      Callable<Result> closure = binder.bind(value, arguments); // function variable
+      Callable<Value> closure = binder.bind(value, arguments); // function variable
       
       if(closure == null) {
          throw new InternalStateException("Method '" + name + "' not found in scope");
       }
-      Result result = closure.call();
-      Object data = result.getValue();
-      
-      return Value.getTransient(data);   
+      return closure.call();   
    }
    
 }

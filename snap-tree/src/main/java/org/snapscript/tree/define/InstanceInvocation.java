@@ -1,7 +1,6 @@
 package org.snapscript.tree.define;
 
 import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationBuilder;
@@ -25,7 +24,7 @@ public class InstanceInvocation implements Invocation<Scope> {
    }
    
    @Override
-   public Result invoke(Scope scope, Scope instance, Object... list) throws Exception {
+   public Object invoke(Scope scope, Scope instance, Object... list) throws Exception {
       if(trait) {
          throw new InternalStateException("Function '" + name + "' is abstract");
       }

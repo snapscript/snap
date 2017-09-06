@@ -2,6 +2,7 @@ package org.snapscript.tree.variable;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.snapscript.core.Counter;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
@@ -23,9 +24,12 @@ public class Variable extends Evaluation {
    @Override
    public void compile(Scope scope) throws Exception{
       String name = reference.getName(scope);
-      State state = scope.getState();
-      int depth = state.getLocal(name);
+      Counter counter = scope.getCounter();
+      int depth = counter.get(name);
 
+      if(name.equals("line")){
+         System.err.println();
+      }
       index.set(depth);
    }
    
