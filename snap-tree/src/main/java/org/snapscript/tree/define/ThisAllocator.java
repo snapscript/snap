@@ -13,13 +13,13 @@ import org.snapscript.core.function.Invocation;
 public class ThisAllocator implements TypeAllocator {
    
    private final ObjectInstanceBuilder builder;
-   private final TypeFactory factory;
    private final Invocation invocation;
+   private final TypeFactory factory;
    
    public ThisAllocator(TypeFactory factory, Invocation invocation, Type type) {
       this.builder = new ObjectInstanceBuilder(type);
-      this.factory = factory;
       this.invocation = invocation;
+      this.factory = factory;
    }
    
    @Override

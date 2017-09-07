@@ -13,22 +13,25 @@ import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationBuilder;
 import org.snapscript.core.function.Signature;
+import org.snapscript.core.function.SignatureAligner;
 import org.snapscript.tree.function.ParameterExtractor;
 
-public class StatementConverter implements InvocationBuilder {
+public class StatementInvocationBuilder implements InvocationBuilder {
    
    private ParameterExtractor extractor;
+   private SignatureAligner aligner;
    private Invocation invocation;
    private Statement execute;
    private Statement compile;
    private Type constraint;
 
-   public StatementConverter(Signature signature, Statement compile, Statement execute, Type constraint) {
+   public StatementInvocationBuilder(Signature signature, Statement compile, Statement execute, Type constraint) {
       this(signature, compile, execute, constraint, false);
    }
    
-   public StatementConverter(Signature signature, Statement compile, Statement execute, Type constraint, boolean closure) {
+   public StatementInvocationBuilder(Signature signature, Statement compile, Statement execute, Type constraint, boolean closure) {
       this.extractor = new ParameterExtractor(signature, closure);
+      this.aligner = new SignatureAligner(signature);
       this.constraint = constraint;
       this.execute = execute;
       this.compile = compile;
@@ -70,7 +73,8 @@ public class StatementConverter implements InvocationBuilder {
       
       @Override
       public Object invoke(Scope scope, Object object, Object... list) throws Exception {
-         Scope inner = extractor.extract(scope, list);
+         Object[] arguments = aligner.align(list);
+         Scope inner = extractor.extract(scope, arguments);
          
          if(compile.compareAndSet(false, true)) {
             extractor.compile(inner); // update stack

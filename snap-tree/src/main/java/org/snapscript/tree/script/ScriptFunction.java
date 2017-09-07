@@ -11,7 +11,7 @@ import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Signature;
-import org.snapscript.core.function.StatementFunction;
+import org.snapscript.core.function.FunctionCompiler;
 import org.snapscript.tree.NameReference;
 import org.snapscript.tree.constraint.Constraint;
 import org.snapscript.tree.constraint.ConstraintReference;
@@ -36,7 +36,6 @@ public class ScriptFunction extends Statement {
       this.parameters = parameters;
    }  
    
-   @Bug("clean me")
    @Override
    public Result compile(Scope scope) throws Exception {
       Module module = scope.getModule();
@@ -44,12 +43,11 @@ public class ScriptFunction extends Statement {
       Signature signature = parameters.create(scope);
       String name = identifier.getName(scope);
       Type returns = constraint.getConstraint(scope);
-      StatementFunction f = builder.create(signature, module, returns, name);
-      Function function = f.getFunction(scope);
-      //Scope inner = scope.getInner();
+      FunctionCompiler compiler = builder.create(signature, module, returns, name);
+      Function function = compiler.create(scope);
       
       functions.add(function);
-      f.compile(scope); // count stack
+      compiler.compile(scope); // count stack
       
       return Result.getNormal(function);
    }

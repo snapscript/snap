@@ -9,8 +9,8 @@ import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationBuilder;
 import org.snapscript.core.function.InvocationFunction;
 import org.snapscript.core.function.Signature;
-import org.snapscript.core.function.StatementFunction;
-import org.snapscript.tree.StatementConverter;
+import org.snapscript.core.function.FunctionCompiler;
+import org.snapscript.tree.StatementInvocationBuilder;
 import org.snapscript.tree.function.FunctionBuilder;
 
 public class ScriptFunctionBuilder extends FunctionBuilder {
@@ -20,12 +20,12 @@ public class ScriptFunctionBuilder extends FunctionBuilder {
    }
 
    @Override
-   public StatementFunction create(Signature signature, Module module, Type constraint, String name) {
+   public FunctionCompiler create(Signature signature, Module module, Type constraint, String name) {
       Type type = new FunctionType(signature, module, null);
-      InvocationBuilder builder = new StatementConverter(signature, statement, statement, constraint);
+      InvocationBuilder builder = new StatementInvocationBuilder(signature, statement, statement, constraint);
       Invocation invocation = new ScriptInvocation(builder, signature);
       Function function = new InvocationFunction(signature, invocation, type, constraint, name, 0);
       
-      return new StatementFunction(builder, statement, function);
+      return new FunctionCompiler(builder, function);
    }
 }

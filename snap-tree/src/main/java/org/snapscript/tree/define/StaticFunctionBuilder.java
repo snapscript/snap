@@ -9,9 +9,9 @@ import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationBuilder;
 import org.snapscript.core.function.InvocationFunction;
 import org.snapscript.core.function.Signature;
-import org.snapscript.core.function.StatementFunction;
+import org.snapscript.core.function.FunctionCompiler;
 import org.snapscript.tree.StatementBlock;
-import org.snapscript.tree.StatementConverter;
+import org.snapscript.tree.StatementInvocationBuilder;
 
 public class StaticFunctionBuilder implements MemberFunctionBuilder {
    
@@ -30,13 +30,13 @@ public class StaticFunctionBuilder implements MemberFunctionBuilder {
    }
    
    @Override
-   public StatementFunction create(TypeFactory factory, Scope scope, Type type){
+   public FunctionCompiler create(TypeFactory factory, Scope scope, Type type){
       Statement initialize = new StaticBody(factory, type); 
       Statement statement = new StatementBlock(initialize, body); 
-      InvocationBuilder builder = new StatementConverter(signature, body, statement, constraint);
-      Invocation invocation = new StaticInvocation(builder, signature, scope);
+      InvocationBuilder builder = new StatementInvocationBuilder(signature, body, statement, constraint);
+      Invocation invocation = new StaticInvocation(builder, scope);
       Function function = new InvocationFunction(signature, invocation, type, constraint, name, modifiers);
       
-      return new StatementFunction(builder, body, function);
+      return new FunctionCompiler(builder, function);
    }
 }

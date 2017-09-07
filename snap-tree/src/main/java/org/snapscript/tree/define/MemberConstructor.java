@@ -8,7 +8,7 @@ import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
 import org.snapscript.core.function.Function;
-import org.snapscript.core.function.StatementFunction;
+import org.snapscript.core.function.FunctionCompiler;
 import org.snapscript.tree.ModifierList;
 import org.snapscript.tree.annotation.AnnotationList;
 import org.snapscript.tree.function.ParameterList;
@@ -18,7 +18,6 @@ public abstract class MemberConstructor implements TypePart {
    private final ConstructorAssembler assembler;
    private final AnnotationList annotations;
    private final ModifierList list;
-   private final Statement body;
    
    public MemberConstructor(AnnotationList annotations, ModifierList list, ParameterList parameters, Statement body){  
       this(annotations, list, parameters, null, body);
@@ -28,26 +27,24 @@ public abstract class MemberConstructor implements TypePart {
       this.assembler = new ConstructorAssembler(parameters, part, body);
       this.annotations = annotations;
       this.list = list;
-      this.body = body;
    } 
    
    @Override
    public TypeFactory define(TypeFactory factory, Type type) throws Exception {
       return null;
    }
-
-   @Bug("clean up")
+   
    protected TypeFactory compile(TypeFactory factory, Type type, boolean compile) throws Exception {
       int modifiers = list.getModifiers();
-      ConstructorBuilder builder = assembler.assemble(factory, type);
-      StatementFunction f = builder.create(factory, type, modifiers, compile);
-      Function constructor = f.getFunction(null);
-      List<Function> functions = type.getFunctions();
       Scope scope = type.getScope();
+      ConstructorBuilder builder = assembler.assemble(factory, type);
+      FunctionCompiler compiler = builder.create(factory, type, modifiers, compile);
+      Function constructor = compiler.create(scope);
+      List<Function> functions = type.getFunctions();
       
       annotations.apply(scope, constructor);
       functions.add(constructor);
-      f.compile(scope);
+      compiler.compile(scope);
       
       return null;
    }

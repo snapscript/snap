@@ -7,17 +7,20 @@ import org.snapscript.core.TypeFactory;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationBuilder;
 import org.snapscript.core.function.Signature;
+import org.snapscript.core.function.SignatureAligner;
 import org.snapscript.tree.function.ParameterExtractor;
 
-public class SuperInvocationBuilder implements InvocationBuilder {
+public class TypeInvocationBuilder implements InvocationBuilder {
    
    private ParameterExtractor extractor;
-   private TypeFactory factory;
+   private SignatureAligner aligner;
    private Invocation invocation;
+   private TypeFactory factory;
    private Type type;
 
-   public SuperInvocationBuilder(TypeFactory factory, Signature signature, Type type) {
+   public TypeInvocationBuilder(TypeFactory factory, Signature signature, Type type) {
       this.extractor = new ParameterExtractor(signature);
+      this.aligner = new SignatureAligner(signature);
       this.factory = factory;
       this.type = type;
    }
@@ -50,7 +53,8 @@ public class SuperInvocationBuilder implements InvocationBuilder {
       @Override
       public Object invoke(Scope scope, Object object, Object... list) throws Exception {
          Type real = (Type)list[0];
-         Scope inner = extractor.extract(scope, list);
+         Object[] arguments = aligner.align(list);
+         Scope inner = extractor.extract(scope, arguments);
          Result result = factory.execute(inner, real);
          
          return result.getValue();

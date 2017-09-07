@@ -12,8 +12,8 @@ import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationBuilder;
 import org.snapscript.core.function.InvocationFunction;
 import org.snapscript.core.function.Signature;
-import org.snapscript.core.function.StatementFunction;
-import org.snapscript.tree.StatementConverter;
+import org.snapscript.core.function.FunctionCompiler;
+import org.snapscript.tree.StatementInvocationBuilder;
 
 public class ClosureBuilder {
 
@@ -25,16 +25,16 @@ public class ClosureBuilder {
       this.module = module;
    }
 
-   public StatementFunction create(Signature signature, Scope scope) {
+   public FunctionCompiler create(Signature signature, Scope scope) {
       return create(signature, scope, 0);
    }
    
-   public StatementFunction create(Signature signature, Scope scope, int modifiers) {
+   public FunctionCompiler create(Signature signature, Scope scope, int modifiers) {
       Type type = new FunctionType(signature, module, null);
-      InvocationBuilder builder = new StatementConverter(signature, statement, statement, null, true);
-      Invocation invocation = new ClosureInvocation(builder, signature, scope);
+      InvocationBuilder builder = new StatementInvocationBuilder(signature, statement, statement, null, true);
+      Invocation invocation = new ClosureInvocation(builder, scope);
       Function function = new InvocationFunction(signature, invocation, type, null, METHOD_CLOSURE, modifiers);
       
-      return new StatementFunction(builder, null, function);
+      return new FunctionCompiler(builder, function);
    }
 }
