@@ -8,6 +8,7 @@ public class ModuleCacheIndexer implements FunctionCacheIndexer<Module> {
       super();
    }
    
+   @Override
    public int index(Module module) {
       return module.getOrder();
    }

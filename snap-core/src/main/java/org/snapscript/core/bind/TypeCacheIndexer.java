@@ -8,6 +8,7 @@ public class TypeCacheIndexer implements FunctionCacheIndexer<Type> {
       super();
    }
    
+   @Override
    public int index(Type type) {
       return type.getOrder();
    }

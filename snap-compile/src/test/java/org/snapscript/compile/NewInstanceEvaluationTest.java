@@ -14,9 +14,6 @@ import org.snapscript.common.store.Store;
 import org.snapscript.core.Context;
 import org.snapscript.core.EmptyModel;
 import org.snapscript.core.Model;
-import org.snapscript.core.Module;
-import org.snapscript.core.ModuleRegistry;
-import org.snapscript.core.Scope;
 
 public class NewInstanceEvaluationTest extends TestCase {
    

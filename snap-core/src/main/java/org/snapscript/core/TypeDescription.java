@@ -25,6 +25,7 @@ public class TypeDescription {
       return builder.toString();
    }
    
+   @Override
    public String toString() {
       return getDescription();
    }

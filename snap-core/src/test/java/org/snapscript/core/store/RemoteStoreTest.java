@@ -106,6 +106,7 @@ public class RemoteStoreTest extends TestCase {
          public int getPort(){
             return server.getLocalPort();
          }
+         @Override
          public void run(){
             try {
                Socket socket = server.accept();
@@ -128,6 +129,7 @@ public class RemoteStoreTest extends TestCase {
             this.latch = latch;
             this.socket = socket;
          }
+         @Override
          public void run() {
             latch.countDown();
             try {

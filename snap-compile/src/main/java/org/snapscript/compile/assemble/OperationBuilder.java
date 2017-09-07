@@ -7,7 +7,6 @@ import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 
-import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.ContextModule;
 import org.snapscript.core.InternalStateException;

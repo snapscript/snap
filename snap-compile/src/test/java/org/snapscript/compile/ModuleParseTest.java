@@ -7,7 +7,6 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 
-import org.snapscript.core.Reserved;
 import org.snapscript.parse.SyntaxCompiler;
 import org.snapscript.parse.SyntaxNode;
 import org.snapscript.parse.SyntaxParser;

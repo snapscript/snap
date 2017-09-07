@@ -1,8 +1,5 @@
 package org.snapscript.tree.condition;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.snapscript.core.BooleanValue;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;

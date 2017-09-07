@@ -1,7 +1,6 @@
 package org.snapscript.tree;
 
 import org.snapscript.core.Result;
-import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.parse.StringToken;

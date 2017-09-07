@@ -53,6 +53,7 @@ public class PropertyReaderTest extends TestCase {
       try {
          Thread.currentThread().setContextClassLoader(loader);
          PropertyReader<Property> reader = new PropertyReader<Property>("file.properties") {
+            @Override
             public Property create(String name, char[] data, int off, int length, int line) {
                String value = format(data, off, length);
                return new Property(name, value);

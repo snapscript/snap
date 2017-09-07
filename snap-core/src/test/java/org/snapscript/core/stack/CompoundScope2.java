@@ -1,6 +1,5 @@
 package org.snapscript.core.stack;
 
-import org.snapscript.core.Index;
 import org.snapscript.core.MapState;
 import org.snapscript.core.Model;
 import org.snapscript.core.Module;

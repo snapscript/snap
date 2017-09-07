@@ -1,6 +1,5 @@
 package org.snapscript.tree.define;
 
-import org.snapscript.core.Model;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;

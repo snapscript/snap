@@ -15,14 +15,17 @@ public class ExceptionStatement extends Statement {
       this.cause = cause;
    }
    
+   @Override
    public Result define(Scope scope) throws Exception {
       throw new InternalStateException(message, cause);
    }
                   
+   @Override
    public Result compile(Scope scope) throws Exception {
       throw new InternalStateException(message, cause);
    }
    
+   @Override
    public Result execute(Scope scope) throws Exception {
       throw new InternalStateException(message, cause);
    }

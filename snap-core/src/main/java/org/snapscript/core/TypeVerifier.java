@@ -1,7 +1,5 @@
 package org.snapscript.core;
 
-import static org.snapscript.core.convert.Score.INVALID;
-
 import org.snapscript.core.convert.Score;
 
 public class TypeVerifier {

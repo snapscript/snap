@@ -48,14 +48,17 @@ public class ImportPathSource {
          this.defaults = new LinkedHashSet<String>();
       }
       
+      @Override
       public Map<String, String> getAliases() {
          return aliases;
       }
 
+      @Override
       public Map<String, String> getTypes() {
          return types;
       }
 
+      @Override
       public Set<String> getDefaults() {
          return defaults;
       }

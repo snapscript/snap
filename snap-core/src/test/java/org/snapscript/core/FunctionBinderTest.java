@@ -47,9 +47,9 @@ public class FunctionBinderTest extends TestCase {
       assertEquals(map.get("y"), null);
       assertEquals(map.get("z"), "x");
       
-      assertEquals(context.getBinder().bind(scope, map, "put", "x", 44).call(), 22);
-      assertEquals(context.getBinder().bind(scope, map, "put", "y", true).call(), null);
-      assertEquals(context.getBinder().bind(scope, map, "put", "z", "x").call(), "x");
+      assertEquals(context.getBinder().bind(scope, map, "put", "x", 44).call().getValue(), 22);
+      assertEquals(context.getBinder().bind(scope, map, "put", "y", true).call().getValue(), null);
+      assertEquals(context.getBinder().bind(scope, map, "put", "z", "x").call().getValue(), "x");
       
       long start = System.currentTimeMillis();
       

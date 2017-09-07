@@ -1,7 +1,5 @@
 package org.snapscript.tree;
 
-import static org.snapscript.core.convert.Score.INVALID;
-
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;

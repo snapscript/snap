@@ -30,6 +30,7 @@ public class ProgressCacheTest extends TestCase {
          super(stage);
       }
       
+      @Override
       protected Progress<Stage> progress(StageEntry entry){
          return entry.getProgress();
       }

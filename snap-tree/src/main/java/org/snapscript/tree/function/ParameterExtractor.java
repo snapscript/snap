@@ -1,8 +1,6 @@
 package org.snapscript.tree.function;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import org.snapscript.core.Index;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Local;

@@ -2,15 +2,15 @@ package org.snapscript.tree.function;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
-import org.snapscript.core.Index;
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.Index;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
 import org.snapscript.core.Scope;
+import org.snapscript.core.Table;
 import org.snapscript.core.Value;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.trace.Trace;
@@ -67,25 +67,30 @@ public class FunctionInvocation implements Compilation {
             evaluation.compile(scope);
          }
       }
-      
-      @Bug("clean up")
+
       @Override
       public Value evaluate(Scope scope, Object left) throws Exception {
-         String name = reference.getName(scope); 
-         Value array = arguments.create(scope); 
-         Object[] arguments = array.getValue();
          int depth = offset.get();
          
          if(depth != -1 && left == null){
-            try{
-            Value d = scope.getTable().get(depth);
-            if(Function.class.isInstance(d.getValue())){
-               left = d;
-            }
-            }catch(Exception e){
-               e.printStackTrace();
+            Table table = scope.getTable();
+            Value value = table.get(depth);
+            
+            if(value != null) {
+               Object object = value.getValue();
+            
+               if(Function.class.isInstance(object)) {
+                  return execute(scope, value);
+               }
             }
          }
+         return execute(scope, left);
+      }
+      
+      private Value execute(Scope scope, Object left) throws Exception {
+         String name = reference.getName(scope); 
+         Value array = arguments.create(scope); 
+         Object[] arguments = array.getValue();
          InvocationDispatcher handler = dispatcher.bind(scope, left);
          Value value = handler.dispatch(name, arguments);
          
@@ -93,7 +98,7 @@ public class FunctionInvocation implements Compilation {
             Object result = value.getValue();
             
             if(result == null) {
-               throw new InternalStateException("Result was null"); 
+               throw new InternalStateException("Result of '" + name + "' null"); 
             }
             value = evaluation.evaluate(scope, result);
          }

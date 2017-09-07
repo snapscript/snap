@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.snapscript.core.Path;
 import org.snapscript.core.Result;
-import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 
@@ -39,6 +38,7 @@ public class PackageDefinitionList implements PackageDefinition {
          this.statements = statements;
       }
       
+      @Override
       public Result define(Scope scope) throws Exception {
          Result last = Result.getNormal();
          
@@ -53,6 +53,7 @@ public class PackageDefinitionList implements PackageDefinition {
          return last;
       }
                      
+      @Override
       public Result compile(Scope scope) throws Exception {
          Result last = Result.getNormal();
          
@@ -67,6 +68,7 @@ public class PackageDefinitionList implements PackageDefinition {
          return last;
       }
       
+      @Override
       public Result execute(Scope scope) throws Exception {
          Result result = Result.getNormal();
          

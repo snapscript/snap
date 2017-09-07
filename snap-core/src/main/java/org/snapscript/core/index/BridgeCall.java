@@ -1,7 +1,6 @@
 package org.snapscript.core.index;
 
 import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Result;
 import org.snapscript.core.define.Instance;
 import org.snapscript.core.function.Invocation;
 

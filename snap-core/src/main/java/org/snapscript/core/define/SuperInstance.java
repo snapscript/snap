@@ -56,6 +56,7 @@ public class SuperInstance implements Instance {
       return scope.getTable();
    }
    
+   @Override
    public Type getHandle() {
       return type;
    }

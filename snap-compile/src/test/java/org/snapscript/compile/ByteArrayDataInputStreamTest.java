@@ -12,7 +12,6 @@ import java.util.Map.Entry;
 
 import junit.framework.TestCase;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.MapModel;
 import org.snapscript.core.Model;
 

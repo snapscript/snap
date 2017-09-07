@@ -47,6 +47,7 @@ public class SuperInvocationBuilder implements InvocationBuilder {
          this.factory = factory;
       }
       
+      @Override
       public Object invoke(Scope scope, Object object, Object... list) throws Exception {
          Type real = (Type)list[0];
          Scope inner = extractor.extract(scope, list);

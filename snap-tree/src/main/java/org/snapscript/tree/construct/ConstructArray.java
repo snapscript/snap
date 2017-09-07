@@ -12,7 +12,6 @@ import org.snapscript.core.Value;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceEvaluation;
 import org.snapscript.core.trace.TraceInterceptor;
-import org.snapscript.core.trace.TraceType;
 import org.snapscript.tree.Argument;
 import org.snapscript.tree.collection.ArrayBuilder;
 

@@ -3,7 +3,6 @@ package org.snapscript.core.define;
 import org.snapscript.core.ArrayTable;
 import org.snapscript.core.Index;
 import org.snapscript.core.StackIndex;
-import org.snapscript.core.Model;
 import org.snapscript.core.Module;
 import org.snapscript.core.State;
 import org.snapscript.core.Table;

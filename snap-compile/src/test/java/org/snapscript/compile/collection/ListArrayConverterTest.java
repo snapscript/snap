@@ -13,7 +13,6 @@ import org.snapscript.core.Type;
 import org.snapscript.core.TypeLoader;
 import org.snapscript.core.convert.ConstraintConverter;
 import org.snapscript.core.convert.ConstraintMatcher;
-import org.snapscript.core.convert.Score;
 
 public class ListArrayConverterTest extends TestCase {
 

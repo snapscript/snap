@@ -21,6 +21,7 @@ public class FilePathConverter implements PathConverter {
       this.extension = extension;
    }
    
+   @Override
    public Path createPath(String resource) {
       Path path = paths.fetch(resource);
       
@@ -36,6 +37,7 @@ public class FilePathConverter implements PathConverter {
       return path;
    }
 
+   @Override
    public String createModule(String resource) {
       String module = modules.fetch(resource);
       

@@ -39,7 +39,8 @@ public class SpringContextTest extends TestCase {
             this.context = context;
         }
 
-        public Object getAttribute(String name) {
+        @Override
+      public Object getAttribute(String name) {
             return context.getBean(name);
         }
     }

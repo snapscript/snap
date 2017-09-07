@@ -21,7 +21,7 @@ public class ValueCache {
          CONSTANTS[SHORT][i] = Value.getTransient((short)j);
       }
       for(int i = 0, j = LOW; j <= HIGH; j++, i++) {
-         CONSTANTS[INTEGER][i] = Value.getTransient((int)j);
+         CONSTANTS[INTEGER][i] = Value.getTransient(j);
       }
       for(int i = 0, j = LOW; j <= HIGH; j++, i++) {
          CONSTANTS[LONG][i] = Value.getTransient((long)j);
@@ -61,7 +61,7 @@ public class ValueCache {
    
    public static Value getCharacter(char value){
       if (value >= LOW && value <= HIGH) {
-         return CONSTANTS[CHARACTER][(int)value + -LOW];
+         return CONSTANTS[CHARACTER][value + -LOW];
       }
       return Value.getTransient(value);
    }

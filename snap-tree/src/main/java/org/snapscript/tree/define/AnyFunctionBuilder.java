@@ -31,7 +31,7 @@ public class AnyFunctionBuilder {
       Module module = type.getModule();
       Context context = module.getContext();
       TypeLoader loader = context.getLoader();
-      Invocation invocation = (Invocation)generator.create(invoke);
+      Invocation invocation = generator.create(invoke);
       
       if(invocation == null) {
          throw new InternalStateException("Could not create invocation for " + invoke);

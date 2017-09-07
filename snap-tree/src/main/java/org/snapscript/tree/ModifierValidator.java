@@ -9,7 +9,6 @@ import static org.snapscript.core.ModifierType.STATIC;
 import static org.snapscript.core.ModifierType.VARIABLE;
 
 import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Module;
 import org.snapscript.core.Type;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.property.Property;

@@ -8,7 +8,6 @@ import org.snapscript.core.Path;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceEvaluation;
 import org.snapscript.core.trace.TraceInterceptor;
-import org.snapscript.core.trace.TraceType;
 import org.snapscript.tree.ArgumentList;
 
 public class ConstructObject implements Compilation {

@@ -12,6 +12,7 @@ public class ModifierChecker extends ModifierData {
       this.list = list;
    }
    
+   @Override
    public int getModifiers() {
       if(modifiers == -1) {
          modifiers = list.getModifiers();

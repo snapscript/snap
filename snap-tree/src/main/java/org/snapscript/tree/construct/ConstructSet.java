@@ -14,7 +14,6 @@ import org.snapscript.core.convert.ProxyWrapper;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceEvaluation;
 import org.snapscript.core.trace.TraceInterceptor;
-import org.snapscript.core.trace.TraceType;
 import org.snapscript.parse.StringToken;
 import org.snapscript.tree.ArgumentList;
 

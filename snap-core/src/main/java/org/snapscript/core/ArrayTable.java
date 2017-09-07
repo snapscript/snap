@@ -19,13 +19,15 @@ public class ArrayTable implements Table {
       return new LocalIterator(table);
    }
 
+   @Override
    public Local get(int index) {
-      if(index >= table.length) {
-         throw new InternalStateException("Local index " + index + " exceeds depth " + table.length);
+      if(index < table.length && index >= 0) {
+         return table[index];
       }
-      return table[index];
+      return null;
    }
    
+   @Override
    public void add(int index, Local local) {
       if(local == null) {
          throw new IllegalStateException("Local at index " + index + " is null");

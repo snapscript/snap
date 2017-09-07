@@ -172,6 +172,7 @@ public class ImportRemoteResourceTest extends TestCase {
                e.printStackTrace();
             }
          }
+         @Override
          public void run(){
             try {
                while(!server.isClosed()){
@@ -196,6 +197,7 @@ public class ImportRemoteResourceTest extends TestCase {
             this.latch = latch;
             this.socket = socket;
          }
+         @Override
          public void run() {
             latch.countDown();
             try {

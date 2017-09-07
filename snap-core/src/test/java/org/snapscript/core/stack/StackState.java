@@ -14,6 +14,7 @@ public class StackState implements State2 {
       this.depth = depth;
    }
    
+   @Override
    public State2 create() {
       int size = table.size();
       
@@ -23,6 +24,7 @@ public class StackState implements State2 {
       return this; // no variables on stack
    }
    
+   @Override
    public Address address(String name){
       int index = table.indexOf(name);
       
@@ -32,6 +34,7 @@ public class StackState implements State2 {
       return null;
    }
    
+   @Override
    public Value get(Address address){
       int index = address.getIndex();
       
@@ -41,6 +44,7 @@ public class StackState implements State2 {
       return (Value)table.get(index);
    }
    
+   @Override
    public void set(Address address, Value value){
       int index = address.getIndex();
 
@@ -50,10 +54,12 @@ public class StackState implements State2 {
       table.set(index, value);
    }
    
+   @Override
    public void add(String name, Value value){
       table.add(name, value);
    }
    
+   @Override
    public void clear() {
       table.reset(depth);
    }

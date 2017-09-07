@@ -11,6 +11,7 @@ public class ModifierList extends ModifierData {
       this.modifiers = modifiers;
    }
 
+   @Override
    public int getModifiers() {
       int mask = 0;
       

@@ -10,7 +10,6 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceInterceptor;
-import org.snapscript.core.trace.TraceType;
 
 public class TraceProxyHandler implements ProxyHandler {
    

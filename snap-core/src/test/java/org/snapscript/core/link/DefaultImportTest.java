@@ -17,8 +17,6 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 
-import org.snapscript.core.ContextClassLoader;
-
 public class DefaultImportTest extends TestCase {
    
    private static final String SOURCE =

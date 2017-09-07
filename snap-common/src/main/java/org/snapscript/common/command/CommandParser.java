@@ -27,6 +27,7 @@ public class CommandParser implements Iterable<String> {
       return Collections.unmodifiableList(tokens);
    }
 
+   @Override
    public Iterator<String> iterator() {
       return command().iterator();
    }

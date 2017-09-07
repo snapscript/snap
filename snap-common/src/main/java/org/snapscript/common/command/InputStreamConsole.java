@@ -20,6 +20,7 @@ public class InputStreamConsole implements Console {
       this.parser = new LineNumberReader(reader);
    }
 
+   @Override
    public List<String> readAll() throws IOException {
       while (true) {
          String line = parser.readLine();

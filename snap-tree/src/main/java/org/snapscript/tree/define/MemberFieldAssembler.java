@@ -1,6 +1,5 @@
 package org.snapscript.tree.define;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Identity;
 import org.snapscript.core.InternalStateException;
