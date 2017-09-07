@@ -2,15 +2,15 @@ package org.snapscript.core;
 
 public class ModelScope implements Scope {
    
-   private final Counter counter;
-   private final Table table;
    private final Module module;
+   private final Index index;
+   private final Table table;
    private final State state;
    
    public ModelScope(Model model, Module module) {
       this.state = new ModelState(model);
-      this.counter = new MapCounter();
       this.table = new ArrayTable();
+      this.index = new StackIndex();
       this.module = module;
    }
    
@@ -25,8 +25,8 @@ public class ModelScope implements Scope {
    } 
    
    @Override
-   public Counter getCounter(){
-      return counter;
+   public Index getIndex(){
+      return index;
    }
    
    @Override

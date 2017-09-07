@@ -1,8 +1,8 @@
 package org.snapscript.core.define;
 
 import org.snapscript.core.ArrayTable;
-import org.snapscript.core.Counter;
-import org.snapscript.core.MapCounter;
+import org.snapscript.core.Index;
+import org.snapscript.core.StackIndex;
 import org.snapscript.core.MapState;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
@@ -14,8 +14,8 @@ import org.snapscript.core.platform.Bridge;
 public class CompoundInstance implements Instance {
    
    private final Instance instance;
-   private final Counter counter;
    private final Module module;
+   private final Index index;
    private final State state;
    private final Table table;
    private final Scope outer;
@@ -23,8 +23,8 @@ public class CompoundInstance implements Instance {
    
    public CompoundInstance(Module module, Instance instance, Scope outer, Type type) {
       this.state = new MapState(outer);
-      this.counter = new MapCounter();
       this.table = new ArrayTable();
+      this.index = new StackIndex();
       this.instance = instance;
       this.module = module;
       this.outer = outer;
@@ -52,8 +52,8 @@ public class CompoundInstance implements Instance {
    }
    
    @Override
-   public Counter getCounter(){
-      return counter;
+   public Index getIndex(){
+      return index;
    }
   
    @Override

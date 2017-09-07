@@ -7,7 +7,7 @@ public class ArrayTable implements Table {
    private Local[] table;
 
    public ArrayTable() {
-      this(0);
+      this(2);
    }
    
    public ArrayTable(int count) {
@@ -31,7 +31,7 @@ public class ArrayTable implements Table {
          throw new IllegalStateException("Local at index " + index + " is null");
       }
       if(index >= table.length) {
-         Local[] copy = new Local[index == 0 ? 4 : index * 2];
+         Local[] copy = new Local[index == 0 ? 2 : index * 2];
          
          for(int i = 0; i < table.length; i++) {
             copy[i] = table[i];

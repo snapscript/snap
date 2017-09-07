@@ -2,7 +2,7 @@ package org.snapscript.tree;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.snapscript.core.Counter;
+import org.snapscript.core.Index;
 import org.snapscript.core.Local;
 import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
@@ -18,13 +18,13 @@ public class CatchBlockList {
    
    private final ErrorCauseExtractor extractor;
    private final CompatibilityChecker checker;
+   private final AtomicInteger offset;
    private final CatchBlock[] blocks;
-   private final AtomicInteger index;
    
    public CatchBlockList(CatchBlock... blocks) {
       this.extractor = new ErrorCauseExtractor();
       this.checker = new CompatibilityChecker();
-      this.index = new AtomicInteger(-1);
+      this.offset = new AtomicInteger(-1);
       this.blocks = blocks;
    }    
    
@@ -33,14 +33,20 @@ public class CatchBlockList {
          Statement statement = block.getStatement();
          
          if(statement != null) {
-            Counter counter = scope.getCounter();
-            ParameterDeclaration declaration = block.getDeclaration();
-            Parameter parameter = declaration.get(scope);
-            String name = parameter.getName();
-            int value = counter.add(name);
+            Index index = scope.getIndex();
+            int size = index.size();
             
-            index.set(value);
-            statement.compile(scope);
+            try {
+               ParameterDeclaration declaration = block.getDeclaration();
+               Parameter parameter = declaration.get(scope);
+               String name = parameter.getName();
+               int value = index.index(name);
+               
+               offset.set(value);
+               statement.compile(scope);
+            }finally {
+               index.reset(size);
+            }
          }
       }
       return Result.getNormal();
@@ -62,9 +68,9 @@ public class CatchBlockList {
             if(checker.compatible(scope, cause, type)) {
                Table table = scope.getTable();
                Local local = Local.getConstant(cause, name);
-               int depth = index.get();
+               int index = offset.get();
                
-               table.add(depth, local);
+               table.add(index, local);
 
                return statement.execute(scope);
             }

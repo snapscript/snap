@@ -16,7 +16,7 @@ public class ScopeAccessor implements Accessor<Scope> {
    @Override
    public Object getValue(Scope source) {
       State state = source.getState();
-      Value field = state.getScope(name);
+      Value field = state.get(name);
       
       if(field == null){
          throw new InternalStateException("Field '" + name + "' does not exist");
@@ -27,7 +27,7 @@ public class ScopeAccessor implements Accessor<Scope> {
    @Override
    public void setValue(Scope source, Object value) {
       State state = source.getState();
-      Value field = state.getScope(name);
+      Value field = state.get(name);
       
       if(field == null){
          throw new InternalStateException("Field '" + name + "' does not exist");

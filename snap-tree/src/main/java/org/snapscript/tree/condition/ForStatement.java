@@ -3,6 +3,7 @@ package org.snapscript.tree.condition;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.Index;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
 import org.snapscript.core.Result;
@@ -54,11 +55,18 @@ public class ForStatement implements Compilation {
       
       @Override
       public Result compile(Scope scope) throws Exception {
-         declaration.compile(scope);
-         condition.compile(scope);
-         assignment.compile(scope);
+         Index index = scope.getIndex();
+         int size = index.size();
          
-         return body.compile(scope);
+         try {
+            declaration.compile(scope);
+            condition.compile(scope);
+            assignment.compile(scope);
+            
+            return body.compile(scope);
+         } finally {
+            index.reset(size);
+         }
       }
       
       @Override

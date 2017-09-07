@@ -52,7 +52,7 @@ public class RelationalChecker {
                   String match = matcher.group(i);
                   Value value = Value.getTransient(match);
                   
-                  state.addScope(index, value);
+                  state.add(index, value);
                }
                return true;
             }

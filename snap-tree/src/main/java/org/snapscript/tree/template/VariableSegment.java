@@ -24,7 +24,7 @@ public class VariableSegment implements Segment {
    @Override
    public void process(Scope scope, Writer writer) throws Exception {
       State state = scope.getState();
-      Value value = state.getScope(variable);
+      Value value = state.get(variable);
       
       if(value == null) {
          writer.write(source, off, length);

@@ -5,7 +5,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.snapscript.core.Bug;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
-import org.snapscript.core.Counter;
+import org.snapscript.core.Index;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
@@ -44,24 +44,23 @@ public class FunctionInvocation implements Compilation {
       private final NameReference reference;
       private final ArgumentList arguments;
       private final Evaluation[] evaluations; // func()[1][x]
-      private final AtomicInteger index;
+      private final AtomicInteger offset;
       
       public CompileResult(Evaluation function, ArgumentList arguments, Evaluation... evaluations) {
          this.reference = new NameReference(function);
          this.dispatcher = new InvocationBinder();
-         this.index = new AtomicInteger();
+         this.offset = new AtomicInteger();
          this.evaluations = evaluations;
          this.arguments = arguments;
       }
       
-      @Bug("function cleanup")
       @Override
       public void compile(Scope scope) throws Exception {
          String name = reference.getName(scope); 
-         Counter counter = scope.getCounter();
-         int depth = counter.get(name);
+         Index index = scope.getIndex();
+         int depth = index.get(name);
          
-         index.set(depth);
+         offset.set(depth);
          arguments.compile(scope);
          
          for(Evaluation evaluation : evaluations) {
@@ -75,7 +74,7 @@ public class FunctionInvocation implements Compilation {
          String name = reference.getName(scope); 
          Value array = arguments.create(scope); 
          Object[] arguments = array.getValue();
-         int depth = index.get();
+         int depth = offset.get();
          
          if(depth != -1 && left == null){
             try{

@@ -3,7 +3,7 @@ package org.snapscript.tree.function;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.snapscript.core.Counter;
+import org.snapscript.core.Index;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Local;
 import org.snapscript.core.Scope;
@@ -17,7 +17,6 @@ import org.snapscript.core.function.Signature;
 public class ParameterExtractor {
    
    private final CompatibilityChecker checker;
-   private final AtomicInteger count;
    private final Signature signature;
    private final boolean closure;
    
@@ -27,7 +26,6 @@ public class ParameterExtractor {
    
    public ParameterExtractor(Signature signature, boolean closure) {
       this.checker = new CompatibilityChecker();
-      this.count = new AtomicInteger();
       this.signature = signature;
       this.closure = closure;
    }
@@ -37,13 +35,13 @@ public class ParameterExtractor {
       int size = parameters.size();
       
       if(size > 0) {
-         Counter counter = scope.getCounter();
+         Index index = scope.getIndex();
          
          for(int i = 0; i < size; i++) {
             Parameter parameter = parameters.get(i);
             String name = parameter.getName();
 
-            counter.add(name);
+            index.index(name);
          }
       }
    }
@@ -64,7 +62,7 @@ public class ParameterExtractor {
             Local local = create(inner, argument, i);
             
             if(closure) {
-               state.addScope(name, local); 
+               state.add(name, local); 
             }
             table.add(i, local);
          }

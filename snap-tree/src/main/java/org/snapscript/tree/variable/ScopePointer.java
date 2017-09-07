@@ -31,7 +31,7 @@ public class ScopePointer implements VariablePointer<Scope> {
    public Value get(Scope scope, Scope left) {
       Scope instance = binder.bind(left, left);
       State state = instance.getState();
-      Value value = state.getScope(name);
+      Value value = state.get(name);
       
       if(value == null) {
          Type type = left.getType();

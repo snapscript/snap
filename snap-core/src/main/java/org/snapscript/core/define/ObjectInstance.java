@@ -1,8 +1,8 @@
 package org.snapscript.core.define;
 
 import org.snapscript.core.ArrayTable;
-import org.snapscript.core.Counter;
-import org.snapscript.core.MapCounter;
+import org.snapscript.core.Index;
+import org.snapscript.core.StackIndex;
 import org.snapscript.core.Model;
 import org.snapscript.core.Module;
 import org.snapscript.core.State;
@@ -12,18 +12,18 @@ import org.snapscript.core.platform.Bridge;
 
 public class ObjectInstance implements Instance {
 
-   private final Counter counter;
    private final Instance base;
    private final Bridge object;
    private final Module module;
    private final Table table;
+   private final Index index;
    private final State state;
    private final Type type;
    
    public ObjectInstance(Module module, Instance base, Bridge object, Type type) {
       this.state = new InstanceState(base);
-      this.counter = new MapCounter();
       this.table = new ArrayTable();
+      this.index = new StackIndex();
       this.object = object;
       this.module = module;
       this.type = type;
@@ -51,8 +51,8 @@ public class ObjectInstance implements Instance {
    }
    
    @Override
-   public Counter getCounter(){
-      return counter;
+   public Index getIndex(){
+      return index;
    }
    
    @Override

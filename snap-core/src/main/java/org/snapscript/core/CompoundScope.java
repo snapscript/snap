@@ -2,15 +2,15 @@ package org.snapscript.core;
 
 public class CompoundScope implements Scope {
    
-   private final Counter counter;
+   private final Index index;
    private final Table table;
    private final State state;
    private final Scope outer;
    
    public CompoundScope(Scope inner, Scope outer) {
       this.state = new MapState(inner);  
-      this.counter = new MapCounter();
       this.table = new ArrayTable();
+      this.index = new StackIndex();
       this.outer = outer;
    } 
   
@@ -40,8 +40,8 @@ public class CompoundScope implements Scope {
    } 
    
    @Override
-   public Counter getCounter(){
-      return counter;
+   public Index getIndex(){
+      return index;
    }
    
    @Override

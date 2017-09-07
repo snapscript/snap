@@ -2,15 +2,15 @@ package org.snapscript.core;
 
 public class TypeScope implements Scope {
    
-   private final Counter counter;
+   private final Index index;
    private final Table table;
    private final State state;
    private final Type type;
    
    public TypeScope(Type type) {
-      this.counter = new MapCounter();
       this.table = new ArrayTable();
       this.state = new MapState();
+      this.index = new StackIndex();
       this.type = type;
    }
    
@@ -30,8 +30,8 @@ public class TypeScope implements Scope {
    }
    
    @Override
-   public Counter getCounter(){
-      return counter;
+   public Index getIndex(){
+      return index;
    }
    
    @Override

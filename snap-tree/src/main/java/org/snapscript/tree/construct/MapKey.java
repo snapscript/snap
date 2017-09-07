@@ -3,7 +3,7 @@ package org.snapscript.tree.construct;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.snapscript.core.Bug;
-import org.snapscript.core.Counter;
+import org.snapscript.core.Index;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
@@ -14,31 +14,31 @@ import org.snapscript.tree.NameReference;
 public class MapKey extends Evaluation {
    
    private final NameReference reference;
-   private final AtomicInteger index;
+   private final AtomicInteger offset;
    
    public MapKey(Evaluation key) {
       this.reference = new NameReference(key);
-      this.index = new AtomicInteger(-1);
+      this.offset = new AtomicInteger(-1);
    }
    
    @Bug
    @Override
    public void compile(Scope scope) throws Exception{
       String name = reference.getName(scope);
-      Counter counter = scope.getCounter();
-      int depth = counter.get(name);
+      Index index = scope.getIndex();
+      int depth = index.get(name);
 
-      index.set(depth);
+      offset.set(depth);
    }
    
    @Override
    public Value evaluate(Scope scope, Object left) throws Exception{
       String name = reference.getName(scope);
-      int depth = index.get();
+      int depth = offset.get();
       
       if(depth == -1){
          State state = scope.getState(); 
-         Value value = state.getScope(name);
+         Value value = state.get(name);
          
          if(value != null) { 
             return value;

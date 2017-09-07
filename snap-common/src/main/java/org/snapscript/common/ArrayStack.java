@@ -47,13 +47,13 @@ public class ArrayStack<T> implements Stack<T>{
 
    @Override
    public void push(T value) {
-      int capacity = stack.length;
+      int size = stack.length;
       
-      if(count >= capacity) {
-         Object[] copy = new Object[capacity * 2];
+      if(count >= size) {
+         Object[] copy = new Object[size == 0 ? 2 : size * 2];
          
          if(count > 0) {
-            System.arraycopy(stack, 0, copy, 0, stack.length);
+            System.arraycopy(stack, 0, copy, 0, size);
          }
          stack = copy;
       }

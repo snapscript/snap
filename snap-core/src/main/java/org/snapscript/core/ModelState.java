@@ -42,7 +42,7 @@ public class ModelState implements State {
    }
 
    @Override
-   public Value getScope(String name) {
+   public Value get(String name) {
       Value value = values.get(name);
       
       if(value == null && scope != null) {
@@ -51,7 +51,7 @@ public class ModelState implements State {
          if(state == null) {
             throw new InternalStateException("Scope for '" + name + "' does not exist");
          }
-         value = state.getScope(name);
+         value = state.get(name);
       }
       if(value == null && model != null) {
          Object object = model.getAttribute(name);
@@ -64,7 +64,7 @@ public class ModelState implements State {
    }
    
    @Override
-   public void addScope(String name, Value value) {
+   public void add(String name, Value value) {
       Value variable = values.get(name);
 
       if(variable != null) {

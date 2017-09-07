@@ -29,7 +29,7 @@ public class ModulePointer implements VariablePointer<Module> {
       if(property == null) {
          Scope inner = left.getScope();
          State state = inner.getState();
-         Value value = state.getScope(name);
+         Value value = state.get(name);
          
          if(value == null) {
             Type type = left.getType(name);

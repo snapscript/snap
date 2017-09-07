@@ -4,7 +4,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
-import org.snapscript.core.Counter;
+import org.snapscript.core.Index;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Local;
 import org.snapscript.core.Module;
@@ -45,13 +45,13 @@ public class ForInStatement implements Compilation {
       private final IterationConverter converter;
       private final NameReference reference;
       private final Evaluation collection;
-      private final AtomicInteger index;
+      private final AtomicInteger offset;
       private final Statement body;
    
       public CompileResult(Evaluation identifier, Evaluation collection, Statement body) {
          this.reference = new NameReference(identifier);
          this.converter = new IterationConverter();
-         this.index = new AtomicInteger();
+         this.offset = new AtomicInteger();
          this.collection = collection;
          this.body = body;
       }
@@ -59,13 +59,18 @@ public class ForInStatement implements Compilation {
       @Override
       public Result compile(Scope scope) throws Exception { 
          String name = reference.getName(scope);
-         Counter counter = scope.getCounter();
-         int depth = counter.add(name);
+         Index index = scope.getIndex();
+         int size = index.size();
+         int depth = index.index(name);
          
-         collection.compile(scope);
-         index.set(depth);
-         
-         return body.compile(scope);
+         try {   
+            collection.compile(scope);
+            offset.set(depth);
+            
+            return body.compile(scope);
+         } finally {
+            index.reset(size);
+         }
       }
    
       @Override
@@ -82,7 +87,7 @@ public class ForInStatement implements Compilation {
          String name = reference.getName(scope);
          Table table = scope.getTable();
          Local local = Local.getReference(name, name);
-         int depth = index.get();
+         int depth = offset.get();
          
          table.add(depth, local);
          

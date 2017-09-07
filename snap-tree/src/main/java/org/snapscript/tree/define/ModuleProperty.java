@@ -38,7 +38,7 @@ public class ModuleProperty {
       State state = scope.getState();
       
       try { 
-         state.addScope(name, value);
+         state.add(name, value);
       }catch(Exception e) {
          throw new InternalStateException("Declaration of variable '" + name +"' failed", e);
       }  

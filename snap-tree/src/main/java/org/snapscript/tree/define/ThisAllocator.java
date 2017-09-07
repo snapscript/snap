@@ -27,7 +27,7 @@ public class ThisAllocator implements TypeAllocator {
       Type real = (Type)list[0];
       Instance instance = builder.create(scope, base, real); // we need to pass the base type up!
       State state = instance.getState();
-      Value value = state.getScope(TYPE_THIS);
+      Value value = state.get(TYPE_THIS);
       
       if(instance != base) { // false if this(...) is called
          value.setValue(instance); // set the 'this' variable

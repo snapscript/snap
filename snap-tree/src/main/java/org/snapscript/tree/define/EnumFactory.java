@@ -52,7 +52,7 @@ public class EnumFactory extends TypeFactory {
       }
       Value result = call.call();
       Scope instance = result.getValue();
-      Value value = state.getScope(ENUM_VALUES);
+      Value value = state.get(ENUM_VALUES);
       List values = value.getValue();
       Object object = wrapper.toProxy(instance);
       

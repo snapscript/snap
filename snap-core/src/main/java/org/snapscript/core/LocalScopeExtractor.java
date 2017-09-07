@@ -30,12 +30,12 @@ public class LocalScopeExtractor {
             String name = local.getName();
             
             if(reference) {
-               inner.addScope(name, local); // enable modification of local
+               inner.add(name, local); // enable modification of local
             } else {
                Object value = local.getValue();
                Value constant = Value.getConstant(value);
                
-               inner.addScope(name, constant); // local is a visible constant
+               inner.add(name, constant); // local is a visible constant
             }
          }
       }

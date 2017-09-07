@@ -1,5 +1,6 @@
 package org.snapscript.tree;
 
+import org.snapscript.core.Index;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
@@ -39,8 +40,15 @@ public class StatementBlock extends Statement {
       }
       
       public StatementExecutor compile(Scope scope) throws Exception {
-         for(Statement statement : statements) {
-            statement.compile(scope);
+         Index index = scope.getIndex();
+         int size = index.size();
+         
+         try {
+            for(Statement statement : statements) {
+               statement.compile(scope);
+            }
+         } finally {
+            index.reset(size);
          }
          return new StatementExecutor(statements);
       }

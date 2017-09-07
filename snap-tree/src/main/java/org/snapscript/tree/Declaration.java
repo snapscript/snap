@@ -2,7 +2,7 @@ package org.snapscript.tree;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.snapscript.core.Counter;
+import org.snapscript.core.Index;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Local;
@@ -16,7 +16,7 @@ public class Declaration {
 
    private final DeclarationAllocator allocator;
    private final NameReference reference;
-   private final AtomicInteger index;
+   private final AtomicInteger offset;
    private final Evaluation value;
    
    public Declaration(TextLiteral identifier) {
@@ -34,7 +34,7 @@ public class Declaration {
    public Declaration(TextLiteral identifier, Constraint constraint, Evaluation value) {
       this.allocator = new DeclarationAllocator(constraint, value);
       this.reference = new NameReference(identifier);
-      this.index = new AtomicInteger(-1);
+      this.offset = new AtomicInteger(-1);
       this.value = value;
    }   
 
@@ -44,17 +44,17 @@ public class Declaration {
       if(value != null){
          value.compile(scope); // must compile value first
       }
-      Counter counter = scope.getCounter();
-      int depth = counter.add(name);
+      Index index = scope.getIndex();
+      int depth = index.index(name);
       
-      index.set(depth);
+      offset.set(depth);
    }
    
    public Value create(Scope scope, int modifiers) throws Exception {
       String name = reference.getName(scope);
       Local local = allocator.allocate(scope, name, modifiers);
       Table table = scope.getTable();
-      int depth = index.get();
+      int depth = offset.get();
       
       try { 
          table.add(depth, local);
