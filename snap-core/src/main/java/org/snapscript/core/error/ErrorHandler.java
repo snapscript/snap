@@ -3,6 +3,7 @@ package org.snapscript.core.error;
 import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.stack.ThreadStack;
+import org.snapscript.core.trace.Trace;
 
 public class ErrorHandler {
 
@@ -23,6 +24,13 @@ public class ErrorHandler {
          throw (InternalError)cause;
       }
       return internal.throwInternal(scope, cause); // fill in trace
+   }
+   
+   public Result throwInternal(Scope scope, Throwable cause, Trace trace) {
+      if(InternalError.class.isInstance(cause)) {
+         throw (InternalError)cause;
+      }
+      return internal.throwInternal(scope, cause, trace); // fill in trace
    }
    
    public Result throwExternal(Scope scope, Throwable cause) throws Exception {

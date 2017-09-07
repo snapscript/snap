@@ -56,6 +56,6 @@ public class Trace {
    
    @Override
    public String toString() {
-      return String.format("%s:%s", path, line);
+      return String.format("%s at line %s", path, line);
    }
 }
