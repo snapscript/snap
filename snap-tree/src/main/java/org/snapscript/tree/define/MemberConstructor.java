@@ -39,12 +39,12 @@ public abstract class MemberConstructor implements TypePart {
       Scope scope = type.getScope();
       ConstructorBuilder builder = assembler.assemble(factory, type);
       FunctionCompiler compiler = builder.create(factory, type, modifiers, compile);
-      Function constructor = compiler.create(scope);
+      Function constructor = compiler.compile(scope);
       List<Function> functions = type.getFunctions();
       
       annotations.apply(scope, constructor);
       functions.add(constructor);
-      compiler.compile(scope);
+      compiler.create(scope);
       
       return null;
    }

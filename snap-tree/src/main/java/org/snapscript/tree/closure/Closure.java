@@ -64,9 +64,9 @@ public class Closure implements Compilation {
          Signature signature = parameters.create(parent);
          Scope capture = extractor.extract(scope);
          FunctionCompiler compiler = builder.create(signature, capture); // creating new function each time
-         Function function = compiler.create(capture);
+         Function function = compiler.compile(capture);
          
-         compiler.compile(capture);
+         compiler.create(capture);
          
          return Value.getTransient(function);
       }

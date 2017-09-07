@@ -59,7 +59,7 @@ public class StatementInvocationBuilder implements InvocationBuilder {
       return new ResultConverter(converter, execute, execute == compile);
    }
 
-   private class ResultConverter implements Invocation {
+   private class ResultConverter implements Invocation<Object> {
       
       private final ConstraintConverter converter;
       private final AtomicBoolean compile;

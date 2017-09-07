@@ -19,7 +19,7 @@ public class LocalScopeExtractor {
       return extract(outer, outer); // can't see callers scope
    }
    
-   private Scope extract(Scope original, Scope outer) {
+   public Scope extract(Scope original, Scope outer) {
       Scope capture = new LocalScope(original, outer);
       
       if(original != null) {

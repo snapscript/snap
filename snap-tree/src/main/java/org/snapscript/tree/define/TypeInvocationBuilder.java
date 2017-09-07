@@ -4,6 +4,7 @@ import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
+import org.snapscript.core.define.Instance;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationBuilder;
 import org.snapscript.core.function.Signature;
@@ -19,7 +20,7 @@ public class TypeInvocationBuilder implements InvocationBuilder {
    private Type type;
 
    public TypeInvocationBuilder(TypeFactory factory, Signature signature, Type type) {
-      this.extractor = new ParameterExtractor(signature);
+      this.extractor = new ParameterExtractor(signature); // this seems wrong!
       this.aligner = new SignatureAligner(signature);
       this.factory = factory;
       this.type = type;
@@ -37,12 +38,12 @@ public class TypeInvocationBuilder implements InvocationBuilder {
       Scope inner = scope.getStack();
       
       extractor.compile(inner); // count parameters
-      factory.compile(inner, type); // start counting from here - BLOCK STATEMENT MAY BE COMPILED!!
+      factory.compile(inner, type); // start counting from here 
      
       return new ResultConverter(factory);
    }
 
-   private class ResultConverter implements Invocation {
+   private class ResultConverter implements Invocation<Instance> {
       
       private final TypeFactory factory;
       
@@ -51,10 +52,10 @@ public class TypeInvocationBuilder implements InvocationBuilder {
       }
       
       @Override
-      public Object invoke(Scope scope, Object object, Object... list) throws Exception {
+      public Object invoke(Scope scope, Instance object, Object... list) throws Exception {
          Type real = (Type)list[0];
          Object[] arguments = aligner.align(list);
-         Scope inner = extractor.extract(scope, arguments);
+         Scope inner = extractor.extract(object, arguments);
          Result result = factory.execute(inner, real);
          
          return result.getValue();

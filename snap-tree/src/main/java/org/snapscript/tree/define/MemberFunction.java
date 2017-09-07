@@ -56,7 +56,7 @@ public class MemberFunction implements TypePart {
       Scope scope = type.getScope();
       MemberFunctionBuilder builder = assembler.assemble(type, mask);
       FunctionCompiler compiler = builder.create(factory, scope, type);
-      Function function = compiler.create(scope);
+      Function function = compiler.compile(scope);
       List<Function> functions = type.getFunctions();
       int modifiers = function.getModifiers();
 
@@ -68,7 +68,7 @@ public class MemberFunction implements TypePart {
       }
       annotations.apply(scope, function);
       functions.add(function);
-      compiler.compile(scope); // count stacks
+      compiler.create(scope); // count stacks
       
       return null; 
    }

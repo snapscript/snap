@@ -11,7 +11,7 @@ public class ErrorHandler {
    private final InternalErrorHandler internal;
    
    public ErrorHandler(ThreadStack stack) {
-      this(stack, false);
+      this(stack, true);
    }
    
    public ErrorHandler(ThreadStack stack, boolean replace) {

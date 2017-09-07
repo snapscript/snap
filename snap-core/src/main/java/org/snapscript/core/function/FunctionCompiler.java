@@ -12,11 +12,11 @@ public class FunctionCompiler {
       this.builder = builder;
    }
    
-   public Function create(Scope scope) throws Exception {
+   public Function compile(Scope scope) throws Exception {
       return function;
    }
    
-   public Invocation compile(Scope scope) throws Exception {
+   public Invocation create(Scope scope) throws Exception {
       return builder.create(scope);
    }
 }

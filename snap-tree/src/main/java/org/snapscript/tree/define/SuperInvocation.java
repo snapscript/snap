@@ -1,6 +1,7 @@
 package org.snapscript.tree.define;
 
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.LocalScopeExtractor;
 import org.snapscript.core.Scope;
 import org.snapscript.core.ScopeCombiner;
 import org.snapscript.core.Type;
@@ -13,10 +14,12 @@ public class SuperInvocation extends Evaluation {
 
    private final SuperInstanceBuilder builder;
    private final SuperInvocationBinder binder;
+   private final LocalScopeExtractor extractor;
    private final NameReference reference;
    private final ArgumentList arguments;
    
    public SuperInvocation(Evaluation function, ArgumentList arguments, Type type) {
+      this.extractor = new LocalScopeExtractor(true, false);
       this.binder = new SuperInvocationBinder(type);
       this.builder = new SuperInstanceBuilder(type);
       this.reference = new NameReference(function);
@@ -32,7 +35,7 @@ public class SuperInvocation extends Evaluation {
       
       if(arguments != null) {
          Scope outer = real.getScope();
-         Scope compound = ScopeCombiner.combine(scope, outer);
+         Scope compound = extractor.extract(scope, outer);
          Value array = arguments.create(compound, real); // arguments have no left hand side
          Object[] list = array.getValue();
 

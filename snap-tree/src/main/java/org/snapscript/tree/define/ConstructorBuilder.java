@@ -32,13 +32,14 @@ public class ConstructorBuilder {
    }
    
    public FunctionCompiler create(TypeFactory factory, Type type, int modifiers, boolean compile) {
-      InvocationBuilder builder = new StatementInvocationBuilder(signature, statement, statement, null);
-      Invocation body = new StatementInvocation(builder);
+      InvocationBuilder external = new StatementInvocationBuilder(signature, statement, statement, null);
+      Invocation body = new StatementInvocation(external);
       TypeAllocator instance = new ThisAllocator(factory, body, type);
-      TypeAllocator base = new SuperAllocator(delegate, instance, signature); 
+      InvocationBuilder internal = new TypeInvocationBuilder(delegate, signature, type);
+      TypeAllocator base = new TypeDelegateAllocator(instance, internal); 
       Invocation constructor = new NewInvocation(factory, base, type, compile);
       Function function = new InvocationFunction(signature, constructor, type, type, TYPE_CONSTRUCTOR, modifiers | STATIC.mask, 1);
       
-      return new FunctionCompiler(builder, function);
+      return new FunctionCompiler(external, function);
    }
 }

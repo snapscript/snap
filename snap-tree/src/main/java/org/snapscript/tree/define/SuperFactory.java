@@ -20,7 +20,7 @@ public class SuperFactory extends TypeFactory {
    @Override
    public Result compile(Scope instance, Type real) throws Exception {
       expression.compile(instance);
-      return Result.getNormal(null);
+      return Result.getNormal();
    }
 
    @Override

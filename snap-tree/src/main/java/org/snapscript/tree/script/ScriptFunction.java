@@ -44,10 +44,10 @@ public class ScriptFunction extends Statement {
       String name = identifier.getName(scope);
       Type returns = constraint.getConstraint(scope);
       FunctionCompiler compiler = builder.create(signature, module, returns, name);
-      Function function = compiler.create(scope);
+      Function function = compiler.compile(scope);
       
       functions.add(function);
-      compiler.compile(scope); // count stack
+      compiler.create(scope); // count stack
       
       return Result.getNormal(function);
    }
