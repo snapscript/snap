@@ -3,7 +3,6 @@ package org.snapscript.tree.define;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.LocalScopeExtractor;
 import org.snapscript.core.Scope;
-import org.snapscript.core.ScopeCombiner;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.tree.ArgumentList;
