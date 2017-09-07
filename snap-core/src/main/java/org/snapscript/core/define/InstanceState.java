@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.snapscript.common.CompoundIterator;
-import org.snapscript.core.Bug;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Local;
 import org.snapscript.core.State;
@@ -71,26 +70,6 @@ public class InstanceState implements State {
          throw new InternalStateException("Variable '" + name + "' already exists");
       }
       values.put(name, value); 
-   }
-   
-   @Bug("fix local value get")
-   @Override
-   public Local getLocal(int index) {
-      return stack.get(index);
-   }
-   
-   @Override
-   public void addLocal(int index, Local value) {
-      if(value == null) {
-         throw new IllegalStateException("Local was null");
-      }
-      int size = stack.size();
-      if(index >= size) {
-         for(int i = size; i <= index; i++){
-            stack.add(null);
-         }
-      }
-      stack.set(index, value);
    }
    
    @Override

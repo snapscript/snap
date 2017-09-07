@@ -15,7 +15,7 @@ public class CompoundScope2 implements Scope2 {
    private final Model model;
    
    public CompoundScope2(Model model, Scope inner, Scope outer) {
-      this.state = new MapState(model, inner);  
+      this.state = new MapState(inner);  
       this.outer = outer;
       this.model = model;
    } 

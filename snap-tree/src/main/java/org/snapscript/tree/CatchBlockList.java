@@ -6,8 +6,8 @@ import org.snapscript.core.Counter;
 import org.snapscript.core.Local;
 import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
-import org.snapscript.core.State;
 import org.snapscript.core.Statement;
+import org.snapscript.core.Table;
 import org.snapscript.core.Type;
 import org.snapscript.core.convert.CompatibilityChecker;
 import org.snapscript.core.error.ErrorCauseExtractor;
@@ -60,13 +60,11 @@ public class CatchBlockList {
             Object cause = extractor.extract(scope, data);
             
             if(checker.compatible(scope, cause, type)) {
-               //Scope compound = scope.getInner();
-               State state = scope.getState();
+               Table table = scope.getTable();
                Local local = Local.getConstant(cause, name);
-               int val = index.get();
+               int depth = index.get();
                
-               state.addLocal(val, local);
-               //state.addScope(name, constant);
+               table.add(depth, local);
 
                return statement.execute(scope);
             }

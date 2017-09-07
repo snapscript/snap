@@ -1,14 +1,13 @@
 package org.snapscript.core.define;
 
-import java.util.List;
-
+import org.snapscript.core.ArrayTable;
 import org.snapscript.core.Counter;
-import org.snapscript.core.Local;
+import org.snapscript.core.MapCounter;
 import org.snapscript.core.MapState;
-import org.snapscript.core.Model;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
+import org.snapscript.core.Table;
 import org.snapscript.core.Type;
 import org.snapscript.core.platform.Bridge;
 
@@ -18,32 +17,27 @@ public class CompoundInstance implements Instance {
    private final Counter counter;
    private final Module module;
    private final State state;
-   private final Model model;
+   private final Table table;
    private final Scope outer;
    private final Type type;
    
-   public CompoundInstance(Module module, Model model, Instance instance, Scope outer, Type type) {
-      this(module, model, instance, outer, type, null);
-   }
-   
-   public CompoundInstance(Module module, Model model, Instance instance, Scope outer, Type type, List<Local> stack) {
-      this.state = new MapState(model, outer, stack);
-      this.counter = new Counter();
+   public CompoundInstance(Module module, Instance instance, Scope outer, Type type) {
+      this.state = new MapState(outer);
+      this.counter = new MapCounter();
+      this.table = new ArrayTable();
       this.instance = instance;
       this.module = module;
       this.outer = outer;
-      this.model = model;
       this.type = type;
    }
    
    @Override
-   public Instance getInner() {
+   public Instance getStack() {
       throw new IllegalStateException("Unable to get inner");
-      //return new CompoundInstance(module, model, instance, this, type, state.getStack());
    } 
    
    @Override
-   public Instance getOuter() {
+   public Instance getScope() {
       return instance;
    } 
    
@@ -63,6 +57,11 @@ public class CompoundInstance implements Instance {
    }
   
    @Override
+   public Table getTable(){
+      return table;
+   }
+   
+   @Override
    public Module getModule() {
       return module;
    }
@@ -75,11 +74,6 @@ public class CompoundInstance implements Instance {
    @Override
    public Type getType(){
       return type;
-   }
-   
-   @Override
-   public Model getModel() {
-      return model;
    }
 
    @Override

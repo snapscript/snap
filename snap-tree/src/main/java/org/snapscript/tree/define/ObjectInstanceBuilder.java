@@ -1,6 +1,5 @@
 package org.snapscript.tree.define;
 
-import org.snapscript.core.Model;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
@@ -20,11 +19,10 @@ public class ObjectInstanceBuilder {
       Class actual = base.getClass();
       
       if(actual != ObjectInstance.class) { // false if this(...) is called
-         Model model = scope.getModel();
          Module module = type.getModule();
          Bridge object = base.getBridge();
          
-         return new ObjectInstance(module, model, base, object, real); // create the first instance
+         return new ObjectInstance(module, base, object, real); // create the first instance
       }
       return base;
    }

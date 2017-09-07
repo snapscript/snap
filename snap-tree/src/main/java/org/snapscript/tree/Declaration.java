@@ -7,7 +7,7 @@ import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Local;
 import org.snapscript.core.Scope;
-import org.snapscript.core.State;
+import org.snapscript.core.Table;
 import org.snapscript.core.Value;
 import org.snapscript.tree.constraint.Constraint;
 import org.snapscript.tree.literal.TextLiteral;
@@ -53,11 +53,11 @@ public class Declaration {
    public Value create(Scope scope, int modifiers) throws Exception {
       String name = reference.getName(scope);
       Local local = allocator.allocate(scope, name, modifiers);
-      State state = scope.getState();
-      int position = index.get();
+      Table table = scope.getTable();
+      int depth = index.get();
       
       try { 
-         state.addLocal(position, local);
+         table.add(depth, local);
       }catch(Exception e) {
          throw new InternalStateException("Declaration of variable '" + name +"' failed", e);
       }  

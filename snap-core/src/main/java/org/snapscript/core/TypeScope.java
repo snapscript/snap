@@ -3,22 +3,24 @@ package org.snapscript.core;
 public class TypeScope implements Scope {
    
    private final Counter counter;
+   private final Table table;
    private final State state;
    private final Type type;
    
    public TypeScope(Type type) {
-      this.counter = new Counter();
+      this.counter = new MapCounter();
+      this.table = new ArrayTable();
       this.state = new MapState();
       this.type = type;
    }
    
    @Override
-   public Scope getInner() {
-      return new CompoundScope(null, this, this); 
+   public Scope getStack() {
+      return new CompoundScope(this, this); 
    } 
    
    @Override
-   public Scope getOuter() {
+   public Scope getScope() {
       return this;
    }
 
@@ -33,8 +35,8 @@ public class TypeScope implements Scope {
    }
    
    @Override
-   public Model getModel() {
-      return null;
+   public Table getTable() {
+      return table;
    }
    
    @Override

@@ -6,6 +6,7 @@ import org.snapscript.core.Counter;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
+import org.snapscript.core.Table;
 import org.snapscript.core.Value;
 import org.snapscript.tree.NameReference;
 
@@ -27,9 +28,6 @@ public class Variable extends Evaluation {
       Counter counter = scope.getCounter();
       int depth = counter.get(name);
 
-      if(name.equals("line")){
-         System.err.println();
-      }
       index.set(depth);
    }
    
@@ -48,8 +46,8 @@ public class Variable extends Evaluation {
                return value;
             }
          }else {
-            State state = scope.getState(); // here we use the stack
-            Value value = state.getLocal(depth);
+            Table table = scope.getTable();
+            Value value = table.get(depth);
 
             if(value != null) { 
                return value;

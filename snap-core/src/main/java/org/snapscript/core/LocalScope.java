@@ -1,29 +1,28 @@
 package org.snapscript.core;
 
-
 public class LocalScope implements Scope {
    
    private final Counter counter;
+   private final Table table;
    private final State state;
    private final Scope inner;
    private final Scope outer;
-   private final Model model;
    
-   public LocalScope(Model model, Scope inner, Scope outer) {
+   public LocalScope(Scope inner, Scope outer) {
       this.state = new LocalState(inner);
-      this.counter = new Counter();
+      this.counter = new MapCounter();
+      this.table = new ArrayTable();
       this.inner = inner;
       this.outer = outer;
-      this.model = model;
    }
 
    @Override
-   public Scope getInner() {
-      return new CompoundScope(model, this, outer);
+   public Scope getStack() {
+      return new CompoundScope(this, outer);
    }
    
    @Override
-   public Scope getOuter() {
+   public Scope getScope() {
       return outer;
    }
    
@@ -43,13 +42,13 @@ public class LocalScope implements Scope {
    }
    
    @Override
-   public Counter getCounter(){
-      return counter;
+   public Table getTable(){
+      return table;
    }
    
    @Override
-   public Model getModel() {
-      return model;
+   public Counter getCounter(){
+      return counter;
    }
 
    @Override

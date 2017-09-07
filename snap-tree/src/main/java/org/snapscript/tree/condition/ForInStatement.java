@@ -11,8 +11,8 @@ import org.snapscript.core.Module;
 import org.snapscript.core.Path;
 import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
-import org.snapscript.core.State;
 import org.snapscript.core.Statement;
+import org.snapscript.core.Table;
 import org.snapscript.core.Value;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.trace.Trace;
@@ -80,11 +80,11 @@ public class ForInStatement implements Compilation {
 
       private Result execute(Scope scope, Iterable iterable) throws Exception {
          String name = reference.getName(scope);
-         State state = scope.getState();
+         Table table = scope.getTable();
          Local local = Local.getReference(name, name);
          int depth = index.get();
          
-         state.addLocal(depth, local);
+         table.add(depth, local);
          
          for (Object entry : iterable) {
             local.setValue(entry);

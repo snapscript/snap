@@ -14,7 +14,7 @@ import org.snapscript.core.Value;
 public class TraitTest extends TestCase{
    private static final String SOURCE_1=
    "trait Pet {\n"+
-   "   speak() {\n"+
+   "   speak(out) {\n"+
    "      out.println('Yo!');\n"+
    "   }\n"+
    "   comeToMaster();\n"+
@@ -22,24 +22,24 @@ public class TraitTest extends TestCase{
    "\n"+
    "class Dog with Pet {\n"+
    "  // don't need to implement 'speak' if you don't want to\n"+
-   "   comeToMaster() {\n"+
-   "      out.println('I\\'m coming!');\n"+
+   "   override comeToMaster() {\n"+
+   "      println('I\\'m coming!');\n"+
    "   }\n"+
    "}\n"+
    "\n"+
    "class Cat with Pet {\n"+
-   "  speak() {\n"+
+   "  override speak(out) {\n"+
    "      out.println('meow');\n"+
    "  }\n"+
-   "  comeToMaster() {\n"+
-   "      out.println('That\\'s not gonna happen.');\n"+
+   "  override comeToMaster() {\n"+
+   "      println('That\\'s not gonna happen.');\n"+
    "   }\n"+
    "}\n"+
    "var d=new Dog();\n"+
-   "d.speak();\n"+
+   "d.speak(out);\n"+
    "d.comeToMaster();\n"+
    "var c =new Cat();\n"+
-   "c.speak();\n"+
+   "c.speak(out);\n"+
    "c.comeToMaster();\n";
    
    private static final String SOURCE_2 =

@@ -69,15 +69,17 @@ public class FunctionInvocation implements Compilation {
          }
       }
       
+      @Bug("clean up")
       @Override
       public Value evaluate(Scope scope, Object left) throws Exception {
          String name = reference.getName(scope); 
          Value array = arguments.create(scope); 
          Object[] arguments = array.getValue();
+         int depth = index.get();
          
-         if(index.get() != -1 && left == null){
+         if(depth != -1 && left == null){
             try{
-            Value d = scope.getState().getLocal(index.get());
+            Value d = scope.getTable().get(depth);
             if(Function.class.isInstance(d.getValue())){
                left = d;
             }

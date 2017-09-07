@@ -1,32 +1,30 @@
 package org.snapscript.core;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.snapscript.common.CompoundIterator;
 
-public class LocalState implements State {
+public class ModelState implements State {
    
    private final Map<String, Value> values;
-   private final List<Local> stack;
    private final Scope scope;
+   private final Model model;
+   
+   public ModelState() {
+      this(null);
+   }
+  
+   public ModelState(Model model) {
+      this(model, null);
+   }
 
-   public LocalState(Scope scope) {
-      this(scope, null);
-   }
-   
-   public LocalState(Scope scope, List<Local> stack) {
+   public ModelState(Model model, Scope scope) {
       this.values = new HashMap<String, Value>();
-      this.stack = stack == null ?new ArrayList<Local>(1) :stack;
+      this.model = model;
       this.scope = scope;
-   }
-   
-   public List<Local> getStack(){
-      return stack;
    }
    
    @Override
@@ -53,7 +51,14 @@ public class LocalState implements State {
          if(state == null) {
             throw new InternalStateException("Scope for '" + name + "' does not exist");
          }
-         return state.getScope(name);
+         value = state.getScope(name);
+      }
+      if(value == null && model != null) {
+         Object object = model.getAttribute(name);
+         
+         if(object != null) {
+            return Value.getConstant(object);
+         }
       }
       return value;
    }
@@ -65,7 +70,7 @@ public class LocalState implements State {
       if(variable != null) {
          throw new InternalStateException("Variable '" + name + "' already exists");
       }
-      values.put(name, value);  
+      values.put(name, value);
    }
    
    @Override

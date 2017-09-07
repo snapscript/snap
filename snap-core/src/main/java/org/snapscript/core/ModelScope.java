@@ -3,24 +3,24 @@ package org.snapscript.core;
 public class ModelScope implements Scope {
    
    private final Counter counter;
+   private final Table table;
    private final Module module;
    private final State state;
-   private final Model model;
    
    public ModelScope(Model model, Module module) {
-      this.state = new MapState(model);
-      this.counter = new Counter();
+      this.state = new ModelState(model);
+      this.counter = new MapCounter();
+      this.table = new ArrayTable();
       this.module = module;
-      this.model = model;
    }
    
    @Override
-   public Scope getInner() {
-      return new CompoundScope(model, this, this);
+   public Scope getStack() {
+      return new CompoundScope(this, this);
    } 
    
    @Override
-   public Scope getOuter() {
+   public Scope getScope() {
       return this;
    } 
    
@@ -30,8 +30,8 @@ public class ModelScope implements Scope {
    }
    
    @Override
-   public Model getModel() {
-      return model;
+   public Table getTable() {
+      return table;
    }
 
    @Override

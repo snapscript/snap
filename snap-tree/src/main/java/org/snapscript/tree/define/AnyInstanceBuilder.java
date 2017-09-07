@@ -3,7 +3,6 @@ package org.snapscript.tree.define;
 import static org.snapscript.core.Reserved.DEFAULT_PACKAGE;
 
 import org.snapscript.core.Context;
-import org.snapscript.core.Model;
 import org.snapscript.core.Module;
 import org.snapscript.core.ModuleRegistry;
 import org.snapscript.core.Scope;
@@ -21,7 +20,6 @@ public class AnyInstanceBuilder {
 
    public Instance create(Scope scope, Type real) throws Exception {
       Scope inner = real.getScope();
-      Model model = scope.getModel();
       
       if(module == null) {
          Module parent = scope.getModule();
@@ -30,6 +28,6 @@ public class AnyInstanceBuilder {
          
          module = registry.addModule(DEFAULT_PACKAGE);
       }
-      return new PrimitiveInstance(module, model, inner, real); 
+      return new PrimitiveInstance(module, inner, real); 
    }
 }

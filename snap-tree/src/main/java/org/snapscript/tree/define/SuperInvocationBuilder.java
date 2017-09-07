@@ -31,7 +31,7 @@ public class SuperInvocationBuilder implements InvocationBuilder {
    }
    
    private Invocation compile(Scope scope) throws Exception {
-      Scope inner = scope.getInner();
+      Scope inner = scope.getStack();
       
       extractor.compile(inner); // count parameters
       factory.compile(inner, type); // start counting from here - BLOCK STATEMENT MAY BE COMPILED!!

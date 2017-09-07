@@ -1,33 +1,26 @@
 package org.snapscript.core;
 
-import java.util.List;
-
 public class CompoundScope implements Scope {
    
    private final Counter counter;
+   private final Table table;
    private final State state;
    private final Scope outer;
-   private final Model model;
    
-   public CompoundScope(Model model, Scope inner, Scope outer) {
-      this(model, inner, outer, null);
-   }
-   
-   public CompoundScope(Model model, Scope inner, Scope outer, List<Local> stack) {
-      this.state = new MapState(model, inner, stack);  
-      this.counter = new Counter();
+   public CompoundScope(Scope inner, Scope outer) {
+      this.state = new MapState(inner);  
+      this.counter = new MapCounter();
+      this.table = new ArrayTable();
       this.outer = outer;
-      this.model = model;
    } 
   
    @Override
-   public Scope getInner() {
+   public Scope getStack() {
       throw new IllegalStateException("stack inner");
-      //return new StateScope(model, this, outer, state.getStack());
    }  
    
    @Override
-   public Scope getOuter() {
+   public Scope getScope() {
       return outer;
    }  
    
@@ -45,15 +38,15 @@ public class CompoundScope implements Scope {
    public Module getModule() {
       return outer.getModule();
    } 
-
-   @Override
-   public Model getModel() {
-      return model;
-   }
    
    @Override
    public Counter getCounter(){
       return counter;
+   }
+   
+   @Override
+   public Table getTable(){
+      return table;
    }
    
    @Override

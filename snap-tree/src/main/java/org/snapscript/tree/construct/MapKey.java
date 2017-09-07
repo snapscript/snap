@@ -7,6 +7,7 @@ import org.snapscript.core.Counter;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
+import org.snapscript.core.Table;
 import org.snapscript.core.Value;
 import org.snapscript.tree.NameReference;
 
@@ -25,27 +26,27 @@ public class MapKey extends Evaluation {
    public void compile(Scope scope) throws Exception{
       String name = reference.getName(scope);
       Counter counter = scope.getCounter();
-      int value = counter.get(name);
+      int depth = counter.get(name);
 
-      index.set(value);
+      index.set(depth);
    }
    
    @Override
    public Value evaluate(Scope scope, Object left) throws Exception{
       String name = reference.getName(scope);
-      int s = index.get();
+      int depth = index.get();
       
-      if(s == -1){
-         State state = scope.getState(); // here we use the stack
+      if(depth == -1){
+         State state = scope.getState(); 
          Value value = state.getScope(name);
          
          if(value != null) { 
             return value;
          }
       }else {
-         State state = scope.getState(); // here we use the stack
-         Value value = state.getLocal(s);
-         //System.err.println("ref="+name+" index="+s);
+         Table table = scope.getTable(); // here we use the stack
+         Value value = table.get(depth);
+         
          if(value != null) { 
             return value;
          }

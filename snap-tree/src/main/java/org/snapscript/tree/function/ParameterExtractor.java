@@ -1,13 +1,14 @@
 package org.snapscript.tree.function;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Counter;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Local;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
+import org.snapscript.core.Table;
 import org.snapscript.core.Type;
 import org.snapscript.core.convert.CompatibilityChecker;
 import org.snapscript.core.function.Parameter;
@@ -16,9 +17,8 @@ import org.snapscript.core.function.Signature;
 public class ParameterExtractor {
    
    private final CompatibilityChecker checker;
+   private final AtomicInteger count;
    private final Signature signature;
-   
-   @Bug("this crap is for the SuperAllocator... and nested closures")
    private final boolean closure;
    
    public ParameterExtractor(Signature signature) {
@@ -27,6 +27,7 @@ public class ParameterExtractor {
    
    public ParameterExtractor(Signature signature, boolean closure) {
       this.checker = new CompatibilityChecker();
+      this.count = new AtomicInteger();
       this.signature = signature;
       this.closure = closure;
    }
@@ -49,11 +50,12 @@ public class ParameterExtractor {
 
    public Scope extract(Scope scope, Object[] arguments) throws Exception {
       List<Parameter> parameters = signature.getParameters();
-      Scope inner = scope.getInner();
+      Scope inner = scope.getStack();
       int size = parameters.size();
       
       if(size > 0) {
          State state = inner.getState();
+         Table table = inner.getTable();
          
          for(int i = 0; i < size; i++) {
             Parameter parameter = parameters.get(i);
@@ -64,7 +66,7 @@ public class ParameterExtractor {
             if(closure) {
                state.addScope(name, local); 
             }
-            state.addLocal(i, local);
+            table.add(i, local);
          }
          return inner;
       }

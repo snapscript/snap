@@ -4,8 +4,8 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.platform.Bridge;
 
 public interface Instance extends Scope {
-   Instance getInner();
-   Instance getOuter();
+   Instance getStack();
+   Instance getScope();
    Instance getSuper();
    Bridge getBridge();
 }

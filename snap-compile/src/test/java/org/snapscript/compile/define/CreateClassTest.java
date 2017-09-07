@@ -39,7 +39,7 @@ public class CreateClassTest extends TestCase{
    "     this.x=1;\n"+
    "  }\n"+
    "  show(){\n"+
-   "     out.printf('x=%s y=%s%n',x,y);\n"+
+   "     printf('x=%s y=%s%n',x,y);\n"+
    "  }\n"+
    "}\n"+
    "var p1 = new Point();\n"+

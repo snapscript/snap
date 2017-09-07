@@ -1,9 +1,9 @@
 package org.snapscript.core.define;
 
 import org.snapscript.core.Counter;
-import org.snapscript.core.Model;
 import org.snapscript.core.Module;
 import org.snapscript.core.State;
+import org.snapscript.core.Table;
 import org.snapscript.core.Type;
 import org.snapscript.core.platform.Bridge;
 
@@ -11,26 +11,24 @@ public class SuperInstance implements Instance {
 
    private final Instance scope;
    private final Module module;
-   private final Model model;
    private final Type type;
    private final Type real;
    
-   public SuperInstance(Module module, Model model, Instance scope, Type real, Type type) {
+   public SuperInstance(Module module, Instance scope, Type real, Type type) {
       this.scope = scope;
       this.module = module;
-      this.model = model;
       this.type = type;
       this.real = real;
    }
 
    @Override
-   public Instance getInner() {
-      return scope.getInner();
+   public Instance getStack() {
+      return scope.getStack();
    }
 
    @Override
-   public Instance getOuter() {
-      return scope.getOuter();
+   public Instance getScope() {
+      return scope.getScope();
    }
    
    @Override
@@ -53,6 +51,11 @@ public class SuperInstance implements Instance {
       return scope.getCounter();
    }
    
+   @Override
+   public Table getTable(){
+      return scope.getTable();
+   }
+   
    public Type getHandle() {
       return type;
    }
@@ -65,11 +68,6 @@ public class SuperInstance implements Instance {
    @Override
    public Module getModule() {
       return module;
-   }
-
-   @Override
-   public Model getModel() {
-      return model;
    }
    
    @Override

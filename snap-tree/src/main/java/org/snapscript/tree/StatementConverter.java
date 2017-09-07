@@ -47,7 +47,7 @@ public class StatementConverter implements InvocationBuilder {
       Context context = module.getContext();
       ConstraintMatcher matcher = context.getMatcher();
       ConstraintConverter converter = matcher.match(constraint);
-      Scope inner = scope.getInner();
+      Scope inner = scope.getStack();
       
       if(compile != null) {
          extractor.compile(inner); // count parameters

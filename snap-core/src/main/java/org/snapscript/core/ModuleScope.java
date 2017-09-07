@@ -4,21 +4,23 @@ public class ModuleScope implements Scope {
    
    private final Counter counter;
    private final Module module;
+   private final Table table;
    private final State state;
    
    public ModuleScope(Module module) {
       this.state = new MapState(null);
-      this.counter = new Counter();
+      this.counter = new MapCounter();
+      this.table = new ArrayTable();
       this.module = module;
    }
    
    @Override
-   public Scope getInner() {
-      return new CompoundScope(null, this, this);
+   public Scope getStack() {
+      return new CompoundScope(this, this);
    } 
    
    @Override
-   public Scope getOuter() {
+   public Scope getScope() {
       return this;
    }
 
@@ -33,8 +35,8 @@ public class ModuleScope implements Scope {
    }
    
    @Override
-   public Model getModel() {
-      return null;
+   public Table getTable() {
+      return table;
    }
    
    @Override

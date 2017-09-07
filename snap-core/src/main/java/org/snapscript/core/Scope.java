@@ -2,10 +2,10 @@ package org.snapscript.core;
 
 public interface Scope extends Handle {
    Type getType();
-   Scope getInner(); // extend on current scope
-   Scope getOuter(); // get callers scope
+   Scope getStack(); // extend on current scope
+   Scope getScope(); // get callers scope
+   Module getModule();  
    Counter getCounter();
-   Module getModule();   
+   Table getTable(); 
    State getState();
-   Model getModel();
 }

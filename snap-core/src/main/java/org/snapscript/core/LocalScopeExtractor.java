@@ -1,7 +1,5 @@
 package org.snapscript.core;
 
-import java.util.List;
-
 public class LocalScopeExtractor {
    
    private final boolean reference;
@@ -13,35 +11,31 @@ public class LocalScopeExtractor {
    }
 
    public Scope extract(Scope scope) {
-      Model model = scope.getModel();
-      Scope outer = scope.getOuter();
+      Scope outer = scope.getScope();
       
       if(extension) {
-         return extract(scope, outer, model); // can see callers scope
+         return extract(scope, outer); // can see callers scope
       }
-      return extract(outer, outer, model); // can't see callers scope
+      return extract(outer, outer); // can't see callers scope
    }
    
-   private Scope extract(Scope original, Scope outer, Model model) {
-      Scope capture = new LocalScope(model, original, outer);
+   private Scope extract(Scope original, Scope outer) {
+      Scope capture = new LocalScope(original, outer);
       
       if(original != null) {
-         State state = original.getState();
+         Table table = original.getTable();
          State inner = capture.getState();
-         List<Local> locals = state.getStack();
          
-         for(Local local : locals){
-            if(local != null) {
-               String name = local.getName();
+         for(Local local : table){
+            String name = local.getName();
+            
+            if(reference) {
+               inner.addScope(name, local); // enable modification of local
+            } else {
+               Object value = local.getValue();
+               Value constant = Value.getConstant(value);
                
-               if(reference) {
-                  inner.addScope(name, local); // enable modification of local
-               } else {
-                  Object value = local.getValue();
-                  Value constant = Value.getConstant(value);
-                  
-                  inner.addScope(name, constant); // local is a visible constant
-               }
+               inner.addScope(name, constant); // local is a visible constant
             }
          }
       }
