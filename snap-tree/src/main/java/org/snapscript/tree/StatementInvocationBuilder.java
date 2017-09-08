@@ -53,7 +53,7 @@ public class StatementInvocationBuilder implements InvocationBuilder {
       
       if(compile != null) {
          extractor.compile(inner); // count parameters
-         compile.compile(inner); // start counting from here - BLOCK STATEMENT MAY BE COMPILED!!
+         compile.compile(inner); // start counting from here 
       }
       return new ResultConverter(matcher, execute, execute == compile);
    }

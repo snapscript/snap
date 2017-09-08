@@ -11,10 +11,10 @@ public class NullConstraintTest extends TestCase {
    "      this.x=x;\n"+
    "   }\n"+
    "}\n"+
-   "function ok(){\n"+
+   "function ok(): Tile{\n"+
    "   return new Tile(1);\n"+
    "}\n"+
-   "function isNull(){\n"+
+   "function isNull(): Tile{\n"+
    "   return null;\n"+
    "}\n"+
    "var x: Tile = ok();\n"+
