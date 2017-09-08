@@ -2,14 +2,12 @@ package org.snapscript.core.convert;
 
 import static org.snapscript.core.convert.Score.EXACT;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Category;
 import org.snapscript.core.InternalArgumentException;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeCastChecker;
 import org.snapscript.core.TypeExtractor;
 
-@Bug("this is not great from interface to function")
 public class FunctionConverter extends ConstraintConverter {
    
    private final TypeCastChecker checker;

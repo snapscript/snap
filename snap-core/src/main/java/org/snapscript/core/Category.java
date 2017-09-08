@@ -1,6 +1,5 @@
 package org.snapscript.core;
 
-@Bug("we are caching proxy classes which is not good")
 public enum Category {
    CLASS(0),
    TRAIT(1),

@@ -1,5 +1,7 @@
 package org.snapscript.compile;
 
+import java.math.BigDecimal;
+
 import junit.framework.TestCase;
 
 public class FibTest extends TestCase {
@@ -36,8 +38,27 @@ public class FibTest extends TestCase {
       Timer.timeExecution(executable);
       Timer.timeExecution(executable);
    }
+   
+   public void testBigDecimal() throws Exception {
+      long start = System.currentTimeMillis();
+      System.err.println(fib(BigDecimal.valueOf(30)));
+      long finish = System.currentTimeMillis();
+      System.err.println(finish-start);
+   }
 
    public static void main(String[] list) throws Exception {
       new FibTest().testRecursion();
+   }
+   
+   private static final BigDecimal ONE = BigDecimal.valueOf(1);
+   private static final BigDecimal TWO = BigDecimal.valueOf(2);
+   
+   private static final BigDecimal fib(BigDecimal dec) {
+      if(dec.compareTo(TWO) < 0){
+         return ONE;
+      }
+      BigDecimal left = fib(dec.subtract(ONE));
+      BigDecimal right = fib(dec.subtract(TWO));
+      return left.add(right);
    }
 }

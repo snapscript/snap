@@ -8,7 +8,7 @@ public enum SignOperator {
       @Override
       public Value operate(Number value) {
          NumericConverter converter = NumericConverter.resolveConverter(value);      
-         Double decimal = value.doubleValue();
+         double decimal = value.doubleValue();
          
          return converter.convert(decimal);
       }      
@@ -17,7 +17,7 @@ public enum SignOperator {
       @Override
       public Value operate(Number value) {
          NumericConverter converter = NumericConverter.resolveConverter(value);      
-         Double decimal = value.doubleValue();
+         double decimal = value.doubleValue();
          
          return converter.convert(+decimal);
       }      
@@ -26,7 +26,7 @@ public enum SignOperator {
       @Override
       public Value operate(Number value) { 
          NumericConverter converter = NumericConverter.resolveConverter(value);      
-         Double decimal = value.doubleValue();
+         double decimal = value.doubleValue();
          
          return converter.convert(-decimal);
       }      

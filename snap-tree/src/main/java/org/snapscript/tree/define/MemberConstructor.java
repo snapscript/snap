@@ -8,7 +8,7 @@ import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
 import org.snapscript.core.function.Function;
-import org.snapscript.core.function.FunctionCompiler;
+import org.snapscript.core.function.FunctionHandle;
 import org.snapscript.tree.ModifierList;
 import org.snapscript.tree.annotation.AnnotationList;
 import org.snapscript.tree.function.ParameterList;
@@ -38,12 +38,12 @@ public abstract class MemberConstructor implements TypePart {
       int modifiers = list.getModifiers();
       Scope scope = type.getScope();
       ConstructorBuilder builder = assembler.assemble(factory, type);
-      FunctionCompiler compiler = builder.create(factory, type, modifiers, compile);
-      Function constructor = compiler.compile(scope);
+      FunctionHandle compiler = builder.create(factory, type, modifiers, compile);
+      Function handle = compiler.compile(scope);
       List<Function> functions = type.getFunctions();
       
-      annotations.apply(scope, constructor);
-      functions.add(constructor);
+      annotations.apply(scope, handle);
+      functions.add(handle);
       compiler.create(scope);
       
       return null;

@@ -10,7 +10,7 @@ import org.snapscript.core.Statement;
 import org.snapscript.core.Value;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Signature;
-import org.snapscript.core.function.FunctionCompiler;
+import org.snapscript.core.function.FunctionHandle;
 import org.snapscript.tree.Expression;
 import org.snapscript.tree.ExpressionStatement;
 
@@ -63,10 +63,10 @@ public class Closure implements Compilation {
          Scope parent = module.getScope();
          Signature signature = parameters.create(parent);
          Scope capture = extractor.extract(scope);
-         FunctionCompiler compiler = builder.create(signature, capture); // creating new function each time
-         Function function = compiler.compile(capture);
+         FunctionHandle handle = builder.create(signature, capture); // creating new function each time
+         Function function = handle.compile(capture);
          
-         compiler.create(capture);
+         handle.create(capture);
          
          return Value.getTransient(function);
       }

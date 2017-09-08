@@ -11,7 +11,7 @@ import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Signature;
-import org.snapscript.core.function.FunctionCompiler;
+import org.snapscript.core.function.FunctionHandle;
 import org.snapscript.tree.NameReference;
 import org.snapscript.tree.constraint.Constraint;
 import org.snapscript.tree.constraint.ConstraintReference;
@@ -43,11 +43,11 @@ public class ScriptFunction extends Statement {
       Signature signature = parameters.create(scope);
       String name = identifier.getName(scope);
       Type returns = constraint.getConstraint(scope);
-      FunctionCompiler compiler = builder.create(signature, module, returns, name);
-      Function function = compiler.compile(scope);
+      FunctionHandle handle = builder.create(signature, module, returns, name);
+      Function function = handle.compile(scope);
       
       functions.add(function);
-      compiler.create(scope); // count stack
+      handle.create(scope); // count stack
       
       return Result.getNormal(function);
    }

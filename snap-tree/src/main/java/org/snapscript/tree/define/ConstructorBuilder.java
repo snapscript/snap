@@ -11,7 +11,7 @@ import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationBuilder;
 import org.snapscript.core.function.InvocationFunction;
 import org.snapscript.core.function.Signature;
-import org.snapscript.core.function.FunctionCompiler;
+import org.snapscript.core.function.FunctionHandle;
 import org.snapscript.tree.StatementInvocationBuilder;
 import org.snapscript.tree.function.StatementInvocation;
 
@@ -31,7 +31,7 @@ public class ConstructorBuilder {
       return create(factory, type, modifiers);
    }
    
-   public FunctionCompiler create(TypeFactory factory, Type type, int modifiers, boolean compile) {
+   public FunctionHandle create(TypeFactory factory, Type type, int modifiers, boolean compile) {
       InvocationBuilder external = new StatementInvocationBuilder(signature, statement, statement, null);
       Invocation body = new StatementInvocation(external);
       TypeAllocator instance = new ThisAllocator(factory, body, type);
@@ -40,6 +40,6 @@ public class ConstructorBuilder {
       Invocation constructor = new NewInvocation(factory, base, type, compile);
       Function function = new InvocationFunction(signature, constructor, type, type, TYPE_CONSTRUCTOR, modifiers | STATIC.mask, 1);
       
-      return new FunctionCompiler(external, function);
+      return new FunctionHandle(external, function);
    }
 }

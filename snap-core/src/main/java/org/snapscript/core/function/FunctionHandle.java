@@ -2,12 +2,12 @@ package org.snapscript.core.function;
 
 import org.snapscript.core.Scope;
 
-public class FunctionCompiler {
+public class FunctionHandle {
    
    private final InvocationBuilder builder;
    private final Function function;
    
-   public FunctionCompiler(InvocationBuilder builder, Function function) {
+   public FunctionHandle(InvocationBuilder builder, Function function) {
       this.function = function;
       this.builder = builder;
    }

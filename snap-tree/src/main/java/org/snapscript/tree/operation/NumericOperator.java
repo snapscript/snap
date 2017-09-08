@@ -23,9 +23,9 @@ public enum NumericOperator {
       @Override
       public Value operate(Value left, Value right) {
          NumericConverter converter = NumericConverter.resolveConverter(left, right);
-         Double first = left.getDouble(); 
-         Double second = right.getDouble();
-         Double result = Math.pow(first, second);
+         double first = left.getDouble(); 
+         double second = right.getDouble();
+         double result = Math.pow(first, second);
          
          return converter.convert(result);
       }      
@@ -34,8 +34,8 @@ public enum NumericOperator {
       @Override
       public Value operate(Value left, Value right) {
          NumericConverter converter = NumericConverter.resolveConverter(left, right);
-         Double first = left.getDouble(); 
-         Double second = right.getDouble();
+         double first = left.getDouble(); 
+         double second = right.getDouble();
          
          return converter.convert(first / second);
       }      
@@ -44,8 +44,8 @@ public enum NumericOperator {
       @Override
       public Value operate(Value left, Value right) {
          NumericConverter converter = NumericConverter.resolveConverter(left, right);
-         Double first = left.getDouble(); 
-         Double second = right.getDouble();
+         double first = left.getDouble(); 
+         double second = right.getDouble();
          
          return converter.convert(first * second);
       }      
@@ -54,8 +54,8 @@ public enum NumericOperator {
       @Override
       public Value operate(Value left, Value right) {
          NumericConverter converter = NumericConverter.resolveConverter(left, right);
-         Double first = left.getDouble(); 
-         Double second = right.getDouble();
+         double first = left.getDouble(); 
+         double second = right.getDouble();
          
          return converter.convert(first % second);
       }      
@@ -64,8 +64,8 @@ public enum NumericOperator {
       @Override
       public Value operate(Value left, Value right) {
          NumericConverter converter = NumericConverter.resolveConverter(left, right);
-         Double first = left.getDouble(); 
-         Double second = right.getDouble();
+         double first = left.getDouble(); 
+         double second = right.getDouble();
          
          return converter.convert(first + second);
       }      
@@ -74,12 +74,8 @@ public enum NumericOperator {
       @Override
       public Value operate(Value left, Value right) {
          NumericConverter converter = NumericConverter.resolveConverter(left, right);
-         Double first = left.getDouble(); 
-         Object x = right.getValue();
-         if(x.getClass().toString().contains("SunGraphics2D")){
-            System.err.println(x);
-         }
-         Double second = right.getDouble();
+         double first = left.getDouble(); 
+         double second = right.getDouble();
 
          return converter.convert(first - second);
       }      
@@ -88,8 +84,8 @@ public enum NumericOperator {
       @Override
       public Value operate(Value left, Value right) {
          NumericConverter converter = NumericConverter.resolveConverter(left, right);
-         Integer first = left.getInteger();
-         Integer second = right.getInteger();
+         int first = left.getInteger();
+         int second = right.getInteger();
          
          return converter.convert(first >> second); 
       }      
@@ -98,8 +94,8 @@ public enum NumericOperator {
       @Override
       public Value operate(Value left, Value right) {
          NumericConverter converter = NumericConverter.resolveConverter(left, right);
-         Integer first = left.getInteger();
-         Integer second = right.getInteger();
+         int first = left.getInteger();
+         int second = right.getInteger();
          
          return converter.convert(first << second);  
       }      
@@ -108,8 +104,8 @@ public enum NumericOperator {
       @Override
       public Value operate(Value left, Value right) {
          NumericConverter converter = NumericConverter.resolveConverter(left, right);
-         Integer first = left.getInteger();
-         Integer second = right.getInteger();
+         int first = left.getInteger();
+         int second = right.getInteger();
          
          return converter.convert(first >>> second); 
       }      
@@ -118,8 +114,8 @@ public enum NumericOperator {
       @Override
       public Value operate(Value left, Value right) {
          NumericConverter converter = NumericConverter.resolveConverter(left, right);
-         Integer first = left.getInteger();
-         Integer second = right.getInteger();
+         int first = left.getInteger();
+         int second = right.getInteger();
          
          return converter.convert(first & second);
       }      
@@ -128,8 +124,8 @@ public enum NumericOperator {
       @Override
       public Value operate(Value left, Value right) {
          NumericConverter converter = NumericConverter.resolveConverter(left, right);
-         Integer first = left.getInteger();
-         Integer second = right.getInteger();
+         int first = left.getInteger();
+         int second = right.getInteger();
          
          return converter.convert(first | second); 
       }      
@@ -138,8 +134,8 @@ public enum NumericOperator {
       @Override
       public Value operate(Value left, Value right) {
          NumericConverter converter = NumericConverter.resolveConverter(left, right);
-         Integer first = left.getInteger();
-         Integer second = right.getInteger();
+         int first = left.getInteger();
+         int second = right.getInteger();
          
          return converter.convert(first ^ second);   
       }      

@@ -2,7 +2,6 @@ package org.snapscript.tree.define;
 
 import java.util.List;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.Module;
@@ -11,7 +10,7 @@ import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
 import org.snapscript.core.function.Function;
-import org.snapscript.core.function.FunctionCompiler;
+import org.snapscript.core.function.FunctionHandle;
 import org.snapscript.tree.ModifierList;
 import org.snapscript.tree.annotation.AnnotationList;
 import org.snapscript.tree.constraint.Constraint;
@@ -51,12 +50,11 @@ public class MemberFunction implements TypePart {
       return assemble(factory, type, 0);
    }
    
-   @Bug("crap")
    protected TypeFactory assemble(TypeFactory factory, Type type, int mask) throws Exception {
       Scope scope = type.getScope();
       MemberFunctionBuilder builder = assembler.assemble(type, mask);
-      FunctionCompiler compiler = builder.create(factory, scope, type);
-      Function function = compiler.compile(scope);
+      FunctionHandle handle = builder.create(factory, scope, type);
+      Function function = handle.compile(scope);
       List<Function> functions = type.getFunctions();
       int modifiers = function.getModifiers();
 
@@ -68,7 +66,7 @@ public class MemberFunction implements TypePart {
       }
       annotations.apply(scope, function);
       functions.add(function);
-      compiler.create(scope); // count stacks
+      handle.create(scope); // count stacks
       
       return null; 
    }

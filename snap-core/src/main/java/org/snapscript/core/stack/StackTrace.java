@@ -16,7 +16,7 @@ public class StackTrace implements Iterable  {
    private final int threshold;
 
    public StackTrace() {
-      this(30);
+      this(40);
    }
    
    public StackTrace(int threshold) {

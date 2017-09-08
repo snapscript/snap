@@ -2,9 +2,8 @@ package org.snapscript.tree.construct;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.snapscript.core.Bug;
-import org.snapscript.core.Index;
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.Index;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Table;
@@ -21,7 +20,6 @@ public class MapKey extends Evaluation {
       this.offset = new AtomicInteger(-1);
    }
    
-   @Bug
    @Override
    public void compile(Scope scope) throws Exception{
       String name = reference.getName(scope);

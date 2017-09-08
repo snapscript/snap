@@ -12,7 +12,7 @@ import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationBuilder;
 import org.snapscript.core.function.InvocationFunction;
 import org.snapscript.core.function.Signature;
-import org.snapscript.core.function.FunctionCompiler;
+import org.snapscript.core.function.FunctionHandle;
 import org.snapscript.tree.StatementInvocationBuilder;
 
 public class ClosureBuilder {
@@ -25,16 +25,16 @@ public class ClosureBuilder {
       this.module = module;
    }
 
-   public FunctionCompiler create(Signature signature, Scope scope) {
+   public FunctionHandle create(Signature signature, Scope scope) {
       return create(signature, scope, 0);
    }
    
-   public FunctionCompiler create(Signature signature, Scope scope, int modifiers) {
+   public FunctionHandle create(Signature signature, Scope scope, int modifiers) {
       Type type = new FunctionType(signature, module, null);
       InvocationBuilder builder = new StatementInvocationBuilder(signature, statement, statement, null, true);
       Invocation invocation = new ClosureInvocation(builder, scope);
       Function function = new InvocationFunction(signature, invocation, type, null, METHOD_CLOSURE, modifiers);
       
-      return new FunctionCompiler(builder, function);
+      return new FunctionHandle(builder, function);
    }
 }
