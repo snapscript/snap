@@ -49,26 +49,25 @@ public class StatementInvocationBuilder implements InvocationBuilder {
       Module module = scope.getModule();
       Context context = module.getContext();
       ConstraintMatcher matcher = context.getMatcher();
-      ConstraintConverter converter = matcher.match(constraint);
       Scope inner = scope.getStack();
       
       if(compile != null) {
          extractor.compile(inner); // count parameters
          compile.compile(inner); // start counting from here - BLOCK STATEMENT MAY BE COMPILED!!
       }
-      return new ResultConverter(converter, execute, execute == compile);
+      return new ResultConverter(matcher, execute, execute == compile);
    }
 
    private class ResultConverter implements Invocation<Object> {
       
-      private final ConstraintConverter converter;
+      private final ConstraintMatcher matcher;
       private final AtomicBoolean compile;
       private final Statement statement;
       
-      public ResultConverter(ConstraintConverter converter, Statement statement, boolean compile) {
+      public ResultConverter(ConstraintMatcher matcher, Statement statement, boolean compile) {
          this.compile = new AtomicBoolean(compile);
-         this.converter = converter;
          this.statement = statement;
+         this.matcher = matcher;
       }
       
       @Override
@@ -80,6 +79,7 @@ public class StatementInvocationBuilder implements InvocationBuilder {
             extractor.compile(inner); // update stack
             statement.compile(inner); // this is for static calls
          }
+         ConstraintConverter converter = matcher.match(constraint); 
          Result result = statement.execute(inner);
          Object value = result.getValue();
          
