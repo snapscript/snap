@@ -10,6 +10,7 @@ import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.convert.Score;
 import org.snapscript.core.function.ArgumentConverter;
 import org.snapscript.core.function.EmptyFunction;
+import org.snapscript.core.function.EmptySignature;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Signature;
 
@@ -19,6 +20,7 @@ public class FunctionResolver {
    private final FunctionCacheTable<Type> table;
    private final FunctionKeyBuilder builder;
    private final FunctionPathFinder finder;
+   private final Signature signature;
    private final Function invalid;
    
    public FunctionResolver(TypeExtractor extractor) {
@@ -26,7 +28,8 @@ public class FunctionResolver {
       this.table = new FunctionCacheTable<Type>(indexer);
       this.builder = new FunctionKeyBuilder(extractor);
       this.finder = new FunctionPathFinder();
-      this.invalid = new EmptyFunction(null);
+      this.signature = new EmptySignature();
+      this.invalid = new EmptyFunction(signature);
    }
    
    public Function resolve(Type type, String name, Type... types) throws Exception { 
@@ -36,6 +39,7 @@ public class FunctionResolver {
       
       if(function == null) {
          List<Type> path = finder.findPath(type, name); // should only provide non-abstract methods
+         Function match = invalid;
          Score best = INVALID;
          
          for(Type entry : path) {
@@ -51,28 +55,25 @@ public class FunctionResolver {
                   
                   if(name.equals(method)) {
                      Signature signature = next.getSignature();
-                     ArgumentConverter match = signature.getConverter();
-                     Score score = match.score(types);
+                     ArgumentConverter converter = signature.getConverter();
+                     Score score = converter.score(types);
       
                      if(score.compareTo(best) > 0) {
-                        function = next;
+                        match = next;
                         best = score;
                      }
                   }
                }
             }
          }
-         if(best.isFinal()) {
-            if(function == null) {
-               function = invalid;
-            }
-            cache.cache(key, function);
-         }
+         Signature signature = match.getSignature();
+         
+         if(signature.isAbsolute()) {
+            cache.cache(key, match);
+         }  
+         function = match;
       }     
-      if(function != invalid) {
-         return function;
-      }
-      return null;
+      return function == invalid ? null : function;
    }
 
    public Function resolve(Type type, String name, Object... values) throws Exception { 
@@ -82,6 +83,7 @@ public class FunctionResolver {
       
       if(function == null) {
          List<Type> path = finder.findPath(type, name); // should only provide non-abstract methods
+         Function match = invalid;
          Score best = INVALID;
          
          for(Type entry : path) {
@@ -97,27 +99,24 @@ public class FunctionResolver {
                   
                   if(name.equals(method)) {
                      Signature signature = next.getSignature();
-                     ArgumentConverter match = signature.getConverter();
-                     Score score = match.score(values);
+                     ArgumentConverter converter = signature.getConverter();
+                     Score score = converter.score(values);
       
                      if(score.compareTo(best) > 0) {
-                        function = next;
+                        match = next;
                         best = score;
                      }
                   }
                }
             }
          }
-         if(best.isFinal()) {
-            if(function == null) {
-               function = invalid;
-            }
-            cache.cache(key, function);
-         }
+         Signature signature = match.getSignature();
+         
+         if(signature.isAbsolute()) {
+            cache.cache(key, match);
+         }  
+         function = match;
       }      
-      if(function != invalid) {
-         return function;
-      }
-      return null;
+      return function == invalid ? null : function;
    }
 }

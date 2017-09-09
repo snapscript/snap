@@ -65,6 +65,11 @@ public class FunctionSignature implements Signature {
    }
    
    @Override
+   public boolean isInvalid() {
+      return false;
+   }
+   
+   @Override
    public String toString() {
       return description.toString();
    }

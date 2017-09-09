@@ -74,7 +74,7 @@ public class ModuleRegistry {
          Module module = new ContextModule(context, executor, path, name, order);
 
          modules.put(name, module);
-         extender.extend(module);
+         extender.extend(module); 
          references.add(module);
          
          return module;

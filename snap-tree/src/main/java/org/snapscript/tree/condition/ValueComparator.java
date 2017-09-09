@@ -6,78 +6,56 @@ public enum ValueComparator {
    NUMERIC_NUMERIC {
       @Override
       public int compare(Value left, Value right) {
-         Double primary = left.getDouble();
-         Double secondary = right.getDouble();
+         double primary = left.getDouble();
+         double secondary = right.getDouble();
 
-         if(primary != secondary) {      
-            if(primary != null && secondary != null) {
-               return primary.compareTo(secondary);
-            }
-            return primary == null ? -1 : 1;
-         }
-         return 0;
+         return Double.compare(primary, secondary);
       }
    },
    NUMERIC_CHARACTER {
       @Override
       public int compare(Value left, Value right) {
-         Integer primary = left.getInteger();
-         Character secondary = right.getCharacter();
+         int primary = left.getInteger();
+         char secondary = right.getCharacter();
  
-         if(primary != null && secondary != null) {
-            Integer value = Character.getNumericValue(secondary);
-            return primary.compareTo(value);
-         }
-         return primary == null ? -1 : 1;
+         return Integer.compare(primary, secondary);
       }
    },
    CHARACTER_NUMERIC {
       @Override
       public int compare(Value left, Value right) {
-         Character primary = left.getCharacter();
-         Integer secondary = right.getInteger();
+         char primary = left.getCharacter();
+         int secondary = right.getInteger();
      
-         if(primary != null && secondary != null) {
-            Integer value = Character.getNumericValue(primary);
-            return value.compareTo(secondary);
-         }
-         return primary == null ? -1 : 1;
+         return Integer.compare(primary, secondary);
       }
    },
    STRING_CHARACTER {
       @Override
       public int compare(Value left, Value right) {
          String primary = left.getString();
-         Character secondary = right.getCharacter();
-   
-         if(primary != null && secondary != null) {
-            int length = primary.length();
-            
-            if(length > 0) {
-               Character value = primary.charAt(0);
-               return secondary.compareTo(value);
-            }
-            return -11;
+         char secondary = right.getCharacter();
+         int length = primary.length();
+         
+         if(length > 0) {
+            char value = primary.charAt(0);
+            return Character.compare(value, secondary);
          }
-         return primary == null ? -1 : 1;
+         return -1;
       }
    },
    CHARACTER_STRING {
       @Override
       public int compare(Value left, Value right) {
-         Character primary = left.getCharacter();
+         char primary = left.getCharacter();
          String secondary = right.getString();
-    
-         if(primary != null && secondary != null) {
-            int length = secondary.length();
-            
-            if(length > 0) {
-               Character value = secondary.charAt(0);
-               return primary.compareTo(value);
-            }
-            return 1;
+         int length = secondary.length();
+         
+         if(length > 0) {
+            char value = secondary.charAt(0);
+            return Character.compare(primary, value);
          }
-         return primary == null ? -1 : 1;
+         return 1;
       }
    },
    COMPARABLE_COMPARABLE{
@@ -86,13 +64,7 @@ public enum ValueComparator {
          Comparable primary = left.getValue();
          Comparable secondary = right.getValue();
 
-         if(primary != secondary) {
-            if(primary != null && secondary != null) {
-               return primary.compareTo(secondary);
-            }
-            return primary == null ? -1 : 1;
-         }
-         return 0;
+         return primary.compareTo(secondary);
       }
    },
    OBJECT_OBJECT{

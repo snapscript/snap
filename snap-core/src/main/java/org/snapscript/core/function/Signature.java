@@ -12,4 +12,5 @@ public interface Signature {
    Member getSource();
    boolean isVariable();
    boolean isAbsolute(); // does it have absolute parameters
+   boolean isInvalid();
 }

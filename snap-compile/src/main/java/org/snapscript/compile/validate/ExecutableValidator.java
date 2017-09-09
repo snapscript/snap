@@ -9,6 +9,7 @@ import org.snapscript.core.ProgramValidator;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.bind.FunctionResolver;
+import org.snapscript.core.bind2.FunctionResolver2;
 import org.snapscript.core.convert.ConstraintMatcher;
 
 public class ExecutableValidator implements ProgramValidator {
@@ -16,8 +17,8 @@ public class ExecutableValidator implements ProgramValidator {
    private final ModuleValidator modules;
    private final TypeValidator types;
    
-   public ExecutableValidator(ConstraintMatcher matcher, TypeExtractor extractor, FunctionResolver resolver) {
-      this.types = new TypeValidator(matcher, extractor, resolver);
+   public ExecutableValidator(ConstraintMatcher matcher, TypeExtractor extractor, FunctionResolver resolver, FunctionResolver2 resolver2) {
+      this.types = new TypeValidator(matcher, extractor, resolver, resolver2);
       this.modules = new ModuleValidator(types);
    }
    

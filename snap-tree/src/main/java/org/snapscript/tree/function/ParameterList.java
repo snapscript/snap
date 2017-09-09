@@ -3,11 +3,8 @@ package org.snapscript.tree.function;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.snapscript.core.Context;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
-import org.snapscript.core.Type;
-import org.snapscript.core.TypeLoader;
 import org.snapscript.core.function.FunctionSignature;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.ParameterBuilder;
@@ -37,11 +34,7 @@ public class ParameterList {
          List<Parameter> parameters = new ArrayList<Parameter>();
          
          if(prefix != null) {
-            Context context = module.getContext();
-            TypeLoader loader = context.getLoader();
-            Type constraint = loader.loadType(Type.class);
-            Parameter parameter = builder.create(constraint, prefix);
-            
+            Parameter parameter = builder.create(null, prefix); // this is constrained by type
             parameters.add(parameter);
          }
          boolean variable = checker.isVariable(scope);

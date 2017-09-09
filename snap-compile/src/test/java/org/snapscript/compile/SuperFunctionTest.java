@@ -46,7 +46,7 @@ public class SuperFunctionTest extends TestCase {
    "var d = new D(11);\n"+
    "d.fun2();\n";
          
-   public void testGlobalVar() throws Exception {
+   public void testSuperFunction() throws Exception {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
       Executable executable = compiler.compile(SOURCE);
       executable.execute();

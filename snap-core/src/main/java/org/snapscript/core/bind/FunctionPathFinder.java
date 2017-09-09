@@ -22,13 +22,13 @@ public class FunctionPathFinder {
    }
 
    public List<Type> findPath(Type type, String name) {
-      if(name.equals(TYPE_CONSTRUCTOR)) {
-         return Arrays.asList(type);
-      }
-      return findTypes(type, name);
-   }
-   
-   private List<Type> findTypes(Type type, String name) {
+//      if(name.equals(TYPE_CONSTRUCTOR)) {
+//         return Arrays.asList(type);
+//      }
+//      return findTypes(type, name);
+//   }
+//   
+//   private List<Type> findTypes(Type type, String name) {
       List<Type> path = paths.fetch(type);
       Class real = type.getType();
       
