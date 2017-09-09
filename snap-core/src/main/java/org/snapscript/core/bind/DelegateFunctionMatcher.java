@@ -15,14 +15,12 @@ public class DelegateFunctionMatcher {
    private final TypeCache<FunctionTable> table;
    private final FunctionTableBuilder builder;
    private final FunctionPathFinder finder;
-   private final FunctionSearcher searcher;
    private final TypeExtractor extractor;
    private final TypeInspector checker;
    private final ThreadStack stack;
    
    public DelegateFunctionMatcher(TypeExtractor extractor, ThreadStack stack) {
-      this.searcher = new FilterFunctionSearcher(0, true);
-      this.builder = new FunctionTableBuilder(searcher, extractor);
+      this.builder = new FunctionTableBuilder(extractor);
       this.table = new TypeCache<FunctionTable>();
       this.finder = new FunctionPathFinder();
       this.checker = new TypeInspector();
@@ -45,7 +43,7 @@ public class DelegateFunctionMatcher {
       
       if(cache == null) {
          List<Type> path = finder.findPath(type, name); 
-         FunctionTable group = builder.create();
+         FunctionTable group = builder.create(type);
          int size = path.size();
 
          for(int i = size - 1; i >= 0; i--) {

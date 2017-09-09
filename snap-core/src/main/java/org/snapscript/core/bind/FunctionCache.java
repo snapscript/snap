@@ -10,13 +10,11 @@ public class FunctionCache {
    private final Cache<String, FunctionGroup> groups;
    private final FunctionKeyBuilder builder;
    private final FunctionSearcher matcher;
-   private final int filter;
    
-   public FunctionCache(FunctionSearcher matcher, FunctionKeyBuilder builder, int filter) {
+   public FunctionCache(FunctionSearcher matcher, FunctionKeyBuilder builder) {
       this.groups = new CopyOnWriteCache<String, FunctionGroup>();
       this.matcher = matcher;
       this.builder = builder;
-      this.filter = filter;
    }
    
    public Function resolve(String name, Type... list) throws Exception {
@@ -42,7 +40,7 @@ public class FunctionCache {
       FunctionGroup group = groups.fetch(name);
       
       if(group == null) {
-         group = new FixedFunctionGroup(matcher, builder, filter);
+         group = new FunctionGroup(matcher, builder);
          groups.cache(name, group);
       }
       group.update(function);

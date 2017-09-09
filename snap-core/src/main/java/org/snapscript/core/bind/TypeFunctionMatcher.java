@@ -1,7 +1,5 @@
 package org.snapscript.core.bind;
 
-import static org.snapscript.core.ModifierType.STATIC;
-
 import java.util.List;
 
 import org.snapscript.core.ModifierType;
@@ -17,13 +15,11 @@ public class TypeFunctionMatcher {
    private final TypeCache<FunctionTable> table;
    private final FunctionTableBuilder builder;
    private final FunctionPathFinder finder;
-   private final FunctionSearcher searcher;
    private final TypeInspector inspector;
    private final ThreadStack stack;
    
    public TypeFunctionMatcher(TypeExtractor extractor, ThreadStack stack) {
-      this.searcher = new FilterFunctionSearcher(STATIC.mask, true);
-      this.builder = new FunctionTableBuilder(searcher, extractor);
+      this.builder = new FunctionTableBuilder(extractor);
       this.table = new TypeCache<FunctionTable>();
       this.finder = new FunctionPathFinder();
       this.inspector = new TypeInspector();
@@ -44,7 +40,7 @@ public class TypeFunctionMatcher {
       
       if(cache == null) {
          List<Type> path = finder.findPath(type, name); 
-         FunctionTable group = builder.create();
+         FunctionTable group = builder.create(type);
          int size = path.size();
 
          for(int i = size - 1; i >= 0; i--) {

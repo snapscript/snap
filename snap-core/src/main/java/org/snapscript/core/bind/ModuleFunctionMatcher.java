@@ -1,7 +1,5 @@
 package org.snapscript.core.bind;
 
-import static org.snapscript.core.ModifierType.ABSTRACT;
-
 import java.util.List;
 
 import org.snapscript.common.CopyOnWriteSparseArray;
@@ -15,7 +13,6 @@ public class ModuleFunctionMatcher {
    
    private final SparseArray<FunctionTable> table;
    private final FunctionTableBuilder builder;
-   private final FunctionSearcher matcher;
    private final ThreadStack stack;
    
    public ModuleFunctionMatcher(TypeExtractor extractor, ThreadStack stack) {
@@ -24,8 +21,7 @@ public class ModuleFunctionMatcher {
    
    public ModuleFunctionMatcher(TypeExtractor extractor, ThreadStack stack, int capacity) {
       this.table = new CopyOnWriteSparseArray<FunctionTable>(capacity);
-      this.matcher = new FilterFunctionSearcher(ABSTRACT.mask, false);
-      this.builder = new FunctionTableBuilder(matcher, extractor);
+      this.builder = new FunctionTableBuilder(extractor);
       this.stack = stack;
    }
    
@@ -43,9 +39,9 @@ public class ModuleFunctionMatcher {
       FunctionTable cache = table.get(index);
       
       if(cache == null) {
-         FunctionTable group = builder.create();
          List<Function> functions = module.getFunctions();
-
+         FunctionTable group = builder.create(module);
+         
          for(Function function : functions){
             group.update(function);
          }

@@ -1,30 +1,35 @@
 package org.snapscript.core.bind;
 
+import org.snapscript.core.Module;
+import org.snapscript.core.Type;
 import org.snapscript.core.TypeExtractor;
 
 public class FunctionTableBuilder {
 
    private final FunctionKeyBuilder builder;
    private final FunctionSearcher searcher;
-   private final int filter; // filter modifiers
    private final int limit; 
    
-   public FunctionTableBuilder(FunctionSearcher searcher, TypeExtractor extractor) {
-      this(searcher, extractor, 0);
+   public FunctionTableBuilder(TypeExtractor extractor) {
+      this(extractor, 100);
    }
    
-   public FunctionTableBuilder(FunctionSearcher searcher, TypeExtractor extractor, int filter) {
-      this(searcher, extractor, filter, 200);
-   }
-   
-   public FunctionTableBuilder(FunctionSearcher searcher, TypeExtractor extractor, int filter, int limit) {
+   public FunctionTableBuilder(TypeExtractor extractor, int limit) {
       this.builder = new FunctionKeyBuilder(extractor);
-      this.searcher = searcher;
-      this.filter = filter;
+      this.searcher = new FunctionSearcher();
       this.limit = limit;
    }
    
-   public FunctionTable create() {
-      return new FunctionTable(searcher, builder, filter, limit);
+   public FunctionTable create(Module module) {
+      return new ScopeFunctionTable(searcher, builder, limit);
+   }
+   
+   public FunctionTable create(Type type) {
+      Class real = type.getType();
+      
+      if(real == null) {
+         return new ScopeFunctionTable(searcher, builder, limit);
+      }
+      return new ClassFunctionTable(searcher, builder); // all functions are typed
    }
 }
