@@ -65,9 +65,6 @@ public class OperationAssembler implements Assembler {
             SyntaxNode child = children.get(i);
             Object argument = create(child, path, depth+1);
 
-            if(argument instanceof Value){
-               System.err.println();
-            }
             arguments[i] = argument;
          }
          return builder.create(type, arguments, line);

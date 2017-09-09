@@ -15,9 +15,6 @@ public class FunctionPointer {
    private final Object[] arguments;
    
    public FunctionPointer(Function function, ThreadStack stack, Object[] arguments) {
-      if(function == null || function.getInvocation() == null) {
-         System.err.println();
-      }
       this.arguments = arguments;
       this.function = function;
       this.stack = stack;

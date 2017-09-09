@@ -19,7 +19,7 @@ public class ScopeFunctionTable implements FunctionTable {
    }
    
    public ScopeFunctionTable(FunctionSearcher matcher, FunctionKeyBuilder builder, int limit) {
-      this.caches = new FunctionCache[0];
+      this.caches = new FunctionCache[2];
       this.matcher = matcher;
       this.builder = builder;
       this.limit = limit;

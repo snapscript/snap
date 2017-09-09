@@ -25,9 +25,6 @@ public class FunctionProxyHandler implements ProxyHandler {
    private final Value value;
    
    public FunctionProxyHandler(ProxyWrapper wrapper, Context context, Function function) {
-      if(function.toString().contains("default.anon")){
-         System.err.println();
-      }
       this.extractor = new ProxyArgumentExtractor(wrapper);
       this.value = new Transient(function);
       this.function = function;
