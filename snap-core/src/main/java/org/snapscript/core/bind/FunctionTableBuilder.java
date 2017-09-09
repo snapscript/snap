@@ -11,7 +11,7 @@ public class FunctionTableBuilder {
    private final int limit; 
    
    public FunctionTableBuilder(TypeExtractor extractor) {
-      this(extractor, 100);
+      this(extractor, 20);
    }
    
    public FunctionTableBuilder(TypeExtractor extractor, int limit) {

@@ -15,7 +15,7 @@ public class ScopeFunctionTable implements FunctionTable {
    private int limit; 
    
    public ScopeFunctionTable(FunctionSearcher matcher, FunctionKeyBuilder builder) {
-      this(matcher, builder, 100);
+      this(matcher, builder, 20);
    }
    
    public ScopeFunctionTable(FunctionSearcher matcher, FunctionKeyBuilder builder, int limit) {
