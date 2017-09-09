@@ -12,8 +12,8 @@ public class CollectionPointer implements VariablePointer<Collection> {
    private final ObjectPointer pointer;
    private final String name;
    
-   public CollectionPointer(String name) {
-      this.pointer = new ObjectPointer(name);
+   public CollectionPointer(ConstantResolver resolver, String name) {
+      this.pointer = new ObjectPointer(resolver, name);
       this.name = name;
    }
    

@@ -19,9 +19,9 @@ public class MapPointer implements VariablePointer<Map> {
    private final ObjectPointer pointer;
    private final String name;
    
-   public MapPointer(String name) {
+   public MapPointer(ConstantResolver resolver, String name) {
       this.reference = new AtomicReference<Property>();
-      this.pointer = new ObjectPointer(name);
+      this.pointer = new ObjectPointer(resolver, name);
       this.name = name;
    }
    

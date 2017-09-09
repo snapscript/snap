@@ -16,7 +16,7 @@ public class CompoundScope implements Scope {
   
    @Override
    public Scope getStack() {
-      throw new IllegalStateException("stack inner");
+      throw new InternalStateException("Stack already created");
    }  
    
    @Override

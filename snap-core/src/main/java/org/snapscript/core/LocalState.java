@@ -1,6 +1,5 @@
 package org.snapscript.core;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -12,7 +11,6 @@ import org.snapscript.common.CompoundIterator;
 public class LocalState implements State {
    
    private final Map<String, Value> values;
-   private final List<Local> stack;
    private final Scope scope;
 
    public LocalState(Scope scope) {
@@ -21,14 +19,9 @@ public class LocalState implements State {
    
    public LocalState(Scope scope, List<Local> stack) {
       this.values = new HashMap<String, Value>();
-      this.stack = stack == null ?new ArrayList<Local>(1) :stack;
       this.scope = scope;
    }
-   
-   public List<Local> getStack(){
-      return stack;
-   }
-   
+
    @Override
    public Iterator<String> iterator() {
       Set<String> keys = values.keySet();

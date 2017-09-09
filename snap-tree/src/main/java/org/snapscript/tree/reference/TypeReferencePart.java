@@ -1,12 +1,14 @@
 package org.snapscript.tree.reference;
 
 import org.snapscript.core.Compilation;
+import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
+import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.TypeTraverser;
 import org.snapscript.core.Value;
 import org.snapscript.tree.NameReference;
@@ -21,18 +23,21 @@ public class TypeReferencePart implements Compilation {
 
    @Override
    public Object compile(Module module, Path path, int line) throws Exception {
-      return new CompileResult(type, module);
+      Context context = module.getContext();
+      TypeExtractor extractor = context.getExtractor();
+      
+      return new CompileResult(extractor, type, module);
    }
    
    private static class CompileResult extends Evaluation {
-      
-      private final TypeTraverser traverser;
+
+      private final TypeExtractor extractor;
       private final NameReference reference;
       private final Module source;
    
-      public CompileResult(Evaluation type, Module source) {
+      public CompileResult(TypeExtractor extractor, Evaluation type, Module source) {
          this.reference = new NameReference(type);
-         this.traverser = new TypeTraverser();
+         this.extractor = extractor;
          this.source = source;
       }   
       
@@ -65,7 +70,7 @@ public class TypeReferencePart implements Compilation {
             result = module.getModule(name); 
          }
          if(result == null && type != null) {
-            result = traverser.findEnclosing(type, name);
+            result = extractor.getType(type, name);
          }
          if(result == null) {
             throw new InternalStateException("No type found for '" + name + "' in '" + module + "'"); // class not found

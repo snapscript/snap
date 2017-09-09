@@ -14,12 +14,12 @@ public class VariablePointerResolver {
    
    private final Cache<Object, VariablePointer> cache;
    private final VariableKeyBuilder builder;
-   private final VariableBinder binder;
+   private final ConstantResolver resolver;
    
-   public VariablePointerResolver(VariableBinder binder) {
+   public VariablePointerResolver() {
       this.cache = new CopyOnWriteCache<Object, VariablePointer>();
       this.builder = new VariableKeyBuilder();
-      this.binder = binder;
+      this.resolver = new ConstantResolver();
    }
    
    public VariablePointer resolve(Scope scope, Object left, String name) {
@@ -38,28 +38,28 @@ public class VariablePointerResolver {
          Class type = left.getClass();
          
          if(Module.class.isInstance(left)) {
-            return new ModulePointer(name);
+            return new ModulePointer(resolver, name);
          }
          if(Map.class.isInstance(left)) {
-            return new MapPointer(name);
+            return new MapPointer(resolver, name);
          }         
          if(Scope.class.isInstance(left)) {
             return new ScopePointer(name);
          }
          if(Type.class.isInstance(left)) {
-            return new TypePointer(name);
+            return new TypePointer(resolver, name);
          }
          if(Collection.class.isInstance(left)) {
-            return new CollectionPointer(name);
+            return new CollectionPointer(resolver, name);
          }
          if(type.isArray()) {
-            return new ArrayPointer(name);
+            return new ArrayPointer(resolver, name);
          }
-         return new ObjectPointer(name);
+         return new ObjectPointer(resolver, name);
       }
       if(Instance.class.isInstance(scope)) {
-         return new InstancePointer(name);
+         return new InstancePointer(resolver, name);
       }
-      return new LocalPointer(name);
+      return new LocalPointer(resolver, name);
    }
 }

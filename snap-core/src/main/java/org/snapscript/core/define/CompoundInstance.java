@@ -2,6 +2,7 @@ package org.snapscript.core.define;
 
 import org.snapscript.core.ArrayTable;
 import org.snapscript.core.Index;
+import org.snapscript.core.InternalStateException;
 import org.snapscript.core.StackIndex;
 import org.snapscript.core.MapState;
 import org.snapscript.core.Module;
@@ -33,7 +34,7 @@ public class CompoundInstance implements Instance {
    
    @Override
    public Instance getStack() {
-      throw new IllegalStateException("Unable to get inner");
+      throw new InternalStateException("Stack already created");
    } 
    
    @Override

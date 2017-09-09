@@ -9,8 +9,8 @@ public class InstancePointer implements VariablePointer<Object> {
    private final VariablePointer pointer;
    private final ThisScopeBinder binder; 
    
-   public InstancePointer(String name) {
-      this.pointer = new LocalPointer(name);
+   public InstancePointer(ConstantResolver resolver, String name) {
+      this.pointer = new LocalPointer(resolver, name);
       this.binder = new ThisScopeBinder();
    }
    

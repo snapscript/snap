@@ -12,7 +12,7 @@ public class VariableBinder {
    private final VariablePointerResolver resolver;
    
    public VariableBinder() {
-      this.resolver = new VariablePointerResolver(this);
+      this.resolver = new VariablePointerResolver();
    }
    
    public Value bind(Scope scope, Object left, String name) {

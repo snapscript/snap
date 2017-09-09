@@ -67,4 +67,8 @@ public class TypeExtractor {
    public Set<Type> getTypes(Type type) {
       return traverser.findHierarchy(type);
    }
+   
+   public Type getType(Type parent, String name) {
+      return traverser.findEnclosing(parent, name);
+   }
 }

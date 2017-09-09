@@ -18,9 +18,9 @@ public class TypePointer implements VariablePointer<Type> {
    private final ObjectPointer pointer;
    private final String name;
    
-   public TypePointer(String name) {
+   public TypePointer(ConstantResolver resolver, String name) {
       this.reference = new AtomicReference<Property>();
-      this.pointer = new ObjectPointer(name);
+      this.pointer = new ObjectPointer(resolver, name);
       this.name = name;
    }
    

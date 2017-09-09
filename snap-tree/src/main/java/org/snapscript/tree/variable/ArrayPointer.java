@@ -12,8 +12,8 @@ public class ArrayPointer implements VariablePointer<Object> {
    private final ObjectPointer pointer;
    private final String name;
    
-   public ArrayPointer(String name) {
-      this.pointer = new ObjectPointer(name);
+   public ArrayPointer(ConstantResolver resolver, String name) {
+      this.pointer = new ObjectPointer(resolver, name);
       this.name = name;
    }
    

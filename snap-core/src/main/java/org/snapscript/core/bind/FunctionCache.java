@@ -1,24 +1,25 @@
 package org.snapscript.core.bind;
 
-import org.snapscript.common.Cache;
-import org.snapscript.common.CopyOnWriteCache;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.snapscript.core.Type;
 import org.snapscript.core.function.Function;
 
 public class FunctionCache {
 
-   private final Cache<String, FunctionGroup> groups;
+   private final Map<String, FunctionGroup> groups;
    private final FunctionKeyBuilder builder;
    private final FunctionSearcher matcher;
    
    public FunctionCache(FunctionSearcher matcher, FunctionKeyBuilder builder) {
-      this.groups = new CopyOnWriteCache<String, FunctionGroup>();
+      this.groups = new HashMap<String, FunctionGroup>();
       this.matcher = matcher;
       this.builder = builder;
    }
    
    public Function resolve(String name, Type... list) throws Exception {
-      FunctionGroup group = groups.fetch(name);
+      FunctionGroup group = groups.get(name);
       
       if(group != null) {
          return group.resolve(name, list);
@@ -27,7 +28,7 @@ public class FunctionCache {
    }
    
    public Function resolve(String name, Object... list) throws Exception {
-      FunctionGroup group = groups.fetch(name);
+      FunctionGroup group = groups.get(name);
       
       if(group != null) {
          return group.resolve(name, list);
@@ -37,11 +38,11 @@ public class FunctionCache {
 
    public void update(Function function) throws Exception {
       String name = function.getName();
-      FunctionGroup group = groups.fetch(name);
+      FunctionGroup group = groups.get(name);
       
       if(group == null) {
          group = new FunctionGroup(matcher, builder);
-         groups.cache(name, group);
+         groups.put(name, group);
       }
       group.update(function);
    }

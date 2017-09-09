@@ -14,7 +14,7 @@ public class StackIndex implements Index {
 
    public StackIndex() {
       this.locals = new HashMap<String, Integer>();
-      this.stack = new ArrayStack<String>(1);
+      this.stack = new ArrayStack<String>(1); // do not use default
    }
    
    @Override

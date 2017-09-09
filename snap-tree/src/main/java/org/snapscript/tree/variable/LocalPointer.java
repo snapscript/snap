@@ -9,12 +9,12 @@ import org.snapscript.core.Value;
 public class LocalPointer implements VariablePointer<Object> {
    
    private final AtomicReference<Object> reference;
-   private final ModuleConstantResolver resolver;
+   private final ConstantResolver resolver;
    private final String name;
    
-   public LocalPointer(String name) {
+   public LocalPointer(ConstantResolver resolver, String name) {
       this.reference = new AtomicReference<Object>();
-      this.resolver = new ModuleConstantResolver();
+      this.resolver = resolver;
       this.name = name;
    }
    

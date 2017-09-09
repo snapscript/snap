@@ -18,13 +18,13 @@ public class ObjectPointer implements VariablePointer<Object> {
    
    private final AtomicReference<Property> reference;
    private final ConstantPropertyBuilder builder;
-   private final ModuleConstantResolver resolver;
+   private final ConstantResolver resolver;
    private final String name;
    
-   public ObjectPointer(String name) {
+   public ObjectPointer(ConstantResolver resolver, String name) {
       this.reference = new AtomicReference<Property>();
       this.builder = new ConstantPropertyBuilder();
-      this.resolver = new ModuleConstantResolver();
+      this.resolver = resolver;
       this.name = name;
    }
    

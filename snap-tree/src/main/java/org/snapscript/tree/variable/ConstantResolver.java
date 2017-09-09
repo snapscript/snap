@@ -1,19 +1,18 @@
 package org.snapscript.tree.variable;
 
+import org.snapscript.core.Context;
 import org.snapscript.core.Module;
 import org.snapscript.core.ModuleScopeBinder;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
-import org.snapscript.core.TypeTraverser;
+import org.snapscript.core.TypeExtractor;
 
-public class ModuleConstantResolver {
+public class ConstantResolver {
    
    private final ModuleScopeBinder binder;
-   private final TypeTraverser finder;
    
-   public ModuleConstantResolver() {
+   public ConstantResolver() {
       this.binder = new ModuleScopeBinder();
-      this.finder = new TypeTraverser();
    }
    
    public Object resolve(Scope scope, String name) {
@@ -26,7 +25,10 @@ public class ModuleConstantResolver {
          Object result = module.getModule(name);
          
          if(result == null && parent != null) {
-            result = finder.findEnclosing(parent, name);
+            Context context = module.getContext();
+            TypeExtractor extractor = context.getExtractor();
+            
+            return extractor.getType(parent, name);
          }
          return result;
       }
