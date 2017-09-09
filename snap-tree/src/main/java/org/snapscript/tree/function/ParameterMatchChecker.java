@@ -1,14 +1,37 @@
 package org.snapscript.tree.function;
 
 import org.snapscript.core.Scope;
+import org.snapscript.core.Type;
 import org.snapscript.core.function.Parameter;
 
-public class VariableArgumentChecker {
+public class ParameterMatchChecker {
 
    private ParameterDeclaration[] list;
    
-   public VariableArgumentChecker(ParameterDeclaration... list) {
+   public ParameterMatchChecker(ParameterDeclaration... list) {
       this.list = list;
+   }
+   
+   public boolean isAbsolute(Scope scope) throws Exception {
+      int length = list.length;
+      
+      if(length > 0) {
+         ParameterDeclaration declaration = list[length-1];
+         
+         if(declaration != null) {
+            Parameter parameter = declaration.get(scope);
+            Type type = parameter.getType();
+            
+            if(type != null) {
+               Type entry = type.getEntry();
+               
+               if(entry != null) {
+                  return false;
+               }
+            }
+         }
+      }
+      return true;
    }
    
    public boolean isVariable(Scope scope) throws Exception {

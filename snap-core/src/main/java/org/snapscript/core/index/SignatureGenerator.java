@@ -10,6 +10,7 @@ import org.snapscript.core.Module;
 import org.snapscript.core.Type;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.annotation.AnnotationConverter;
+import org.snapscript.core.function.FunctionSignature;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.ParameterBuilder;
 import org.snapscript.core.function.Signature;
@@ -54,7 +55,7 @@ public class SignatureGenerator {
             }
             parameters.add(parameter);
          }
-         return new Signature(parameters, module, method, variable);
+         return new FunctionSignature(parameters, module, method, true, variable);
       } catch(Exception e) {
          throw new InternalStateException("Could not create function for " + method, e);
       }
@@ -88,7 +89,7 @@ public class SignatureGenerator {
             }
             parameters.add(parameter);
          }
-         return new Signature(parameters, module, constructor, variable);
+         return new FunctionSignature(parameters, module, constructor, true, variable);
       } catch(Exception e) {
          throw new InternalStateException("Could not create constructor for " + constructor, e);
       }

@@ -1,5 +1,7 @@
 package org.snapscript.core.convert;
 
+import org.snapscript.core.Bug;
+
 public class Score implements Comparable<Score> {
    
    public static final Score EXACT = new Score(100, true);
@@ -33,6 +35,7 @@ public class Score implements Comparable<Score> {
       return score;
    }
    
+   @Bug("change this to isAbsolute to match the Signature.isAbsolute")
    public boolean isFinal() {
       return cache;
    }

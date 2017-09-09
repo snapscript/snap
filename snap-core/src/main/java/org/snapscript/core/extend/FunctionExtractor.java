@@ -9,6 +9,7 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeLoader;
 import org.snapscript.core.function.Function;
+import org.snapscript.core.function.FunctionSignature;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationFunction;
 import org.snapscript.core.function.Parameter;
@@ -73,7 +74,7 @@ public class FunctionExtractor {
    
       if(length > 0) {
          List<Parameter> copy = new ArrayList<Parameter>();
-         Signature reduced = new Signature(copy, module, null, variable);
+         Signature reduced = new FunctionSignature(copy, module, null, true, variable);
          Invocation adapter = new ExportInvocation(invocation, value, extend);
          
          for(int i = 1; i < length; i++) {

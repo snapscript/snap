@@ -14,6 +14,7 @@ import org.snapscript.core.Type;
 import org.snapscript.core.TypeLoader;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionFinder;
+import org.snapscript.core.function.FunctionSignature;
 import org.snapscript.core.function.InvocationFunction;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.Signature;
@@ -27,7 +28,7 @@ public class ClosureFunctionFinderTest extends TestCase {
       Path path = new Path("/");
       Module module = new ContextModule(context, null, path, "yy", 1);
       FunctionFinder finder = new FunctionFinder(loader);
-      Signature signature = new Signature(Arrays.asList(new Parameter("n", loader.loadType(String.class))), module, null);
+      Signature signature = new FunctionSignature(Arrays.asList(new Parameter("n", loader.loadType(String.class))), module, null, false);
       Type type = new InvocationFunction(signature, null, null, null, "xx").getHandle();
       Function function = finder.find(type);
       

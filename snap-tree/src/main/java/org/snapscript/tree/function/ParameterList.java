@@ -8,19 +8,20 @@ import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeLoader;
+import org.snapscript.core.function.FunctionSignature;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.ParameterBuilder;
 import org.snapscript.core.function.Signature;
 
 public class ParameterList {
    
-   private VariableArgumentChecker checker;
+   private ParameterMatchChecker checker;
    private ParameterDeclaration[] list;
    private ParameterBuilder builder;
    private Signature signature;
    
    public ParameterList(ParameterDeclaration... list) {
-      this.checker = new VariableArgumentChecker(list);
+      this.checker = new ParameterMatchChecker(list);
       this.builder = new ParameterBuilder();
       this.list = list;
    }
@@ -44,6 +45,7 @@ public class ParameterList {
             parameters.add(parameter);
          }
          boolean variable = checker.isVariable(scope);
+         boolean absolute = checker.isAbsolute(scope);
          
          for(int i = 0; i < list.length; i++) {
             ParameterDeclaration declaration = list[i];
@@ -53,7 +55,7 @@ public class ParameterList {
                parameters.add(parameter);
             }
          }
-         signature = new Signature(parameters, module, null, variable);
+         signature = new FunctionSignature(parameters, module, null, absolute, variable);
       }
       return signature;
    }

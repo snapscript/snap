@@ -11,6 +11,7 @@ import org.snapscript.core.Module;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeLoader;
 import org.snapscript.core.function.Function;
+import org.snapscript.core.function.FunctionSignature;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationFunction;
 import org.snapscript.core.function.Parameter;
@@ -37,7 +38,7 @@ public class AnyFunctionBuilder {
          throw new InternalStateException("Could not create invocation for " + invoke);
       }
       List<Parameter> parameters = new ArrayList<Parameter>();
-      Signature signature = new Signature(parameters, module, null);
+      Signature signature = new FunctionSignature(parameters, module, null, true);
       
       for(int i = 0; i < types.length; i++){
          Class require = types[i];

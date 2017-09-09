@@ -18,6 +18,7 @@ import org.snapscript.core.convert.Score;
 import org.snapscript.core.function.EmptyFunction;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionFinder;
+import org.snapscript.core.function.FunctionSignature;
 import org.snapscript.core.function.InvocationFunction;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.Signature;
@@ -32,7 +33,7 @@ public class ClosureMatcherTest extends TestCase {
       ConstraintMatcher matcher = context.getMatcher();
       TypeLoader loader = context.getLoader();
       FunctionFinder finder = new FunctionFinder(loader);
-      Signature signature = new Signature(Arrays.asList(new Parameter("n", loader.loadType(String.class))), module, null);
+      Signature signature = new FunctionSignature(Arrays.asList(new Parameter("n", loader.loadType(String.class))), module, null, false);
       Type type = new EmptyFunction(signature).getHandle();
       ConstraintConverter converter = matcher.match(type);
       Function function = new InvocationFunction(signature, null, type, null, "xx");
