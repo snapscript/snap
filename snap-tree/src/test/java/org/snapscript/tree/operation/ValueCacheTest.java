@@ -3,6 +3,7 @@ package org.snapscript.tree.operation;
 import junit.framework.TestCase;
 
 import org.snapscript.core.Value;
+import org.snapscript.core.ValueCache;
 
 public class ValueCacheTest extends TestCase {
    

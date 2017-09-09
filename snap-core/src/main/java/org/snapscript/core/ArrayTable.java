@@ -7,7 +7,7 @@ public class ArrayTable implements Table {
    private Local[] table;
 
    public ArrayTable() {
-      this(2);
+      this(0);
    }
    
    public ArrayTable(int count) {

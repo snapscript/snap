@@ -1,6 +1,4 @@
-package org.snapscript.tree.operation;
-
-import org.snapscript.core.Value;
+package org.snapscript.core;
 
 public class ValueCache {
 

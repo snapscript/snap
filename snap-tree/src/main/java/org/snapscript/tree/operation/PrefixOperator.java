@@ -1,5 +1,8 @@
 package org.snapscript.tree.operation;
 
+import static org.snapscript.core.BooleanValue.FALSE;
+import static org.snapscript.core.BooleanValue.TRUE;
+
 import org.snapscript.core.Value;
 import org.snapscript.parse.StringToken;
 
@@ -7,8 +10,8 @@ public enum PrefixOperator {
    NOT("!"){
       @Override
       public Value operate(Value right) { 
-         Boolean value = right.getBoolean();         
-         return Value.getTransient(!value);
+         boolean value = right.getBoolean();         
+         return value ? FALSE : TRUE;
       }      
    }, 
    COMPLEMENT("~"){
@@ -16,7 +19,7 @@ public enum PrefixOperator {
       public Value operate(Value right) {
          Number value = right.getNumber(); 
          NumericConverter converter = NumericConverter.resolveConverter(value);   
-         Long number = value.longValue();
+         long number = value.longValue();
          
          return converter.convert(~number);
       }      
@@ -26,7 +29,7 @@ public enum PrefixOperator {
       public Value operate(Value right) {
          Number value = right.getNumber(); 
          NumericConverter converter = NumericConverter.resolveConverter(value);   
-         Double number = value.doubleValue();
+         double number = value.doubleValue();
          
          return converter.convert(+number);
       }      
@@ -36,7 +39,7 @@ public enum PrefixOperator {
       public Value operate(Value right) { 
          Number value = right.getNumber(); 
          NumericConverter converter = NumericConverter.resolveConverter(value);   
-         Double number = value.doubleValue();
+         double number = value.doubleValue();
          
          return converter.convert(-number);
       }      
