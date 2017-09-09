@@ -16,7 +16,6 @@ import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.TypeLoader;
 import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.core.bind.FunctionResolver;
-import org.snapscript.core.bind2.FunctionResolver2;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.ProxyWrapper;
 import org.snapscript.core.error.ErrorHandler;
@@ -44,9 +43,6 @@ public class StoreContext implements Context {
    private final ThreadStack stack;
    private final TypeLoader loader; 
    
-   
-   private final FunctionResolver2 resolver2;
-   
    public StoreContext(Store store){
       this(store, null);
    }
@@ -63,9 +59,8 @@ public class StoreContext implements Context {
       this.matcher = new ConstraintMatcher(loader, wrapper);
       this.extractor = new TypeExtractor(loader);
       this.resolver = new FunctionResolver(extractor);
-      this.resolver2 = new FunctionResolver2(extractor);
-      this.validator = new ExecutableValidator(matcher, extractor, resolver, resolver2);
-      this.binder = new FunctionBinder(extractor, stack, resolver, resolver2);
+      this.validator = new ExecutableValidator(matcher, extractor, resolver);
+      this.binder = new FunctionBinder(extractor, stack, resolver);
       this.evaluator = new OperationEvaluator(this, executor);
       this.provider = new CachePlatformProvider(extractor);
    }

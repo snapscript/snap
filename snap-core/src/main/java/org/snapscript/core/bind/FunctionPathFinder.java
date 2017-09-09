@@ -1,34 +1,24 @@
 package org.snapscript.core.bind;
 
-import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeCache;
-import org.snapscript.core.convert.ProxyTypeFilter;
+import org.snapscript.core.convert.TypeInspector;
 
 public class FunctionPathFinder {
    
    private final TypeCache<List<Type>> paths;
-   private final ProxyTypeFilter filter;
+   private final TypeInspector filter;
    
    public FunctionPathFinder() {
       this.paths = new TypeCache<List<Type>>();
-      this.filter = new ProxyTypeFilter();
+      this.filter = new TypeInspector();
    }
 
    public List<Type> findPath(Type type, String name) {
-//      if(name.equals(TYPE_CONSTRUCTOR)) {
-//         return Arrays.asList(type);
-//      }
-//      return findTypes(type, name);
-//   }
-//   
-//   private List<Type> findTypes(Type type, String name) {
       List<Type> path = paths.fetch(type);
       Class real = type.getType();
       
@@ -66,7 +56,7 @@ public class FunctionPathFinder {
       List<Type> types = type.getTypes();
       Iterator<Type> iterator = types.iterator();
       
-      if(filter.accept(type)) {
+      if(!filter.isProxy(type)) {
          done.add(type);
       }
       while(iterator.hasNext()) {

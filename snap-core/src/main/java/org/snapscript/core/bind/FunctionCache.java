@@ -2,25 +2,49 @@ package org.snapscript.core.bind;
 
 import org.snapscript.common.Cache;
 import org.snapscript.common.CopyOnWriteCache;
+import org.snapscript.core.Type;
 import org.snapscript.core.function.Function;
 
 public class FunctionCache {
 
-   private final Cache<Object, Function> cache;
+   private final Cache<String, FunctionGroup> groups;
+   private final FunctionKeyBuilder builder;
+   private final FunctionSearcher matcher;
+   private final int filter;
    
-   public FunctionCache() {
-      this.cache = new CopyOnWriteCache<Object, Function>();
+   public FunctionCache(FunctionSearcher matcher, FunctionKeyBuilder builder, int filter) {
+      this.groups = new CopyOnWriteCache<String, FunctionGroup>();
+      this.matcher = matcher;
+      this.builder = builder;
+      this.filter = filter;
    }
    
-   public boolean contains(Object key) {
-      return cache.contains(key);
+   public Function resolve(String name, Type... list) throws Exception {
+      FunctionGroup group = groups.fetch(name);
+      
+      if(group != null) {
+         return group.resolve(name, list);
+      }
+      return null;
    }
    
-   public Function fetch(Object key) {
-      return cache.fetch(key);
+   public Function resolve(String name, Object... list) throws Exception {
+      FunctionGroup group = groups.fetch(name);
+      
+      if(group != null) {
+         return group.resolve(name, list);
+      }
+      return null;
    }
-   
-   public void cache(Object key, Function function) {
-      cache.cache(key, function);
+
+   public void update(Function function) throws Exception {
+      String name = function.getName();
+      FunctionGroup group = groups.fetch(name);
+      
+      if(group == null) {
+         group = new FixedFunctionGroup(matcher, builder, filter);
+         groups.cache(name, group);
+      }
+      group.update(function);
    }
 }

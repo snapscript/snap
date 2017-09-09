@@ -1,38 +1,31 @@
 package org.snapscript.core.bind;
 
-import static org.snapscript.core.convert.Score.INVALID;
-
 import java.util.List;
 
 import org.snapscript.core.Type;
+import org.snapscript.core.TypeCache;
 import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.convert.Delegate;
-import org.snapscript.core.convert.ProxyTypeFilter;
-import org.snapscript.core.convert.Score;
-import org.snapscript.core.function.ArgumentConverter;
-import org.snapscript.core.function.EmptyFunction;
+import org.snapscript.core.convert.TypeInspector;
 import org.snapscript.core.function.Function;
-import org.snapscript.core.function.Signature;
 import org.snapscript.core.stack.ThreadStack;
 
 public class DelegateFunctionMatcher {
    
-   private final FunctionCacheIndexer<Type> indexer;
-   private final FunctionCacheTable<Type> table;
-   private final FunctionKeyBuilder builder;
+   private final TypeCache<FunctionTable> table;
+   private final FunctionTableBuilder builder;
    private final FunctionPathFinder finder;
-   private final ProxyTypeFilter filter;
+   private final FunctionSearcher searcher;
    private final TypeExtractor extractor;
+   private final TypeInspector checker;
    private final ThreadStack stack;
-   private final Function invalid;
    
    public DelegateFunctionMatcher(TypeExtractor extractor, ThreadStack stack) {
-      this.indexer = new TypeCacheIndexer();
-      this.table = new FunctionCacheTable<Type>(indexer);
-      this.builder = new FunctionKeyBuilder(extractor);
+      this.searcher = new FilterFunctionSearcher(0, true);
+      this.builder = new FunctionTableBuilder(searcher, extractor);
+      this.table = new TypeCache<FunctionTable>();
       this.finder = new FunctionPathFinder();
-      this.invalid = new EmptyFunction(null);
-      this.filter = new ProxyTypeFilter();
+      this.checker = new TypeInspector();
       this.extractor = extractor;
       this.stack = stack;
    }
@@ -41,50 +34,36 @@ public class DelegateFunctionMatcher {
       Type type = extractor.getType(value);
       Function function = resolve(type, name, values);
       
-      if(function != invalid) {
+      if(function != null) {
          return new FunctionPointer(function, stack, values);
       }
       return null;
    }
 
-   public Function resolve(Type type, String name, Object... values) throws Exception { 
-      Object key = builder.create(name, values);
-      FunctionCache cache = table.get(type);
-      Function function = cache.fetch(key); // all type functions
+   private Function resolve(Type type, String name, Object... values) throws Exception { 
+      FunctionTable cache = table.fetch(type);
       
-      if(function == null) {
-         List<Type> path = finder.findPath(type, name); // should only provide non-abstract methods
-         Score best = INVALID;
-         
-         for(Type entry : path) {
-            if(filter.accept(entry)) {
+      if(cache == null) {
+         List<Type> path = finder.findPath(type, name); 
+         FunctionTable group = builder.create();
+         int size = path.size();
+
+         for(int i = size - 1; i >= 0; i--) {
+            Type entry = path.get(i);
+            
+            if(!checker.isProxy(entry)) {
                List<Function> functions = entry.getFunctions();
-               int size = functions.size();
-               
-               for(int i = size - 1; i >= 0; i--) {
-                  Function next = functions.get(i);
-                  String method = next.getName();
-                  
-                  if(name.equals(method)) {
-                     Signature signature = next.getSignature();
-                     ArgumentConverter match = signature.getConverter();
-                     Score score = match.score(values);
-      
-                     if(score.compareTo(best) > 0) {
-                        function = next;
-                        best = score;
-                     }
+   
+               for(Function function : functions){
+                  if(!checker.isSuperConstructor(type, function)) {
+                     group.update(function);
                   }
                }
             }
          }
-         if(best.isFinal()) {
-            if(function == null) {
-               function = invalid;
-            }
-            cache.cache(key, function);
-         }
-      }      
-      return function;
+         table.cache(type, group);
+         return group.resolve(name, values);
+      }
+      return cache.resolve(name, values);
    }
 }

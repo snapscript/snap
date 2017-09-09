@@ -9,7 +9,7 @@ import org.snapscript.common.store.ClassPathStore;
 import org.snapscript.common.store.Store;
 import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.core.bind.FunctionResolver;
-import org.snapscript.core.bind2.FunctionResolver2;
+import org.snapscript.core.bind.FunctionResolver;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.ProxyWrapper;
 import org.snapscript.core.error.ErrorHandler;
@@ -133,8 +133,6 @@ public class FunctionBinderTest extends TestCase {
       private final PackageLinker linker;
       private final Store store;
       
-      private final FunctionResolver2 resolver2;
-      
       public TestContext(){
          this.linker = new TestLinker();
          this.store = new ClassPathStore();
@@ -144,8 +142,7 @@ public class FunctionBinderTest extends TestCase {
          this.loader = new TypeLoader(linker, registry, manager);
          this.extractor = new TypeExtractor(loader);
          this.resolver = new FunctionResolver(extractor);
-         this.resolver2 = new FunctionResolver2(extractor);
-         this.binder = new FunctionBinder(extractor, stack, resolver, resolver2);
+         this.binder = new FunctionBinder(extractor, stack, resolver);
          this.wrapper = new ProxyWrapper(this);
          this.matcher = new ConstraintMatcher(loader, wrapper);
       }

@@ -8,7 +8,6 @@ import org.snapscript.core.ModifierType;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.bind.FunctionResolver;
-import org.snapscript.core.bind2.FunctionResolver2;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.FunctionComparator;
 import org.snapscript.core.convert.Score;
@@ -21,17 +20,14 @@ public class FunctionValidator {
    
    private final FunctionComparator comparator;
    private final ModifierValidator validator;
-   //private final FunctionResolver resolver;
+   private final FunctionResolver resolver;
    private final TypeExtractor extractor;
    
-   private final FunctionResolver2 resolver2;
-   
-   public FunctionValidator(ConstraintMatcher matcher, TypeExtractor extractor, FunctionResolver resolver, FunctionResolver2 resolver2) {
+   public FunctionValidator(ConstraintMatcher matcher, TypeExtractor extractor, FunctionResolver resolver) {
       this.comparator = new FunctionComparator(matcher);
       this.validator = new ModifierValidator();
       this.extractor = extractor;
-      //this.resolver = resolver;
-      this.resolver2 = resolver2;
+      this.resolver = resolver;
    }
    
    public void validate(Function function) throws Exception {
@@ -94,7 +90,7 @@ public class FunctionValidator {
             
             types[i] = type;
          }
-         Function match = resolver2.resolve(parent, name, types);
+         Function match = resolver.resolve(parent, name, types);
          
          if(match != require) {
             throw new IllegalStateException("Function '" + require +"' does not match override");
@@ -121,7 +117,7 @@ public class FunctionValidator {
                
                types[i] = type;
             }
-            Function resolved = resolver2.resolve(parent, name, types);
+            Function resolved = resolver.resolve(parent, name, types);
             
             if(resolved != function) {
                throw new IllegalStateException("Function '" + function +"' has a duplicate '" + resolved + "'");

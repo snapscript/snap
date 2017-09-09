@@ -11,7 +11,7 @@ public class TypeCache<V> {
    private final Cache<Type, V> cache;
    
    public TypeCache() {
-      this(1000);
+      this(10000);
    }
    
    public TypeCache(int capacity) {

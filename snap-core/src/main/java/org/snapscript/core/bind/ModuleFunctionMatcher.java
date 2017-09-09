@@ -1,69 +1,57 @@
 package org.snapscript.core.bind;
 
-import static org.snapscript.core.convert.Score.INVALID;
+import static org.snapscript.core.ModifierType.ABSTRACT;
 
 import java.util.List;
 
+import org.snapscript.common.CopyOnWriteSparseArray;
+import org.snapscript.common.SparseArray;
 import org.snapscript.core.Module;
 import org.snapscript.core.TypeExtractor;
-import org.snapscript.core.convert.Score;
-import org.snapscript.core.function.ArgumentConverter;
-import org.snapscript.core.function.EmptyFunction;
 import org.snapscript.core.function.Function;
-import org.snapscript.core.function.Signature;
 import org.snapscript.core.stack.ThreadStack;
 
 public class ModuleFunctionMatcher {
    
-   private final FunctionCacheIndexer<Module> indexer;
-   private final FunctionCacheTable<Module> table;
-   private final FunctionKeyBuilder builder;
+   private final SparseArray<FunctionTable> table;
+   private final FunctionTableBuilder builder;
+   private final FunctionSearcher matcher;
    private final ThreadStack stack;
-   private final Function invalid;
    
    public ModuleFunctionMatcher(TypeExtractor extractor, ThreadStack stack) {
-      this.indexer = new ModuleCacheIndexer();
-      this.table = new FunctionCacheTable<Module>(indexer);
-      this.builder = new FunctionKeyBuilder(extractor);
-      this.invalid = new EmptyFunction(null);
+      this(extractor, stack, 10000);
+   }
+   
+   public ModuleFunctionMatcher(TypeExtractor extractor, ThreadStack stack, int capacity) {
+      this.table = new CopyOnWriteSparseArray<FunctionTable>(capacity);
+      this.matcher = new FilterFunctionSearcher(ABSTRACT.mask, false);
+      this.builder = new FunctionTableBuilder(matcher, extractor);
       this.stack = stack;
    }
-
-   public FunctionPointer match(Module module, String name, Object... values) throws Exception {
-      Object key = builder.create(name, values);
-      FunctionCache cache = table.get(module);
-      Function function = cache.fetch(key); // static and module functions
+   
+   public FunctionPointer match(Module module, String name, Object... values) throws Exception { 
+      Function function = resolve(module, name, values);
       
-      if(function == null) {
-         List<Function> functions = module.getFunctions();
-         int size = functions.size();
-         Score best = INVALID;
-   
-         for(int i = size - 1; i >= 0; i--) { 
-            Function next = functions.get(i);
-            String method = next.getName();
-   
-            if(name.equals(method)) {
-               Signature signature = next.getSignature();
-               ArgumentConverter match = signature.getConverter();
-               Score score = match.score(values);
-   
-               if(score.compareTo(best) > 0) {
-                  function = next;
-                  best = score;
-               }
-            }
-         }
-         if(best.isFinal()) {
-            if(function == null) {
-               function = invalid;
-            }
-            cache.cache(key, function);
-         }
-      }
-      if(function != invalid) {
+      if(function != null) {
          return new FunctionPointer(function, stack, values);
       }
       return null;
+   }
+
+   private Function resolve(Module module, String name, Object... values) throws Exception { 
+      int index = module.getOrder();
+      FunctionTable cache = table.get(index);
+      
+      if(cache == null) {
+         FunctionTable group = builder.create();
+         List<Function> functions = module.getFunctions();
+
+         for(Function function : functions){
+            group.update(function);
+         }
+         table.set(index, group);
+         return group.resolve(name, values);
+      }
+      return cache.resolve(name, values);
    }
 }

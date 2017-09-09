@@ -1,78 +1,69 @@
 package org.snapscript.core.bind;
 
+import static org.snapscript.core.ModifierType.STATIC;
+
 import java.util.List;
 
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.Type;
+import org.snapscript.core.TypeCache;
 import org.snapscript.core.TypeExtractor;
-import org.snapscript.core.convert.Score;
-import org.snapscript.core.function.ArgumentConverter;
-import org.snapscript.core.function.EmptyFunction;
+import org.snapscript.core.convert.TypeInspector;
 import org.snapscript.core.function.Function;
-import org.snapscript.core.function.Signature;
 import org.snapscript.core.stack.ThreadStack;
 
 public class TypeFunctionMatcher {
    
-   private final FunctionCacheIndexer<Type> indexer;
-   private final FunctionCacheTable<Type> table;
-   private final FunctionKeyBuilder builder;
+   private final TypeCache<FunctionTable> table;
+   private final FunctionTableBuilder builder;
    private final FunctionPathFinder finder;
+   private final FunctionSearcher searcher;
+   private final TypeInspector inspector;
    private final ThreadStack stack;
-   private final Function invalid;
    
    public TypeFunctionMatcher(TypeExtractor extractor, ThreadStack stack) {
-      this.indexer = new TypeCacheIndexer();
-      this.table = new FunctionCacheTable<Type>(indexer);
-      this.builder = new FunctionKeyBuilder(extractor);
+      this.searcher = new FilterFunctionSearcher(STATIC.mask, true);
+      this.builder = new FunctionTableBuilder(searcher, extractor);
+      this.table = new TypeCache<FunctionTable>();
       this.finder = new FunctionPathFinder();
-      this.invalid = new EmptyFunction(null);
+      this.inspector = new TypeInspector();
       this.stack = stack;
    }
    
    public FunctionPointer match(Type type, String name, Object... values) throws Exception { 
-      Object key = builder.create(name, values); 
-      FunctionCache cache = table.get(type);
-      Function function = cache.fetch(key); // static and module functions
+      Function function = resolve(type, name, values);
       
-      if(function == null) {
-         List<Type> path = finder.findPath(type, name); // should only provide non-abstract methods
-         Score best = Score.INVALID;
-         
-         for(Type entry : path) {
+      if(function != null) {
+         return new FunctionPointer(function, stack, values);
+      }
+      return null;
+   }
+   
+   private Function resolve(Type type, String name, Object... values) throws Exception { 
+      FunctionTable cache = table.fetch(type);
+      
+      if(cache == null) {
+         List<Type> path = finder.findPath(type, name); 
+         FunctionTable group = builder.create();
+         int size = path.size();
+
+         for(int i = size - 1; i >= 0; i--) {
+            Type entry = path.get(i);
             List<Function> functions = entry.getFunctions();
-            int size = functions.size();
-            
-            for(int i = size - 1; i >= 0; i--) {
-               Function next = functions.get(i);
-               int modifiers = next.getModifiers();
+
+            for(Function function : functions){
+               int modifiers = function.getModifiers();
                
-               if(ModifierType.isStatic(modifiers)) { // must be static
-                  String method = next.getName();
-                  
-                  if(name.equals(method)) {
-                     Signature signature = next.getSignature();
-                     ArgumentConverter match = signature.getConverter();
-                     Score score = match.score(values);
-      
-                     if(score.compareTo(best) > 0) {
-                        function = next;
-                        best = score;
-                     }
+               if(ModifierType.isStatic(modifiers)) {
+                  if(!inspector.isSuperConstructor(type, function)) {
+                     group.update(function);
                   }
                }
             }
          }
-         if(best.isFinal()) {
-            if(function == null) {
-               function = invalid;
-            }
-            cache.cache(key, function);
-         }
-      }  
-      if(function != invalid) {
-         return new FunctionPointer(function, stack, values);
+         table.cache(type, group);
+         return group.resolve(name, values);
       }
-      return null;
+      return cache.resolve(name, values);
    }
 }
