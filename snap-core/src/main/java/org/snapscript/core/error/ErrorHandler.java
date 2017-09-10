@@ -1,7 +1,10 @@
 package org.snapscript.core.error;
 
+import org.snapscript.core.Module;
 import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
+import org.snapscript.core.Type;
+import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.stack.ThreadStack;
 import org.snapscript.core.trace.Trace;
 
@@ -10,30 +13,46 @@ public class ErrorHandler {
    private final ExternalErrorHandler external;
    private final InternalErrorHandler internal;
    
-   public ErrorHandler(ThreadStack stack) {
-      this(stack, true);
+   public ErrorHandler(TypeExtractor extractor, ThreadStack stack) {
+      this(extractor, stack, true);
    }
    
-   public ErrorHandler(ThreadStack stack, boolean replace) {
-      this.internal = new InternalErrorHandler(stack, replace);
+   public ErrorHandler(TypeExtractor extractor, ThreadStack stack, boolean replace) {
+      this.internal = new InternalErrorHandler(extractor, stack, replace);
       this.external = new ExternalErrorHandler();
    }
    
-   public Result throwInternal(Scope scope, Object cause) {
+   public Result throwInternalException(Scope scope,String name, Object... list) {
+      return internal.throwInternalException(scope, name, list); 
+   }
+   
+   public Result throwInternalException(Scope scope, Object object, String name, Object... list) {
+      return internal.throwInternalException(scope, object, name, list); 
+   }
+   
+   public Result throwInternalException(Scope scope, Type type, String name, Object... list) {
+      return internal.throwInternalException(scope, type, name, list); 
+   }
+   
+   public Result throwInternalException(Scope scope, Module module, String name, Object... list) {
+      return internal.throwInternalException(scope, module, name, list); 
+   }
+   
+   public Result throwInternalError(Scope scope, Object cause) {
       if(InternalError.class.isInstance(cause)) {
          throw (InternalError)cause;
       }
-      return internal.throwInternal(scope, cause); // fill in trace
+      return internal.throwInternalError(scope, cause); // fill in trace
    }
    
-   public Result throwInternal(Scope scope, Throwable cause, Trace trace) {
+   public Result throwInternalError(Scope scope, Throwable cause, Trace trace) {
       if(InternalError.class.isInstance(cause)) {
          throw (InternalError)cause;
       }
-      return internal.throwInternal(scope, cause, trace); // fill in trace
+      return internal.throwInternalError(scope, cause, trace); 
    }
    
-   public Result throwExternal(Scope scope, Throwable cause) throws Exception {
+   public Result throwExternalError(Scope scope, Throwable cause) throws Exception {
       if(InternalError.class.isInstance(cause)) {
          InternalError error = (InternalError)cause;
          Object original = error.getValue();

@@ -24,7 +24,7 @@ public class TraceStatement extends Statement {
       try {
          return statement.compile(scope);
       }catch(Exception cause) {
-         return handler.throwInternal(scope, cause, trace);
+         return handler.throwInternalError(scope, cause, trace);
       }
    }
    
@@ -35,7 +35,7 @@ public class TraceStatement extends Statement {
          return statement.execute(scope); 
       } catch(Exception cause) {
          interceptor.error(scope, trace, cause);
-         return handler.throwInternal(scope, cause);
+         return handler.throwInternalError(scope, cause);
       } finally {
          interceptor.after(scope, trace);
       }

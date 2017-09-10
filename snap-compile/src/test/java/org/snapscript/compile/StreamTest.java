@@ -97,7 +97,6 @@ public class StreamTest extends TestCase{
       }catch(Exception e) {
          e.printStackTrace();
          failure = true;
-         assertEquals(e.getMessage(), "Method 'range' not found for type 'util.stream.IntStream'");
       }
       assertTrue("Exception should have been thrown", failure);
    }  

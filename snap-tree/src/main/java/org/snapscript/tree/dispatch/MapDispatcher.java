@@ -4,14 +4,12 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 
 import org.snapscript.core.Context;
-import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
-import org.snapscript.core.Type;
-import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.Value;
 import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.core.convert.ProxyWrapper;
+import org.snapscript.core.error.ErrorHandler;
 
 public class MapDispatcher implements InvocationDispatcher {
    
@@ -19,7 +17,6 @@ public class MapDispatcher implements InvocationDispatcher {
    private final Scope scope;      
    
    public MapDispatcher(Scope scope, Object object) {
-
       this.object = object;
       this.scope = scope;
    }
@@ -31,10 +28,9 @@ public class MapDispatcher implements InvocationDispatcher {
       if(call == null) {
          Module module = scope.getModule();
          Context context = module.getContext();
-         TypeExtractor extractor = context.getExtractor();
-         Type type = extractor.getType(object);
-         
-         throw new InternalStateException("Method '" + name + "' not found for '" + type + "'");
+         ErrorHandler handler = context.getHandler();
+
+         handler.throwInternalException(scope, object, name, arguments);
       }
       return call.call();
    }

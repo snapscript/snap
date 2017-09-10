@@ -3,20 +3,22 @@ package org.snapscript.tree.dispatch;
 import java.util.concurrent.Callable;
 
 import org.snapscript.core.Context;
-import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
 import org.snapscript.core.bind.FunctionBinder;
+import org.snapscript.core.error.ErrorHandler;
 
 public class ModuleDispatcher implements InvocationDispatcher {
    
    private final Module module;  
    private final Object object;
+   private final Scope scope;
    
    public ModuleDispatcher(Scope scope, Object object) {
       this.module = (Module)object;
       this.object = object;
+      this.scope = scope;
    }
 
    @Override
@@ -24,7 +26,10 @@ public class ModuleDispatcher implements InvocationDispatcher {
       Callable<Value> call = bind(name, arguments);
       
       if(call == null) {
-         throw new InternalStateException("Method '" + name + "' not found for module '" + module + "'");
+         Context context = module.getContext();
+         ErrorHandler handler = context.getHandler();
+         
+         handler.throwInternalException(scope, module, name, arguments);
       }
       return call.call();           
    }

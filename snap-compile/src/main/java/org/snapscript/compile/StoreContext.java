@@ -50,7 +50,6 @@ public class StoreContext implements Context {
    public StoreContext(Store store, Executor executor){
       this.stack = new ThreadStack();
       this.wrapper = new ProxyWrapper(this);
-      this.handler = new ErrorHandler(stack);
       this.interceptor = new TraceInterceptor(stack);
       this.manager = new StoreManager(store);
       this.registry = new ModuleRegistry(this, executor);
@@ -58,6 +57,7 @@ public class StoreContext implements Context {
       this.loader = new TypeLoader(linker, registry, manager);
       this.matcher = new ConstraintMatcher(loader, wrapper);
       this.extractor = new TypeExtractor(loader);
+      this.handler = new ErrorHandler(extractor, stack);
       this.resolver = new FunctionResolver(extractor);
       this.validator = new ExecutableValidator(matcher, extractor, resolver);
       this.binder = new FunctionBinder(extractor, stack, resolver);

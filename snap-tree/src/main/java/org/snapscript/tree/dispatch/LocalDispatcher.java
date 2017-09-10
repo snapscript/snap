@@ -3,11 +3,11 @@ package org.snapscript.tree.dispatch;
 import java.util.concurrent.Callable;
 
 import org.snapscript.core.Context;
-import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
 import org.snapscript.core.bind.FunctionBinder;
+import org.snapscript.core.error.ErrorHandler;
 
 public class LocalDispatcher implements InvocationDispatcher {
    
@@ -32,7 +32,8 @@ public class LocalDispatcher implements InvocationDispatcher {
          }
       }
       if(local == null) {
-         throw new InternalStateException("Method '" + name + "' not found in scope");
+         ErrorHandler handler = context.getHandler();
+         handler.throwInternalException(scope, name, arguments);
       }
       return local.call();  
    }

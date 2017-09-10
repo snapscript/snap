@@ -3,14 +3,12 @@ package org.snapscript.tree.dispatch;
 import java.util.concurrent.Callable;
 
 import org.snapscript.core.Context;
-import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
-import org.snapscript.core.Type;
-import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.Value;
 import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.core.convert.Delegate;
+import org.snapscript.core.error.ErrorHandler;
 
 public class DelegateDispatcher implements InvocationDispatcher {
    
@@ -30,10 +28,8 @@ public class DelegateDispatcher implements InvocationDispatcher {
       Callable<Value> call = binder.bind(scope, object, name, arguments);
       
       if(call == null) {
-         TypeExtractor extractor = context.getExtractor();
-         Type type = extractor.getType(object);
-         
-         throw new InternalStateException("Method '" + name + "' not found for '" + type + "'");
+         ErrorHandler handler = context.getHandler();
+         handler.throwInternalException(scope, object, name, arguments);
       }
       return call.call();
    }

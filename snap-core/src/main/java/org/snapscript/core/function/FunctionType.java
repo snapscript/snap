@@ -20,7 +20,7 @@ import org.snapscript.core.property.Property;
 
 public class FunctionType implements Type {
    
-   private final TypeDescription description;
+   private final SignatureDescription description;
    private final Progress<Phase> progress;
    private final Function function;
    private final Module module;
@@ -33,8 +33,8 @@ public class FunctionType implements Type {
    
    public FunctionType(Signature signature, Module module, String name) {
       this.function = new EmptyFunction(signature, METHOD_CLOSURE);
+      this.description = new SignatureDescription(signature);
       this.progress = new CompleteProgress<Phase>();
-      this.description = new TypeDescription(this);
       this.scope = new TypeScope(this);
       this.module = module;
       this.name = name;

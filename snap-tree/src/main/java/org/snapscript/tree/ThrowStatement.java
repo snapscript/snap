@@ -54,7 +54,7 @@ public class ThrowStatement implements Compilation {
          ErrorHandler handler = context.getHandler();
          Object value = reference.getValue();
          
-         return handler.throwInternal(scope, value); 
+         return handler.throwInternalError(scope, value); 
       }
    }
 

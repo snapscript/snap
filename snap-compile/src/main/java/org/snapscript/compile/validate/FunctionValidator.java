@@ -99,7 +99,6 @@ public class FunctionValidator {
       }
    }
 
-   @Bug("does not seem to work for constructors")
    private void validateDuplicates(Function function) throws Exception {
       Type parent = function.getType();
       int modifiers = function.getModifiers();

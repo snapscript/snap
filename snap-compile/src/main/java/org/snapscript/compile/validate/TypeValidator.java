@@ -2,7 +2,6 @@ package org.snapscript.compile.validate;
 
 import static org.snapscript.core.Reserved.ANY_TYPE;
 import static org.snapscript.core.Reserved.TYPE_CLASS;
-import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
 import static org.snapscript.core.Reserved.TYPE_THIS;
 
 import java.util.List;
@@ -96,11 +95,7 @@ public class TypeValidator {
       List<Function> list = type.getFunctions();
          
       for(Function function : list) {
-         String name = function.getName();
-         
-         if(!name.equals(TYPE_CONSTRUCTOR)) {
-            functions.validate(function);
-         }
+         functions.validate(function);
       }
    }
 }

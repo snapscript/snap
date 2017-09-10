@@ -75,7 +75,7 @@ public class TryStatement implements Compilation {
             if(result.isThrow()) {
                Object value = result.getValue();
                
-               handler.throwInternal(scope, value);
+               handler.throwInternalError(scope, value);
             }
          } finally {
             if(finish != null) {
