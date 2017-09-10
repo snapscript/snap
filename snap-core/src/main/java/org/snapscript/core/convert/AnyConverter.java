@@ -1,6 +1,6 @@
 package org.snapscript.core.convert;
 
-import static org.snapscript.core.convert.Score.EXACT;
+import static org.snapscript.core.convert.Score.SIMILAR;
 
 import org.snapscript.core.Type;
 
@@ -14,12 +14,12 @@ public class AnyConverter extends ConstraintConverter {
    
    @Override
    public Score score(Type type) throws Exception {
-      return EXACT;
+      return SIMILAR;
    }
    
    @Override
    public Score score(Object value) throws Exception {
-      return EXACT;
+      return SIMILAR;
    }
  
    @Override

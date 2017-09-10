@@ -35,8 +35,7 @@ public class Score implements Comparable<Score> {
       return score;
    }
    
-   @Bug("align with Signature.isAbsolute")
-   public boolean isFinal() {
+   public boolean isAbsolute() {
       return cache;
    }
    
