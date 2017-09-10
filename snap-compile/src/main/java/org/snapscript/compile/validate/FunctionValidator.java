@@ -3,6 +3,7 @@ package org.snapscript.compile.validate;
 import java.util.List;
 import java.util.Set;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.Type;
@@ -97,7 +98,8 @@ public class FunctionValidator {
          }
       }
    }
-   
+
+   @Bug("does not seem to work for constructors")
    private void validateDuplicates(Function function) throws Exception {
       Type parent = function.getType();
       int modifiers = function.getModifiers();

@@ -2,6 +2,7 @@ package org.snapscript.tree.dispatch;
 
 import java.util.concurrent.Callable;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
@@ -21,6 +22,7 @@ public class ObjectDispatcher implements InvocationDispatcher {
       this.scope = scope;
    }
 
+   @Bug("better descriptions needed including parameters")
    @Override
    public Value dispatch(String name, Object... arguments) throws Exception {
       Module module = scope.getModule();
