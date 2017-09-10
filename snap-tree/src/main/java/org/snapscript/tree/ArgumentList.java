@@ -20,7 +20,10 @@ public class ArgumentList {
    }
    
    public Value create(Scope scope) throws Exception{
-      return create(scope, empty);
+      if(list.length > 0) {
+         return create(scope, empty);
+      }
+      return Value.getTransient(empty);
    }
    
    public Value create(Scope scope, Object... prefix) throws Exception{
