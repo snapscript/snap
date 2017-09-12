@@ -14,26 +14,53 @@ public class LinkedListIteratorTest extends TestCase {
    "      this.x=x;\n"+
    "   }\n"+
    "}\n"+
-   "var list = new LinkedList();\n"+
+   "var list = new ArrayList();\n"+
    "\n"+
    "for(var i = 0; i < 10000; i++){\n"+
    "   list.add(new Item(i));\n"+
    "}\n"+
-   "var start = System.currentTimeMillis();\n"+
    "\n"+
-   "try {\n"+
-   "   for(var i = 0; i < 100; i++) {\n"+
-   "      var it = list.iterator();\n"+
+   "for(var n in 0..3){\n"+
+   "   var start = System.currentTimeMillis();\n"+
+   "   try {\n"+
+   "      for(var i = 0; i < 100; i++) {\n"+
+   "         var it = list.iterator();\n"+
    "\n"+
-   "      while(it.hasNext()){\n"+
-   "         var v = it.next();\n"+
-   "         v.y++;\n"+
+   "         while(it.hasNext()){\n"+
+   "            var v = it.next();\n"+
+   "            assert v != null;\n"+
+   "         }\n"+
    "      }\n"+
+   "   } finally {\n"+
+   "      var finish = System.currentTimeMillis();\n"+
+   "      println('iterator=' + (finish - start));\n"+
    "   }\n"+
-   "} finally {\n"+
-   "   var finish = System.currentTimeMillis();\n"+
-   "   println(finish - start);\n"+
-   "}\n";
+   "\n"+
+   "   start = System.currentTimeMillis();\n"+   
+   "   try {\n"+
+   "      for(var i = 0; i < 100; i++) {\n"+
+   "         for(var v in list){\n"+
+   "            assert v != null;\n"+
+   "         }\n"+
+   "      }\n"+
+   "   } finally {\n"+
+   "      var finish = System.currentTimeMillis();\n"+
+   "      println('loop=' + (finish - start));\n"+
+   "   }\n"+
+   "\n"+
+   "   start = System.currentTimeMillis();\n"+   
+   "   try {\n"+
+   "      for(var i = 0; i < 100; i++) {\n"+
+   "         for(var x in 0..10000-1){\n"+
+   "            var v = list[x];\n"+
+   "            assert v != null;\n"+
+   "         }\n"+
+   "      }\n"+
+   "   } finally {\n"+
+   "      var finish = System.currentTimeMillis();\n"+
+   "      println('loop=' + (finish - start));\n"+
+   "   }\n"+
+   "}";   
 
    @Bug("this is slower than it should be")
    public void testListIteration() throws Exception {
