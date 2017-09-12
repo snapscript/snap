@@ -58,7 +58,7 @@ public class ProcessCommand implements Command {
          if (wait) {
             process.waitFor();
          }
-         return new InputStreamConsole(input);
+         return new Console(input);
       } catch (Exception e) {
          throw new CommandException("Error executing " + original + " in directory " + path, e);
       }

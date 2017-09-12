@@ -1,6 +1,6 @@
 package org.snapscript.core.extend;
 
-import java.util.List;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
@@ -55,32 +55,32 @@ public class ScopeExtension {
       return registry.getModule(name);
    }
    
-   public List<String> exec(Scope scope, String command) throws Exception {
+   public Iterator<String> exec(Scope scope, String command) throws Exception {
       Callable<Console> task = builder.create(command);
       Console console = task.call();
       
-      return console.readAll();
+      return console.iterator();
    }
    
-   public List<String> exec(Scope scope, String command, String directory) throws Exception {
+   public Iterator<String> exec(Scope scope, String command, String directory) throws Exception {
       Callable<Console> task = builder.create(command, directory);
       Console console = task.call();
       
-      return console.readAll();
+      return console.iterator();
    }
    
-   public List<String> exec(Scope scope, String command, Map<String, String> environment) throws Exception {
+   public Iterator<String> exec(Scope scope, String command, Map<String, String> environment) throws Exception {
       Callable<Console> task = builder.create(command, environment);
       Console console = task.call();
       
-      return console.readAll();
+      return console.iterator();
    }
    
-   public List<String> exec(Scope scope, String command, String directory, Map<String, String> environment) throws Exception {
+   public Iterator<String> exec(Scope scope, String command, String directory, Map<String, String> environment) throws Exception {
       Callable<Console> task = builder.create(command, directory, environment);
       Console console = task.call();
       
-      return console.readAll();
+      return console.iterator();
    }
    
    public void printf(Scope scope, Object value, Object... values)  throws Exception{

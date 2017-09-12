@@ -16,11 +16,11 @@ public class CommandBuilder {
    }
    
    public CommandBuilder(String directory) {
-      this(directory, false);
+      this(directory, true);
    }
    
    public CommandBuilder(String directory, boolean redirect) {
-      this(directory, redirect, true);
+      this(directory, redirect, false);
    }
    
    public CommandBuilder(String directory, boolean redirect, boolean wait) {
