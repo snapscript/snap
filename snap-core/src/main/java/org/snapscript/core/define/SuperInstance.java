@@ -42,6 +42,11 @@ public class SuperInstance implements Instance {
    }
    
    @Override
+   public Object getProxy() {
+      return scope.getProxy();
+   }
+   
+   @Override
    public State getState() {
       return scope.getState();
    }

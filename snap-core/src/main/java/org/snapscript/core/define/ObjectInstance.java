@@ -2,15 +2,17 @@ package org.snapscript.core.define;
 
 import org.snapscript.core.ArrayTable;
 import org.snapscript.core.Index;
-import org.snapscript.core.StackIndex;
 import org.snapscript.core.Module;
+import org.snapscript.core.StackIndex;
 import org.snapscript.core.State;
 import org.snapscript.core.Table;
 import org.snapscript.core.Type;
+import org.snapscript.core.convert.ScopeProxy;
 import org.snapscript.core.platform.Bridge;
 
 public class ObjectInstance implements Instance {
 
+   private final ScopeProxy proxy;
    private final Instance base;
    private final Bridge object;
    private final Module module;
@@ -21,6 +23,7 @@ public class ObjectInstance implements Instance {
    
    public ObjectInstance(Module module, Instance base, Bridge object, Type type) {
       this.state = new InstanceState(base);
+      this.proxy = new ScopeProxy(this);
       this.table = new ArrayTable();
       this.index = new StackIndex();
       this.object = object;
@@ -33,6 +36,11 @@ public class ObjectInstance implements Instance {
    public Instance getStack() {
       return new CompoundInstance(module, this, this, type);
    } 
+   
+   @Override
+   public Object getProxy() {
+      return proxy.getProxy();
+   }
    
    @Override
    public Instance getScope() {

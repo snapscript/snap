@@ -5,12 +5,14 @@ import java.util.List;
 
 import org.snapscript.core.Type;
 import org.snapscript.core.annotation.Annotation;
+import org.snapscript.core.convert.FunctionProxy;
 
 public class InvocationFunction implements Function {
 
    private final FunctionDescription description;
    private final List<Annotation> annotations;
    private final Invocation invocation;
+   private final FunctionProxy proxy;
    private final Signature signature;
    private final Type constraint;
    private final Type parent;
@@ -28,6 +30,7 @@ public class InvocationFunction implements Function {
    public InvocationFunction(Signature signature, Invocation invocation, Type parent, Type constraint, String name, int modifiers, int start){
       this.description = new FunctionDescription(signature, parent, name, start);
       this.annotations = new ArrayList<Annotation>();
+      this.proxy = new FunctionProxy(this);
       this.invocation = invocation;
       this.constraint = constraint;
       this.signature = signature;
@@ -49,6 +52,16 @@ public class InvocationFunction implements Function {
    @Override
    public Type getHandle() {
       return signature.getDefinition();
+   }
+   
+   @Override
+   public Object getProxy(Class type) {
+      return proxy.getProxy(type);
+   }
+   
+   @Override
+   public Object getProxy() {
+      return proxy.getProxy();
    }
    
    @Override

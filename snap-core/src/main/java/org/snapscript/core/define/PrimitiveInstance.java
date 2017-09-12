@@ -48,6 +48,11 @@ public class PrimitiveInstance implements Instance {
    }
    
    @Override
+   public Object getProxy() {
+      return null;
+   }
+   
+   @Override
    public Index getIndex(){
       return index;
    }

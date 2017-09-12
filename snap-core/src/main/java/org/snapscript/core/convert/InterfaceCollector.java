@@ -26,7 +26,7 @@ public class InterfaceCollector {
    }
    
    public Class[] collect(Scope scope) {
-      Type type = scope.getType();
+      Type type = scope.getHandle();
       
       if(type != null) {
          return collect(type);

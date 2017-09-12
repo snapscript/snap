@@ -36,8 +36,10 @@ public class WhileStatement implements Compilation {
    
       private final Evaluation condition;
       private final Statement body;
+      private final Result normal;
       
       public CompileResult(Evaluation condition, Statement body) {
+         this.normal = Result.getNormal();
          this.condition = condition;
          this.body = body;
       }
@@ -61,10 +63,10 @@ public class WhileStatement implements Compilation {
                   return next;
                }
                if(next.isBreak()) {
-                  return Result.getNormal();
+                  return normal;
                }
             } else {
-               return Result.getNormal();
+               return normal;
             } 
          }
       }

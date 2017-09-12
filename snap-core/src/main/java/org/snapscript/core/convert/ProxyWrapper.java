@@ -5,7 +5,6 @@ import java.lang.reflect.Proxy;
 
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Scope;
 import org.snapscript.core.define.Instance;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.platform.Bridge;
@@ -18,13 +17,40 @@ public class ProxyWrapper {
       this.factory = new ProxyFactory(this, context);
    }
    
+   public Object asProxy(Instance instance) {
+      if(instance != null) {
+         return factory.create(instance);
+      }
+      return null;
+   }
+   
+   public Object asProxy(Function function) {
+      if(function != null) {
+         return factory.create(function, Delegate.class);
+      }
+      return null;
+   }
+   
+   public Object asProxy(Function function, Class require) {
+      if(function != null) {
+         return factory.create(function, require, Delegate.class);
+      }
+      return null;
+   }
+   
    public Object toProxy(Object object) { 
       if(object != null) {
-         if(Scope.class.isInstance(object)) {
-            return factory.create((Scope)object);
+         if(Instance.class.isInstance(object)) {
+            Instance instance = (Instance)object;
+            Object proxy = instance.getProxy();
+            
+            return proxy;
          }
          if(Function.class.isInstance(object)) {
-            return factory.create((Function)object, Delegate.class);
+            Function function = (Function)object;
+            Object proxy = function.getProxy();
+            
+            return proxy;
          }
       }
       return object;
@@ -33,25 +59,22 @@ public class ProxyWrapper {
    public Object toProxy(Object object, Class require) { 
       if(object != null) {
          if(Instance.class.isInstance(object)) {
-            Object proxy = ((Instance)object).getBridge();
+            Instance instance = (Instance)object;
+            Object bridge = instance.getBridge();
                
-            if(require.isInstance(proxy)) {
-               return proxy;
+            if(require.isInstance(bridge)) {
+               return bridge;
             }
-            if(!require.isInterface()) {
-               throw new InternalStateException("Type does not extend " + require);
-            }
-         }
-         if(Scope.class.isInstance(object)) {
-            Object proxy = factory.create((Scope)object);
+            Object proxy = instance.getProxy();
             
             if(!require.isInstance(proxy)) {
-               throw new InternalStateException("Type does not implement " + require);
+               throw new InternalStateException("Type does not extend or implement " + require);
             }
             return proxy;
          }
          if(Function.class.isInstance(object)) {
-            Object proxy = factory.create((Function)object, require, Delegate.class);
+            Function function = (Function)object;
+            Object proxy = function.getProxy(require);
             
             if(!require.isInstance(proxy)) {
                throw new InternalStateException("Type does not implement " + require);

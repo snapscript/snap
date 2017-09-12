@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.snapscript.core.Module;
+import org.snapscript.core.Type;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionSignature;
+import org.snapscript.core.function.FunctionType;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationFunction;
 import org.snapscript.core.function.Parameter;
@@ -26,9 +28,10 @@ public class FunctionReferenceBuilder {
       List<Parameter> parameters = new ArrayList<Parameter>();
       Signature signature = new FunctionSignature(parameters, module, null, true, true);
       Invocation invocation = new FunctionReferenceInvocation(module, value, method);
+      Type type = new FunctionType(signature, module, null);
       
       parameters.add(parameter);
       
-      return new InvocationFunction(signature, invocation, null, null, method, PUBLIC.mask);
+      return new InvocationFunction(signature, invocation, type, null, method, PUBLIC.mask);
    }
 }

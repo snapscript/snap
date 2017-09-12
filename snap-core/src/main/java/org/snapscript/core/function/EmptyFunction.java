@@ -54,6 +54,16 @@ public class EmptyFunction implements Function {
    }
    
    @Override
+   public Object getProxy() {
+      return null;
+   }
+   
+   @Override
+   public Object getProxy(Class require) {
+      return null;
+   }
+   
+   @Override
    public String getName(){
       return name;
    }

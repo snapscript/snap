@@ -15,4 +15,6 @@ public interface Function extends Handle {
    List<Annotation> getAnnotations();
    Invocation getInvocation();
    String getDescription();
+   Object getProxy(Class type);
+   Object getProxy();
 }

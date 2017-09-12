@@ -8,4 +8,5 @@ public interface Instance extends Scope {
    Instance getScope();
    Instance getSuper();
    Bridge getBridge();
+   Object getProxy();
 }
