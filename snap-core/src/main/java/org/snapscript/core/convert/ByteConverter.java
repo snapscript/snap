@@ -23,7 +23,8 @@ public class ByteConverter extends NumberConverter {
       BigInteger.class, 
       Double.class, 
       Float.class, 
-      BigDecimal.class
+      BigDecimal.class,
+      Number.class
    };
    
    private static final Score[] BYTE_SCORES = {
@@ -34,6 +35,7 @@ public class ByteConverter extends NumberConverter {
       SIMILAR,
       SIMILAR,
       SIMILAR,
+      COMPATIBLE,
       COMPATIBLE,
       COMPATIBLE,
       COMPATIBLE

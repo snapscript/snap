@@ -23,13 +23,15 @@ public class BigDecimalConverter extends NumberConverter {
       BigInteger.class, 
       AtomicInteger.class, 
       Short.class, 
-      Byte.class
+      Byte.class,
+      Number.class
    };
    
    private static final Score[] BIG_DECIMAL_SCORES = {
       EXACT,
       SIMILAR,
       SIMILAR,
+      COMPATIBLE,
       COMPATIBLE,
       COMPATIBLE,
       COMPATIBLE,

@@ -23,13 +23,15 @@ public class DoubleConverter extends NumberConverter {
       BigInteger.class, 
       AtomicInteger.class, 
       Short.class, 
-      Byte.class
+      Byte.class,
+      Number.class
    };
    
    private static final Score[] DOUBLE_SCORES = {
       EXACT,
       SIMILAR,
       SIMILAR,
+      COMPATIBLE,
       COMPATIBLE,
       COMPATIBLE,
       COMPATIBLE,

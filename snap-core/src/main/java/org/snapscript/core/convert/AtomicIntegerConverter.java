@@ -23,7 +23,9 @@ public class AtomicIntegerConverter extends NumberConverter {
       Double.class, 
       Float.class, 
       BigDecimal.class, 
-      Byte.class};
+      Byte.class,
+      Number.class
+   };
    
    private static final Score[] ATOMIC_INTEGER_SCORES = {
       EXACT,
@@ -32,6 +34,7 @@ public class AtomicIntegerConverter extends NumberConverter {
       SIMILAR,
       SIMILAR,
       SIMILAR,
+      COMPATIBLE,
       COMPATIBLE,
       COMPATIBLE,
       COMPATIBLE,

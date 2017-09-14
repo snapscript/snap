@@ -23,7 +23,8 @@ public class LongConverter extends NumberConverter{
       Float.class, 
       BigDecimal.class, 
       Short.class, 
-      Byte.class
+      Byte.class,
+      Number.class
    };
    
    private static final Score[] LONG_SCORES = {
@@ -32,6 +33,7 @@ public class LongConverter extends NumberConverter{
       SIMILAR,
       SIMILAR,
       SIMILAR,
+      COMPATIBLE,
       COMPATIBLE,
       COMPATIBLE,
       COMPATIBLE,

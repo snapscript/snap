@@ -1,5 +1,6 @@
 package org.snapscript.core.convert;
 
+import static org.snapscript.core.convert.Score.EXACT;
 import static org.snapscript.core.convert.Score.INVALID;
 import static org.snapscript.core.convert.Score.POSSIBLE;
 import static org.snapscript.core.convert.Score.SIMILAR;
@@ -15,6 +16,7 @@ import org.snapscript.core.Type;
 public class NumberConverter extends ConstraintConverter {
    
    private static final Class[] NUMBER_TYPES = {
+      Number.class,
       Integer.class, 
       Long.class, 
       Double.class, 
@@ -28,6 +30,7 @@ public class NumberConverter extends ConstraintConverter {
    };
    
    private static final Score[] NUMBER_SCORES = {
+      EXACT,
       SIMILAR,
       SIMILAR,
       SIMILAR,

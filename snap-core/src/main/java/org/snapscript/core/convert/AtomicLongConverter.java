@@ -23,7 +23,9 @@ public class AtomicLongConverter extends NumberConverter {
       Float.class, 
       BigDecimal.class, 
       Short.class, 
-      Byte.class};
+      Byte.class,
+      Number.class
+   };
    
    private static final Score[] ATOMIC_LONG_SCORES = {
       EXACT,
@@ -31,6 +33,7 @@ public class AtomicLongConverter extends NumberConverter {
       SIMILAR,
       SIMILAR,
       SIMILAR,
+      COMPATIBLE,
       COMPATIBLE,
       COMPATIBLE,
       COMPATIBLE,
