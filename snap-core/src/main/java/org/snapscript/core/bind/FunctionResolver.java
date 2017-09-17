@@ -8,22 +8,25 @@ import org.snapscript.core.TypeCache;
 import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.convert.TypeInspector;
 import org.snapscript.core.function.Function;
+import org.snapscript.core.stack.ThreadStack;
 
 public class FunctionResolver {
    
    private final TypeCache<FunctionTable> table;
    private final FunctionTableBuilder builder;
    private final FunctionPathFinder finder;
+   private final FunctionWrapper wrapper;
    private final TypeInspector inspector;
    
-   public FunctionResolver(TypeExtractor extractor) {
-      this.builder = new FunctionTableBuilder(extractor);
+   public FunctionResolver(TypeExtractor extractor, ThreadStack stack) {
+      this.builder = new FunctionTableBuilder(extractor, stack);
       this.table = new TypeCache<FunctionTable>();
+      this.wrapper = new FunctionWrapper(stack);
       this.finder = new FunctionPathFinder();
       this.inspector = new TypeInspector();
    }
    
-   public Function resolve(Type type, String name, Type... types) throws Exception { 
+   public FunctionCall resolve(Type type, String name, Type... types) throws Exception { 
       FunctionTable cache = table.fetch(type);
 
       if(cache == null) {
@@ -40,7 +43,8 @@ public class FunctionResolver {
                
                if(!ModifierType.isAbstract(modifiers)) {
                   if(!inspector.isSuperConstructor(type, function)) {
-                     group.update(function);
+                     FunctionCall call = wrapper.toCall(function);
+                     group.update(call);
                   }
                }
             }
@@ -51,7 +55,7 @@ public class FunctionResolver {
       return cache.resolve(name, types);
    }
 
-   public Function resolve(Type type, String name, Object... values) throws Exception { 
+   public FunctionCall resolve(Type type, String name, Object... values) throws Exception { 
       FunctionTable cache = table.fetch(type);
 
       if(cache == null) {
@@ -68,7 +72,8 @@ public class FunctionResolver {
                
                if(!ModifierType.isAbstract(modifiers)) {
                   if(!inspector.isSuperConstructor(type, function)) {
-                     group.update(function);
+                     FunctionCall call = wrapper.toCall(function);
+                     group.update(call);
                   }
                }
             }

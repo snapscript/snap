@@ -9,6 +9,7 @@ import org.snapscript.core.link.PackageLoader;
 import org.snapscript.core.link.PackageManager;
 import org.snapscript.core.platform.CachePlatformProvider;
 import org.snapscript.core.platform.PlatformProvider;
+import org.snapscript.core.stack.ThreadStack;
 
 public class TypeLoader {
    
@@ -20,9 +21,9 @@ public class TypeLoader {
    private final TypeIndexer indexer;
    private final ClassExtender extender;
    
-   public TypeLoader(PackageLinker linker, ModuleRegistry registry, ResourceManager manager){
+   public TypeLoader(PackageLinker linker, ModuleRegistry registry, ResourceManager manager, ThreadStack stack){
       this.extractor = new TypeExtractor(this);
-      this.provider = new CachePlatformProvider(extractor);
+      this.provider = new CachePlatformProvider(extractor, stack);
       this.scanner = new ImportScanner(manager);
       this.extender = new ClassExtender(this);
       this.indexer = new TypeIndexer(registry, scanner, extender, provider);

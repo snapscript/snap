@@ -17,7 +17,7 @@ public class ScopeFunctionMatcher {
       this.stack = stack;
    }
    
-   public FunctionPointer match(Scope scope, String name, Object... values) throws Exception { // match function variable
+   public FunctionCall match(Scope scope, String name, Object... values) throws Exception { // match function variable
       State state = scope.getState();
       Value value = state.get(name);
       
@@ -31,7 +31,7 @@ public class ScopeFunctionMatcher {
             Score score = match.score(values);
             
             if(score.isValid()) {
-               return new FunctionPointer(function, stack, values);
+               return new FunctionCall(function, stack);
             }
          }
       }

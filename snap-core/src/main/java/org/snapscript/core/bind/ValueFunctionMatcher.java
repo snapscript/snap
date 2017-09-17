@@ -15,7 +15,7 @@ public class ValueFunctionMatcher {
       this.stack = stack;
    }
    
-   public FunctionPointer match(Value value, Object... values) throws Exception { // match function variable
+   public FunctionCall match(Value value, Object... values) throws Exception { // match function variable
       Object object = value.getValue();
       
       if(Function.class.isInstance(object)) {
@@ -25,7 +25,7 @@ public class ValueFunctionMatcher {
          Score score = match.score(values);
          
          if(score.isValid()) {
-            return new FunctionPointer(function, stack, values); 
+            return new FunctionCall(function, stack); 
          }
       }
       return null;

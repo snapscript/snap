@@ -15,27 +15,18 @@ public class TypeFunctionMatcher {
    private final TypeCache<FunctionTable> table;
    private final FunctionTableBuilder builder;
    private final FunctionPathFinder finder;
+   private final FunctionWrapper wrapper;
    private final TypeInspector inspector;
-   private final ThreadStack stack;
    
    public TypeFunctionMatcher(TypeExtractor extractor, ThreadStack stack) {
-      this.builder = new FunctionTableBuilder(extractor);
+      this.builder = new FunctionTableBuilder(extractor, stack);
       this.table = new TypeCache<FunctionTable>();
+      this.wrapper = new FunctionWrapper(stack);
       this.finder = new FunctionPathFinder();
       this.inspector = new TypeInspector();
-      this.stack = stack;
    }
    
-   public FunctionPointer match(Type type, String name, Object... values) throws Exception { 
-      Function function = resolve(type, name, values);
-      
-      if(function != null) {
-         return new FunctionPointer(function, stack, values);
-      }
-      return null;
-   }
-   
-   private Function resolve(Type type, String name, Object... values) throws Exception { 
+   public FunctionCall match(Type type, String name, Object... values) throws Exception { 
       FunctionTable cache = table.fetch(type);
       
       if(cache == null) {
@@ -52,7 +43,8 @@ public class TypeFunctionMatcher {
                
                if(ModifierType.isStatic(modifiers)) {
                   if(!inspector.isSuperConstructor(type, function)) {
-                     group.update(function);
+                     FunctionCall call = wrapper.toCall(function);
+                     group.update(call);
                   }
                }
             }

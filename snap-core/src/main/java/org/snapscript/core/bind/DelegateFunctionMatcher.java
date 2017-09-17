@@ -15,30 +15,21 @@ public class DelegateFunctionMatcher {
    private final TypeCache<FunctionTable> table;
    private final FunctionTableBuilder builder;
    private final FunctionPathFinder finder;
+   private final FunctionWrapper wrapper;
    private final TypeExtractor extractor;
    private final TypeInspector checker;
-   private final ThreadStack stack;
    
    public DelegateFunctionMatcher(TypeExtractor extractor, ThreadStack stack) {
-      this.builder = new FunctionTableBuilder(extractor);
+      this.builder = new FunctionTableBuilder(extractor, stack);
+      this.wrapper = new FunctionWrapper(stack);
       this.table = new TypeCache<FunctionTable>();
       this.finder = new FunctionPathFinder();
       this.checker = new TypeInspector();
       this.extractor = extractor;
-      this.stack = stack;
    }
    
-   public FunctionPointer match(Delegate value, String name, Object... values) throws Exception { 
+   public FunctionCall match(Delegate value, String name, Object... values) throws Exception { 
       Type type = extractor.getType(value);
-      Function function = resolve(type, name, values);
-      
-      if(function != null) {
-         return new FunctionPointer(function, stack, values);
-      }
-      return null;
-   }
-
-   private Function resolve(Type type, String name, Object... values) throws Exception { 
       FunctionTable cache = table.fetch(type);
       
       if(cache == null) {
@@ -54,7 +45,8 @@ public class DelegateFunctionMatcher {
    
                for(Function function : functions){
                   if(!checker.isSuperConstructor(type, function)) {
-                     group.update(function);
+                     FunctionCall call = wrapper.toCall(function);
+                     group.update(call);
                   }
                }
             }

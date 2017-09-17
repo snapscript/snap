@@ -11,68 +11,73 @@ import org.snapscript.core.function.EmptyFunction;
 import org.snapscript.core.function.EmptySignature;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Signature;
+import org.snapscript.core.stack.ThreadStack;
 
 public class FunctionSearcher {
    
+   private final FunctionCall invalid;
    private final Signature signature;
-   private final Function invalid;
+   private final Function empty;
    
-   public FunctionSearcher() {
+   public FunctionSearcher(ThreadStack stack) {
       this.signature = new EmptySignature();
-      this.invalid = new EmptyFunction(signature);
+      this.empty = new EmptyFunction(signature);
+      this.invalid = new FunctionCall(empty, stack);
    }
 
-   public Function search(List<Function> functions, String name, Type... types) throws Exception { 
-      int size = functions.size();
+   public FunctionCall search(List<FunctionCall> calls, String name, Type... types) throws Exception { 
+      int size = calls.size();
       
       if(size > 0) {
-         Function function = invalid;
+         FunctionCall call = invalid;
          Score best = INVALID;
          
          for(int i = size - 1; i >= 0; i--) {
-            Function next = functions.get(i);
-            String match = next.getName();
+            FunctionCall next = calls.get(i);
+            Function function = next.getFunction();
+            String match = function.getName();
             
             if(match.equals(name)) {
-               Signature signature = next.getSignature();
+               Signature signature = function.getSignature();
                ArgumentConverter converter = signature.getConverter();
                Score score = converter.score(types);
 
                if(score.compareTo(best) > 0) {
-                  function = next;
+                  call = next;
                   best = score;
                }
             }
          }
-         return function;
+         return call;
       }
       return invalid;
    }
 
-   public Function search(List<Function> functions, String name, Object... values) throws Exception { 
-      int size = functions.size();
+   public FunctionCall search(List<FunctionCall> calls, String name, Object... values) throws Exception { 
+      int size = calls.size();
       
       if(size > 0) {
-         Function function = invalid;
+         FunctionCall call = invalid;
          Score best = INVALID;
-            
-         for(int i = size - 1; i >= 0; i--) { 
-            Function next = functions.get(i);
-            String match = next.getName();
+         
+         for(int i = size - 1; i >= 0; i--) {
+            FunctionCall next = calls.get(i);
+            Function function = next.getFunction();
+            String match = function.getName();
             
             if(match.equals(name)) {
-               Signature signature = next.getSignature();
+               Signature signature = function.getSignature();
                ArgumentConverter converter = signature.getConverter();
                Score score = converter.score(values);
 
                if(score.compareTo(best) > 0) {
-                  function = next;
+                  call = next;
                   best = score;
                }
             }
          }
-         return function;
-      }      
+         return call;
+      }
       return invalid;
    }
 }

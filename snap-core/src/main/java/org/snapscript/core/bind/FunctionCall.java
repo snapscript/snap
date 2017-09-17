@@ -1,25 +1,67 @@
 package org.snapscript.core.bind;
 
-import java.util.concurrent.Callable;
-
 import org.snapscript.core.Scope;
-import org.snapscript.core.Value;
+import org.snapscript.core.Type;
+import org.snapscript.core.function.ArgumentConverter;
+import org.snapscript.core.function.Function;
+import org.snapscript.core.function.Invocation;
+import org.snapscript.core.function.Signature;
+import org.snapscript.core.stack.ThreadStack;
 
-public class FunctionCall implements Callable<Value> {
+public class FunctionCall {
    
-   private final FunctionPointer pointer;
-   private final Object source;
-   private final Scope scope;
+   private final Invocation invocation;
+   private final Function function;
    
-   public FunctionCall(FunctionPointer pointer, Scope scope, Object source) {
-      this.pointer = pointer;
-      this.source = source;
-      this.scope = scope;
+   public FunctionCall(Function function, ThreadStack stack) {
+      this.invocation = new StackInvocation(function, stack);
+      this.function = function;
    }
    
-   @Override
-   public Value call() throws Exception {
-      Object result = pointer.call(scope, source);
-      return Value.getTransient(result);
+   public Function getFunction() {
+      return function;
    }
+   
+   public Invocation getInvocation() {
+      return invocation;
+   }
+   
+   private static class StackInvocation implements Invocation {
+   
+      private final ThreadStack stack;
+      private final Function function;
+      
+      public StackInvocation(Function function, ThreadStack stack) {
+         this.function = function;
+         this.stack = stack;
+      }
+      
+      @Override
+      public Object invoke(Scope scope, Object object, Object... arguments) throws Exception{
+         Signature signature = function.getSignature();
+         ArgumentConverter converter = signature.getConverter();
+         Invocation invocation = function.getInvocation();
+         Object source = signature.getSource();
+         Type type = function.getType();
+         
+         try {
+            Object[] list = arguments;
+            
+            if(type != null) {
+               stack.before(function);
+            }
+            if(source != null) {
+               list = converter.convert(arguments);
+            } else {
+               list = converter.assign(arguments);
+            }
+            return invocation.invoke(scope, object, list);
+         } finally {
+            if(type != null) {
+               stack.after(function);
+            }
+         }
+      }
+   }
+   
 }

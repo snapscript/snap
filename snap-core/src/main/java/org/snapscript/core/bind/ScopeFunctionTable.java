@@ -26,7 +26,7 @@ public class ScopeFunctionTable implements FunctionTable {
    }
    
    @Override
-   public Function resolve(String name, Type... arguments) throws Exception {
+   public FunctionCall resolve(String name, Type... arguments) throws Exception {
       int size = arguments.length;
       
       if(size < caches.length) {
@@ -40,7 +40,7 @@ public class ScopeFunctionTable implements FunctionTable {
    }
    
    @Override
-   public Function resolve(String name, Object... arguments) throws Exception {
+   public FunctionCall resolve(String name, Object... arguments) throws Exception {
       int size = arguments.length;
       
       if(size < caches.length) {
@@ -54,7 +54,8 @@ public class ScopeFunctionTable implements FunctionTable {
    }
 
    @Override
-   public void update(Function function) throws Exception {
+   public void update(FunctionCall call) throws Exception {
+      Function function = call.getFunction();
       Signature signature = function.getSignature();
       List<Parameter> parameters = signature.getParameters();
       int size = parameters.size();
@@ -64,14 +65,14 @@ public class ScopeFunctionTable implements FunctionTable {
          int minimum = size -1; // vargs with no value
          
          for(int i = maximum; i >= minimum; i--) { // limit variable arguments
-            update(function, i);
+            update(call, i);
          }
       } else {
-         update(function, size);
+         update(call, size);
       }
    }
    
-   private void update(Function function, int size) throws Exception {
+   private void update(FunctionCall call, int size) throws Exception {
       if(size >= caches.length) {
          FunctionCache[] copy = new FunctionCache[size + 1];
          
@@ -85,6 +86,6 @@ public class ScopeFunctionTable implements FunctionTable {
       if(cache == null) {
          cache = caches[size] = new FunctionCache(matcher, builder);
       }
-      cache.update(function);
+      cache.update(call);
    }
 }

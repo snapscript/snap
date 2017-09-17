@@ -3,11 +3,11 @@ package org.snapscript.compile.validate;
 import java.util.List;
 import java.util.Set;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeExtractor;
+import org.snapscript.core.bind.FunctionCall;
 import org.snapscript.core.bind.FunctionResolver;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.FunctionComparator;
@@ -91,22 +91,27 @@ public class FunctionValidator {
             
             types[i] = type;
          }
-         Function match = resolver.resolve(parent, name, types);
+         FunctionCall match = resolver.resolve(parent, name, types);
          
-         if(match != require) {
+         if(match == null) {
+            throw new IllegalStateException("Function '" + require +"' does not match override");
+         }
+         Function function = match.getFunction();
+         
+         if(function != require) {
             throw new IllegalStateException("Function '" + require +"' does not match override");
          }
       }
    }
 
-   private void validateDuplicates(Function function) throws Exception {
-      Type parent = function.getType();
-      int modifiers = function.getModifiers();
+   private void validateDuplicates(Function actual) throws Exception {
+      Type parent = actual.getType();
+      int modifiers = actual.getModifiers();
       
       if(!ModifierType.isAbstract(modifiers)) {
-         Signature signature = function.getSignature();
+         Signature signature = actual.getSignature();
          List<Parameter> parameters = signature.getParameters();
-         String name = function.getName();
+         String name = actual.getName();
          int length = parameters.size();
          
          if(length >0) {
@@ -118,10 +123,15 @@ public class FunctionValidator {
                
                types[i] = type;
             }
-            Function resolved = resolver.resolve(parent, name, types);
+            FunctionCall resolved = resolver.resolve(parent, name, types);
             
-            if(resolved != function) {
-               throw new IllegalStateException("Function '" + function +"' has a duplicate '" + resolved + "'");
+            if(resolved == actual) {
+               throw new IllegalStateException("Function '" + actual +"' has a duplicate '" + resolved + "'");
+            }
+            Function function = resolved.getFunction();
+            
+            if(function != actual) {
+               throw new IllegalStateException("Function '" + actual +"' has a duplicate '" + resolved + "'");
             }
          }
       }

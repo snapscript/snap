@@ -18,7 +18,7 @@ public class FunctionCache {
       this.builder = builder;
    }
    
-   public Function resolve(String name, Type... list) throws Exception {
+   public FunctionCall resolve(String name, Type... list) throws Exception {
       FunctionGroup group = groups.get(name);
       
       if(group != null) {
@@ -27,7 +27,7 @@ public class FunctionCache {
       return null;
    }
    
-   public Function resolve(String name, Object... list) throws Exception {
+   public FunctionCall resolve(String name, Object... list) throws Exception {
       FunctionGroup group = groups.get(name);
       
       if(group != null) {
@@ -36,7 +36,8 @@ public class FunctionCache {
       return null;
    }
 
-   public void update(Function function) throws Exception {
+   public void update(FunctionCall call) throws Exception {
+      Function function = call.getFunction();
       String name = function.getName();
       FunctionGroup group = groups.get(name);
       
@@ -44,6 +45,6 @@ public class FunctionCache {
          group = new FunctionGroup(matcher, builder);
          groups.put(name, group);
       }
-      group.update(function);
+      group.update(call);
    }
 }

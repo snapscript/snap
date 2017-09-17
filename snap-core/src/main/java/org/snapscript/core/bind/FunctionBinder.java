@@ -21,7 +21,7 @@ public class FunctionBinder {
    
    public FunctionBinder(TypeExtractor extractor, ThreadStack stack, FunctionResolver resolver) {
       this.delegates = new DelegateFunctionMatcher(extractor, stack);
-      this.objects = new ObjectFunctionMatcher(extractor, stack, resolver);
+      this.objects = new ObjectFunctionMatcher(extractor, resolver);
       this.modules = new ModuleFunctionMatcher(extractor, stack);
       this.types = new TypeFunctionMatcher(extractor, stack);
       this.values = new ValueFunctionMatcher(stack);
@@ -29,55 +29,55 @@ public class FunctionBinder {
    }
    
    public Callable<Value> bind(Value value, Object... list) throws Exception { // closures
-      FunctionPointer call = values.match(value, list);
+      FunctionCall call = values.match(value, list);
       
       if(call != null) {
-         return new FunctionCall(call, null, null);
+         return new InvocationTask(call, null, null, list);
       }
       return null;
    }
    
    public Callable<Value> bind(Scope scope, String name, Object... list) throws Exception { // function variable
-      FunctionPointer call = scopes.match(scope, name, list);
+      FunctionCall call = scopes.match(scope, name, list);
       
       if(call != null) {
-         return new FunctionCall(call, scope, scope);
+         return new InvocationTask(call, scope, scope, list);
       }
       return null;
    }
    
    public Callable<Value> bind(Scope scope, Module module, String name, Object... list) throws Exception {
-      FunctionPointer call = modules.match(module, name, list);
+      FunctionCall call = modules.match(module, name, list);
       
       if(call != null) {
-         return new FunctionCall(call, scope, module);
+         return new InvocationTask(call, scope, module, list);
       }
       return null;
    }
    
    public Callable<Value> bind(Scope scope, Type type, String name, Object... list) throws Exception {
-      FunctionPointer call = types.match(type, name, list);
+      FunctionCall call = types.match(type, name, list);
       
       if(call != null) {
-         return new FunctionCall(call, scope, null);
+         return new InvocationTask(call, scope, null, list);
       }
       return null;
    }
    
    public Callable<Value> bind(Scope scope, Delegate delegate, String name, Object... list) throws Exception {
-      FunctionPointer call = delegates.match(delegate, name, list);
+      FunctionCall call = delegates.match(delegate, name, list);
       
       if(call != null) {
-         return new FunctionCall(call, scope, delegate);
+         return new InvocationTask(call, scope, delegate, list);
       }
       return null;
    }
 
    public Callable<Value> bind(Scope scope, Object source, String name, Object... list) throws Exception {
-      FunctionPointer call = objects.match(source, name, list);
+      FunctionCall call = objects.match(source, name, list);
       
       if(call != null) {
-         return new FunctionCall(call, scope, source);
+         return new InvocationTask(call, scope, source, list);
       }
       return null;
    }

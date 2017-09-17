@@ -11,63 +11,66 @@ import org.snapscript.core.function.Signature;
 
 public class ClassFunctionTable implements FunctionTable {
    
-   private final Cache<Object, Function> cache;
-   private final List<Function> functions;
+   private final Cache<Object, FunctionCall> cache;
+   private final List<FunctionCall> calls;
    private final FunctionKeyBuilder builder;
    private final FunctionSearcher searcher;
    
    public ClassFunctionTable(FunctionSearcher searcher, FunctionKeyBuilder builder) {
-      this.cache = new CopyOnWriteCache<Object, Function>();
-      this.functions = new ArrayList<Function>();
+      this.cache = new CopyOnWriteCache<Object, FunctionCall>();
+      this.calls = new ArrayList<FunctionCall>();
       this.searcher = searcher;
       this.builder = builder;
    }
 
    @Override
-   public Function resolve(String name, Type... types) throws Exception {
+   public FunctionCall resolve(String name, Type... types) throws Exception {
       Object key = builder.create(name, types);
-      Function function = cache.fetch(key);
+      FunctionCall call = cache.fetch(key);
       
-      if(function == null) {
-         Function match = searcher.search(functions, name, types);
-         Signature signature = match.getSignature();
+      if(call == null) {
+         FunctionCall match = searcher.search(calls, name, types);
+         Function function = match.getFunction();
+         Signature signature = function.getSignature();
          
          if(signature.isAbsolute()) {
             cache.cache(key, match);
          }
          return validate(match);
       }
-      return validate(function);
+      return validate(call);
    }
 
    @Override
-   public Function resolve(String name, Object... list) throws Exception {
+   public FunctionCall resolve(String name, Object... list) throws Exception {
       Object key = builder.create(name, list);
-      Function function = cache.fetch(key);
+      FunctionCall call = cache.fetch(key);
       
-      if(function == null) {
-         Function match = searcher.search(functions, name, list);
-         Signature signature = match.getSignature();
+      if(call == null) {
+         FunctionCall match = searcher.search(calls, name, list);
+         Function function = match.getFunction();
+         Signature signature = function.getSignature();
          
          if(signature.isAbsolute()) {
             cache.cache(key, match);
          }
          return validate(match);
       }
-      return validate(function);
+      return validate(call);
    }
 
-   @Override
-   public void update(Function function) throws Exception {
-      functions.add(function);
-   }
-
-   private Function validate(Function function) {
+   private FunctionCall validate(FunctionCall call) {
+      Function function = call.getFunction();
       Signature signature = function.getSignature();
       
       if(!signature.isInvalid()) {
-         return function;
+         return call;
       }
       return null;
+   }
+   
+   @Override
+   public void update(FunctionCall call) throws Exception {
+      calls.add(call);
    }
 }
