@@ -12,7 +12,7 @@ import org.snapscript.core.stack.ThreadStack;
 
 public class DelegateFunctionMatcher {
    
-   private final TypeCache<FunctionTable> table;
+   private final TypeCache<FunctionTable> cache;
    private final FunctionTableBuilder builder;
    private final FunctionPathFinder finder;
    private final FunctionWrapper wrapper;
@@ -22,7 +22,7 @@ public class DelegateFunctionMatcher {
    public DelegateFunctionMatcher(TypeExtractor extractor, ThreadStack stack) {
       this.builder = new FunctionTableBuilder(extractor, stack);
       this.wrapper = new FunctionWrapper(stack);
-      this.table = new TypeCache<FunctionTable>();
+      this.cache = new TypeCache<FunctionTable>();
       this.finder = new FunctionPathFinder();
       this.checker = new TypeInspector();
       this.extractor = extractor;
@@ -30,11 +30,11 @@ public class DelegateFunctionMatcher {
    
    public FunctionCall match(Delegate value, String name, Object... values) throws Exception { 
       Type type = extractor.getType(value);
-      FunctionTable cache = table.fetch(type);
+      FunctionTable match = cache.fetch(type);
       
-      if(cache == null) {
+      if(match == null) {
          List<Type> path = finder.findPath(type, name); 
-         FunctionTable group = builder.create(type);
+         FunctionTable table = builder.create(type);
          int size = path.size();
 
          for(int i = size - 1; i >= 0; i--) {
@@ -46,14 +46,14 @@ public class DelegateFunctionMatcher {
                for(Function function : functions){
                   if(!checker.isSuperConstructor(type, function)) {
                      FunctionCall call = wrapper.toCall(function);
-                     group.update(call);
+                     table.update(call);
                   }
                }
             }
          }
-         table.cache(type, group);
-         return group.resolve(name, values);
+         cache.cache(type, table);
+         return table.resolve(name, values);
       }
-      return cache.resolve(name, values);
+      return match.resolve(name, values);
    }
 }
