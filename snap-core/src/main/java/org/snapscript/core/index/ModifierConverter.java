@@ -19,26 +19,26 @@ public class ModifierConverter {
       int result = PROTECTED.mask;
       
       if(method != null) {
-         int mask = method.getModifiers();
+         int modifiers = method.getModifiers();
    
          if(method.isVarArgs()) {
             result |= VARARGS.mask;
          }
-         if(Modifier.isAbstract(mask)) {
+         if(Modifier.isAbstract(modifiers)) {
             result |= ABSTRACT.mask;
          }
-         if(Modifier.isFinal(mask)) {
+         if(Modifier.isFinal(modifiers)) {
             result |= CONSTANT.mask;
          }
-         if(Modifier.isPrivate(mask)) {
+         if(Modifier.isPrivate(modifiers)) {
             result |= PRIVATE.mask;
             result &= ~PROTECTED.mask;
          }
-         if(Modifier.isPublic(mask)) {
+         if(Modifier.isPublic(modifiers)) {
             result |= PUBLIC.mask;
             result &= ~PROTECTED.mask;
          }
-         if(Modifier.isStatic(mask)) {
+         if(Modifier.isStatic(modifiers)) {
             result |= STATIC.mask;
          }
       }
@@ -79,6 +79,30 @@ public class ModifierConverter {
       if(field != null) {
          int modifiers = field.getModifiers();
          
+         if(Modifier.isFinal(modifiers)) {
+            result |= CONSTANT.mask;
+         }
+         if(Modifier.isPrivate(modifiers)) {
+            result |= PRIVATE.mask;
+            result &= ~PROTECTED.mask;
+         }
+         if(Modifier.isPublic(modifiers)) {
+            result |= PUBLIC.mask;
+            result &= ~PROTECTED.mask;
+         }
+         if(Modifier.isStatic(modifiers)) {
+            result |= STATIC.mask;
+         }
+      }
+      return result;
+   }
+   
+   public int convert(Class type) {
+      int result = PROTECTED.mask;
+      
+      if(type != null) {
+         int modifiers = type.getModifiers();
+   
          if(Modifier.isFinal(modifiers)) {
             result |= CONSTANT.mask;
          }

@@ -10,6 +10,7 @@ import org.snapscript.core.InternalStateException;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.Type;
 import org.snapscript.core.function.AccessorProperty;
+import org.snapscript.core.property.ConstantProperty;
 import org.snapscript.core.property.Property;
 
 public class PropertyGenerator {
@@ -18,6 +19,12 @@ public class PropertyGenerator {
   
    public PropertyGenerator(){
       super();
+   }
+   
+      try {
+      } catch(Exception e) {
+         throw new InternalStateException("Could not create property from " + type);
+      }
    }
    
    public Property generate(Field field, Type type, Type constraint, String name, int modifiers) {
