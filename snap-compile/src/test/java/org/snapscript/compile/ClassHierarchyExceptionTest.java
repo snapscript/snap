@@ -21,6 +21,7 @@ public class ClassHierarchyExceptionTest extends TestCase {
       try{
          executable.execute();
       }catch(Exception e) {
+         e.printStackTrace();
          assertEquals(e.getCause().getMessage(), "Type 'default.Foo' has an invalid hierarchy");
       }
    }

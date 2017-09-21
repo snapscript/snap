@@ -45,7 +45,7 @@ public class LinkedListIteratorTest extends TestCase {
    "      }\n"+
    "   } finally {\n"+
    "      var finish = System.currentTimeMillis();\n"+
-   "      println('loop=' + (finish - start));\n"+
+   "      println('foreach=' + (finish - start));\n"+
    "   }\n"+
    "\n"+
    "   start = System.currentTimeMillis();\n"+   
@@ -58,7 +58,7 @@ public class LinkedListIteratorTest extends TestCase {
    "      }\n"+
    "   } finally {\n"+
    "      var finish = System.currentTimeMillis();\n"+
-   "      println('loop=' + (finish - start));\n"+
+   "      println('for=' + (finish - start));\n"+
    "   }\n"+
    "}";   
 
