@@ -55,19 +55,24 @@ public class ArrayTable implements Table {
       
       @Override
       public boolean hasNext() {
-         while(index < table.length) {
-            local = table[index++];
-            
-            if(local != null) {
-               return true;
+         while(local == null) {
+            if(index >= table.length) {
+               break;
             }
+            local = table[index++];
          }
-         return false;
+         return local != null;
       }
 
       @Override
       public Local next() {
-         return local;
+         Local next = null;
+         
+         if(hasNext()) {
+            next = local;
+            local = null;
+         }
+         return next;
       }
    }
 }
