@@ -20,9 +20,9 @@ The development environment can use hot stand-by agents to improve responsivenes
 Videos can be viewed here
 
 #### Debug Android Game
-[![Debug Android](http://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](https://www.youtube.com/watch?v=w-baBQbZ5dI)
+[![Debug Android Game](http://img.youtube.com/vi/w-baBQbZ5dI/0.jpg)](https://www.youtube.com/watch?v=w-baBQbZ5dI)
 #### Debug Desktop Game
-[![Debug Android](http://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](https://www.youtube.com/watch?v=6vo2y83unG0)
+[![Debug Desktop Game](http://img.youtube.com/vi/6vo2y83unG0/0.jpg)](https://www.youtube.com/watch?v=6vo2y83unG0)
 
 Below are some screenshots of the development environment. 
 
