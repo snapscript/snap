@@ -17,6 +17,13 @@ The development environment can use hot stand-by agents to improve responsivenes
 
 *java -jar snapd.jar --mode=develop --directory=work --port=4457 --agent-pool=4 --server-only=true*
 
+Videos can be viewed here
+
+#### Debug Android Game
+[![Debug Android](http://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](https://www.youtube.com/watch?v=w-baBQbZ5dI)
+#### Debug Desktop Game
+[![Debug Android](http://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](https://www.youtube.com/watch?v=6vo2y83unG0)
+
 Below are some screenshots of the development environment. 
 
 ##### Breakpoints
