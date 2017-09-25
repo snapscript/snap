@@ -40,10 +40,12 @@ public class FibTest extends TestCase {
    }
    
    public void testBigDecimal() throws Exception {
-      long start = System.currentTimeMillis();
-      System.err.println(fib(BigDecimal.valueOf(30)));
-      long finish = System.currentTimeMillis();
-      System.err.println(finish-start);
+      Timer.timeExecution(new Runnable() {
+         @Override
+         public void run() {
+            System.err.println(fib(BigDecimal.valueOf(30)));
+         }
+      });
    }
 
    public static void main(String[] list) throws Exception {

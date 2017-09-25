@@ -23,4 +23,21 @@ public class Timer {
       System.out.println();
       System.out.println("time=" + (finish - start) + " memory=" + format.format(after - before));
    }
+   
+   public static void timeExecution(Runnable runnable) throws Exception {
+      DecimalFormat format = new DecimalFormat("###,###,###,###,###");
+      ThreadMXBean bean = (ThreadMXBean) ManagementFactory.getThreadMXBean();
+      Thread thread = Thread.currentThread();
+      long id = thread.getId();
+      System.gc();
+      System.gc();
+      Thread.sleep(100);
+      long before = bean.getThreadAllocatedBytes(id);
+      long start = System.currentTimeMillis();
+      runnable.run();
+      long finish = System.currentTimeMillis();
+      long after = bean.getThreadAllocatedBytes(id);
+      System.out.println();
+      System.out.println("time=" + (finish - start) + " memory=" + format.format(after - before));
+   }
 }
