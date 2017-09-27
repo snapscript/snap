@@ -19,16 +19,15 @@ public class SuperInvocation extends Evaluation {
    
    public SuperInvocation(Evaluation function, ArgumentList arguments, Type type) {
       this.extractor = new LocalScopeExtractor(true, false);
-      this.binder = new SuperInvocationBinder(type);
-      this.builder = new SuperInstanceBuilder(type);
       this.reference = new NameReference(function);
+      this.binder = new SuperInvocationBinder(reference, type);
+      this.builder = new SuperInstanceBuilder(type);
       this.arguments = arguments;
    }
    
    @Override
    public Value evaluate(Scope scope, Object left) throws Exception {
-      Type real = scope.getType();
-      String name = reference.getName(scope);   
+      Type real = scope.getType();  
       Scope instance = builder.create(scope, left);
       InvocationDispatcher dispatcher = binder.bind(instance, null);  
       
@@ -38,9 +37,9 @@ public class SuperInvocation extends Evaluation {
          Value array = arguments.create(compound, real); // arguments have no left hand side
          Object[] list = array.getValue();
 
-         return dispatcher.dispatch(name, list);
+         return dispatcher.dispatch(instance, instance, list);
       }
-      return dispatcher.dispatch(name, real);
+      return dispatcher.dispatch(instance, instance, real);
    }
    
 

@@ -9,25 +9,25 @@ import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.core.error.ErrorHandler;
+import org.snapscript.tree.NameReference;
 
-public class ScopeDispatcher implements InvocationDispatcher {
+public class ScopeDispatcher implements InvocationDispatcher<Scope> {
    
-   private final Scope object;
-   private final Scope scope;      
+   private final NameReference reference;    
    
-   public ScopeDispatcher(Scope scope, Object object) {
-      this.object = (Scope)object;
-      this.scope = scope;
+   public ScopeDispatcher(NameReference reference) {
+      this.reference = reference;
    }
 
    @Override
-   public Value dispatch(String name, Object... arguments) throws Exception {
-      Callable<Value> match = bind(name, arguments);
+   public Value dispatch(Scope scope, Scope object, Object... arguments) throws Exception {
+      Callable<Value> match = bind(scope, object, arguments);
       
       if(match == null) {
          Module module = scope.getModule();
          Context context = module.getContext();
          ErrorHandler handler = context.getHandler();
+         String name = reference.getName(scope);
          Type type = object.getType();
          
          if(type != null) {
@@ -38,10 +38,11 @@ public class ScopeDispatcher implements InvocationDispatcher {
       return match.call();          
    }
    
-   private Callable<Value> bind(String name, Object... arguments) throws Exception {
+   private Callable<Value> bind(Scope scope, Scope object, Object... arguments) throws Exception {
       Module module = scope.getModule();
       Context context = module.getContext();
       FunctionBinder binder = context.getBinder();
+      String name = reference.getName(scope);
       Callable<Value> local = binder.bind(scope, object, name, arguments);
       
       if(local == null) {

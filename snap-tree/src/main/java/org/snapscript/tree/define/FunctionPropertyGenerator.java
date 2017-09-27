@@ -9,6 +9,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.snapscript.core.Context;
+import org.snapscript.core.Module;
 import org.snapscript.core.Type;
 import org.snapscript.core.function.AccessorProperty;
 import org.snapscript.core.function.Function;
@@ -16,6 +18,7 @@ import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.Signature;
 import org.snapscript.core.index.PropertyNameExtractor;
 import org.snapscript.core.property.Property;
+import org.snapscript.core.stack.ThreadStack;
 
 public class FunctionPropertyGenerator {
 
@@ -39,6 +42,10 @@ public class FunctionPropertyGenerator {
             done.add(name);
          }
       }
+      Module module = type.getModule();
+      Context context = module.getContext();
+      ThreadStack stack = context.getStack();
+      
       for(Function function : functions) {
          Signature signature = function.getSignature();
          List<Parameter> names = signature.getParameters();
@@ -49,7 +56,7 @@ public class FunctionPropertyGenerator {
             String name = extract(function);
    
             if(done.add(name)) {
-               FunctionAccessor accessor = new FunctionAccessor(function);
+               FunctionAccessor accessor = new FunctionAccessor(function, stack);
                AccessorProperty property = new AccessorProperty(name, type, null, accessor, modifiers & ~MODIFIERS);
          
                properties.add(property);

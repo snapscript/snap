@@ -11,18 +11,16 @@ import org.snapscript.core.platform.Platform;
 import org.snapscript.core.platform.PlatformProvider;
 import org.snapscript.tree.dispatch.InvocationDispatcher;
 
-public class SuperDispatcher implements InvocationDispatcher{
+public class SuperDispatcher implements InvocationDispatcher<Object> {
 
-   private final Scope scope;
    private final Type type;
    
-   public SuperDispatcher(Scope scope, Type type) {
-      this.scope = scope;
+   public SuperDispatcher(Type type) {
       this.type = type;
    }
 
    @Override
-   public Value dispatch(String name, Object... list) throws Exception {
+   public Value dispatch(Scope scope, Object object, Object... list) throws Exception {
       Type real = (Type)list[0];
       Module module = scope.getModule();
       Context context = module.getContext();

@@ -8,40 +8,39 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
 import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.core.error.ErrorHandler;
+import org.snapscript.tree.NameReference;
 
-public class ModuleDispatcher implements InvocationDispatcher {
+public class ModuleDispatcher implements InvocationDispatcher<Module> {
    
-   private final Module module;  
-   private final Object object;
-   private final Scope scope;
+   private final NameReference reference;
    
-   public ModuleDispatcher(Scope scope, Object object) {
-      this.module = (Module)object;
-      this.object = object;
-      this.scope = scope;
+   public ModuleDispatcher(NameReference reference) {
+      this.reference = reference;
    }
 
    @Override
-   public Value dispatch(String name, Object... arguments) throws Exception {   
-      Callable<Value> call = bind(name, arguments);
+   public Value dispatch(Scope scope, Module module, Object... arguments) throws Exception {   
+      Callable<Value> call = bind(scope, module, arguments);
       
       if(call == null) {
          Context context = module.getContext();
          ErrorHandler handler = context.getHandler();
+         String name = reference.getName(scope);
          
          handler.throwInternalException(scope, module, name, arguments);
       }
       return call.call();           
    }
    
-   private Callable<Value> bind(String name, Object... arguments) throws Exception {
-      Scope scope = module.getScope();
+   private Callable<Value> bind(Scope scope, Module module, Object... arguments) throws Exception {
+      Scope inner = module.getScope();
       Context context = module.getContext();
-      FunctionBinder binder = context.getBinder();    
-      Callable<Value> call = binder.bind(scope, module, name, arguments);
+      FunctionBinder binder = context.getBinder();  
+      String name = reference.getName(scope);
+      Callable<Value> call = binder.bind(inner, module, name, arguments);
       
       if(call == null) {
-         return binder.bind(scope, object, name, arguments);
+         return binder.bind(inner, (Object)module, name, arguments);
       }
       return call;
    }

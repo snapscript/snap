@@ -8,22 +8,22 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
 import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.core.error.ErrorHandler;
+import org.snapscript.tree.NameReference;
 
-public class ObjectDispatcher implements InvocationDispatcher {
+public class ObjectDispatcher implements InvocationDispatcher<Object> {
    
-   private final Object object;
-   private final Scope scope;      
+   private final NameReference reference;      
    
-   public ObjectDispatcher(Scope scope, Object object) {
-      this.object = object;
-      this.scope = scope;
+   public ObjectDispatcher(NameReference reference) {
+      this.reference = reference;
    }
 
    @Override
-   public Value dispatch(String name, Object... arguments) throws Exception {
+   public Value dispatch(Scope scope, Object object, Object... arguments) throws Exception {
       Module module = scope.getModule();
       Context context = module.getContext();
       FunctionBinder binder = context.getBinder();
+      String name = reference.getName(scope);
       Callable<Value> call = binder.bind(scope, object, name, arguments);
       
       if(call == null) {

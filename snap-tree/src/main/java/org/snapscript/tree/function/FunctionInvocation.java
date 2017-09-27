@@ -48,7 +48,7 @@ public class FunctionInvocation implements Compilation {
       
       public CompileResult(Evaluation function, ArgumentList arguments, Evaluation... evaluations) {
          this.reference = new NameReference(function);
-         this.dispatcher = new InvocationBinder();
+         this.dispatcher = new InvocationBinder(reference);
          this.offset = new AtomicInteger();
          this.evaluations = evaluations;
          this.arguments = arguments;
@@ -92,7 +92,7 @@ public class FunctionInvocation implements Compilation {
          Value array = arguments.create(scope); 
          Object[] arguments = array.getValue();
          InvocationDispatcher handler = dispatcher.bind(scope, left);
-         Value value = handler.dispatch(name, arguments);
+         Value value = handler.dispatch(scope, left, arguments);
          
          for(Evaluation evaluation : evaluations) {
             Object result = value.getValue();

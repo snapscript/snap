@@ -10,44 +10,44 @@ import org.snapscript.core.Value;
 import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.core.convert.ProxyWrapper;
 import org.snapscript.core.error.ErrorHandler;
+import org.snapscript.tree.NameReference;
 
-public class MapDispatcher implements InvocationDispatcher {
+public class MapDispatcher implements InvocationDispatcher<Map> {
    
-   private final Object object;
-   private final Scope scope;      
+   private final NameReference reference;      
    
-   public MapDispatcher(Scope scope, Object object) {
-      this.object = object;
-      this.scope = scope;
+   public MapDispatcher(NameReference reference) {
+      this.reference = reference;
    }
 
    @Override
-   public Value dispatch(String name, Object... arguments) throws Exception {
-      Callable<Value> call = bind(name, arguments);
+   public Value dispatch(Scope scope, Map map, Object... arguments) throws Exception {
+      Callable<Value> call = bind(scope, map, arguments);
       
       if(call == null) {
          Module module = scope.getModule();
          Context context = module.getContext();
          ErrorHandler handler = context.getHandler();
+         String name = reference.getName(scope);
 
-         handler.throwInternalException(scope, object, name, arguments);
+         handler.throwInternalException(scope, map, name, arguments);
       }
       return call.call();
    }
    
-   private Callable<Value> bind(String name, Object... arguments) throws Exception {
+   private Callable<Value> bind(Scope scope, Map map, Object... arguments) throws Exception {
       Module module = scope.getModule();
       Context context = module.getContext();
       FunctionBinder binder = context.getBinder();
-      Callable<Value> local = binder.bind(scope, object, name, arguments);
+      String name = reference.getName(scope);
+      Callable<Value> local = binder.bind(scope, map, name, arguments);
       
       if(local == null) {
-         Map map = (Map)object;
-         Object object = map.get(name);
+         Object value = map.get(name);
          
-         if(object != null) {
+         if(value != null) {
             ProxyWrapper wrapper = context.getWrapper();
-            Object function = wrapper.fromProxy(object);
+            Object function = wrapper.fromProxy(value);
             Value reference = Value.getTransient(function);
             
             return binder.bind(reference, arguments);

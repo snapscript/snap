@@ -9,41 +9,40 @@ import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.core.error.ErrorHandler;
+import org.snapscript.tree.NameReference;
 
-public class TypeDispatcher implements InvocationDispatcher {
+public class TypeDispatcher implements InvocationDispatcher<Type> {
    
-   private final Object object;
-   private final Scope scope;      
-   private final Type type;
+   private final NameReference reference;
    
-   public TypeDispatcher(Scope scope, Object object) {
-      this.type = (Type)object;
-      this.object = object;
-      this.scope = scope;
+   public TypeDispatcher(NameReference reference) {
+      this.reference = reference;
    }
 
    @Override
-   public Value dispatch(String name, Object... arguments) throws Exception {   
-      Callable<Value> call = bind(name, arguments);
+   public Value dispatch(Scope scope, Type type, Object... arguments) throws Exception {   
+      Callable<Value> call = bind(scope, type, arguments);
       
       if(call == null) {
          Module module = scope.getModule();
          Context context = module.getContext();
          ErrorHandler handler = context.getHandler();
+         String name = reference.getName(scope);
          
          handler.throwInternalException(scope, type, name, arguments);
       }
       return call.call();          
    } 
    
-   private Callable<Value> bind(String name, Object... arguments) throws Exception {
+   private Callable<Value> bind(Scope scope, Type type, Object... arguments) throws Exception {
       Module module = scope.getModule();
       Context context = module.getContext();
-      FunctionBinder binder = context.getBinder();    
+      FunctionBinder binder = context.getBinder();   
+      String name = reference.getName(scope);
       Callable<Value> call = binder.bind(scope, type, name, arguments);
       
       if(call == null) {
-         return binder.bind(scope, object, name, arguments);
+         return binder.bind(scope, (Object)type, name, arguments);
       }
       return call;
    }

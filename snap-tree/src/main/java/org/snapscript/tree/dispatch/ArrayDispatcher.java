@@ -9,26 +9,26 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
 import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.core.error.ErrorHandler;
+import org.snapscript.tree.NameReference;
 import org.snapscript.tree.collection.ArrayBuilder;
 
-public class ArrayDispatcher implements InvocationDispatcher {
+public class ArrayDispatcher implements InvocationDispatcher<Object> {
    
+   private final NameReference reference;
    private final ArrayBuilder builder;
-   private final Object object;
-   private final Scope scope;      
    
-   public ArrayDispatcher(Scope scope, Object object) {
+   public ArrayDispatcher(NameReference reference) {
       this.builder = new ArrayBuilder();
-      this.object = object;
-      this.scope = scope;
+      this.reference = reference;
    }
 
    @Override
-   public Value dispatch(String name, Object... arguments) throws Exception {
+   public Value dispatch(Scope scope, Object object, Object... arguments) throws Exception {
       Module module = scope.getModule();
       Context context = module.getContext();
       FunctionBinder binder = context.getBinder();
       List list = builder.convert(object);
+      String name = reference.getName(scope);
       Callable<Value> call = binder.bind(scope, list, name, arguments);
       
       if(call == null) {
