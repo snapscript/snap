@@ -61,8 +61,10 @@ public class ForStatement implements Compilation {
          try {
             declaration.compile(scope);
             condition.compile(scope);
-            assignment.compile(scope);
             
+            if(assignment != null) {
+               assignment.compile(scope);
+            }
             return body.compile(scope);
          } finally {
             index.reset(size);
