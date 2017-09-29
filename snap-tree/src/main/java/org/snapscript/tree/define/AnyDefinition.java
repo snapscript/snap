@@ -49,7 +49,7 @@ public class AnyDefinition{
       List<Function> functions = result.getFunctions();
       
       if(progress.done(DEFINED)) {
-         Function constructor = builder.create(result, TYPE_CONSTRUCTOR, NewInvocation.class, Type.class);
+         Function constructor = builder.create(result, TYPE_CONSTRUCTOR, NewInvocation.class, Object.class);
          Function hashCode = builder.create(result, METHOD_HASH_CODE, HashCodeInvocation.class);
          Function toString = builder.create(result, METHOD_TO_STRING, ToStringInvocation.class);
          Function equals = builder.create(result, METHOD_EQUALS, EqualsInvocation.class, Object.class);

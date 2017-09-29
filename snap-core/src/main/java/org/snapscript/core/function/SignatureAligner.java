@@ -16,11 +16,12 @@ public class SignatureAligner {
    public Object[] align(Object... list) throws Exception {
       if(signature.isVariable()) {
          List<Parameter> parameters = signature.getParameters();
-         int length = parameters.size();
-         int start = length - 1;
-         int remaining = list.length - start;
+         int require = parameters.size();
+         int actual = list.length;
+         int start = require - 1;
+         int remaining = actual - start;
          
-         if(remaining > 0) {
+         if(remaining >= 0) {
             Object array = new Object[remaining];
             
             for(int i = 0; i < remaining; i++) {
@@ -30,14 +31,16 @@ public class SignatureAligner {
                   throw new InternalStateException("Invalid argument at " + i + " for" + signature, e);
                }
             }
-            list[start] = array;
+            Object[] copy = new Object[require];
+            
+            if(require > list.length) {
+               System.arraycopy(list, 0, copy, 0, list.length);
+            } else {
+               System.arraycopy(list, 0, copy, 0, require);
+            }
+            copy[start] = array;
+            return copy;
          }
-         Object[] copy = new Object[length];
-         
-         for(int i = 0; i < length; i++) {
-            copy[i] = list[i];
-         }
-         return copy;
       }
       return list;
    }
