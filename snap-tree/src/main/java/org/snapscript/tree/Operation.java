@@ -4,16 +4,16 @@ import org.snapscript.core.Type;
 
 public class Operation {
    
-   private final Instruction instruction;
+   private final String name;
    private final Type type;
    
-   public Operation(Instruction instruction, Type type) {
-      this.instruction = instruction;
+   public Operation(Type type, String name) {
+      this.name = name;
       this.type = type;
    }
    
-   public Instruction getInstruction() {
-      return instruction;
+   public String getName() {
+      return name;
    }
    
    public Type getType() {

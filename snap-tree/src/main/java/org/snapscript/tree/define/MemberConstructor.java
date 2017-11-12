@@ -2,7 +2,6 @@ package org.snapscript.tree.define;
 
 import java.util.List;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
