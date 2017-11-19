@@ -13,6 +13,7 @@ import org.snapscript.core.ModuleRegistry;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.TypeLoader;
+import org.snapscript.core.convert.StringBuilder;
 import org.snapscript.core.link.Package;
 import org.snapscript.core.link.PackageDefinition;
 
@@ -84,18 +85,22 @@ public class ScopeExtension {
    }
    
    public void printf(Scope scope, Object value, Object... values)  throws Exception{
-      String text = String.valueOf(value);
+      String text = StringBuilder.create(scope, value);
       String result = String.format(text, values);
       
       System.out.print(result);
    }   
    
    public void print(Scope scope, Object value)  throws Exception{
-      System.out.print(value);
+      String text = StringBuilder.create(scope, value);
+      
+      System.out.print(text);
    }
    
    public void println(Scope scope, Object value) throws Exception{
-      System.out.println(value);
+      String text = StringBuilder.create(scope, value);
+      
+      System.out.println(text);
    }
    
    public void println(Scope scope) throws Exception{
