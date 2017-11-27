@@ -69,6 +69,9 @@ public class ImportPathSelectorTest extends TestCase {
       assertEquals(selector.resolvePath("String").get(0), "java.lang.String");
       assertEquals(selector.resolvePath("String").get(1), "java.io.String");
       assertEquals(selector.resolvePath("String").get(2), "java.util.String");
+      
+      assertEquals(selector.resolveName("java.lang.String"), "lang.String");
+      assertEquals(selector.resolveName("java.util.concurrency.ConcurrentHashMap"), "util.concurrency.ConcurrentHashMap");
    }
 
 }
