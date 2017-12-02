@@ -48,7 +48,7 @@ public class NestedEvalTest extends TestCase {
       Executor executor = new ScheduledThreadPoolExecutor(5);
       Context context = new StoreContext(store, executor);
       Compiler compiler = new ResourceCompiler(context);
-      Timer.timeExecution(compiler.compile("/test.snap")); 
+      Timer.timeExecution("testImports", compiler.compile("/test.snap")); 
    }
    
    private static class MapStore implements Store {

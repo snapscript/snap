@@ -7,7 +7,7 @@ import com.sun.management.ThreadMXBean;
 
 public class Timer {
 
-   public static void timeExecution(Executable executable) throws Exception {
+   public static void timeExecution(String name, Executable executable) throws Exception {
       DecimalFormat format = new DecimalFormat("###,###,###,###,###");
       ThreadMXBean bean = (ThreadMXBean) ManagementFactory.getThreadMXBean();
       Thread thread = Thread.currentThread();
@@ -21,10 +21,10 @@ public class Timer {
       long finish = System.currentTimeMillis();
       long after = bean.getThreadAllocatedBytes(id);
       System.out.println();
-      System.out.println("time=" + (finish - start) + " memory=" + format.format(after - before));
+      System.out.println(name + ": time=" + (finish - start) + " memory=" + format.format(after - before));
    }
    
-   public static void timeExecution(Runnable runnable) throws Exception {
+   public static void timeExecution(String name, Runnable runnable) throws Exception {
       DecimalFormat format = new DecimalFormat("###,###,###,###,###");
       ThreadMXBean bean = (ThreadMXBean) ManagementFactory.getThreadMXBean();
       Thread thread = Thread.currentThread();
@@ -38,6 +38,6 @@ public class Timer {
       long finish = System.currentTimeMillis();
       long after = bean.getThreadAllocatedBytes(id);
       System.out.println();
-      System.out.println("time=" + (finish - start) + " memory=" + format.format(after - before));
+      System.out.println(name + ": time=" + (finish - start) + " memory=" + format.format(after - before));
    }
 }

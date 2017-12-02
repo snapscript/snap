@@ -84,10 +84,6 @@ public class Result {
       return type == CONTINUE;
    }
 
-   public ResultType getType() {
-      return type;
-   }
-
    public <T> T getValue() {
       return (T)value;
    }

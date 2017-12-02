@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 
 import junit.framework.TestCase;
 
+import org.snapscript.core.Value;
+import org.snapscript.tree.operation.NumericOperator;
+
 public class FibTest extends TestCase {
 
    private static final String SOURCE=
@@ -30,26 +33,52 @@ public class FibTest extends TestCase {
    //time=1279 memory=1,586,655,976
    //time=1299 memory=1,586,667,584
    //time=1310 memory=1,586,589,152
-   public void testRecursion() throws Exception {
+   public void testFib() throws Exception {
       System.err.println(SOURCE);
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
       Executable executable = compiler.compile(SOURCE);
-      Timer.timeExecution(executable);
-      Timer.timeExecution(executable);
-      Timer.timeExecution(executable);
+      Timer.timeExecution("testFib", executable);
+      Timer.timeExecution("testFib", executable);
+      Timer.timeExecution("testFib", executable);
    }
    
-   public void testBigDecimal() throws Exception {
-      Timer.timeExecution(new Runnable() {
+   
+   public void testNumericConverter() throws Exception {
+      Timer.timeExecution("testNumericConverter", new Runnable() {
          @Override
          public void run() {
-            System.err.println(fib(BigDecimal.valueOf(30)));
+            for(int i = 0; i < 2692537; i++) {
+               NumericOperator.MULTIPLY.operate(Value.getTransient(i), Value.getTransient(i));
+            }
          }
       });
    }
+   
+   public void testMemoryAllocate() throws Exception {
+      Timer.timeExecution("testMemoryAllocate", new Runnable() {
+         @Override
+         public void run() {
+            long maxim = 1933564016/2;
+            for(double i = 0; i < maxim; i++) {
+               Object b=new byte[12];
+            }
+         }
+      });
+   }
+   
+//   public void testBigDecimal() throws Exception {
+//      Timer.timeExecution(new Runnable() {
+//         @Override
+//         public void run() {
+//            System.err.println(fib(BigDecimal.valueOf(30)));
+//         }
+//      });
+//   }
 
    public static void main(String[] list) throws Exception {
-      new FibTest().testRecursion();
+      new FibTest().testNumericConverter();
+      new FibTest().testFib();
+      new FibTest().testMemoryAllocate();
    }
    
    private static final BigDecimal ONE = BigDecimal.valueOf(1);
@@ -62,5 +91,12 @@ public class FibTest extends TestCase {
       BigDecimal left = fib(dec.subtract(ONE));
       BigDecimal right = fib(dec.subtract(TWO));
       return left.add(right);
+   }
+   
+   static class SomeRandomClass {
+//      @Override
+//      public int hashCode(){
+//         return 1;
+//      }
    }
 }

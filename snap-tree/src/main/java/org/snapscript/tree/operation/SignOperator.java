@@ -43,9 +43,8 @@ public enum SignOperator {
    public static SignOperator resolveOperator(StringToken token) {
       if(token != null) {
          String value = token.getValue();
-         SignOperator[] operators = SignOperator.values();
          
-         for(SignOperator operator : operators) {
+         for(SignOperator operator : VALUES) {
             if(operator.operator.equals(value)) {
                return operator;
             }
@@ -53,4 +52,10 @@ public enum SignOperator {
       }
       return NONE;
    }  
+   
+   private static final SignOperator[] VALUES = {
+      MINUS,
+      PLUS,
+      NONE
+   };
 }

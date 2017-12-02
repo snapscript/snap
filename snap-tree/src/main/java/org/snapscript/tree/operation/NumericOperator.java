@@ -154,9 +154,8 @@ public enum NumericOperator {
    public static NumericOperator resolveOperator(StringToken token) {
       if(token != null) {
          String value = token.getValue();
-         NumericOperator[] operators = NumericOperator.values();
          
-         for(NumericOperator operator : operators) {
+         for(NumericOperator operator : VALUES) {
             if(operator.operator.equals(value)) {
                return operator;
             }
@@ -164,4 +163,21 @@ public enum NumericOperator {
       }
       return null;
    }   
+   
+   private static final NumericOperator[] VALUES = {
+      PLUS,
+      MINUS,
+      DIVIDE,
+      MULTIPLY,
+      MODULUS,
+      AND,
+      OR,
+      XOR,
+      SHIFT_LEFT,
+      SHIFT_RIGHT,
+      UNSIGNED_SHIFT_RIGHT,
+      POWER,
+      COALESCE,
+      NONE
+   };
 }

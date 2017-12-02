@@ -34,11 +34,12 @@ public enum ValueComparator {
       @Override
       public int compare(Value left, Value right) {
          String primary = left.getString();
-         char secondary = right.getCharacter();
          int length = primary.length();
          
          if(length > 0) {
+            char secondary = right.getCharacter();
             char value = primary.charAt(0);
+            
             return Character.compare(value, secondary);
          }
          return -1;
@@ -47,12 +48,13 @@ public enum ValueComparator {
    CHARACTER_STRING {
       @Override
       public int compare(Value left, Value right) {
-         char primary = left.getCharacter();
          String secondary = right.getString();
          int length = secondary.length();
          
          if(length > 0) {
+            char primary = left.getCharacter();
             char value = secondary.charAt(0);
+            
             return Character.compare(primary, value);
          }
          return 1;

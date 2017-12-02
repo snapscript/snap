@@ -60,13 +60,25 @@ public enum ModifierType {
    }
    
    public static ModifierType resolveModifier(String token) {
-      ModifierType[] modifiers = ModifierType.values();
-      
-      for(ModifierType modifier : modifiers){
-         if(modifier.token.equals(token)) {
-            return modifier;
+      if(token != null) {
+         for(ModifierType modifier : VALUES){
+            if(modifier.token.equals(token)) {
+               return modifier;
+            }
          }
       }
       return null;
    }
+   
+   private static final ModifierType[] VALUES = {
+      STATIC,
+      OVERRIDE,
+      PRIVATE,
+      PUBLIC,
+      PROTECTED,
+      CONSTANT,
+      VARIABLE,
+      ABSTRACT,
+      VARARGS
+   };
 }

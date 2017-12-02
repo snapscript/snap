@@ -23,9 +23,8 @@ public enum ConditionalOperator {
   public static ConditionalOperator resolveOperator(StringToken token){
      if(token != null) {
         String value = token.getValue();
-        ConditionalOperator[] operators = ConditionalOperator.values();
         
-        for(ConditionalOperator operator : operators) {
+        for(ConditionalOperator operator : VALUES) {
            if(operator.operator.equals(value)) {
               return operator;
            }
@@ -33,4 +32,9 @@ public enum ConditionalOperator {
      }
      return null;
   }
+  
+  private static final ConditionalOperator[] VALUES = {
+     AND,
+     OR
+  };
 }

@@ -92,8 +92,8 @@ public class ImportResourceTest extends TestCase {
       Store store = new MapStore(sources);
       Context context = new StoreContext(store, null); 
       Compiler compiler = new ResourceCompiler(context);
-      Timer.timeExecution(compiler.compile("/main.snap"));
-      Timer.timeExecution(compiler.compile("/launch.snap"));
+      Timer.timeExecution("testImports", compiler.compile("/main.snap"));
+      Timer.timeExecution("testImports", compiler.compile("/launch.snap"));
    }
    
    private static class MapStore implements Store {

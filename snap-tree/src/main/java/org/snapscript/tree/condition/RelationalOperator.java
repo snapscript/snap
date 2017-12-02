@@ -158,9 +158,8 @@ public enum RelationalOperator {
    public static RelationalOperator resolveOperator(StringToken token) {
       if(token != null) {
          String value = token.getValue();
-         RelationalOperator[] operators = RelationalOperator.values();
-         
-         for(RelationalOperator operator : operators) {
+
+         for(RelationalOperator operator : VALUES) {
             if(operator.operator.equals(value)) {
                return operator;
             }
@@ -168,4 +167,19 @@ public enum RelationalOperator {
       }
       return null;
    }   
+   
+   private static final RelationalOperator[] VALUES = {
+      EQUALS,
+      NOT_EQUALS,
+      LESS,
+      GREATER,
+      LESS_OR_EQUALS,
+      GREATER_OR_EQUALS,
+      INSTANCE_OF,
+      NOT_INSTANCE_OF,
+      SAME,
+      NOT_SAME,
+      MATCH,
+      NOT_MATCH
+   };
 }

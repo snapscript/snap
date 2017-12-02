@@ -60,9 +60,8 @@ public enum AssignmentOperator {
    public static AssignmentOperator resolveOperator(StringToken token) {
       if(token != null) {
          String value = token.getValue();
-         AssignmentOperator[] operators = AssignmentOperator.values();
          
-         for(AssignmentOperator operator : operators) {
+         for(AssignmentOperator operator : VALUES) {
             if(operator.symbol.equals(value)) {
                return operator;
             }
@@ -70,4 +69,20 @@ public enum AssignmentOperator {
       }
       return null;
    }
+   
+   private static final AssignmentOperator[] VALUES = {
+      EQUAL,
+      PLUS_EQUAL,
+      MINUS_EQUAL,
+      POWER_EQUAL,   
+      MLTIPLY_EQUAL,
+      MODULUS_EQUAL, 
+      DIVIDE_EQUAL,  
+      AND_EQUAL,   
+      OR_EQUAL,
+      XOR_EQUAL,    
+      SHIFT_RIGHT_EQUAL,
+      SHIFT_LEFT_EQUAL,
+      UNSIGNED_SHIFT_RIGHT_EQUAL
+   };
 }

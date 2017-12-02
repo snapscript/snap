@@ -19,7 +19,7 @@ import org.snapscript.core.ExpressionEvaluator;
 import org.snapscript.core.MapModel;
 import org.snapscript.core.Model;
 import org.snapscript.core.Path;
-import org.snapscript.core.ResultType;
+import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.ScopeMerger;
 import org.snapscript.core.Statement;
@@ -41,11 +41,11 @@ public class EvaluationTest extends TestCase {
       model.put("x", 12d);
       model.put("y", 5d);
 
-      assertEquals(executeScript("script18.snap", model), ResultType.NORMAL);
-      assertEquals(executeScript("script14.snap", model), ResultType.NORMAL);
-      assertEquals(executeScript("script17.snap", model), ResultType.NORMAL);
-      assertEquals(executeScript("script16.snap", model), ResultType.NORMAL);
-      assertEquals(executeScript("script15.snap", model), ResultType.NORMAL);
+      assertTrue(executeScript("script18.snap", model).isNormal());
+      assertTrue(executeScript("script14.snap", model).isNormal());
+      assertTrue(executeScript("script17.snap", model).isNormal());
+      assertTrue(executeScript("script16.snap", model).isNormal());
+      assertTrue(executeScript("script15.snap", model).isNormal());
       // assertEquals(evaluate("x=12.0d", "expression", model), 12.0d);
       assertEquals(evaluate("[]", "expression", model), Arrays.asList());
       assertEquals(evaluate("\"x\"+\"y\"", "expression", model), "xy");
@@ -58,12 +58,12 @@ public class EvaluationTest extends TestCase {
       assertEquals(evaluate("null==null", "expression", model), Boolean.TRUE);
       // assertEquals(evaluate("str=\"some string variable\"", "expression",
       // model), "some string variable");
-      assertEquals(statement("{var result=\"\"; result+=\"shell result=\"+x+\",\";}", "statement", model), ResultType.NORMAL);
+      assertTrue(statement("{var result=\"\"; result+=\"shell result=\"+x+\",\";}", "statement", model).isNormal());
       // assertEquals(evaluate("result", "expression", model),
       // "shell result=12.0,");
-      assertEquals(statement("{var tt=\"\";}", "statement", model), ResultType.NORMAL);
+      assertTrue(statement("{var tt=\"\";}", "statement", model).isNormal());
       // assertEquals(evaluate("tt", "expression", model), "");
-      assertEquals(statement("{var tt=\"\";tt+=\"a\";tt+=1;out.println(tt);}", "statement", model), ResultType.NORMAL);
+      assertTrue(statement("{var tt=\"\";tt+=\"a\";tt+=1;out.println(tt);}", "statement", model).isNormal());
       // assertEquals(evaluate("tt", "expression", model), "a1");
       assertEquals(evaluate("str+\"blah\"", "expression", model), "some string variableblah");
       // assertEquals(evaluate("str=\"some string variable\"", "expression",
@@ -146,11 +146,11 @@ public class EvaluationTest extends TestCase {
       assertEquals(evaluate("new String(\"some stuff\")", "expression", model), "some stuff");
       assertEquals(evaluate("new String(\"new str\")", "expression", model), "new str");
       // assertEquals(evaluate("str", "expression", model), "new str");
-      assertEquals(statement("var r=1;", "statement", model), ResultType.NORMAL);
+      assertTrue(statement("var r=1;", "statement", model).isNormal());
       // assertEquals(evaluate("r", "expression", model), 1);
       // assertEquals(statement("r=3;", "statement", model), ResultFlow.NORMAL);
       // assertEquals(evaluate("r", "expression", model), 3);
-      assertEquals(statement("{var a=1;var b=2;b=a*10;a=12;b++;}", "compound-statement", model), ResultType.NORMAL);
+      assertTrue(statement("{var a=1;var b=2;b=a*10;a=12;b++;}", "compound-statement", model).isNormal());
       // assertEquals(evaluate("a", "expression", model), 12);
       // assertEquals(evaluate("b", "expression", model), 11d);
       // assertEquals(statement("if(a>2){a++;}", "statement", model),
@@ -165,37 +165,37 @@ public class EvaluationTest extends TestCase {
       // assertEquals(statement("if(a>20d){a++;}else if(a==12d){a--;}else{a*=2;}",
       // "statement", model), ResultFlow.NORMAL);
       // assertEquals(evaluate("a", "expression", model), 22d);
-      assertEquals(statement("break;", "statement", model), ResultType.BREAK);
-      assertEquals(statement("continue;", "statement", model), ResultType.CONTINUE);
+      assertTrue(statement("break;", "statement", model).isBreak());
+      assertTrue(statement("continue;", "statement", model).isContinue());
       // assertEquals(statement("while(a++<100000d){out.println(a);}",
       // "statement", model), ResultFlow.NORMAL);
       // assertEquals(statement("while(a>0d){var sb=new StringBuilder();sb.append(\"a=\");sb.append(a--);out.println(sb);}",
       // "statement", model), ResultFlow.NORMAL);
-      assertEquals(statement("for(var i=0d;i<10d;i++){out.println(i);}", "statement", model), ResultType.NORMAL);
-      assertEquals(statement("for(var i=0d;i<10d;i++){if(i==5d)break;out.println(i);}", "statement", model), ResultType.NORMAL);
-      assertEquals(statement("for(var i=0d;i<10d;i++){if(i==5d)continue;out.println(i);}", "statement", model), ResultType.NORMAL);
-      assertEquals(statement("for(var i in [2,4,6,8]){out.println(i);}", "statement", model), ResultType.NORMAL);
-      assertEquals(statement("{var list=[1,2,3,4,5,77,88,99,111];for(var i in list)out.println(i);}", "statement", model), ResultType.NORMAL);
-      assertEquals(statement("for(var i in {a:1,b:2,c:3}.entrySet()){out.println(i.getKey());}", "statement", model), ResultType.NORMAL);
-      assertEquals(statement("for(var i in {a:1,b:2,c:3}){out.println(i.getKey());}", "statement", model), ResultType.NORMAL);
-      assertEquals(statement("for(var i in {a:1,b:2,c:3}){out.println(i.getKey());}", "statement", model), ResultType.NORMAL);
-      assertEquals(statement("function x(a,b,c){out.println(b);}x(1,2,3);", "script", model), ResultType.NORMAL);
-      assertEquals(statement("return;", "return-statement", model), ResultType.RETURN);
-      assertEquals(statement("function one(){return 1;}var xx=one();", "script", model), ResultType.NORMAL);
+      assertTrue(statement("for(var i=0d;i<10d;i++){out.println(i);}", "statement", model).isNormal());
+      assertTrue(statement("for(var i=0d;i<10d;i++){if(i==5d)break;out.println(i);}", "statement", model).isNormal());
+      assertTrue(statement("for(var i=0d;i<10d;i++){if(i==5d)continue;out.println(i);}", "statement", model).isNormal());
+      assertTrue(statement("for(var i in [2,4,6,8]){out.println(i);}", "statement", model).isNormal());
+      assertTrue(statement("{var list=[1,2,3,4,5,77,88,99,111];for(var i in list)out.println(i);}", "statement", model).isNormal());
+      assertTrue(statement("for(var i in {a:1,b:2,c:3}.entrySet()){out.println(i.getKey());}", "statement", model).isNormal());
+      assertTrue(statement("for(var i in {a:1,b:2,c:3}){out.println(i.getKey());}", "statement", model).isNormal());
+      assertTrue(statement("for(var i in {a:1,b:2,c:3}){out.println(i.getKey());}", "statement", model).isNormal());
+      assertTrue(statement("function x(a,b,c){out.println(b);}x(1,2,3);", "script", model).isNormal());
+      assertTrue(statement("return;", "return-statement", model).isReturn());
+      assertTrue(statement("function one(){return 1;}var xx=one();", "script", model).isNormal());
 
-      assertEquals(executeScript("script1.snap", new HashMap<String, Object>(model)), ResultType.NORMAL);
-      assertEquals(executeScript("script9.snap", new HashMap<String, Object>(model)), ResultType.NORMAL);
-      assertEquals(executeScript("script10.snap", new HashMap<String, Object>(model)), ResultType.NORMAL);
-      assertEquals(executeScript("script11.snap", new HashMap<String, Object>(model)), ResultType.NORMAL);
-      assertEquals(executeScript("script12.snap", new HashMap<String, Object>(model)), ResultType.NORMAL);
+      assertTrue(executeScript("script1.snap", new HashMap<String, Object>(model)).isNormal());
+      assertTrue(executeScript("script9.snap", new HashMap<String, Object>(model)).isNormal());
+      assertTrue(executeScript("script10.snap", new HashMap<String, Object>(model)).isNormal());
+      assertTrue(executeScript("script11.snap", new HashMap<String, Object>(model)).isNormal());
+      assertTrue(executeScript("script12.snap", new HashMap<String, Object>(model)).isNormal());
    }
 
-   public static Object executeScript(String source, Map<String, Object> model) throws Exception {
+   public static Result executeScript(String source, Map<String, Object> model) throws Exception {
       String script = ClassPathReader.load("/script/" + source);
       return statement(script, "script", model);
    }
 
-   public static ResultType statement(String source, String grammar, Map<String, Object> map) throws Exception {
+   public static Result statement(String source, String grammar, Map<String, Object> map) throws Exception {
       Model model = new MapModel(map);
       Store store = new ClassPathStore();
       Context context = new StoreContext(store);
@@ -210,7 +210,7 @@ public class EvaluationTest extends TestCase {
       Statement statement = (Statement) builder.assemble(token, new Path("xx"));
       statement.define(scope);
       statement.compile(scope);
-      return statement.execute(scope).getType();
+      return statement.execute(scope);
    }
 
    public static Object evaluate(String source, String grammar, Map<String, Object> map) throws Exception {

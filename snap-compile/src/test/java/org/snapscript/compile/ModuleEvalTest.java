@@ -39,7 +39,7 @@ public class ModuleEvalTest extends TestCase {
       Store store = new MapStore(sources);
       Context context = new StoreContext(store, null); 
       Compiler compiler = new ResourceCompiler(context);
-      Timer.timeExecution(compiler.compile("/run.snap"));
+      Timer.timeExecution("testModuleEval", compiler.compile("/run.snap"));
    }
    
    private static class MapStore implements Store {

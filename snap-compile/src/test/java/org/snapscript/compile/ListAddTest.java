@@ -28,9 +28,9 @@ public class ListAddTest extends TestCase {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
       System.err.println(SOURCE);
       Executable executable = compiler.compile(SOURCE);
-      Timer.timeExecution(executable); 
-      Timer.timeExecution(executable); 
-      Timer.timeExecution(executable); 
+      Timer.timeExecution("testListAdd", executable); 
+      Timer.timeExecution("testListAdd", executable); 
+      Timer.timeExecution("testListAdd", executable); 
    }
 
 }

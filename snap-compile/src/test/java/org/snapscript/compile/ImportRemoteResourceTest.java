@@ -107,8 +107,8 @@ public class ImportRemoteResourceTest extends TestCase {
          Store store = new RemoteStore(address);
          Context context = new StoreContext(store, null);
          Compiler compiler = new ResourceCompiler(context);
-         Timer.timeExecution(compiler.compile("/main.snap"));
-         Timer.timeExecution(compiler.compile("/launch.snap"));
+         Timer.timeExecution("testRemoteImports", compiler.compile("/main.snap"));
+         Timer.timeExecution("testRemoteImports", compiler.compile("/launch.snap"));
       }finally{
          server.stop();
       }

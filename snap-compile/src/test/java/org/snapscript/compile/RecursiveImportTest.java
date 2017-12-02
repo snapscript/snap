@@ -66,8 +66,8 @@ public class RecursiveImportTest extends TestCase {
       Executor executor = new ScheduledThreadPoolExecutor(1);
       Context context = new StoreContext(store, executor);
       Compiler compiler = new ResourceCompiler(context);
-      Timer.timeExecution(compiler.compile("/test.snap"));
-      Timer.timeExecution(compiler.compile("/test2.snap"));      
+      Timer.timeExecution("testImports", compiler.compile("/test.snap"));
+      Timer.timeExecution("testImports", compiler.compile("/test2.snap"));      
    }
    
    private static class MapStore implements Store {
