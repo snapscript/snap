@@ -16,7 +16,10 @@ public abstract class ValueCalculator implements NumericCalculator {
    }
 
    public Value coalesce(Value left, Value right) {
-      return left == null ? right : left;
+      Object primary = left.getValue();
+      Object secondary = right.getValue();
+      
+      return primary == null ? right : left;
    }
    
    public Value power(Value left, Value right) {

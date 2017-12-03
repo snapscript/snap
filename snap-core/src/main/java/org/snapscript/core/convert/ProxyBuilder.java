@@ -13,28 +13,39 @@ public class ProxyBuilder {
    }
    
    public Object create(Instance instance) {
-      Module module = instance.getModule();
-      Context context = module.getContext();
-      ProxyWrapper wrapper = context.getWrapper();
-      
-      return wrapper.asProxy(instance);  
+      if(instance != null) {
+         Module module = instance.getModule();
+         Context context = module.getContext();
+         ProxyWrapper wrapper = context.getWrapper();
+         
+         return wrapper.asProxy(instance);  
+      }
+      return instance;
    }
    
    public Object create(Function function) {
       Type type = function.getType();
-      Module module = type.getModule();
-      Context context = module.getContext();
-      ProxyWrapper wrapper = context.getWrapper();
       
-      return wrapper.asProxy(function);  
+      if(type != null) {
+         Module module = type.getModule();
+         Context context = module.getContext();
+         ProxyWrapper wrapper = context.getWrapper();
+         
+         return wrapper.asProxy(function);
+      }
+      return function;
    }
    
    public Object create(Function function, Class require) {
       Type type = function.getType();
-      Module module = type.getModule();
-      Context context = module.getContext();
-      ProxyWrapper wrapper = context.getWrapper();
       
-      return wrapper.asProxy(function, require);  
+      if(type != null) {
+         Module module = type.getModule();
+         Context context = module.getContext();
+         ProxyWrapper wrapper = context.getWrapper();
+         
+         return wrapper.asProxy(function, require); 
+      }
+      return function;
    }
 }

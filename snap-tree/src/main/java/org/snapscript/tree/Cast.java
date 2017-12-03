@@ -9,15 +9,16 @@ import org.snapscript.core.Value;
 import org.snapscript.core.convert.ConstraintConverter;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.tree.constraint.Constraint;
+import org.snapscript.tree.constraint.ConstraintReference;
 
 public class Cast extends Evaluation {
 
+   private final ConstraintReference reference;
    private final Evaluation evaluation;
-   private final Constraint constraint;
    
    public Cast(Evaluation evaluation, Constraint constraint) {
+      this.reference = new ConstraintReference(constraint);
       this.evaluation = evaluation;
-      this.constraint = constraint;
    }
    
    @Override
@@ -27,13 +28,14 @@ public class Cast extends Evaluation {
    
    @Override
    public Value evaluate(Scope scope, Object left) throws Exception {
-      Value value = constraint.evaluate(scope, left);
-      Type type = value.getValue();
+      Value value = evaluation.evaluate(scope, left);
+      Type type = reference.getConstraint(scope);
+      Object object = value.getValue();
       Module module = scope.getModule();
       Context context = module.getContext();
       ConstraintMatcher matcher = context.getMatcher();
       ConstraintConverter converter = matcher.match(type);
-      Object result = converter.convert(value);
+      Object result = converter.convert(object);
       
       return Value.getTransient(result, type);
    }

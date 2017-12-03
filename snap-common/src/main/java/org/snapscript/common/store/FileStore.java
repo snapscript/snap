@@ -9,43 +9,46 @@ import java.io.OutputStream;
 public class FileStore implements Store {
 
    private final ClassPathStore store;
-   private final File root;
+   private final File[] roots;
    
-   public FileStore(File root) {
+   public FileStore(File... roots) {
       this.store = new ClassPathStore();
-      this.root = root;
+      this.roots = roots;
    }
    
    @Override
    public InputStream getInputStream(String path) {
-      File resource = new File(root, path);
-      
-      if(!resource.exists()) {
-         return store.getInputStream(path);
+      for(File root : roots) {
+         File resource = new File(root, path);
+         
+         if(resource.exists()) {
+            try {
+               return new FileInputStream(resource);
+            } catch(Exception e) {
+               throw new StoreException("Could not read resource '" + path + "'", e);
+            }
+         }
       }
-      try {
-         return new FileInputStream(resource);
-      } catch(Exception e) {
-         throw new StoreException("Could not read resource '" + path + "'", e);
-      }
+      return store.getInputStream(path);
    }
 
    @Override
    public OutputStream getOutputStream(String path) {
-      File resource = new File(root, path);
-      
-      if(resource.exists()) {
-         resource.delete();
+      for(File root : roots) {
+         File resource = new File(root, path);
+         
+         if(resource.exists()) {
+            resource.delete();
+         }
+         if(!root.exists()) {
+            root.mkdirs();
+         }
+         try {
+            return new FileOutputStream(resource);
+         } catch(Exception e) {
+            throw new StoreException("Could not write resource '" + path + "'", e);
+         }
       }
-      File parent = resource.getParentFile();
-      
-      if(parent.exists()) {
-         parent.mkdirs();
-      }
-      try {
-         return new FileOutputStream(resource);
-      } catch(Exception e) {
-         throw new StoreException("Could not write resource '" + path + "'", e);
-      }
+      return store.getOutputStream(path);
    }
 }

@@ -100,7 +100,8 @@ argument = { <literal> |
            } | 
 			 <choice> | 
 			 <conditional> | 
-			 <calculation> ;
+			 <calculation> |
+			 <cast>;
 
 argument-list = <argument>*(','<argument>);
 
@@ -140,6 +141,7 @@ conditional = {<combination> | <conditional-operand> | '('<conditional>')'};
 combination = {<conditional> | <conditional-operand>}?_<conditional-operator>?_<conditional>;
 
 choice = <conditional>'?'<expression>':'<expression>;
+cast = <expression>?_'as'_<constraint>;
   
 # ?? is done in calculation 
 null-coalesce = <expression>'??'<expression>;
@@ -195,7 +197,7 @@ statement = { <control-statement> |
 			  <terminal-statement> };
 
 assignment-variable = [identifier];
-assignment-expression = (<value-operand> | <reference> | <calculation> | <choice> | <conditional>);
+assignment-expression = (<value-operand> | <reference> | <calculation> | <choice> | <conditional> | <cast>);
 assignment-statement = <reference><assignment-operator><assignment-expression>';';
   
 declaration-modifier = {'var' | 'const'};
@@ -298,7 +300,7 @@ full-qualifier = [qualifier]*('.'[qualifier]);
 wild-qualifier = [qualifier]*('.'[qualifier])'.*';
 
 import-static = 'import static'_(<full-qualifier> | <wild-qualifier>)';';
-import = 'import'_(<full-qualifier> | <wild-qualifier>)?(' as '[type])';';
+import = 'import'_(<full-qualifier> | <wild-qualifier>)?(_'as'_[type])';';
    
 module-name = [identifier];
 module-import = <import>;
