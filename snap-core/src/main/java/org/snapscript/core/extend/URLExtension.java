@@ -7,6 +7,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
+import org.snapscript.common.Consumer;
+
 public class URLExtension {
    
    private static final String GET = "GET";
@@ -154,6 +156,34 @@ public class URLExtension {
       return target;
    }
    
+   public URL success(URL target, Runnable task) throws IOException {
+      if(isSuccess(target)) {
+         task.run();
+      }
+      return target;
+   }
+   
+   public URL success(URL target, Consumer<URL> consumer) throws IOException {
+      if(isSuccess(target)) {
+         consumer.consume(target);
+      }
+      return target;
+   }
+   
+   public URL failure(URL target, Runnable task) throws IOException {
+      if(!isSuccess(target)) {
+         task.run();
+      }
+      return target;
+   }
+   
+   public URL failure(URL target, Consumer<URL> consumer) throws IOException {
+      if(!isSuccess(target)) {
+         consumer.consume(target);
+      }
+      return target;
+   }
+   
    public InputStream response(URL target) throws IOException {
       URLConnection connection = target.openConnection();
       HttpURLConnection request = (HttpURLConnection)connection;
@@ -170,5 +200,13 @@ public class URLExtension {
       HttpURLConnection request = (HttpURLConnection)connection;
       
       return request.getResponseCode();
+   }
+   
+   public boolean isSuccess(URL target) throws IOException {
+      URLConnection connection = target.openConnection();
+      HttpURLConnection request = (HttpURLConnection)connection;
+      int status = request.getResponseCode();
+      
+      return status  >= 200 && status < 300;
    }
 }
