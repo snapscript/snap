@@ -43,7 +43,11 @@ public class VariableArgumentTest extends TestCase {
    "   }\n"+
    "   return sum;\n"+
    "}\n";
-
+   
+   private static final String SOURCE_5 =
+   "function fun(a, b...) {\n"+
+   "   println(a);\n"+
+   "}\n";
          
    public void testVariableArguments() throws Exception {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
@@ -81,5 +85,11 @@ public class VariableArgumentTest extends TestCase {
       new VariableArgumentTest().testVariableArgumentsWithConstraint();
       new VariableArgumentTest().testVariableArgumentsWithFailure();
       new VariableArgumentTest().testVariableArgumentsSum();
+   }
+   
+   public void testVariableArgumentDeclaration() throws Exception {
+      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
+      Executable executable = compiler.compile(SOURCE_5);
+      executable.execute();
    }
 }

@@ -21,7 +21,7 @@ public class FunctionReferenceBuilder {
    private final Parameter parameter;
    
    public FunctionReferenceBuilder() {
-      this.parameter = new Parameter(DEFAULT_PARAMETER, null, true);
+      this.parameter = new Parameter(DEFAULT_PARAMETER, null, false, true);
    }
    
    public Function create(Module module, Object value, String method) throws Exception {

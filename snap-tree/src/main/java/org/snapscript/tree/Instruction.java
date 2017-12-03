@@ -183,6 +183,8 @@ public enum Instruction {
    MAP_CONSTRAINT(MapConstraint.class, "map-constraint"),   
    CONSTRAINT(Constraint.class, "constraint"),   
    VARIABLE_ARGUMENT(Modifier.class, "variable-argument"),
+   PARAMETER_MODIFIER(Modifier.class, "parameter-modifier"),
+   PARAMETER_MODIFIER_LIST(ModifierList.class, "parameter-modifier-list"),
    PARAMETER(ParameterDeclaration.class, "parameter-declaration"),
    PARAMETER_LIST(ParameterList.class, "parameter-list"),
    CLOSURE_PARAMETER_LIST(ClosureParameterList.class, "closure-parameter-list"),

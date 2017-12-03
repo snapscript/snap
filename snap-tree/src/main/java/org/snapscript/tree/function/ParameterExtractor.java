@@ -87,12 +87,19 @@ public class ParameterExtractor {
                   throw new InternalStateException("Parameter '" + name + "...' does not match constraint '" + type + "'");
                }
             }
-            return Local.getReference(value, name, type);
+            return create(scope, value, parameter);  
          }
       }
-      if(!checker.compatible(scope, value, type)) {
-         throw new InternalStateException("Parameter '" + name + "' does not match constraint '" + type + "'");
+      return create(scope, value, parameter);   
+   }
+   
+   private Local create(Scope scope, Object value, Parameter parameter) throws Exception {
+      Type type = parameter.getType();
+      String name = parameter.getName();
+      
+      if(parameter.isConstant()) {
+         return Local.getConstant(value, name, type);
       }
-      return Local.getReference(value, name, type);         
+      return Local.getReference(value, name, type);       
    }
 }

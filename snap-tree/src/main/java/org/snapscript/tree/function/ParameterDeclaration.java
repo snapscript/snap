@@ -7,6 +7,8 @@ import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.tree.Modifier;
+import org.snapscript.tree.ModifierChecker;
+import org.snapscript.tree.ModifierList;
 import org.snapscript.tree.NameReference;
 import org.snapscript.tree.annotation.AnnotationList;
 import org.snapscript.tree.constraint.Constraint;
@@ -14,25 +16,27 @@ import org.snapscript.tree.constraint.Constraint;
 public class ParameterDeclaration {
    
    private AnnotationList annotations;
+   private ModifierChecker checker;
    private NameReference reference;
    private Constraint constraint;
    private Parameter parameter;
    private Modifier modifier;
    
-   public ParameterDeclaration(AnnotationList annotations, Evaluation identifier){
-      this(annotations, identifier, null, null);
+   public ParameterDeclaration(AnnotationList annotations, ModifierList modifiers, Evaluation identifier){
+      this(annotations, modifiers, identifier, null, null);
    }
    
-   public ParameterDeclaration(AnnotationList annotations, Evaluation identifier, Constraint constraint){
-      this(annotations, identifier, null, constraint);
+   public ParameterDeclaration(AnnotationList annotations, ModifierList modifiers, Evaluation identifier, Constraint constraint){
+      this(annotations, modifiers, identifier, null, constraint);
    }
    
-   public ParameterDeclaration(AnnotationList annotations, Evaluation identifier, Modifier modifier){
-      this(annotations, identifier, modifier, null);
+   public ParameterDeclaration(AnnotationList annotations, ModifierList modifiers, Evaluation identifier, Modifier modifier){
+      this(annotations, modifiers, identifier, modifier, null);
    }
    
-   public ParameterDeclaration(AnnotationList annotations, Evaluation identifier, Modifier modifier, Constraint constraint){
+   public ParameterDeclaration(AnnotationList annotations, ModifierList modifiers, Evaluation identifier, Modifier modifier, Constraint constraint){
       this.reference = new NameReference(identifier);
+      this.checker = new ModifierChecker(modifiers);
       this.annotations = annotations;
       this.constraint = constraint;
       this.modifier = modifier;
@@ -51,6 +55,7 @@ public class ParameterDeclaration {
    
    private Parameter create(Scope scope) throws Exception {
       String name = reference.getName(scope);
+      boolean constant = checker.isConstant();
       
       if(constraint != null && name != null) {
          Value value = constraint.evaluate(scope, null);
@@ -59,8 +64,8 @@ public class ParameterDeclaration {
          if(type == null) {
             throw new InternalStateException("Constraint for '" +name + "' has not been imported");
          }
-         return new Parameter(name, type, modifier != null);
+         return new Parameter(name, type, constant, modifier != null);
       }
-      return new Parameter(name, null, modifier != null);
+      return new Parameter(name, null, constant, modifier != null);
    }
 }

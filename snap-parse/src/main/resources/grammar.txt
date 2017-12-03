@@ -239,7 +239,9 @@ try-statement = <try-block>? <catch-block-list>? <finally-block>};
 variable-argument = '...';
 
 parameter-name = [identifier];
-parameter-declaration = ?<annotation-list><parameter-name>?<variable-argument>?(':'<constraint>);
+parameter-modifier = {'const' | 'var'};
+parameter-modifier-list = ?<parameter-modifier>;
+parameter-declaration = ?<annotation-list><parameter-modifier-list>?_<parameter-name>?<variable-argument>?(':'<constraint>);
 parameter-list = ?(<parameter-declaration>*(','<parameter-declaration>));
 
 closure-parameter-list = '('<parameter-list>')' | ?<parameter-declaration>;

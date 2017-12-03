@@ -13,7 +13,7 @@ public class ParameterBuilder {
    }
    
    public Parameter create(Type type, String name) {
-      return new Parameter(name, type);
+      return new Parameter(name, type, false);
    }
 
    public Parameter create(Type type, int index) {
@@ -26,6 +26,6 @@ public class ParameterBuilder {
       if(index > PREFIX.length) {
          prefix += index / PREFIX.length;
       }
-      return new Parameter(prefix, type, variable);
+      return new Parameter(prefix, type, false, variable);
    }
 }

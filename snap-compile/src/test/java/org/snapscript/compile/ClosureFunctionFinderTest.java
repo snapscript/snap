@@ -28,7 +28,8 @@ public class ClosureFunctionFinderTest extends TestCase {
       Path path = new Path("/");
       Module module = new ContextModule(context, null, path, "yy", 1);
       FunctionFinder finder = new FunctionFinder(loader);
-      Signature signature = new FunctionSignature(Arrays.asList(new Parameter("n", loader.loadType(String.class))), module, null, false);
+      Parameter parameter = new Parameter("n", loader.loadType(String.class), false);
+      Signature signature = new FunctionSignature(Arrays.asList(parameter), module, null, false);
       Type type = new InvocationFunction(signature, null, null, null, "xx").getHandle();
       Function function = finder.find(type);
       

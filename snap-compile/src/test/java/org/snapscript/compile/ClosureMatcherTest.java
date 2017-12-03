@@ -33,7 +33,8 @@ public class ClosureMatcherTest extends TestCase {
       ConstraintMatcher matcher = context.getMatcher();
       TypeLoader loader = context.getLoader();
       FunctionFinder finder = new FunctionFinder(loader);
-      Signature signature = new FunctionSignature(Arrays.asList(new Parameter("n", loader.loadType(String.class))), module, null, false);
+      Parameter parameter = new Parameter("n", loader.loadType(String.class), false);
+      Signature signature = new FunctionSignature(Arrays.asList(parameter), module, null, false);
       Type type = new EmptyFunction(signature).getHandle();
       ConstraintConverter converter = matcher.match(type);
       Function function = new InvocationFunction(signature, null, type, null, "xx");

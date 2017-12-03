@@ -61,7 +61,7 @@ public class FunctionSignature implements Signature {
    
    @Override
    public boolean isAbsolute() {
-      return absolute; // does it have absolute parameters
+      return absolute; // array parameters are not absolute
    }
    
    @Override
