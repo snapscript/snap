@@ -38,13 +38,49 @@ public abstract class Value {
       return new Transient(value, type);
    }
    
-   public Boolean getBoolean() {
+   public boolean getBoolean() {
       Object value = getValue();
 
       if (value != null) {
-         return (Boolean) value;// optimistic!!
+         return Boolean.TRUE.equals(value);
       }
-      return null;
+      return false;
+   }
+   
+   public char getCharacter() {
+      Object value = getValue();
+
+      if (value != null) {
+         return (Character) value; // optimistic!!
+      }
+      return 0;
+   }
+
+   public double getDouble() {
+      Number number = getNumber();
+
+      if (number != null) {
+         return number.doubleValue();
+      }
+      return 0;
+   }
+
+   public long getLong() {
+      Number number = getNumber();
+
+      if (number != null) {
+         return number.longValue();
+      }
+      return 0;
+   }
+
+   public int getInteger() {
+      Number number = getNumber();
+
+      if (number != null) {
+         return number.intValue();
+      }
+      return 0;
    }
 
    public Number getNumber() {
@@ -52,51 +88,6 @@ public abstract class Value {
 
       if (value != null) {
          return (Number) value; // optimistic!!
-      }
-      return null;
-   }
-   
-   public Character getCharacter() {
-      Object value = getValue();
-
-      if (value != null) {
-         return (Character) value; // optimistic!!
-      }
-      return null;
-   }
-
-   public Double getDouble() {
-      Number number = getNumber();
-
-      if (number != null) {
-         return number.doubleValue();
-      }
-      return null;
-   }
-
-   public Long getLong() {
-      Number number = getNumber();
-
-      if (number != null) {
-         return number.longValue();
-      }
-      return null;
-   }
-
-   public Integer getInteger() {
-      Number number = getNumber();
-
-      if (number != null) {
-         return number.intValue();
-      }
-      return null;
-   }
-
-   public Float getFloat() {
-      Number number = getNumber();
-
-      if (number != null) {
-         return number.floatValue();
       }
       return null;
    }
