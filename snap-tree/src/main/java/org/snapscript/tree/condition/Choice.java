@@ -26,9 +26,9 @@ public class Choice extends Evaluation {
    @Override
    public Value evaluate(Scope scope, Object left) throws Exception {
       Value result = condition.evaluate(scope, null);
-      Boolean value = result.getBoolean();
+      boolean value = result.getBoolean();
       
-      if(value.booleanValue()) {
+      if(value) {
          return positive.evaluate(scope, left);
       } 
       return negative.evaluate(scope, left);

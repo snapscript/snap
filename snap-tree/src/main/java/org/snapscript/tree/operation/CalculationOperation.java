@@ -4,6 +4,8 @@ import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
 import org.snapscript.core.convert.StringBuilder;
+import org.snapscript.tree.math.NumericChecker;
+import org.snapscript.tree.math.NumericOperator;
 
 public class CalculationOperation extends Evaluation {
 

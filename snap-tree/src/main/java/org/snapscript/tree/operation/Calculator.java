@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.snapscript.core.Evaluation;
+import org.snapscript.tree.math.NumericOperator;
 
 public class Calculator {
    

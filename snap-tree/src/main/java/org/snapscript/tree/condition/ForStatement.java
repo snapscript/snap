@@ -77,9 +77,9 @@ public class ForStatement implements Compilation {
          
          while(true) {
             Value result = condition.evaluate(scope, null);
-            Boolean value = result.getBoolean();
+            boolean value = result.getBoolean();
             
-            if(value.booleanValue()) {
+            if(value) {
                Result next = body.execute(scope);
                
                if(next.isReturn()) {

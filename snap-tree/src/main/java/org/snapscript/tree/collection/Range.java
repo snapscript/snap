@@ -29,9 +29,9 @@ public class Range extends Evaluation {
    private Sequence create(Scope scope, Object left) throws Exception {
       Value first = start.evaluate(scope, left);
       Value last = finish.evaluate(scope, left);
-      Long firstNumber = first.getLong();
-      Long lastNumber = last.getLong();
+      long start = first.getLong();
+      long finish = last.getLong();
       
-      return new Sequence(firstNumber, lastNumber);
+      return new Sequence(start, finish);
    }
 }

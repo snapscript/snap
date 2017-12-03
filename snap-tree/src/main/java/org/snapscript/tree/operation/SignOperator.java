@@ -2,6 +2,7 @@ package org.snapscript.tree.operation;
 
 import org.snapscript.core.Value;
 import org.snapscript.parse.StringToken;
+import org.snapscript.tree.math.NumericConverter;
 
 public enum SignOperator {
    NONE(""){

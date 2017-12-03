@@ -4,6 +4,7 @@ import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
 import org.snapscript.parse.Token;
+import org.snapscript.tree.math.NumericConverter;
 
 public class PostfixIncrement extends Evaluation {
    

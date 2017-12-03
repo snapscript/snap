@@ -11,7 +11,7 @@ public class ListValue extends Value {
    private final Integer index;
    private final List list;
    
-   public ListValue(ProxyWrapper wrapper, List list, Integer index) {
+   public ListValue(ProxyWrapper wrapper, List list, int index) {
       this.wrapper = wrapper;
       this.index = index;
       this.list = list;

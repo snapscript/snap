@@ -67,7 +67,7 @@ public class CollectionIndex extends Evaluation {
       Class type = left.getClass();
       
       if(List.class.isInstance(source)) {
-         Integer number = index.getInteger();
+         int number = index.getInteger();
          List list = (List)source;
          
          return new ListValue(wrapper, list, number);

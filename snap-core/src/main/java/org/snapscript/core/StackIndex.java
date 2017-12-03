@@ -1,19 +1,19 @@
 package org.snapscript.core;
 
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 
 import org.snapscript.common.ArrayStack;
+import org.snapscript.common.Cache;
+import org.snapscript.common.HashCache;
 import org.snapscript.common.Stack;
 
 public class StackIndex implements Index {
    
-   private final Map<String, Integer> locals;
+   private final Cache<String, Integer> locals;
    private final Stack<String> stack;
 
    public StackIndex() {
-      this.locals = new HashMap<String, Integer>();
+      this.locals = new HashCache<String, Integer>();
       this.stack = new ArrayStack<String>(0); // do not use default
    }
    
@@ -24,7 +24,7 @@ public class StackIndex implements Index {
    
    @Override
    public int get(String name) {
-      Integer index = locals.get(name);
+      Integer index = locals.fetch(name);
       
       if(index != null){
          return index;
@@ -34,14 +34,14 @@ public class StackIndex implements Index {
    
    @Override
    public int index(String name) {
-      Integer index = locals.get(name);
+      Integer index = locals.fetch(name);
       
       if(index != null) {
          throw new IllegalStateException("Duplicate variable '" + name + "' in scope");
       }
       int size = locals.size();
       
-      locals.put(name, size);
+      locals.cache(name, size);
       stack.push(name);
       
       return size;
@@ -53,7 +53,7 @@ public class StackIndex implements Index {
       
       for(int i = size; i > index; i--) {
          String name = stack.pop();
-         locals.remove(name);
+         locals.take(name);
       }
    }
 

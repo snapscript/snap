@@ -2,6 +2,7 @@ package org.snapscript.tree.operation;
 
 import org.snapscript.core.Evaluation;
 import org.snapscript.parse.StringToken;
+import org.snapscript.tree.math.NumericOperator;
 
 public class CalculationOperator implements CalculationPart {   
    

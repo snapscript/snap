@@ -1,4 +1,4 @@
-package org.snapscript.tree.operation;
+package org.snapscript.tree.math;
 
 public class NumericChecker {
 

@@ -7,7 +7,7 @@ public class Sequence implements Iterable<Number> {
    private final long first;
    private final long last;
    
-   public Sequence(Long first, Long last) {
+   public Sequence(long first, long last) {
       this.first = first;
       this.last = last;
    }
@@ -54,7 +54,7 @@ public class Sequence implements Iterable<Number> {
       private long first;
       private long last;
       
-      public ReverseIterator(Long first, Long last) {
+      public ReverseIterator(long first, long last) {
          this.first = first;
          this.last = last;
       }

@@ -1,5 +1,6 @@
 package org.snapscript.core.extend;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileFilter;
@@ -21,6 +22,24 @@ public class FileExtension {
       super();
    }
    
+   public InputStream stream(File file) throws IOException {
+      return new FileInputStream(file);
+   }
+
+   public Reader reader(File file) throws IOException {
+      InputStream stream = new FileInputStream(file);
+      Reader reader = new InputStreamReader(stream);
+      
+      return new BufferedReader(reader);
+   }
+   
+   public Reader reader(File file, String charset) throws IOException {
+      InputStream stream = new FileInputStream(file);
+      Reader reader = new InputStreamReader(stream, charset);
+      
+      return new BufferedReader(reader);
+   }
+
    public List<String> contains(File file, String pattern) throws IOException {
       FileReader source = new FileReader(file);
       LineNumberReader reader = new LineNumberReader(source);

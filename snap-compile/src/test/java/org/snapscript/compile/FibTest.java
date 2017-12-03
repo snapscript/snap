@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import junit.framework.TestCase;
 
 import org.snapscript.core.Value;
-import org.snapscript.tree.operation.NumericOperator;
+import org.snapscript.tree.math.NumericOperator;
 
 public class FibTest extends TestCase {
 
@@ -58,9 +58,12 @@ public class FibTest extends TestCase {
       Timer.timeExecution("testMemoryAllocate", new Runnable() {
          @Override
          public void run() {
-            long maxim = 1933564016/2;
-            for(double i = 0; i < maxim; i++) {
-               Object b=new byte[12];
+            double i, maxim = 1933564016/2; // 2 billion
+            for(i = 0; i < maxim; i++) {
+               Object b = new byte[12];
+               b.getClass();
+               new Double(i).hashCode();
+               //String.valueOf(i).hashCode();
             }
          }
       });

@@ -63,9 +63,9 @@ public class IfStatement implements Compilation {
       @Override
       public Result execute(Scope scope) throws Exception {
          Value result = condition.evaluate(scope, null);
-         Boolean value = result.getBoolean();
+         boolean value = result.getBoolean();
          
-         if(value.booleanValue()) {
+         if(value) {
             return positive.execute(scope);
          } else {
             if(negative != null) {

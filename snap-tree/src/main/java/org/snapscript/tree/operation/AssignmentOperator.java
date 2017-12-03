@@ -10,9 +10,10 @@ import org.snapscript.core.convert.ConstraintConverter;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.Score;
 import org.snapscript.parse.StringToken;
+import org.snapscript.tree.math.NumericOperator;
 
 public enum AssignmentOperator {
-   EQUAL(NumericOperator.NONE, "="), 
+   EQUAL(NumericOperator.IDENTITY, "="), 
    PLUS_EQUAL(NumericOperator.PLUS, "+="), 
    MINUS_EQUAL(NumericOperator.MINUS, "-="), 
    POWER_EQUAL(NumericOperator.POWER, "**="),    

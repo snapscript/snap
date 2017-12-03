@@ -82,9 +82,9 @@ public class SwitchStatement implements Compilation {
             }
             Value right = evaluation.evaluate(scope, null);
             Value value = EQUALS.operate(scope, left, right);
-            Boolean match = value.getBoolean();
+            boolean match = value.getBoolean();
             
-            if(match.booleanValue()) {
+            if(match) {
                for(int j = i; j < cases.length; j++) {
                   Statement statement = cases[j].getStatement();
                   Result result = statement.execute(scope);

@@ -50,9 +50,9 @@ public class Combination extends Evaluation {
    
    private Value evaluate(Scope scope, Evaluation evaluation) throws Exception { 
       Value value = evaluation.evaluate(scope, null);
-      Boolean result = value.getBoolean();
+      boolean result = value.getBoolean();
       
-      if(result.booleanValue()) {
+      if(result) {
          return BooleanValue.TRUE;
       }
       return BooleanValue.FALSE;

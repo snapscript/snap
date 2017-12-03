@@ -1,16 +1,16 @@
 package org.snapscript.core;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
+import org.snapscript.common.Cache;
 import org.snapscript.common.CompoundIterator;
+import org.snapscript.common.HashCache;
 
 public class LocalState implements State {
    
-   private final Map<String, Value> values;
+   private final Cache<String, Value> values;
    private final Scope scope;
 
    public LocalState(Scope scope) {
@@ -18,7 +18,7 @@ public class LocalState implements State {
    }
    
    public LocalState(Scope scope, List<Local> stack) {
-      this.values = new HashMap<String, Value>();
+      this.values = new HashCache<String, Value>();
       this.scope = scope;
    }
 
@@ -38,7 +38,7 @@ public class LocalState implements State {
 
    @Override
    public Value get(String name) {
-      Value value = values.get(name);
+      Value value = values.fetch(name);
       
       if(value == null && scope != null) {
          State state = scope.getState();
@@ -53,12 +53,12 @@ public class LocalState implements State {
    
    @Override
    public void add(String name, Value value) {
-      Value variable = values.get(name);
+      Value variable = values.fetch(name);
 
       if(variable != null) {
          throw new InternalStateException("Variable '" + name + "' already exists");
       }
-      values.put(name, value);  
+      values.cache(name, value);  
    }
    
    @Override

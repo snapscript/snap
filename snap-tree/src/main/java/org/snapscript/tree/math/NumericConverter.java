@@ -1,4 +1,4 @@
-package org.snapscript.tree.operation;
+package org.snapscript.tree.math;
 
 import org.snapscript.core.Value;
 import org.snapscript.core.ValueCache;
@@ -6,113 +6,113 @@ import org.snapscript.core.ValueCache;
 public enum NumericConverter {
    DOUBLE {
       @Override
-      public Value convert(Number reference) {
-         double value = reference.doubleValue();
+      public Value convert(Number number) {
+         double value = number.doubleValue();
          return ValueCache.getDouble(value);
       }
       @Override
-      public Value increment(Number reference) {
-         double value = reference.doubleValue();
+      public Value increment(Number number) {
+         double value = number.doubleValue();
          return ValueCache.getDouble(value + 1.0d);
       }
       @Override
-      public Value decrement(Number reference) {
-         double value = reference.doubleValue();
+      public Value decrement(Number number) {
+         double value = number.doubleValue();
          return ValueCache.getDouble(value - 1.0d);
       }
    },
    LONG {
       @Override
-      public Value convert(Number reference) {
-         long value = reference.longValue();
+      public Value convert(Number number) {
+         long value = number.longValue();
          return ValueCache.getLong(value);
       }
       @Override
-      public Value increment(Number reference) {
-         long value = reference.longValue();
+      public Value increment(Number number) {
+         long value = number.longValue();
          return ValueCache.getLong(value + 1L);
       }
       @Override
-      public Value decrement(Number reference) {
-         long value = reference.longValue();
+      public Value decrement(Number number) {
+         long value = number.longValue();
          return ValueCache.getLong(value - 1L);
       }
    },
    FLOAT {
       @Override
-      public Value convert(Number reference) {
-         float value = reference.floatValue();
+      public Value convert(Number number) {
+         float value = number.floatValue();
          return ValueCache.getFloat(value);
       }
       @Override
-      public Value increment(Number reference) {
-         float value = reference.floatValue();
+      public Value increment(Number number) {
+         float value = number.floatValue();
          return ValueCache.getFloat(value + 1.0f);
       }
       @Override
-      public Value decrement(Number reference) {
-         float value = reference.floatValue();
+      public Value decrement(Number number) {
+         float value = number.floatValue();
          return ValueCache.getFloat(value - 1.0f);
       }
    },
    INTEGER {
       @Override
-      public Value convert(Number reference) {
-         int value = reference.intValue();
+      public Value convert(Number number) {
+         int value = number.intValue();
          return ValueCache.getInteger(value);
       }
       @Override
-      public Value increment(Number reference) {
-         int value = reference.intValue();
+      public Value increment(Number number) {
+         int value = number.intValue();
          return ValueCache.getInteger(value + 1);
       }
       @Override
-      public Value decrement(Number reference) {
-         int value = reference.intValue();
+      public Value decrement(Number number) {
+         int value = number.intValue();
          return ValueCache.getInteger(value - 1);
       }
    },
    SHORT {
       @Override
-      public Value convert(Number reference) {
-         short value = reference.shortValue();
+      public Value convert(Number number) {
+         short value = number.shortValue();
          return ValueCache.getShort(value);
       }
       @Override
-      public Value increment(Number reference) {
-         short value = reference.shortValue();
+      public Value increment(Number number) {
+         short value = number.shortValue();
          return ValueCache.getShort(value + 1);
       }
       @Override
-      public Value decrement(Number reference) {
-         short value = reference.shortValue();
+      public Value decrement(Number number) {
+         short value = number.shortValue();
          return ValueCache.getShort(value - 1);
       }
    },
    BYTE {
       @Override
-      public Value convert(Number reference) {
-         byte value = reference.byteValue();
+      public Value convert(Number number) {
+         byte value = number.byteValue();
          return ValueCache.getByte(value);
       }
       @Override
-      public Value increment(Number reference) {
-         byte value = reference.byteValue();
+      public Value increment(Number number) {
+         byte value = number.byteValue();
          return ValueCache.getByte(value + 1);
       }
       @Override
-      public Value decrement(Number reference) {
-         byte value = reference.byteValue();
+      public Value decrement(Number number) {
+         byte value = number.byteValue();
          return ValueCache.getByte(value - 1);
       }
    };
    
-   public abstract Value convert(Number value);
-   public abstract Value increment(Number value);
-   public abstract Value decrement(Number value);
+   public abstract Value convert(Number number);
+   public abstract Value increment(Number number);
+   public abstract Value decrement(Number number);
    
-   public static NumericConverter resolveConverter(Number value) {
-      Class type = value.getClass();
+   public static NumericConverter resolveConverter(Number number) {
+      Class type = number.getClass();
       
       if (Double.class == type) {
          return DOUBLE;
