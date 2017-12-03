@@ -11,10 +11,10 @@ import org.snapscript.core.Value;
 import org.snapscript.parse.StringToken;
 
 public enum NumericOperator {
-   IDENTITY("", 0) {
+   REPLACE("", 0) {
       @Override
       public Value operate(Value left, Value right, ValueCalculator calculator) {
-         return calculator.identity(left, right);
+         return calculator.replace(left, right);
       }        
    },
    COALESCE("??", 1){
@@ -158,6 +158,6 @@ public enum NumericOperator {
       UNSIGNED_SHIFT_RIGHT,
       POWER,
       COALESCE,
-      IDENTITY
+      REPLACE
    };
 }

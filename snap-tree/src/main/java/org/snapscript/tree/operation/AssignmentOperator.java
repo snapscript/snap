@@ -13,7 +13,7 @@ import org.snapscript.parse.StringToken;
 import org.snapscript.tree.math.NumericOperator;
 
 public enum AssignmentOperator {
-   EQUAL(NumericOperator.IDENTITY, "="), 
+   EQUAL(NumericOperator.REPLACE, "="), 
    PLUS_EQUAL(NumericOperator.PLUS, "+="), 
    MINUS_EQUAL(NumericOperator.MINUS, "-="), 
    POWER_EQUAL(NumericOperator.POWER, "**="),    

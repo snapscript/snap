@@ -11,7 +11,7 @@ public abstract class ValueCalculator implements NumericCalculator {
    public static final ValueCalculator SHORT = new ShortCalculator();
    public static final ValueCalculator BYTE = new ByteCalculator();
    
-   public Value identity(Value left, Value right) {
+   public Value replace(Value left, Value right) {
       return right;
    }
 
