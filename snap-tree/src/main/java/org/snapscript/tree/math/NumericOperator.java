@@ -13,6 +13,10 @@ import org.snapscript.parse.StringToken;
 public enum NumericOperator {
    REPLACE("", 0) {
       @Override
+      public Value operate(Value left, Value right) {
+         return right;
+      }
+      @Override
       public Value operate(Value left, Value right, ValueCalculator calculator) {
          return calculator.replace(left, right);
       }        

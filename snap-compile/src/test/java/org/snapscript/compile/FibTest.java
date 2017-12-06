@@ -40,6 +40,7 @@ public class FibTest extends TestCase {
       Timer.timeExecution("testFib", executable);
       Timer.timeExecution("testFib", executable);
       Timer.timeExecution("testFib", executable);
+      Timer.timeExecution("testFib", executable);
    }
    
    
