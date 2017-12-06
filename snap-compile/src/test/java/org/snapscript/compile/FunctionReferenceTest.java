@@ -38,6 +38,66 @@ public class FunctionReferenceTest extends TestCase {
    "assert '' == func();\n"+
    "assert 'hello' == func('hello');\n";
    
+   private static final String SOURCE_4 =
+   "import util.stream.Collectors;\n"+
+   "\n"+
+   "const result = ['a', 'b', 'c', null, 'd'].stream()\n"+
+   "   .filter(Objects::nonNull)\n"+
+   "   .collect(Collectors.toList());\n"+
+   "\n"+
+   "assert result.length == 4;\n"+
+   "assert result[0] == 'a';\n"+
+   "assert result[1] == 'b';\n"+
+   "assert result[2] == 'c';\n"+
+   "assert result[3] == 'd';\n";
+   
+   private static final String SOURCE_5 =
+   "import util.stream.Collectors;\n"+
+   "\n"+
+   "const result = ['a', 'b', 'c', null, 'd']\n"+
+   "   .stream()\n"+
+   "   .filter(Thing::isNotNull)\n"+
+   "   .map(Thing::toUpper)\n"+
+   "   .collect(Collectors.toList());\n"+
+   "\n"+
+   "assert result[0] == 'A';\n"+
+   "assert result[1] == 'B';\n"+
+   "assert result[2] == 'C';\n"+
+   "assert result[3] == 'D';\n"+
+   "\n"+
+   "module Thing {\n"+
+   "   isNotNull(o){\n"+
+   "      return o != null;\n"+
+   "   }\n"+
+   "   toUpper(o){\n"+
+   "      return `${o}`.toUpperCase();\n"+
+   "   }\n"+
+   "}\n";
+
+   private static final String SOURCE_6 =   
+   "import util.stream.Collectors;\n"+
+   "\n"+
+   "const blah = new Foo();\n"+
+   "const result = ['a', 'b', 'c', null, 'd']\n"+
+   "   .stream()\n"+
+   "   .filter(blah::isNotNull)\n"+
+   "   .map(blah::toUpper)\n"+
+   "   .collect(Collectors.toList());\n"+
+   "\n"+
+   "assert result[0] == 'A';\n"+
+   "assert result[1] == 'B';\n"+
+   "assert result[2] == 'C';\n"+
+   "assert result[3] == 'D';\n"+
+   "\n"+
+   "class Foo {\n"+
+   "   isNotNull(o){\n"+
+   "      return o != null;\n"+
+   "   }\n"+
+   "   toUpper(o){\n"+
+   "      return `${o}`.toUpperCase();\n"+
+   "   }\n"+
+   "}\n";   
+         
    public void testFunctionReference() throws Exception {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
       System.err.println(SOURCE_1);
@@ -55,4 +115,22 @@ public class FunctionReferenceTest extends TestCase {
       System.err.println(SOURCE_3);
       compiler.compile(SOURCE_3).execute(new EmptyModel());
    }
+   
+   public void testFunctionReferenceObjectNotNull() throws Exception {
+      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
+      System.err.println(SOURCE_4);
+      compiler.compile(SOURCE_4).execute(new EmptyModel());
+   }
+   
+   public void testFunctionReferenceInModule() throws Exception {
+      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
+      System.err.println(SOURCE_5);
+      compiler.compile(SOURCE_5).execute(new EmptyModel());
+   }  
+   
+   public void testFunctionReferenceInClassInstance() throws Exception {
+      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
+      System.err.println(SOURCE_6);
+      compiler.compile(SOURCE_6).execute(new EmptyModel());
+   }   
 }

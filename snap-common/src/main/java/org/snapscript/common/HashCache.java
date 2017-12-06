@@ -75,4 +75,9 @@ public class HashCache<K, V> implements Cache<K, V> {
       }
       return 0;
    }
+   
+   @Override
+   public String toString() {
+      return String.valueOf(map);
+   }
 }

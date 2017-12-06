@@ -18,9 +18,47 @@ public class URLExtension {
    private static final String HEAD = "HEAD";
    
    private final InputStreamExtension extension;
+   private final byte[] empty;
    
    public URLExtension() {
       this.extension = new InputStreamExtension();
+      this.empty = new byte[]{};
+   }
+   
+   public URL get(URL target) throws IOException {
+      return execute(target, empty, GET);
+   }
+   
+   public URL head(URL target) throws IOException {
+      return execute(target, empty, HEAD);
+   }
+   
+   public URL delete(URL target) throws IOException {
+      return execute(target, empty, DELETE);
+   }
+   
+   public URL post(URL target, byte[] data) throws IOException {
+      return execute(target, data, POST);
+   }
+   
+   public URL post(URL target, String text) throws IOException {
+      return execute(target, text, POST);
+   }
+   
+   public URL post(URL target, InputStream source) throws IOException {
+      return execute(target, source, POST);
+   }   
+   
+   public URL put(URL target, byte[] data) throws IOException {
+      return execute(target, data, PUT);
+   }
+   
+   public URL put(URL target, String text) throws IOException {
+      return execute(target, text, PUT);
+   }
+   
+   public URL put(URL target, InputStream source) throws IOException {
+      return execute(target, source, PUT);
    }
    
    public URL header(URL target, String name, String value) throws IOException {
@@ -32,153 +70,107 @@ public class URLExtension {
       return target;
    }
    
-   public URL get(URL target) throws IOException {
+   private URL execute(URL target, byte[] data, String method) throws IOException {
       URLConnection connection = target.openConnection();
       HttpURLConnection request = (HttpURLConnection)connection;
       
-      request.setDoOutput(false);
-      request.setRequestMethod(GET);
-
-      return target;
-   }
-   
-   public URL head(URL target) throws IOException {
-      URLConnection connection = target.openConnection();
-      HttpURLConnection request = (HttpURLConnection)connection;
-      
-      request.setDoOutput(false);
-      request.setRequestMethod(HEAD);
-
-      return target;
-   }
-   
-   public URL delete(URL target) throws IOException {
-      URLConnection connection = target.openConnection();
-      HttpURLConnection request = (HttpURLConnection)connection;
-      
-      request.setDoOutput(false);
-      request.setRequestMethod(DELETE);
-
-      return target;
-   }
-   
-   public URL post(URL target, byte[] data) throws IOException {
-      URLConnection connection = target.openConnection();
-      HttpURLConnection request = (HttpURLConnection)connection;
-
-      request.setDoOutput(true);
-      request.setRequestMethod(POST);
-
-      return write(target, data);
-   }
-   
-   public URL post(URL target, String text) throws IOException {
-      URLConnection connection = target.openConnection();
-      HttpURLConnection request = (HttpURLConnection)connection;
-
-      request.setDoOutput(true);
-      request.setRequestMethod(POST);
-
-      return write(target, text);
-   }
-   
-   public URL post(URL target, InputStream source) throws IOException {
-      URLConnection connection = target.openConnection();
-      HttpURLConnection request = (HttpURLConnection)connection;
-      
-      request.setDoOutput(true);
-      request.setRequestMethod(POST);
-
-      return write(target, source);
-   }   
-   
-   public URL put(URL target, byte[] data) throws IOException {
-      URLConnection connection = target.openConnection();
-      HttpURLConnection request = (HttpURLConnection)connection;
-      
-      request.setDoOutput(true);
-      request.setRequestMethod(PUT);
-
-      return write(target, data);
-   }
-   
-   public URL put(URL target, String text) throws IOException {
-      URLConnection connection = target.openConnection();
-      HttpURLConnection request = (HttpURLConnection)connection;
-      
-      request.setDoOutput(true);
-      request.setRequestMethod(PUT);
-
-      return write(target, text);
-   }
-   
-   public URL put(URL target, InputStream source) throws IOException {
-      URLConnection connection = target.openConnection();
-      HttpURLConnection request = (HttpURLConnection)connection;
-      
-      request.setDoOutput(true);
-      request.setRequestMethod(PUT);
-
-      return write(target, source);
-   }
-   
-   private URL write(URL target, byte[] data) throws IOException {
-      URLConnection connection = target.openConnection();
-      HttpURLConnection request = (HttpURLConnection)connection;
-      OutputStream stream = request.getOutputStream();
-      
-      stream.write(data);
+      if(data.length > 0) {
+         request.setDoOutput(true);
+         request.setRequestMethod(method);
+         
+         try {
+            OutputStream stream = request.getOutputStream();
+            
+            stream.write(data);
+            stream.close();
+         } catch(Exception e) {
+            throw new IOException("Could not execute '" + method + "' for '" + target + "'", e);
+         }
+      }
       request.getResponseCode(); // force write
-      
       return target;
    }
    
-   private URL write(URL target, String text) throws IOException {
+   private URL execute(URL target, String source, String method) throws IOException {
       URLConnection connection = target.openConnection();
       HttpURLConnection request = (HttpURLConnection)connection;
-      OutputStream stream = request.getOutputStream();
-      byte[] data = text.getBytes();
+      byte[] data = source.getBytes();
       
-      stream.write(data);
+      if(data.length > 0) {
+         request.setDoOutput(true);
+         request.setRequestMethod(method);
+         
+         try {
+            OutputStream stream = request.getOutputStream();
+            
+            stream.write(data);
+            stream.close();
+         } catch(Exception e) {
+            throw new IOException("Could not execute '" + method + "' for '" + target + "'", e);
+         }
+      }
       request.getResponseCode(); // force write
-      
       return target;
    }
    
-   private URL write(URL target, InputStream source) throws IOException {
+   private URL execute(URL target, InputStream source, String method) throws IOException {
       URLConnection connection = target.openConnection();
       HttpURLConnection request = (HttpURLConnection)connection;
-      OutputStream stream = request.getOutputStream();
-     
-      extension.copyTo(source, stream);
-      request.getResponseCode(); // force write
       
+      request.setDoOutput(true);
+      request.setRequestMethod(method);
+      
+      try {
+         OutputStream stream = request.getOutputStream();
+         
+         extension.copyTo(source, stream);
+         stream.close();
+      } catch(Exception e) {
+         throw new IOException("Could not execute '" + method + "' for '" + target + "'", e);
+      }
+      request.getResponseCode(); // force write
       return target;
    }
    
    public URL success(URL target, Runnable task) throws IOException {
-      if(isSuccess(target)) {
+      URLConnection connection = target.openConnection();
+      HttpURLConnection request = (HttpURLConnection)connection;
+      int status = request.getResponseCode();
+      
+      if(status  >= 200 && status < 300) {
          task.run();
       }
       return target;
    }
    
    public URL success(URL target, Consumer<URL> consumer) throws IOException {
-      if(isSuccess(target)) {
+      URLConnection connection = target.openConnection();
+      HttpURLConnection request = (HttpURLConnection)connection;
+      int status = request.getResponseCode();
+      
+      if(status  >= 200 && status < 300) {
          consumer.consume(target);
       }
       return target;
    }
    
    public URL failure(URL target, Runnable task) throws IOException {
-      if(!isSuccess(target)) {
+      URLConnection connection = target.openConnection();
+      HttpURLConnection request = (HttpURLConnection)connection;
+      int status = request.getResponseCode();
+      
+      if(status  >= 200 && status < 300) {
          task.run();
       }
       return target;
    }
    
    public URL failure(URL target, Consumer<URL> consumer) throws IOException {
-      if(!isSuccess(target)) {
+      URLConnection connection = target.openConnection();
+      HttpURLConnection request = (HttpURLConnection)connection;
+      int status = request.getResponseCode();
+      
+      if(status  >= 200 && status < 300) {
          consumer.consume(target);
       }
       return target;
@@ -200,13 +192,5 @@ public class URLExtension {
       HttpURLConnection request = (HttpURLConnection)connection;
       
       return request.getResponseCode();
-   }
-   
-   public boolean isSuccess(URL target) throws IOException {
-      URLConnection connection = target.openConnection();
-      HttpURLConnection request = (HttpURLConnection)connection;
-      int status = request.getResponseCode();
-      
-      return status  >= 200 && status < 300;
    }
 }
