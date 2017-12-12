@@ -69,6 +69,14 @@ public class SynchronizedStatement implements Compilation {
             return result;
          }
       }
+
+      @Override
+      public Resume create(Result result, Resume resume, Resume value) throws Exception {
+         Yield yield = result.getValue();
+         Resume child = yield.getResume();
+         
+         return new SynchronizedResume(this, child);
+      }   
       
       private Object resolve(Scope scope) throws Exception {
          Value value = reference.evaluate(scope, null);
@@ -83,14 +91,6 @@ public class SynchronizedStatement implements Compilation {
             }
          }
          return object;
-      }
-
-      @Override
-      public Resume create(Result result, Resume resume, Resume value) throws Exception {
-         Yield yield = result.getValue();
-         Resume child = yield.getResume();
-         
-         return new SynchronizedResume(this, child);
-      }      
+      }   
    }
 }
