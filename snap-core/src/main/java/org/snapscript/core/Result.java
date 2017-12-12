@@ -6,6 +6,7 @@ import static org.snapscript.core.ResultType.DECLARE;
 import static org.snapscript.core.ResultType.NORMAL;
 import static org.snapscript.core.ResultType.RETURN;
 import static org.snapscript.core.ResultType.THROW;
+import static org.snapscript.core.ResultType.YIELD;
 
 public class Result {
    
@@ -36,6 +37,18 @@ public class Result {
       return new Result(RETURN, value);
    }
    
+   public static Result getYield(){
+      return new YieldResult();
+   }
+   
+   public static Result getYield(Object value) {
+      return new YieldResult(value);
+   }
+   
+   public static Result getYield(Object value, Scope scope, Resume next) {
+      return new YieldResult(value, scope, next);
+   }
+   
    public static Result getBreak() {
       return BREAK_RESULT;
    }
@@ -48,8 +61,8 @@ public class Result {
       return new Result(THROW, value);
    }
    
-   private final ResultType type;
-   private final Object value;
+   protected final ResultType type;
+   protected final Object value;
 
    public Result(ResultType type) {
       this(type, null);
@@ -66,6 +79,10 @@ public class Result {
    
    public boolean isReturn() {
       return type == RETURN;
+   }
+   
+   public boolean isYield() {
+      return type == YIELD;
    }
    
    public boolean isNormal() {

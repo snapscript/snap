@@ -163,6 +163,7 @@ public enum Instruction {
    BREAK_STATEMENT(BreakStatement.class, "break-statement"),
    CONTINUE_STATEMENT(ContinueStatement.class, "continue-statement"),
    RETURN_STATEMENT(ReturnStatement.class, "return-statement"),      
+   YIELD_STATEMENT(YieldStatement.class, "yield-statement"),  
    ASSERT_STATEMENT(AssertStatement.class, "assert-statement"),    
    WHILE_STATEMENT(WhileStatement.class, "while-statement"),
    FOR_ASSIGNMENT_LIST(Expression.class, "for-assignment-list"),

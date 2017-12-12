@@ -6,13 +6,16 @@ import org.snapscript.core.Evaluation;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
 import org.snapscript.core.Result;
+import org.snapscript.core.Resume;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Value;
+import org.snapscript.core.Yield;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.trace.TraceStatement;
+import org.snapscript.tree.SuspendStatement;
 
 public class WhileStatement implements Compilation {
    
@@ -32,7 +35,7 @@ public class WhileStatement implements Compilation {
       return new TraceStatement(interceptor, handler, loop, trace);
    }
    
-   private static class CompileResult extends Statement {
+   private static class CompileResult extends SuspendStatement<Object> {
    
       private final Evaluation condition;
       private final Statement body;
@@ -52,6 +55,11 @@ public class WhileStatement implements Compilation {
       
       @Override
       public Result execute(Scope scope) throws Exception {
+         return resume(scope, null);
+      }
+      
+      @Override
+      public Result resume(Scope scope, Object data) throws Exception {
          while(true) {
             Value result = condition.evaluate(scope, null);
             boolean value = result.getBoolean();
@@ -59,6 +67,9 @@ public class WhileStatement implements Compilation {
             if(value) {
                Result next = body.execute(scope);
                
+               if(next.isYield()) {
+                  return suspend(scope, next, this, null);
+               }
                if(next.isReturn()) {
                   return next;
                }
@@ -69,6 +80,14 @@ public class WhileStatement implements Compilation {
                return normal;
             } 
          }
+      }
+
+      @Override
+      public Resume create(Result result, Resume resume, Object value) throws Exception {
+         Yield yield = result.getValue();
+         Resume child = yield.getResume();
+         
+         return new WhileResume(child, resume);
       }
    }
 }

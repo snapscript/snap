@@ -141,7 +141,7 @@ conditional = {<combination> | <conditional-operand> | '('<conditional>')'};
 combination = {<conditional> | <conditional-operand>}?_<conditional-operator>?_<conditional>;
 
 choice = <conditional>'?'<expression>':'<expression>;
-cast = <expression>?_'as'_<constraint>;
+cast = <reference>?_'as'_<constraint>;
   
 # ?? is done in calculation 
 null-coalesce = <expression>'??'<expression>;
@@ -175,6 +175,7 @@ map-constraint = '{:}';
 constraint = {<array-constraint> | <type-constraint> | <function-constraint> | <list-constraint> | <set-constraint> | <map-constraint>};
 
 return-statement = 'return'*(?_{<expression> | <closure>})';';
+yield-statement = 'yield'*(?_{<expression> | <closure>})';';
 break-statement = 'break;';
 continue-statement = 'continue;';
 throw-statement = 'throw'?_(<reference> | <literal>)';';
@@ -184,7 +185,7 @@ compound-statement = '{'+<statement>'}';
 terminal-statement = ';';
 empty-statement = '{}';
 group-statement = {<compound-statement> | <empty-statement>};
-control-statement = {<return-statement> | <throw-statement> | <break-statement> | <continue-statement>};
+control-statement = {<return-statement> | <yield-statement> | <throw-statement> | <break-statement> | <continue-statement>};
 statement = { <control-statement> | 
 			  <try-statement> | 
 			  <synchronized-statement> | 

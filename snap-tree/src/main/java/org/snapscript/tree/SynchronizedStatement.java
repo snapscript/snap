@@ -6,9 +6,11 @@ import org.snapscript.core.Evaluation;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
 import org.snapscript.core.Result;
+import org.snapscript.core.Resume;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Value;
+import org.snapscript.core.Yield;
 import org.snapscript.core.define.Instance;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.trace.Trace;
@@ -33,14 +35,14 @@ public class SynchronizedStatement implements Compilation {
       return new TraceStatement(interceptor, handler, statement, trace);
    }
    
-   private static class CompileResult extends Statement {
+   private static class CompileResult extends SuspendStatement<Resume> {
 
+      private final StatementResume statement;
       private final Evaluation reference;
-      private final Statement statement;
       
       public CompileResult(Evaluation reference, Statement statement) {
+         this.statement = new StatementResume(statement);
          this.reference = reference;
-         this.statement = statement;
       }
       
       @Override
@@ -51,10 +53,16 @@ public class SynchronizedStatement implements Compilation {
       
       @Override
       public Result execute(Scope scope) throws Exception {
+         return resume(scope, statement);
+      }
+      
+      @Override
+      public Result resume(Scope scope, Resume statement) throws Exception {
          Object object = resolve(scope);
          
          synchronized(object) {
-            return statement.execute(scope);
+            
+            }
          }
       }
       
@@ -72,5 +80,13 @@ public class SynchronizedStatement implements Compilation {
          }
          return object;
       }
+
+      @Override
+      public Resume create(Result result, Resume resume, Resume value) throws Exception {
+         Yield yield = result.getValue();
+         Resume child = yield.getResume();
+         
+         return new SynchronizedResume(this, child);
+      }      
    }
 }

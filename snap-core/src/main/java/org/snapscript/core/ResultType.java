@@ -6,5 +6,6 @@ public enum ResultType{
    BREAK,
    CONTINUE,
    DECLARE,
-   NORMAL;
+   NORMAL,
+   YIELD;
 }

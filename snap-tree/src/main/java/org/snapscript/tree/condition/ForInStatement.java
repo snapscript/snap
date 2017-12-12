@@ -1,24 +1,28 @@
 package org.snapscript.tree.condition;
 
+import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
-import org.snapscript.core.Index;
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.Index;
 import org.snapscript.core.Local;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
 import org.snapscript.core.Result;
+import org.snapscript.core.Resume;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Table;
 import org.snapscript.core.Value;
+import org.snapscript.core.Yield;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.trace.TraceStatement;
 import org.snapscript.tree.NameReference;
+import org.snapscript.tree.SuspendStatement;
 import org.snapscript.tree.collection.Iteration;
 import org.snapscript.tree.collection.IterationConverter;
 
@@ -40,7 +44,7 @@ public class ForInStatement implements Compilation {
       return new TraceStatement(interceptor, handler, loop, trace);
    }
    
-   private static class CompileResult extends Statement {
+   private static class CompileResult extends SuspendStatement<Iterator> {
    
       private final IterationConverter converter;
       private final NameReference reference;
@@ -79,11 +83,13 @@ public class ForInStatement implements Compilation {
          Object object = list.getValue();
          Iteration iteration = converter.convert(scope, object);
          Iterable iterable = iteration.getIterable(scope);
+         Iterator iterator = iterable.iterator();
          
-         return execute(scope, iterable);
+         return resume(scope, iterator);
       }
 
-      private Result execute(Scope scope, Iterable iterable) throws Exception {
+      @Override
+      public Result resume(Scope scope, Iterator iterator) throws Exception {
          String name = reference.getName(scope);
          Table table = scope.getTable();
          Local local = Local.getReference(name, name);
@@ -91,11 +97,16 @@ public class ForInStatement implements Compilation {
          
          table.add(depth, local);
          
-         for (Object entry : iterable) {
+         while (iterator.hasNext()) {
+            Object entry = iterator.next();
+
             local.setValue(entry);
             
             Result result = body.execute(scope);   
    
+            if(result.isYield()) {
+               return suspend(scope, result, this, iterator);
+            }
             if (result.isReturn()) {
                return result;
             }
@@ -105,5 +116,12 @@ public class ForInStatement implements Compilation {
          }    
          return Result.getNormal();
       }
+
+      @Override
+      public Resume create(Result result, Resume resume, Iterator value) throws Exception {
+         Yield yield = result.getValue();
+         
+      }
    }
+   
 }

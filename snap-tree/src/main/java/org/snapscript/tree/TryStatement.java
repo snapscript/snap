@@ -5,8 +5,10 @@ import org.snapscript.core.Context;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
 import org.snapscript.core.Result;
+import org.snapscript.core.Resume;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
+import org.snapscript.core.Yield;
 import org.snapscript.core.error.ErrorHandler;
 
 public class TryStatement implements Compilation {
@@ -37,15 +39,15 @@ public class TryStatement implements Compilation {
       return new CompileResult(handler, statement, list, finish);
    }
 
-   private static class CompileResult extends Statement {
+   private static class CompileResult extends SuspendStatement<Resume> {
    
+      private final StatementResume statement;
       private final ErrorHandler handler;
-      private final Statement statement;
       private final Statement finish;
       private final CatchBlockList list;
       
       public CompileResult(ErrorHandler handler, Statement statement, CatchBlockList list, Statement finish) {
-         this.statement = statement;
+         this.statement = new StatementResume(statement);
          this.handler = handler;
          this.finish = finish;  
          this.list = list;
@@ -64,8 +66,28 @@ public class TryStatement implements Compilation {
    
       @Override
       public Result execute(Scope scope) throws Exception {
-         Result result = handle(scope);
+         return resume(scope, statement);
+      }
+      
+      @Override
+      public Result resume(Scope scope, Resume statement) throws Exception {     
+         Result result = handle(scope, statement);
          
+         if(result.isYield()) {
+            return suspend(scope, result, this, null);
+         }
+         return process(scope, result);
+      }
+
+      @Override
+      public Resume create(Result result, Resume resume, Resume value) throws Exception {
+         Yield yield = result.getValue();
+         Resume child = yield.getResume();
+         
+         return new TryResume(child, resume);
+      }
+
+      private Result process(Scope scope, Result result) throws Exception {
          try {
             if(list != null) {
                if(result.isThrow()) {
@@ -85,9 +107,9 @@ public class TryStatement implements Compilation {
          return result;
       }
       
-      private Result handle(Scope scope) throws Exception {
+      private Result handle(Scope scope, Resume statement) throws Exception {
          try {
-            return statement.execute(scope);
+            return statement.resume(scope, null);
          } catch(Throwable cause) {
             return Result.getThrow(cause);
          }

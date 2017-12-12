@@ -3,8 +3,10 @@ package org.snapscript.tree;
 import org.snapscript.core.Index;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Result;
+import org.snapscript.core.Resume;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
+import org.snapscript.core.Yield;
 
 public class StatementBlock extends Statement {
    
@@ -54,7 +56,7 @@ public class StatementBlock extends Statement {
       }
    }
    
-   private static class StatementExecutor {
+   private static class StatementExecutor extends SuspendStatement<Integer> {
       
       private final Statement[] statements;
       private final Result normal;
@@ -64,18 +66,34 @@ public class StatementBlock extends Statement {
          this.statements = statements;
       }
       
+      @Override
       public Result execute(Scope scope) throws Exception {
+         return resume(scope, 0);
+      }
+      
+      @Override
+      public Result resume(Scope scope, Integer index) throws Exception {
          Result last = normal;
 
-         for(Statement statement : statements) {
+         for(int i = index; i < statements.length; i++){
+            Statement statement = statements[i];
             Result result = statement.execute(scope);
             
+            if(result.isYield()) {
+               return suspend(scope, result, this, i + 1);
+            }
             if(!result.isNormal()){
                return result;
             }
             last = result;
          }
          return last;
+      }
+      
+      @Override
+      public Resume create(Result result, Resume resume, Integer value) throws Exception {
+         Yield yield = result.getValue();
+         
       }
    }
 }

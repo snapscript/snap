@@ -13,6 +13,14 @@ public class InternalError extends Error {
    }
    
    @Override
+   public Throwable getCause() {
+      if(Throwable.class.isInstance(original)) {
+         return (Throwable)original;
+      }
+      return null;
+   }
+   
+   @Override
    public String toString() {
       return String.valueOf(original);
    }

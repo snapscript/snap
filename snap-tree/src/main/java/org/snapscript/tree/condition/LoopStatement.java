@@ -5,12 +5,15 @@ import org.snapscript.core.Context;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
 import org.snapscript.core.Result;
+import org.snapscript.core.Resume;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
+import org.snapscript.core.Yield;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.trace.TraceStatement;
+import org.snapscript.tree.SuspendStatement;
 
 public class LoopStatement implements Compilation {
    
@@ -30,7 +33,7 @@ public class LoopStatement implements Compilation {
       return new TraceStatement(interceptor, handler, loop, trace);
    }
    
-   private static class CompileResult extends Statement {
+   private static class CompileResult extends SuspendStatement<Object> {
       
       private final Statement body;
       
@@ -45,9 +48,17 @@ public class LoopStatement implements Compilation {
    
       @Override
       public Result execute(Scope scope) throws Exception {
+         return resume(scope, null);
+      }
+      
+      @Override
+      public Result resume(Scope scope, Object data) throws Exception {
          while(true) {
             Result result = body.execute(scope);
             
+            if(result.isYield()) {
+               return suspend(scope, result, this, null);
+            }
             if(result.isReturn()) {
                return result;
             }
@@ -55,6 +66,12 @@ public class LoopStatement implements Compilation {
                return Result.getNormal();
             }
          }
+      }
+
+      @Override
+      public Resume create(Result result, Resume resume, Object value) throws Exception {
+         Yield yield = result.getValue();
+         
       }
    }
 }
