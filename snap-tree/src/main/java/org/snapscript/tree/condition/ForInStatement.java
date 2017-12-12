@@ -120,7 +120,9 @@ public class ForInStatement implements Compilation {
       @Override
       public Resume create(Result result, Resume resume, Iterator value) throws Exception {
          Yield yield = result.getValue();
+         Resume child = yield.getResume();
          
+         return new ForInResume(child, resume, value);
       }
    }
    

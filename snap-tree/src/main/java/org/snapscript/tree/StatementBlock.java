@@ -93,7 +93,9 @@ public class StatementBlock extends Statement {
       @Override
       public Resume create(Result result, Resume resume, Integer value) throws Exception {
          Yield yield = result.getValue();
+         Resume child = yield.getResume();
          
+         return new CompoundResume(child, resume, value);
       }
    }
 }

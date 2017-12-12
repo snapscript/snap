@@ -72,6 +72,7 @@ public class URLConnectionExtension {
       HttpURLConnection request = (HttpURLConnection)connection;
       int status = request.getResponseCode();
       
+      if(status >= 200 && status < 300) {
          task.run();
       }
       return connection;
@@ -81,6 +82,7 @@ public class URLConnectionExtension {
       HttpURLConnection request = (HttpURLConnection)connection;
       int status = request.getResponseCode();
       
+      if(status >= 200 && status < 300) {
          consumer.consume(connection);
       }
       return connection;
@@ -90,6 +92,7 @@ public class URLConnectionExtension {
       HttpURLConnection request = (HttpURLConnection)connection;
       int status = request.getResponseCode();
       
+      if(status < 200 && status >= 300) {
          task.run();
       }
       return connection;
@@ -99,6 +102,7 @@ public class URLConnectionExtension {
       HttpURLConnection request = (HttpURLConnection)connection;
       int status = request.getResponseCode();
       
+      if(status < 200 && status >= 300) {
          consumer.consume(connection);
       }
       return connection;

@@ -61,8 +61,12 @@ public class SynchronizedStatement implements Compilation {
          Object object = resolve(scope);
          
          synchronized(object) {
+            Result result = statement.resume(scope, null);
             
+            if(result.isYield()) {
+               return suspend(scope, result, this, null);
             }
+            return result;
          }
       }
       
