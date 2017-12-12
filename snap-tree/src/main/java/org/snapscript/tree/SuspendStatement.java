@@ -9,7 +9,7 @@ import org.snapscript.core.Yield;
 public abstract class SuspendStatement<T> extends Statement implements Resume<T, T> {
 
    protected Result suspend(Scope scope, Result result, Resume child, T value) throws Exception {
-      Resume parent = create(result, child, value);
+      Resume parent = suspend(result, child, value);
       Yield yield = result.getValue();
       Object object = yield.getValue();
       

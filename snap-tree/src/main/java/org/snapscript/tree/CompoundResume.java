@@ -28,7 +28,7 @@ public class CompoundResume extends Suspend<Object, Integer> {
    } 
 
    @Override
-   public Resume create(Result result, Resume resume, Integer value) throws Exception {
+   public Resume suspend(Result result, Resume resume, Integer value) throws Exception {
       Yield yield = result.getValue();
       Resume child = yield.getResume();
       

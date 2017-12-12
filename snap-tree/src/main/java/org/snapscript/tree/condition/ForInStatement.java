@@ -118,7 +118,7 @@ public class ForInStatement implements Compilation {
       }
 
       @Override
-      public Resume create(Result result, Resume resume, Iterator value) throws Exception {
+      public Resume suspend(Result result, Resume resume, Iterator value) throws Exception {
          Yield yield = result.getValue();
          Resume child = yield.getResume();
          

@@ -71,7 +71,7 @@ public class SynchronizedStatement implements Compilation {
       }
 
       @Override
-      public Resume create(Result result, Resume resume, Resume value) throws Exception {
+      public Resume suspend(Result result, Resume resume, Resume value) throws Exception {
          Yield yield = result.getValue();
          Resume child = yield.getResume();
          

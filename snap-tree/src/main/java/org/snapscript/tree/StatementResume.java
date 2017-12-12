@@ -29,7 +29,7 @@ public class StatementResume extends Statement implements Resume {
    }
 
    @Override
-   public Resume create(Result result, Resume resume, Object value) throws Exception {
+   public Resume suspend(Result result, Resume resume, Object value) throws Exception {
       return null;
    }
    
