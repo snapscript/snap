@@ -1,39 +1,5 @@
-IT LOOKS LIKE FUNCTION CALLS ACROSS PACKAGES/MODULES PICK THE BASE CLASS
 
-trait blah.Foo{
-	func() {
-		// imports for foo here, rather than blah
-	}
-}
-class foo.Blah with blah.Foo{
-	func(){
-		super.func();
-	}
-}
-
-
-Expresions like blah.wait(12); // wait might not work for proxied objects via ScopeProxyHandler
-
-interface Any {
-   Any getProxy(); // this will handle x.wait() and x.notify() as well as synchronized(x)
-   int hashCode();
-   boolean equals(Object object);
-   String toString();
-}
-
-public interface Handle extends Any {
-   Any getProxy();
-   Type getHandle();
-}
-
-interface Instance {
-   Any getProxy();
-   Instance getInner();
-   Instance getOuter();
-   Instance getSuper();
-}
-
-The following does not work
+*The following does not work*
 
 new Integer[] instanceof Integer[]
 

@@ -4,7 +4,6 @@ import static org.snapscript.core.Reserved.METHOD_EQUALS;
 import static org.snapscript.core.Reserved.METHOD_HASH_CODE;
 import static org.snapscript.core.Reserved.METHOD_TO_STRING;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -13,17 +12,20 @@ import org.snapscript.common.Cache;
 import org.snapscript.common.CopyOnWriteCache;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.Type;
+import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.TypeLoader;
 
 public class FunctionFinder {
    
    private final Cache<Class, Function> functions;
    private final Set<Class> failures;
+   private final TypeExtractor extractor;
    private final TypeLoader loader;
    
-   public FunctionFinder(TypeLoader loader) {
+   public FunctionFinder(TypeExtractor extractor, TypeLoader loader) {
       this.functions = new CopyOnWriteCache<Class, Function>();
       this.failures = new CopyOnWriteArraySet<Class>();
+      this.extractor = extractor;
       this.loader = loader;
    }
    
@@ -50,25 +52,25 @@ public class FunctionFinder {
    }
 
    public Function find(Type type) throws Exception {
-      List<Function> functions = type.getFunctions();
-      int size = functions.size();
+      Set<Type> types = extractor.getTypes(type);
       
-      if(size > 0) {
-         List<Function> matches = new ArrayList<Function>();
+      for(Type base : types){
+         List<Function> functions = base.getFunctions();
+         Function match = null;
+         int count = 0;
          
          for(Function function : functions) {
             int modifiers = function.getModifiers();
             
             if(ModifierType.isAbstract(modifiers)) {
                if(match(function)) {
-                  matches.add(function);
+                  match = function;
+                  count++;
                }
             }
-         }
-         int count = matches.size();
-         
+         }        
          if(count == 1) {
-            return matches.get(0);
+            return match;
          }
       } 
       return null;

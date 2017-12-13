@@ -20,8 +20,8 @@ public class TypeCastChecker {
    private final TypeLoader loader;
    
    public TypeCastChecker(ConstraintMatcher matcher, TypeExtractor extractor, TypeLoader loader) {
+      this.finder = new FunctionFinder(extractor, loader);
       this.comparator = new FunctionComparator(matcher);
-      this.finder = new FunctionFinder(loader);
       this.extractor = extractor;
       this.loader = loader;
    }
