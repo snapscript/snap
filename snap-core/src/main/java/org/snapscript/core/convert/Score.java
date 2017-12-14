@@ -37,6 +37,10 @@ public class Score implements Comparable<Score> {
       return cache;
    }
 
+   public boolean isExact() {
+      return score >= EXACT.score; 
+   }
+   
    public boolean isCompatible() {
       return score >= COMPATIBLE.score; 
    }

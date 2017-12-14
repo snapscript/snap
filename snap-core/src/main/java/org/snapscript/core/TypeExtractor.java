@@ -1,5 +1,6 @@
 package org.snapscript.core;
 
+import java.util.Collections;
 import java.util.Set;
 
 import org.snapscript.common.Cache;
@@ -61,7 +62,7 @@ public class TypeExtractor {
       if(type != null) {
          return traverser.findHierarchy(type);
       }
-      return null;
+      return Collections.emptySet();
    }   
    
    public Set<Type> getTypes(Type type) {

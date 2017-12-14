@@ -33,44 +33,36 @@ public class PackageDefinitionList implements PackageDefinition {
    private class StatementList extends Statement {
       
       private final List<Statement> statements;
+      private final Result normal;
       
       public StatementList(List<Statement> statements) {
+         this.normal = Result.getNormal();
          this.statements = statements;
       }
       
       @Override
       public Result define(Scope scope) throws Exception {
-         Result last = Result.getNormal();
+         Result last = normal;
          
          for(Statement statement : statements){
-            Result result = statement.define(scope);
-         
-            if(!last.isDeclare()) {
-               last = result;
-            }
-            last = result;
+            last = statement.define(scope);
          }
          return last;
       }
                      
       @Override
       public Result compile(Scope scope) throws Exception {
-         Result last = Result.getNormal();
+         Result last = normal;
          
          for(Statement statement : statements){
-            Result result = statement.compile(scope);
-         
-            if(!last.isDeclare()) {
-               last = result;
-            }
-            last = result;
+            last = statement.compile(scope);
          }
          return last;
       }
       
       @Override
       public Result execute(Scope scope) throws Exception {
-         Result result = Result.getNormal();
+         Result result = normal;
          
          for(Statement statement : statements){
             Result next = statement.execute(scope);

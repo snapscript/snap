@@ -20,8 +20,8 @@ public class TypeCastChecker {
    private final TypeLoader loader;
    
    public TypeCastChecker(ConstraintMatcher matcher, TypeExtractor extractor, TypeLoader loader) {
-      this.finder = new FunctionFinder(extractor, loader);
       this.comparator = new FunctionComparator(matcher);
+      this.finder = new FunctionFinder(comparator, extractor, loader);
       this.extractor = extractor;
       this.loader = loader;
    }
@@ -56,9 +56,9 @@ public class TypeCastChecker {
          Function require = null;
          
          if(real != null) {
-            require = finder.find(real);
+            require = finder.findFunctional(real);
          } else {
-            require = finder.find(constraint);
+            require = finder.findFunctional(constraint);
          }
          if(require != null) {
             return comparator.compare((Function)value, require);
