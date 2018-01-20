@@ -51,6 +51,7 @@ import org.snapscript.tree.define.ModuleDefinition;
 import org.snapscript.tree.define.ModuleFunction;
 import org.snapscript.tree.define.ModuleName;
 import org.snapscript.tree.define.ModuleProperty;
+import org.snapscript.tree.define.ModuleStatement;
 import org.snapscript.tree.define.SuperConstructor;
 import org.snapscript.tree.define.ThisConstructor;
 import org.snapscript.tree.define.TraitConstant;
@@ -233,11 +234,13 @@ public enum Instruction {
    WILD_QUALIFIER(WildQualifier.class, "wild-qualifier"),
    FULL_QUALIFIER(FullQualifier.class, "full-qualifier"),
    IMPORT(Import.class, "import"), 
-   IMPORT_STATIC(ImportStatic.class, "import-static"),
+   IMPORT_STATIC(ImportStatic.class, "import-static"), 
    MODULE_NAME(ModuleName.class, "module-name"),    
    MODULE_PROPERTY(ModuleProperty.class, "module-property"),
    MODULE_DECLARATION(ModuleDeclaration.class, "module-declaration"),
-   MODULE_FUNCTION(ModuleFunction.class, "module-function"),     
+   MODULE_FUNCTION(ModuleFunction.class, "module-function"),
+   MODULE_IMPORT(ModuleStatement.class, "module-import"),   
+   MODULE_STATEMENT(ModuleStatement.class, "module-statement"),
    MODULE_DEFINITION(ModuleDefinition.class, "module-definition"),     
    SCRIPT_FUNCTION(ScriptFunction.class, "script-function"),
    SCRIPT_PACKAGE(ScriptPackage.class, "script-package"),

@@ -1,5 +1,6 @@
 package org.snapscript.tree.variable;
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.Module;
@@ -33,11 +34,11 @@ public class ModulePointer implements VariablePointer<Module> {
          
          if(value == null) {
             Type type = left.getType(name);
-           
+            
             if(type != null) {
                return Value.getTransient(type);
             }
-            Property match = pointer.match(scope, left);
+            Property match = match(scope, left);
             
             if(match != null) {
                reference.set(match);
@@ -47,5 +48,18 @@ public class ModulePointer implements VariablePointer<Module> {
          return value;
       } 
       return new PropertyValue(property, left, name);
+   }
+   
+   private Property match(Scope scope, Module left) {
+      List<Property> properties = left.getProperties();
+      
+      for(Property property : properties){
+         String field = property.getName();
+         
+         if(field.equals(name)) {
+            return property;
+         }
+      }
+      return pointer.match(scope, left);
    }
 }

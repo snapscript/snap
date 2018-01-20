@@ -311,7 +311,8 @@ module-property = <assignment-variable>?(':'<constraint>)?('='<assignment-expres
 module-declaration = <field-modifier-list><module-property>*(','<module-property>)';';
 module-function = <annotation-list><access-modifier-list><function>'('<parameter-list>')'?(':'<constraint>)<group-statement>;
 module-statement = {<try-statement> | <synchronized-statement> | <conditional-statement> | <type-definition> | <assignment-statement> | <expression-statement>};
-module-definition = ?<annotation-list>'module'_<module-name>{<empty-statement> | '{'*{<module-import> | <module-function> | <module-declaration> | <module-statement>}'}'};
+module-part = {<module-import> | <module-function> | <module-declaration> | <module-statement>};
+module-definition = ?<annotation-list>'module'_<module-name>{'{}' | '{'*<module-part>'}'};
  
 script-import = <import-static> | <import>;
 script-function = 'function'_<function>'('<parameter-list>')'?(':'<constraint>)<group-statement>;

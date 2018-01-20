@@ -9,15 +9,17 @@ import org.snapscript.core.Statement;
 public class ModuleBody extends Statement {
 
    private final Statement[] statements;
+   private final ModulePart[] parts;
    private final AtomicBoolean execute;
    private final AtomicBoolean compile;
    private final AtomicBoolean define;
    
-   public ModuleBody(Statement... statements) {
+   public ModuleBody(ModulePart... parts) {
+      this.statements = new Statement[parts.length];
       this.execute = new AtomicBoolean(true);
       this.compile = new AtomicBoolean(true);
       this.define = new AtomicBoolean(true);
-      this.statements = statements;
+      this.parts = parts;
    }
    
    @Override
@@ -25,13 +27,9 @@ public class ModuleBody extends Statement {
       Result last = Result.getNormal();
       
       if(define.compareAndSet(true, false)) {
-         for(Statement statement : statements) {
-            Result result = statement.define(scope);
-            
-            if(!result.isNormal()){
-               return result;
-            }
-            last = result;
+         for(int i = 0; i < parts.length; i++) {
+            statements[i] = parts[i].define(this);
+            statements[i].define(scope);
          }
       }
       return last;

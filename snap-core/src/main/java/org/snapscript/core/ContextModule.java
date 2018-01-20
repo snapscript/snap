@@ -10,12 +10,14 @@ import org.snapscript.common.CopyOnWriteCache;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.link.ImportManager;
+import org.snapscript.core.property.Property;
 
 public class ContextModule implements Module {
    
    private final Cache<String, Module> modules;
    private final Cache<String, Type> types;
-   private final List<Annotation> annotations;   
+   private final List<Annotation> annotations;  
+   private final List<Property> properties; 
    private final List<Function> functions; 
    private final List<Type> references;
    private final ImportManager manager;
@@ -33,6 +35,7 @@ public class ContextModule implements Module {
       this.manager = new ImportManager(this, executor, path, prefix);
       this.annotations = new CopyOnWriteArrayList<Annotation>();
       this.functions = new CopyOnWriteArrayList<Function>();
+      this.properties = new CopyOnWriteArrayList<Property>();
       this.references = new CopyOnWriteArrayList<Type>();
       this.modules = new CopyOnWriteCache<String, Module>();
       this.types = new CopyOnWriteCache<String, Type>(); 
@@ -61,6 +64,11 @@ public class ContextModule implements Module {
    @Override
    public List<Function> getFunctions() {
       return functions;
+   }
+   
+   @Override
+   public List<Property> getProperties() {
+      return properties;
    }
    
    @Override

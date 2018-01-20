@@ -33,7 +33,7 @@ public class Import implements Compilation {
    }
    
    @Override
-   public Object compile(Module module, Path path, int line) throws Exception {
+   public Statement compile(Module module, Path path, int line) throws Exception {
       Context context = module.getContext();
       TypeLoader loader = context.getLoader();
       String location = qualifier.getLocation();

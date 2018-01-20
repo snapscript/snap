@@ -6,6 +6,7 @@ import java.util.List;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.link.ImportManager;
+import org.snapscript.core.property.Property;
 
 public interface Module extends Any{
    Scope getScope();
@@ -17,6 +18,7 @@ public interface Module extends Any{
    Module getModule(String module); 
    InputStream getResource(String path);
    List<Annotation> getAnnotations();
+   List<Property> getProperties();
    List<Function> getFunctions();
    List<Type> getTypes();
    String getName();

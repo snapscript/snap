@@ -18,10 +18,10 @@ public class ModuleDefinition extends Statement {
    private final ModuleBuilder builder;
    private final Statement body;
    
-   public ModuleDefinition(AnnotationList annotations, ModuleName module, Statement... body) {
+   public ModuleDefinition(AnnotationList annotations, ModuleName module, ModulePart... parts) {
       this.builder = new ModuleBuilder(annotations, module);
       this.reference = new AtomicReference<Module>();
-      this.body = new ModuleBody(body);
+      this.body = new ModuleBody(parts);
    }
    
    @Override

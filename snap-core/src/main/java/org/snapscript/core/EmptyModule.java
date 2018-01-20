@@ -8,14 +8,17 @@ import java.util.List;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.link.ImportManager;
+import org.snapscript.core.property.Property;
 
 public class EmptyModule implements Module {
-   
+
+   private final List<Property> properties;
    private final List<Function> functions;
    private final Context context;
    private final Scope scope;
    
    public EmptyModule(Context context) {
+      this.properties = new ArrayList<Property>();
       this.functions = new ArrayList<Function>();
       this.scope = new ModelScope(null, this);
       this.context = context;
@@ -64,6 +67,11 @@ public class EmptyModule implements Module {
    @Override
    public List<Annotation> getAnnotations() {
       return Collections.emptyList();
+   }
+   
+   @Override
+   public List<Property> getProperties() {
+      return properties;
    }
 
    @Override
