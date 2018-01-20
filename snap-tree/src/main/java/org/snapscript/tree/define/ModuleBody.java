@@ -30,6 +30,7 @@ public class ModuleBody extends Statement {
          for(int i = 0; i < parts.length; i++) {
             statements[i] = parts[i].define(this);
             statements[i].define(scope);
+            parts[i] = null;
          }
       }
       return last;
@@ -40,8 +41,8 @@ public class ModuleBody extends Statement {
       Result last = Result.getNormal();
       
       if(compile.compareAndSet(true, false)) {
-         for(Statement statement : statements) {
-            Result result = statement.compile(scope);
+         for(int i = 0; i < parts.length; i++) {
+            Result result = statements[i].compile(scope);
             
             if(!result.isNormal()){
                return result;
@@ -57,12 +58,13 @@ public class ModuleBody extends Statement {
       Result last = Result.getNormal();
       
       if(execute.compareAndSet(true, false)) {
-         for(Statement statement : statements) {
-            Result result = statement.execute(scope);
+         for(int i = 0; i < parts.length; i++) {
+            Result result = statements[i].execute(scope);
             
             if(!result.isNormal()){
                return result;
             }
+            statements[i] = null;
             last = result;
          }
       }
