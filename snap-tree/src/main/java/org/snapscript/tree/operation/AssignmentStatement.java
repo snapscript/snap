@@ -42,9 +42,8 @@ public class AssignmentStatement implements Compilation {
       }
       
       @Override
-      public Result compile(Scope scope) throws Exception {
+      public void compile(Scope scope) throws Exception {
          assignment.compile(scope);
-         return Result.getNormal();
       }
       
       @Override

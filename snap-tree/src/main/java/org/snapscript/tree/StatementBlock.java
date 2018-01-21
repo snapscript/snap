@@ -18,11 +18,10 @@ public class StatementBlock extends Statement {
    }
    
    @Override
-   public Result compile(Scope scope) throws Exception {
+   public void compile(Scope scope) throws Exception {
       if(executor == null) {
          executor = compiler.compile(scope);
       }
-      return Result.getNormal();
    }
    
    @Override

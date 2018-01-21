@@ -20,11 +20,11 @@ public class TraceStatement extends Statement {
    }
    
    @Override
-   public Result compile(Scope scope) throws Exception {
+   public void compile(Scope scope) throws Exception {
       try {
-         return statement.compile(scope);
+         statement.compile(scope);
       }catch(Exception cause) {
-         return handler.throwInternalError(scope, cause, trace);
+         handler.throwInternalError(scope, cause, trace);
       }
    }
    

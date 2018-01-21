@@ -7,7 +7,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.snapscript.common.Progress;
 import org.snapscript.core.Phase;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
@@ -35,24 +34,19 @@ public class EnumDefinition extends Statement {
    }
    
    @Override
-   public Result define(Scope outer) throws Exception {
+   public void define(Scope outer) throws Exception {
       if(!define.compareAndSet(false, true)) {
-         Result result = builder.define(outer);
-         Type type = result.getValue();
+         Type type = builder.define(outer);
          Progress<Phase> progress = type.getProgress();
       
          progress.done(DEFINED);
-         
-         return result;
       }
-      return Result.getNormal();
    }
 
    @Override
-   public Result compile(Scope outer) throws Exception {
+   public void compile(Scope outer) throws Exception {
       if(!compile.compareAndSet(false, true)) {
-         Result result = builder.compile(outer);
-         Type type = result.getValue();
+         Type type = builder.compile(outer);
          TypeFactory keys = list.compile(collector, type);
          Scope scope = type.getScope();
          Progress<Phase> progress = type.getProgress();
@@ -68,8 +62,6 @@ public class EnumDefinition extends Statement {
          } finally {
             progress.done(COMPILED);
          }
-         return result;
       }
-      return Result.getNormal();
    }
 }

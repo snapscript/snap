@@ -14,27 +14,27 @@ import org.snapscript.core.Value;
 import org.snapscript.core.property.ConstantPropertyBuilder;
 import org.snapscript.core.property.Property;
 
-public class ClassConstantBuilder {
+public class ClassConstantGenerator {
    
    private final ConstantPropertyBuilder builder;
    
-   public ClassConstantBuilder() {
+   public ClassConstantGenerator() {
       this.builder = new ConstantPropertyBuilder();
    }
 
-   public void declare(Scope scope, Type type) throws Exception {
-      declareConstant(scope, TYPE_THIS, type);
-      declareConstant(scope, TYPE_CLASS, type, type);
+   public void generate(Scope scope, Type type) throws Exception {
+      generateConstant(scope, TYPE_THIS, type);
+      generateConstant(scope, TYPE_CLASS, type, type);
    }
    
-   protected void declareConstant(Scope scope, String name, Type type) throws Exception {
+   protected void generateConstant(Scope scope, String name, Type type) throws Exception {
       List<Property> properties = type.getProperties();
       Property property = builder.createConstant(name);
       
       properties.add(property);
    }
    
-   protected void declareConstant(Scope scope, String name, Type type, Object value) throws Exception {
+   protected void generateConstant(Scope scope, String name, Type type, Object value) throws Exception {
       List<Property> properties = type.getProperties();
       Property property = builder.createConstant(name, value);
       Value constant = Value.getBlank(value, null, PUBLIC.mask | CONSTANT.mask);
@@ -44,7 +44,7 @@ public class ClassConstantBuilder {
       state.add(name, constant);
    }
    
-   protected void declareConstant(Scope scope, String name, Type type, Type parent, Object value) throws Exception {
+   protected void generateConstant(Scope scope, String name, Type type, Type parent, Object value) throws Exception {
       List<Property> properties = type.getProperties();
       Property property = builder.createConstant(name, value, type);
       Value constant = Value.getBlank(value, parent, PUBLIC.mask | CONSTANT.mask);
@@ -53,4 +53,6 @@ public class ClassConstantBuilder {
       properties.add(property);
       state.add(name, constant);
    }
+   
+   
 }

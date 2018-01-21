@@ -42,13 +42,12 @@ public class DeclarationStatement implements Compilation {
       }  
       
       @Override
-      public Result compile(Scope scope) throws Exception {
+      public void compile(Scope scope) throws Exception {
          ModifierType type = modifier.getType();
          
          for(Declaration declaration : declarations) {
             declaration.compile(scope, type.mask); 
          }
-         return Result.getDeclare();
       }
       
       @Override

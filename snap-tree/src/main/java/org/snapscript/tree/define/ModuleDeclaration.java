@@ -80,7 +80,7 @@ public class ModuleDeclaration implements Compilation {
       }  
       
       @Override
-      public Result compile(Scope scope) throws Exception {
+      public void compile(Scope scope) throws Exception {
          Module module = scope.getModule();
          Scope outer = scope.getScope();
          List<Property> list = module.getProperties();
@@ -90,7 +90,6 @@ public class ModuleDeclaration implements Compilation {
             Property property = declaration.compile(body, outer, mask | STATIC.mask); 
             list.add(property);
          }
-         return Result.getNormal();
       }
       
       @Override

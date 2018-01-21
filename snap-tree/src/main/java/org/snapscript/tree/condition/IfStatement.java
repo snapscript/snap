@@ -51,13 +51,13 @@ public class IfStatement implements Compilation {
       }
       
       @Override
-      public Result compile(Scope scope) throws Exception {
+      public void compile(Scope scope) throws Exception {
          condition.compile(scope);
          
          if(negative != null) {
             negative.compile(scope);
          }       
-         return positive.compile(scope);
+         positive.compile(scope);
       }
       
       @Override

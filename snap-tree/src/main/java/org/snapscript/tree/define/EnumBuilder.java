@@ -7,46 +7,56 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.Module;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
-import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
+import org.snapscript.core.property.ConstantPropertyBuilder;
+import org.snapscript.core.property.Property;
 
-public class EnumBuilder extends Statement {
+public class EnumBuilder {
 
    private final AtomicReference<Type> reference;
-   private final EnumConstantBuilder builder;
+   private final EnumConstantGenerator generator;
+   private final ConstantPropertyBuilder builder;
    private final TypeHierarchy hierarchy;
    private final TypeName name;
    private final List values;
    
    public EnumBuilder(TypeName name, TypeHierarchy hierarchy) {
       this.reference = new AtomicReference<Type>();
-      this.builder = new EnumConstantBuilder();
+      this.generator = new EnumConstantGenerator();
+      this.builder = new ConstantPropertyBuilder();
       this.values = new ArrayList();
       this.hierarchy = hierarchy;
       this.name = name;
    }
    
-   @Override
-   public Result define(Scope outer) throws Exception {
+   public Type define(Scope outer) throws Exception {
       Module module = outer.getModule();
       String alias = name.getName(outer);
       Type type = module.addType(alias, ENUM);
       
       reference.set(type);
       
-      return Result.getNormal(type);
+      return type;
    }
    
-   @Override
-   public Result compile(Scope outer) throws Exception {
+   public Type compile(Scope outer) throws Exception {
       Type type = reference.get();
+      Type enclosing = outer.getType();
       Scope scope = type.getScope();
       
-      builder.declare(scope, type, values);
+      if(enclosing != null) {
+         String name = type.getName();
+         String prefix = enclosing.getName();
+         String key = name.replace(prefix + '$', ""); // get the class name
+         Property property = builder.createConstant(key, type, enclosing);
+         List<Property> properties = enclosing.getProperties();
+         
+         properties.add(property);
+      }
+      generator.generate(scope, type, values);
       hierarchy.extend(scope, type); // this may throw exception if missing type
       
-      return Result.getNormal(type);
+      return type;
    }
 }

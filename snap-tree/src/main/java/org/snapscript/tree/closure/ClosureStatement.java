@@ -17,14 +17,13 @@ public class ClosureStatement extends Statement {
    }
    
    @Override
-   public Result compile(Scope scope) throws Exception {   
+   public void compile(Scope scope) throws Exception {   
       if(evaluation != null){
          evaluation.compile(scope);
       }
       if(statement != null) {
          statement.compile(scope);
       }
-      return Result.getNormal();
    }
 
    @Override

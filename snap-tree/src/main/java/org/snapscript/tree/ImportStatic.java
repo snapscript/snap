@@ -8,7 +8,6 @@ import org.snapscript.core.ModifierType;
 import org.snapscript.core.Module;
 import org.snapscript.core.NameBuilder;
 import org.snapscript.core.Path;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
@@ -47,7 +46,7 @@ public class ImportStatic implements Compilation {
       }
       
       @Override
-      public Result compile(Scope scope) throws Exception {
+      public void compile(Scope scope) throws Exception {
          Module module = scope.getModule();
          String parent = builder.createFullName(location, target);
          Type type = module.getType(parent); // this is a type name
@@ -69,7 +68,6 @@ public class ImportStatic implements Compilation {
                }
             }
          }
-         return Result.getNormal();
       }
       
    }

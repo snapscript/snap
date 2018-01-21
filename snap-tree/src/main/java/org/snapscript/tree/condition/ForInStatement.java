@@ -61,7 +61,7 @@ public class ForInStatement implements Compilation {
       }
       
       @Override
-      public Result compile(Scope scope) throws Exception { 
+      public void compile(Scope scope) throws Exception { 
          String name = reference.getName(scope);
          Index index = scope.getIndex();
          int size = index.size();
@@ -71,7 +71,7 @@ public class ForInStatement implements Compilation {
             collection.compile(scope);
             offset.set(depth);
             
-            return body.compile(scope);
+            body.compile(scope);
          } finally {
             index.reset(size);
          }

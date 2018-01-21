@@ -50,20 +50,12 @@ public class SwitchStatement implements Compilation {
       }
       
       @Override
-      public Result compile(Scope scope) throws Exception {
-         Result last = Result.getNormal();
-         
+      public void compile(Scope scope) throws Exception {
          for(int i = 0; i < cases.length; i++){
             Statement statement = cases[i].getStatement();
-            Result result = statement.compile(scope);
-            
-            if(!result.isNormal()){
-               return result;
-            }
-            last = result;
+            statement.compile(scope);
          }
          condition.compile(scope);
-         return last;
       }
       
       @Override

@@ -23,9 +23,7 @@ public class ModuleBody extends Statement {
    }
    
    @Override
-   public Result define(Scope scope) throws Exception {
-      Result last = Result.getNormal();
-      
+   public void define(Scope scope) throws Exception {
       if(define.compareAndSet(true, false)) {
          for(int i = 0; i < parts.length; i++) {
             statements[i] = parts[i].define(this);
@@ -33,24 +31,15 @@ public class ModuleBody extends Statement {
             parts[i] = null;
          }
       }
-      return last;
    }
    
    @Override
-   public Result compile(Scope scope) throws Exception {
-      Result last = Result.getNormal();
-      
+   public void compile(Scope scope) throws Exception {
       if(compile.compareAndSet(true, false)) {
-         for(int i = 0; i < parts.length; i++) {
-            Result result = statements[i].compile(scope);
-            
-            if(!result.isNormal()){
-               return result;
-            }
-            last = result;
+         for(int i = 0; i < statements.length; i++) {
+            statements[i].compile(scope);
          }
       }
-      return last;
    }
    
    @Override
@@ -58,7 +47,7 @@ public class ModuleBody extends Statement {
       Result last = Result.getNormal();
       
       if(execute.compareAndSet(true, false)) {
-         for(int i = 0; i < parts.length; i++) {
+         for(int i = 0; i < statements.length; i++) {
             Result result = statements[i].execute(scope);
             
             if(!result.isNormal()){

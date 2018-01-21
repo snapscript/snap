@@ -22,13 +22,13 @@ import org.snapscript.tree.NameReference;
 
 public class EnumFactory extends TypeFactory {
    
-   private final EnumConstantBuilder initializer;
+   private final EnumConstantGenerator generator;
    private final EnumConstructorBinder binder;
    private final NameReference reference;
    private final int index;
    
    public EnumFactory(EnumKey key, ArgumentList arguments, int index) {
-      this.initializer = new EnumConstantBuilder();
+      this.generator = new EnumConstantGenerator();
       this.binder = new EnumConstructorBinder(arguments);
       this.reference = new NameReference(key);
       this.index = index;
@@ -56,9 +56,9 @@ public class EnumFactory extends TypeFactory {
       List values = value.getValue();
       Object object = wrapper.toProxy(instance);
       
-      initializer.declareConstant(scope, name, type, type, instance);
-      initializer.declareConstant(instance, ENUM_NAME, type, name); // might declare name as property many times
-      initializer.declareConstant(instance, ENUM_ORDINAL, type, index);
+      generator.generateConstant(scope, name, type, type, instance);
+      generator.generateConstant(instance, ENUM_NAME, type, name); // might declare name as property many times
+      generator.generateConstant(instance, ENUM_ORDINAL, type, index);
       values.add(object);
       
       return Result.getNormal(instance);

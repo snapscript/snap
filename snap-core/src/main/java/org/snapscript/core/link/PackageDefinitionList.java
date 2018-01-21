@@ -41,23 +41,17 @@ public class PackageDefinitionList implements PackageDefinition {
       }
       
       @Override
-      public Result define(Scope scope) throws Exception {
-         Result last = normal;
-         
+      public void define(Scope scope) throws Exception {
          for(Statement statement : statements){
-            last = statement.define(scope);
+            statement.define(scope);
          }
-         return last;
       }
                      
       @Override
-      public Result compile(Scope scope) throws Exception {
-         Result last = normal;
-         
+      public void compile(Scope scope) throws Exception {
          for(Statement statement : statements){
-            last = statement.compile(scope);
+            statement.compile(scope);
          }
-         return last;
       }
       
       @Override

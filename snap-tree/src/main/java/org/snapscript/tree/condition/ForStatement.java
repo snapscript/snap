@@ -57,7 +57,7 @@ public class ForStatement implements Compilation {
       }
       
       @Override
-      public Result compile(Scope scope) throws Exception {
+      public void compile(Scope scope) throws Exception {
          Index index = scope.getIndex();
          int size = index.size();
          
@@ -68,7 +68,7 @@ public class ForStatement implements Compilation {
             if(assignment != null) {
                assignment.compile(scope);
             }
-            return body.compile(scope);
+            body.compile(scope);
          } finally {
             index.reset(size);
          }

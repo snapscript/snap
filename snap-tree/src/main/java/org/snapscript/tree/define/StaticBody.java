@@ -1,6 +1,5 @@
 package org.snapscript.tree.define;
 
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
@@ -17,7 +16,7 @@ public class StaticBody extends Statement {
    }
 
    @Override
-   public Result compile(Scope scope) throws Exception {
-      return factory.compile(scope, type);
+   public void compile(Scope scope) throws Exception {
+      factory.compile(scope, type);
    }
 }

@@ -83,25 +83,23 @@ public class Import implements Compilation {
       }
       
       @Override
-      public Result define(Scope scope) throws Exception {
+      public void define(Scope scope) throws Exception {
          if(library == null) {
             throw new InternalStateException("Import '" + location + "' was not loaded");
          }
          if(definition == null) { // define once
             definition = create(scope);
          }
-         return Result.getNormal(); 
       }
 
       @Override
-      public Result compile(Scope scope) throws Exception {
+      public void compile(Scope scope) throws Exception {
          if(definition == null) {
             throw new InternalStateException("Import '" + location + "' was not defined");
          }
          if(statement == null) { // compile once
             statement = definition.compile(scope, path);
          }
-         return Result.getNormal();
       }
       
       @Override

@@ -19,23 +19,23 @@ public class FutureStatement extends Statement {
    }
 
    @Override
-   public Result define(Scope scope) throws Exception {
+   public void define(Scope scope) throws Exception {
       Statement definition = result.get();
       
       if(definition == null) {
          throw new InternalStateException("Could not define '" + path + "'");
       }
-      return definition.define(scope);
+      definition.define(scope);
    }
    
    @Override
-   public Result compile(Scope scope) throws Exception {
+   public void compile(Scope scope) throws Exception {
       Statement definition = result.get();
       
       if(definition == null) {
          throw new InternalStateException("Could not compile '" + path + "'");
       }
-      return definition.compile(scope);
+      definition.compile(scope);
    }
    
    @Override

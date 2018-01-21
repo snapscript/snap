@@ -25,25 +25,23 @@ public class ModuleDefinition extends Statement {
    }
    
    @Override
-   public Result define(Scope scope) throws Exception {
+   public void define(Scope scope) throws Exception {
       Module module = builder.create(scope);
       Scope inner = module.getScope();
       
       reference.set(module);
-      
-      return body.define(inner); 
+      body.define(inner); 
    }
 
    @Override
-   public Result compile(Scope scope) throws Exception {
+   public void compile(Scope scope) throws Exception {
       Module module = reference.get();
       Value value = Value.getTransient(module);
       Scope inner = module.getScope();
       State state = inner.getState();
       
       state.add(TYPE_THIS, value);
-      
-      return body.compile(inner); // must be module scope
+      body.compile(inner); // must be module scope
    }
    
    @Override

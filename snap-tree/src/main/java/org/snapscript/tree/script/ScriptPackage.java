@@ -22,37 +22,21 @@ public class ScriptPackage extends Statement {
    }
    
    @Override
-   public Result define(Scope scope) throws Exception {
-      Result last = Result.getNormal();
-      
+   public void define(Scope scope) throws Exception {
       if(define.compareAndSet(true, false)) {
          for(Statement statement : statements) {
-            Result result = statement.define(scope);
-            
-            if(!result.isNormal()){
-               throw new InternalStateException("Illegal statement");
-            }
-            last = result;
+            statement.define(scope);
          }
       }
-      return last;
    }
    
    @Override
-   public Result compile(Scope scope) throws Exception {
-      Result last = Result.getNormal();
-      
+   public void compile(Scope scope) throws Exception {
       if(compile.compareAndSet(true, false)) {
          for(Statement statement : statements) {
-            Result result = statement.compile(scope);
-            
-            if(!result.isNormal()){
-               throw new InternalStateException("Illegal statement");
-            }
-            last = result;
+            statement.compile(scope);
          }
       }
-      return last;
    }
    
    @Override

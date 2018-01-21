@@ -42,9 +42,8 @@ public class AssertStatement implements Compilation {
       }
 
       @Override
-      public Result compile(Scope scope) throws Exception {
+      public void compile(Scope scope) throws Exception {
          evaluation.compile(scope);
-         return Result.getNormal();
       }
       
       @Override
