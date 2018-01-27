@@ -7,11 +7,14 @@ import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.function.Invocation;
+import org.snapscript.core.shell.ShellFactory;
 
 public class PartialPlatform implements Platform {
    
+   private final ShellFactory factory;
+   
    public PartialPlatform() {
-      super();
+      this.factory = new ShellFactory();
    }
 
    @Override
@@ -33,6 +36,11 @@ public class PartialPlatform implements Platform {
    public Invocation createConstructor(Type type, Constructor constructor) {
       return new DelegateConstructorInvocation(constructor);
    } 
+   
+   @Override
+   public Invocation createShellConstructor(Type type) {
+      return factory.createInvocation(type);
+   }
    
    public class DelegateMethodInvocation implements Invocation {
       

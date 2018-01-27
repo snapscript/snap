@@ -24,7 +24,7 @@ public class VariableBinder {
       Value value = pointer.get(scope, object);
       
       if(value == null) {
-         throw new InternalStateException("Could not resolve '" + name +"' in scope");
+         throw new InternalStateException("Could not resolve '" + name + "' in scope");
       }
       return value;
    }
