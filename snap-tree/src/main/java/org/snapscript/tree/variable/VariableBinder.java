@@ -16,7 +16,17 @@ public class VariableBinder {
       this.resolver = new VariablePointerResolver(reference);
    }
    
-   public Value bind(Scope scope, Object left, String name) throws Exception {
+   public Value bind(Scope scope, String name) throws Exception {
+      VariablePointer pointer = resolver.resolve(scope);
+      Value value = pointer.get(scope, null);
+      
+      if(value == null) {
+         throw new InternalStateException("Could not resolve '" + name +"' in scope");
+      }
+      return value;
+   }
+   
+   public Value bind(Scope scope, String name, Object left) throws Exception {
       Module module = scope.getModule();
       Context context = module.getContext();
       ProxyWrapper wrapper = context.getWrapper();

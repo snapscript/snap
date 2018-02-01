@@ -19,6 +19,15 @@ public class VariablePointerBuilder {
       this.reference = reference;
    }
 
+   public VariablePointer create(Scope scope) throws Exception {
+      String name = reference.getName(scope);
+      
+      if(Instance.class.isInstance(scope)) {
+         return new InstancePointer(resolver, name);
+      }
+      return new LocalPointer(resolver, name);
+   }
+   
    public VariablePointer create(Scope scope, Object left) throws Exception {
       String name = reference.getName(scope);
       
@@ -45,9 +54,6 @@ public class VariablePointerBuilder {
          }
          return new ObjectPointer(resolver, name);
       }
-      if(Instance.class.isInstance(scope)) {
-         return new InstancePointer(resolver, name);
-      }
-      return new LocalPointer(resolver, name);
+      return create(scope);
    }
 }

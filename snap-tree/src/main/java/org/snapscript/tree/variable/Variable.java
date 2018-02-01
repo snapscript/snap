@@ -4,6 +4,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Index;
+import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Table;
@@ -53,7 +54,8 @@ public class Variable extends Evaluation {
                return value;
             }
          }
+         return binder.bind(scope, name);
       }
-      return binder.bind(scope, left, name);
-   }  
+      return binder.bind(scope, name, left);
+   } 
 }
