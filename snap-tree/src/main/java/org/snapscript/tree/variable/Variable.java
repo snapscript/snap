@@ -2,8 +2,8 @@ package org.snapscript.tree.variable;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.snapscript.core.Index;
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.Index;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Table;
@@ -18,7 +18,7 @@ public class Variable extends Evaluation {
    
    public Variable(Evaluation identifier) {
       this.reference = new NameReference(identifier);
-      this.binder = new VariableBinder();
+      this.binder = new VariableBinder(reference);
       this.offset = new AtomicInteger(-1);
    }
 

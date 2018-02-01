@@ -6,13 +6,13 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeExtractor;
 
-public class VariableKeyBuilder {
+public class VariableIndexResolver {
    
-   public VariableKeyBuilder() {
+   public VariableIndexResolver() {
       super();
    }
    
-   public Object create(Scope scope, Object left, String name){
+   public int resolve(Scope scope, Object left){
       if(left != null) {
          Module module = scope.getModule();
          Context context = module.getContext();
@@ -20,9 +20,9 @@ public class VariableKeyBuilder {
          Type type = extractor.getType(left);
          
          if(type != null) {
-            return new VariableKey(name, type);
+            return type.getOrder();
          }
       }
-      return name;
+      return 0;
    }
 }
