@@ -4,17 +4,17 @@ import org.snapscript.core.Identity;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
+import org.snapscript.core.dispatch.CallDispatcher;
 import org.snapscript.core.function.Invocation;
+import org.snapscript.tree.CallSite;
 import org.snapscript.tree.NameReference;
-import org.snapscript.tree.dispatch.InvocationBinder;
-import org.snapscript.tree.dispatch.InvocationDispatcher;
 
 public class FunctionReferenceInvocation implements Invocation {
 
    private final FunctionReferenceAligner aligner;
-   private final InvocationBinder binder;
    private final NameReference reference;
    private final Identity identity;
+   private final CallSite site;
    private final Module module;
    private final Object value;
    
@@ -22,7 +22,7 @@ public class FunctionReferenceInvocation implements Invocation {
       this.aligner = new FunctionReferenceAligner(value, method);
       this.identity = new Identity(method);
       this.reference = new NameReference(identity);
-      this.binder = new InvocationBinder(reference);
+      this.site = new CallSite(reference);
       this.module = module;
       this.value = value;
    }
@@ -31,7 +31,7 @@ public class FunctionReferenceInvocation implements Invocation {
    public Object invoke(Scope scope, Object object, Object... list) throws Exception {
       Scope actual = module.getScope();
       Object[] arguments = aligner.align(list); // align constructor arguments
-      InvocationDispatcher dispatcher = binder.bind(actual, value);
+      CallDispatcher dispatcher = site.get(actual, value);
       Value result = dispatcher.dispatch(actual, value, arguments);
       
       return result.getValue();

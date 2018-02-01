@@ -2,12 +2,12 @@ package org.snapscript.compile;
 
 import junit.framework.TestCase;
 
-import org.snapscript.tree.collection.PrimitiveByteList;
-import org.snapscript.tree.collection.PrimitiveDoubleList;
-import org.snapscript.tree.collection.PrimitiveFloatList;
-import org.snapscript.tree.collection.PrimitiveIntegerList;
-import org.snapscript.tree.collection.PrimitiveLongList;
-import org.snapscript.tree.collection.PrimitiveShortList;
+import org.snapscript.core.array.PrimitiveByteList;
+import org.snapscript.core.array.PrimitiveDoubleList;
+import org.snapscript.core.array.PrimitiveFloatList;
+import org.snapscript.core.array.PrimitiveIntegerList;
+import org.snapscript.core.array.PrimitiveLongList;
+import org.snapscript.core.array.PrimitiveShortList;
 
 public class PrimitiveListTest extends TestCase {
 

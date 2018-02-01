@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.snapscript.core.InternalArgumentException;
+import org.snapscript.core.array.ArrayBuilder;
 
 public class CollectionConverter {
 

@@ -3,6 +3,7 @@ package org.snapscript.core;
 import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.ProxyWrapper;
+import org.snapscript.core.dispatch.CallTable;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.link.PackageLinker;
 import org.snapscript.core.platform.PlatformProvider;
@@ -20,9 +21,11 @@ public interface Context extends Any {
    TraceInterceptor getInterceptor();
    ExpressionEvaluator getEvaluator();
    FunctionBinder getBinder();
+   CallTable getTable();
    PlatformProvider getProvider();
    PackageLinker getLinker();
    ProxyWrapper getWrapper();
    TypeLoader getLoader();
+
    
 }

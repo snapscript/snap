@@ -12,14 +12,15 @@ import org.snapscript.core.Path;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Table;
 import org.snapscript.core.Value;
+import org.snapscript.core.dispatch.CallBinder;
+import org.snapscript.core.dispatch.CallDispatcher;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceEvaluation;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.tree.ArgumentList;
+import org.snapscript.tree.CallSite;
 import org.snapscript.tree.NameReference;
-import org.snapscript.tree.dispatch.InvocationBinder;
-import org.snapscript.tree.dispatch.InvocationDispatcher;
 
 public class FunctionInvocation implements Compilation {
    
@@ -40,15 +41,15 @@ public class FunctionInvocation implements Compilation {
    
    private static class CompileResult extends Evaluation {
    
-      private final InvocationBinder dispatcher;
       private final NameReference reference;
       private final ArgumentList arguments;
       private final Evaluation[] evaluations; // func()[1][x]
       private final AtomicInteger offset;
+      private final CallSite site;
       
       public CompileResult(Evaluation function, ArgumentList arguments, Evaluation... evaluations) {
          this.reference = new NameReference(function);
-         this.dispatcher = new InvocationBinder(reference);
+         this.site = new CallSite(reference);
          this.offset = new AtomicInteger();
          this.evaluations = evaluations;
          this.arguments = arguments;
@@ -91,7 +92,7 @@ public class FunctionInvocation implements Compilation {
          String name = reference.getName(scope); 
          Value array = arguments.create(scope); 
          Object[] arguments = array.getValue();
-         InvocationDispatcher handler = dispatcher.bind(scope, left);
+         CallDispatcher handler = site.get(scope, left);
          Value value = handler.dispatch(scope, left, arguments);
          
          for(Evaluation evaluation : evaluations) {

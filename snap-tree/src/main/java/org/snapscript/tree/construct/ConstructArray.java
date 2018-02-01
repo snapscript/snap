@@ -9,11 +9,11 @@ import org.snapscript.core.Path;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
+import org.snapscript.core.array.ArrayBuilder;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceEvaluation;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.tree.Argument;
-import org.snapscript.tree.collection.ArrayBuilder;
 
 public class ConstructArray implements Compilation {
    

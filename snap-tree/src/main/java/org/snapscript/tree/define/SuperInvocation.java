@@ -5,22 +5,22 @@ import org.snapscript.core.LocalScopeExtractor;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
+import org.snapscript.core.dispatch.CallDispatcher;
 import org.snapscript.tree.ArgumentList;
 import org.snapscript.tree.NameReference;
-import org.snapscript.tree.dispatch.InvocationDispatcher;
 
 public class SuperInvocation extends Evaluation {
 
    private final SuperInstanceBuilder builder;
-   private final SuperInvocationBinder binder;
    private final LocalScopeExtractor extractor;
    private final NameReference reference;
    private final ArgumentList arguments;
+   private final SuperCallSite site;
    
    public SuperInvocation(Evaluation function, ArgumentList arguments, Type type) {
       this.extractor = new LocalScopeExtractor(true, false);
       this.reference = new NameReference(function);
-      this.binder = new SuperInvocationBinder(reference, type);
+      this.site = new SuperCallSite(reference, type);
       this.builder = new SuperInstanceBuilder(type);
       this.arguments = arguments;
    }
@@ -29,7 +29,7 @@ public class SuperInvocation extends Evaluation {
    public Value evaluate(Scope scope, Object left) throws Exception {
       Type real = scope.getType();  
       Scope instance = builder.create(scope, left);
-      InvocationDispatcher dispatcher = binder.bind(instance, null);  
+      CallDispatcher dispatcher = site.bind(instance, null);  
       
       if(arguments != null) {
          Scope outer = real.getScope();

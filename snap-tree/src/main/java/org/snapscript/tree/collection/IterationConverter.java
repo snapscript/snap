@@ -13,6 +13,7 @@ import org.snapscript.core.InternalArgumentException;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
+import org.snapscript.core.array.ArrayBuilder;
 import org.snapscript.core.convert.ProxyWrapper;
 
 public class IterationConverter {

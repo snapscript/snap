@@ -2,7 +2,7 @@ package org.snapscript.compile;
 
 import junit.framework.TestCase;
 
-import org.snapscript.tree.collection.PrimitiveCharacterList;
+import org.snapscript.core.array.PrimitiveCharacterList;
 
 public class PrimitiveCharacterListTest extends TestCase {
 

@@ -14,7 +14,7 @@ public class ErrorHandler {
    private final InternalErrorHandler internal;
    
    public ErrorHandler(TypeExtractor extractor, ThreadStack stack) {
-      this(extractor, stack, true);
+      this(extractor, stack, false);
    }
    
    public ErrorHandler(TypeExtractor extractor, ThreadStack stack, boolean replace) {

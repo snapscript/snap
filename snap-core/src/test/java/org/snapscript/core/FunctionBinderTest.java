@@ -9,9 +9,9 @@ import org.snapscript.common.store.ClassPathStore;
 import org.snapscript.common.store.Store;
 import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.core.bind.FunctionResolver;
-import org.snapscript.core.bind.FunctionResolver;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.ProxyWrapper;
+import org.snapscript.core.dispatch.CallTable;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.link.NoPackage;
 import org.snapscript.core.link.Package;
@@ -131,6 +131,8 @@ public class FunctionBinderTest extends TestCase {
       private final FunctionBinder binder;
       private final FunctionResolver resolver;
       private final PackageLinker linker;
+      private final ErrorHandler handler;
+      private final CallTable table;
       private final Store store;
       
       public TestContext(){
@@ -145,16 +147,23 @@ public class FunctionBinderTest extends TestCase {
          this.binder = new FunctionBinder(extractor, stack, resolver);
          this.wrapper = new ProxyWrapper(this);
          this.matcher = new ConstraintMatcher(loader, wrapper);
+         this.handler = new ErrorHandler(extractor, stack);
+         this.table = new CallTable(binder, handler);
       }
 
       @Override
       public ThreadStack getStack() {
          return stack;
       }
+      
+      @Override
+      public CallTable getTable() {
+         return table;
+      }
 
       @Override
       public ErrorHandler getHandler() {
-         return null;
+         return handler;
       }
 
       @Override

@@ -18,6 +18,7 @@ import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.core.bind.FunctionResolver;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.ProxyWrapper;
+import org.snapscript.core.dispatch.CallTable;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.link.PackageLinker;
 import org.snapscript.core.platform.CachePlatformProvider;
@@ -42,6 +43,7 @@ public class StoreContext implements Context {
    private final PackageLinker linker;
    private final ThreadStack stack;
    private final TypeLoader loader; 
+   private final CallTable table;
    
    public StoreContext(Store store){
       this(store, null);
@@ -63,6 +65,7 @@ public class StoreContext implements Context {
       this.binder = new FunctionBinder(extractor, stack, resolver);
       this.evaluator = new OperationEvaluator(this, executor);
       this.provider = new CachePlatformProvider(extractor, stack);
+      this.table = new CallTable(binder, handler);
    }
    
    @Override
@@ -119,10 +122,15 @@ public class StoreContext implements Context {
    public PlatformProvider getProvider() {
       return provider;
    }
-
+   
    @Override
    public FunctionBinder getBinder() {
       return binder;
+   }
+
+   @Override
+   public CallTable getTable() {
+      return table;
    }
 
    @Override
