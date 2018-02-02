@@ -12,7 +12,6 @@ import org.snapscript.core.Path;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Table;
 import org.snapscript.core.Value;
-import org.snapscript.core.dispatch.CallBinder;
 import org.snapscript.core.dispatch.CallDispatcher;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.trace.Trace;

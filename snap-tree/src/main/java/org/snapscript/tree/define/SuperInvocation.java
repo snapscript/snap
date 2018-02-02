@@ -29,7 +29,7 @@ public class SuperInvocation extends Evaluation {
    public Value evaluate(Scope scope, Object left) throws Exception {
       Type real = scope.getType();  
       Scope instance = builder.create(scope, left);
-      CallDispatcher dispatcher = site.bind(instance, null);  
+      CallDispatcher dispatcher = site.get(instance, null);  
       
       if(arguments != null) {
          Scope outer = real.getScope();
