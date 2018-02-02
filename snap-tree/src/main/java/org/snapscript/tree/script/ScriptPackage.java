@@ -44,12 +44,13 @@ public class ScriptPackage extends Statement {
       Result last = Result.getNormal();
       
       if(execute.compareAndSet(true, false)) {
-         for(Statement statement : statements) {
-            Result result = statement.execute(scope);
+         for(int i = 0; i < statements.length; i++) {
+            Result result = statements[i].execute(scope);
             
             if(!result.isNormal()){
                throw new InternalStateException("Illegal statement");
             }
+            statements[i] = null;
             last = result;
          }
       }
