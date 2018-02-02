@@ -20,8 +20,8 @@ public class CallSite {
       if(binder == null) {
          Module module = scope.getModule();
          Context context = module.getContext();
-         String name = reference.getName(scope);
          CallTable table = context.getTable();
+         String name = reference.getName(scope);
          
          binder = table.resolve(name);
       }

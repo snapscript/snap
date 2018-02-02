@@ -5,7 +5,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.snapscript.common.Cache;
 import org.snapscript.common.CopyOnWriteCache;
 import org.snapscript.core.Scope;
-import org.snapscript.tree.NameReference;
 
 public class VariablePointerResolver {
    
@@ -14,10 +13,10 @@ public class VariablePointerResolver {
    private final VariablePointerBuilder builder;
    private final VariableIndexResolver resolver;
    
-   public VariablePointerResolver(NameReference reference) {
+   public VariablePointerResolver(String name) {
       this.cache = new CopyOnWriteCache<Integer, VariablePointer>();
       this.reference = new AtomicReference<VariablePointer>();
-      this.builder = new VariablePointerBuilder(reference);
+      this.builder = new VariablePointerBuilder(name);
       this.resolver = new VariableIndexResolver();
    }
    
@@ -30,11 +29,11 @@ public class VariablePointerResolver {
       }
       return pointer;
    }
-   
+
    public VariablePointer resolve(Scope scope, Object left) throws Exception {
       int index = resolver.resolve(scope, left);
       VariablePointer pointer = cache.fetch(index);
-      
+
       if(pointer == null) { 
          pointer = builder.create(scope, left);
          cache.cache(index, pointer);

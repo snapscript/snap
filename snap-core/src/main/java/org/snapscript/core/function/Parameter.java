@@ -34,7 +34,7 @@ public class Parameter {
       return constant;
    }
    
-   public boolean isVariable() {
+   public boolean isVariable() { // var-arg ... 
       return variable;
    }
    

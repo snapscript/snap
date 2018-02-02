@@ -1,22 +1,23 @@
 package org.snapscript.tree.variable;
 
-import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
 import org.snapscript.core.convert.ProxyWrapper;
-import org.snapscript.tree.NameReference;
 
 public class VariableBinder {
 
    private final VariablePointerResolver resolver;
+   private final ProxyWrapper wrapper;
+   private final String name;
    
-   public VariableBinder(NameReference reference) {
-      this.resolver = new VariablePointerResolver(reference);
+   public VariableBinder(ProxyWrapper wrapper, String name) {
+      this.resolver = new VariablePointerResolver(name);
+      this.wrapper = wrapper;
+      this.name = name;
    }
    
-   public Value bind(Scope scope, String name) throws Exception {
+   public Value bind(Scope scope) throws Exception {
       VariablePointer pointer = resolver.resolve(scope);
       Value value = pointer.get(scope, null);
       
@@ -26,10 +27,7 @@ public class VariableBinder {
       return value;
    }
    
-   public Value bind(Scope scope, String name, Object left) throws Exception {
-      Module module = scope.getModule();
-      Context context = module.getContext();
-      ProxyWrapper wrapper = context.getWrapper();
+   public Value bind(Scope scope, Object left) throws Exception {
       Object object = wrapper.fromProxy(left); // what about double wrapping?
       VariablePointer pointer = resolver.resolve(scope, object);
       Value value = pointer.get(scope, object);

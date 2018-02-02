@@ -9,43 +9,42 @@ import org.snapscript.core.Path;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeExtractor;
-import org.snapscript.core.TypeTraverser;
 import org.snapscript.core.Value;
 import org.snapscript.tree.NameReference;
 
 public class TypeReferencePart implements Compilation {
 
-   private final Evaluation type;  
+   private final NameReference reference;
    
    public TypeReferencePart(Evaluation type) {
-      this.type = type;
+      this.reference = new NameReference(type);
    }
 
    @Override
-   public Object compile(Module module, Path path, int line) throws Exception {
+   public Evaluation compile(Module module, Path path, int line) throws Exception {
+      Scope scope = module.getScope();
       Context context = module.getContext();
       TypeExtractor extractor = context.getExtractor();
+      String name = reference.getName(scope);
       
-      return new CompileResult(extractor, type, module);
+      return new CompileResult(extractor, module, name);
    }
    
    private static class CompileResult extends Evaluation {
 
       private final TypeExtractor extractor;
-      private final NameReference reference;
       private final Module source;
+      private final String name;
    
-      public CompileResult(TypeExtractor extractor, Evaluation type, Module source) {
-         this.reference = new NameReference(type);
+      public CompileResult(TypeExtractor extractor, Module source, String name) {
          this.extractor = extractor;
          this.source = source;
+         this.name = name;
       }   
       
       @Override
       public Value evaluate(Scope scope, Object left) throws Exception {
          if(left != null) {
-            String name = reference.getName(scope);
-            
             if(Module.class.isInstance(left)) {
                return create(scope, (Module)left);
             }
@@ -58,7 +57,6 @@ public class TypeReferencePart implements Compilation {
       }
       
       private Value create(Scope scope, Module module) throws Exception {
-         String name = reference.getName(scope);
          Module parent = scope.getModule();
          Object result = parent.getType(name);
          Type type = scope.getType();
@@ -79,7 +77,6 @@ public class TypeReferencePart implements Compilation {
       }
       
       private Value create(Scope scope, Type type) throws Exception {
-         String name = reference.getName(scope);
          Module module = type.getModule();
          String parent = type.getName();
          Type result = module.getType(parent + "$"+name);
