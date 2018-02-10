@@ -42,9 +42,9 @@ public class ScriptFunction extends Statement {
       String name = identifier.getName(scope);
       Type returns = constraint.getConstraint(scope);
       FunctionHandle handle = builder.create(signature, module, returns, name);
-      Function function = handle.compile(scope);
+      Function function = handle.create(scope);
       
       functions.add(function);
-      handle.create(scope); // count stack
+      handle.compile(scope); // count stack
    }
 }

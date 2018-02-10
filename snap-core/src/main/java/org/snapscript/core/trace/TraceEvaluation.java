@@ -22,6 +22,11 @@ public class TraceEvaluation extends Evaluation {
    }
    
    @Override
+   public Value validate(Scope scope, Object left) throws Exception {
+      return evaluation.validate(scope, left); 
+   }
+   
+   @Override
    public Value evaluate(Scope scope, Object left) throws Exception {
       try {
          interceptor.before(scope, trace);

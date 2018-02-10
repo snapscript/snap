@@ -39,6 +39,16 @@ public class FutureStatement extends Statement {
    }
    
    @Override
+   public void validate(Scope scope) throws Exception {
+      Statement definition = result.get();
+      
+      if(definition == null) {
+         throw new InternalStateException("Could not validate '" + path + "'");
+      }
+      definition.validate(scope);
+   }
+   
+   @Override
    public Result execute(Scope scope) throws Exception {
       Statement definition = result.get();
       

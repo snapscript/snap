@@ -54,6 +54,31 @@ public class Variable implements Compilation {
       }
       
       @Override
+      public Value validate(Scope scope, Object left) throws Exception{
+         if(left == null) {
+            int depth = offset.get();
+            
+            if(depth == -1){
+               State state = scope.getState();
+               Value value = state.get(name);
+               
+               if(value != null) { 
+                  return value;
+               }
+            }else {
+               Table table = scope.getTable();
+               Value value = table.get(depth);
+   
+               if(value != null) { 
+                  return value;
+               }
+            }
+            return binder.bind(scope);
+         }
+         return binder.bind(scope, left);
+      } 
+      
+      @Override
       public Value evaluate(Scope scope, Object left) throws Exception{
          if(left == null) {
             int depth = offset.get();

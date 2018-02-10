@@ -26,6 +26,6 @@ public class ScriptFunctionBuilder extends FunctionBuilder {
       Invocation invocation = new ScriptInvocation(builder, signature);
       Function function = new InvocationFunction(signature, invocation, type, constraint, name, 0);
       
-      return new FunctionHandle(builder, function);
+      return new FunctionHandle(builder, function, statement);
    }
 }

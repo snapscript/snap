@@ -40,6 +40,6 @@ public class ConstructorBuilder {
       Invocation constructor = new NewInvocation(factory, base, type, compile);
       Function function = new InvocationFunction(signature, constructor, type, type, TYPE_CONSTRUCTOR, modifiers | STATIC.mask, 1);
       
-      return new FunctionHandle(external, function);
+      return new FunctionHandle(external, function, statement);
    }
 }

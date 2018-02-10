@@ -37,6 +37,11 @@ public class DefaultConstructor implements TypePart {
    }
    
    @Override
+   public TypeFactory validate(TypeFactory factory, Type type) throws Exception {
+      return null;
+   }
+      
+   @Override
    public TypeFactory compile(TypeFactory factory, Type type) throws Exception {
       List<Function> functions = type.getFunctions();
       
@@ -49,11 +54,11 @@ public class DefaultConstructor implements TypePart {
       }
       return define(factory, type, compile);
    }
-   
+
    protected TypeFactory define(TypeFactory factory, Type type, boolean compile) throws Exception {
       Statement statement = new NoStatement();
       ClassConstructor constructor = new ClassConstructor(annotations, modifiers, parameters, statement);
       
-      return constructor.compile(factory, type, compile);
+      return constructor.assemble(factory, type, compile);
    }
 }

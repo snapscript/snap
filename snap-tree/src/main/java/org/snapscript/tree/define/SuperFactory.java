@@ -18,9 +18,13 @@ public class SuperFactory extends TypeFactory {
    }
    
    @Override
-   public Result compile(Scope instance, Type real) throws Exception {
+   public void compile(Scope instance, Type real) throws Exception {
       expression.compile(instance);
-      return Result.getNormal();
+   }
+   
+   @Override
+   public void validate(Scope instance, Type real) throws Exception {
+      expression.validate(instance, real);
    }
 
    @Override

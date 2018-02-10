@@ -28,6 +28,13 @@ public class Script extends Statement {
    }
    
    @Override
+   public void validate(Scope scope) throws Exception {
+      for(Statement statement : statements) {
+         statement.validate(scope);
+      }
+   }
+   
+   @Override
    public Result execute(Scope scope) throws Exception {
       Result last = Result.getNormal();
       

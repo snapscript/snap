@@ -1,6 +1,7 @@
 package org.snapscript.tree.define;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Module;
@@ -44,10 +45,12 @@ public class ModuleFunction implements ModulePart {
    
    private class DefineResult extends Statement {
    
+      private final AtomicReference<FunctionHandle> cache;
       private final ModuleFunctionBuilder builder;
       
       public DefineResult(ModuleBody body, Statement statement) {
          this.builder = new ModuleFunctionBuilder(body, statement);
+         this.cache = new AtomicReference<FunctionHandle>();
       }
       
       @Override
@@ -58,11 +61,18 @@ public class ModuleFunction implements ModulePart {
          String name = reference.getName(scope);
          Type returns = constraint.getConstraint(scope);
          FunctionHandle handle = builder.create(signature, module, returns, name);
-         Function function = handle.compile(scope);
+         Function function = handle.create(scope);
          
          annotations.apply(scope, function);
          functions.add(function);
-         handle.create(scope); // count stack
+         handle.compile(scope); // count stack
+         cache.set(handle);
+      }
+      
+      @Override
+      public void validate(Scope scope) throws Exception {
+         FunctionHandle handle = cache.get();
+         handle.validate(scope);
       }
    }
 }

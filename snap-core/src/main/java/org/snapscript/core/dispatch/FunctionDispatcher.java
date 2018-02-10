@@ -11,6 +11,8 @@ import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.bind.FunctionBinder;
+import org.snapscript.core.bind.InvocationTask;
+import org.snapscript.core.convert.Delegate;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
@@ -27,6 +29,26 @@ public class FunctionDispatcher implements CallDispatcher<Function> {
       this.binder = binder;
       this.name = name;
    }
+   
+   @Override
+   public Value validate(Scope scope, Function function, Object... arguments) throws Exception {
+      if(function != null) {
+         InvocationTask call = bind(scope, function, arguments); // this is not used often
+         Object o = null;
+         
+         if(call == null) {
+            handler.throwInternalException(scope, function, name, arguments);
+         }
+         Type type = call.getReturn();
+         if(type != null) {
+            o = scope.getModule().getContext().getProvider().create().createShellConstructor(type).invoke(scope, null, null);
+         } else {
+            o = new Object();
+         }
+         return Value.getTransient(o);
+      }
+      return Value.getTransient(new Object());
+   }
 
    @Override
    public Value dispatch(Scope scope, Function function, Object... arguments) throws Exception {
@@ -38,8 +60,8 @@ public class FunctionDispatcher implements CallDispatcher<Function> {
       return call.call();
    }
    
-   private Callable<Value> bind(Scope scope, Function function, Object... arguments) throws Exception {
-      Callable<Value> call = binder.bind(scope, function, name, arguments); // this is not used often
+   private InvocationTask bind(Scope scope, Function function, Object... arguments) throws Exception {
+      InvocationTask call = binder.bind(scope, function, name, arguments); // this is not used often
       
       if(call == null) {
          Object adapter = new FunctionAdapter(function);

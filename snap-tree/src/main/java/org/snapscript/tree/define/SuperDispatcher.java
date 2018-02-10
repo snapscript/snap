@@ -18,7 +18,12 @@ public class SuperDispatcher implements CallDispatcher<Object> {
    public SuperDispatcher(Type type) {
       this.type = type;
    }
-
+   
+   @Override
+   public Value validate(Scope scope, Object object, Object... list) throws Exception {
+      return Value.getTransient(new Object());
+   }
+   
    @Override
    public Value dispatch(Scope scope, Object object, Object... list) throws Exception {
       Type real = (Type)list[0];

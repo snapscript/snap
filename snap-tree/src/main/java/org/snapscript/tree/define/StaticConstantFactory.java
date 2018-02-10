@@ -12,8 +12,7 @@ public class StaticConstantFactory extends StaticFactory {
    }
 
    @Override
-   protected Result compile(Type type) throws Exception { 
+   protected void compile(Type type) throws Exception { 
       collector.collect(type);
-      return Result.getNormal();
    }
 }

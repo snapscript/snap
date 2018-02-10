@@ -2,6 +2,7 @@ package org.snapscript.tree.define;
 
 import static org.snapscript.core.Phase.COMPILED;
 import static org.snapscript.core.Phase.DEFINED;
+import static org.snapscript.core.Phase.VALIDATED;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -17,6 +18,7 @@ public class EnumDefinition extends Statement {
 
    private final DefaultConstructor constructor;
    private final TypeFactoryCollector collector;
+   private final AtomicBoolean validate;
    private final AtomicBoolean compile;
    private final AtomicBoolean define;
    private final EnumBuilder builder;
@@ -27,6 +29,7 @@ public class EnumDefinition extends Statement {
       this.builder = new EnumBuilder(name, hierarchy);
       this.constructor = new DefaultConstructor(true);
       this.collector = new TypeFactoryCollector();
+      this.validate = new AtomicBoolean(true);
       this.compile = new AtomicBoolean(true);
       this.define = new AtomicBoolean(true);
       this.parts = parts;
@@ -61,6 +64,24 @@ public class EnumDefinition extends Statement {
             collector.compile(scope, type); 
          } finally {
             progress.done(COMPILED);
+         }
+      }
+   }
+   
+   @Override
+   public void validate(Scope outer) throws Exception {
+      if(!validate.compareAndSet(false, true)) {
+         Type type = builder.validate(outer);
+         Progress<Phase> progress = type.getProgress();
+         
+         try {
+            for(TypePart part : parts) {
+               TypeFactory factory = part.validate(collector, type);
+               collector.update(factory);
+            }  
+            constructor.validate(collector, type); 
+         } finally {
+            progress.done(VALIDATED);
          }
       }
    }

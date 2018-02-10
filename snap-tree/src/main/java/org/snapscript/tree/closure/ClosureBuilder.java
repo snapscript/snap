@@ -35,6 +35,6 @@ public class ClosureBuilder {
       Invocation invocation = new ClosureInvocation(builder, scope);
       Function function = new InvocationFunction(signature, invocation, type, null, METHOD_CLOSURE, modifiers);
       
-      return new FunctionHandle(builder, function);
+      return new FunctionHandle(builder, function, statement);
    }
 }

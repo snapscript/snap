@@ -15,6 +15,6 @@ public class EnumConstructor extends ClassConstructor {
 
    @Override
    public TypeFactory compile(TypeFactory statements, Type type) throws Exception {
-      return compile(statements, type, false);
+      return assemble(statements, type, false);
    }
 }

@@ -12,34 +12,25 @@ import org.snapscript.core.TypeFactory;
 
 public abstract class StaticFactory extends TypeFactory {
 
-   private final AtomicReference<Result> reference;
    private final AtomicBoolean compile;
  
    protected StaticFactory() {
-      this.reference = new AtomicReference<Result>();
       this.compile = new AtomicBoolean();
    }
 
    @Override
-   public Result compile(Scope scope, Type type) throws Exception { 
-      Result result = reference.get();
-      
-      if(result == null) {
+   public void compile(Scope scope, Type type) throws Exception { 
+      if(!compile.get()) {
          Module module = type.getModule();
          Context context = module.getContext();
          
          synchronized(context) { // static lock to force wait
-            Result value = Result.getNormal();
-            
             if(compile.compareAndSet(false, true)) { // only do it once
                compile(type);
             }
-            reference.set(value); // avoid locking again
          }
-         return reference.get();
       }
-      return result; // result of compilation
    }
    
-   protected abstract Result compile(Type type) throws Exception; 
+   protected abstract void compile(Type type) throws Exception; 
 }

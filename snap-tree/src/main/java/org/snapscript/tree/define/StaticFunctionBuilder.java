@@ -37,6 +37,6 @@ public class StaticFunctionBuilder implements MemberFunctionBuilder {
       Invocation invocation = new StaticInvocation(builder, scope);
       Function function = new InvocationFunction(signature, invocation, type, constraint, name, modifiers);
       
-      return new FunctionHandle(builder, function);
+      return new FunctionHandle(builder, function, body);
    }
 }

@@ -6,12 +6,15 @@ import java.lang.reflect.Method;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
+import org.snapscript.core.function.ConstantInvocation;
 import org.snapscript.core.function.Invocation;
 
 public class PartialPlatform implements Platform {
    
+   private final Object empty;
+   
    public PartialPlatform() {
-      super();
+      this.empty = new Object();
    }
 
    @Override
@@ -33,6 +36,11 @@ public class PartialPlatform implements Platform {
    public Invocation createConstructor(Type type, Constructor constructor) {
       return new DelegateConstructorInvocation(constructor);
    } 
+   
+   @Override
+   public Invocation createShellConstructor(Type real) {
+      return new ConstantInvocation(empty);
+   }
    
    public class DelegateMethodInvocation implements Invocation {
       

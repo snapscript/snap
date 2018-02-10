@@ -51,6 +51,17 @@ public class ReferenceNavigation implements Compilation {
       }
       
       @Override
+      public Value validate(Scope scope, Object left) throws Exception {
+         Value value = part.validate(scope, left);         
+         Object object = value.getValue();
+         
+         if(object != null) {
+            return next.validate(scope, object);
+         }
+         return value;
+      } 
+      
+      @Override
       public Value evaluate(Scope scope, Object left) throws Exception {
          Value value = part.evaluate(scope, left);         
          

@@ -1,11 +1,11 @@
 package org.snapscript.core.dispatch;
 
-import java.util.concurrent.Callable;
-
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
+import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.bind.FunctionBinder;
+import org.snapscript.core.bind.InvocationTask;
 import org.snapscript.core.error.ErrorHandler;
 
 public class LocalDispatcher implements CallDispatcher<Object> {
@@ -21,21 +21,42 @@ public class LocalDispatcher implements CallDispatcher<Object> {
    }
 
    @Override
+   public Value validate(Scope scope, Object object, Object... arguments) throws Exception {
+      if(object != null) {
+         InvocationTask call = bind(scope, object, arguments);
+         Object o = null;
+         Type type = call.getReturn();
+         if(type != null) {
+            o = scope.getModule().getContext().getProvider().create().createShellConstructor(type).invoke(scope, null, null);
+         } else {
+            o = new Object();
+         }
+         return Value.getTransient(o);
+      }
+      return Value.getTransient(new Object());
+   }
+   
+   @Override
    public Value dispatch(Scope scope, Object object, Object... arguments) throws Exception {
+      InvocationTask call = bind(scope, object, arguments);
+      return call.call();
+   }
+   
+   private InvocationTask bind(Scope scope, Object object, Object... arguments) throws Exception {
       Module module = scope.getModule();
-      Callable<Value> local = binder.bind(scope, module, name, arguments);
+      InvocationTask local = binder.bind(scope, module, name, arguments);
       
       if(local == null) {
-         Callable<Value> closure = binder.bind(scope, name, arguments); // function variable
+         InvocationTask closure = binder.bind(scope, name, arguments); // function variable
          
          if(closure != null) {
-            return closure.call();   
+            return closure;   
          }
       }
       if(local == null) {
          handler.throwInternalException(scope, name, arguments);
       }
-      return local.call();  
+      return local;  
    }
    
 }

@@ -14,6 +14,11 @@ public class InstanceDispatcher implements CallDispatcher<Object> {
    }
 
    @Override
+   public Value validate(Scope scope, Object object, Object... arguments) throws Exception {
+      return dispatcher.validate(scope, scope, arguments);         
+   }
+   
+   @Override
    public Value dispatch(Scope scope, Object object, Object... arguments) throws Exception {
       return dispatcher.dispatch(scope, scope, arguments);         
    }

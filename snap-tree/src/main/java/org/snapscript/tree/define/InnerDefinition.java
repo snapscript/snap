@@ -19,11 +19,18 @@ public class InnerDefinition implements TypePart {
       statement.define(scope);
       return null;
    }
-
+   
    @Override
    public TypeFactory compile(TypeFactory factory, Type outer) throws Exception {
       Scope scope = outer.getScope();
       statement.compile(scope);
+      return null;
+   }
+
+   @Override
+   public TypeFactory validate(TypeFactory factory, Type outer) throws Exception {
+      Scope scope = outer.getScope();
+      statement.validate(scope);
       return null;
    }
 }

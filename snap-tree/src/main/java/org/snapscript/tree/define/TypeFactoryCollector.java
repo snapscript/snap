@@ -23,21 +23,17 @@ public class TypeFactoryCollector extends TypeFactory {
    }
    
    @Override
-   public Result compile(Scope scope, Type type) throws Exception {
-      Result last = null;
-      
+   public void compile(Scope scope, Type type) throws Exception {
       for(TypeFactory factory : list) {
-         Result result = factory.compile(scope, type);
-         
-         if(!result.isNormal()){
-            return result;
-         }
-         last = result;
+         factory.compile(scope, type);
       }
-      if(last == null) {
-         return Result.getNormal();
+   } 
+   
+   @Override
+   public void validate(Scope scope, Type type) throws Exception {
+      for(TypeFactory factory : list) {
+         factory.validate(scope, type);
       }
-      return last;
    } 
 
    @Override

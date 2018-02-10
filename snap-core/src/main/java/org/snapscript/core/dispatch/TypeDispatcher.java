@@ -1,11 +1,10 @@
 package org.snapscript.core.dispatch;
 
-import java.util.concurrent.Callable;
-
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.bind.FunctionBinder;
+import org.snapscript.core.bind.InvocationTask;
 import org.snapscript.core.error.ErrorHandler;
 
 public class TypeDispatcher implements CallDispatcher<Type> {
@@ -19,10 +18,20 @@ public class TypeDispatcher implements CallDispatcher<Type> {
       this.binder = binder;
       this.name = name;
    }
+   
+   @Override
+   public Value validate(Scope scope, Type type, Object... arguments) throws Exception {   
+      InvocationTask call = bind(scope, type, arguments);
+      
+      if(call == null) {
+         handler.throwInternalException(scope, type, name, arguments);
+      }
+      return Value.getTransient(new Object());        
+   } 
 
    @Override
    public Value dispatch(Scope scope, Type type, Object... arguments) throws Exception {   
-      Callable<Value> call = bind(scope, type, arguments);
+      InvocationTask call = bind(scope, type, arguments);
       
       if(call == null) {
          handler.throwInternalException(scope, type, name, arguments);
@@ -30,8 +39,8 @@ public class TypeDispatcher implements CallDispatcher<Type> {
       return call.call();          
    } 
    
-   private Callable<Value> bind(Scope scope, Type type, Object... arguments) throws Exception {
-      Callable<Value> call = binder.bind(scope, type, name, arguments);
+   private InvocationTask bind(Scope scope, Type type, Object... arguments) throws Exception {
+      InvocationTask call = binder.bind(scope, type, name, arguments);
       
       if(call == null) {
          return binder.bind(scope, (Object)type, name, arguments);

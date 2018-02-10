@@ -19,6 +19,6 @@ public class ClassConstructor extends MemberConstructor {
    
    @Override
    public TypeFactory compile(TypeFactory factory, Type type) throws Exception {
-      return compile(factory, type, true);
+      return assemble(factory, type, true);
    }
 }

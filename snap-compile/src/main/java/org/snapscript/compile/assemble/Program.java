@@ -46,6 +46,7 @@ public class Program implements Executable{
       
       try {
          validator.validate(context); // validate program
+         statement.validate(scope);
          statement.execute(scope);
       } catch(Throwable cause) {
          handler.throwExternalError(scope, cause);

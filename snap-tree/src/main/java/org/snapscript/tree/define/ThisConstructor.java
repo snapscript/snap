@@ -31,6 +31,11 @@ public class ThisConstructor implements TypePart {
    }
    
    @Override
+   public TypeFactory validate(TypeFactory factory, Type type) throws Exception {
+      return null;
+   }
+   
+   @Override
    public TypeFactory compile(TypeFactory factory, Type type) throws Exception {  
       Statement statement = new StaticBody(factory, type);
       Evaluation reference = new Identity(type);

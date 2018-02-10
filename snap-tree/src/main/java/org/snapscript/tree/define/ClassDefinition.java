@@ -1,7 +1,7 @@
 package org.snapscript.tree.define;
 
 import static org.snapscript.core.Category.CLASS;
-import static org.snapscript.core.Phase.COMPILED;
+import static org.snapscript.core.Phase.*;
 import static org.snapscript.core.Phase.DEFINED;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -20,6 +20,7 @@ public class ClassDefinition extends Statement {
    private final DefaultConstructor constructor;
    private final TypeFactoryCollector collector;
    private final TypeFactory constants;
+   private final AtomicBoolean validate;
    private final AtomicBoolean compile;
    private final AtomicBoolean define;
    private final ClassBuilder builder;
@@ -31,6 +32,7 @@ public class ClassDefinition extends Statement {
       this.constants = new StaticConstantFactory();
       this.collector = new TypeFactoryCollector();
       this.constructor = new DefaultConstructor();
+      this.validate = new AtomicBoolean(true);
       this.compile = new AtomicBoolean(true);
       this.define = new AtomicBoolean(true);
       this.parts = parts;
@@ -74,4 +76,21 @@ public class ClassDefinition extends Statement {
       }
    }
 
+   @Override
+   public void validate(Scope outer) throws Exception {
+      if(!validate.compareAndSet(false, true)) {
+         Type type = builder.validate(outer);
+         Progress<Phase> progress = type.getProgress();
+         
+         try {
+            for(TypePart part : parts) {
+               TypeFactory factory = part.validate(collector, type);
+               collector.update(factory);
+            } 
+            constructor.validate(collector, type);
+         } finally {
+            progress.done(VALIDATED);
+         }
+      }
+   }
 }

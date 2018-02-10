@@ -50,6 +50,20 @@ public class Declaration {
       offset.set(depth);
    }
    
+   public Value validate(Scope scope, int modifiers) throws Exception {
+      String name = reference.getName(scope);
+      Local local = allocator.validate(scope, name, modifiers);
+      Table table = scope.getTable();
+      int depth = offset.get();
+      
+      try { 
+         table.add(depth, local);
+      }catch(Exception e) {
+         throw new InternalStateException("Declaration of variable '" + name +"' failed", e);
+      }  
+      return local;
+   }
+   
    public Value create(Scope scope, int modifiers) throws Exception {
       String name = reference.getName(scope);
       Local local = allocator.allocate(scope, name, modifiers);

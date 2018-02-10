@@ -2,7 +2,7 @@ package org.snapscript.tree.define;
 
 import static org.snapscript.core.Category.TRAIT;
 import static org.snapscript.core.Phase.COMPILED;
-import static org.snapscript.core.Phase.DEFINED;
+import static org.snapscript.core.Phase.*;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -19,6 +19,7 @@ public class TraitDefinition extends Statement {
    private final FunctionPropertyGenerator generator;
    private final TypeFactoryCollector collector;
    private final TypeFactory constants;
+   private final AtomicBoolean validate;
    private final AtomicBoolean compile;
    private final AtomicBoolean define;
    private final ClassBuilder builder;
@@ -29,6 +30,7 @@ public class TraitDefinition extends Statement {
       this.generator = new FunctionPropertyGenerator(); 
       this.constants = new StaticConstantFactory();
       this.collector = new TypeFactoryCollector();
+      this.validate = new AtomicBoolean(true);
       this.compile = new AtomicBoolean(true);
       this.define = new AtomicBoolean(true);
       this.parts = parts;
@@ -67,6 +69,23 @@ public class TraitDefinition extends Statement {
             generator.generate(type);
          } finally {
             progress.done(COMPILED); 
+         }
+      }
+   }
+   
+   @Override
+   public void validate(Scope outer) throws Exception {
+      if(!validate.compareAndSet(false, true)) {
+         Type type = builder.validate(outer);
+         Progress<Phase> progress = type.getProgress();
+         
+         try {
+            for(TypePart part : parts) {
+               TypeFactory factory = part.validate(collector, type);
+               collector.update(factory);
+            } 
+         } finally {
+            progress.done(VALIDATED); 
          }
       }
    }

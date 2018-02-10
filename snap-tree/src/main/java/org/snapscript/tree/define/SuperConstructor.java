@@ -48,6 +48,11 @@ public class SuperConstructor implements TypePart {
       return assemble(factory, base);
    }
    
+   @Override
+   public TypeFactory validate(TypeFactory factory, Type type) throws Exception {
+      return null;
+   }
+   
    protected TypeFactory assemble(TypeFactory statements, Type type) throws Exception {
       StringToken name = new StringToken(TYPE_CONSTRUCTOR);
       Evaluation literal = new TextLiteral(name);

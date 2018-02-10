@@ -67,6 +67,43 @@ public class FunctionInvocation implements Compilation {
             evaluation.compile(scope);
          }
       }
+      
+      @Override
+      public Value validate(Scope scope, Object left) throws Exception {
+         int depth = offset.get();
+         
+         if(depth != -1 && left == null){
+            Table table = scope.getTable();
+            Value value = table.get(depth);
+            
+            if(value != null) {
+               Object object = value.getValue();
+            
+               if(Function.class.isInstance(object)) {
+                  return executeV(scope, value);
+               }
+            }
+         }
+         return executeV(scope, left);
+      }
+      
+      private Value executeV(Scope scope, Object left) throws Exception {
+         String name = reference.getName(scope); 
+         Value array = arguments.create(scope); 
+         Object[] arguments = array.getValue();
+         CallDispatcher handler = site.get(scope, left);
+         Value value = handler.validate(scope, left, arguments);
+         
+         for(Evaluation evaluation : evaluations) {
+            Object result = value.getValue();
+            
+            if(result == null) {
+               throw new InternalStateException("Result of '" + name + "' null"); 
+            }
+            value = evaluation.validate(scope, result);
+         }
+         return value; 
+      }
 
       @Override
       public Value evaluate(Scope scope, Object left) throws Exception {

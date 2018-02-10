@@ -47,6 +47,11 @@ public class AssignmentStatement implements Compilation {
       }
       
       @Override
+      public void validate(Scope scope) throws Exception {
+         assignment.validate(scope, null);
+      }
+      
+      @Override
       public Result execute(Scope scope) throws Exception {
          Value reference = assignment.evaluate(scope, null);
          Object value = reference.getValue();

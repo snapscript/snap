@@ -1,6 +1,7 @@
 package org.snapscript.tree.define;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.ModifierType;
@@ -18,6 +19,7 @@ import org.snapscript.tree.function.ParameterList;
 
 public class MemberFunction implements TypePart {
    
+   protected final AtomicReference<FunctionHandle> reference;
    protected final MemberFunctionAssembler assembler;
    protected final AnnotationList annotations;
    protected final Statement body;
@@ -36,6 +38,7 @@ public class MemberFunction implements TypePart {
    
    public MemberFunction(AnnotationList annotations, ModifierList modifiers, Evaluation identifier, ParameterList parameters, Constraint constraint, Statement body){  
       this.assembler = new MemberFunctionAssembler(modifiers, identifier, parameters, constraint, body);
+      this.reference = new AtomicReference<FunctionHandle>();
       this.annotations = annotations;
       this.body = body;
    } 
@@ -50,11 +53,21 @@ public class MemberFunction implements TypePart {
       return assemble(factory, type, 0);
    }
    
+   @Override
+   public TypeFactory validate(TypeFactory factory, Type type) throws Exception {
+      FunctionHandle handle = reference.get();
+      Scope scope = type.getScope();
+      
+      handle.validate(scope);
+      
+      return null;
+   }
+   
    protected TypeFactory assemble(TypeFactory factory, Type type, int mask) throws Exception {
       Scope scope = type.getScope();
       MemberFunctionBuilder builder = assembler.assemble(type, mask);
       FunctionHandle handle = builder.create(factory, scope, type);
-      Function function = handle.compile(scope);
+      Function function = handle.create(scope);
       List<Function> functions = type.getFunctions();
       int modifiers = function.getModifiers();
 
@@ -66,7 +79,8 @@ public class MemberFunction implements TypePart {
       }
       annotations.apply(scope, function);
       functions.add(function);
-      handle.create(scope); // count stacks
+      handle.compile(scope); // count stacks
+      reference.set(handle);
       
       return null; 
    }

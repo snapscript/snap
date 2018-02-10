@@ -45,6 +45,14 @@ public class ModuleDefinition extends Statement {
    }
    
    @Override
+   public void validate(Scope scope) throws Exception {
+      Module module = reference.get();
+      Scope inner = module.getScope();
+      
+      body.validate(inner); // must be module scope
+   }
+   
+   @Override
    public Result execute(Scope scope) throws Exception {
       Module module = reference.get();
       Scope inner = module.getScope();

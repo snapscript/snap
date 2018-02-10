@@ -22,6 +22,19 @@ public class PostfixIncrement extends Evaluation {
    }
    
    @Override
+   public Value validate(Scope scope, Object left) throws Exception {
+      Value reference = evaluation.validate(scope, left);
+      Object number = reference.getValue();
+
+      if(number != null && number.getClass() != Object.class) {
+         if(Number.class.isInstance(number)) {
+            throw new IllegalStateException("Not a number");
+         }
+      }
+      return Value.getTransient(number);
+   }
+   
+   @Override
    public Value evaluate(Scope scope, Object left) throws Exception { // this is rubbish
       Value reference = evaluation.evaluate(scope, left);
       Number number = reference.getNumber();

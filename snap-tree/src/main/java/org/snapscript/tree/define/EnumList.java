@@ -15,6 +15,11 @@ public class EnumList implements TypePart {
    public TypeFactory define(TypeFactory factory, Type type) throws Exception {
       return null;
    }
+   
+   @Override
+   public TypeFactory validate(TypeFactory factory, Type type) throws Exception {
+      return null;
+   }
 
    @Override
    public TypeFactory compile(TypeFactory factory, Type type) throws Exception {

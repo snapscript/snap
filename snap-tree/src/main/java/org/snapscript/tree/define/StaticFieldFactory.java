@@ -14,12 +14,10 @@ public class StaticFieldFactory extends StaticFactory {
    }
 
    @Override
-   protected Result compile(Type type) throws Exception {
+   protected void compile(Type type) throws Exception {
       Scope scope = type.getScope();
       
       evaluation.compile(scope);
       evaluation.evaluate(scope, null);
-      
-      return Result.getNormal();
    }
 }

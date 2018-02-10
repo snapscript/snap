@@ -26,6 +26,6 @@ public class FunctionBuilder {
       Invocation invocation = new StatementInvocation(builder);
       Function function = new InvocationFunction(signature, invocation, type, constraint, name, 0);
       
-      return new FunctionHandle(builder, function);
+      return new FunctionHandle(builder, function, statement);
    }
 }

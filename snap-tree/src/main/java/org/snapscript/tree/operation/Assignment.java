@@ -26,6 +26,12 @@ public class Assignment extends Evaluation {
    }
    
    @Override
+   public Value validate(Scope scope, Object context) throws Exception { 
+      left.validate(scope, context);
+      return right.validate(scope, context);
+   }
+   
+   @Override
    public Value evaluate(Scope scope, Object context) throws Exception { // this is rubbish
       Value leftResult = left.evaluate(scope, context);
       Value rightResult = right.evaluate(scope, context);

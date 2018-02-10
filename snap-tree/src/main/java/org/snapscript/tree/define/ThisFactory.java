@@ -15,23 +15,32 @@ public class ThisFactory extends TypeFactory {
    
    private final AtomicBoolean execute;
    private final AtomicBoolean compile;
+   private final AtomicBoolean validate;
    private final Evaluation expression;
    private final Statement statement;
    
    public ThisFactory(Statement statement, Evaluation expression) {
       this.compile = new AtomicBoolean();
       this.execute = new AtomicBoolean();
+      this.validate = new AtomicBoolean();
       this.expression = expression;
       this.statement = statement;
    }
 
    @Override
-   public Result compile(Scope instance, Type real) throws Exception {
+   public void compile(Scope instance, Type real) throws Exception {
       if(compile.compareAndSet(false, true)) {
          expression.compile(instance);
       }
-      return Result.getNormal();
    }
+   
+   @Override
+   public void validate(Scope instance, Type real) throws Exception {
+      if(validate.compareAndSet(false, true)) {
+         expression.validate(instance, null);
+         statement.validate(instance);
+      }
+   }   
    
    @Override
    public Result execute(Scope instance, Type real) throws Exception {

@@ -29,6 +29,15 @@ public class TraceStatement extends Statement {
    }
    
    @Override
+   public void validate(Scope scope) throws Exception {
+      try {
+         statement.validate(scope);
+      }catch(Exception cause) {
+         handler.throwInternalError(scope, cause, trace);
+      }
+   }
+   
+   @Override
    public Result execute(Scope scope) throws Exception {
       try {
          interceptor.before(scope, trace);

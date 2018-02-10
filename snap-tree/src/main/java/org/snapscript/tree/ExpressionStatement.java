@@ -44,6 +44,11 @@ public class ExpressionStatement implements Compilation {
       public void compile(Scope scope) throws Exception {
          expression.compile(scope);
       }
+      
+      @Override
+      public void validate(Scope scope) throws Exception {
+         expression.validate(scope, null);
+      }
    
       @Override
       public Result execute(Scope scope) throws Exception {

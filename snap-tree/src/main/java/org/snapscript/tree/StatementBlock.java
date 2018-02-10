@@ -25,6 +25,14 @@ public class StatementBlock extends Statement {
    }
    
    @Override
+   public void validate(Scope scope) throws Exception {
+      if(executor == null) {
+         throw new InternalStateException("Statement was not compiled");
+      }
+      executor.validate(scope);
+   }
+   
+   @Override
    public Result execute(Scope scope) throws Exception {
       if(executor == null) {
          throw new InternalStateException("Statement was not compiled");
@@ -63,6 +71,13 @@ public class StatementBlock extends Statement {
       public StatementExecutor(Statement[] statements) {
          this.normal = Result.getNormal();
          this.statements = statements;
+      }
+      
+      @Override
+      public void validate(Scope scope) throws Exception {
+         for(Statement statement : statements) {
+            statement.validate(scope);
+         }
       }
       
       @Override

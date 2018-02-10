@@ -6,6 +6,7 @@ import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
 import org.snapscript.core.bind.FunctionBinder;
+import org.snapscript.core.bind.InvocationTask;
 
 public class ValueDispatcher implements CallDispatcher<Value> {
    
@@ -15,6 +16,16 @@ public class ValueDispatcher implements CallDispatcher<Value> {
    public ValueDispatcher(FunctionBinder binder, String name) {
       this.binder = binder;
       this.name = name;
+   }
+   
+   @Override
+   public Value validate(Scope scope, Value value, Object... arguments) throws Exception {
+     InvocationTask closure = binder.bind(value, arguments); // function variable
+      
+      if(closure == null) {
+         throw new InternalStateException("Method '" + name + "' not found in scope");
+      }
+      return Value.getTransient(new Object());
    }
 
    @Override
@@ -26,5 +37,4 @@ public class ValueDispatcher implements CallDispatcher<Value> {
       }
       return closure.call();   
    }
-   
 }

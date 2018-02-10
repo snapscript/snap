@@ -59,4 +59,8 @@ public class EnumBuilder {
       
       return type;
    }
+   
+   public Type validate(Scope outer) throws Exception {
+      return reference.get();
+   }
 }

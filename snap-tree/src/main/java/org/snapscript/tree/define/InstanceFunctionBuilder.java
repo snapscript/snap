@@ -41,6 +41,6 @@ public class InstanceFunctionBuilder implements MemberFunctionBuilder {
             throw new InternalStateException("Function '" + function + "' is not abstract");
          }
       }
-      return new FunctionHandle(builder, function);
+      return new FunctionHandle(builder, function, body);
    }
 }

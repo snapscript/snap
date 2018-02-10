@@ -103,6 +103,14 @@ public class Import implements Compilation {
       }
       
       @Override
+      public void validate(Scope scope) throws Exception {
+         if(statement == null) {
+            throw new InternalStateException("Import '" + location + "' was not compiled");
+         }
+         statement.validate(scope); // execute many times
+      }
+      
+      @Override
       public Result execute(Scope scope) throws Exception {
          if(statement == null) {
             throw new InternalStateException("Import '" + location + "' was not compiled");

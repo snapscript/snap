@@ -51,6 +51,15 @@ public class DeclarationStatement implements Compilation {
       }
       
       @Override
+      public void validate(Scope scope) throws Exception {
+         ModifierType type = modifier.getType();
+         
+         for(Declaration declaration : declarations) {
+            declaration.validate(scope, type.mask); 
+         }
+      }
+      
+      @Override
       public Result execute(Scope scope) throws Exception {
          ModifierType type = modifier.getType();
          

@@ -21,6 +21,28 @@ public class DeclarationAllocator {
       this.expression = expression;
    }   
    
+   public <T extends Value> T validate(Scope scope, String name, int modifiers) throws Exception {
+      Type type = extractor.getConstraint(scope);
+      Object object = null;
+      
+//      if(expression != null) {
+      if(type != null) {
+         object = scope.getModule().getContext().getProvider().create().createShellConstructor(type).invoke(scope, null, null);
+      } else {
+         object = new Object();
+      }
+         //         Value value = expression.validate(scope, null);
+//         Object original = value.getValue();
+//         
+//         if(type != null) {
+//            object = converter.convert(scope, original, type, name);
+//         } else {
+//            object = original;
+//         }
+//      }
+      return create(scope, name, object, type, modifiers);
+   }
+   
    public <T extends Value> T allocate(Scope scope, String name, int modifiers) throws Exception {
       Type type = extractor.getConstraint(scope);
       Object object = null;
