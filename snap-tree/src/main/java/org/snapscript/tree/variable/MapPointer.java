@@ -5,6 +5,7 @@ import static org.snapscript.core.ModifierType.PUBLIC;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.snapscript.core.AnyType;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
@@ -23,6 +24,22 @@ public class MapPointer implements VariablePointer<Map> {
       this.reference = new AtomicReference<Property>();
       this.pointer = new ObjectPointer(resolver, name);
       this.name = name;
+   }
+   
+   @Override
+   public Type check(Scope scope, Type left) {
+      Property accessor = reference.get();
+      
+      if(accessor == null) {
+         Property match = match(scope, left);
+         
+         if(match != null) {
+            reference.set(match);
+            return match.getConstraint();
+         }
+         return new AnyType(scope);
+      }
+      return accessor.getConstraint();
    }
    
    @Override

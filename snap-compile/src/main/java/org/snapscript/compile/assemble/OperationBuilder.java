@@ -34,7 +34,7 @@ public class OperationBuilder {
       Scope scope = module.getScope();
       Context context = module.getContext();
       FunctionBinder binder = context.getBinder();
-      Callable<Value> callable = binder.bind(scope, type, TYPE_CONSTRUCTOR, arguments);
+      Callable<Value> callable = binder.bindStatic(scope, type, TYPE_CONSTRUCTOR, arguments);
       
       if(callable == null) {
          throw new InternalStateException("No constructor for '" + type + "' at line " + line);

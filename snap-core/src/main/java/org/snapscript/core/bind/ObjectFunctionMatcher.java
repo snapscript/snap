@@ -13,6 +13,10 @@ public class ObjectFunctionMatcher {
       this.resolver = resolver;
    }
 
+   public FunctionCall match(Type type, String name, Type... values) throws Exception { 
+      return resolver.resolve(type, name, values);
+   }
+   
    public FunctionCall match(Object value, String name, Object... values) throws Exception { 
       Type type = extractor.getType(value);
       return resolver.resolve(type, name, values);

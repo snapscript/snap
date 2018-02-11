@@ -1,17 +1,17 @@
 package org.snapscript.tree.operation;
 
-import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
+import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.parse.StringToken;
+import org.snapscript.tree.literal.Literal;
 import org.snapscript.tree.literal.NumberLiteral;
 
-public class SignedNumber extends Evaluation {
+public class SignedNumber extends Literal {
    
    private SignOperator operator;
    private NumberLiteral literal;
-   private Value result;
    
    public SignedNumber(NumberLiteral literal) {
       this(null, literal);
@@ -23,16 +23,17 @@ public class SignedNumber extends Evaluation {
    }
 
    @Override
-   public Value evaluate(Scope scope, Object left) throws Exception {
-      if(result == null) {
-         Value value = literal.evaluate(scope, null);
-         Number number = value.getValue();
-         
-         if(number == null) {
-            throw new InternalStateException("Number value was null");
-         }
-         result = operator.operate(number);
+   protected Value create(Scope scope) throws Exception {
+      Value value = literal.evaluate(scope, null);
+      Number number = value.getValue();
+      
+      if(number == null) {
+         throw new InternalStateException("Number value was null");
       }
-      return result;
+      Value result = operator.operate(number);
+      Object signed = result.getValue();
+      Type constraint = value.getConstraint();
+      
+      return Value.getTransient(signed, constraint);
    }
 }

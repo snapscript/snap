@@ -23,6 +23,35 @@ public class TypePointer implements VariablePointer<Type> {
       this.pointer = new ObjectPointer(resolver, name);
       this.name = name;
    }
+
+   @Override
+   public Type check(Scope scope, Type left) {
+      Property property = reference.get();
+      
+      if(property == null) {
+         Module module = scope.getModule();
+         Context context = module.getContext();
+         TypeExtractor extractor = context.getExtractor();
+         Set<Type> list = extractor.getTypes(left);
+         
+         for(Type base : list) {
+            Property match = pointer.match(scope, left, base);
+            
+            if(match != null) {
+               reference.set(match);
+               return match.getConstraint();
+            }
+         } 
+         Property match = pointer.match(scope, left);
+         
+         if(match != null) {
+            reference.set(match);
+            return match.getConstraint();
+         }
+         return null;
+      } 
+      return property.getConstraint();
+   }
    
    @Override
    public Value get(Scope scope, Type left) {

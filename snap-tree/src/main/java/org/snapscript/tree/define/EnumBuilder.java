@@ -49,7 +49,7 @@ public class EnumBuilder {
          String name = type.getName();
          String prefix = enclosing.getName();
          String key = name.replace(prefix + '$', ""); // get the class name
-         Property property = builder.createConstant(key, type, enclosing);
+         Property property = builder.createConstant(key, type, enclosing, type);
          List<Property> properties = enclosing.getProperties();
          
          properties.add(property);

@@ -32,30 +32,30 @@ public class FunctionBinderTest extends TestCase {
       Module module = new ContextModule(context, null, path, Reserved.DEFAULT_PACKAGE);
       Scope scope = new ModelScope(model, module);
       
-      context.getBinder().bind(scope, map, "put", "x", 11).call();
-      context.getBinder().bind(scope, map, "put", "y", 21).call();
-      context.getBinder().bind(scope, map, "put", "z", 441).call();
+      context.getBinder().bindInstance(scope, map, "put", "x", 11).call();
+      context.getBinder().bindInstance(scope, map, "put", "y", 21).call();
+      context.getBinder().bindInstance(scope, map, "put", "z", 441).call();
       
       assertEquals(map.get("x"), 11);
       assertEquals(map.get("y"), 21);
       assertEquals(map.get("z"), 441);
       
-      context.getBinder().bind(scope, map, "put", "x", 22).call();
-      context.getBinder().bind(scope, map, "remove", "y").call();
-      context.getBinder().bind(scope, map, "put", "z", "x").call();
+      context.getBinder().bindInstance(scope, map, "put", "x", 22).call();
+      context.getBinder().bindInstance(scope, map, "remove", "y").call();
+      context.getBinder().bindInstance(scope, map, "put", "z", "x").call();
       
       assertEquals(map.get("x"), 22);
       assertEquals(map.get("y"), null);
       assertEquals(map.get("z"), "x");
       
-      assertEquals(context.getBinder().bind(scope, map, "put", "x", 44).call().getValue(), 22);
-      assertEquals(context.getBinder().bind(scope, map, "put", "y", true).call().getValue(), null);
-      assertEquals(context.getBinder().bind(scope, map, "put", "z", "x").call().getValue(), "x");
+      assertEquals(context.getBinder().bindInstance(scope, map, "put", "x", 44).call().getValue(), 22);
+      assertEquals(context.getBinder().bindInstance(scope, map, "put", "y", true).call().getValue(), null);
+      assertEquals(context.getBinder().bindInstance(scope, map, "put", "z", "x").call().getValue(), "x");
       
       long start = System.currentTimeMillis();
       
       for(int i = 0; i < ITERATIONS; i++) {
-         context.getBinder().bind(scope, map, "put", "x", 44);
+         context.getBinder().bindInstance(scope, map, "put", "x", 44);
       }
       long finish = System.currentTimeMillis();
       double milliseconds = finish - start;

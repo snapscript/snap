@@ -51,4 +51,31 @@ public class VariablePointerBuilder {
       }
       return create(scope);
    }
+   
+   public VariablePointer create(Scope scope, Type left) throws Exception {
+      if(left != null) {
+         Class type = left.getType();
+         
+         if(Module.class.isInstance(left)) {
+            return new ModulePointer(resolver, name);
+         }
+         if(Map.class.isInstance(left)) {
+            return new MapPointer(resolver, name);
+         }         
+         if(Scope.class.isInstance(left)) {
+            return new ScopePointer(name);
+         }
+         if(Type.class.isInstance(left)) {
+            return new TypePointer(resolver, name);
+         }
+         if(Collection.class.isInstance(left)) {
+            return new CollectionPointer(resolver, name);
+         }
+         if(type.isArray()) {
+            return new ArrayPointer(resolver, name);
+         }
+         return new ObjectPointer(resolver, name);
+      }
+      return create(scope);
+   }
 }

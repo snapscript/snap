@@ -1,7 +1,9 @@
 package org.snapscript.tree.literal;
 
 import org.snapscript.core.InternalStateException;
+import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
+import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.parse.NumberToken;
 import org.snapscript.parse.StringToken;
@@ -28,6 +30,12 @@ public class NumberLiteral extends Literal {
       if(number == null) {
          throw new InternalStateException("Number value was null");
       }
-      return operator.operate(number);
+      Value value = operator.operate(number);
+      Object result = value.getValue();
+      Class real = result.getClass();
+      Module module = scope.getModule();
+      Type constraint = module.getType(real);
+      
+      return Value.getTransient(result, constraint);
    }
 }

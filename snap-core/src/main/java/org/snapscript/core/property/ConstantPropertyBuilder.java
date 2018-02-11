@@ -20,4 +20,8 @@ public class ConstantPropertyBuilder {
    public Property createConstant(String name, Object value, Type type) {
       return new ConstantProperty(name, type, null, value, CONSTANT.mask);
    }
+   
+   public Property createConstant(String name, Object value, Type type, Type constraint) {
+      return new ConstantProperty(name, type, constraint, value, CONSTANT.mask);
+   }
 }

@@ -1,6 +1,7 @@
 package org.snapscript.tree.define;
 
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.tree.NameReference;
@@ -35,7 +36,13 @@ public class MemberFieldDeclaration {
    public MemberFieldData create(Scope scope) throws Exception {
       Type type = constraint.getConstraint(scope);
       String name = identifier.getName(scope);
-  
+      
+      if(type == null) {
+         Module module = scope.getModule();
+         Type object = module.getType(Object.class);
+         
+         return new MemberFieldData(name, object, value);
+      }
       return new MemberFieldData(name, type, value);
    }
 }

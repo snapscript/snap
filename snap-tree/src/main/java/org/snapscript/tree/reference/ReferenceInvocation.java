@@ -25,10 +25,9 @@ public class ReferenceInvocation extends Evaluation {
       Context context = module.getContext();
       FunctionBinder binder = context.getBinder();
       Value value = Value.getTransient(left);        
-      Value array = arguments.create(scope); 
-      Object[] arguments = array.getValue();
-      Callable<Value> call = binder.bind(value, arguments);
-      int width = arguments.length;
+      Object[] array = arguments.create(scope); 
+      Callable<Value> call = binder.bindValue(value, array);
+      int width = array.length;
       
       if(call == null) {
          throw new InternalStateException("Result was not a closure of " + width +" arguments");

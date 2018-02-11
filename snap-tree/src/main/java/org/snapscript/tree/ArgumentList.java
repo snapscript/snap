@@ -1,15 +1,18 @@
 package org.snapscript.tree;
 
 import org.snapscript.core.Scope;
+import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 
 public class ArgumentList {
    
    private final Argument[] list;
    private final Object[] empty;
+   private final Type[] none;
    
    public ArgumentList(Argument... list) {
       this.empty = new Object[]{};
+      this.none = new Type[]{};
       this.list = list;
    }
    
@@ -19,14 +22,14 @@ public class ArgumentList {
       }
    }
    
-   public Value create(Scope scope) throws Exception{
+   public Object[] create(Scope scope) throws Exception{
       if(list.length > 0) {
          return create(scope, empty);
       }
-      return Value.getTransient(empty);
+      return empty;
    }
    
-   public Value create(Scope scope, Object... prefix) throws Exception{
+   public Object[] create(Scope scope, Object... prefix) throws Exception{
       Object[] values = new Object[list.length + prefix.length];
       
       for(int i = 0; i < list.length; i++){
@@ -38,6 +41,27 @@ public class ArgumentList {
       for(int i = 0; i < prefix.length; i++) {
          values[i] = prefix[i];
       }
-      return Value.getTransient(values);
+      return values;
+   }
+   
+   public Type[] validate(Scope scope) throws Exception{
+      if(list.length > 0) {
+         return validate(scope, none);
+      }
+      return none;
+   }
+   
+   public Type[] validate(Scope scope, Type... prefix) throws Exception{
+      Type[] values = new Type[list.length + prefix.length];
+      
+      for(int i = 0; i < list.length; i++){
+         Type result = list[i].validate(scope, null);
+         
+         values[i + prefix.length] = result;
+      }
+      for(int i = 0; i < prefix.length; i++) {
+         values[i] = prefix[i];
+      }
+      return values;
    }
 }

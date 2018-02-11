@@ -2,6 +2,7 @@ package org.snapscript.tree.literal;
 
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
+import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 
 public abstract class Literal extends Evaluation {
@@ -12,6 +13,14 @@ public abstract class Literal extends Evaluation {
       super();
    }
 
+   @Override
+   public Type validate(Scope scope, Type left) throws Exception {
+      if(value == null) {
+         value = create(scope);
+      }
+      return value.getConstraint();
+   }
+   
    @Override
    public Value evaluate(Scope scope, Object left) throws Exception {
       if(value == null) {

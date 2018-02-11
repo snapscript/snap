@@ -11,6 +11,7 @@ import org.snapscript.core.Module;
 import org.snapscript.core.Path;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Table;
+import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.dispatch.CallDispatcher;
 import org.snapscript.core.function.Function;
@@ -69,7 +70,7 @@ public class FunctionInvocation implements Compilation {
       }
       
       @Override
-      public Value validate(Scope scope, Object left) throws Exception {
+      public Type validate(Scope scope, Type left) throws Exception {
          int depth = offset.get();
          
          if(depth != -1 && left == null){
@@ -77,32 +78,29 @@ public class FunctionInvocation implements Compilation {
             Value value = table.get(depth);
             
             if(value != null) {
-               Object object = value.getValue();
+               Type type = value.getConstraint();
             
-               if(Function.class.isInstance(object)) {
-                  return executeV(scope, value);
+               if(Function.class.isInstance(type)) {
+                  return executeV(scope, type);
                }
             }
          }
          return executeV(scope, left);
       }
       
-      private Value executeV(Scope scope, Object left) throws Exception {
+      private Type executeV(Scope scope, Type left) throws Exception {
          String name = reference.getName(scope); 
-         Value array = arguments.create(scope); 
-         Object[] arguments = array.getValue();
+         Type[] array = arguments.validate(scope); 
          CallDispatcher handler = site.get(scope, left);
-         Value value = handler.validate(scope, left, arguments);
+         Type result = handler.validate(scope, left, array);
          
          for(Evaluation evaluation : evaluations) {
-            Object result = value.getValue();
-            
             if(result == null) {
                throw new InternalStateException("Result of '" + name + "' null"); 
             }
-            value = evaluation.validate(scope, result);
+            result = evaluation.validate(scope, result);
          }
-         return value; 
+         return result; 
       }
 
       @Override
@@ -126,10 +124,9 @@ public class FunctionInvocation implements Compilation {
       
       private Value execute(Scope scope, Object left) throws Exception {
          String name = reference.getName(scope); 
-         Value array = arguments.create(scope); 
-         Object[] arguments = array.getValue();
+         Object[] array = arguments.create(scope); 
          CallDispatcher handler = site.get(scope, left);
-         Value value = handler.dispatch(scope, left, arguments);
+         Value value = handler.dispatch(scope, left, array);
          
          for(Evaluation evaluation : evaluations) {
             Object result = value.getValue();

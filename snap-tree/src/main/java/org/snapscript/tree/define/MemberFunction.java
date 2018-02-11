@@ -3,6 +3,7 @@ package org.snapscript.tree.define;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.Module;
@@ -10,8 +11,13 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
+import org.snapscript.core.ValidationHelper;
+import org.snapscript.core.define.Instance;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionHandle;
+import org.snapscript.core.function.Invocation;
+import org.snapscript.core.platform.Platform;
+import org.snapscript.core.platform.PlatformProvider;
 import org.snapscript.tree.ModifierList;
 import org.snapscript.tree.annotation.AnnotationList;
 import org.snapscript.tree.constraint.Constraint;
@@ -57,8 +63,10 @@ public class MemberFunction implements TypePart {
    public TypeFactory validate(TypeFactory factory, Type type) throws Exception {
       FunctionHandle handle = reference.get();
       Scope scope = type.getScope();
+      Function function = handle.create(scope);
+      Scope outer = ValidationHelper.create(type, function);
       
-      handle.validate(scope);
+      handle.validate(outer);
       
       return null;
    }

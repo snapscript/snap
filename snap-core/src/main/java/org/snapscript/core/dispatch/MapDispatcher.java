@@ -3,6 +3,7 @@ package org.snapscript.core.dispatch;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
+import org.snapscript.core.AnyType;
 import org.snapscript.core.Context;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
@@ -27,22 +28,8 @@ public class MapDispatcher implements CallDispatcher<Map> {
    
 
    @Override
-   public Value validate(Scope scope, Map map, Object... arguments) throws Exception {
-      if(map != null) {
-         InvocationTask call = binder.bind(scope, map, name, arguments);
-         if(call == null) {
-            return Value.getTransient(new Object());
-         }
-         Object o = null;
-         Type type = call.getReturn();
-         if(type != null) {
-            o = scope.getModule().getContext().getProvider().create().createShellConstructor(type).invoke(scope, null, null);
-         } else {
-            o = new Object();
-         }
-         return Value.getTransient(o);
-      }
-      return Value.getTransient(new Object());
+   public Type validate(Scope scope, Type map, Type... arguments) throws Exception {
+      return new AnyType(scope);
    }
    
 
@@ -58,7 +45,7 @@ public class MapDispatcher implements CallDispatcher<Map> {
    
    private InvocationTask bind(Scope scope, Map map, Object... arguments) throws Exception {
       Module module = scope.getModule();
-      InvocationTask local = binder.bind(scope, map, name, arguments);
+      InvocationTask local = binder.bindInstance(scope, map, name, arguments);
       
       if(local == null) {
          Object value = map.get(name);
@@ -69,7 +56,27 @@ public class MapDispatcher implements CallDispatcher<Map> {
             Object function = wrapper.fromProxy(value);
             Value reference = Value.getTransient(function);
             
-            return binder.bind(reference, arguments);
+            return binder.bindValue(reference, arguments);
+         }
+      }
+      return local;
+   }
+   
+   
+   private InvocationTask bind(Scope scope, Map map, Type... arguments) throws Exception {
+      Module module = scope.getModule();
+      InvocationTask local = binder.bindInstance(scope, map, name, arguments);
+      
+      if(local == null) {
+         Object value = map.get(name);
+         
+         if(value != null) {
+            Context context = module.getContext();
+            ProxyWrapper wrapper = context.getWrapper();
+            Object function = wrapper.fromProxy(value);
+            Value reference = Value.getTransient(function);
+            
+            return binder.bindValue(reference, arguments);
          }
       }
       return local;

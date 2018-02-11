@@ -52,19 +52,15 @@ public class CreateObject extends Evaluation {
       
       if(arguments != null) {
          if(real == null) {
-            Value array = arguments.create(scope, type); 
-            Object[] arguments = array.getValue();
-            
-            return binder.bind(scope, type, TYPE_CONSTRUCTOR, arguments);
+            Object[] array = arguments.create(scope, type); 
+            return binder.bindStatic(scope, type, TYPE_CONSTRUCTOR, array);
          }
-         Value array = arguments.create(scope); 
-         Object[] arguments = array.getValue();
-         
-         return binder.bind(scope, type, TYPE_CONSTRUCTOR, arguments);
+         Object[] array = arguments.create(scope); 
+         return binder.bindStatic(scope, type, TYPE_CONSTRUCTOR, array);
       }
       if(real == null) {
-         return binder.bind(scope, type, TYPE_CONSTRUCTOR, type);
+         return binder.bindStatic(scope, type, TYPE_CONSTRUCTOR, type);
       }
-      return binder.bind(scope, type, TYPE_CONSTRUCTOR);
+      return binder.bindStatic(scope, type, TYPE_CONSTRUCTOR);
    }
 }

@@ -2,6 +2,7 @@ package org.snapscript.tree.variable;
 
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
+import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.convert.ProxyWrapper;
 
@@ -15,6 +16,26 @@ public class VariableBinder {
       this.resolver = new VariablePointerResolver(name);
       this.wrapper = wrapper;
       this.name = name;
+   }
+   
+   public Type check(Scope scope) throws Exception {
+      VariablePointer pointer = resolver.resolve(scope);
+      Type value = pointer.check(scope, null);
+      
+      if(value == null) {
+         throw new InternalStateException("Could not resolve '" + name +"' in scope");
+      }
+      return value;
+   }
+   
+   public Type check(Scope scope, Type left) throws Exception {
+      VariablePointer pointer = resolver.resolve(scope, left);
+      Type value = pointer.check(scope, left);
+      
+      if(value == null) {
+         throw new InternalStateException("Could not resolve '" + name +"' in scope");
+      }
+      return value;
    }
    
    public Value bind(Scope scope) throws Exception {

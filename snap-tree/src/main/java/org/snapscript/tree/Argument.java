@@ -2,6 +2,7 @@ package org.snapscript.tree;
 
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
+import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 
 public class Argument extends Evaluation{
@@ -15,6 +16,11 @@ public class Argument extends Evaluation{
    @Override
    public void compile(Scope scope) throws Exception {
       evaluation.compile(scope);
+   }
+   
+   @Override
+   public Type validate(Scope scope, Type left) throws Exception {
+      return evaluation.validate(scope, left);
    }
    
    @Override

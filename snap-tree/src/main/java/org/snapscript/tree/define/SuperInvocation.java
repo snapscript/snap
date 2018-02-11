@@ -34,8 +34,7 @@ public class SuperInvocation extends Evaluation {
       if(arguments != null) {
          Scope outer = real.getScope();
          Scope compound = extractor.extract(scope, outer);
-         Value array = arguments.create(compound, real); // arguments have no left hand side
-         Object[] list = array.getValue();
+         Object[] list = arguments.create(compound, real); // arguments have no left hand side
 
          return dispatcher.dispatch(instance, instance, list);
       }

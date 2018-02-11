@@ -85,7 +85,7 @@ public class TraitDefinition extends Statement {
                collector.update(factory);
             } 
          } finally {
-            progress.done(VALIDATED); 
+            progress.done(VERIFIED); 
          }
       }
    }

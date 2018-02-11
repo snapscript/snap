@@ -1,6 +1,7 @@
 package org.snapscript.tree.variable;
 
 import org.snapscript.core.Scope;
+import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.tree.define.ThisScopeBinder;
 
@@ -12,6 +13,16 @@ public class InstancePointer implements VariablePointer<Object> {
    public InstancePointer(ConstantResolver resolver, String name) {
       this.pointer = new LocalPointer(resolver, name);
       this.binder = new ThisScopeBinder();
+   }
+
+   @Override
+   public Type check(Scope scope, Type left) {
+      Scope instance = binder.bind(scope, scope);
+      
+      if(instance != null) {
+         return pointer.check(instance, left);
+      }
+      return null;
    }
    
    @Override

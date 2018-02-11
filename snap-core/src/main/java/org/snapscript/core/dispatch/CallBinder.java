@@ -21,6 +21,25 @@ public class CallBinder {
       this.local = new LocalDispatcher(binder, handler, name);
    }
    
+   public CallDispatcher bind(Scope scope, Type left) {
+      Type type = scope.getType();
+      
+      if(left != null) {
+         Class key = left.getClass();
+         CallDispatcher dispatcher = cache.fetch(key);
+         
+         if(dispatcher == null) { 
+            dispatcher = builder.create(scope, key);
+            cache.cache(key, dispatcher);
+         }
+         return dispatcher;
+      }
+      if(type != null) {
+         return instance;
+      }
+      return local;
+   }
+   
    public CallDispatcher bind(Scope scope, Object left) {
       Type type = scope.getType();
       

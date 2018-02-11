@@ -4,15 +4,13 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 import org.snapscript.core.Any;
-import org.snapscript.core.Context;
-import org.snapscript.core.Module;
+import org.snapscript.core.AnyType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.core.bind.InvocationTask;
-import org.snapscript.core.convert.Delegate;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
@@ -31,23 +29,24 @@ public class FunctionDispatcher implements CallDispatcher<Function> {
    }
    
    @Override
-   public Value validate(Scope scope, Function function, Object... arguments) throws Exception {
-      if(function != null) {
-         InvocationTask call = bind(scope, function, arguments); // this is not used often
-         Object o = null;
-         
-         if(call == null) {
-            handler.throwInternalException(scope, function, name, arguments);
-         }
-         Type type = call.getReturn();
-         if(type != null) {
-            o = scope.getModule().getContext().getProvider().create().createShellConstructor(type).invoke(scope, null, null);
-         } else {
-            o = new Object();
-         }
-         return Value.getTransient(o);
-      }
-      return Value.getTransient(new Object());
+   public Type validate(Scope scope, Type function, Type... arguments) throws Exception {
+//      if(function != null) {
+//         InvocationTask call = bind(scope, function, arguments); // this is not used often
+//         Object o = null;
+//         
+//         if(call == null) {
+//            handler.throwInternalException(scope, function, name, arguments);
+//         }
+//         Type type = call.getReturn();
+//         if(type != null) {
+//            o = scope.getModule().getContext().getProvider().create().createShellConstructor(type).invoke(scope, null, null);
+//         } else {
+//            o = new Object();
+//         }
+//         return Value.getTransient(o);
+//      }
+//      return Value.getTransient(new Object());
+      return new AnyType(scope);
    }
 
    @Override
@@ -61,12 +60,12 @@ public class FunctionDispatcher implements CallDispatcher<Function> {
    }
    
    private InvocationTask bind(Scope scope, Function function, Object... arguments) throws Exception {
-      InvocationTask call = binder.bind(scope, function, name, arguments); // this is not used often
+      InvocationTask call = binder.bindInstance(scope, function, name, arguments); // this is not used often
       
       if(call == null) {
          Object adapter = new FunctionAdapter(function);
          
-         return binder.bind(scope, adapter, name, arguments);
+         return binder.bindInstance(scope, adapter, name, arguments);
       }
       return call;
    }

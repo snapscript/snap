@@ -5,6 +5,7 @@ import org.snapscript.core.Evaluation;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
 import org.snapscript.core.Scope;
+import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.parse.StringToken;
 
@@ -51,12 +52,11 @@ public class ReferenceNavigation implements Compilation {
       }
       
       @Override
-      public Value validate(Scope scope, Object left) throws Exception {
-         Value value = part.validate(scope, left);         
-         Object object = value.getValue();
+      public Type validate(Scope scope, Type left) throws Exception {
+         Type value = part.validate(scope, left);         
          
-         if(object != null) {
-            return next.validate(scope, object);
+         if(value != null) {
+            return next.validate(scope, value);
          }
          return value;
       } 

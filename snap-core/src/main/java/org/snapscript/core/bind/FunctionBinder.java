@@ -28,7 +28,7 @@ public class FunctionBinder {
       this.scopes = new ScopeFunctionMatcher(stack);
    }
    
-   public InvocationTask bind(Value value, Object... list) throws Exception { // closures
+   public InvocationTask bindValue(Value value, Object... list) throws Exception { // closures
       FunctionCall call = values.match(value, list);
       
       if(call != null) {
@@ -37,7 +37,7 @@ public class FunctionBinder {
       return null;
    }
    
-   public InvocationTask bind(Scope scope, String name, Object... list) throws Exception { // function variable
+   public InvocationTask bindScope(Scope scope, String name, Object... list) throws Exception { // function variable
       FunctionCall call = scopes.match(scope, name, list);
       
       if(call != null) {
@@ -45,8 +45,8 @@ public class FunctionBinder {
       }
       return null;
    }
-   
-   public InvocationTask bind(Scope scope, Module module, String name, Object... list) throws Exception {
+
+   public InvocationTask bindModule(Scope scope, Module module, String name, Type... list) throws Exception {
       FunctionCall call = modules.match(module, name, list);
       
       if(call != null) {
@@ -55,7 +55,16 @@ public class FunctionBinder {
       return null;
    }
    
-   public InvocationTask bind(Scope scope, Type type, String name, Object... list) throws Exception {
+   public InvocationTask bindModule(Scope scope, Module module, String name, Object... list) throws Exception {
+      FunctionCall call = modules.match(module, name, list);
+      
+      if(call != null) {
+         return new InvocationTask(call, scope, module, list);
+      }
+      return null;
+   }
+
+   public InvocationTask bindStatic(Scope scope, Type type, String name, Type... list) throws Exception {
       FunctionCall call = types.match(type, name, list);
       
       if(call != null) {
@@ -64,7 +73,16 @@ public class FunctionBinder {
       return null;
    }
    
-   public InvocationTask bind(Scope scope, Delegate delegate, String name, Object... list) throws Exception {
+   public InvocationTask bindStatic(Scope scope, Type type, String name, Object... list) throws Exception {
+      FunctionCall call = types.match(type, name, list);
+      
+      if(call != null) {
+         return new InvocationTask(call, scope, null, list);
+      }
+      return null;
+   }
+   
+   public InvocationTask bindFunction(Scope scope, Delegate delegate, String name, Object... list) throws Exception {
       FunctionCall call = delegates.match(delegate, name, list);
       
       if(call != null) {
@@ -72,8 +90,17 @@ public class FunctionBinder {
       }
       return null;
    }
+   
+   public InvocationTask bindInstance(Scope scope, Type source, String name, Type... list) throws Exception {
+      FunctionCall call = objects.match(source, name, list);
+      
+      if(call != null) {
+         return new InvocationTask(call, scope, source, list);
+      }
+      return null;
+   }
 
-   public InvocationTask bind(Scope scope, Object source, String name, Object... list) throws Exception {
+   public InvocationTask bindInstance(Scope scope, Object source, String name, Object... list) throws Exception {
       FunctionCall call = objects.match(source, name, list);
       
       if(call != null) {

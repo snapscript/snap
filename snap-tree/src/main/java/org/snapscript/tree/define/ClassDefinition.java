@@ -1,8 +1,9 @@
 package org.snapscript.tree.define;
 
 import static org.snapscript.core.Category.CLASS;
-import static org.snapscript.core.Phase.*;
+import static org.snapscript.core.Phase.COMPILED;
 import static org.snapscript.core.Phase.DEFINED;
+import static org.snapscript.core.Phase.VERIFIED;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -89,7 +90,7 @@ public class ClassDefinition extends Statement {
             } 
             constructor.validate(collector, type);
          } finally {
-            progress.done(VALIDATED);
+            progress.done(VERIFIED);
          }
       }
    }

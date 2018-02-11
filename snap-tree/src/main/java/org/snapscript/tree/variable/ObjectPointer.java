@@ -29,6 +29,22 @@ public class ObjectPointer implements VariablePointer<Object> {
    }
    
    @Override
+   public Type check(Scope scope, Type left) {
+      Property accessor = reference.get();
+      
+      if(accessor == null) {
+         Property match = match(scope, left);
+         
+         if(match != null) {
+            reference.set(match);
+            return match.getConstraint();
+         }
+         return null;
+      }
+      return accessor.getConstraint();
+   }
+   
+   @Override
    public Value get(Scope scope, Object left) {
       Property accessor = reference.get();
       

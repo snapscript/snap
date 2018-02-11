@@ -2,6 +2,7 @@ package org.snapscript.core.trace;
 
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
+import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 
 public class TraceEvaluation extends Evaluation {
@@ -22,7 +23,7 @@ public class TraceEvaluation extends Evaluation {
    }
    
    @Override
-   public Value validate(Scope scope, Object left) throws Exception {
+   public Type validate(Scope scope, Type left) throws Exception {
       return evaluation.validate(scope, left); 
    }
    

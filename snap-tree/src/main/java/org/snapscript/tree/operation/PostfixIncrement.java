@@ -2,6 +2,7 @@ package org.snapscript.tree.operation;
 
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
+import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.parse.Token;
 import org.snapscript.tree.math.NumericConverter;
@@ -22,16 +23,15 @@ public class PostfixIncrement extends Evaluation {
    }
    
    @Override
-   public Value validate(Scope scope, Object left) throws Exception {
-      Value reference = evaluation.validate(scope, left);
-      Object number = reference.getValue();
+   public Type validate(Scope scope, Type left) throws Exception {
+      Class number = left.getType();
 
-      if(number != null && number.getClass() != Object.class) {
+      if(number != null && number != Object.class) {
          if(Number.class.isInstance(number)) {
             throw new IllegalStateException("Not a number");
          }
       }
-      return Value.getTransient(number);
+      return left; // return a number?
    }
    
    @Override

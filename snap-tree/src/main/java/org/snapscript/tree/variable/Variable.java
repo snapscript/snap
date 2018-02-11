@@ -11,6 +11,7 @@ import org.snapscript.core.Path;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Table;
+import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.convert.ProxyWrapper;
 import org.snapscript.tree.NameReference;
@@ -54,7 +55,7 @@ public class Variable implements Compilation {
       }
       
       @Override
-      public Value validate(Scope scope, Object left) throws Exception{
+      public Type validate(Scope scope, Type left) throws Exception{
          if(left == null) {
             int depth = offset.get();
             
@@ -63,19 +64,19 @@ public class Variable implements Compilation {
                Value value = state.get(name);
                
                if(value != null) { 
-                  return value;
+                  return value.getConstraint();
                }
             }else {
                Table table = scope.getTable();
                Value value = table.get(depth);
    
                if(value != null) { 
-                  return value;
+                  return value.getConstraint();
                }
             }
-            return binder.bind(scope);
+            return binder.check(scope);
          }
-         return binder.bind(scope, left);
+         return binder.check(scope, left);
       } 
       
       @Override

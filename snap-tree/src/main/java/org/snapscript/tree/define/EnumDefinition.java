@@ -2,7 +2,7 @@ package org.snapscript.tree.define;
 
 import static org.snapscript.core.Phase.COMPILED;
 import static org.snapscript.core.Phase.DEFINED;
-import static org.snapscript.core.Phase.VALIDATED;
+import static org.snapscript.core.Phase.VERIFIED;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -81,7 +81,7 @@ public class EnumDefinition extends Statement {
             }  
             constructor.validate(collector, type); 
          } finally {
-            progress.done(VALIDATED);
+            progress.done(VERIFIED);
          }
       }
    }

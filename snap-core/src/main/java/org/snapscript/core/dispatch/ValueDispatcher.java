@@ -2,11 +2,12 @@ package org.snapscript.core.dispatch;
 
 import java.util.concurrent.Callable;
 
+import org.snapscript.core.AnyType;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
+import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.bind.FunctionBinder;
-import org.snapscript.core.bind.InvocationTask;
 
 public class ValueDispatcher implements CallDispatcher<Value> {
    
@@ -19,18 +20,19 @@ public class ValueDispatcher implements CallDispatcher<Value> {
    }
    
    @Override
-   public Value validate(Scope scope, Value value, Object... arguments) throws Exception {
-     InvocationTask closure = binder.bind(value, arguments); // function variable
-      
-      if(closure == null) {
-         throw new InternalStateException("Method '" + name + "' not found in scope");
-      }
-      return Value.getTransient(new Object());
+   public Type validate(Scope scope, Type value, Type... arguments) throws Exception {
+//     InvocationTask closure = binder.bind(value, arguments); // function variable
+//      
+//      if(closure == null) {
+//         throw new InternalStateException("Method '" + name + "' not found in scope");
+//      }
+//      return Value.getTransient(new Object());
+      return new AnyType(scope);
    }
 
    @Override
    public Value dispatch(Scope scope, Value value, Object... arguments) throws Exception {
-      Callable<Value> closure = binder.bind(value, arguments); // function variable
+      Callable<Value> closure = binder.bindValue(value, arguments); // function variable
       
       if(closure == null) {
          throw new InternalStateException("Method '" + name + "' not found in scope");

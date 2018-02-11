@@ -26,7 +26,7 @@ public class ScopeProxyHandler implements ProxyHandler {
       String name = method.getName();
       FunctionBinder binder = context.getBinder();  
       Object[] convert = extractor.extract(arguments);
-      Callable<Value> call = binder.bind(scope, scope, name, convert); // here arguments can be null!!!
+      Callable<Value> call = binder.bindInstance(scope, scope, name, convert); // here arguments can be null!!!
       
       if(call == null) {
          throw new InternalStateException("Method '" + name + "' not found");

@@ -81,13 +81,13 @@ public class FunctionProxyHandler implements ProxyHandler {
 
       if(type != null) {
          Scope scope = type.getScope();
-         Callable<Value> call = binder.bind(scope, proxy, name, arguments); 
+         Callable<Value> call = binder.bindInstance(scope, proxy, name, arguments); 
          
          if(call != null) {
             return call;
          }
       }
-      return binder.bind(value, convert); // here arguments can be null!!! 
+      return binder.bindValue(value, convert); // here arguments can be null!!! 
    }
    
    @Override

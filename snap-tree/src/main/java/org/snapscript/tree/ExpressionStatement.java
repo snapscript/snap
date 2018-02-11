@@ -8,6 +8,7 @@ import org.snapscript.core.Path;
 import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
+import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.trace.Trace;

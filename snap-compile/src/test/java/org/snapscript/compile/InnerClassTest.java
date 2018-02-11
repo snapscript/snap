@@ -43,12 +43,12 @@ public class InnerClassTest extends TestCase {
    "var parent = new Parent();\n"+
    "parent.dump();\n";
    
-   public void testInnerClass() throws Exception {
-      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
-      System.err.println(SOURCE_1);
-      Executable executable = compiler.compile(SOURCE_1);
-      executable.execute();
-   }
+//   public void testInnerClass() throws Exception {
+//      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
+//      System.err.println(SOURCE_1);
+//      Executable executable = compiler.compile(SOURCE_1);
+//      executable.execute();
+//   }
    
    public void testInnerEnum() throws Exception {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();

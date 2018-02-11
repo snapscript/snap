@@ -25,6 +25,35 @@ public class TypeFunctionMatcher {
       this.finder = new FunctionPathFinder();
       this.inspector = new TypeInspector();
    }
+
+   public FunctionCall match(Type type, String name, Type... values) throws Exception { 
+      FunctionTable match = cache.fetch(type);
+      
+      if(match == null) {
+         List<Type> path = finder.findPath(type, name); 
+         FunctionTable table = builder.create(type);
+         int size = path.size();
+
+         for(int i = size - 1; i >= 0; i--) {
+            Type entry = path.get(i);
+            List<Function> functions = entry.getFunctions();
+
+            for(Function function : functions){
+               int modifiers = function.getModifiers();
+               
+               if(ModifierType.isStatic(modifiers)) {
+                  if(!inspector.isSuperConstructor(type, function)) {
+                     FunctionCall call = wrapper.toCall(function);
+                     table.update(call);
+                  }
+               }
+            }
+         }
+         cache.cache(type, table);
+         return table.resolve(name, values);
+      }
+      return match.resolve(name, values);
+   }
    
    public FunctionCall match(Type type, String name, Object... values) throws Exception { 
       FunctionTable match = cache.fetch(type);

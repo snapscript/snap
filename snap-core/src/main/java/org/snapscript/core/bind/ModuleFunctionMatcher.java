@@ -5,6 +5,7 @@ import java.util.List;
 import org.snapscript.common.CopyOnWriteSparseArray;
 import org.snapscript.common.SparseArray;
 import org.snapscript.core.Module;
+import org.snapscript.core.Type;
 import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.stack.ThreadStack;
@@ -23,6 +24,24 @@ public class ModuleFunctionMatcher {
       this.cache = new CopyOnWriteSparseArray<FunctionTable>(capacity);
       this.builder = new FunctionTableBuilder(extractor, stack);
       this.wrapper = new FunctionWrapper(stack);
+   }
+
+   public FunctionCall match(Module module, String name, Type... types) throws Exception { 
+      int index = module.getOrder();
+      FunctionTable match = cache.get(index);
+      
+      if(match == null) {
+         List<Function> functions = module.getFunctions();
+         FunctionTable table = builder.create(module);
+         
+         for(Function function : functions){
+            FunctionCall call = wrapper.toCall(function);
+            table.update(call);
+         }
+         cache.set(index, table);
+         return table.resolve(name, types);
+      }
+      return match.resolve(name, types);
    }
    
    public FunctionCall match(Module module, String name, Object... values) throws Exception { 

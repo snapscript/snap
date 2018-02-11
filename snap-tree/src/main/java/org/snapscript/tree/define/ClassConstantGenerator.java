@@ -46,7 +46,7 @@ public class ClassConstantGenerator {
    
    protected void generateConstant(Scope scope, String name, Type type, Type parent, Object value) throws Exception {
       List<Property> properties = type.getProperties();
-      Property property = builder.createConstant(name, value, type);
+      Property property = builder.createConstant(name, value, type, type);
       Value constant = Value.getBlank(value, parent, PUBLIC.mask | CONSTANT.mask);
       State state = scope.getState();
 

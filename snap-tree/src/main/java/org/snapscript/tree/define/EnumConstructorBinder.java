@@ -26,11 +26,9 @@ public class EnumConstructorBinder {
       FunctionBinder binder = context.getBinder();
       
       if(arguments != null) {
-         Value array = arguments.create(scope, type); // arguments have no left hand side
-         Object[] arguments = array.getValue();
-         
-         return binder.bind(scope, type, TYPE_CONSTRUCTOR, arguments);
+         Object[] array = arguments.create(scope, type); // arguments have no left hand side
+         return binder.bindStatic(scope, type, TYPE_CONSTRUCTOR, array);
       }
-      return binder.bind(scope, type, TYPE_CONSTRUCTOR, type);
+      return binder.bindStatic(scope, type, TYPE_CONSTRUCTOR, type);
    }
 }

@@ -5,6 +5,7 @@ import static org.snapscript.core.Reserved.PROPERTY_LENGTH;
 import java.util.Collection;
 
 import org.snapscript.core.Scope;
+import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 
 public class CollectionPointer implements VariablePointer<Collection> {
@@ -15,6 +16,14 @@ public class CollectionPointer implements VariablePointer<Collection> {
    public CollectionPointer(ConstantResolver resolver, String name) {
       this.pointer = new ObjectPointer(resolver, name);
       this.name = name;
+   }
+
+   @Override
+   public Type check(Scope scope, Type left) {
+      if(name.equals(PROPERTY_LENGTH)) {
+         return scope.getModule().getContext().getLoader().loadType(Integer.class);
+      }
+      return pointer.check(scope, left);
    }
    
    @Override

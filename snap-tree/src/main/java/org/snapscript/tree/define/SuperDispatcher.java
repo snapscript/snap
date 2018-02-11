@@ -1,5 +1,6 @@
 package org.snapscript.tree.define;
 
+import org.snapscript.core.AnyType;
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
@@ -20,8 +21,9 @@ public class SuperDispatcher implements CallDispatcher<Object> {
    }
    
    @Override
-   public Value validate(Scope scope, Object object, Object... list) throws Exception {
-      return Value.getTransient(new Object());
+   public Type validate(Scope scope, Type object, Type... list) throws Exception {
+      //return Value.getTransient(new Object());
+      return new AnyType(scope);
    }
    
    @Override

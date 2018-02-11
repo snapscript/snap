@@ -1,5 +1,6 @@
 package org.snapscript.core.dispatch;
 
+import org.snapscript.core.AnyType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
@@ -20,13 +21,16 @@ public class TypeDispatcher implements CallDispatcher<Type> {
    }
    
    @Override
-   public Value validate(Scope scope, Type type, Object... arguments) throws Exception {   
-      InvocationTask call = bind(scope, type, arguments);
+   public Type validate(Scope scope, Type type, Type... arguments) throws Exception {   
+      InvocationTask call = binder.bindStatic(scope, type, name, arguments);
       
+      if(call == null) {
+         call = binder.bindInstance(scope, type, name, arguments);
+      }
       if(call == null) {
          handler.throwInternalException(scope, type, name, arguments);
       }
-      return Value.getTransient(new Object());        
+      return call.getReturn();
    } 
 
    @Override
@@ -40,10 +44,10 @@ public class TypeDispatcher implements CallDispatcher<Type> {
    } 
    
    private InvocationTask bind(Scope scope, Type type, Object... arguments) throws Exception {
-      InvocationTask call = binder.bind(scope, type, name, arguments);
+      InvocationTask call = binder.bindStatic(scope, type, name, arguments);
       
       if(call == null) {
-         return binder.bind(scope, (Object)type, name, arguments);
+         return binder.bindInstance(scope, (Object)type, name, arguments);
       }
       return call;
    }

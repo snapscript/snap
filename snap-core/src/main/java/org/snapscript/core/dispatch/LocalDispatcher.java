@@ -1,5 +1,6 @@
 package org.snapscript.core.dispatch;
 
+import org.snapscript.core.AnyType;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
@@ -21,19 +22,20 @@ public class LocalDispatcher implements CallDispatcher<Object> {
    }
 
    @Override
-   public Value validate(Scope scope, Object object, Object... arguments) throws Exception {
-      if(object != null) {
-         InvocationTask call = bind(scope, object, arguments);
-         Object o = null;
-         Type type = call.getReturn();
-         if(type != null) {
-            o = scope.getModule().getContext().getProvider().create().createShellConstructor(type).invoke(scope, null, null);
-         } else {
-            o = new Object();
-         }
-         return Value.getTransient(o);
-      }
-      return Value.getTransient(new Object());
+   public Type validate(Scope scope, Type object, Type... arguments) throws Exception {
+//      if(object != null) {
+//         InvocationTask call = bind(scope, object, arguments);
+//         Object o = null;
+//         Type type = call.getReturn();
+//         if(type != null) {
+//            o = scope.getModule().getContext().getProvider().create().createShellConstructor(type).invoke(scope, null, null);
+//         } else {
+//            o = new Object();
+//         }
+//         return Value.getTransient(o);
+//      }
+//      return Value.getTransient(new Object());
+      return new AnyType(scope);
    }
    
    @Override
@@ -44,10 +46,10 @@ public class LocalDispatcher implements CallDispatcher<Object> {
    
    private InvocationTask bind(Scope scope, Object object, Object... arguments) throws Exception {
       Module module = scope.getModule();
-      InvocationTask local = binder.bind(scope, module, name, arguments);
+      InvocationTask local = binder.bindModule(scope, module, name, arguments);
       
       if(local == null) {
-         InvocationTask closure = binder.bind(scope, name, arguments); // function variable
+         InvocationTask closure = binder.bindScope(scope, name, arguments); // function variable
          
          if(closure != null) {
             return closure;   

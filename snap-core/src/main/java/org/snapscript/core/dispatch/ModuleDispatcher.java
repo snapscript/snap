@@ -1,8 +1,8 @@
 package org.snapscript.core.dispatch;
 
-import java.util.Map;
 import java.util.concurrent.Callable;
 
+import org.snapscript.core.AnyType;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
@@ -24,22 +24,23 @@ public class ModuleDispatcher implements CallDispatcher<Module> {
    }
    
    @Override
-   public Value validate(Scope scope, Module module, Object... arguments) throws Exception {
-      if(module != null) {
-         InvocationTask call = bind(scope, module, arguments);
-         if(call == null) {
-            handler.throwInternalException(scope, module, name, arguments);
-         }
-         Object o = null;
-         Type type = call.getReturn();
-         if(type != null) {
-            o = scope.getModule().getContext().getProvider().create().createShellConstructor(type).invoke(scope, null, null);
-         } else {
-            o = new Object();
-         }
-         return Value.getTransient(o);
-      }
-      return Value.getTransient(new Object());
+   public Type validate(Scope scope, Type module, Type... arguments) throws Exception {
+//      if(module != null) {
+//         InvocationTask call = bind(scope, module, arguments);
+//         if(call == null) {
+//            handler.throwInternalException(scope, module, name, arguments);
+//         }
+//         Object o = null;
+//         Type type = call.getReturn();
+//         if(type != null) {
+//            o = scope.getModule().getContext().getProvider().create().createShellConstructor(type).invoke(scope, null, null);
+//         } else {
+//            o = new Object();
+//         }
+//         return Value.getTransient(o);
+//      }
+//      return Value.getTransient(new Object());
+      return new AnyType(scope);
    }
 
    @Override
@@ -54,10 +55,10 @@ public class ModuleDispatcher implements CallDispatcher<Module> {
    
    private InvocationTask bind(Scope scope, Module module, Object... arguments) throws Exception {
       Scope inner = module.getScope();
-      InvocationTask call = binder.bind(inner, module, name, arguments);
+      InvocationTask call = binder.bindModule(inner, module, name, arguments);
       
       if(call == null) {
-         return binder.bind(inner, (Object)module, name, arguments);
+         return binder.bindInstance(inner, (Object)module, name, arguments);
       }
       return call;
    }
