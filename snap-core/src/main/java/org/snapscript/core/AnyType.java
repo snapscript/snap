@@ -19,11 +19,11 @@ public class AnyType implements Type {
    private final Scope scope;
    private final String name;
 
-   public AnyType(Scope scope) {
+   private AnyType(Scope scope) {
       this(scope, ANY_TYPE);
    }
    
-   public AnyType(Scope scope, String name) {
+   private AnyType(Scope scope, String name) {
       this.progress = new CompleteProgress<Phase>();
       this.description = new TypeDescription(this);
       this.scope = new TypeScope(this);

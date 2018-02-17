@@ -30,24 +30,14 @@ public class ScopePointer implements VariablePointer<Scope> {
 
    @Override
    public Type check(Scope scope, Type left) {
-//      Scope instance = binder.bind(left, left);
-//      State state = instance.getState();
-//      Value value = state.get(name);
-//      
-//      if(value == null) {
-//         Type type = left.getType();
-//         
-//         if(type != null) {
-//            Property property = match(scope, instance);
-//            
-//            if(property != null) {
-//               reference.set(property);
-//               return new PropertyValue(property, instance, name);
-//            }
-//         }
-//      }
-//      return value;
-      return new AnyType(scope);
+      Scope instance = left.getScope();
+      State state = instance.getState();
+      Value value = state.get(name);
+      
+      if(value == null) {
+         return instance.getModule().getType(Object.class);
+      }
+      return value.getConstraint();
    }
    
    @Override

@@ -2,7 +2,6 @@ package org.snapscript.tree.variable;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.snapscript.core.AnyType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Type;
@@ -33,12 +32,12 @@ public class LocalPointer implements VariablePointer<Object> {
             
             if(value != null) {
                reference.set(value);
-               return new AnyType(scope);
+               return scope.getModule().getContext().getExtractor().getType(value);
             }
          }
-         return variable.getConstraint();
+         return scope.getModule().getContext().getExtractor().getType(variable.getValue());
       }
-      return new AnyType(scope); 
+      return scope.getModule().getContext().getExtractor().getType(result);
    }
    
    @Override

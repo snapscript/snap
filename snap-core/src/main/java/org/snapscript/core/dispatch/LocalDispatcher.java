@@ -1,6 +1,5 @@
 package org.snapscript.core.dispatch;
 
-import org.snapscript.core.AnyType;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
@@ -23,28 +22,25 @@ public class LocalDispatcher implements CallDispatcher<Object> {
 
    @Override
    public Type validate(Scope scope, Type object, Type... arguments) throws Exception {
-//      if(object != null) {
-//         InvocationTask call = bind(scope, object, arguments);
-//         Object o = null;
-//         Type type = call.getReturn();
-//         if(type != null) {
-//            o = scope.getModule().getContext().getProvider().create().createShellConstructor(type).invoke(scope, null, null);
-//         } else {
-//            o = new Object();
-//         }
-//         return Value.getTransient(o);
-//      }
-//      return Value.getTransient(new Object());
-      return new AnyType(scope);
+      InvocationTask call = bind(scope, object, arguments);
+      
+      if(call == null) {
+         handler.throwInternalException(scope, name, arguments);
+      }
+      return call.getReturn();
    }
    
    @Override
    public Value dispatch(Scope scope, Object object, Object... arguments) throws Exception {
       InvocationTask call = bind(scope, object, arguments);
+      
+      if(call == null) {
+         handler.throwInternalException(scope, name, arguments);
+      }
       return call.call();
    }
    
-   private InvocationTask bind(Scope scope, Object object, Object... arguments) throws Exception {
+   private InvocationTask bind(Scope scope, Object... arguments) throws Exception {
       Module module = scope.getModule();
       InvocationTask local = binder.bindModule(scope, module, name, arguments);
       

@@ -25,22 +25,13 @@ public class ModuleDispatcher implements CallDispatcher<Module> {
    
    @Override
    public Type validate(Scope scope, Type module, Type... arguments) throws Exception {
-//      if(module != null) {
-//         InvocationTask call = bind(scope, module, arguments);
-//         if(call == null) {
-//            handler.throwInternalException(scope, module, name, arguments);
-//         }
-//         Object o = null;
-//         Type type = call.getReturn();
-//         if(type != null) {
-//            o = scope.getModule().getContext().getProvider().create().createShellConstructor(type).invoke(scope, null, null);
-//         } else {
-//            o = new Object();
-//         }
-//         return Value.getTransient(o);
-//      }
-//      return Value.getTransient(new Object());
-      return new AnyType(scope);
+      Module mod = scope.getModule();
+      InvocationTask call = bind(scope, mod, arguments);
+      
+      if(call == null) {
+         handler.throwInternalException(scope, module, name, arguments);
+      }
+      return call.getReturn();    
    }
 
    @Override

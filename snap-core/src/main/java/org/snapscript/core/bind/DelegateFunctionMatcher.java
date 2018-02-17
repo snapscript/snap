@@ -28,6 +28,34 @@ public class DelegateFunctionMatcher {
       this.extractor = extractor;
    }
    
+   public FunctionCall match(Type type, String name, Type... values) throws Exception { 
+      FunctionTable match = cache.fetch(type);
+      
+      if(match == null) {
+         List<Type> path = finder.findPath(type, name); 
+         FunctionTable table = builder.create(type);
+         int size = path.size();
+
+         for(int i = size - 1; i >= 0; i--) {
+            Type entry = path.get(i);
+            
+            if(!checker.isProxy(entry)) {
+               List<Function> functions = entry.getFunctions();
+   
+               for(Function function : functions){
+                  if(!checker.isSuperConstructor(type, function)) {
+                     FunctionCall call = wrapper.toCall(function);
+                     table.update(call);
+                  }
+               }
+            }
+         }
+         cache.cache(type, table);
+         return table.resolve(name, values);
+      }
+      return match.resolve(name, values);
+   }
+   
    public FunctionCall match(Delegate value, String name, Object... values) throws Exception { 
       Type type = extractor.getType(value);
       FunctionTable match = cache.fetch(type);

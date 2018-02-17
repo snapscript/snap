@@ -29,24 +29,8 @@ public class FunctionDispatcher implements CallDispatcher<Function> {
    }
    
    @Override
-   public Type validate(Scope scope, Type function, Type... arguments) throws Exception {
-//      if(function != null) {
-//         InvocationTask call = bind(scope, function, arguments); // this is not used often
-//         Object o = null;
-//         
-//         if(call == null) {
-//            handler.throwInternalException(scope, function, name, arguments);
-//         }
-//         Type type = call.getReturn();
-//         if(type != null) {
-//            o = scope.getModule().getContext().getProvider().create().createShellConstructor(type).invoke(scope, null, null);
-//         } else {
-//            o = new Object();
-//         }
-//         return Value.getTransient(o);
-//      }
-//      return Value.getTransient(new Object());
-      return new AnyType(scope);
+   public Type validate(Scope scope, Type function, Type... arguments) throws Exception { 
+      return scope.getModule().getType(Object.class);
    }
 
    @Override

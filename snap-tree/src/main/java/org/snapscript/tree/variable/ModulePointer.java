@@ -26,32 +26,31 @@ public class ModulePointer implements VariablePointer<Module> {
 
    @Override
    public Type check(Scope scope, Type left) {
-//      Property property = reference.get();
-//      
-//      if(property == null) {
-//         Scope inner = left.getScope();
-//         State state = inner.getState();
-//         Value value = state.get(name);
-//         
-//         if(value == null) {
-//            Type type = left.getType(name);
-//            
-//            if(type != null) {
-//               return Value.getTransient(type);
-//            }
-//            Property match = match(scope, left);
-//            
-//            if(match != null) {
-//               reference.set(match);
-//               return new PropertyValue(match, left, name);
-//            }
-//         }
-//         return value;
-//      } 
-//      return new PropertyValue(property, left, name);
-      return new AnyType(scope);
+      Property property = reference.get();
+      
+      if(property == null) {
+         Module module = left.getModule();
+         Scope inner = module.getScope();
+         State state = inner.getState();
+         Value value = state.get(name);
+         
+         if(value == null) {
+            Type type = module.getType(name);
+            
+            if(type != null) {
+               return type;
+            }
+            Property match = match(scope, module);
+            
+            if(match != null) {
+               reference.set(match);
+               return match.getConstraint();
+            }
+         }
+         return value.getConstraint();
+      } 
+      return property.getConstraint();
    }
-   
    
    @Override
    public Value get(Scope scope, Module left) {

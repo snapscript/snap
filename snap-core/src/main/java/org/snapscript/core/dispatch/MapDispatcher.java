@@ -3,7 +3,6 @@ package org.snapscript.core.dispatch;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
-import org.snapscript.core.AnyType;
 import org.snapscript.core.Context;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
@@ -26,13 +25,17 @@ public class MapDispatcher implements CallDispatcher<Map> {
       this.name = name;
    }
    
-
    @Override
    public Type validate(Scope scope, Type map, Type... arguments) throws Exception {
-      return new AnyType(scope);
+      Module module = scope.getModule();
+      InvocationTask local = binder.bindInstance(scope, map, name, arguments);
+      
+      if(local == null) {
+         return module.getType(Object.class);
+      }
+      return local.getReturn();
    }
    
-
    @Override
    public Value dispatch(Scope scope, Map map, Object... arguments) throws Exception {
       Callable<Value> call = bind(scope, map, arguments);
@@ -44,26 +47,6 @@ public class MapDispatcher implements CallDispatcher<Map> {
    }
    
    private InvocationTask bind(Scope scope, Map map, Object... arguments) throws Exception {
-      Module module = scope.getModule();
-      InvocationTask local = binder.bindInstance(scope, map, name, arguments);
-      
-      if(local == null) {
-         Object value = map.get(name);
-         
-         if(value != null) {
-            Context context = module.getContext();
-            ProxyWrapper wrapper = context.getWrapper();
-            Object function = wrapper.fromProxy(value);
-            Value reference = Value.getTransient(function);
-            
-            return binder.bindValue(reference, arguments);
-         }
-      }
-      return local;
-   }
-   
-   
-   private InvocationTask bind(Scope scope, Map map, Type... arguments) throws Exception {
       Module module = scope.getModule();
       InvocationTask local = binder.bindInstance(scope, map, name, arguments);
       

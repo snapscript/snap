@@ -2,7 +2,6 @@ package org.snapscript.core.dispatch;
 
 import java.util.concurrent.Callable;
 
-import org.snapscript.core.AnyType;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
@@ -21,13 +20,7 @@ public class ValueDispatcher implements CallDispatcher<Value> {
    
    @Override
    public Type validate(Scope scope, Type value, Type... arguments) throws Exception {
-//     InvocationTask closure = binder.bind(value, arguments); // function variable
-//      
-//      if(closure == null) {
-//         throw new InternalStateException("Method '" + name + "' not found in scope");
-//      }
-//      return Value.getTransient(new Object());
-      return new AnyType(scope);
+      return value.getModule().getType(Object.class);
    }
 
    @Override

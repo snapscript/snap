@@ -37,7 +37,7 @@ public class MapPointer implements VariablePointer<Map> {
             reference.set(match);
             return match.getConstraint();
          }
-         return new AnyType(scope);
+         return left.getModule().getType(Object.class);
       }
       return accessor.getConstraint();
    }

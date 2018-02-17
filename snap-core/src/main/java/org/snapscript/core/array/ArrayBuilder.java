@@ -3,12 +3,23 @@ package org.snapscript.core.array;
 import java.lang.reflect.Array;
 import java.util.List;
 
+import org.snapscript.core.Module;
+import org.snapscript.core.Scope;
+import org.snapscript.core.Type;
+
 public class ArrayBuilder {
    
    public ArrayBuilder() {
       super();
    }
 
+   public Type convert(Type type) throws Exception {
+      Scope scope = type.getScope();
+      Module module = scope.getModule();
+      
+      return module.getType(List.class);
+   }
+   
    public List convert(Object array) throws Exception {
       Class type = array.getClass();
       

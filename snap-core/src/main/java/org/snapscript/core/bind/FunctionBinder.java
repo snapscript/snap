@@ -1,7 +1,5 @@
 package org.snapscript.core.bind;
 
-import java.util.concurrent.Callable;
-
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
@@ -78,6 +76,15 @@ public class FunctionBinder {
       
       if(call != null) {
          return new InvocationTask(call, scope, null, list);
+      }
+      return null;
+   }
+   
+   public InvocationTask bindFunction(Scope scope, Type delegate, String name, Type... list) throws Exception {
+      FunctionCall call = delegates.match(delegate, name, list);
+      
+      if(call != null) {
+         return new InvocationTask(call, scope, delegate, list);
       }
       return null;
    }
