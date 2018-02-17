@@ -58,8 +58,7 @@ public class ParameterDeclaration {
       boolean constant = checker.isConstant();
       
       if(constraint != null && name != null) {
-         Value value = constraint.evaluate(scope, null);
-         Type type = value.getValue();
+         Type type = constraint.getType(scope);
          
          if(type == null) {
             throw new InternalStateException("Constraint for '" +name + "' has not been imported");

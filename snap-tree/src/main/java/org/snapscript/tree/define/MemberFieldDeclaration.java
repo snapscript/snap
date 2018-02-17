@@ -5,13 +5,13 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.tree.NameReference;
 import org.snapscript.tree.constraint.Constraint;
-import org.snapscript.tree.constraint.ConstraintReference;
+import org.snapscript.tree.constraint.SafeConstraint;
 import org.snapscript.tree.literal.TextLiteral;
 
 public class MemberFieldDeclaration {
 
-   private final ConstraintReference constraint;
    private final NameReference identifier;
+   private final Constraint constraint;
    private final Evaluation value;
    
    public MemberFieldDeclaration(TextLiteral identifier) {
@@ -28,12 +28,12 @@ public class MemberFieldDeclaration {
    
    public MemberFieldDeclaration(TextLiteral identifier, Constraint constraint, Evaluation value) {
       this.identifier = new NameReference(identifier);
-      this.constraint = new ConstraintReference(constraint);
+      this.constraint = new SafeConstraint(constraint);
       this.value = value;
    }   
 
    public MemberFieldData create(Scope scope) throws Exception {
-      Type type = constraint.getConstraint(scope);
+      Type type = constraint.getType(scope);
       String name = identifier.getName(scope);
   
       return new MemberFieldData(name, type, value);

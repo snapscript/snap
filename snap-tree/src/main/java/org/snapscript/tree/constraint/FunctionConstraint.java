@@ -1,13 +1,12 @@
 package org.snapscript.tree.constraint;
 
-import org.snapscript.core.Evaluation;
+import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
-import org.snapscript.core.Value;
 import org.snapscript.core.function.Signature;
 import org.snapscript.tree.function.ParameterList;
 
-public class FunctionConstraint extends Evaluation {
+public class FunctionConstraint implements Constraint {
 
    private final ParameterList list;
    
@@ -16,10 +15,12 @@ public class FunctionConstraint extends Evaluation {
    }
    
    @Override
-   public Value evaluate(Scope scope, Object left) throws Exception {
-      Signature signature = list.create(scope);
-      Type type = signature.getDefinition();
-      
-      return Value.getTransient(type);
+   public Type getType(Scope scope) {
+      try {
+         Signature signature = list.create(scope);
+         return signature.getDefinition();
+      } catch(Exception e) {
+         throw new InternalStateException("Invalid function constraint", e);
+      }
    }
 }

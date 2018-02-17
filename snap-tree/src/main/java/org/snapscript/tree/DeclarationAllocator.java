@@ -7,22 +7,22 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.tree.constraint.Constraint;
-import org.snapscript.tree.constraint.ConstraintReference;
+import org.snapscript.tree.constraint.SafeConstraint;
 
 public class DeclarationAllocator {
 
    private final DeclarationConverter converter;
-   private final ConstraintReference extractor;
+   private final Constraint constraint;
    private final Evaluation expression;
    
    public DeclarationAllocator(Constraint constraint, Evaluation expression) {      
-      this.extractor = new ConstraintReference(constraint);
+      this.constraint = new SafeConstraint(constraint);
       this.converter = new DeclarationConverter();
       this.expression = expression;
    }   
    
    public <T extends Value> T allocate(Scope scope, String name, int modifiers) throws Exception {
-      Type type = extractor.getConstraint(scope);
+      Type type = constraint.getType(scope);
       Object object = null;
       
       if(expression != null) {

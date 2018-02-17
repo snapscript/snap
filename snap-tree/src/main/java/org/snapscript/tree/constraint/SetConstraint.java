@@ -3,15 +3,14 @@ package org.snapscript.tree.constraint;
 import java.util.Set;
 
 import org.snapscript.core.Context;
-import org.snapscript.core.Evaluation;
+import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeLoader;
-import org.snapscript.core.Value;
 import org.snapscript.parse.StringToken;
 
-public class SetConstraint extends Evaluation {
+public class SetConstraint implements Constraint {
 
    private final StringToken token;
    
@@ -20,12 +19,15 @@ public class SetConstraint extends Evaluation {
    }
    
    @Override
-   public Value evaluate(Scope scope, Object left) throws Exception {
-      Module module = scope.getModule();
-      Context context = module.getContext();
-      TypeLoader loader = context.getLoader();
-      Type type = loader.loadType(Set.class);
-      
-      return Value.getTransient(type);
+   public Type getType(Scope scope) {
+      try {
+         Module module = scope.getModule();
+         Context context = module.getContext();
+         TypeLoader loader = context.getLoader();
+         
+         return loader.loadType(Set.class);
+      } catch(Exception e) {
+         throw new InternalStateException("Invalid map constraint", e);
+      }
    }
 }

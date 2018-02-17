@@ -62,7 +62,8 @@ reference-part = { <collection-index> |
 				   <literal> } ;
 
 reference-navigation = <reference-part>*(<reference-operator><reference-navigation>);
-reference-type = <array-constraint>*(<reference-operator><reference-navigation>);
+reference-constraint = <array-constraint>;
+reference-type = <reference-constraint>*(<reference-operator><reference-navigation>);
       
 list-entry = <argument>;
 list-entry-list = <list-entry>*(','<list-entry>);

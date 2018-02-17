@@ -21,7 +21,6 @@ import org.snapscript.tree.condition.SwitchStatement;
 import org.snapscript.tree.condition.ValueCase;
 import org.snapscript.tree.condition.WhileStatement;
 import org.snapscript.tree.constraint.ArrayConstraint;
-import org.snapscript.tree.constraint.Constraint;
 import org.snapscript.tree.constraint.FunctionConstraint;
 import org.snapscript.tree.constraint.ListConstraint;
 import org.snapscript.tree.constraint.MapConstraint;
@@ -79,6 +78,7 @@ import org.snapscript.tree.operation.PrefixDecrement;
 import org.snapscript.tree.operation.PrefixIncrement;
 import org.snapscript.tree.operation.PrefixOperation;
 import org.snapscript.tree.operation.SignedNumber;
+import org.snapscript.tree.reference.ReferenceConstraint;
 import org.snapscript.tree.reference.ReferenceIndex;
 import org.snapscript.tree.reference.ReferenceInvocation;
 import org.snapscript.tree.reference.ReferenceNavigation;
@@ -118,6 +118,7 @@ public enum Instruction {
    FUNCTION_REFERENCE(FunctionReference.class, "function-reference"),  
    ARGUMENT_LIST(ArgumentList.class, "argument-list"),     
    REFERENCE_INDEX(ReferenceIndex.class, "reference-index"),
+   REFERENCE_CONSTRAINT(ReferenceConstraint.class, "reference-constraint"), // array
    REFERENCE_INVOCATION(ReferenceInvocation.class, "reference-invocation"),
    REFERENCE_NAVIGATION(ReferenceNavigation.class, "reference-navigation"), 
    REFERENCE_TYPE(ReferenceNavigation.class, "reference-type"),   
@@ -182,8 +183,7 @@ public enum Instruction {
    ARRAY_CONSTRAINT(ArrayConstraint.class, "array-constraint"),
    LIST_CONSTRAINT(ListConstraint.class, "list-constraint"),   
    SET_CONSTRAINT(SetConstraint.class, "set-constraint"),   
-   MAP_CONSTRAINT(MapConstraint.class, "map-constraint"),   
-   CONSTRAINT(Constraint.class, "constraint"),   
+   MAP_CONSTRAINT(MapConstraint.class, "map-constraint"),      
    VARIABLE_ARGUMENT(Modifier.class, "variable-argument"),
    PARAMETER_MODIFIER(Modifier.class, "parameter-modifier"),
    PARAMETER_MODIFIER_LIST(ModifierList.class, "parameter-modifier-list"),
