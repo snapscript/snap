@@ -1,7 +1,4 @@
-package org.snapscript.tree.constraint;
-
-import org.snapscript.core.Scope;
-import org.snapscript.core.Type;
+package org.snapscript.core;
 
 public class ConstantConstraint implements Constraint {
    

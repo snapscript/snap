@@ -2,6 +2,7 @@ package org.snapscript.tree.define;
 
 import java.util.List;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.Module;
@@ -13,7 +14,6 @@ import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionHandle;
 import org.snapscript.tree.ModifierList;
 import org.snapscript.tree.annotation.AnnotationList;
-import org.snapscript.tree.constraint.Constraint;
 import org.snapscript.tree.function.ParameterList;
 
 public class MemberFunction implements TypePart {

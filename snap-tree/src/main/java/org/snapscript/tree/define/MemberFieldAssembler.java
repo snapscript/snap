@@ -1,5 +1,7 @@
 package org.snapscript.tree.define;
 
+import org.snapscript.core.ConstantConstraint;
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
@@ -10,8 +12,6 @@ import org.snapscript.core.Value;
 import org.snapscript.tree.DeclarationAllocator;
 import org.snapscript.tree.ModifierChecker;
 import org.snapscript.tree.ModifierData;
-import org.snapscript.tree.constraint.ConstantConstraint;
-import org.snapscript.tree.constraint.Constraint;
 
 public class MemberFieldAssembler {
    

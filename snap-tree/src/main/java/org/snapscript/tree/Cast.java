@@ -1,5 +1,6 @@
 package org.snapscript.tree;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Module;
@@ -8,7 +9,6 @@ import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.convert.ConstraintConverter;
 import org.snapscript.core.convert.ConstraintMatcher;
-import org.snapscript.tree.constraint.Constraint;
 import org.snapscript.tree.constraint.SafeConstraint;
 
 public class Cast extends Evaluation {

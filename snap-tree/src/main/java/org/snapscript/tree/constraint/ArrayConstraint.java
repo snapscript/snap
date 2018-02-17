@@ -1,5 +1,6 @@
 package org.snapscript.tree.constraint;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;

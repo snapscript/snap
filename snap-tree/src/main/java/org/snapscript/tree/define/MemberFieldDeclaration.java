@@ -1,10 +1,10 @@
 package org.snapscript.tree.define;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.tree.NameReference;
-import org.snapscript.tree.constraint.Constraint;
 import org.snapscript.tree.constraint.SafeConstraint;
 import org.snapscript.tree.literal.TextLiteral;
 

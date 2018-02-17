@@ -3,12 +3,12 @@ package org.snapscript.tree.define;
 import static org.snapscript.core.ModifierType.CONSTANT;
 import static org.snapscript.core.ModifierType.STATIC;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
 import org.snapscript.tree.ModifierData;
-import org.snapscript.tree.constraint.Constraint;
 import org.snapscript.tree.literal.TextLiteral;
 
 public class TraitConstantDeclaration {
