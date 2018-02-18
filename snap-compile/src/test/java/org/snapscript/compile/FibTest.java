@@ -33,6 +33,10 @@ public class FibTest extends TestCase {
    //time=1279 memory=1,586,655,976
    //time=1299 memory=1,586,667,584
    //time=1310 memory=1,586,589,152
+   
+   //time=921 memory=1,529,425,864
+   //time=772 memory=1,314,500,176
+   //time=769 memory=1,314,022,936
    public void testFib() throws Exception {
       System.err.println(SOURCE);
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();

@@ -2,6 +2,7 @@ package org.snapscript.tree;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Index;
 import org.snapscript.core.Local;
 import org.snapscript.core.Result;
@@ -59,7 +60,8 @@ public class CatchBlockList {
          ParameterDeclaration declaration = block.getDeclaration();
          Statement statement = block.getStatement();
          Parameter parameter = declaration.get(scope);
-         Type type = parameter.getType();
+         Constraint constraint = parameter.getType();
+         Type type = constraint.getType(scope);
          String name = parameter.getName();
 
          if(data != null) {

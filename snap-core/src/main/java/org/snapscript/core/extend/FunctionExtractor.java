@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
@@ -35,6 +36,7 @@ public class FunctionExtractor {
    
    private List<Function> extract(Module module, Class extend, Object value, Type source) throws Exception {
       List<Function> functions = source.getFunctions();
+      Scope scope = module.getScope();
       
       if(!functions.isEmpty()) {
          List<Function> adapters = new ArrayList<Function>();
@@ -45,7 +47,8 @@ public class FunctionExtractor {
             
             if(!parameters.isEmpty()) {
                Parameter parameter = parameters.get(0);
-               Type type = parameter.getType();
+               Constraint constraint = parameter.getType();
+               Type type = constraint.getType(scope);
                Class real = type.getType();
             
                if(real == extend) {
@@ -63,11 +66,13 @@ public class FunctionExtractor {
    }
 
    private Function extract(Module module, Class extend, Object value, Function function) {
+      Scope scope = module.getScope();
       String name = function.getName();
       Invocation invocation = function.getInvocation();
       Signature signature = function.getSignature();
       List<Parameter> parameters = signature.getParameters();
-      Type constraint = function.getConstraint();
+      Constraint returns = function.getConstraint();
+      Type result = returns.getType(scope);
       boolean variable = signature.isVariable();
       int modifiers = function.getModifiers();
       int length = parameters.size();
@@ -79,12 +84,13 @@ public class FunctionExtractor {
          
          for(int i = 1; i < length; i++) {
             Parameter parameter = parameters.get(i);
-            Type type = parameter.getType();
+            Constraint constraint = parameter.getType();
+            Type type = constraint.getType(scope);
             Parameter duplicate = builder.create(type, i - 1);
             
             copy.add(duplicate);
          }
-         return new InvocationFunction(reduced, adapter, null, constraint, name, modifiers); // type is null so its not on stack
+         return new InvocationFunction(reduced, adapter, null, result, name, modifiers); // type is null so its not on stack
       }
       return null;
    }

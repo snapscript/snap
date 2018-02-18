@@ -4,16 +4,20 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.snapscript.core.ConstantConstraint;
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Type;
 import org.snapscript.core.annotation.Annotation;
 
 public class MapProperty implements Property<Map> {
 
+   private final Constraint constraint;
    private final Type type;
    private final String name;
    private final int modifiers;
    
    public MapProperty(String name, Type type, int modifiers){
+      this.constraint = new ConstantConstraint(null);
       this.modifiers = modifiers;
       this.name = name;
       this.type = type;
@@ -25,13 +29,13 @@ public class MapProperty implements Property<Map> {
    }
    
    @Override
-   public Type getType(){
-      return type;
+   public Constraint getConstraint() {
+      return constraint;
    }
    
    @Override
-   public Type getConstraint() {
-      return null;
+   public Type getType(){
+      return type;
    }
    
    @Override

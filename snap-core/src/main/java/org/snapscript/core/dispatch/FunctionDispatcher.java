@@ -4,8 +4,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 import org.snapscript.core.Any;
-import org.snapscript.core.Context;
-import org.snapscript.core.Module;
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
@@ -69,7 +68,7 @@ public class FunctionDispatcher implements CallDispatcher<Function> {
          return function.getHandle();
       }
       
-      public Type getConstraint() {
+      public Constraint getConstraint() {
          return function.getConstraint();
       }
       

@@ -6,6 +6,7 @@ import static org.snapscript.core.Reserved.METHOD_CLOSURE;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Type;
 import org.snapscript.core.annotation.Annotation;
 
@@ -44,7 +45,7 @@ public class EmptyFunction implements Function {
    }
    
    @Override
-   public Type getConstraint() {
+   public Constraint getConstraint() {
       return null;
    }
    
