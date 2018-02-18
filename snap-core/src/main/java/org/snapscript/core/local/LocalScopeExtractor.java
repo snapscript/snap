@@ -1,4 +1,9 @@
-package org.snapscript.core;
+package org.snapscript.core.local;
+
+import org.snapscript.core.Scope;
+import org.snapscript.core.State;
+import org.snapscript.core.Table;
+import org.snapscript.core.Value;
 
 public class LocalScopeExtractor {
    

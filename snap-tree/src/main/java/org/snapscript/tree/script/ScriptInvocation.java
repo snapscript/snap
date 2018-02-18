@@ -1,10 +1,10 @@
 package org.snapscript.tree.script;
 
-import org.snapscript.core.LocalScopeExtractor;
 import org.snapscript.core.Scope;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationBuilder;
 import org.snapscript.core.function.Signature;
+import org.snapscript.core.local.LocalScopeExtractor;
 
 public class ScriptInvocation implements Invocation<Object> {
 

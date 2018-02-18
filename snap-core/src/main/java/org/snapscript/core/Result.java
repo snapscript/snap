@@ -8,6 +8,9 @@ import static org.snapscript.core.ResultType.RETURN;
 import static org.snapscript.core.ResultType.THROW;
 import static org.snapscript.core.ResultType.YIELD;
 
+import org.snapscript.core.yield.Resume;
+import org.snapscript.core.yield.YieldResult;
+
 public class Result {
    
    public static final Result NORMAL_RESULT = new Result(NORMAL);

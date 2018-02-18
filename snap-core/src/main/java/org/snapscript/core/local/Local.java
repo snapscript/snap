@@ -1,4 +1,7 @@
-package org.snapscript.core;
+package org.snapscript.core.local;
+
+import org.snapscript.core.Type;
+import org.snapscript.core.Value;
 
 public abstract class Local extends Value {
    

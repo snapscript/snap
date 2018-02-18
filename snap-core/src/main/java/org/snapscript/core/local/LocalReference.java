@@ -1,4 +1,6 @@
-package org.snapscript.core;
+package org.snapscript.core.local;
+
+import org.snapscript.core.Type;
 
 public class LocalReference extends Local {
 

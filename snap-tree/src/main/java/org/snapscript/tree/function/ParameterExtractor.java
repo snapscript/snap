@@ -5,7 +5,6 @@ import java.util.List;
 import org.snapscript.core.Constraint;
 import org.snapscript.core.Index;
 import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Local;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Table;
@@ -13,6 +12,7 @@ import org.snapscript.core.Type;
 import org.snapscript.core.convert.CompatibilityChecker;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.Signature;
+import org.snapscript.core.local.Local;
 
 public class ParameterExtractor {
    

@@ -6,10 +6,10 @@ import org.snapscript.core.Constraint;
 import org.snapscript.core.Index;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Local;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Table;
 import org.snapscript.core.Value;
+import org.snapscript.core.local.Local;
 import org.snapscript.tree.literal.TextLiteral;
 
 public class Declaration {

@@ -1,4 +1,7 @@
-package org.snapscript.core;
+package org.snapscript.core.yield;
+
+import org.snapscript.core.Result;
+import org.snapscript.core.Scope;
 
 public class NoResume implements Resume {
    

@@ -1,10 +1,10 @@
 package org.snapscript.tree;
 
 import org.snapscript.core.Result;
-import org.snapscript.core.Resume;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
-import org.snapscript.core.Yield;
+import org.snapscript.core.yield.Resume;
+import org.snapscript.core.yield.Yield;
 
 public abstract class SuspendStatement<T> extends Statement implements Resume<T, T> {
 

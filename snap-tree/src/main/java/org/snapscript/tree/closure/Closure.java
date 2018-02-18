@@ -1,6 +1,5 @@
 package org.snapscript.tree.closure;
 
-import org.snapscript.core.LocalScopeExtractor;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Module;
@@ -11,6 +10,7 @@ import org.snapscript.core.Value;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Signature;
 import org.snapscript.core.function.FunctionHandle;
+import org.snapscript.core.local.LocalScopeExtractor;
 import org.snapscript.tree.Expression;
 import org.snapscript.tree.ExpressionStatement;
 
