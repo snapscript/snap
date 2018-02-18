@@ -4,7 +4,7 @@ import org.snapscript.core.Constraint;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 
-public class SafeConstraint implements Constraint {
+public class SafeConstraint extends Constraint {
    
    private final Constraint constraint;
    
@@ -18,5 +18,21 @@ public class SafeConstraint implements Constraint {
          return constraint.getType(scope);
       }
       return null;
+   }
+   
+   @Override
+   public boolean isInstance() {
+      if(constraint != null) {
+         return constraint.isInstance();
+      }
+      return true;
+   }
+   
+   @Override
+   public boolean isStatic() {
+      if(constraint != null) {
+         return constraint.isStatic();
+      }
+      return false;
    }
 }

@@ -11,7 +11,7 @@ import org.snapscript.core.Type;
 import org.snapscript.core.TypeLoader;
 import org.snapscript.parse.StringToken;
 
-public class MapConstraint implements Constraint {
+public class MapConstraint extends Constraint {
 
    private final StringToken token;
    

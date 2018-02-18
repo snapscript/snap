@@ -7,7 +7,7 @@ import org.snapscript.core.Type;
 import org.snapscript.core.function.Signature;
 import org.snapscript.tree.function.ParameterList;
 
-public class FunctionConstraint implements Constraint {
+public class FunctionConstraint extends Constraint {
 
    private final ParameterList list;
    

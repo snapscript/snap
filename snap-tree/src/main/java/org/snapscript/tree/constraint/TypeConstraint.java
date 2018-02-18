@@ -23,7 +23,7 @@ public class TypeConstraint implements Compilation {
       return new CompileResult(evaluation, path, line);
    }
    
-   private static class CompileResult implements Constraint { 
+   private static class CompileResult extends Constraint { 
    
       private Evaluation constraint;
       private Path path;

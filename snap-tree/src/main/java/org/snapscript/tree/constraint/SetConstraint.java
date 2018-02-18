@@ -11,7 +11,7 @@ import org.snapscript.core.Type;
 import org.snapscript.core.TypeLoader;
 import org.snapscript.parse.StringToken;
 
-public class SetConstraint implements Constraint {
+public class SetConstraint extends Constraint {
 
    private final StringToken token;
    
