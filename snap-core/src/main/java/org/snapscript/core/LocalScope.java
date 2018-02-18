@@ -1,4 +1,4 @@
-package org.snapscript.core.local;
+package org.snapscript.core;
 
 import org.snapscript.core.ArrayTable;
 import org.snapscript.core.CompoundScope;
@@ -7,7 +7,6 @@ import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.StackIndex;
 import org.snapscript.core.State;
-import org.snapscript.core.Table;
 import org.snapscript.core.Type;
 
 public class LocalScope implements Scope {

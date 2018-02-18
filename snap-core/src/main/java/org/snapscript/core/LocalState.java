@@ -1,4 +1,4 @@
-package org.snapscript.core.local;
+package org.snapscript.core;
 
 import java.util.Iterator;
 import java.util.List;

@@ -4,6 +4,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.snapscript.core.Constraint;
 import org.snapscript.core.Index;
+import org.snapscript.core.Local;
 import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
@@ -12,7 +13,6 @@ import org.snapscript.core.Type;
 import org.snapscript.core.convert.CompatibilityChecker;
 import org.snapscript.core.error.ErrorCauseExtractor;
 import org.snapscript.core.function.Parameter;
-import org.snapscript.core.local.Local;
 import org.snapscript.tree.function.ParameterDeclaration;
 
 public class CatchBlockList {

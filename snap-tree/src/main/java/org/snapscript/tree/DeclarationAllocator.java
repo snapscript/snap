@@ -2,11 +2,11 @@ package org.snapscript.tree;
 
 import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.Local;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
-import org.snapscript.core.local.Local;
 import org.snapscript.tree.constraint.SafeConstraint;
 
 public class DeclarationAllocator {

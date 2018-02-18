@@ -6,9 +6,9 @@ import java.util.List;
 
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
+import org.snapscript.core.LocalScopeExtractor;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
-import org.snapscript.core.local.LocalScopeExtractor;
 import org.snapscript.parse.StringToken;
 
 public class TextTemplate extends Evaluation {

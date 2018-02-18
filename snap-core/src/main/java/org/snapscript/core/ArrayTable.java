@@ -2,8 +2,6 @@ package org.snapscript.core;
 
 import java.util.Iterator;
 
-import org.snapscript.core.local.Local;
-
 public class ArrayTable implements Table {
    
    private Local[] table;

@@ -1,4 +1,4 @@
-package org.snapscript.core.local;
+package org.snapscript.core;
 
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Type;
