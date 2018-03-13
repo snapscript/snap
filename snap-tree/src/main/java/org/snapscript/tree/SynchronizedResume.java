@@ -1,8 +1,8 @@
 package org.snapscript.tree;
 
 import org.snapscript.core.Result;
-import org.snapscript.core.Resume;
 import org.snapscript.core.Scope;
+import org.snapscript.core.yield.Resume;
 
 public class SynchronizedResume extends Suspend<Object, Resume> {
    

@@ -2,14 +2,14 @@ package org.snapscript.tree;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.snapscript.core.Index;
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.Index;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Local;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Table;
 import org.snapscript.core.Value;
-import org.snapscript.tree.constraint.Constraint;
 import org.snapscript.tree.literal.TextLiteral;
 
 public class Declaration {

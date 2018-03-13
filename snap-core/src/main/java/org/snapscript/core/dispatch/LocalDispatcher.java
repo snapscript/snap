@@ -1,5 +1,6 @@
 package org.snapscript.core.dispatch;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
@@ -21,7 +22,7 @@ public class LocalDispatcher implements CallDispatcher<Object> {
    }
 
    @Override
-   public Type validate(Scope scope, Type object, Type... arguments) throws Exception {
+   public Constraint validate(Scope scope, Type object, Type... arguments) throws Exception {
       InvocationTask call = bind(scope, object, arguments);
       
       if(call == null) {
@@ -40,7 +41,24 @@ public class LocalDispatcher implements CallDispatcher<Object> {
       return call.call();
    }
    
-   private InvocationTask bind(Scope scope, Object... arguments) throws Exception {
+   private InvocationTask bind(Scope scope, Object object, Object... arguments) throws Exception {
+      Module module = scope.getModule();
+      InvocationTask local = binder.bindModule(scope, module, name, arguments);
+      
+      if(local == null) {
+         InvocationTask closure = binder.bindScope(scope, name, arguments); // function variable
+         
+         if(closure != null) {
+            return closure;   
+         }
+      }
+      if(local == null) {
+         handler.throwInternalException(scope, name, arguments);
+      }
+      return local;  
+   }
+   
+   private InvocationTask bind(Scope scope, Object object, Type... arguments) throws Exception {
       Module module = scope.getModule();
       InvocationTask local = binder.bindModule(scope, module, name, arguments);
       

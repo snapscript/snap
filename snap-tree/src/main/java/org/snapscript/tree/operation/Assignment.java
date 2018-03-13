@@ -1,9 +1,9 @@
 package org.snapscript.tree.operation;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
-import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.convert.StringBuilder;
 import org.snapscript.parse.StringToken;
@@ -27,7 +27,7 @@ public class Assignment extends Evaluation {
    }
    
    @Override
-   public Type validate(Scope scope, Type type) throws Exception { 
+   public Constraint validate(Scope scope, Constraint type) throws Exception { 
       left.validate(scope, type);
       return right.validate(scope, type);
    }

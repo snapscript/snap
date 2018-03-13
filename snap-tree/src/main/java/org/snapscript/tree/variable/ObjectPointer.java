@@ -37,11 +37,11 @@ public class ObjectPointer implements VariablePointer<Object> {
          
          if(match != null) {
             reference.set(match);
-            return match.getConstraint();
+            return match.getConstraint().getType(scope);
          }
          return null;
       }
-      return accessor.getConstraint();
+      return accessor.getConstraint().getType(scope);
    }
    
    @Override

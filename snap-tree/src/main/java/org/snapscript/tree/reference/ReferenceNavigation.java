@@ -1,6 +1,7 @@
 package org.snapscript.tree.reference;
 
 import org.snapscript.core.Compilation;
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
@@ -52,8 +53,8 @@ public class ReferenceNavigation implements Compilation {
       }
       
       @Override
-      public Type validate(Scope scope, Type left) throws Exception {
-         Type value = part.validate(scope, left);         
+      public Constraint validate(Scope scope, Constraint left) throws Exception {
+         Constraint value = part.validate(scope, left);         
          
          if(value != null) {
             return next.validate(scope, value);

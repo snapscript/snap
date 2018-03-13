@@ -4,7 +4,7 @@ public class Evaluation{
    
    public void compile(Scope scope) throws Exception {}
    
-   public Type validate(Scope scope, Type left) throws Exception {
+   public Constraint validate(Scope scope, Constraint left) throws Exception {
       return null;
    }
    

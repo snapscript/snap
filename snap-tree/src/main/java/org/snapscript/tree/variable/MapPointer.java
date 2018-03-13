@@ -35,11 +35,11 @@ public class MapPointer implements VariablePointer<Map> {
          
          if(match != null) {
             reference.set(match);
-            return match.getConstraint();
+            return match.getConstraint().getType(scope);
          }
          return left.getModule().getType(Object.class);
       }
-      return accessor.getConstraint();
+      return accessor.getConstraint().getType(scope);
    }
    
    @Override

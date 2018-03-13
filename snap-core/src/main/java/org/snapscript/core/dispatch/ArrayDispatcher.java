@@ -3,6 +3,7 @@ package org.snapscript.core.dispatch;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
@@ -26,7 +27,7 @@ public class ArrayDispatcher implements CallDispatcher<Object> {
    }
    
    @Override
-   public Type validate(Scope scope, Type object, Type... arguments) throws Exception {
+   public Constraint validate(Scope scope, Type object, Type... arguments) throws Exception {
       Type list = builder.convert(object);
       InvocationTask call = binder.bindInstance(scope, list, name, arguments);
       

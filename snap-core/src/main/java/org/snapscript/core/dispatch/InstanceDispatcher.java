@@ -1,5 +1,6 @@
 package org.snapscript.core.dispatch;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
@@ -15,7 +16,7 @@ public class InstanceDispatcher implements CallDispatcher<Object> {
    }
 
    @Override
-   public Type validate(Scope scope, Type object, Type... arguments) throws Exception {
+   public Constraint validate(Scope scope, Type object, Type... arguments) throws Exception {
       Type type = scope.getType();
       return dispatcher.validate(scope, type, arguments);       // args wrong  
    }

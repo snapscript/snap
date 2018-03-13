@@ -3,6 +3,8 @@ package org.snapscript.core.function;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.snapscript.core.ConstantConstraint;
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Type;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.property.Property;
@@ -11,14 +13,14 @@ public class AccessorProperty<T> implements Property<T> {
 
    private final List<Annotation> annotations;
    private final Accessor<T> accessor;
-   private final Type constraint;
+   private final Constraint constraint;
    private final Type type;
    private final String name;
    private final int modifiers;
    
    public AccessorProperty(String name, Type type, Type constraint, Accessor<T> accessor, int modifiers){
+      this.constraint = new ConstantConstraint(constraint);
       this.annotations = new ArrayList<Annotation>();
-      this.constraint = constraint;
       this.modifiers = modifiers;
       this.accessor = accessor;
       this.name = name;
@@ -31,13 +33,13 @@ public class AccessorProperty<T> implements Property<T> {
    }
    
    @Override
-   public Type getType(){
-      return type;
+   public Constraint getConstraint() {
+      return constraint;
    }
    
    @Override
-   public Type getConstraint() {
-      return constraint;
+   public Type getType(){
+      return type;
    }
    
    @Override

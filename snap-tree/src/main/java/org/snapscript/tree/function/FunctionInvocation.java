@@ -3,6 +3,7 @@ package org.snapscript.tree.function;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.snapscript.core.Compilation;
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Index;
@@ -70,7 +71,7 @@ public class FunctionInvocation implements Compilation {
       }
       
       @Override
-      public Type validate(Scope scope, Type left) throws Exception {
+      public Constraint validate(Scope scope, Constraint left) throws Exception {
          int depth = offset.get();
          
          if(depth != -1 && left == null){
@@ -85,14 +86,17 @@ public class FunctionInvocation implements Compilation {
                }
             }
          }
-         return executeV(scope, left);
+         Type t = null;
+         if(left != null)
+            t =left.getType(scope);
+         return executeV(scope, t);
       }
       
-      private Type executeV(Scope scope, Type left) throws Exception {
+      private Constraint executeV(Scope scope, Type left) throws Exception {
          String name = reference.getName(scope); 
          Type[] array = arguments.validate(scope); 
          CallDispatcher handler = site.get(scope, left);
-         Type result = handler.validate(scope, left, array);
+         Constraint result = handler.validate(scope, left, array);
          
          for(Evaluation evaluation : evaluations) {
             if(result == null) {

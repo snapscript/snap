@@ -1,7 +1,8 @@
 package org.snapscript.tree.define;
 
+import org.snapscript.core.ConstantConstraint;
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
-import org.snapscript.core.Identity;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
@@ -11,7 +12,6 @@ import org.snapscript.core.Value;
 import org.snapscript.tree.DeclarationAllocator;
 import org.snapscript.tree.ModifierChecker;
 import org.snapscript.tree.ModifierData;
-import org.snapscript.tree.constraint.Constraint;
 
 public class MemberFieldAssembler {
    
@@ -43,13 +43,11 @@ public class MemberFieldAssembler {
       
       private final DeclarationAllocator allocator;
       private final Constraint constraint;
-      private final Evaluation value;
       private final String name;
       private final int modifiers;
       
       public Declaration(String name, Type type, Evaluation declare, int modifiers) {
-         this.value = new Identity(type);
-         this.constraint = new Constraint(value);
+         this.constraint = new ConstantConstraint(type);
          this.allocator = new MemberFieldAllocator(constraint, declare);
          this.modifiers = modifiers;
          this.name = name;

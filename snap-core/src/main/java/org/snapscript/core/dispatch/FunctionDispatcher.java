@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 import org.snapscript.core.Any;
-import org.snapscript.core.AnyType;
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
@@ -29,8 +29,9 @@ public class FunctionDispatcher implements CallDispatcher<Function> {
    }
    
    @Override
-   public Type validate(Scope scope, Type function, Type... arguments) throws Exception { 
-      return scope.getModule().getType(Object.class);
+   public Constraint validate(Scope scope, Type function, Type... arguments) throws Exception { 
+      Type t= scope.getModule().getType(Object.class);
+      return Constraint.getInstance(t);
    }
 
    @Override
@@ -74,7 +75,7 @@ public class FunctionDispatcher implements CallDispatcher<Function> {
          return function.getHandle();
       }
       
-      public Type getConstraint() {
+      public Constraint getConstraint() {
          return function.getConstraint();
       }
       

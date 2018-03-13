@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.snapscript.common.Cache;
 import org.snapscript.common.CopyOnWriteCache;
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Type;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Parameter;
@@ -83,7 +84,8 @@ public class FunctionGroup {
       List<Parameter> parameters = signature.getParameters();
       
       for(Parameter parameter : parameters) {
-         Type type = parameter.getType();
+         Constraint constraint = parameter.getType();
+         Type type = constraint.getType(null);
          
          if(type != null) {
             constraints.set(true);

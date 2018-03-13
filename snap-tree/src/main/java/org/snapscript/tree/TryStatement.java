@@ -5,11 +5,11 @@ import org.snapscript.core.Context;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
 import org.snapscript.core.Result;
-import org.snapscript.core.Resume;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
-import org.snapscript.core.Yield;
 import org.snapscript.core.error.ErrorHandler;
+import org.snapscript.core.yield.Resume;
+import org.snapscript.core.yield.Yield;
 
 public class TryStatement implements Compilation {
    

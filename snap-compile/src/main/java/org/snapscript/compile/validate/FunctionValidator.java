@@ -3,6 +3,7 @@ package org.snapscript.compile.validate;
 import java.util.List;
 import java.util.Set;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.Type;
@@ -87,7 +88,8 @@ public class FunctionValidator {
          
          for(int i = 0; i < length; i++){
             Parameter parameter = parameters.get(i);
-            Type type = parameter.getType();
+            Constraint constraint = parameter.getType();
+            Type type = constraint.getType(null);
             
             types[i] = type;
          }
@@ -119,7 +121,8 @@ public class FunctionValidator {
             
             for(int i = 0; i < length; i++){
                Parameter parameter = parameters.get(i);
-               Type type = parameter.getType();
+               Constraint constraint = parameter.getType();
+               Type type = constraint.getType(null);
                
                types[i] = type;
             }

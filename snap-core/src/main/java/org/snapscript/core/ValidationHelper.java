@@ -23,8 +23,9 @@ public class ValidationHelper {
          for(int i = 0; i < count; i++) {
             Parameter parameter = parameters.get(i);
             String name = parameter.getName();
-            Type constraint = parameter.getType();
-            Local local = Local.getReference(null, name, constraint);
+            Constraint constraint = parameter.getType();
+            Type result = constraint.getType(scope);
+            Local local = Local.getReference(null, name, result);
             
             state.add(name, local);
             table.add(i, local);
@@ -36,8 +37,9 @@ public class ValidationHelper {
             String name = property.getName();
             
             if(!name.equals(Reserved.TYPE_THIS)) {
-               Type constraint = property.getConstraint();
-               Value field = Value.getReference(null, constraint);
+               Constraint constraint = property.getConstraint();
+               Type result = constraint.getType(scope);
+               Value field = Value.getReference(null, result);
                Value current = state.get(name);
                
                if(current == null) {

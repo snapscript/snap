@@ -1,5 +1,6 @@
 package org.snapscript.tree;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Module;
@@ -8,16 +9,15 @@ import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.convert.ConstraintConverter;
 import org.snapscript.core.convert.ConstraintMatcher;
-import org.snapscript.tree.constraint.Constraint;
-import org.snapscript.tree.constraint.ConstraintReference;
+import org.snapscript.tree.constraint.SafeConstraint;
 
 public class Cast extends Evaluation {
 
-   private final ConstraintReference reference;
+   private final Constraint constraint;
    private final Evaluation evaluation;
    
    public Cast(Evaluation evaluation, Constraint constraint) {
-      this.reference = new ConstraintReference(constraint);
+      this.constraint = new SafeConstraint(constraint);
       this.evaluation = evaluation;
    }
    
@@ -29,7 +29,7 @@ public class Cast extends Evaluation {
    @Override
    public Value evaluate(Scope scope, Object left) throws Exception {
       Value value = evaluation.evaluate(scope, left);
-      Type type = reference.getConstraint(scope);
+      Type type = constraint.getType(scope);
       Object object = value.getValue();
       Module module = scope.getModule();
       Context context = module.getContext();

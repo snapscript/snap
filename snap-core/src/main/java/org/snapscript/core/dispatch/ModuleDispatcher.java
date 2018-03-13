@@ -2,7 +2,7 @@ package org.snapscript.core.dispatch;
 
 import java.util.concurrent.Callable;
 
-import org.snapscript.core.AnyType;
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
@@ -24,7 +24,7 @@ public class ModuleDispatcher implements CallDispatcher<Module> {
    }
    
    @Override
-   public Type validate(Scope scope, Type module, Type... arguments) throws Exception {
+   public Constraint validate(Scope scope, Type module, Type... arguments) throws Exception {
       Module mod = scope.getModule();
       InvocationTask call = bind(scope, mod, arguments);
       

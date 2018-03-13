@@ -1,5 +1,7 @@
 package org.snapscript.core;
 
+import org.snapscript.core.Type;
+
 public class LocalReference extends Local {
 
    private Object value;

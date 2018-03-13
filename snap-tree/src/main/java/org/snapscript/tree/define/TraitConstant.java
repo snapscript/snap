@@ -2,6 +2,7 @@ package org.snapscript.tree.define;
 
 import java.util.List;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.ModifierType;
@@ -16,17 +17,16 @@ import org.snapscript.core.property.Property;
 import org.snapscript.tree.ModifierChecker;
 import org.snapscript.tree.ModifierList;
 import org.snapscript.tree.annotation.AnnotationList;
-import org.snapscript.tree.constraint.Constraint;
-import org.snapscript.tree.constraint.ConstraintReference;
+import org.snapscript.tree.constraint.SafeConstraint;
 import org.snapscript.tree.literal.TextLiteral;
 
 public class TraitConstant implements TypePart {
 
    private final TraitConstantDeclaration declaration;
-   private final ConstraintReference extractor;
    private final AnnotationList annotations;
    private final ModifierChecker checker;
    private final TextLiteral identifier;
+   private final Constraint constraint;
    
    public TraitConstant(AnnotationList annotations, ModifierList list, TextLiteral identifier, Evaluation value) {
       this(annotations, list, identifier, null, value);
@@ -34,7 +34,7 @@ public class TraitConstant implements TypePart {
    
    public TraitConstant(AnnotationList annotations, ModifierList list, TextLiteral identifier, Constraint constraint, Evaluation value) {
       this.declaration = new TraitConstantDeclaration(identifier, constraint, value);
-      this.extractor = new ConstraintReference(constraint);
+      this.constraint = new SafeConstraint(constraint);
       this.checker = new ModifierChecker(list);
       this.annotations = annotations;
       this.identifier = identifier;
@@ -56,14 +56,14 @@ public class TraitConstant implements TypePart {
       TypeFactory declare = declaration.declare(factory, type);
       List<Property> properties = type.getProperties();
       Value value = identifier.evaluate(scope, null);
-      Type constraint = extractor.getConstraint(scope);
+      Type result = constraint.getType(scope);
       String name = value.getString();
       
       if(!checker.isConstant()) {
          throw new InternalStateException("Variable '" + name + "' for '" + type + "' must be constant");
       }
       Accessor accessor = new StaticAccessor(factory, scope, type, name);
-      Property property = new AccessorProperty(name, type, constraint, accessor, ModifierType.STATIC.mask | ModifierType.CONSTANT.mask);
+      Property property = new AccessorProperty(name, type, result, accessor, ModifierType.STATIC.mask | ModifierType.CONSTANT.mask);
       
       annotations.apply(scope, property);
       properties.add(property);

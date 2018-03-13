@@ -6,6 +6,7 @@ import static org.snapscript.core.convert.Score.POSSIBLE;
 
 import java.util.List;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Type;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Parameter;
@@ -71,9 +72,11 @@ public class FunctionComparator {
    }
    
    private Score compare(Parameter actual, Parameter require) throws Exception{
-      Type actualType  = actual.getType();
-      Type constraintType = require.getType();
-      ConstraintConverter converter = matcher.match(constraintType);
+      Constraint actualConstraint  = actual.getType();
+      Constraint requireConstraint = require.getType();
+      Type actualType  = actualConstraint.getType(null);
+      Type requireType = requireConstraint.getType(null);
+      ConstraintConverter converter = matcher.match(requireType);
       Score score = converter.score(actualType);
       
       if(actual.isVariable()) {

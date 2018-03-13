@@ -1,8 +1,8 @@
 package org.snapscript.tree;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
-import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 
 public class Argument extends Evaluation{
@@ -19,7 +19,7 @@ public class Argument extends Evaluation{
    }
    
    @Override
-   public Type validate(Scope scope, Type left) throws Exception {
+   public Constraint validate(Scope scope, Constraint left) throws Exception {
       return evaluation.validate(scope, left);
    }
    

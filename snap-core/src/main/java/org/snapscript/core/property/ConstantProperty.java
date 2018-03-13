@@ -4,22 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.snapscript.core.Constant;
+import org.snapscript.core.ConstantConstraint;
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Type;
 import org.snapscript.core.annotation.Annotation;
 
 public class ConstantProperty implements Property<Object> {
 
    private final List<Annotation> annotations;
+   private final Constraint constraint;
    private final Constant constant;
-   private final Type constraint;
    private final Type type;
    private final String name;
    private final int modifiers;
    
    public ConstantProperty(String name, Type type, Type constraint, Object value, int modifiers){
+      this.constraint = new ConstantConstraint(constraint);
       this.annotations = new ArrayList<Annotation>();
       this.constant = new Constant(value, type);
-      this.constraint = constraint;
       this.modifiers = modifiers;
       this.name = name;
       this.type = type;
@@ -31,13 +33,13 @@ public class ConstantProperty implements Property<Object> {
    }
    
    @Override
-   public Type getType(){
-      return type;
+   public Constraint getConstraint() {
+      return constraint;
    }
    
    @Override
-   public Type getConstraint() {
-      return constraint;
+   public Type getType(){
+      return type;
    }
    
    @Override

@@ -1,5 +1,6 @@
 package org.snapscript.tree.function;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.function.Parameter;
@@ -20,7 +21,8 @@ public class ParameterMatchChecker {
          
          if(declaration != null) {
             Parameter parameter = declaration.get(scope);
-            Type type = parameter.getType();
+            Constraint constraint = parameter.getType();
+            Type type = constraint.getType(scope);
             
             if(type != null) {
                Type entry = type.getEntry();

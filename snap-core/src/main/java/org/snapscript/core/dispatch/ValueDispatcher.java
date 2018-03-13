@@ -2,6 +2,7 @@ package org.snapscript.core.dispatch;
 
 import java.util.concurrent.Callable;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
@@ -19,8 +20,8 @@ public class ValueDispatcher implements CallDispatcher<Value> {
    }
    
    @Override
-   public Type validate(Scope scope, Type value, Type... arguments) throws Exception {
-      return value.getModule().getType(Object.class);
+   public Constraint validate(Scope scope, Type value, Type... arguments) throws Exception {
+      return Constraint.getNone();
    }
 
    @Override

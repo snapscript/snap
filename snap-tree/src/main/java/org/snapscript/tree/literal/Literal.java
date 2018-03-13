@@ -1,8 +1,8 @@
 package org.snapscript.tree.literal;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
-import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 
 public abstract class Literal extends Evaluation {
@@ -14,11 +14,8 @@ public abstract class Literal extends Evaluation {
    }
 
    @Override
-   public Type validate(Scope scope, Type left) throws Exception {
-      if(value == null) {
-         value = create(scope);
-      }
-      return value.getConstraint();
+   public Constraint validate(Scope scope, Constraint left) throws Exception {
+      return Constraint.getNone();
    }
    
    @Override

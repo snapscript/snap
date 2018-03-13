@@ -1,5 +1,6 @@
 package org.snapscript.tree;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
@@ -55,9 +56,10 @@ public class ArgumentList {
       Type[] values = new Type[list.length + prefix.length];
       
       for(int i = 0; i < list.length; i++){
-         Type result = list[i].validate(scope, null);
+         Constraint result = list[i].validate(scope, null);
+         Type type = result.getType(scope);
          
-         values[i + prefix.length] = result;
+         values[i + prefix.length] = type;
       }
       for(int i = 0; i < prefix.length; i++) {
          values[i] = prefix[i];

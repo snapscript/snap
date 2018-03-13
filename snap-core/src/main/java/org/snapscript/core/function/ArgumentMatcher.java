@@ -2,8 +2,10 @@ package org.snapscript.core.function;
 
 import java.util.List;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Context;
 import org.snapscript.core.Module;
+import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.convert.ConstraintConverter;
 import org.snapscript.core.convert.ConstraintMatcher;
@@ -22,6 +24,7 @@ public class ArgumentMatcher {
    }
    
    public ArgumentConverter getConverter() throws Exception {
+      Scope scope = module.getScope();
       Context context = module.getContext();
       ConstraintMatcher matcher = context.getMatcher();
       List<Parameter> parameters = signature.getParameters();
@@ -32,12 +35,14 @@ public class ArgumentMatcher {
          
          for(int i = 0; i < size - 1; i++) {
             Parameter parameter = parameters.get(i);
-            Type type = parameter.getType();
+            Constraint constraint = parameter.getType();
+            Type type = constraint.getType(scope);
             
             converters[i] = matcher.match(type);
          }
          Parameter parameter = parameters.get(size - 1);
-         Type type = parameter.getType();
+         Constraint constraint = parameter.getType();
+         Type type = constraint.getType(scope);
          
          if(type != null) {
             Type entry = type.getEntry();

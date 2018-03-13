@@ -3,6 +3,7 @@ package org.snapscript.core.dispatch;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Context;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
@@ -26,12 +27,11 @@ public class MapDispatcher implements CallDispatcher<Map> {
    }
    
    @Override
-   public Type validate(Scope scope, Type map, Type... arguments) throws Exception {
-      Module module = scope.getModule();
+   public Constraint validate(Scope scope, Type map, Type... arguments) throws Exception {
       InvocationTask local = binder.bindInstance(scope, map, name, arguments);
       
       if(local == null) {
-         return module.getType(Object.class);
+         return Constraint.getNone();
       }
       return local.getReturn();
    }

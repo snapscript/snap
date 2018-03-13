@@ -1,5 +1,6 @@
 package org.snapscript.tree.function;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
@@ -11,7 +12,6 @@ import org.snapscript.tree.ModifierChecker;
 import org.snapscript.tree.ModifierList;
 import org.snapscript.tree.NameReference;
 import org.snapscript.tree.annotation.AnnotationList;
-import org.snapscript.tree.constraint.Constraint;
 
 public class ParameterDeclaration {
    
@@ -58,8 +58,7 @@ public class ParameterDeclaration {
       boolean constant = checker.isConstant();
       
       if(constraint != null && name != null) {
-         Value value = constraint.evaluate(scope, null);
-         Type type = value.getValue();
+         Type type = constraint.getType(scope);
          
          if(type == null) {
             throw new InternalStateException("Constraint for '" +name + "' has not been imported");

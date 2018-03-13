@@ -1,5 +1,6 @@
 package org.snapscript.tree.define;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
@@ -24,7 +25,8 @@ public class SuperFactory extends TypeFactory {
    
    @Override
    public void validate(Scope instance, Type real) throws Exception {
-      expression.validate(instance, real);
+      Constraint constraint = Constraint.getInstance(real);
+      expression.validate(instance, constraint);
    }
 
    @Override

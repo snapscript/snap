@@ -3,6 +3,7 @@ package org.snapscript.tree.variable;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.snapscript.core.Compilation;
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Index;
@@ -55,7 +56,7 @@ public class Variable implements Compilation {
       }
       
       @Override
-      public Type validate(Scope scope, Type left) throws Exception{
+      public Constraint validate(Scope scope, Constraint left) throws Exception{
          if(left == null) {
             int depth = offset.get();
             
@@ -64,19 +65,22 @@ public class Variable implements Compilation {
                Value value = state.get(name);
                
                if(value != null) { 
-                  return value.getConstraint();
+                  Type t= value.getConstraint();
+                  return Constraint.getInstance(t);
                }
             }else {
                Table table = scope.getTable();
                Value value = table.get(depth);
    
                if(value != null) { 
-                  return value.getConstraint();
+                  Type t= value.getConstraint();
+                  return Constraint.getInstance(t);
                }
             }
             return binder.check(scope);
          }
-         return binder.check(scope, left);
+         Type t = left.getType(scope);
+         return binder.check(scope, t);
       } 
       
       @Override

@@ -1,5 +1,6 @@
 package org.snapscript.tree.variable;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
@@ -18,24 +19,24 @@ public class VariableBinder {
       this.name = name;
    }
    
-   public Type check(Scope scope) throws Exception {
+   public Constraint check(Scope scope) throws Exception {
       VariablePointer pointer = resolver.resolve(scope);
       Type value = pointer.check(scope, null);
       
       if(value == null) {
          throw new InternalStateException("Could not resolve '" + name +"' in scope");
       }
-      return value;
+      return Constraint.getInstance(value);
    }
    
-   public Type check(Scope scope, Type left) throws Exception {
+   public Constraint check(Scope scope, Type left) throws Exception {
       VariablePointer pointer = resolver.resolve(scope, left);
       Type value = pointer.check(scope, left);
       
       if(value == null) {
          throw new InternalStateException("Could not resolve '" + name +"' in scope");
       }
-      return value;
+      return Constraint.getInstance(value);
    }
    
    public Value bind(Scope scope) throws Exception {

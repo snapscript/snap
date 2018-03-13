@@ -7,17 +7,19 @@ import static org.snapscript.core.Reserved.TYPE_CLASS;
 
 import java.util.List;
 
+import org.snapscript.core.ConstantConstraint;
+import org.snapscript.core.Constraint;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Type;
 import org.snapscript.core.annotation.Annotation;
 
 public class ClassProperty implements Property {
    
-   private final Type constraint;
+   private final Constraint constraint;
    private final Type type;
    
    public ClassProperty(Type type, Type constraint) {
-      this.constraint = constraint;
+      this.constraint = new ConstantConstraint(constraint);
       this.type = type;
    }
    
@@ -25,15 +27,15 @@ public class ClassProperty implements Property {
    public List<Annotation> getAnnotations(){
       return EMPTY_LIST;
    }
-
+   
    @Override
-   public Type getType() {
-      return type;
+   public Constraint getConstraint() {
+      return constraint;
    }
    
    @Override
-   public Type getConstraint() {
-      return constraint;
+   public Type getType() {
+      return type;
    }
 
    @Override

@@ -1,6 +1,9 @@
-package org.snapscript.core;
+package org.snapscript.core.yield;
 
 import static org.snapscript.core.ResultType.YIELD;
+
+import org.snapscript.core.Result;
+import org.snapscript.core.Scope;
 
 public class YieldResult extends Result {
 

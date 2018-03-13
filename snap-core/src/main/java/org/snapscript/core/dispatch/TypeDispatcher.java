@@ -1,6 +1,6 @@
 package org.snapscript.core.dispatch;
 
-import org.snapscript.core.AnyType;
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
@@ -21,7 +21,7 @@ public class TypeDispatcher implements CallDispatcher<Type> {
    }
    
    @Override
-   public Type validate(Scope scope, Type type, Type... arguments) throws Exception {   
+   public Constraint validate(Scope scope, Type type, Type... arguments) throws Exception {   
       InvocationTask call = binder.bindStatic(scope, type, name, arguments);
       
       if(call == null) {

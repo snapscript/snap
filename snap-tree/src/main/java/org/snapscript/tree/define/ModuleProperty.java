@@ -1,5 +1,6 @@
 package org.snapscript.tree.define;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
@@ -12,15 +13,14 @@ import org.snapscript.core.function.ModuleAccessor;
 import org.snapscript.core.property.Property;
 import org.snapscript.tree.DeclarationAllocator;
 import org.snapscript.tree.NameReference;
-import org.snapscript.tree.constraint.Constraint;
-import org.snapscript.tree.constraint.ConstraintReference;
+import org.snapscript.tree.constraint.SafeConstraint;
 import org.snapscript.tree.literal.TextLiteral;
 
 public class ModuleProperty {
    
    private final DeclarationAllocator allocator;
-   private final ConstraintReference constraint;
    private final NameReference reference;
+   private final Constraint constraint;
    private final Evaluation value;
    
    public ModuleProperty(TextLiteral identifier) {
@@ -37,13 +37,13 @@ public class ModuleProperty {
    
    public ModuleProperty(TextLiteral identifier, Constraint constraint, Evaluation value) {
       this.allocator = new ModulePropertyAllocator(constraint, value);
-      this.constraint = new ConstraintReference(constraint);
+      this.constraint = new SafeConstraint(constraint);
       this.reference = new NameReference(identifier);
       this.value = value;
    }  
    
    public Property compile(ModuleBody body, Scope scope, int modifiers) throws Exception {
-      Type type = constraint.getConstraint(scope);
+      Type type = constraint.getType(scope);
       String name = reference.getName(scope);
       Accessor accessor = compile(body, scope);
       

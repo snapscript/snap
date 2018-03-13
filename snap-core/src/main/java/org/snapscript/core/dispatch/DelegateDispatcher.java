@@ -2,6 +2,7 @@ package org.snapscript.core.dispatch;
 
 import java.util.concurrent.Callable;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
@@ -23,7 +24,7 @@ public class DelegateDispatcher implements CallDispatcher<Delegate> {
    }
    
    @Override
-   public Type validate(Scope scope, Type object, Type... arguments) throws Exception {
+   public Constraint validate(Scope scope, Type object, Type... arguments) throws Exception {
       InvocationTask call = binder.bindFunction(scope, object, name, arguments);
       
       if(call == null) {

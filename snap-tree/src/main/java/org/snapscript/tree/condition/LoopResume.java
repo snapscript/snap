@@ -1,9 +1,9 @@
 package org.snapscript.tree.condition;
 
 import org.snapscript.core.Result;
-import org.snapscript.core.Resume;
 import org.snapscript.core.Scope;
-import org.snapscript.core.Yield;
+import org.snapscript.core.yield.Resume;
+import org.snapscript.core.yield.Yield;
 import org.snapscript.tree.Suspend;
 
 public class LoopResume extends Suspend<Object, Object> {

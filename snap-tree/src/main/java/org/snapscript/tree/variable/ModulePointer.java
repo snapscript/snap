@@ -44,12 +44,12 @@ public class ModulePointer implements VariablePointer<Module> {
             
             if(match != null) {
                reference.set(match);
-               return match.getConstraint();
+               return match.getConstraint().getType(scope);
             }
          }
          return value.getConstraint();
       } 
-      return property.getConstraint();
+      return property.getConstraint().getType(scope);
    }
    
    @Override

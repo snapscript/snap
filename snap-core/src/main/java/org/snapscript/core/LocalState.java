@@ -7,6 +7,10 @@ import java.util.Set;
 import org.snapscript.common.Cache;
 import org.snapscript.common.CompoundIterator;
 import org.snapscript.common.HashCache;
+import org.snapscript.core.InternalStateException;
+import org.snapscript.core.Scope;
+import org.snapscript.core.State;
+import org.snapscript.core.Value;
 
 public class LocalState implements State {
    

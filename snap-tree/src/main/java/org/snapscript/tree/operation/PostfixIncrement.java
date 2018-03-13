@@ -1,5 +1,6 @@
 package org.snapscript.tree.operation;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
@@ -23,15 +24,20 @@ public class PostfixIncrement extends Evaluation {
    }
    
    @Override
-   public Type validate(Scope scope, Type left) throws Exception {
-      Class number = left.getType();
-
-      if(number != null && number != Object.class) {
-         if(Number.class.isInstance(number)) {
-            throw new IllegalStateException("Not a number");
+   public Constraint validate(Scope scope, Constraint left) throws Exception {
+      Constraint constraint = evaluation.validate(scope, left);
+      Type type = constraint.getType(scope);
+      
+      if(type != null) {
+         Class number = type.getType();
+   
+         if(number != null && number != Object.class) {
+            if(Number.class.isInstance(number)) {
+               throw new IllegalStateException("Not a number");
+            }
          }
       }
-      return left; // return a number?
+      return constraint; // return a number?
    }
    
    @Override

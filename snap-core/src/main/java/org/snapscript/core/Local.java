@@ -1,5 +1,8 @@
 package org.snapscript.core;
 
+import org.snapscript.core.Type;
+import org.snapscript.core.Value;
+
 public abstract class Local extends Value {
    
    public static Local getConstant(Object value, String name) {

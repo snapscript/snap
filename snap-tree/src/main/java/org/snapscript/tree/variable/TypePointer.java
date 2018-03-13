@@ -39,18 +39,18 @@ public class TypePointer implements VariablePointer<Type> {
             
             if(match != null) {
                reference.set(match);
-               return match.getConstraint();
+               return match.getConstraint().getType(scope);
             }
          } 
          Property match = pointer.match(scope, left);
          
          if(match != null) {
             reference.set(match);
-            return match.getConstraint();
+            return match.getConstraint().getType(scope);
          }
          return null;
       } 
-      return property.getConstraint();
+      return property.getConstraint().getType(scope);
    }
    
    @Override

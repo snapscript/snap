@@ -3,6 +3,7 @@ package org.snapscript.tree.define;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
@@ -14,16 +15,15 @@ import org.snapscript.core.function.Signature;
 import org.snapscript.tree.ModifierList;
 import org.snapscript.tree.NameReference;
 import org.snapscript.tree.annotation.AnnotationList;
-import org.snapscript.tree.constraint.Constraint;
-import org.snapscript.tree.constraint.ConstraintReference;
+import org.snapscript.tree.constraint.SafeConstraint;
 import org.snapscript.tree.function.ParameterList;
 
 public class ModuleFunction implements ModulePart {
    
-   private final ConstraintReference constraint;
    private final AnnotationList annotations;
    private final ParameterList parameters;
    private final NameReference reference;
+   private final Constraint constraint;
    private final Statement statement;
    
    public ModuleFunction(AnnotationList annotations, ModifierList modifiers, Evaluation identifier, ParameterList parameters, Statement statement){  
@@ -31,7 +31,7 @@ public class ModuleFunction implements ModulePart {
    }
    
    public ModuleFunction(AnnotationList annotations, ModifierList modifiers, Evaluation identifier, ParameterList parameters, Constraint constraint, Statement statement){  
-      this.constraint = new ConstraintReference(constraint);
+      this.constraint = new SafeConstraint(constraint);
       this.reference = new NameReference(identifier);
       this.annotations = annotations;
       this.parameters = parameters;
@@ -59,7 +59,7 @@ public class ModuleFunction implements ModulePart {
          List<Function> functions = module.getFunctions();
          Signature signature = parameters.create(scope);
          String name = reference.getName(scope);
-         Type returns = constraint.getConstraint(scope);
+         Type returns = constraint.getType(scope);
          FunctionHandle handle = builder.create(signature, module, returns, name);
          Function function = handle.create(scope);
          

@@ -3,6 +3,8 @@ package org.snapscript.core.function;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.snapscript.core.ConstantConstraint;
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Type;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.convert.FunctionProxy;
@@ -12,9 +14,9 @@ public class InvocationFunction implements Function {
    private final FunctionDescription description;
    private final List<Annotation> annotations;
    private final Invocation invocation;
+   private final Constraint constraint;
    private final FunctionProxy proxy;
    private final Signature signature;
-   private final Type constraint;
    private final Type parent;
    private final String name;
    private final int modifiers;
@@ -29,10 +31,10 @@ public class InvocationFunction implements Function {
    
    public InvocationFunction(Signature signature, Invocation invocation, Type parent, Type constraint, String name, int modifiers, int start){
       this.description = new FunctionDescription(signature, parent, name, start);
+      this.constraint = new ConstantConstraint(constraint);
       this.annotations = new ArrayList<Annotation>();
       this.proxy = new FunctionProxy(this);
       this.invocation = invocation;
-      this.constraint = constraint;
       this.signature = signature;
       this.modifiers = modifiers;
       this.parent = parent;
@@ -65,7 +67,7 @@ public class InvocationFunction implements Function {
    }
    
    @Override
-   public Type getConstraint() {
+   public Constraint getConstraint() {
       return constraint;
    }
    

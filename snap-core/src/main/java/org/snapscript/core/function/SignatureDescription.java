@@ -2,6 +2,7 @@ package org.snapscript.core.function;
 
 import java.util.List;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Type;
 
 public class SignatureDescription {
@@ -29,7 +30,8 @@ public class SignatureDescription {
          
          for(int i = start; i < size; i++) {
             Parameter parameter = parameters.get(i);
-            Type type = parameter.getType();
+            Constraint constraint = parameter.getType();
+            Type type = constraint.getType(null);
             String name = parameter.getName();
             
             if(i > start) {
@@ -41,10 +43,10 @@ public class SignatureDescription {
                builder.append("...");
             }
             if(type != null) {
-               String constraint = type.getName();
+               String qualifier = type.getName();
                
                builder.append(": ");
-               builder.append(constraint);
+               builder.append(qualifier);
             }
          }
       }

@@ -1,5 +1,8 @@
 package org.snapscript.core;
 
+import org.snapscript.core.InternalStateException;
+import org.snapscript.core.Type;
+
 public class LocalConstant extends Local {
 
    private final Object value;

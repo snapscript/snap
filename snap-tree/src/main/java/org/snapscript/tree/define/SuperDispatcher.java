@@ -1,5 +1,6 @@
 package org.snapscript.tree.define;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
@@ -20,8 +21,8 @@ public class SuperDispatcher implements CallDispatcher<Object> {
    }
    
    @Override
-   public Type validate(Scope scope, Type object, Type... list) throws Exception {
-      return type;
+   public Constraint validate(Scope scope, Type object, Type... list) throws Exception {
+      return Constraint.getInstance(type);
    }
    
    @Override

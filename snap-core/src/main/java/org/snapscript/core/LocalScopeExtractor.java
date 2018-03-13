@@ -1,5 +1,9 @@
 package org.snapscript.core;
 
+import org.snapscript.core.Scope;
+import org.snapscript.core.State;
+import org.snapscript.core.Value;
+
 public class LocalScopeExtractor {
    
    private final boolean reference;

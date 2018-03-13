@@ -37,11 +37,6 @@ public class PartialPlatform implements Platform {
       return new DelegateConstructorInvocation(constructor);
    } 
    
-   @Override
-   public Invocation createShellConstructor(Type real) {
-      return new ConstantInvocation(empty);
-   }
-   
    public class DelegateMethodInvocation implements Invocation {
       
       private final Method method;

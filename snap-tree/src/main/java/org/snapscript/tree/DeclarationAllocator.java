@@ -1,50 +1,35 @@
 package org.snapscript.tree;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Local;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
-import org.snapscript.tree.constraint.Constraint;
-import org.snapscript.tree.constraint.ConstraintReference;
+import org.snapscript.tree.constraint.SafeConstraint;
 
 public class DeclarationAllocator {
 
    private final DeclarationConverter converter;
-   private final ConstraintReference extractor;
+   private final Constraint constraint;
    private final Evaluation expression;
    
    public DeclarationAllocator(Constraint constraint, Evaluation expression) {      
-      this.extractor = new ConstraintReference(constraint);
+      this.constraint = new SafeConstraint(constraint);
       this.converter = new DeclarationConverter();
       this.expression = expression;
    }   
    
    public <T extends Value> T validate(Scope scope, String name, int modifiers) throws Exception {
-      Type type = extractor.getConstraint(scope);
+      Type type = constraint.getType(scope);
       Object object = null;
-      
-//      if(expression != null) {
-      if(type != null) {
-         object = scope.getModule().getContext().getProvider().create().createShellConstructor(type).invoke(scope, null, null);
-      } else {
-         object = new Object();
-      }
-         //         Value value = expression.validate(scope, null);
-//         Object original = value.getValue();
-//         
-//         if(type != null) {
-//            object = converter.convert(scope, original, type, name);
-//         } else {
-//            object = original;
-//         }
-//      }
+
       return create(scope, name, object, type, modifiers);
    }
    
    public <T extends Value> T allocate(Scope scope, String name, int modifiers) throws Exception {
-      Type type = extractor.getConstraint(scope);
+      Type type = constraint.getType(scope);
       Object object = null;
       
       if(expression != null) {
