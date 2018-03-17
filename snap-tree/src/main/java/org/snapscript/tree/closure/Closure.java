@@ -1,6 +1,7 @@
 package org.snapscript.tree.closure;
 
 import org.snapscript.core.Compilation;
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.LocalScopeExtractor;
 import org.snapscript.core.Module;
@@ -56,6 +57,11 @@ public class Closure implements Compilation {
          this.builder = new ClosureBuilder(closure, module);
          this.parameters = parameters;
          this.module = module;
+      }
+      
+      @Override
+      public Constraint validate(Scope scope, Constraint left) throws Exception {
+         return Constraint.getNone();
       }
       
       @Override

@@ -16,7 +16,9 @@ public class FunctionHandle {
    }
    
    public void validate(Scope scope) throws Exception {
-      statement.validate(scope);
+      if(statement != null) {
+         statement.validate(scope);
+      }
    }
    
    public void compile(Scope scope) throws Exception {

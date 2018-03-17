@@ -25,6 +25,7 @@ public class ContextModule implements Module {
    private final String prefix;
    private final Scope scope;
    private final Path path;
+   private final Type type;
    private final int order;
    
    public ContextModule(Context context, Executor executor, Path path, String prefix) {
@@ -40,6 +41,7 @@ public class ContextModule implements Module {
       this.modules = new CopyOnWriteCache<String, Module>();
       this.types = new CopyOnWriteCache<String, Type>(); 
       this.scope = new ModuleScope(this);
+      this.type = new ModuleType(this);
       this.context = context;
       this.prefix = prefix;
       this.order = order;
@@ -171,6 +173,11 @@ public class ContextModule implements Module {
    @Override
    public Scope getScope() {
       return scope;
+   }
+   
+   @Override
+   public Type getType() {
+      return type;
    }
    
    @Override

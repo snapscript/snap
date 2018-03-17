@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Context;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
@@ -29,7 +30,7 @@ public class ObjectPointer implements VariablePointer<Object> {
    }
    
    @Override
-   public Type check(Scope scope, Type left) {
+   public Constraint check(Scope scope, Type left) {
       Property accessor = reference.get();
       
       if(accessor == null) {
@@ -37,11 +38,11 @@ public class ObjectPointer implements VariablePointer<Object> {
          
          if(match != null) {
             reference.set(match);
-            return match.getConstraint().getType(scope);
+            return match.getConstraint();
          }
          return null;
       }
-      return accessor.getConstraint().getType(scope);
+      return accessor.getConstraint();
    }
    
    @Override

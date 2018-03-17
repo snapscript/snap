@@ -89,7 +89,11 @@ public class FunctionInvocation implements Compilation {
          Type t = null;
          if(left != null)
             t =left.getType(scope);
-         return executeV(scope, t);
+         
+         if(t != null) {
+            return executeV(scope, t);
+         }
+         return Constraint.getNone();
       }
       
       private Constraint executeV(Scope scope, Type left) throws Exception {

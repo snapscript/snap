@@ -15,7 +15,10 @@ public abstract class Literal extends Evaluation {
 
    @Override
    public Constraint validate(Scope scope, Constraint left) throws Exception {
-      return Constraint.getNone();
+      if(value == null) {
+         value = create(scope);
+      }
+      return Constraint.getInstance(value.getConstraint());
    }
    
    @Override

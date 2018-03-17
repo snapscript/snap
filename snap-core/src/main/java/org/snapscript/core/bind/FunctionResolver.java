@@ -2,6 +2,8 @@ package org.snapscript.core.bind;
 
 import java.util.List;
 
+import org.snapscript.core.Bug;
+import org.snapscript.core.Category;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeCache;
@@ -10,6 +12,7 @@ import org.snapscript.core.convert.TypeInspector;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.stack.ThreadStack;
 
+@Bug("what about abstract classes?")
 public class FunctionResolver {
    
    private final TypeCache<FunctionTable> cache;
@@ -32,6 +35,7 @@ public class FunctionResolver {
       if(match == null) {
          List<Type> path = finder.findPath(type, name); 
          FunctionTable table = builder.create(type);
+         Category category = type.getCategory();
          int size = path.size();
 
          for(int i = size - 1; i >= 0; i--) {
@@ -41,7 +45,7 @@ public class FunctionResolver {
             for(Function function : functions){
                int modifiers = function.getModifiers();
                
-               if(!ModifierType.isAbstract(modifiers)) {
+               if(!ModifierType.isAbstract(modifiers) || category.isTrait()) {
                   if(!inspector.isSuperConstructor(type, function)) {
                      FunctionCall call = wrapper.toCall(function);
                      table.update(call);
@@ -61,6 +65,7 @@ public class FunctionResolver {
       if(match == null) {
          List<Type> path = finder.findPath(type, name); 
          FunctionTable table = builder.create(type);
+         Category category = type.getCategory();
          int size = path.size();
 
          for(int i = size - 1; i >= 0; i--) {
@@ -70,7 +75,7 @@ public class FunctionResolver {
             for(Function function : functions){
                int modifiers = function.getModifiers();
                
-               if(!ModifierType.isAbstract(modifiers)) {
+               if(!ModifierType.isAbstract(modifiers) || category.isTrait()) {
                   if(!inspector.isSuperConstructor(type, function)) {
                      FunctionCall call = wrapper.toCall(function);
                      table.update(call);

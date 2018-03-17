@@ -33,6 +33,7 @@ public class TraceStatement extends Statement {
       try {
          statement.validate(scope);
       }catch(Exception cause) {
+         cause.printStackTrace();
          handler.throwInternalError(scope, cause, trace);
       }
    }

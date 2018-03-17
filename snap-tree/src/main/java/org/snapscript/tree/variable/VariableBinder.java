@@ -21,22 +21,22 @@ public class VariableBinder {
    
    public Constraint check(Scope scope) throws Exception {
       VariablePointer pointer = resolver.resolve(scope);
-      Type value = pointer.check(scope, null);
+      Constraint value = pointer.check(scope, null);
       
       if(value == null) {
          throw new InternalStateException("Could not resolve '" + name +"' in scope");
       }
-      return Constraint.getInstance(value);
+      return value;
    }
    
    public Constraint check(Scope scope, Type left) throws Exception {
       VariablePointer pointer = resolver.resolve(scope, left);
-      Type value = pointer.check(scope, left);
+      Constraint value = pointer.check(scope, left);
       
       if(value == null) {
          throw new InternalStateException("Could not resolve '" + name +"' in scope");
       }
-      return Constraint.getInstance(value);
+      return value;
    }
    
    public Value bind(Scope scope) throws Exception {

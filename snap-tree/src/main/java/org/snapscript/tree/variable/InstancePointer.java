@@ -1,5 +1,6 @@
 package org.snapscript.tree.variable;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
@@ -16,13 +17,13 @@ public class InstancePointer implements VariablePointer<Object> {
    }
 
    @Override
-   public Type check(Scope scope, Type left) {
+   public Constraint check(Scope scope, Type left) {
       Scope instance = binder.bind(scope, scope);
       
       if(instance != null) {
          return pointer.check(instance, left);
       }
-      return null;
+      return Constraint.getNone();
    }
    
    @Override

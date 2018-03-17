@@ -16,12 +16,19 @@ public class EmptyModule implements Module {
    private final List<Function> functions;
    private final Context context;
    private final Scope scope;
+   private final Type type;
    
    public EmptyModule(Context context) {
       this.properties = new ArrayList<Property>();
       this.functions = new ArrayList<Function>();
       this.scope = new ModelScope(null, this);
+      this.type = new ModuleType(this);
       this.context = context;
+   }
+   
+   @Override
+   public Type getType() {
+      return type;
    }
 
    @Override

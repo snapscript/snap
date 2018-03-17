@@ -4,6 +4,7 @@ import static org.snapscript.core.Reserved.PROPERTY_LENGTH;
 
 import java.lang.reflect.Array;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
@@ -19,9 +20,9 @@ public class ArrayPointer implements VariablePointer<Object> {
    }
 
    @Override
-   public Type check(Scope scope, Type left) {
+   public Constraint check(Scope scope, Type left) {
       if(name.equals(PROPERTY_LENGTH)) {
-         return scope.getModule().getContext().getLoader().loadType(Integer.class);
+         return Constraint.getInstance(scope.getModule().getContext().getLoader().loadType(Integer.class));
       }
       return pointer.check(scope, left);
    }

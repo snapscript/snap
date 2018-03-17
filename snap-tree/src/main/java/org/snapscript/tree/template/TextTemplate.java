@@ -4,6 +4,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.LocalScopeExtractor;
@@ -20,6 +21,11 @@ public class TextTemplate extends Evaluation {
    public TextTemplate(StringToken template) {
       this.extractor = new LocalScopeExtractor(true, true);
       this.template = template;
+   }
+   
+   @Override
+   public Constraint validate(Scope scope, Constraint left) throws Exception {
+      return Constraint.getInstance(scope.getModule().getType(String.class));
    }
 
    @Override

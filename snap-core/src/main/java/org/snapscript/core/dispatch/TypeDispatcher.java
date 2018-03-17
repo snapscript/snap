@@ -1,5 +1,6 @@
 package org.snapscript.core.dispatch;
 
+import org.snapscript.core.Category;
 import org.snapscript.core.Constraint;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;

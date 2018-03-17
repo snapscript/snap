@@ -27,7 +27,7 @@ public class ArrayConverter extends ConstraintConverter {
    
    @Override
    public Score score(Type actual) throws Exception {
-      if(type != null) {
+      if(actual != null) {
          Class require = type.getType();
          Class real = actual.getType();
          

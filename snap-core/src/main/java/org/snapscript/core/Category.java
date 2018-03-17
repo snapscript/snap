@@ -6,7 +6,8 @@ public enum Category {
    ENUM(2),
    FUNCTION(3),
    ARRAY(4),
-   PROXY(5);
+   PROXY(5),
+   MODULE(6);
    
    public final int index;
    
@@ -20,6 +21,10 @@ public enum Category {
    
    public boolean isClass(){
       return this == CLASS;
+   }
+
+   public boolean isModule(){
+      return this == MODULE;
    }
    
    public boolean isTrait() {

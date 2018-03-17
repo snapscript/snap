@@ -1,5 +1,7 @@
 package org.snapscript.tree.operation;
 
+import org.snapscript.core.Bug;
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
@@ -24,6 +26,13 @@ public class CalculationOperation extends Evaluation {
       left.compile(scope);
       right.compile(scope);
    }
+   
+   @Bug("not correct")
+   @Override
+   public Constraint validate(Scope scope, Constraint left) throws Exception {
+      return right.validate(scope, left);
+   }
+   
    
    @Override
    public Value evaluate(Scope scope, Object context) throws Exception {

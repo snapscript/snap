@@ -3,6 +3,7 @@ package org.snapscript.tree.collection;
 import java.util.List;
 import java.util.Map;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalArgumentException;
@@ -35,6 +36,11 @@ public class CollectionIndex extends Evaluation {
       for(Evaluation evaluation : evaluations) {
          evaluation.compile(scope);
       }
+   }
+   
+   @Override
+   public Constraint validate(Scope scope, Constraint left) throws Exception {
+      return Constraint.getInstance(scope.getModule().getType(Integer.class));
    }
    
    @Override

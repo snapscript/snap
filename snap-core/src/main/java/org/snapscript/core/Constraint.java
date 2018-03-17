@@ -1,6 +1,7 @@
 package org.snapscript.core;
 
 import static org.snapscript.core.ConstraintType.INSTANCE;
+import static org.snapscript.core.ConstraintType.MODULE;
 import static org.snapscript.core.ConstraintType.STATIC;
 
 public abstract class Constraint {
@@ -15,6 +16,11 @@ public abstract class Constraint {
    
    public static Constraint getStatic(Type type) {
       return new ConstantConstraint(type, STATIC.mask);
+   }
+   
+   public static Constraint getModule(Module module) {
+      Type type = module.getType();
+      return new ConstantConstraint(type, MODULE.mask);
    }
    
    public boolean isInstance() {

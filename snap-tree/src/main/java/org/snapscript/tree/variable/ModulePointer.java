@@ -3,7 +3,7 @@ package org.snapscript.tree.variable;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.snapscript.core.AnyType;
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
@@ -25,7 +25,7 @@ public class ModulePointer implements VariablePointer<Module> {
    }
 
    @Override
-   public Type check(Scope scope, Type left) {
+   public Constraint check(Scope scope, Type left) {
       Property property = reference.get();
       
       if(property == null) {
@@ -38,18 +38,18 @@ public class ModulePointer implements VariablePointer<Module> {
             Type type = module.getType(name);
             
             if(type != null) {
-               return type;
+               return Constraint.getInstance(type);
             }
             Property match = match(scope, module);
             
             if(match != null) {
                reference.set(match);
-               return match.getConstraint().getType(scope);
+               return match.getConstraint();
             }
          }
-         return value.getConstraint();
+         return Constraint.getInstance(value.getConstraint());
       } 
-      return property.getConstraint().getType(scope);
+      return property.getConstraint();
    }
    
    @Override

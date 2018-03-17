@@ -2,6 +2,8 @@ package org.snapscript.tree.variable;
 
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.snapscript.core.Constraint;
+import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Type;
@@ -20,7 +22,7 @@ public class LocalPointer implements VariablePointer<Object> {
    }
 
    @Override
-   public Type check(Scope scope, Type left) {
+   public Constraint check(Scope scope, Type left) {
       Object result = reference.get();
       
       if(result == null) {
@@ -30,14 +32,29 @@ public class LocalPointer implements VariablePointer<Object> {
          if(variable == null) { 
             Object value = resolver.resolve(scope, name);
             
+            if(value instanceof Type) {
+               reference.set(value);
+               return Constraint.getStatic((Type)value);
+            }
+            if(value instanceof Module) {
+               reference.set(value);
+               return Constraint.getModule((Module)value);
+            }
             if(value != null) {
                reference.set(value);
-               return scope.getModule().getContext().getExtractor().getType(value);
+               return Constraint.getInstance(scope.getModule().getContext().getExtractor().getType(value));
             }
+            return Constraint.getNone();
          }
-         return scope.getModule().getContext().getExtractor().getType(variable.getValue());
+         return Constraint.getInstance(scope.getModule().getContext().getExtractor().getType(variable.getValue()));
       }
-      return scope.getModule().getContext().getExtractor().getType(result);
+      if(result instanceof Type) {
+         return Constraint.getStatic((Type)result);
+      }
+      if(result instanceof Module) {
+         return Constraint.getModule((Module)result);
+      }
+      return Constraint.getInstance(scope.getModule().getContext().getExtractor().getType(result));
    }
    
    @Override

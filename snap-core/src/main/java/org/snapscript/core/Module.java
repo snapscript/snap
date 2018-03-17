@@ -21,6 +21,7 @@ public interface Module extends Any{
    List<Property> getProperties();
    List<Function> getFunctions();
    List<Type> getTypes();
+   Type getType();
    String getName();
    Path getPath();
    int getOrder();

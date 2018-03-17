@@ -2,6 +2,7 @@ package org.snapscript.core.dispatch;
 
 import org.snapscript.common.Cache;
 import org.snapscript.common.CopyOnWriteCache;
+import org.snapscript.core.Bug;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.bind.FunctionBinder;
@@ -21,11 +22,12 @@ public class CallBinder {
       this.local = new LocalDispatcher(binder, handler, name);
    }
    
+   @Bug("dodgy")
    public CallDispatcher bind(Scope scope, Type left) {
       Type type = scope.getType();
       
       if(left != null) {
-         Class key = left.getClass();
+         Class key = left.getType() == null ? left.getClass():left.getType();
          CallDispatcher dispatcher = cache.fetch(key);
          
          if(dispatcher == null) { 
