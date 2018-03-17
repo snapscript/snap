@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.Constraint;
 import org.snapscript.core.Context;
 import org.snapscript.core.Module;
@@ -28,6 +29,7 @@ public class ScopePointer implements VariablePointer<Scope> {
       this.name = name;
    }
 
+   @Bug("mess")
    @Override
    public Constraint check(Scope scope, Type left) {
       Scope instance = left.getScope();

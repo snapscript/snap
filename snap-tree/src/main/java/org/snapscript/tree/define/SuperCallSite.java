@@ -18,6 +18,15 @@ public class SuperCallSite {
       this.type = type;
    }
    
+   public CallDispatcher get(Scope scope, Type left) throws Exception {
+      Class base = type.getType();
+      
+      if(base == null) {
+         return site.get(scope, left);
+      }
+      return dispatcher;
+   }
+   
    public CallDispatcher get(Scope scope, Object left) throws Exception {
       Class base = type.getType();
       

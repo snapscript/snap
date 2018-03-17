@@ -1,6 +1,7 @@
 package org.snapscript.tree.condition;
 
 import org.snapscript.core.BooleanValue;
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
@@ -26,6 +27,11 @@ public class Combination extends Evaluation {
    public void compile(Scope scope) throws Exception { 
       left.compile(scope);
       right.compile(scope);
+   }
+   
+   @Override
+   public Constraint validate(Scope scope, Constraint left) {
+      return Constraint.getInstance(scope, Boolean.class);
    }
    
    @Override

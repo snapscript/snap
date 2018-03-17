@@ -1,5 +1,7 @@
 package org.snapscript.tree;
 
+import org.snapscript.core.Bug;
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
@@ -21,6 +23,14 @@ public class Expression extends Evaluation {
       for(int i = 0; i < list.length; i++){
          list[i].compile(scope);
       }
+   }
+   
+   @Override
+   public Constraint validate(Scope scope, Constraint left) throws Exception {
+      if(list.length <= 0) {
+         throw new InternalStateException("Expression is empty");
+      }
+      return list[list.length -1].validate(scope, left);
    }
    
    @Override

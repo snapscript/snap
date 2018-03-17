@@ -1,5 +1,7 @@
 package org.snapscript.tree.reference;
 
+import org.snapscript.core.Bug;
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Identity;
 import org.snapscript.core.Scope;
@@ -18,6 +20,12 @@ public class ReferenceIndex extends Evaluation {
    @Override
    public void compile(Scope scope) throws Exception {
       argument.compile(scope);
+   }
+   
+   @Bug("is this right???")
+   @Override
+   public Constraint validate(Scope scope, Constraint left) throws Exception {
+      return argument.validate(scope, left);
    }
 
    @Override

@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.snapscript.core.Compilation;
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Module;
@@ -53,6 +54,11 @@ public class ConstructMap implements Compilation {
          if(list != null) {
             list.compile(scope);
          }
+      }
+      
+      @Override
+      public Constraint validate(Scope scope, Constraint left) throws Exception {
+         return Constraint.getInstance(scope, Map.class);
       }
       
       @Override

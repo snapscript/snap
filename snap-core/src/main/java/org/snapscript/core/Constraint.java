@@ -22,6 +22,23 @@ public abstract class Constraint {
       Type type = module.getType();
       return new ConstantConstraint(type, MODULE.mask);
    }
+
+   @Bug("this is not good")
+   public static Constraint getInstance(Scope scope, Class require) {
+      Module module = scope.getModule();
+      Type type = module.getType(require);
+      
+      return new ConstantConstraint(type, INSTANCE.mask);
+   }
+   
+   @Bug("this is not good")
+   public static Constraint getInstance(Scope scope, Object value) {
+      Class require = value.getClass();
+      Module module = scope.getModule();
+      Type type = module.getType(require);
+      
+      return new ConstantConstraint(type, INSTANCE.mask);
+   }
    
    public boolean isInstance() {
       return true;
@@ -30,6 +47,10 @@ public abstract class Constraint {
    public boolean isStatic() {
       return false;
    }
+   
+   public boolean isModule() {
+      return false;
+   }   
    
    public abstract Type getType(Scope scope);
 }

@@ -3,6 +3,7 @@ package org.snapscript.tree.variable;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.Constraint;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
@@ -24,6 +25,7 @@ public class ModulePointer implements VariablePointer<Module> {
       this.name = name;
    }
 
+   @Bug("messy")
    @Override
    public Constraint check(Scope scope, Type left) {
       Property property = reference.get();

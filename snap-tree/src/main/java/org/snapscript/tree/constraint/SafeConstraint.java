@@ -35,4 +35,12 @@ public class SafeConstraint extends Constraint {
       }
       return false;
    }
+   
+   @Override
+   public boolean isModule() {
+      if(constraint != null) {
+         return constraint.isModule();
+      }
+      return false;
+   }
 }

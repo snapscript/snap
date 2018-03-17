@@ -22,7 +22,7 @@ public class ArrayPointer implements VariablePointer<Object> {
    @Override
    public Constraint check(Scope scope, Type left) {
       if(name.equals(PROPERTY_LENGTH)) {
-         return Constraint.getInstance(scope.getModule().getContext().getLoader().loadType(Integer.class));
+         return Constraint.getInstance(scope, Integer.class);
       }
       return pointer.check(scope, left);
    }

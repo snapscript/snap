@@ -4,6 +4,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.snapscript.core.Compilation;
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Module;
@@ -56,6 +57,11 @@ public class ConstructSet implements Compilation {
             arguments.compile(scope);      
          }   
       }
+      
+      @Override
+      public Constraint validate(Scope scope, Constraint left) throws Exception {
+         return Constraint.getInstance(scope, Set.class);
+      } 
       
       @Override
       public Value evaluate(Scope scope, Object left) throws Exception { 

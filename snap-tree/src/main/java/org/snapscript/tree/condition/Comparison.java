@@ -1,5 +1,6 @@
 package org.snapscript.tree.condition;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
@@ -28,6 +29,11 @@ public class Comparison extends Evaluation {
       }
       left.compile(scope);
    }  
+   
+   @Override
+   public Constraint validate(Scope scope, Constraint left) throws Exception {
+      return Constraint.getInstance(scope, Boolean.class);
+   }
    
    @Override
    public Value evaluate(Scope scope, Object context) throws Exception {

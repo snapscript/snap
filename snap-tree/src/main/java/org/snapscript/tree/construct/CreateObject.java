@@ -4,6 +4,7 @@ import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
 
 import java.util.concurrent.Callable;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
@@ -31,6 +32,11 @@ public class CreateObject extends Evaluation {
          arguments.compile(scope);
       }
    }
+   
+   @Override
+   public Constraint validate(Scope scope, Constraint left) throws Exception {
+      return reference.validate(scope, left);
+   }   
    
    @Override
    public Value evaluate(Scope scope, Object left) throws Exception { // this is rubbish

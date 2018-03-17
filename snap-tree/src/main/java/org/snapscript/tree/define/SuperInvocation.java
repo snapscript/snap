@@ -1,5 +1,7 @@
 package org.snapscript.tree.define;
 
+import org.snapscript.core.Bug;
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.LocalScopeExtractor;
 import org.snapscript.core.Scope;
@@ -16,6 +18,7 @@ public class SuperInvocation extends Evaluation {
    private final NameReference reference;
    private final ArgumentList arguments;
    private final SuperCallSite site;
+   private final Type type;
    
    public SuperInvocation(Evaluation function, ArgumentList arguments, Type type) {
       this.extractor = new LocalScopeExtractor(true, false);
@@ -23,6 +26,22 @@ public class SuperInvocation extends Evaluation {
       this.site = new SuperCallSite(reference, type);
       this.builder = new SuperInstanceBuilder(type);
       this.arguments = arguments;
+      this.type = type;
+   }
+
+   @Bug("this is a total guess")
+   @Override
+   public Constraint validate(Scope scope, Constraint left) throws Exception {
+      CallDispatcher dispatcher = site.get(scope, type);  
+      
+      if(arguments != null) {
+         Scope outer = scope.getScope();
+         Scope compound = extractor.extract(scope, outer);
+         Type[] list = arguments.validate(compound, type); // arguments have no left hand side
+
+         return dispatcher.validate(scope, type, list);
+      }
+      return dispatcher.validate(scope, type, type);
    }
    
    @Override

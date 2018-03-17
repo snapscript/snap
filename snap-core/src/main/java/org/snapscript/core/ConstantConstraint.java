@@ -31,4 +31,8 @@ public class ConstantConstraint extends Constraint {
       return ConstraintType.isInstance(mask);
    }
 
+   @Override
+   public boolean isModule() {
+      return ConstraintType.isModule(mask);
+   }
 }

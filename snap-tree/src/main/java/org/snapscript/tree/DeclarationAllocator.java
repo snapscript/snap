@@ -1,5 +1,6 @@
 package org.snapscript.tree;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Local;
@@ -21,6 +22,7 @@ public class DeclarationAllocator {
       this.expression = expression;
    }   
    
+   @Bug("really really bad")
    public <T extends Value> T validate(Scope scope, String name, int modifiers) throws Exception {
       Type type = constraint.getType(scope);
       Object object = null;

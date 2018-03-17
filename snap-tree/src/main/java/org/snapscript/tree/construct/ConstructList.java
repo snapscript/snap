@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.snapscript.core.Compilation;
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Module;
@@ -55,6 +56,11 @@ public class ConstructList implements Compilation {
          if(arguments != null) {
             arguments.compile(scope);      
          }   
+      }
+      
+      @Override
+      public Constraint validate(Scope scope, Constraint left) throws Exception {
+         return Constraint.getInstance(scope, List.class);
       }
       
       @Override

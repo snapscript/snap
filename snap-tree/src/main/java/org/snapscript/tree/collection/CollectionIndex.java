@@ -40,7 +40,7 @@ public class CollectionIndex extends Evaluation {
    
    @Override
    public Constraint validate(Scope scope, Constraint left) throws Exception {
-      return Constraint.getInstance(scope.getModule().getType(Integer.class));
+      return Constraint.getInstance(scope, Integer.class);
    }
    
    @Override

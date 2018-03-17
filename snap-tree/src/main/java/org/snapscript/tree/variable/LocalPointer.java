@@ -2,6 +2,7 @@ package org.snapscript.tree.variable;
 
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.Constraint;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
@@ -21,6 +22,7 @@ public class LocalPointer implements VariablePointer<Object> {
       this.name = name;
    }
 
+   @Bug("rubbish")
    @Override
    public Constraint check(Scope scope, Type left) {
       Object result = reference.get();
@@ -42,11 +44,11 @@ public class LocalPointer implements VariablePointer<Object> {
             }
             if(value != null) {
                reference.set(value);
-               return Constraint.getInstance(scope.getModule().getContext().getExtractor().getType(value));
+               return Constraint.getInstance(scope, value);
             }
             return Constraint.getNone();
          }
-         return Constraint.getInstance(scope.getModule().getContext().getExtractor().getType(variable.getValue()));
+         return Constraint.getInstance(scope, variable.getValue());
       }
       if(result instanceof Type) {
          return Constraint.getStatic((Type)result);
@@ -54,7 +56,7 @@ public class LocalPointer implements VariablePointer<Object> {
       if(result instanceof Module) {
          return Constraint.getModule((Module)result);
       }
-      return Constraint.getInstance(scope.getModule().getContext().getExtractor().getType(result));
+      return Constraint.getInstance(scope, result);
    }
    
    @Override

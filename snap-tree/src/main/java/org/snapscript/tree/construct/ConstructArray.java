@@ -1,6 +1,8 @@
 package org.snapscript.tree.construct;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.Compilation;
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalArgumentException;
@@ -51,6 +53,12 @@ public class ConstructArray implements Compilation {
          for(int i = 0; i < arguments.length; i++) {
             arguments[i].compile(scope);
          }
+      }
+      
+      @Bug("how would we do an array?")
+      @Override
+      public Constraint validate(Scope scope, Constraint left) throws Exception {
+         return Constraint.getNone();
       }
       
       @Override

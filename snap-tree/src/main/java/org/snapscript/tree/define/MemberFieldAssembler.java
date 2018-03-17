@@ -4,8 +4,10 @@ import org.snapscript.core.ConstantConstraint;
 import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
+import org.snapscript.core.Local;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
+import org.snapscript.core.Table;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
 import org.snapscript.core.Value;
@@ -53,6 +55,19 @@ public class MemberFieldAssembler {
          this.name = name;
       }  
 
+      @Override
+      public Constraint validate(Scope scope, Constraint left) throws Exception {
+         Value value = allocator.validate(scope, name, modifiers);
+         State state = scope.getState();
+         
+         try { 
+            state.add(name, value);
+         }catch(Exception e) {
+            throw new InternalStateException("Declaration of variable '" + name +"' failed", e);
+         }  
+         return constraint;
+      }
+      
       @Override
       public Value evaluate(Scope scope, Object left) throws Exception {
          Value value = allocator.allocate(scope, name, modifiers);

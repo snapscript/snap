@@ -1,5 +1,6 @@
 package org.snapscript.tree.operation;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
@@ -18,6 +19,11 @@ public class PrefixOperation extends Evaluation {
    @Override
    public void compile(Scope scope) throws Exception {
       evaluation.compile(scope);
+   }
+   
+   @Override
+   public Constraint validate(Scope scope, Constraint left) throws Exception {
+      return evaluation.validate(scope, left);
    }
    
    @Override
