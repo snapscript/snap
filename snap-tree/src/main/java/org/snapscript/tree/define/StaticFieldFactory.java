@@ -17,7 +17,7 @@ public class StaticFieldFactory extends StaticFactory {
    protected void compile(Type type) throws Exception {
       Scope scope = type.getScope();
       
-      evaluation.compile(scope);
+      evaluation.define(scope);
       evaluation.evaluate(scope, null);
    }
 }

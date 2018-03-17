@@ -31,7 +31,7 @@ public class SuperInvocation extends Evaluation {
 
    @Bug("this is a total guess")
    @Override
-   public Constraint validate(Scope scope, Constraint left) throws Exception {
+   public Constraint compile(Scope scope, Constraint left) throws Exception {
       CallDispatcher dispatcher = site.get(scope, type);  
       
       if(arguments != null) {

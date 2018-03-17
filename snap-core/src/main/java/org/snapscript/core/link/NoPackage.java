@@ -5,7 +5,7 @@ import org.snapscript.core.Scope;
 public class NoPackage implements Package {
 
    @Override
-   public PackageDefinition define(Scope scope) throws Exception {
+   public PackageDefinition create(Scope scope) throws Exception {
       return new NoDefinition();
    }
 }

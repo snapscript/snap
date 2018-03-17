@@ -20,18 +20,18 @@ public class TraceStatement extends Statement {
    }
    
    @Override
-   public void compile(Scope scope) throws Exception {
+   public void define(Scope scope) throws Exception {
       try {
-         statement.compile(scope);
+         statement.define(scope);
       }catch(Exception cause) {
          handler.throwInternalError(scope, cause, trace);
       }
    }
    
    @Override
-   public void validate(Scope scope) throws Exception {
+   public void compile(Scope scope) throws Exception {
       try {
-         statement.validate(scope);
+         statement.compile(scope);
       }catch(Exception cause) {
          cause.printStackTrace();
          handler.throwInternalError(scope, cause, trace);

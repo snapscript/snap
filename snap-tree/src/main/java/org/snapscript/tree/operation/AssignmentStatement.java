@@ -42,13 +42,13 @@ public class AssignmentStatement implements Compilation {
       }
       
       @Override
-      public void compile(Scope scope) throws Exception {
-         assignment.compile(scope);
+      public void define(Scope scope) throws Exception {
+         assignment.define(scope);
       }
       
       @Override
-      public void validate(Scope scope) throws Exception {
-         assignment.validate(scope, null);
+      public void compile(Scope scope) throws Exception {
+         assignment.compile(scope, null);
       }
       
       @Override

@@ -47,17 +47,17 @@ public class ConstructArray implements Compilation {
       }      
 
       @Override
-      public void compile(Scope scope) throws Exception { 
-         reference.compile(scope);
+      public void define(Scope scope) throws Exception { 
+         reference.define(scope);
          
          for(int i = 0; i < arguments.length; i++) {
-            arguments[i].compile(scope);
+            arguments[i].define(scope);
          }
       }
       
       @Bug("how would we do an array?")
       @Override
-      public Constraint validate(Scope scope, Constraint left) throws Exception {
+      public Constraint compile(Scope scope, Constraint left) throws Exception {
          return Constraint.getNone();
       }
       

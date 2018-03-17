@@ -18,14 +18,14 @@ public class ReferenceIndex extends Evaluation {
    }
    
    @Override
-   public void compile(Scope scope) throws Exception {
-      argument.compile(scope);
+   public void define(Scope scope) throws Exception {
+      argument.define(scope);
    }
    
    @Bug("is this right???")
    @Override
-   public Constraint validate(Scope scope, Constraint left) throws Exception {
-      return argument.validate(scope, left);
+   public Constraint compile(Scope scope, Constraint left) throws Exception {
+      return argument.compile(scope, left);
    }
 
    @Override

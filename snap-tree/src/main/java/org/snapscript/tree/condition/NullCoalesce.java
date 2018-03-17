@@ -17,15 +17,15 @@ public class NullCoalesce extends Evaluation {
    }
 
    @Override
-   public void compile(Scope scope) throws Exception {
-      evaluation.compile(scope);
-      substitute.compile(scope);
+   public void define(Scope scope) throws Exception {
+      evaluation.define(scope);
+      substitute.define(scope);
    }   
 
    @Bug("eval both???")
    @Override
-   public Constraint validate(Scope scope, Constraint left) throws Exception {
-      return evaluation.validate(scope, left);
+   public Constraint compile(Scope scope, Constraint left) throws Exception {
+      return evaluation.compile(scope, left);
    }
    
    @Override

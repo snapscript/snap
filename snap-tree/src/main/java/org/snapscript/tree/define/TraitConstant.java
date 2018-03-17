@@ -41,17 +41,17 @@ public class TraitConstant implements TypePart {
    }
    
    @Override
-   public TypeFactory define(TypeFactory factory, Type type) throws Exception {
-      return null;
-   }
-   
-   @Override
-   public TypeFactory validate(TypeFactory factory, Type type) throws Exception {
+   public TypeFactory create(TypeFactory factory, Type type) throws Exception {
       return null;
    }
    
    @Override
    public TypeFactory compile(TypeFactory factory, Type type) throws Exception {
+      return null;
+   }
+   
+   @Override
+   public TypeFactory define(TypeFactory factory, Type type) throws Exception {
       Scope scope = type.getScope();
       TypeFactory declare = declaration.declare(factory, type);
       List<Property> properties = type.getProperties();

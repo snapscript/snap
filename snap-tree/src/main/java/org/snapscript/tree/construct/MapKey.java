@@ -21,7 +21,7 @@ public class MapKey extends Evaluation {
    }
    
    @Override
-   public void compile(Scope scope) throws Exception{
+   public void define(Scope scope) throws Exception{
       String name = reference.getName(scope);
       Index index = scope.getIndex();
       int depth = index.get(name);

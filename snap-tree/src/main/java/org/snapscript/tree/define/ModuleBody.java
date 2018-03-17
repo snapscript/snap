@@ -23,21 +23,21 @@ public class ModuleBody extends Statement {
    }
    
    @Override
-   public void define(Scope scope) throws Exception {
+   public void create(Scope scope) throws Exception {
       if(define.compareAndSet(true, false)) {
          for(int i = 0; i < parts.length; i++) {
             statements[i] = parts[i].define(this);
-            statements[i].define(scope);
+            statements[i].create(scope);
             parts[i] = null;
          }
       }
    }
    
    @Override
-   public void compile(Scope scope) throws Exception {
+   public void define(Scope scope) throws Exception {
       if(compile.compareAndSet(true, false)) {
          for(int i = 0; i < statements.length; i++) {
-            statements[i].compile(scope);
+            statements[i].define(scope);
          }
       }
    }

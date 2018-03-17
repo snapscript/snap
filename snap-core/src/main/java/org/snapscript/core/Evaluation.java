@@ -2,9 +2,9 @@ package org.snapscript.core;
 
 public abstract class Evaluation{
    
-   public void compile(Scope scope) throws Exception {}
+   public void define(Scope scope) throws Exception {}
    
-   public Constraint validate(Scope scope, Constraint left) throws Exception {
+   public Constraint compile(Scope scope, Constraint left) throws Exception {
       return Constraint.getNone();
    }
 

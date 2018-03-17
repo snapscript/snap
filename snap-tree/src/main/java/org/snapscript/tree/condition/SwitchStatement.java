@@ -50,12 +50,12 @@ public class SwitchStatement implements Compilation {
       }
       
       @Override
-      public void compile(Scope scope) throws Exception {
+      public void define(Scope scope) throws Exception {
          for(int i = 0; i < cases.length; i++){
             Statement statement = cases[i].getStatement();
-            statement.compile(scope);
+            statement.define(scope);
          }
-         condition.compile(scope);
+         condition.define(scope);
       }
       
       @Override

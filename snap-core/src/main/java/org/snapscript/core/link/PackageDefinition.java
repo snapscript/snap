@@ -5,5 +5,5 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 
 public interface PackageDefinition {
-   Statement compile(Scope scope, Path from) throws Exception;
+   Statement define(Scope scope, Path from) throws Exception;
 }

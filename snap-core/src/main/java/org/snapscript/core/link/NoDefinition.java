@@ -8,7 +8,7 @@ import org.snapscript.core.Statement;
 public class NoDefinition implements PackageDefinition {
 
    @Override
-   public Statement compile(Scope scope, Path from) throws Exception {
+   public Statement define(Scope scope, Path from) throws Exception {
       return new NoStatement();
    }
 

@@ -30,7 +30,7 @@ public class ModuleAccessor implements Accessor {
          Value field = state.get(name);
          
          if(field == null) {
-            body.compile(scope);
+            body.define(scope);
             body.execute(scope);
          }
       }catch(Exception e){
@@ -46,7 +46,7 @@ public class ModuleAccessor implements Accessor {
          Value field = state.get(name);
          
          if(field == null) {
-            body.compile(scope);
+            body.define(scope);
             body.execute(scope);       
          }    
       }catch(Exception e){

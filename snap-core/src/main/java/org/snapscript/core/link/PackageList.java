@@ -14,11 +14,11 @@ public class PackageList implements Package {
    }
 
    @Override
-   public PackageDefinition define(Scope scope) throws Exception {
+   public PackageDefinition create(Scope scope) throws Exception {
       List<PackageDefinition> definitions = new ArrayList<PackageDefinition>();
       
       for(Package module : modules){
-         PackageDefinition definition = module.define(scope);
+         PackageDefinition definition = module.create(scope);
          
          if(definition != null) {
             definitions.add(definition);

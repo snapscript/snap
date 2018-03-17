@@ -16,7 +16,7 @@ public class ExceptionDefinition implements PackageDefinition {
    }
 
    @Override
-   public Statement compile(Scope scope, Path from) throws Exception {
+   public Statement define(Scope scope, Path from) throws Exception {
       throw new InternalStateException(message, cause);
    }
 }

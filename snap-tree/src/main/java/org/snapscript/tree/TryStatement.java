@@ -54,14 +54,14 @@ public class TryStatement implements Compilation {
       }    
       
       @Override
-      public void compile(Scope scope) throws Exception {  
+      public void define(Scope scope) throws Exception {  
          if(list != null) {
-            list.compile(scope);
+            list.define(scope);
          }
          if(finish != null) {
-            finish.compile(scope);
+            finish.define(scope);
          }
-         statement.compile(scope);
+         statement.define(scope);
       }
    
       @Override

@@ -28,7 +28,7 @@ public class StatementPackage implements Package {
    }
 
    @Override
-   public PackageDefinition define(Scope scope) throws Exception {
+   public PackageDefinition create(Scope scope) throws Exception {
       PackageDefinition value = reference.get();
       
       if(value == null) {
@@ -65,7 +65,7 @@ public class StatementPackage implements Package {
             Module library = registry.addModule(name, path); //  we should include path
             Scope inner = library.getScope();
            
-            statement.define(inner);
+            statement.create(inner);
          } catch(Exception cause) {
             return new ExceptionDefinition("Error occured defining '" + path + "'", cause);
          }

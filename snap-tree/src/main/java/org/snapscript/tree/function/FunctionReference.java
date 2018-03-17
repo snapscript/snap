@@ -20,8 +20,8 @@ public class FunctionReference extends Evaluation {
    }
    
    @Override
-   public void compile(Scope scope) throws Exception {
-      variable.compile(scope);
+   public void define(Scope scope) throws Exception {
+      variable.define(scope);
    }
 
    @Override

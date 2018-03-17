@@ -52,14 +52,14 @@ public class ConstructList implements Compilation {
       }
       
       @Override
-      public void compile(Scope scope) throws Exception { // this is rubbish
+      public void define(Scope scope) throws Exception { // this is rubbish
          if(arguments != null) {
             arguments.compile(scope);      
          }   
       }
       
       @Override
-      public Constraint validate(Scope scope, Constraint left) throws Exception {
+      public Constraint compile(Scope scope, Constraint left) throws Exception {
          return Constraint.getInstance(scope, List.class);
       }
       

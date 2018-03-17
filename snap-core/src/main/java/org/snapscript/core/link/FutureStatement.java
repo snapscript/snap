@@ -19,11 +19,21 @@ public class FutureStatement extends Statement {
    }
 
    @Override
-   public void define(Scope scope) throws Exception {
+   public void create(Scope scope) throws Exception {
       Statement definition = result.get();
       
       if(definition == null) {
          throw new InternalStateException("Could not define '" + path + "'");
+      }
+      definition.create(scope);
+   }
+   
+   @Override
+   public void define(Scope scope) throws Exception {
+      Statement definition = result.get();
+      
+      if(definition == null) {
+         throw new InternalStateException("Could not compile '" + path + "'");
       }
       definition.define(scope);
    }
@@ -33,19 +43,9 @@ public class FutureStatement extends Statement {
       Statement definition = result.get();
       
       if(definition == null) {
-         throw new InternalStateException("Could not compile '" + path + "'");
-      }
-      definition.compile(scope);
-   }
-   
-   @Override
-   public void validate(Scope scope) throws Exception {
-      Statement definition = result.get();
-      
-      if(definition == null) {
          throw new InternalStateException("Could not validate '" + path + "'");
       }
-      definition.validate(scope);
+      definition.compile(scope);
    }
    
    @Override

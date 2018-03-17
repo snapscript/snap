@@ -14,8 +14,8 @@ public class StatementResume extends Statement implements Resume {
    }
 
    @Override
-   public void compile(Scope scope) throws Exception {
-      statement.compile(scope);
+   public void define(Scope scope) throws Exception {
+      statement.define(scope);
    }
    
    @Override

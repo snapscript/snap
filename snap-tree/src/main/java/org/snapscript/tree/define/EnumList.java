@@ -12,17 +12,17 @@ public class EnumList implements TypePart {
    }
    
    @Override
-   public TypeFactory define(TypeFactory factory, Type type) throws Exception {
+   public TypeFactory create(TypeFactory factory, Type type) throws Exception {
       return null;
    }
    
    @Override
-   public TypeFactory validate(TypeFactory factory, Type type) throws Exception {
+   public TypeFactory compile(TypeFactory factory, Type type) throws Exception {
       return null;
    }
 
    @Override
-   public TypeFactory compile(TypeFactory factory, Type type) throws Exception {
+   public TypeFactory define(TypeFactory factory, Type type) throws Exception {
       TypeFactoryCollector collector = new TypeFactoryCollector();
       int index = 0;
       

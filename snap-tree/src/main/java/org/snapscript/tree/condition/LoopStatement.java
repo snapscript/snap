@@ -42,8 +42,8 @@ public class LoopStatement implements Compilation {
       }
       
       @Override
-      public void compile(Scope scope) throws Exception {   
-         body.compile(scope);
+      public void define(Scope scope) throws Exception {   
+         body.define(scope);
       }
    
       @Override

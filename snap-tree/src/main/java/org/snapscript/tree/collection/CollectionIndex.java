@@ -29,17 +29,17 @@ public class CollectionIndex extends Evaluation {
    }
 
    @Override
-   public void compile(Scope scope) throws Exception {
-      variable.compile(scope);
-      argument.compile(scope);
+   public void define(Scope scope) throws Exception {
+      variable.define(scope);
+      argument.define(scope);
       
       for(Evaluation evaluation : evaluations) {
-         evaluation.compile(scope);
+         evaluation.define(scope);
       }
    }
    
    @Override
-   public Constraint validate(Scope scope, Constraint left) throws Exception {
+   public Constraint compile(Scope scope, Constraint left) throws Exception {
       return Constraint.getInstance(scope, Integer.class);
    }
    

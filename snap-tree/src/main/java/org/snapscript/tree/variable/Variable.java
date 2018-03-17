@@ -48,7 +48,7 @@ public class Variable implements Compilation {
       }
    
       @Override
-      public void compile(Scope scope) throws Exception{
+      public void define(Scope scope) throws Exception{
          Index index = scope.getIndex();
          int depth = index.get(name);
    
@@ -56,7 +56,7 @@ public class Variable implements Compilation {
       }
       
       @Override
-      public Constraint validate(Scope scope, Constraint left) throws Exception{
+      public Constraint compile(Scope scope, Constraint left) throws Exception{
          if(left == null) {
             int depth = offset.get();
             

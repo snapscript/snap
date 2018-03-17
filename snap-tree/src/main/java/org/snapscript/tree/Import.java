@@ -83,31 +83,31 @@ public class Import implements Compilation {
       }
       
       @Override
-      public void define(Scope scope) throws Exception {
+      public void create(Scope scope) throws Exception {
          if(library == null) {
             throw new InternalStateException("Import '" + location + "' was not loaded");
          }
          if(definition == null) { // define once
-            definition = create(scope);
+            definition = process(scope);
          }
       }
 
       @Override
-      public void compile(Scope scope) throws Exception {
+      public void define(Scope scope) throws Exception {
          if(definition == null) {
             throw new InternalStateException("Import '" + location + "' was not defined");
          }
          if(statement == null) { // compile once
-            statement = definition.compile(scope, path);
+            statement = definition.define(scope, path);
          }
       }
       
       @Override
-      public void validate(Scope scope) throws Exception {
+      public void compile(Scope scope) throws Exception {
          if(statement == null) {
             throw new InternalStateException("Import '" + location + "' was not compiled");
          }
-         statement.validate(scope); // execute many times
+         statement.compile(scope); // execute many times
       }
       
       @Override
@@ -118,7 +118,7 @@ public class Import implements Compilation {
          return statement.execute(scope); // execute many times
       }
       
-      private PackageDefinition create(Scope scope) throws Exception {
+      private PackageDefinition process(Scope scope) throws Exception {
          Module module = scope.getModule();
          ImportManager manager = module.getManager();
          String type = builder.createFullName(location, target);
@@ -136,7 +136,7 @@ public class Import implements Compilation {
                manager.addImport(type, target); // import game.tetris.Block;
             }
          }
-         return library.define(scope);
+         return library.create(scope);
       }
    }
 

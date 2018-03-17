@@ -23,15 +23,15 @@ public class Comparison extends Evaluation {
    }
 
    @Override
-   public void compile(Scope scope) throws Exception {
+   public void define(Scope scope) throws Exception {
       if(right != null) {
-         right.compile(scope);
+         right.define(scope);
       }
-      left.compile(scope);
+      left.define(scope);
    }  
    
    @Override
-   public Constraint validate(Scope scope, Constraint left) throws Exception {
+   public Constraint compile(Scope scope, Constraint left) throws Exception {
       return Constraint.getInstance(scope, Boolean.class);
    }
    

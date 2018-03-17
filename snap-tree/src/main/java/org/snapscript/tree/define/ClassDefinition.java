@@ -1,9 +1,9 @@
 package org.snapscript.tree.define;
 
 import static org.snapscript.core.Category.CLASS;
-import static org.snapscript.core.Phase.COMPILED;
 import static org.snapscript.core.Phase.DEFINED;
-import static org.snapscript.core.Phase.VERIFIED;
+import static org.snapscript.core.Phase.CREATED;
+import static org.snapscript.core.Phase.COMPILED;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -40,24 +40,24 @@ public class ClassDefinition extends Statement {
    }
    
    @Override
-   public void define(Scope outer) throws Exception {
+   public void create(Scope outer) throws Exception {
       if(!define.compareAndSet(false, true)) {
          Type type = builder.define(outer);
          Progress<Phase> progress = type.getProgress();
          
          try {
             for(TypePart part : parts) {
-               TypeFactory factory = part.define(collector, type);
+               TypeFactory factory = part.create(collector, type);
                collector.update(factory);
             } 
          } finally {
-            progress.done(DEFINED);
+            progress.done(CREATED);
          }
       }
    }
 
    @Override
-   public void compile(Scope outer) throws Exception {
+   public void define(Scope outer) throws Exception {
       if(!compile.compareAndSet(false, true)) {
          Type type = builder.compile(outer);
          Progress<Phase> progress = type.getProgress();
@@ -66,31 +66,31 @@ public class ClassDefinition extends Statement {
             collector.update(constants); // collect static constants first
             
             for(TypePart part : parts) {
-               TypeFactory factory = part.compile(collector, type);
+               TypeFactory factory = part.define(collector, type);
                collector.update(factory);
             } 
-            constructor.compile(collector, type);
+            constructor.define(collector, type);
             generator.generate(type);
          } finally {
-            progress.done(COMPILED);
+            progress.done(DEFINED);
          }
       }
    }
 
    @Override
-   public void validate(Scope outer) throws Exception {
+   public void compile(Scope outer) throws Exception {
       if(!validate.compareAndSet(false, true)) {
          Type type = builder.validate(outer);
          Progress<Phase> progress = type.getProgress();
          
          try {
             for(TypePart part : parts) {
-               TypeFactory factory = part.validate(collector, type);
+               TypeFactory factory = part.compile(collector, type);
                collector.update(factory);
             } 
-            constructor.validate(collector, type);
+            constructor.compile(collector, type);
          } finally {
-            progress.done(VERIFIED);
+            progress.done(COMPILED);
          }
       }
    }

@@ -20,7 +20,7 @@ public class MapEntryList extends Evaluation{
    }
    
    @Override
-   public void compile(Scope scope) throws Exception{
+   public void define(Scope scope) throws Exception{
       for(int i = 0; i < list.length; i++){
          list[i].compile(scope);
       }

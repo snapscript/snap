@@ -22,19 +22,19 @@ public class ScriptPackage extends Statement {
    }
    
    @Override
-   public void define(Scope scope) throws Exception {
+   public void create(Scope scope) throws Exception {
       if(define.compareAndSet(true, false)) {
          for(Statement statement : statements) {
-            statement.define(scope);
+            statement.create(scope);
          }
       }
    }
    
    @Override
-   public void compile(Scope scope) throws Exception {
+   public void define(Scope scope) throws Exception {
       if(compile.compareAndSet(true, false)) {
          for(Statement statement : statements) {
-            statement.compile(scope);
+            statement.define(scope);
          }
       }
    }

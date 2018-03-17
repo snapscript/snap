@@ -19,13 +19,13 @@ public class PostfixIncrement extends Evaluation {
    }
    
    @Override
-   public void compile(Scope scope) throws Exception {
-      evaluation.compile(scope);
+   public void define(Scope scope) throws Exception {
+      evaluation.define(scope);
    }
    
    @Override
-   public Constraint validate(Scope scope, Constraint left) throws Exception {
-      Constraint constraint = evaluation.validate(scope, left);
+   public Constraint compile(Scope scope, Constraint left) throws Exception {
+      Constraint constraint = evaluation.compile(scope, left);
       Type type = constraint.getType(scope);
       
       if(type != null) {

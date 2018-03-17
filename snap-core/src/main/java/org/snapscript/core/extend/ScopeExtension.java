@@ -48,8 +48,8 @@ public class ScopeExtension {
       ModuleRegistry registry = context.getRegistry();
       TypeLoader loader = context.getLoader();
       Package module = loader.importPackage(name);
-      PackageDefinition definition = module.define(scope);
-      Statement statement = definition.compile(scope, null);
+      PackageDefinition definition = module.create(scope);
+      Statement statement = definition.define(scope, null);
       
       statement.execute(scope);
       

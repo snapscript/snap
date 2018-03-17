@@ -18,8 +18,8 @@ public class MapEntry {
    }
    
    public void compile(Scope scope) throws Exception{
-      key.compile(scope);
-      value.compile(scope);
+      key.define(scope);
+      value.define(scope);
    }
    
    public Entry create(Scope scope) throws Exception{

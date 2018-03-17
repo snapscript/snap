@@ -30,22 +30,22 @@ public class ThisFactory extends TypeFactory {
    @Override
    public void compile(Scope instance, Type real) throws Exception {
       if(compile.compareAndSet(false, true)) {
-         expression.compile(instance);
+         expression.define(instance);
       }
    }
    
    @Override
    public void validate(Scope instance, Type real) throws Exception {
       if(validate.compareAndSet(false, true)) {
-         expression.validate(instance, null);
-         statement.validate(instance);
+         expression.compile(instance, null);
+         statement.compile(instance);
       }
    }   
    
    @Override
    public Result execute(Scope instance, Type real) throws Exception {
       if(execute.compareAndSet(false, true)) {
-         statement.compile(instance);
+         statement.define(instance);
       }
       return create(instance, real);
    }

@@ -80,7 +80,7 @@ public class ModuleDeclaration implements Compilation {
       }  
       
       @Override
-      public void compile(Scope scope) throws Exception {
+      public void define(Scope scope) throws Exception {
          Module module = scope.getModule();
          Scope outer = scope.getScope();
          List<Property> list = module.getProperties();

@@ -47,17 +47,17 @@ public class ReferenceNavigation implements Compilation {
       }
       
       @Override
-      public void compile(Scope scope) throws Exception {
-         next.compile(scope);
-         part.compile(scope);
+      public void define(Scope scope) throws Exception {
+         next.define(scope);
+         part.define(scope);
       }
       
       @Override
-      public Constraint validate(Scope scope, Constraint left) throws Exception {
-         Constraint value = part.validate(scope, left);         
+      public Constraint compile(Scope scope, Constraint left) throws Exception {
+         Constraint value = part.compile(scope, left);         
          
          if(value != null) {
-            return next.validate(scope, value);
+            return next.compile(scope, value);
          }
          return value;
       } 

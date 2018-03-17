@@ -60,7 +60,7 @@ public class Closure implements Compilation {
       }
       
       @Override
-      public Constraint validate(Scope scope, Constraint left) throws Exception {
+      public Constraint compile(Scope scope, Constraint left) throws Exception {
          return Constraint.getNone();
       }
       

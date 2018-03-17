@@ -42,13 +42,13 @@ public class ExpressionStatement implements Compilation {
       }
       
       @Override
-      public void compile(Scope scope) throws Exception {
-         expression.compile(scope);
+      public void define(Scope scope) throws Exception {
+         expression.define(scope);
       }
       
       @Override
-      public void validate(Scope scope) throws Exception {
-         expression.validate(scope, null);
+      public void compile(Scope scope) throws Exception {
+         expression.compile(scope, null);
       }
    
       @Override

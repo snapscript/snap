@@ -16,21 +16,21 @@ public class Expression extends Evaluation {
    }
 
    @Override
-   public void compile(Scope scope) throws Exception {
+   public void define(Scope scope) throws Exception {
       if(list.length <= 0) {
          throw new InternalStateException("Expression is empty");
       }
       for(int i = 0; i < list.length; i++){
-         list[i].compile(scope);
+         list[i].define(scope);
       }
    }
    
    @Override
-   public Constraint validate(Scope scope, Constraint left) throws Exception {
+   public Constraint compile(Scope scope, Constraint left) throws Exception {
       if(list.length <= 0) {
          throw new InternalStateException("Expression is empty");
       }
-      return list[list.length -1].validate(scope, left);
+      return list[list.length -1].compile(scope, left);
    }
    
    @Override

@@ -42,7 +42,7 @@ public class Declaration {
       String name = reference.getName(scope);
       
       if(value != null){
-         value.compile(scope); // must compile value first
+         value.define(scope); // must compile value first
       }
       Index index = scope.getIndex();
       int depth = index.index(name);

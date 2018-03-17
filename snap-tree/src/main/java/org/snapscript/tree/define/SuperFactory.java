@@ -20,13 +20,13 @@ public class SuperFactory extends TypeFactory {
    
    @Override
    public void compile(Scope instance, Type real) throws Exception {
-      expression.compile(instance);
+      expression.define(instance);
    }
    
    @Override
    public void validate(Scope instance, Type real) throws Exception {
       Constraint constraint = Constraint.getInstance(real);
-      expression.validate(instance, constraint);
+      expression.compile(instance, constraint);
    }
 
    @Override

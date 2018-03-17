@@ -19,16 +19,16 @@ public class Choice extends Evaluation {
    }
 
    @Override
-   public void compile(Scope scope) throws Exception {
-      condition.compile(scope);
-      positive.compile(scope);
-      negative.compile(scope);
+   public void define(Scope scope) throws Exception {
+      condition.define(scope);
+      positive.define(scope);
+      negative.define(scope);
    }
    
    @Bug("probably do both")
    @Override
-   public Constraint validate(Scope scope, Constraint left) throws Exception {
-      return positive.validate(scope, left);
+   public Constraint compile(Scope scope, Constraint left) throws Exception {
+      return positive.compile(scope, left);
    }
    
    @Override

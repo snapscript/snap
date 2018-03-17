@@ -14,6 +14,13 @@ public class Script extends Statement {
    }
    
    @Override
+   public void create(Scope scope) throws Exception {
+      for(Statement statement : statements) {
+         statement.create(scope);
+      }
+   }
+   
+   @Override
    public void define(Scope scope) throws Exception {
       for(Statement statement : statements) {
          statement.define(scope);
@@ -24,13 +31,6 @@ public class Script extends Statement {
    public void compile(Scope scope) throws Exception {
       for(Statement statement : statements) {
          statement.compile(scope);
-      }
-   }
-   
-   @Override
-   public void validate(Scope scope) throws Exception {
-      for(Statement statement : statements) {
-         statement.validate(scope);
       }
    }
    

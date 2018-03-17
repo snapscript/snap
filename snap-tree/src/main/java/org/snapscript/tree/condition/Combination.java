@@ -24,13 +24,13 @@ public class Combination extends Evaluation {
    }
 
    @Override
-   public void compile(Scope scope) throws Exception { 
-      left.compile(scope);
-      right.compile(scope);
+   public void define(Scope scope) throws Exception { 
+      left.define(scope);
+      right.define(scope);
    }
    
    @Override
-   public Constraint validate(Scope scope, Constraint left) {
+   public Constraint compile(Scope scope, Constraint left) {
       return Constraint.getInstance(scope, Boolean.class);
    }
    

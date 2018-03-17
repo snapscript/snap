@@ -57,7 +57,7 @@ public class FunctionInvocation implements Compilation {
       }
       
       @Override
-      public void compile(Scope scope) throws Exception {
+      public void define(Scope scope) throws Exception {
          String name = reference.getName(scope); 
          Index index = scope.getIndex();
          int depth = index.get(name);
@@ -66,12 +66,12 @@ public class FunctionInvocation implements Compilation {
          arguments.compile(scope);
          
          for(Evaluation evaluation : evaluations) {
-            evaluation.compile(scope);
+            evaluation.define(scope);
          }
       }
       
       @Override
-      public Constraint validate(Scope scope, Constraint left) throws Exception {
+      public Constraint compile(Scope scope, Constraint left) throws Exception {
          int depth = offset.get();
          
          if(depth != -1 && left == null){
@@ -106,7 +106,7 @@ public class FunctionInvocation implements Compilation {
             if(result == null) {
                throw new InternalStateException("Result of '" + name + "' null"); 
             }
-            result = evaluation.validate(scope, result);
+            result = evaluation.compile(scope, result);
          }
          return result; 
       }

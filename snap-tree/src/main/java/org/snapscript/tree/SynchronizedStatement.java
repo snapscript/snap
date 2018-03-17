@@ -46,9 +46,9 @@ public class SynchronizedStatement implements Compilation {
       }
       
       @Override
-      public void compile(Scope scope) throws Exception {
-         reference.compile(scope);
-         statement.compile(scope);
+      public void define(Scope scope) throws Exception {
+         reference.define(scope);
+         statement.define(scope);
       }
       
       @Override

@@ -29,7 +29,7 @@ public class StatementDefinition implements PackageDefinition {
    }
 
    @Override
-   public Statement compile(Scope scope, Path from) throws Exception {
+   public Statement define(Scope scope, Path from) throws Exception {
       if(!path.equals(from)) { // don't import yourself
          Statement value = reference.get();
          
@@ -65,7 +65,7 @@ public class StatementDefinition implements PackageDefinition {
             Module library = registry.addModule(name);
             Scope inner = library.getScope();
             
-            statement.compile(inner);
+            statement.define(inner);
          } catch(Exception cause) {
             return new ExceptionStatement("Error occured compiling '" + path + "'", cause);
          }

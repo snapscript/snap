@@ -16,12 +16,12 @@ public class ExceptionStatement extends Statement {
    }
    
    @Override
-   public void define(Scope scope) throws Exception {
+   public void create(Scope scope) throws Exception {
       throw new InternalStateException(message, cause);
    }
                   
    @Override
-   public void compile(Scope scope) throws Exception {
+   public void define(Scope scope) throws Exception {
       throw new InternalStateException(message, cause);
    }
    

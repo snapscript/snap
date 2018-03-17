@@ -17,11 +17,11 @@ public class PackageDefinitionList implements PackageDefinition {
    }
 
    @Override
-   public Statement compile(Scope scope, Path from) throws Exception {
+   public Statement define(Scope scope, Path from) throws Exception {
       List<Statement> statements = new ArrayList<Statement>();
       
       for(PackageDefinition definition : definitions) {
-         Statement statement = definition.compile(scope, from);
+         Statement statement = definition.define(scope, from);
          
          if(statement != null) {
             statements.add(statement);
@@ -41,16 +41,16 @@ public class PackageDefinitionList implements PackageDefinition {
       }
       
       @Override
-      public void define(Scope scope) throws Exception {
+      public void create(Scope scope) throws Exception {
          for(Statement statement : statements){
-            statement.define(scope);
+            statement.create(scope);
          }
       }
                      
       @Override
-      public void compile(Scope scope) throws Exception {
+      public void define(Scope scope) throws Exception {
          for(Statement statement : statements){
-            statement.compile(scope);
+            statement.define(scope);
          }
       }
       

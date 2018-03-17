@@ -16,13 +16,13 @@ public class Range extends Evaluation {
    }
 
    @Override
-   public void compile(Scope scope) throws Exception {
-      start.compile(scope); // compile for stack reference
-      finish.compile(scope);
+   public void define(Scope scope) throws Exception {
+      start.define(scope); // compile for stack reference
+      finish.define(scope);
    }
    
    @Override
-   public Constraint validate(Scope scope, Constraint left) throws Exception {
+   public Constraint compile(Scope scope, Constraint left) throws Exception {
       return Constraint.getInstance(scope, Iterable.class);
    }
    

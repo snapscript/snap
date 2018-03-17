@@ -10,26 +10,26 @@ import org.snapscript.core.yield.Yield;
 
 public class StatementBlock extends Statement {
    
-   private volatile StatementCompiler compiler;
+   private volatile StatementBuilder compiler;
    private volatile StatementExecutor executor;
    
    public StatementBlock(Statement... statements) {
-      this.compiler = new StatementCompiler(statements);
+      this.compiler = new StatementBuilder(statements);
+   }
+   
+   @Override
+   public void define(Scope scope) throws Exception {
+      if(executor == null) {
+         executor = compiler.create(scope);
+      }
    }
    
    @Override
    public void compile(Scope scope) throws Exception {
       if(executor == null) {
-         executor = compiler.compile(scope);
-      }
-   }
-   
-   @Override
-   public void validate(Scope scope) throws Exception {
-      if(executor == null) {
          throw new InternalStateException("Statement was not compiled");
       }
-      executor.validate(scope);
+      executor.compile(scope);
    }
    
    @Override
@@ -40,21 +40,21 @@ public class StatementBlock extends Statement {
       return executor.execute(scope);
    }
    
-   private static class StatementCompiler {
+   private static class StatementBuilder {
       
       private final Statement[] statements;
       
-      public StatementCompiler(Statement[] statements) {
+      public StatementBuilder(Statement[] statements) {
          this.statements = statements;
       }
       
-      public StatementExecutor compile(Scope scope) throws Exception {
+      public StatementExecutor create(Scope scope) throws Exception {
          Index index = scope.getIndex();
          int size = index.size();
          
          try {
             for(Statement statement : statements) {
-               statement.compile(scope);
+               statement.define(scope);
             }
          } finally {
             index.reset(size);
@@ -74,9 +74,9 @@ public class StatementBlock extends Statement {
       }
       
       @Override
-      public void validate(Scope scope) throws Exception {
+      public void compile(Scope scope) throws Exception {
          for(Statement statement : statements) {
-            statement.validate(scope);
+            statement.compile(scope);
          }
       }
       

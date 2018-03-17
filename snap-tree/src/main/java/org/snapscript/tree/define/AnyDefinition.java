@@ -3,8 +3,8 @@ package org.snapscript.tree.define;
 import static org.snapscript.core.Category.CLASS;
 import static org.snapscript.core.ModifierType.CONSTANT;
 import static org.snapscript.core.ModifierType.PUBLIC;
-import static org.snapscript.core.Phase.COMPILED;
 import static org.snapscript.core.Phase.DEFINED;
+import static org.snapscript.core.Phase.CREATED;
 import static org.snapscript.core.Reserved.ANY_TYPE;
 import static org.snapscript.core.Reserved.DEFAULT_PACKAGE;
 import static org.snapscript.core.Reserved.METHOD_EQUALS;
@@ -48,7 +48,7 @@ public class AnyDefinition{
       Progress<Phase> progress = result.getProgress();
       List<Function> functions = result.getFunctions();
       
-      if(progress.done(DEFINED)) {
+      if(progress.done(CREATED)) {
          Function constructor = builder.create(result, TYPE_CONSTRUCTOR, NewInvocation.class, Object.class);
          Function hashCode = builder.create(result, METHOD_HASH_CODE, HashCodeInvocation.class);
          Function toString = builder.create(result, METHOD_TO_STRING, ToStringInvocation.class);
@@ -66,9 +66,9 @@ public class AnyDefinition{
          functions.add(hashCode);
          functions.add(equals);
          functions.add(toString);
-         progress.done(COMPILED);
+         progress.done(DEFINED);
       }
-      progress.wait(COMPILED);
+      progress.wait(DEFINED);
       return result;
    }
    

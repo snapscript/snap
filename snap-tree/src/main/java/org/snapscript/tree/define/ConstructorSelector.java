@@ -20,10 +20,10 @@ public class ConstructorSelector {
       Type base = extractor.extractor(type);
       
       if(part != null){
-         return part.compile(factory, type);              
+         return part.define(factory, type);              
       }
       if(base != null) {
-         return constructor.compile(factory, type);
+         return constructor.define(factory, type);
       }
       return new PrimitiveConstructor(); 
    }

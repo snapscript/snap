@@ -52,14 +52,14 @@ public class ConstructSet implements Compilation {
       }   
       
       @Override
-      public void compile(Scope scope) throws Exception { 
+      public void define(Scope scope) throws Exception { 
          if(arguments != null) {
             arguments.compile(scope);      
          }   
       }
       
       @Override
-      public Constraint validate(Scope scope, Constraint left) throws Exception {
+      public Constraint compile(Scope scope, Constraint left) throws Exception {
          return Constraint.getInstance(scope, Set.class);
       } 
       

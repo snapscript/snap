@@ -64,7 +64,7 @@ public class ModuleProperty {
       String name = reference.getName(scope);
 
       if(value != null) {
-         value.compile(scope);
+         value.define(scope);
       }
       return new ModuleAccessor(module, body, scope, name);
    }

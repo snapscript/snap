@@ -22,15 +22,15 @@ public class CalculationOperation extends Evaluation {
    }
    
    @Override
-   public void compile(Scope scope) throws Exception {
-      left.compile(scope);
-      right.compile(scope);
+   public void define(Scope scope) throws Exception {
+      left.define(scope);
+      right.define(scope);
    }
    
    @Bug("not correct")
    @Override
-   public Constraint validate(Scope scope, Constraint left) throws Exception {
-      return right.validate(scope, left);
+   public Constraint compile(Scope scope, Constraint left) throws Exception {
+      return right.compile(scope, left);
    }
    
    

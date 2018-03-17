@@ -14,7 +14,7 @@ public abstract class Literal extends Evaluation {
    }
 
    @Override
-   public Constraint validate(Scope scope, Constraint left) throws Exception {
+   public Constraint compile(Scope scope, Constraint left) throws Exception {
       if(value == null) {
          value = create(scope);
       }

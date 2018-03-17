@@ -46,7 +46,7 @@ public class ImportStatic implements Compilation {
       }
       
       @Override
-      public void compile(Scope scope) throws Exception {
+      public void define(Scope scope) throws Exception {
          Module module = scope.getModule();
          String parent = builder.createFullName(location, target);
          Type type = module.getType(parent); // this is a type name

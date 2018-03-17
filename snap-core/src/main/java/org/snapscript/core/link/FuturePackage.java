@@ -17,12 +17,12 @@ public class FuturePackage implements Package {
    }
    
    @Override
-   public PackageDefinition define(Scope scope) throws Exception {
+   public PackageDefinition create(Scope scope) throws Exception {
       Package library = result.get();
       
       if(library == null) {
          throw new InternalStateException("Could not define '" + path + "'");
       }
-      return library.define(scope);
+      return library.create(scope);
    }      
 }

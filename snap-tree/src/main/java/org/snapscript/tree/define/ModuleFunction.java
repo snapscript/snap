@@ -54,7 +54,7 @@ public class ModuleFunction implements ModulePart {
       }
       
       @Override
-      public void compile(Scope scope) throws Exception {
+      public void define(Scope scope) throws Exception {
          Module module = scope.getModule();
          List<Function> functions = module.getFunctions();
          Signature signature = parameters.create(scope);
@@ -70,7 +70,7 @@ public class ModuleFunction implements ModulePart {
       }
       
       @Override
-      public void validate(Scope scope) throws Exception {
+      public void compile(Scope scope) throws Exception {
          FunctionHandle handle = cache.get();
          handle.validate(scope);
       }

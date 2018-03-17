@@ -22,12 +22,12 @@ public class Cast extends Evaluation {
    }
    
    @Override
-   public void compile(Scope scope) throws Exception {
-      evaluation.compile(scope);
+   public void define(Scope scope) throws Exception {
+      evaluation.define(scope);
    }
    
    @Override
-   public Constraint validate(Scope scope, Constraint left) {
+   public Constraint compile(Scope scope, Constraint left) {
       return constraint;
    }
    

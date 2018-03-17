@@ -52,9 +52,9 @@ public class YieldStatement implements Compilation {
       }
       
       @Override
-      public void compile(Scope scope) throws Exception {
+      public void define(Scope scope) throws Exception {
          if(evaluation != null) {
-            evaluation.compile(scope);
+            evaluation.define(scope);
          }
       }
       

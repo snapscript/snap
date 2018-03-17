@@ -57,18 +57,18 @@ public class ForStatement implements Compilation {
       }
       
       @Override
-      public void compile(Scope scope) throws Exception {
+      public void define(Scope scope) throws Exception {
          Index index = scope.getIndex();
          int size = index.size();
          
          try {
-            declaration.compile(scope);
-            condition.compile(scope);
+            declaration.define(scope);
+            condition.define(scope);
             
             if(assignment != null) {
-               assignment.compile(scope);
+               assignment.define(scope);
             }
-            body.compile(scope);
+            body.define(scope);
          } finally {
             index.reset(size);
          }

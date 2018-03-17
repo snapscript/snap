@@ -18,12 +18,12 @@ public class FutureDefinition implements PackageDefinition {
    }
 
    @Override
-   public Statement compile(Scope scope, Path from) throws Exception {
+   public Statement define(Scope scope, Path from) throws Exception {
       PackageDefinition definition = result.get();
       
       if(definition == null) {
          throw new InternalStateException("Could not compile '" + path + "'");
       }
-      return definition.compile(scope, from);
+      return definition.define(scope, from);
    }     
 }

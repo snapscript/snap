@@ -70,8 +70,8 @@ public class ImportTaskBuilder {
          try {
             if(!imports.contains(path)) {
                Scope scope = parent.getScope();
-               PackageDefinition definition = module.define(scope); 
-               Statement statement = definition.compile(scope, from);
+               PackageDefinition definition = module.create(scope); 
+               Statement statement = definition.define(scope, from);
             
                statement.execute(scope); 
                imports.add(path);
@@ -102,8 +102,8 @@ public class ImportTaskBuilder {
          try {
             if(!imports.contains(path)) {
                Scope scope = parent.getScope();
-               PackageDefinition definition = module.define(scope);
-               Statement statement = definition.compile(scope, from);
+               PackageDefinition definition = module.create(scope);
+               Statement statement = definition.define(scope, from);
                
                statement.execute(scope); 
                imports.add(path);

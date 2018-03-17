@@ -53,7 +53,7 @@ public class StatementInvocationBuilder implements InvocationBuilder {
       
       if(compile != null) {
          extractor.compile(inner); // count parameters
-         compile.compile(inner); // start counting from here 
+         compile.define(inner); // start counting from here 
       }
       return new ResultConverter(matcher, execute, execute == compile);
    }
@@ -77,7 +77,7 @@ public class StatementInvocationBuilder implements InvocationBuilder {
          
          if(compile.compareAndSet(false, true)) {
             extractor.compile(inner); // update stack
-            statement.compile(inner); // this is for static calls
+            statement.define(inner); // this is for static calls
          }
          ConstraintConverter converter = matcher.match(constraint); 
          Result result = statement.execute(inner);

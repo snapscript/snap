@@ -42,8 +42,8 @@ public class AssertStatement implements Compilation {
       }
 
       @Override
-      public void compile(Scope scope) throws Exception {
-         evaluation.compile(scope);
+      public void define(Scope scope) throws Exception {
+         evaluation.define(scope);
       }
       
       @Override

@@ -24,7 +24,7 @@ public class TextTemplate extends Evaluation {
    }
    
    @Override
-   public Constraint validate(Scope scope, Constraint left) throws Exception {
+   public Constraint compile(Scope scope, Constraint left) throws Exception {
       return Constraint.getInstance(scope.getModule().getType(String.class));
    }
 

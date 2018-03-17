@@ -1,6 +1,6 @@
 package org.snapscript.tree.reference;
 
-import static org.snapscript.core.Phase.COMPILED;
+import static org.snapscript.core.Phase.DEFINED;
 
 import org.snapscript.common.Progress;
 import org.snapscript.core.Evaluation;
@@ -32,7 +32,7 @@ public class CompiledReference extends TypeReference {
          Type result = value.getValue();
          Progress<Phase> progress = result.getProgress();
          
-         if(!progress.wait(COMPILED, duration)) {
+         if(!progress.wait(DEFINED, duration)) {
             throw new InternalStateException("Type '" + result + "' not compiled");
          }
          type = value;

@@ -39,14 +39,14 @@ public class Program implements Executable{
    @Override
    public void execute(Model model) throws Exception{ 
       Scope scope = merger.merge(model, name, path);
-      PackageDefinition definition = library.define(scope); // define all types
-      Statement statement = definition.compile(scope, null); // compile tree
+      PackageDefinition definition = library.create(scope); // create all types
+      Statement statement = definition.define(scope, null); // define tree
       ProgramValidator validator = context.getValidator();
       ErrorHandler handler = context.getHandler();
       
       try {
          validator.validate(context); // validate program
-         statement.validate(scope);
+         statement.compile(scope);
          statement.execute(scope);
       } catch(Throwable cause) {
          handler.throwExternalError(scope, cause);

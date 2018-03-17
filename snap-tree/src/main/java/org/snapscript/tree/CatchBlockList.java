@@ -29,7 +29,7 @@ public class CatchBlockList {
       this.blocks = blocks;
    }    
    
-   public Result compile(Scope scope) throws Exception {  
+   public Result define(Scope scope) throws Exception {  
       for(CatchBlock block : blocks) {
          Statement statement = block.getStatement();
          
@@ -44,7 +44,7 @@ public class CatchBlockList {
                int value = index.index(name);
                
                offset.set(value);
-               statement.compile(scope);
+               statement.define(scope);
             }finally {
                index.reset(size);
             }

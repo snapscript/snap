@@ -17,14 +17,14 @@ public class InstanceFieldFactory extends TypeFactory {
    @Override
    public void compile(Scope scope, Type type) throws Exception {
       if(evaluation != null) {
-         evaluation.compile(scope); 
+         evaluation.define(scope); 
       }
    }
 
    @Override
    public void validate(Scope scope, Type type) throws Exception {
       if(evaluation != null) {
-         evaluation.validate(scope, null); 
+         evaluation.compile(scope, null); 
       }
    }
    

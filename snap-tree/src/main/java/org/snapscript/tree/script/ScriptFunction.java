@@ -35,7 +35,7 @@ public class ScriptFunction extends Statement {
    }  
    
    @Override
-   public void compile(Scope scope) throws Exception {
+   public void define(Scope scope) throws Exception {
       Module module = scope.getModule();
       List<Function> functions = module.getFunctions();
       Signature signature = parameters.create(scope);

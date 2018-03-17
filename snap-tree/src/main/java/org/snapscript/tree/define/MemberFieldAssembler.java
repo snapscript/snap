@@ -56,7 +56,7 @@ public class MemberFieldAssembler {
       }  
 
       @Override
-      public Constraint validate(Scope scope, Constraint left) throws Exception {
+      public Constraint compile(Scope scope, Constraint left) throws Exception {
          Value value = allocator.validate(scope, name, modifiers);
          State state = scope.getState();
          

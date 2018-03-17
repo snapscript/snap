@@ -19,7 +19,7 @@ public class ArgumentList {
    
    public void compile(Scope scope) throws Exception{
       for(int i = 0; i < list.length; i++){
-         list[i].compile(scope);
+         list[i].define(scope);
       }
    }
    
@@ -56,7 +56,7 @@ public class ArgumentList {
       Type[] values = new Type[list.length + prefix.length];
       
       for(int i = 0; i < list.length; i++){
-         Constraint result = list[i].validate(scope, null);
+         Constraint result = list[i].compile(scope, null);
          if(result == null){
             System.err.println();
          }

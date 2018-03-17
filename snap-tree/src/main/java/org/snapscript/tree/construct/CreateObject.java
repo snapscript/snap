@@ -27,15 +27,15 @@ public class CreateObject extends Evaluation {
    }      
 
    @Override
-   public void compile(Scope scope) throws Exception { 
+   public void define(Scope scope) throws Exception { 
       if(arguments != null) {
          arguments.compile(scope);
       }
    }
    
    @Override
-   public Constraint validate(Scope scope, Constraint left) throws Exception {
-      return reference.validate(scope, left);
+   public Constraint compile(Scope scope, Constraint left) throws Exception {
+      return reference.compile(scope, left);
    }   
    
    @Override

@@ -50,14 +50,14 @@ public class ConstructMap implements Compilation {
       }   
       
       @Override
-      public void compile(Scope scope) throws Exception {
+      public void define(Scope scope) throws Exception {
          if(list != null) {
-            list.compile(scope);
+            list.define(scope);
          }
       }
       
       @Override
-      public Constraint validate(Scope scope, Constraint left) throws Exception {
+      public Constraint compile(Scope scope, Constraint left) throws Exception {
          return Constraint.getInstance(scope, Map.class);
       }
       

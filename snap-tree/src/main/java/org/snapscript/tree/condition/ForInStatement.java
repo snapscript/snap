@@ -61,17 +61,17 @@ public class ForInStatement implements Compilation {
       }
       
       @Override
-      public void compile(Scope scope) throws Exception { 
+      public void define(Scope scope) throws Exception { 
          String name = reference.getName(scope);
          Index index = scope.getIndex();
          int size = index.size();
          int depth = index.index(name);
          
          try {   
-            collection.compile(scope);
+            collection.define(scope);
             offset.set(depth);
             
-            body.compile(scope);
+            body.define(scope);
          } finally {
             index.reset(size);
          }

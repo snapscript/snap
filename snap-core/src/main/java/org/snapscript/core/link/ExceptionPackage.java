@@ -14,7 +14,7 @@ public class ExceptionPackage implements Package {
    }  
    
    @Override
-   public PackageDefinition define(Scope scope) throws Exception {
+   public PackageDefinition create(Scope scope) throws Exception {
       throw new InternalStateException(message, cause);
    }             
 }

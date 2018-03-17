@@ -21,15 +21,15 @@ public class Assignment extends Evaluation {
    }
    
    @Override
-   public void compile(Scope scope) throws Exception { 
-      left.compile(scope);
-      right.compile(scope);
+   public void define(Scope scope) throws Exception { 
+      left.define(scope);
+      right.define(scope);
    }
    
    @Override
-   public Constraint validate(Scope scope, Constraint type) throws Exception { 
-      left.validate(scope, type);
-      return right.validate(scope, type);
+   public Constraint compile(Scope scope, Constraint type) throws Exception { 
+      left.compile(scope, type);
+      return right.compile(scope, type);
    }
    
    @Override
