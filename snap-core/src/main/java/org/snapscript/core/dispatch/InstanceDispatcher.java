@@ -16,9 +16,9 @@ public class InstanceDispatcher implements CallDispatcher<Object> {
    }
 
    @Override
-   public Constraint validate(Scope scope, Type object, Type... arguments) throws Exception {
+   public Constraint compile(Scope scope, Type object, Type... arguments) throws Exception {
       Type type = scope.getType();
-      return dispatcher.validate(scope, type, arguments);       // args wrong  
+      return dispatcher.compile(scope, type, arguments);       // args wrong  
    }
    
    @Override

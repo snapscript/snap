@@ -17,7 +17,7 @@ public class ArgumentList {
       this.list = list;
    }
    
-   public void compile(Scope scope) throws Exception{
+   public void define(Scope scope) throws Exception{
       for(int i = 0; i < list.length; i++){
          list[i].define(scope);
       }
@@ -45,14 +45,14 @@ public class ArgumentList {
       return values;
    }
    
-   public Type[] validate(Scope scope) throws Exception{
+   public Type[] compile(Scope scope) throws Exception{
       if(list.length > 0) {
-         return validate(scope, none);
+         return compile(scope, none);
       }
       return none;
    }
    
-   public Type[] validate(Scope scope, Type... prefix) throws Exception{
+   public Type[] compile(Scope scope, Type... prefix) throws Exception{
       Type[] values = new Type[list.length + prefix.length];
       
       for(int i = 0; i < list.length; i++){

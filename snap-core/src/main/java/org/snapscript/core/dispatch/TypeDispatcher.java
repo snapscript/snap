@@ -22,7 +22,7 @@ public class TypeDispatcher implements CallDispatcher<Type> {
    }
    
    @Override
-   public Constraint validate(Scope scope, Type type, Type... arguments) throws Exception {   
+   public Constraint compile(Scope scope, Type type, Type... arguments) throws Exception {   
       InvocationTask call = binder.bindStatic(scope, type, name, arguments);
       
       if(call == null) {

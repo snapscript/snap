@@ -1,9 +1,9 @@
 package org.snapscript.tree;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Context;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
-import org.snapscript.core.Type;
 import org.snapscript.core.dispatch.CallBinder;
 import org.snapscript.core.dispatch.CallDispatcher;
 import org.snapscript.core.dispatch.CallTable;
@@ -17,7 +17,7 @@ public class CallSite {
       this.reference = reference;
    }
 
-   public CallDispatcher get(Scope scope, Type left) throws Exception {
+   public CallDispatcher get(Scope scope, Constraint left) throws Exception {
       if(binder == null) {
          Module module = scope.getModule();
          Context context = module.getContext();

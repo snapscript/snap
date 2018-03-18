@@ -2,6 +2,8 @@ package org.snapscript.core.dispatch;
 
 import java.util.Map;
 
+import org.snapscript.core.Category;
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
@@ -23,7 +25,7 @@ public class CallDispatcherBuilder {
       this.name = name;
    }
    
-   public CallDispatcher create(Scope scope, Class type) {
+   public CallDispatcher create(Scope scope, Class type) throws Exception  {
       if(Scope.class.isAssignableFrom(type)) {
          return new ScopeDispatcher(binder, handler, name);            
       }
@@ -49,5 +51,37 @@ public class CallDispatcherBuilder {
          return new ArrayDispatcher(binder, handler, name);
       }
       return new ObjectDispatcher(binder, handler, name);     
+   }
+   
+   public CallDispatcher create(Scope scope, Constraint left) throws Exception {
+      Type type = left.getType(scope);
+      
+      if(type != null) {
+         Category category = type.getCategory();
+         Class real = type.getType();
+         
+         if(left.isModule()) {
+            return new ModuleDispatcher(binder, handler, name);
+         }
+         if(left.isStatic()) {
+            return new TypeDispatcher(binder, handler, name);
+         }
+         if(category.isFunction()) {
+            return new FunctionDispatcher(binder, handler, name);
+         }
+         if(category.isProxy()) { 
+            return new DelegateDispatcher(binder, handler, name);
+         } 
+         if(category.isArray()) {
+            return new ArrayDispatcher(binder, handler, name);
+         }
+         if(real != null) {
+            if(Map.class.isAssignableFrom(real)) {
+               return new MapDispatcher(binder, handler, name);
+            }         
+            return new ObjectDispatcher(binder, handler, name);     
+         }
+      }
+      return new ScopeDispatcher(binder, handler, name);  
    }
 }

@@ -27,7 +27,7 @@ public class MapDispatcher implements CallDispatcher<Map> {
    }
    
    @Override
-   public Constraint validate(Scope scope, Type map, Type... arguments) throws Exception {
+   public Constraint compile(Scope scope, Type map, Type... arguments) throws Exception {
       InvocationTask local = binder.bindInstance(scope, map, name, arguments);
       
       if(local == null) {

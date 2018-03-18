@@ -24,7 +24,7 @@ public class ModuleDispatcher implements CallDispatcher<Module> {
    }
    
    @Override
-   public Constraint validate(Scope scope, Type module, Type... arguments) throws Exception {
+   public Constraint compile(Scope scope, Type module, Type... arguments) throws Exception {
       Module mod = module.getModule();
       InvocationTask call = bind(scope, mod, arguments);
       

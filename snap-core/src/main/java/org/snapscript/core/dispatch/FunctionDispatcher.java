@@ -29,7 +29,7 @@ public class FunctionDispatcher implements CallDispatcher<Function> {
    }
    
    @Override
-   public Constraint validate(Scope scope, Type function, Type... arguments) throws Exception { 
+   public Constraint compile(Scope scope, Type function, Type... arguments) throws Exception { 
       Type t= scope.getModule().getType(Object.class);
       return Constraint.getInstance(t);
    }

@@ -21,7 +21,7 @@ public class SuperDispatcher implements CallDispatcher<Object> {
    }
    
    @Override
-   public Constraint validate(Scope scope, Type object, Type... list) throws Exception {
+   public Constraint compile(Scope scope, Type object, Type... list) throws Exception {
       return Constraint.getInstance(type);
    }
    

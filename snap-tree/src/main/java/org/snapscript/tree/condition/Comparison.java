@@ -31,7 +31,11 @@ public class Comparison extends Evaluation {
    }  
    
    @Override
-   public Constraint compile(Scope scope, Constraint left) throws Exception {
+   public Constraint compile(Scope scope, Constraint context) throws Exception {
+      if(right != null) {
+         right.compile(scope, null);
+      }
+      left.compile(scope, null);
       return Constraint.getInstance(scope, Boolean.class);
    }
    

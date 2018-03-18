@@ -22,7 +22,7 @@ public class LocalDispatcher implements CallDispatcher<Object> {
    }
 
    @Override
-   public Constraint validate(Scope scope, Type object, Type... arguments) throws Exception {
+   public Constraint compile(Scope scope, Type object, Type... arguments) throws Exception {
       InvocationTask call = bind(scope, object, arguments);
       
       if(call == null) {

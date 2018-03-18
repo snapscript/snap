@@ -2,6 +2,7 @@ package org.snapscript.tree.function;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Constraint;
 import org.snapscript.core.Context;
@@ -63,13 +64,14 @@ public class FunctionInvocation implements Compilation {
          int depth = index.get(name);
          
          offset.set(depth);
-         arguments.compile(scope);
+         arguments.define(scope);
          
          for(Evaluation evaluation : evaluations) {
             evaluation.define(scope);
          }
       }
       
+      @Bug("this is vert wrong!!")
       @Override
       public Constraint compile(Scope scope, Constraint left) throws Exception {
          int depth = offset.get();
@@ -82,7 +84,7 @@ public class FunctionInvocation implements Compilation {
                Type type = value.getConstraint();
             
                if(Function.class.isInstance(type)) {
-                  return executeV(scope, type);
+                  return executeV(scope, Constraint.getInstance(type), type);
                }
             }
          }
@@ -91,16 +93,16 @@ public class FunctionInvocation implements Compilation {
             t =left.getType(scope);
          
          if(t != null) {
-            return executeV(scope, t);
+            return executeV(scope, left, t);
          }
          return Constraint.getNone();
       }
       
-      private Constraint executeV(Scope scope, Type left) throws Exception {
+      private Constraint executeV(Scope scope, Constraint left, Type type) throws Exception {
          String name = reference.getName(scope); 
-         Type[] array = arguments.validate(scope); 
+         Type[] array = arguments.compile(scope); 
          CallDispatcher handler = site.get(scope, left);
-         Constraint result = handler.validate(scope, left, array);
+         Constraint result = handler.compile(scope, type, array);
          
          for(Evaluation evaluation : evaluations) {
             if(result == null) {

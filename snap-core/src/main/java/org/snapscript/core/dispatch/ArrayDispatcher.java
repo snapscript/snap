@@ -27,7 +27,7 @@ public class ArrayDispatcher implements CallDispatcher<Object> {
    }
    
    @Override
-   public Constraint validate(Scope scope, Type object, Type... arguments) throws Exception {
+   public Constraint compile(Scope scope, Type object, Type... arguments) throws Exception {
       Type list = builder.convert(object);
       InvocationTask call = binder.bindInstance(scope, list, name, arguments);
       

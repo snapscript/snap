@@ -20,7 +20,7 @@ public class ValueDispatcher implements CallDispatcher<Value> {
    }
    
    @Override
-   public Constraint validate(Scope scope, Type value, Type... arguments) throws Exception {
+   public Constraint compile(Scope scope, Type value, Type... arguments) throws Exception {
       return Constraint.getNone();
    }
 

@@ -3,6 +3,7 @@ package org.snapscript.core.dispatch;
 import org.snapscript.common.Cache;
 import org.snapscript.common.CopyOnWriteCache;
 import org.snapscript.core.Bug;
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.bind.FunctionBinder;
@@ -23,18 +24,11 @@ public class CallBinder {
    }
    
    @Bug("dodgy")
-   public CallDispatcher bind(Scope scope, Type left) {
+   public CallDispatcher bind(Scope scope, Constraint left) throws Exception {
       Type type = scope.getType();
       
       if(left != null) {
-         Class key = left.getType() == null ? left.getClass():left.getType();
-         CallDispatcher dispatcher = cache.fetch(key);
-         
-         if(dispatcher == null) { 
-            dispatcher = builder.create(scope, key);
-            cache.cache(key, dispatcher);
-         }
-         return dispatcher;
+         return builder.create(scope, left);
       }
       if(type != null) {
          return instance;
@@ -42,7 +36,7 @@ public class CallBinder {
       return local;
    }
    
-   public CallDispatcher bind(Scope scope, Object left) {
+   public CallDispatcher bind(Scope scope, Object left) throws Exception {
       Type type = scope.getType();
       
       if(left != null) {

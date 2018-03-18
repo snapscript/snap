@@ -24,7 +24,7 @@ public class DelegateDispatcher implements CallDispatcher<Delegate> {
    }
    
    @Override
-   public Constraint validate(Scope scope, Type object, Type... arguments) throws Exception {
+   public Constraint compile(Scope scope, Type object, Type... arguments) throws Exception {
       InvocationTask call = binder.bindFunction(scope, object, name, arguments);
       
       if(call == null) {

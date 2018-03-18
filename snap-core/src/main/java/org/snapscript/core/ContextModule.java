@@ -110,7 +110,7 @@ public class ContextModule implements Module {
          Module module = modules.fetch(name);
          
          if(module == null) {
-            if(prefix.endsWith(name)) {
+            if(prefix.endsWith("."+name)) {
                return this;
             }
             if(!types.contains(name)) { // don't resolve if its a type
@@ -135,7 +135,7 @@ public class ContextModule implements Module {
             System.err.println("Find " + type + " as " +name +" to " + System.identityHashCode(this));
          }
          if(type == null) {
-            if(!modules.contains(name) && !prefix.endsWith(name)) {// don't resolve if its a module
+            if(!modules.contains(name) && !prefix.endsWith("."+name)) {// don't resolve if its a module
                type = manager.getType(name);
             
                if(type != null) {

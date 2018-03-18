@@ -29,7 +29,7 @@ public class CreateObject extends Evaluation {
    @Override
    public void define(Scope scope) throws Exception { 
       if(arguments != null) {
-         arguments.compile(scope);
+         arguments.define(scope);
       }
    }
    

@@ -26,11 +26,19 @@ public class Combination extends Evaluation {
    @Override
    public void define(Scope scope) throws Exception { 
       left.define(scope);
-      right.define(scope);
+      
+      if(right != null) {
+         right.define(scope);
+      }
    }
    
    @Override
-   public Constraint compile(Scope scope, Constraint left) {
+   public Constraint compile(Scope scope, Constraint context) throws Exception {
+      left.compile(scope, null);
+      
+      if(right != null) {
+         right.compile(scope, null);
+      }
       return Constraint.getInstance(scope, Boolean.class);
    }
    

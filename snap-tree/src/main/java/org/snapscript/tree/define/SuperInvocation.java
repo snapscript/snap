@@ -37,11 +37,11 @@ public class SuperInvocation extends Evaluation {
       if(arguments != null) {
          Scope outer = scope.getScope();
          Scope compound = extractor.extract(scope, outer);
-         Type[] list = arguments.validate(compound, type); // arguments have no left hand side
+         Type[] list = arguments.compile(compound, type); // arguments have no left hand side
 
-         return dispatcher.validate(scope, type, list);
+         return dispatcher.compile(scope, type, list);
       }
-      return dispatcher.validate(scope, type, type);
+      return dispatcher.compile(scope, type, type);
    }
    
    @Override

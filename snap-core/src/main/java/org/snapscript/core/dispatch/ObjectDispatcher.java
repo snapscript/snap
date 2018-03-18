@@ -21,7 +21,7 @@ public class ObjectDispatcher implements CallDispatcher<Object> {
    }
    
    @Override
-   public Constraint validate(Scope scope, Type object, Type... arguments) throws Exception {
+   public Constraint compile(Scope scope, Type object, Type... arguments) throws Exception {
       InvocationTask call = binder.bindInstance(scope, object, name, arguments);
       
       if(call == null) {

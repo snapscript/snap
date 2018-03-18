@@ -54,7 +54,7 @@ public class ConstructList implements Compilation {
       @Override
       public void define(Scope scope) throws Exception { // this is rubbish
          if(arguments != null) {
-            arguments.compile(scope);      
+            arguments.define(scope);      
          }   
       }
       
