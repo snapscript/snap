@@ -27,11 +27,12 @@ public class ModulePointer implements VariablePointer<Module> {
 
    @Bug("messy")
    @Override
-   public Constraint check(Scope scope, Type left) {
+   public Constraint check(Scope scope, Constraint left) {
       Property property = reference.get();
       
       if(property == null) {
-         Module module = left.getModule();
+         Type ty = left.getType(scope);
+         Module module = ty.getModule();
          Scope inner = module.getScope();
          State state = inner.getState();
          Value value = state.get(name);

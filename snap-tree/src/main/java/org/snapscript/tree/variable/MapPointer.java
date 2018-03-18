@@ -27,7 +27,7 @@ public class MapPointer implements VariablePointer<Map> {
    }
    
    @Override
-   public Constraint check(Scope scope, Type left) {
+   public Constraint check(Scope scope, Constraint left) {
       Property accessor = reference.get();
       
       if(accessor == null) {

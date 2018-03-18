@@ -3,6 +3,8 @@ package org.snapscript.tree.variable;
 import java.util.Collection;
 import java.util.Map;
 
+import org.snapscript.core.Category;
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
@@ -52,30 +54,32 @@ public class VariablePointerBuilder {
       return create(scope);
    }
    
-   public VariablePointer create(Scope scope, Type left) throws Exception {
-      if(left != null) {
-         Class type = left.getType();
+   public VariablePointer create(Scope scope, Constraint left) throws Exception {
+      Type type = left.getType(scope);
+      
+      if(type != null) {
+         Category category = type.getCategory();
+         Class real = type.getType();
          
-         if(Module.class.isInstance(left)) {
+         if(left.isModule()) {
             return new ModulePointer(resolver, name);
          }
-         if(Map.class.isInstance(left)) {
-            return new MapPointer(resolver, name);
-         }         
-         if(Scope.class.isInstance(left)) {
-            return new ScopePointer(name);
-         }
-         if(Type.class.isInstance(left)) {
+         if(left.isStatic()) {
             return new TypePointer(resolver, name);
          }
-         if(Collection.class.isInstance(left)) {
-            return new CollectionPointer(resolver, name);
-         }
-         if(type.isArray()) {
+         if(category.isArray()) {
             return new ArrayPointer(resolver, name);
          }
-         return new ObjectPointer(resolver, name);
+         if(real != null) {
+            if(Map.class.isAssignableFrom(real)) {
+               return new MapPointer(resolver, name);
+            }         
+            if(Collection.class.isAssignableFrom(real)) {
+               return new CollectionPointer(resolver, name);
+            }
+            return new ObjectPointer(resolver, name);
+         }
       }
-      return create(scope);
+      return new ScopePointer(name);
    }
 }

@@ -84,7 +84,7 @@ public class Variable implements Compilation {
          }
          Type t = left.getType(scope);
          if(t!=null) {
-            return binder.check(scope, t);
+            return binder.check(scope, left);
          }
          return Constraint.getNone();
       } 

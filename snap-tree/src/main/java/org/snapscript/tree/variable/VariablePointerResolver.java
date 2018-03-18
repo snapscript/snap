@@ -4,8 +4,8 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.common.Cache;
 import org.snapscript.common.CopyOnWriteCache;
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Scope;
-import org.snapscript.core.Type;
 
 public class VariablePointerResolver {
    
@@ -42,7 +42,7 @@ public class VariablePointerResolver {
       return pointer;
    }
    
-   public VariablePointer resolve(Scope scope, Type left) throws Exception {
+   public VariablePointer resolve(Scope scope, Constraint left) throws Exception {
       return builder.create(scope, left);
    }
 }

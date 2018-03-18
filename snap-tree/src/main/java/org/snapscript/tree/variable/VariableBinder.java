@@ -3,7 +3,6 @@ package org.snapscript.tree.variable;
 import org.snapscript.core.Constraint;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
-import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.convert.ProxyWrapper;
 
@@ -29,7 +28,7 @@ public class VariableBinder {
       return value;
    }
    
-   public Constraint check(Scope scope, Type left) throws Exception {
+   public Constraint check(Scope scope, Constraint left) throws Exception {
       VariablePointer pointer = resolver.resolve(scope, left);
       Constraint value = pointer.check(scope, left);
       
