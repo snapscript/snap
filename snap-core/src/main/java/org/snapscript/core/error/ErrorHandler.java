@@ -33,6 +33,10 @@ public class ErrorHandler {
    public Result throwInternalException(Scope scope, Type type, String name, Object... list) {
       return internal.throwInternalException(scope, type, name, list); 
    }
+
+   public Result throwInternalException(Scope scope, Type type, String name, Type... list) {
+      return internal.throwInternalException(scope, type, name, list); 
+   }
    
    public Result throwInternalException(Scope scope, Module module, String name, Object... list) {
       return internal.throwInternalException(scope, module, name, list); 

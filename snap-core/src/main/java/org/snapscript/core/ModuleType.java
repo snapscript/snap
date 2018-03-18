@@ -87,5 +87,10 @@ public class ModuleType implements Type {
    public int getOrder() {
       return 0;
    }
+   
+   @Override
+   public String toString() {
+      return module.toString();
+   }
 
 }

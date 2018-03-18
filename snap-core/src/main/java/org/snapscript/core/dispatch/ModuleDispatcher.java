@@ -44,6 +44,16 @@ public class ModuleDispatcher implements CallDispatcher<Module> {
       return call.call();           
    }
    
+   private InvocationTask bind(Scope scope, Module module, Type... arguments) throws Exception {
+      Scope inner = module.getScope();
+      InvocationTask call = binder.bindModule(inner, module, name, arguments);
+      
+      if(call == null) {
+         return binder.bindInstance(inner, (Object)module, name, arguments);
+      }
+      return call;
+   }
+   
    private InvocationTask bind(Scope scope, Module module, Object... arguments) throws Exception {
       Scope inner = module.getScope();
       InvocationTask call = binder.bindModule(inner, module, name, arguments);

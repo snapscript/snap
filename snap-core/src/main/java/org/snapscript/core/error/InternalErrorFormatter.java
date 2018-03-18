@@ -98,6 +98,30 @@ public class InternalErrorFormatter {
       return builder.toString();
    }
    
+   public String format(Type type, String name, Type... list) {
+      StringBuilder builder = new StringBuilder();
+      
+      builder.append("Method '");
+      builder.append(name);
+      
+      String signature = format(list);
+      
+      builder.append(signature);
+      builder.append("' not found for '");
+      
+      Type entry = type.getEntry();
+         
+      if(entry == null) {
+         builder.append(type);
+      } else {
+         builder.append(type);
+         builder.append("[]");
+      }
+      builder.append("'");
+      
+      return builder.toString();
+   }
+   
    private String format(Object... list) {
       StringBuilder builder = new StringBuilder();
       
@@ -111,6 +135,24 @@ public class InternalErrorFormatter {
             builder.append(", ");
          }
          builder.append(parameter);
+      }
+      builder.append(")");
+      
+      return builder.toString();
+   }
+   
+   private String format(Type... list) {
+      StringBuilder builder = new StringBuilder();
+      
+      builder.append("(");
+
+      for(int i = 0; i < list.length; i++) {
+         Type type = list[i];
+
+         if(i > 0) {
+            builder.append(", ");
+         }
+         builder.append(type);
       }
       builder.append(")");
       

@@ -46,6 +46,11 @@ public class InternalErrorHandler {
       throw builder.createException(message);
    }
    
+   public Result throwInternalException(Scope scope, Type type, String name, Type... list) {
+      String message = formatter.format(type, name, list);
+      throw builder.createException(message);
+   }
+   
    public Result throwInternalException(Scope scope, Module module, String name, Object... list) {
       String message = formatter.format(module, name, list);
       throw builder.createException(message);

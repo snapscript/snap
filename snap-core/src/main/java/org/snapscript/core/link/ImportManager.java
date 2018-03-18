@@ -60,10 +60,12 @@ public class ImportManager {
                module = registry.getModule(alias);
             }
          }
-         Type type = getType(name); // do a quick check
-         
-         if(module == null && type == null) {
-            module = matcher.importModule(imports, name);
+         if(module == null) {
+            Type type = getType(name); // do a quick check
+            
+            if(type == null) {
+               module = matcher.importModule(imports, name);
+            }
          }
          return module;
       } catch(Exception e){
@@ -75,6 +77,7 @@ public class ImportManager {
       try {
          Context context = parent.getContext();
          TypeLoader loader = context.getLoader();
+         ModuleRegistry registry = context.getRegistry();
          Type type = loader.resolveType(from, name);
 
          if(type == null) {
@@ -85,6 +88,9 @@ public class ImportManager {
                
                if(type != null) {
                   return type;
+               }
+               if(registry.getModule(alias) != null) {
+                  return null; // its a module!!
                }
             }
             for(String module : imports) {
