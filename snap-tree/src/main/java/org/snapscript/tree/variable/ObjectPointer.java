@@ -68,36 +68,39 @@ public class ObjectPointer implements VariablePointer<Object> {
       Type source = module.getType(type);
       
       if(source != null) {
-         Context context = module.getContext();
-         TypeExtractor extractor = context.getExtractor();
-         Set<Type> list = extractor.getTypes(source);
+         Property match = match(scope, left, source);
          
-         for(Type base : list) {
-            Property match = match(scope, left, base);
-            
-            if(match != null) {
-               return match;
-            }
+         if(match != null) {
+            return match;
          }
       }
       return null;
    }
    
    public Property match(Scope scope, Object left, Type type) {
-      List<Property> properties = type.getProperties();
+      Module module = scope.getModule();
+      Context context = module.getContext();
+      TypeExtractor extractor = context.getExtractor();
+      Set<Type> list = extractor.getTypes(type);
       
-      for(Property property : properties){
-         String field = property.getName();
+      for(Type base : list) {
+         List<Property> properties = base.getProperties();
          
-         if(field.equals(name)) {
-            return property;
+         for(Property property : properties){
+            String field = property.getName();
+            
+            if(field.equals(name)) {
+               return property;
+            }
          }
       }
-      Scope outer = type.getScope();
-      Object value = resolver.resolve(outer, name);
-
-      if(value != null) {
-         return builder.createConstant(name, value);
+      for(Type base : list) {
+         Scope outer = base.getScope();
+         Object value = resolver.resolve(outer, name); // this is really slow
+   
+         if(value != null) {
+            return builder.createConstant(name, value);
+         }
       }
       return null;
    }

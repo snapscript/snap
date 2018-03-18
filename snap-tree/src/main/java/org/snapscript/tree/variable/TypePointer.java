@@ -31,20 +31,13 @@ public class TypePointer implements VariablePointer<Type> {
       
       if(property == null) {
          Type t=x.getType(scope);
-         Module module = scope.getModule();
-         Context context = module.getContext();
-         TypeExtractor extractor = context.getExtractor();
-         Set<Type> list = extractor.getTypes(t);
+         Property match = pointer.match(scope, t, t);
          
-         for(Type base : list) {
-            Property match = pointer.match(scope, t, base);
-            
-            if(match != null) {
-               reference.set(match);
-               return match.getConstraint();
-            }
-         } 
-         Property match = pointer.match(scope, t);
+         if(match != null) {
+            reference.set(match);
+            return match.getConstraint();
+         }
+         match = pointer.match(scope, t);
          
          if(match != null) {
             reference.set(match);
@@ -60,20 +53,13 @@ public class TypePointer implements VariablePointer<Type> {
       Property property = reference.get();
       
       if(property == null) {
-         Module module = scope.getModule();
-         Context context = module.getContext();
-         TypeExtractor extractor = context.getExtractor();
-         Set<Type> list = extractor.getTypes(left);
+         Property match = pointer.match(scope, left, left);
          
-         for(Type base : list) {
-            Property match = pointer.match(scope, left, base);
-            
-            if(match != null) {
-               reference.set(match);
-               return new PropertyValue(match, left, name);
-            }
-         } 
-         Property match = pointer.match(scope, left);
+         if(match != null) {
+            reference.set(match);
+            return new PropertyValue(match, left, name);
+         }
+         match = pointer.match(scope, left);
          
          if(match != null) {
             reference.set(match);
