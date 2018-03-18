@@ -30,7 +30,7 @@ public class ParameterExtractor {
       this.closure = closure;
    }
    
-   public void compile(Scope scope) throws Exception {
+   public void define(Scope scope) throws Exception {
       List<Parameter> parameters = signature.getParameters();
       int size = parameters.size();
       

@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.PrimitivePromoter;
 import org.snapscript.core.Type;
@@ -91,9 +92,10 @@ public class PropertyIndexer {
          
          if(ModifierType.isPublic(modifiers) || ModifierType.isProtected(modifiers)) {
             String name = entry.getSimpleName();
-            Type match = indexer.loadType(entry);
-            Type constraint = indexer.loadType(Type.class);
-            Property property = generator.generate(match, constraint, name, modifiers | CONSTANT.mask); 
+            Type element = indexer.loadType(entry);
+            Type match = indexer.loadType(Type.class);
+            Constraint constraint = Constraint.getInstance(match);
+            Property property = generator.generate(element, constraint, name, modifiers | CONSTANT.mask); 
             List<Annotation> extracted = extractor.extract(entry);
             List<Annotation> actual = property.getAnnotations();
             
@@ -113,7 +115,8 @@ public class PropertyIndexer {
          if(ModifierType.isPublic(modifiers) || ModifierType.isProtected(modifiers)) {
             String name = field.getName();
             Class declaration = field.getType();
-            Type constraint = indexer.loadType(declaration);
+            Type match = indexer.loadType(declaration);
+            Constraint constraint = Constraint.getInstance(match);
             Property property = generator.generate(field, type, constraint, name, modifiers); 
             List<Annotation> extracted = extractor.extract(field);
             List<Annotation> actual = property.getAnnotations();
@@ -144,7 +147,8 @@ public class PropertyIndexer {
                   modifiers |= CONSTANT.mask;
                }
                Class normal = promoter.promote(declaration);
-               Type constraint = indexer.loadType(normal);
+               Type match = indexer.loadType(normal);
+               Constraint constraint = Constraint.getInstance(match);
                Property property = generator.generate(method, write, type, constraint, name, modifiers);                
                List<Annotation> extracted = extractor.extract(method);
                List<Annotation> actual = property.getAnnotations();

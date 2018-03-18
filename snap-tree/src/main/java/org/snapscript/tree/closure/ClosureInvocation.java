@@ -16,7 +16,7 @@ public class ClosureInvocation implements Invocation<Object> {
    
    @Override
    public Object invoke(Scope scope, Object object, Object... list) throws Exception {
-      Invocation invocation = builder.create(outer);
+      Invocation invocation = builder.define(outer);
       return invocation.invoke(outer, object, list);
    }
 }

@@ -32,6 +32,7 @@ public class LocalPointer implements VariablePointer<Object> {
          Value variable = state.get(name);
          
          if(variable == null) { 
+            //THIS LINE HERE IS LOADING TONNES OF CLASSES BY NAME... this is not good
             Object value = resolver.resolve(scope, name);
             
             if(value instanceof Type) {

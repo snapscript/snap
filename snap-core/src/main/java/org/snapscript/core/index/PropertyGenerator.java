@@ -6,6 +6,7 @@ import static org.snapscript.core.ModifierType.OVERRIDE;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.Type;
@@ -21,7 +22,7 @@ public class PropertyGenerator {
       super();
    }
    
-   public Property generate(Type type, Type constraint, String name, int modifiers) {
+   public Property generate(Type type, Constraint constraint, String name, int modifiers) {
       try {
          return new ConstantProperty(name, type, constraint, type, modifiers); 
       } catch(Exception e) {
@@ -29,7 +30,7 @@ public class PropertyGenerator {
       }
    }
    
-   public Property generate(Field field, Type type, Type constraint, String name, int modifiers) {
+   public Property generate(Field field, Type type, Constraint constraint, String name, int modifiers) {
       try {
          if(ModifierType.isConstant(modifiers)) {
             FinalFieldAccessor accessor = new FinalFieldAccessor(field);
@@ -50,7 +51,7 @@ public class PropertyGenerator {
       }
    }
    
-   public Property generate(Method read, Method write, Type type, Type constraint, String name, int modifiers) {
+   public Property generate(Method read, Method write, Type type, Constraint constraint, String name, int modifiers) {
       try {
          MethodAccessor accessor = new MethodAccessor(type, read, write);
          

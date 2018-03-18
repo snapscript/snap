@@ -28,14 +28,14 @@ public class ThisFactory extends TypeFactory {
    }
 
    @Override
-   public void compile(Scope instance, Type real) throws Exception {
+   public void define(Scope instance, Type real) throws Exception {
       if(compile.compareAndSet(false, true)) {
          expression.define(instance);
       }
    }
    
    @Override
-   public void validate(Scope instance, Type real) throws Exception {
+   public void compile(Scope instance, Type real) throws Exception {
       if(validate.compareAndSet(false, true)) {
          expression.compile(instance, null);
          statement.compile(instance);

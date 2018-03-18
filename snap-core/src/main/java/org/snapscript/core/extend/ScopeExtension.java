@@ -6,6 +6,7 @@ import java.util.concurrent.Callable;
 
 import org.snapscript.common.command.CommandBuilder;
 import org.snapscript.common.command.Console;
+import org.snapscript.core.Bug;
 import org.snapscript.core.Context;
 import org.snapscript.core.ExpressionEvaluator;
 import org.snapscript.core.Module;
@@ -44,6 +45,7 @@ public class ScopeExtension {
       return executor.evaluate(inner, source, name);
    }
    
+   @Bug("crappy compile")
    public Module load(Scope scope, String name) throws Exception {
       ModuleRegistry registry = context.getRegistry();
       TypeLoader loader = context.getLoader();
@@ -51,7 +53,7 @@ public class ScopeExtension {
       PackageDefinition definition = module.create(scope);
       Statement statement = definition.define(scope, null);
       
-      statement.execute(scope);
+      statement.compile(scope).execute(scope);
       
       return registry.getModule(name);
    }

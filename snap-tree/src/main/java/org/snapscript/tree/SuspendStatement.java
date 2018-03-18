@@ -1,12 +1,12 @@
 package org.snapscript.tree;
 
+import org.snapscript.core.Execution;
 import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
-import org.snapscript.core.Statement;
 import org.snapscript.core.yield.Resume;
 import org.snapscript.core.yield.Yield;
 
-public abstract class SuspendStatement<T> extends Statement implements Resume<T, T> {
+public abstract class SuspendStatement<T> extends Execution implements Resume<T, T> {
 
    protected Result suspend(Scope scope, Result result, Resume child, T value) throws Exception {
       Resume parent = suspend(result, child, value);

@@ -19,7 +19,7 @@ public abstract class StaticFactory extends TypeFactory {
    }
 
    @Override
-   public void compile(Scope scope, Type type) throws Exception { 
+   public void define(Scope scope, Type type) throws Exception { 
       if(!compile.get()) {
          Module module = type.getModule();
          Context context = module.getContext();

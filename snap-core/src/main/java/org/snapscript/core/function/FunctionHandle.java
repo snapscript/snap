@@ -15,14 +15,14 @@ public class FunctionHandle {
       this.builder = builder;
    }
    
-   public void validate(Scope scope) throws Exception {
+   public void compile(Scope scope) throws Exception {
       if(statement != null) {
          statement.compile(scope);
       }
    }
    
-   public void compile(Scope scope) throws Exception {
-      builder.create(scope);
+   public void define(Scope scope) throws Exception {
+      builder.define(scope);
    }
    
    public Function create(Scope scope) throws Exception {

@@ -1,5 +1,7 @@
 package org.snapscript.core.function;
 
+import org.snapscript.core.Bug;
+import org.snapscript.core.Execution;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
@@ -9,6 +11,7 @@ import org.snapscript.core.Value;
 
 public class ModuleAccessor implements Accessor {
 
+   private Execution ex;
    private final Accessor accessor;
    private final Statement body;
    private final Module module;
@@ -23,6 +26,7 @@ public class ModuleAccessor implements Accessor {
       this.body = body;
    }
    
+   @Bug("this is crap")
    @Override
    public Object getValue(Object source) {
       try {
@@ -31,7 +35,10 @@ public class ModuleAccessor implements Accessor {
          
          if(field == null) {
             body.define(scope);
-            body.execute(scope);
+            if(ex==null){
+               ex=body.compile(scope);
+            }
+            ex.execute(scope);
          }
       }catch(Exception e){
          throw new InternalStateException("Reference to '" + name + "' in '" + module + "' failed", e);
@@ -47,7 +54,10 @@ public class ModuleAccessor implements Accessor {
          
          if(field == null) {
             body.define(scope);
-            body.execute(scope);       
+            if(ex==null){
+               ex=body.compile(scope);
+            }
+            ex.execute(scope);     
          }    
       }catch(Exception e){
          throw new InternalStateException("Reference to '" + name + "' in '" + module + "' failed", e);

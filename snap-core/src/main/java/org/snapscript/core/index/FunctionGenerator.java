@@ -3,6 +3,7 @@ package org.snapscript.core.index;
 import java.lang.reflect.Method;
 
 import org.snapscript.core.Any;
+import org.snapscript.core.Constraint;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Type;
 import org.snapscript.core.function.Function;
@@ -40,12 +41,13 @@ public class FunctionGenerator {
             invocation = new MethodInvocation(invocation, method);
          }
          Type returns = indexer.loadType(real);
+         Constraint constraint = Constraint.getInstance(returns);
          
          if(!method.isAccessible()) {
             method.setAccessible(true);
          }
          if(real != void.class && real != Any.class && real != Object.class) {
-            return new InvocationFunction(signature, invocation, type, returns, name, modifiers);
+            return new InvocationFunction(signature, invocation, type, constraint, name, modifiers);
          }
          return new InvocationFunction(signature, invocation, type, null, name, modifiers);
       } catch(Exception e) {

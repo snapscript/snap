@@ -3,12 +3,12 @@ package org.snapscript.tree;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.Execution;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
 import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
-import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.trace.Trace;
@@ -47,9 +47,19 @@ public class ExpressionStatement implements Compilation {
       }
       
       @Override
-      public void compile(Scope scope) throws Exception {
+      public Execution compile(Scope scope) throws Exception {
          expression.compile(scope, null);
+         return new CompileExecution(expression);
       }
+   }
+   
+   private static class CompileExecution extends Execution {
+      
+      private final Evaluation expression;
+   
+      public CompileExecution(Evaluation expression) {
+         this.expression = expression;
+      }      
    
       @Override
       public Result execute(Scope scope) throws Exception {

@@ -72,7 +72,6 @@ public class FunctionExtractor {
       Signature signature = function.getSignature();
       List<Parameter> parameters = signature.getParameters();
       Constraint returns = function.getConstraint();
-      Type result = returns.getType(scope);
       boolean variable = signature.isVariable();
       int modifiers = function.getModifiers();
       int length = parameters.size();
@@ -90,7 +89,7 @@ public class FunctionExtractor {
             
             copy.add(duplicate);
          }
-         return new InvocationFunction(reduced, adapter, null, result, name, modifiers); // type is null so its not on stack
+         return new InvocationFunction(reduced, adapter, null, returns, name, modifiers); // type is null so its not on stack
       }
       return null;
    }

@@ -4,8 +4,10 @@ import static org.snapscript.core.ModifierType.STATIC;
 
 import java.util.List;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
+import org.snapscript.core.Execution;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
 import org.snapscript.core.Result;
@@ -63,17 +65,17 @@ public class ModuleDeclaration implements Compilation {
       }
       
       private Statement create(ModuleBody body) throws Exception {
-         return new DefineResult(modifiers, properties, body);
+         return new CompileStatement(modifiers, properties, body);
       }
    }
    
-   private static class DefineResult extends Statement {
+   private static class CompileStatement extends Statement {
    
       private final ModuleProperty[] properties;
       private final ModifierData modifiers;
       private final ModuleBody body;
       
-      public DefineResult(ModifierData modifiers, ModuleProperty[] properties, ModuleBody body) {
+      public CompileStatement(ModifierData modifiers, ModuleProperty[] properties, ModuleBody body) {
          this.properties = properties;
          this.modifiers = modifiers;
          this.body = body;
@@ -87,10 +89,29 @@ public class ModuleDeclaration implements Compilation {
          int mask = modifiers.getModifiers();
          
          for(ModuleProperty declaration : properties) {
-            Property property = declaration.compile(body, outer, mask | STATIC.mask); 
+            Property property = declaration.define(body, outer, mask | STATIC.mask); 
             list.add(property);
          }
       }
+      
+      @Bug("do we need to compile here??")
+      @Override
+      public Execution compile(Scope scope) throws Exception {
+         return new CompileExecution(modifiers, properties, body);
+      }
+   }
+   
+   private static class CompileExecution extends Execution {
+      
+      private final ModuleProperty[] properties;
+      private final ModifierData modifiers;
+      private final ModuleBody body;
+      
+      public CompileExecution(ModifierData modifiers, ModuleProperty[] properties, ModuleBody body) {
+         this.properties = properties;
+         this.modifiers = modifiers;
+         this.body = body;
+      }  
       
       @Override
       public Result execute(Scope scope) throws Exception {

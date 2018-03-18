@@ -1,5 +1,6 @@
 package org.snapscript.tree.define;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Module;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
@@ -22,7 +23,7 @@ public class ModuleFunctionBuilder {
       this.statement = new StatementBlock(body, statement);
    }
 
-   public FunctionHandle create(Signature signature, Module module, Type constraint, String name) {
+   public FunctionHandle create(Signature signature, Module module, Constraint constraint, String name) {
       Type type = new FunctionType(signature, module, null);
       InvocationBuilder builder = new StatementInvocationBuilder(signature, statement, statement, constraint);
       Invocation invocation = new StatementInvocation(builder);

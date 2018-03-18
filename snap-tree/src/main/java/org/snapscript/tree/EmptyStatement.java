@@ -1,6 +1,9 @@
 package org.snapscript.tree;
 
-import org.snapscript.core.Result;
+import static org.snapscript.core.ResultType.NORMAL;
+
+import org.snapscript.core.Execution;
+import org.snapscript.core.NoExecution;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.parse.StringToken;
@@ -18,8 +21,8 @@ public class EmptyStatement extends Statement {
    }
 
    @Override
-   public Result execute(Scope scope) throws Exception {
-      return Result.getNormal();
+   public Execution compile(Scope scope) throws Exception {
+      return new NoExecution(NORMAL);
    }
 
 }

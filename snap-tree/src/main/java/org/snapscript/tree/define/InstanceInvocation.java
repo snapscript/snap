@@ -25,7 +25,7 @@ public class InstanceInvocation implements Invocation<Scope> {
          throw new InternalStateException("Function '" + name + "' is abstract");
       }
       Scope outer = binder.bind(scope, instance);
-      Invocation invocation = builder.create(outer);
+      Invocation invocation = builder.define(outer);
       
       return invocation.invoke(outer, instance, list);
    }

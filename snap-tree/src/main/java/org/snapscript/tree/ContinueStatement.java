@@ -1,10 +1,13 @@
 package org.snapscript.tree;
 
+import static org.snapscript.core.ResultType.CONTINUE;
+
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
+import org.snapscript.core.Execution;
 import org.snapscript.core.Module;
+import org.snapscript.core.NoExecution;
 import org.snapscript.core.Path;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.error.ErrorHandler;
@@ -32,16 +35,10 @@ public class ContinueStatement implements Compilation {
    }
    
    private static class CompileResult extends Statement {
-  
-      private final Result result;
-      
-      public CompileResult(){
-         this.result = Result.getContinue();
-      }      
       
       @Override
-      public Result execute(Scope scope) throws Exception {
-         return result;
+      public Execution compile(Scope scope) throws Exception {
+         return new NoExecution(CONTINUE);
       }
    }
 }

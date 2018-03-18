@@ -26,6 +26,10 @@ public class TypeHierarchy {
    }
 
    public void extend(Scope scope, Type type) throws Exception {
+      if(type.getName().contains("GameListener")) {
+         System.err.println();
+      }
+      try{
       List<Type> types = type.getTypes();
       
       if(name != null) {
@@ -45,6 +49,9 @@ public class TypeHierarchy {
          types.add(base);
       }
       with(scope, type);
+      }catch(Exception e){
+         e.printStackTrace();
+      }
    }
 
    private void with(Scope scope, Type type) throws Exception {

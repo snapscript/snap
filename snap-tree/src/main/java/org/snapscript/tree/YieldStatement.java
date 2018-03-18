@@ -3,6 +3,7 @@ package org.snapscript.tree;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.Execution;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
 import org.snapscript.core.Result;
@@ -56,6 +57,25 @@ public class YieldStatement implements Compilation {
          if(evaluation != null) {
             evaluation.define(scope);
          }
+      }
+      
+      @Override
+      public Execution compile(Scope scope) throws Exception {
+         if(evaluation != null) {
+            evaluation.compile(scope, null);
+         }
+         return new CompileExecution(evaluation);
+      }
+   }
+   
+   private static class CompileExecution extends Execution {
+      
+      private final Evaluation evaluation;
+      private final Result result;
+
+      public CompileExecution(Evaluation evaluation){
+         this.result = Result.getYield();
+         this.evaluation = evaluation;
       }
       
       @Override

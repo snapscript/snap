@@ -4,6 +4,7 @@ import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
 
 import java.lang.reflect.Constructor;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Type;
 import org.snapscript.core.function.Function;
@@ -27,6 +28,7 @@ public class ConstructorGenerator {
       Platform platform = provider.create();
       Signature signature = generator.generate(type, constructor);
       Invocation invocation = platform.createConstructor(type, constructor);
+      Constraint constraint = Constraint.getInstance(type);
       
       try {
          invocation = new ConstructorInvocation(invocation, constructor);
@@ -34,7 +36,7 @@ public class ConstructorGenerator {
          if(!constructor.isAccessible()) {
             constructor.setAccessible(true);
          }
-         return new InvocationFunction(signature, invocation, type, type, TYPE_CONSTRUCTOR, modifiers);
+         return new InvocationFunction(signature, invocation, type, constraint, TYPE_CONSTRUCTOR, modifiers);
       } catch(Exception e) {
          throw new InternalStateException("Could not create function for " + constructor, e);
       }

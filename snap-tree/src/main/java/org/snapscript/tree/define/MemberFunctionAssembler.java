@@ -34,13 +34,12 @@ public class MemberFunctionAssembler {
       Scope scope = type.getScope();
       String name = identifier.getName(scope);
       Signature signature = parameters.create(scope);
-      Type returns = constraint.getType(scope);
       int modifiers = mask | list.getModifiers();
       
       if(checker.isStatic()) {
-         return new StaticFunctionBuilder(signature, body, returns, name, modifiers);
+         return new StaticFunctionBuilder(signature, body, constraint, name, modifiers);
       }
-      return new InstanceFunctionBuilder(signature, body, returns, name, modifiers);
+      return new InstanceFunctionBuilder(signature, body, constraint, name, modifiers);
       
    }
 }

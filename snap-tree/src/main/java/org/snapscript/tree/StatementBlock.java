@@ -1,5 +1,6 @@
 package org.snapscript.tree;
 
+import org.snapscript.core.Execution;
 import org.snapscript.core.Index;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Result;
@@ -10,34 +11,26 @@ import org.snapscript.core.yield.Yield;
 
 public class StatementBlock extends Statement {
    
-   private volatile StatementBuilder compiler;
-   private volatile StatementExecutor executor;
+   private volatile StatementBuilder builder;
+   private volatile StatementCompiler compiler;
    
    public StatementBlock(Statement... statements) {
-      this.compiler = new StatementBuilder(statements);
+      this.builder = new StatementBuilder(statements);
    }
    
    @Override
    public void define(Scope scope) throws Exception {
-      if(executor == null) {
-         executor = compiler.create(scope);
+      if(compiler == null) {
+         compiler = builder.create(scope);
       }
    }
    
    @Override
-   public void compile(Scope scope) throws Exception {
-      if(executor == null) {
-         throw new InternalStateException("Statement was not compiled");
+   public Execution compile(Scope scope) throws Exception {
+      if(compiler == null) {
+         throw new InternalStateException("Statement was not created");
       }
-      executor.compile(scope);
-   }
-   
-   @Override
-   public Result execute(Scope scope) throws Exception {
-      if(executor == null) {
-         throw new InternalStateException("Statement was not compiled");
-      }
-      return executor.execute(scope);
+      return compiler.compile(scope);
    }
    
    private static class StatementBuilder {
@@ -48,7 +41,7 @@ public class StatementBlock extends Statement {
          this.statements = statements;
       }
       
-      public StatementExecutor create(Scope scope) throws Exception {
+      public StatementCompiler create(Scope scope) throws Exception {
          Index index = scope.getIndex();
          int size = index.size();
          
@@ -59,26 +52,38 @@ public class StatementBlock extends Statement {
          } finally {
             index.reset(size);
          }
-         return new StatementExecutor(statements);
+         return new StatementCompiler(statements);
+      }
+   }
+   
+   private static class StatementCompiler {
+      
+      private final Statement[] statements;
+      private final Execution[] executions;
+      
+      public StatementCompiler(Statement[] statements) {
+         this.executions = new Execution[statements.length];
+         this.statements = statements;
+      }
+      
+      public Execution compile(Scope scope) throws Exception {
+         for(int i = 0; i < statements.length; i++) {
+            executions[i]  = statements[i].compile(scope);
+         }
+         return new StatementExecutor(executions);
       }
    }
    
    private static class StatementExecutor extends SuspendStatement<Integer> {
       
-      private final Statement[] statements;
+      private final Execution[] statements;
       private final Result normal;
       
-      public StatementExecutor(Statement[] statements) {
+      public StatementExecutor(Execution[] statements) {
          this.normal = Result.getNormal();
          this.statements = statements;
       }
       
-      @Override
-      public void compile(Scope scope) throws Exception {
-         for(Statement statement : statements) {
-            statement.compile(scope);
-         }
-      }
       
       @Override
       public Result execute(Scope scope) throws Exception {
@@ -90,7 +95,7 @@ public class StatementBlock extends Statement {
          Result last = normal;
 
          for(int i = index; i < statements.length; i++){
-            Statement statement = statements[i];
+            Execution statement = statements[i];
             Result result = statement.execute(scope);
             
             if(result.isYield()) {

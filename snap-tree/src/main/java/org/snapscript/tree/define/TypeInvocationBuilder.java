@@ -27,18 +27,18 @@ public class TypeInvocationBuilder implements InvocationBuilder {
    }
    
    @Override
-   public Invocation create(Scope scope) throws Exception {
+   public Invocation define(Scope scope) throws Exception {
       if(invocation == null) {
-         invocation = compile(scope);
+         invocation = assemble(scope);
       }
       return invocation;
    }
    
-   private Invocation compile(Scope scope) throws Exception {
+   private Invocation assemble(Scope scope) throws Exception {
       Scope inner = scope.getStack();
       
-      extractor.compile(inner); // count parameters
-      factory.compile(inner, type); // start counting from here 
+      extractor.define(inner); // count parameters
+      factory.define(inner, type); // start counting from here 
      
       return new ResultConverter(factory);
    }

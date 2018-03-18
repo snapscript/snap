@@ -1,9 +1,14 @@
 package org.snapscript.core;
 
+import static org.snapscript.core.ResultType.NORMAL;
+
+@Bug("really???")
 public class NoStatement extends Statement {
-   
+
    @Override
-   public Result execute(Scope scope) throws Exception {
-      return Result.getNormal();
+   public Execution compile(Scope scope) throws Exception {
+      return new NoExecution(NORMAL);
    }
+   
+   
 }

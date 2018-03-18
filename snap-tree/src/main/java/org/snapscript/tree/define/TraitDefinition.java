@@ -1,12 +1,16 @@
 package org.snapscript.tree.define;
 
 import static org.snapscript.core.Category.TRAIT;
+import static org.snapscript.core.Phase.COMPILED;
+import static org.snapscript.core.Phase.CREATED;
 import static org.snapscript.core.Phase.DEFINED;
-import static org.snapscript.core.Phase.*;
+import static org.snapscript.core.ResultType.NORMAL;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.snapscript.common.Progress;
+import org.snapscript.core.Execution;
+import org.snapscript.core.NoExecution;
 import org.snapscript.core.Phase;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
@@ -39,7 +43,7 @@ public class TraitDefinition extends Statement {
    @Override
    public void create(Scope outer) throws Exception {
       if(!define.compareAndSet(false, true)) {
-         Type type = builder.define(outer);
+         Type type = builder.create(outer);
          Progress<Phase> progress = type.getProgress();
          
          try {
@@ -56,7 +60,7 @@ public class TraitDefinition extends Statement {
    @Override
    public void define(Scope outer) throws Exception {
       if(!compile.compareAndSet(false, true)) {
-         Type type = builder.compile(outer);
+         Type type = builder.define(outer);
          Progress<Phase> progress = type.getProgress();
          
          try {
@@ -74,9 +78,9 @@ public class TraitDefinition extends Statement {
    }
    
    @Override
-   public void compile(Scope outer) throws Exception {
+   public Execution compile(Scope outer) throws Exception {
       if(!validate.compareAndSet(false, true)) {
-         Type type = builder.validate(outer);
+         Type type = builder.compile(outer);
          Progress<Phase> progress = type.getProgress();
          
          try {
@@ -88,5 +92,6 @@ public class TraitDefinition extends Statement {
             progress.done(COMPILED); 
          }
       }
+      return new NoExecution(NORMAL);
    }
 }

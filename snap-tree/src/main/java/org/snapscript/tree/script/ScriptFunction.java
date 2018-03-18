@@ -1,10 +1,14 @@
 package org.snapscript.tree.script;
 
+import static org.snapscript.core.ResultType.NORMAL;
+
 import java.util.List;
 
 import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.Execution;
 import org.snapscript.core.Module;
+import org.snapscript.core.NoExecution;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
@@ -40,11 +44,15 @@ public class ScriptFunction extends Statement {
       List<Function> functions = module.getFunctions();
       Signature signature = parameters.create(scope);
       String name = identifier.getName(scope);
-      Type returns = constraint.getType(scope);
-      FunctionHandle handle = builder.create(signature, module, returns, name);
+      FunctionHandle handle = builder.create(signature, module, constraint, name);
       Function function = handle.create(scope);
       
       functions.add(function);
-      handle.compile(scope); // count stack
+      handle.define(scope); // count stack
+   }
+   
+   @Override
+   public Execution compile(Scope scope) throws Exception {
+      return new NoExecution(NORMAL);
    }
 }

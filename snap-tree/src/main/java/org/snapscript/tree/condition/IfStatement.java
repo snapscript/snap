@@ -3,6 +3,7 @@ package org.snapscript.tree.condition;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.Execution;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
 import org.snapscript.core.Result;
@@ -41,11 +42,9 @@ public class IfStatement implements Compilation {
       private final Evaluation condition;
       private final Statement positive;
       private final Statement negative;
-      private final Result normal;
       
-      public CompileResult(Evaluation evaluation, Statement positive, Statement negative) {
-         this.normal = Result.getNormal();
-         this.condition = evaluation;
+      public CompileResult(Evaluation condition, Statement positive, Statement negative) {
+         this.condition = condition;
          this.positive = positive;
          this.negative = negative;
       }
@@ -58,6 +57,33 @@ public class IfStatement implements Compilation {
             negative.define(scope);
          }       
          positive.define(scope);
+      }
+      
+      @Override
+      public Execution compile(Scope scope) throws Exception {
+         condition.compile(scope, null);
+         Execution p = positive.compile(scope);         
+         Execution n = null;
+         
+         if(negative != null){
+            n = negative.compile(scope);
+         }         
+         return new CompileExecution(condition, p, n);
+      }
+   }
+   
+   private static class CompileExecution extends Execution {
+      
+      private final Evaluation condition;
+      private final Execution positive;
+      private final Execution negative;
+      private final Result normal;
+      
+      public CompileExecution(Evaluation condition, Execution positive, Execution negative) {
+         this.normal = Result.getNormal();
+         this.condition = condition;
+         this.positive = positive;
+         this.negative = negative;
       }
       
       @Override

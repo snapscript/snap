@@ -3,6 +3,7 @@ package org.snapscript.tree.condition;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.Execution;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
 import org.snapscript.core.Result;
@@ -35,14 +36,12 @@ public class WhileStatement implements Compilation {
       return new TraceStatement(interceptor, handler, loop, trace);
    }
    
-   private static class CompileResult extends SuspendStatement<Object> {
+   private static class CompileResult extends Statement {
    
       private final Evaluation condition;
       private final Statement body;
-      private final Result normal;
       
       public CompileResult(Evaluation condition, Statement body) {
-         this.normal = Result.getNormal();
          this.condition = condition;
          this.body = body;
       }
@@ -52,7 +51,27 @@ public class WhileStatement implements Compilation {
          condition.define(scope);
          body.define(scope);
       }
+   
+      @Override
+      public Execution compile(Scope scope) throws Exception {
+         condition.compile(scope, null);
+         Execution e = body.compile(scope);
+         return new CompileExecution(condition,e);   
+      }
+   }
+   
+   private static class CompileExecution extends SuspendStatement<Object> {
       
+      private final Evaluation condition;
+      private final Execution body;
+      private final Result normal;
+      
+      public CompileExecution(Evaluation condition, Execution body) {
+         this.normal = Result.getNormal();
+         this.condition = condition;
+         this.body = body;
+      }
+
       @Override
       public Result execute(Scope scope) throws Exception {
          return resume(scope, null);

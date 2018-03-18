@@ -1,14 +1,20 @@
 package org.snapscript.tree.define;
 
+import static org.snapscript.core.ResultType.NORMAL;
+
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.Execution;
 import org.snapscript.core.Module;
+import org.snapscript.core.NoExecution;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
+import org.snapscript.core.ValidationHelper;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionHandle;
 import org.snapscript.core.function.Signature;
@@ -59,20 +65,27 @@ public class ModuleFunction implements ModulePart {
          List<Function> functions = module.getFunctions();
          Signature signature = parameters.create(scope);
          String name = reference.getName(scope);
-         Type returns = constraint.getType(scope);
-         FunctionHandle handle = builder.create(signature, module, returns, name);
+         FunctionHandle handle = builder.create(signature, module, constraint, name);
          Function function = handle.create(scope);
          
          annotations.apply(scope, function);
          functions.add(function);
-         handle.compile(scope); // count stack
+         handle.define(scope); // count stack
          cache.set(handle);
-      }
+      }      
       
+      @Bug("what going on here?")
       @Override
-      public void compile(Scope scope) throws Exception {
+      public Execution compile(Scope scope) throws Exception {
          FunctionHandle handle = cache.get();
-         handle.validate(scope);
+         Module module = scope.getModule();
+         Type type = module.getType(); // ???
+         Function function = handle.create(scope);
+         Scope outer = ValidationHelper.create(type, function);
+         
+         handle.compile(outer);
+         
+         return new NoExecution(NORMAL);
       }
    }
 }

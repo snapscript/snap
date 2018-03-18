@@ -60,6 +60,11 @@ public class Closure implements Compilation {
       }
       
       @Override
+      public void define(Scope scope) throws Exception {
+         ////// index params here???
+      }
+      
+      @Override
       public Constraint compile(Scope scope, Constraint left) throws Exception {
          return Constraint.getNone();
       }
@@ -72,7 +77,7 @@ public class Closure implements Compilation {
          FunctionHandle handle = builder.create(signature, capture); // creating new function each time
          Function function = handle.create(capture);
          
-         handle.compile(capture);
+         handle.define(capture);
          
          return Value.getTransient(function);
       }

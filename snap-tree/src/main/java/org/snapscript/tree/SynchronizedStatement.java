@@ -3,6 +3,7 @@ package org.snapscript.tree;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.Execution;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
 import org.snapscript.core.Result;
@@ -35,13 +36,13 @@ public class SynchronizedStatement implements Compilation {
       return new TraceStatement(interceptor, handler, statement, trace);
    }
    
-   private static class CompileResult extends SuspendStatement<Resume> {
+   private static class CompileResult extends Statement {
 
-      private final StatementResume statement;
+      private final Statement statement;
       private final Evaluation reference;
       
       public CompileResult(Evaluation reference, Statement statement) {
-         this.statement = new StatementResume(statement);
+         this.statement = statement;
          this.reference = reference;
       }
       
@@ -49,6 +50,24 @@ public class SynchronizedStatement implements Compilation {
       public void define(Scope scope) throws Exception {
          reference.define(scope);
          statement.define(scope);
+      }
+
+      @Override
+      public Execution compile(Scope scope) throws Exception {
+         reference.compile(scope, null);
+         Execution execution = statement.compile(scope);
+         return new CompileExecution(reference, execution);
+      }
+   }
+   
+   private static class CompileExecution extends SuspendStatement<Resume> {
+
+      private final StatementResume statement;
+      private final Evaluation reference;
+      
+      public CompileExecution(Evaluation reference, Execution statement) {
+         this.statement = new StatementResume(statement);
+         this.reference = reference;
       }
       
       @Override

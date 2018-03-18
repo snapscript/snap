@@ -61,7 +61,7 @@ public class MemberFunction implements TypePart {
       Function function = handle.create(scope);
       Scope outer = ValidationHelper.create(type, function);
       
-      handle.validate(outer);
+      handle.compile(outer);
       
       return null;
    }
@@ -82,7 +82,7 @@ public class MemberFunction implements TypePart {
       }
       annotations.apply(scope, function);
       functions.add(function);
-      handle.compile(scope); // count stacks
+      handle.define(scope); // count stacks
       reference.set(handle);
       
       return null; 

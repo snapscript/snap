@@ -4,7 +4,9 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CopyOnWriteArraySet;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.Context;
+import org.snapscript.core.Execution;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
 import org.snapscript.core.ModuleRegistry;
@@ -34,6 +36,7 @@ public class ImportTaskBuilder {
          
          return new TypeImport(loader, module, path, name); // import exceptions will propagate
       } catch(Exception e) {
+         e.printStackTrace();
          return null;
       }
    }
@@ -47,6 +50,7 @@ public class ImportTaskBuilder {
          
          return new ModuleImport(registry, module, path, name); // import exceptions will propagate
       } catch(Exception e) {
+         e.printStackTrace();
          return null;
       }
    }
@@ -65,6 +69,7 @@ public class ImportTaskBuilder {
          this.path = path;
       }
 
+      @Bug("does this block more than it needs to")
       @Override
       public Type call() {
          try {
@@ -72,8 +77,9 @@ public class ImportTaskBuilder {
                Scope scope = parent.getScope();
                PackageDefinition definition = module.create(scope); 
                Statement statement = definition.define(scope, from);
-            
-               statement.execute(scope); 
+               Execution execution = statement.compile(scope);
+               
+               execution.execute(scope); 
                imports.add(path);
             }
          } catch(Exception e) {
@@ -104,8 +110,9 @@ public class ImportTaskBuilder {
                Scope scope = parent.getScope();
                PackageDefinition definition = module.create(scope);
                Statement statement = definition.define(scope, from);
+               Execution execution = statement.compile(scope);
                
-               statement.execute(scope); 
+               execution.execute(scope); 
                imports.add(path);
             }
          } catch(Exception e) {

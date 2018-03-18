@@ -3,6 +3,7 @@ package org.snapscript.tree;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.Execution;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
 import org.snapscript.core.Result;
@@ -44,10 +45,8 @@ public class ReturnStatement implements Compilation {
    private static class CompileResult extends Statement {
    
       private final Evaluation evaluation;
-      private final Result result;
 
       public CompileResult(Evaluation evaluation){
-         this.result = Result.getReturn();
          this.evaluation = evaluation;
       }
       
@@ -58,6 +57,25 @@ public class ReturnStatement implements Compilation {
          }
       }
       
+      @Override
+      public Execution compile(Scope scope) throws Exception {
+         if(evaluation != null) {
+            evaluation.compile(scope, null);
+         }
+         return new CompileExecution(evaluation);
+      }
+   }
+   
+   private static class CompileExecution extends Execution {
+      
+      private final Evaluation evaluation;
+      private final Result result;
+
+      public CompileExecution(Evaluation evaluation){
+         this.result = Result.getReturn();
+         this.evaluation = evaluation;
+      }
+
       @Override
       public Result execute(Scope scope) throws Exception {
          if(evaluation != null) {

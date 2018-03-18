@@ -33,11 +33,14 @@ public abstract class Constraint {
    
    @Bug("this is not good")
    public static Constraint getInstance(Scope scope, Object value) {
-      Class require = value.getClass();
-      Module module = scope.getModule();
-      Type type = module.getType(require);
-      
-      return new ConstantConstraint(type, INSTANCE.mask);
+      if(value != null) {
+         Class require = value.getClass();
+         Module module = scope.getModule();
+         Type type = module.getType(require);
+         
+         return new ConstantConstraint(type, INSTANCE.mask);
+      }
+      return Constraint.getNone();
    }
    
    public boolean isInstance() {

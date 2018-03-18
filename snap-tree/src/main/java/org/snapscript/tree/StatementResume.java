@@ -1,21 +1,16 @@
 package org.snapscript.tree;
 
+import org.snapscript.core.Execution;
 import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
-import org.snapscript.core.Statement;
 import org.snapscript.core.yield.Resume;
 
-public class StatementResume extends Statement implements Resume {
+public class StatementResume extends Execution implements Resume {
    
-   private final Statement statement;
+   private final Execution statement;
    
-   public StatementResume(Statement statement) {
+   public StatementResume(Execution statement) {
       this.statement = statement;
-   }
-
-   @Override
-   public void define(Scope scope) throws Exception {
-      statement.define(scope);
    }
    
    @Override

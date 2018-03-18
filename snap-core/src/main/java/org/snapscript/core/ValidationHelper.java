@@ -7,6 +7,7 @@ import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.Signature;
 import org.snapscript.core.property.Property;
 
+@Bug("wtf???")
 public class ValidationHelper {
    
    public static Scope create(Type type, Function function) {

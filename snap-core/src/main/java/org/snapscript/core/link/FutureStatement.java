@@ -2,9 +2,9 @@ package org.snapscript.core.link;
 
 import java.util.concurrent.FutureTask;
 
+import org.snapscript.core.Execution;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Path;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 
@@ -39,22 +39,12 @@ public class FutureStatement extends Statement {
    }
    
    @Override
-   public void compile(Scope scope) throws Exception {
+   public Execution compile(Scope scope) throws Exception {
       Statement definition = result.get();
       
       if(definition == null) {
          throw new InternalStateException("Could not validate '" + path + "'");
       }
-      definition.compile(scope);
+      return definition.compile(scope);
    }
-   
-   @Override
-   public Result execute(Scope scope) throws Exception {
-      Statement definition = result.get();
-      
-      if(definition == null) {
-         throw new InternalStateException("Could not execute '" + path + "'");
-      }
-      return definition.execute(scope);
-   }      
 }

@@ -2,6 +2,7 @@ package org.snapscript.tree;
 
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
+import org.snapscript.core.Execution;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
@@ -51,13 +52,25 @@ public class DeclarationStatement implements Compilation {
       }
       
       @Override
-      public void compile(Scope scope) throws Exception {
+      public Execution compile(Scope scope) throws Exception {
          ModifierType type = modifier.getType();
          
          for(Declaration declaration : declarations) {
             declaration.validate(scope, type.mask); 
          }
+         return new CompileExecution(modifier, declarations);
       }
+   }
+   
+   private static class CompileExecution extends Execution {
+
+      private final Declaration[] declarations;
+      private final Modifier modifier;
+      
+      public CompileExecution(Modifier modifier, Declaration... declarations) {
+         this.declarations = declarations;
+         this.modifier = modifier;
+      }  
       
       @Override
       public Result execute(Scope scope) throws Exception {

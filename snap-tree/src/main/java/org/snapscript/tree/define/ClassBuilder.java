@@ -31,9 +31,12 @@ public class ClassBuilder {
       this.name = name;
    }
    
-   public Type define(Scope outer) throws Exception {
+   public Type create(Scope outer) throws Exception {
       Module module = outer.getModule();
       String alias = name.getName(outer);
+      if(alias.contains("ImageMan")){
+         System.err.println();
+      }
       Type type = module.addType(alias, category); 
       
       reference.set(type);
@@ -41,8 +44,11 @@ public class ClassBuilder {
       return type;
    }
    
-   public Type compile(Scope outer) throws Exception {
+   public Type define(Scope outer) throws Exception {
       Type type = reference.get();
+      if(type.getName().contains("ImageMan")){
+         System.err.println();
+      }
       Type enclosing = outer.getType();
       Scope scope = type.getScope();
       
@@ -62,7 +68,7 @@ public class ClassBuilder {
       return type;
    }
    
-   public Type validate(Scope outer) throws Exception {
+   public Type compile(Scope outer) throws Exception {
       return reference.get();
    }
 }

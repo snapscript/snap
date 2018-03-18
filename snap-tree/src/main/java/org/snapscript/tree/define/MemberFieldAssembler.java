@@ -1,14 +1,10 @@
 package org.snapscript.tree.define;
 
-import org.snapscript.core.ConstantConstraint;
 import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Local;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
-import org.snapscript.core.Table;
-import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
 import org.snapscript.core.Value;
 import org.snapscript.tree.DeclarationAllocator;
@@ -35,10 +31,10 @@ public class MemberFieldAssembler {
    private Evaluation create(MemberFieldData data) throws Exception {
       int modifiers = checker.getModifiers();
       String name = data.getName();
-      Type type = data.getConstraint();
+      Constraint constraint = data.getConstraint();
       Evaluation declare = data.getValue();
       
-      return new Declaration(name, type, declare, modifiers);
+      return new Declaration(name, constraint, declare, modifiers);
    }
    
    private static class Declaration extends Evaluation {
@@ -48,9 +44,9 @@ public class MemberFieldAssembler {
       private final String name;
       private final int modifiers;
       
-      public Declaration(String name, Type type, Evaluation declare, int modifiers) {
-         this.constraint = new ConstantConstraint(type);
+      public Declaration(String name, Constraint constraint, Evaluation declare, int modifiers) {
          this.allocator = new MemberFieldAllocator(constraint, declare);
+         this.constraint = constraint;
          this.modifiers = modifiers;
          this.name = name;
       }  

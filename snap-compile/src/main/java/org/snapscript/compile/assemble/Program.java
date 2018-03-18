@@ -3,6 +3,7 @@ package org.snapscript.compile.assemble;
 import org.snapscript.compile.Executable;
 import org.snapscript.core.Context;
 import org.snapscript.core.EmptyModel;
+import org.snapscript.core.Execution;
 import org.snapscript.core.Model;
 import org.snapscript.core.Path;
 import org.snapscript.core.ProgramValidator;
@@ -45,9 +46,10 @@ public class Program implements Executable{
       ErrorHandler handler = context.getHandler();
       
       try {
+         Execution e = statement.compile(scope);
+         
          validator.validate(context); // validate program
-         statement.compile(scope);
-         statement.execute(scope);
+         e.execute(scope);        
       } catch(Throwable cause) {
          handler.throwExternalError(scope, cause);
       }

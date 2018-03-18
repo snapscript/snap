@@ -5,6 +5,7 @@ import static org.snapscript.tree.condition.RelationalOperator.EQUALS;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.Execution;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
 import org.snapscript.core.Result;
@@ -34,6 +35,25 @@ public class MatchStatement implements Compilation {
       return new TraceStatement(interceptor, handler, statement, trace);
    }
    
+   private static class CompileCase {
+      
+      private final Evaluation expression;
+      private final Execution execution;
+      
+      public CompileCase(Evaluation expression, Execution execution) {
+         this.expression = expression;
+         this.execution = execution;
+      }
+      
+      public Evaluation getEvaluation() {
+         return expression;
+      }
+      
+      public Execution getExecution(){
+         return execution;
+      }
+   }
+   
    private static class CompileResult extends Statement {
 
       private final Evaluation condition;
@@ -54,6 +74,36 @@ public class MatchStatement implements Compilation {
       }
       
       @Override
+      public Execution compile(Scope scope) throws Exception {
+         CompileCase[] list = new CompileCase[cases.length];
+         
+         for(int i = 0; i < cases.length; i++){
+            Evaluation evaluation = cases[i].getEvaluation();
+            Statement statement = cases[i].getStatement();
+            
+            if(evaluation != null) {
+               evaluation.compile(scope,  null);
+            }
+            Execution execution = statement.compile(scope);
+            
+            list[i] = new CompileCase(evaluation, execution);
+         }
+         condition.compile(scope, null);
+         return new CompileExecution(condition, list);
+      }
+   }   
+   
+   private static class CompileExecution extends Execution {
+
+      private final Evaluation condition;
+      private final CompileCase[] cases;
+      
+      public CompileExecution(Evaluation condition, CompileCase... cases) {
+         this.condition = condition;
+         this.cases = cases;
+      }
+      
+      @Override
       public Result execute(Scope scope) throws Exception {
          Value left = condition.evaluate(scope, null);
          
@@ -61,7 +111,7 @@ public class MatchStatement implements Compilation {
             Evaluation evaluation = cases[i].getEvaluation();
             
             if(evaluation == null) {
-               Statement statement = cases[i].getStatement();
+               Execution statement = cases[i].getExecution();
                return statement.execute(scope);
             }
             Value right = evaluation.evaluate(scope, null);
@@ -69,7 +119,7 @@ public class MatchStatement implements Compilation {
             boolean match = value.getBoolean();
             
             if(match) {
-               Statement statement = cases[i].getStatement();
+               Execution statement = cases[i].getExecution();
                
                if(statement != null) {
                   return statement.execute(scope);

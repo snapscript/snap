@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.Execution;
 import org.snapscript.core.Index;
 import org.snapscript.core.Local;
 import org.snapscript.core.Module;
@@ -44,9 +45,8 @@ public class ForInStatement implements Compilation {
       return new TraceStatement(interceptor, handler, loop, trace);
    }
    
-   private static class CompileResult extends SuspendStatement<Iterator> {
+   private static class CompileResult extends Statement {
    
-      private final IterationConverter converter;
       private final NameReference reference;
       private final Evaluation collection;
       private final AtomicInteger offset;
@@ -54,7 +54,6 @@ public class ForInStatement implements Compilation {
    
       public CompileResult(Evaluation identifier, Evaluation collection, Statement body) {
          this.reference = new NameReference(identifier);
-         this.converter = new IterationConverter();
          this.offset = new AtomicInteger();
          this.collection = collection;
          this.body = body;
@@ -76,6 +75,37 @@ public class ForInStatement implements Compilation {
             index.reset(size);
          }
       }
+      
+      @Override
+      public Execution compile(Scope scope) throws Exception { 
+         collection.compile(scope, null);
+         String name = reference.getName(scope);
+         Table table = scope.getTable();
+         Local local = Local.getReference(name, name);
+         int depth = offset.get();
+         
+         table.add(depth, local);
+         Execution execution = body.compile(scope);
+         
+         return new CompileExecution(name, collection, execution, depth);
+      }
+   }
+   
+   private static class CompileExecution extends SuspendStatement<Iterator> {
+      
+      private final IterationConverter converter;
+      private final Evaluation collection;
+      private final Execution body;
+      private final String name;
+      private final int offset;
+   
+      public CompileExecution(String name, Evaluation collection, Execution body, int offset) {
+         this.converter = new IterationConverter();
+         this.collection = collection;
+         this.offset = offset;
+         this.name = name;
+         this.body = body;
+      }
    
       @Override
       public Result execute(Scope scope) throws Exception { 
@@ -90,12 +120,10 @@ public class ForInStatement implements Compilation {
 
       @Override
       public Result resume(Scope scope, Iterator iterator) throws Exception {
-         String name = reference.getName(scope);
          Table table = scope.getTable();
          Local local = Local.getReference(name, name);
-         int depth = offset.get();
          
-         table.add(depth, local);
+         table.add(offset, local);
          
          while (iterator.hasNext()) {
             Object entry = iterator.next();

@@ -1,12 +1,15 @@
 package org.snapscript.tree.define;
 
-import static org.snapscript.core.Phase.DEFINED;
-import static org.snapscript.core.Phase.CREATED;
 import static org.snapscript.core.Phase.COMPILED;
+import static org.snapscript.core.Phase.CREATED;
+import static org.snapscript.core.Phase.DEFINED;
+import static org.snapscript.core.ResultType.NORMAL;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.snapscript.common.Progress;
+import org.snapscript.core.Execution;
+import org.snapscript.core.NoExecution;
 import org.snapscript.core.Phase;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
@@ -18,9 +21,9 @@ public class EnumDefinition extends Statement {
 
    private final DefaultConstructor constructor;
    private final TypeFactoryCollector collector;
-   private final AtomicBoolean validate;
    private final AtomicBoolean compile;
    private final AtomicBoolean define;
+   private final AtomicBoolean create;
    private final EnumBuilder builder;
    private final EnumList list;
    private final TypePart[] parts;
@@ -29,17 +32,17 @@ public class EnumDefinition extends Statement {
       this.builder = new EnumBuilder(name, hierarchy);
       this.constructor = new DefaultConstructor(true);
       this.collector = new TypeFactoryCollector();
-      this.validate = new AtomicBoolean(true);
       this.compile = new AtomicBoolean(true);
       this.define = new AtomicBoolean(true);
+      this.create = new AtomicBoolean(true);
       this.parts = parts;
       this.list = list;
    }
    
    @Override
    public void create(Scope outer) throws Exception {
-      if(!define.compareAndSet(false, true)) {
-         Type type = builder.define(outer);
+      if(!create.compareAndSet(false, true)) {
+         Type type = builder.create(outer);
          Progress<Phase> progress = type.getProgress();
       
          progress.done(CREATED);
@@ -48,8 +51,8 @@ public class EnumDefinition extends Statement {
 
    @Override
    public void define(Scope outer) throws Exception {
-      if(!compile.compareAndSet(false, true)) {
-         Type type = builder.compile(outer);
+      if(!define.compareAndSet(false, true)) {
+         Type type = builder.define(outer);
          TypeFactory keys = list.define(collector, type);
          Scope scope = type.getScope();
          Progress<Phase> progress = type.getProgress();
@@ -61,7 +64,7 @@ public class EnumDefinition extends Statement {
             }  
             constructor.define(collector, type); 
             keys.execute(scope, type);
-            collector.compile(scope, type); 
+            collector.define(scope, type); 
          } finally {
             progress.done(DEFINED);
          }
@@ -69,9 +72,9 @@ public class EnumDefinition extends Statement {
    }
    
    @Override
-   public void compile(Scope outer) throws Exception {
-      if(!validate.compareAndSet(false, true)) {
-         Type type = builder.validate(outer);
+   public Execution compile(Scope outer) throws Exception {
+      if(!compile.compareAndSet(false, true)) {
+         Type type = builder.compile(outer);
          Progress<Phase> progress = type.getProgress();
          
          try {
@@ -84,5 +87,6 @@ public class EnumDefinition extends Statement {
             progress.done(COMPILED);
          }
       }
+      return new NoExecution(NORMAL);
    }
 }

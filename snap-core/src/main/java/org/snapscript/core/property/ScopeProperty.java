@@ -3,7 +3,6 @@ package org.snapscript.core.property;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.snapscript.core.ConstantConstraint;
 import org.snapscript.core.Constraint;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
@@ -20,10 +19,13 @@ public class ScopeProperty implements Property<Scope> {
    private final Type type;
    private final int modifiers;
    
-   public ScopeProperty(String name, Type type, int modifiers){
-      this.constraint = new ConstantConstraint(null);
+   public ScopeProperty(String name, Type type, Constraint constraint, int modifiers){
+      if(constraint == null){
+         throw new IllegalStateException();
+      }
       this.annotations = new ArrayList<Annotation>();
       this.accessor = new ScopeAccessor(name);
+      this.constraint = constraint;
       this.modifiers = modifiers;
       this.name = name;
       this.type = type;

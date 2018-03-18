@@ -4,8 +4,8 @@ import static org.snapscript.core.Reserved.TYPE_THIS;
 
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.snapscript.core.Execution;
 import org.snapscript.core.Module;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Statement;
@@ -45,18 +45,10 @@ public class ModuleDefinition extends Statement {
    }
    
    @Override
-   public void compile(Scope scope) throws Exception {
+   public Execution compile(Scope scope) throws Exception {
       Module module = reference.get();
       Scope inner = module.getScope();
       
-      body.compile(inner); // must be module scope
-   }
-   
-   @Override
-   public Result execute(Scope scope) throws Exception {
-      Module module = reference.get();
-      Scope inner = module.getScope();
-      
-      return body.execute(inner); // requires order for use!
+      return body.compile(inner); // must be module scope
    }
 }

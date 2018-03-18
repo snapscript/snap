@@ -3,12 +3,12 @@ package org.snapscript.tree;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.Execution;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
 import org.snapscript.core.NameBuilder;
 import org.snapscript.core.NoStatement;
 import org.snapscript.core.Path;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.TypeLoader;
@@ -103,19 +103,11 @@ public class Import implements Compilation {
       }
       
       @Override
-      public void compile(Scope scope) throws Exception {
+      public Execution compile(Scope scope) throws Exception {
          if(statement == null) {
             throw new InternalStateException("Import '" + location + "' was not compiled");
          }
-         statement.compile(scope); // execute many times
-      }
-      
-      @Override
-      public Result execute(Scope scope) throws Exception {
-         if(statement == null) {
-            throw new InternalStateException("Import '" + location + "' was not compiled");
-         }
-         return statement.execute(scope); // execute many times
+         return statement.compile(scope); // execute many times
       }
       
       private PackageDefinition process(Scope scope) throws Exception {

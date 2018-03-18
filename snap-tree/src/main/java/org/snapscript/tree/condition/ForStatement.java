@@ -3,6 +3,7 @@ package org.snapscript.tree.condition;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.Execution;
 import org.snapscript.core.Index;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
@@ -40,16 +41,14 @@ public class ForStatement implements Compilation {
       return new TraceStatement(interceptor, handler, loop, trace);
    }
    
-   private static class CompileResult extends SuspendStatement<Object> {
+   private static class CompileResult extends Statement {
 
       private final Evaluation condition;
       private final Statement declaration;
       private final Evaluation assignment;
       private final Statement body;
-      private final Result normal;
 
       public CompileResult(Statement declaration, Evaluation condition, Evaluation assignment, Statement body) {
-         this.normal = Result.getNormal();
          this.declaration = declaration;
          this.assignment = assignment;
          this.condition = condition;
@@ -72,6 +71,45 @@ public class ForStatement implements Compilation {
          } finally {
             index.reset(size);
          }
+      }
+
+      @Override
+      public Execution compile(Scope scope) throws Exception {
+         Index index = scope.getIndex();
+         int size = index.size();
+         Execution dec = null;
+         Execution bod = null;
+         
+         try {
+            dec = declaration.compile(scope);
+            condition.compile(scope, null);
+            
+            if(assignment != null) {
+               assignment.compile(scope, null);
+            }
+            bod = body.compile(scope);
+         } finally {
+            index.reset(size);
+         }
+         return new CompileExecution(dec, condition, assignment, bod);
+      }
+   }
+   
+   
+   private static class CompileExecution extends SuspendStatement<Object> {
+
+      private final Evaluation condition;
+      private final Execution declaration;
+      private final Evaluation assignment;
+      private final Execution body;
+      private final Result normal;
+
+      public CompileExecution(Execution declaration, Evaluation condition, Evaluation assignment, Execution body) {
+         this.normal = Result.getNormal();
+         this.declaration = declaration;
+         this.assignment = assignment;
+         this.condition = condition;
+         this.body = body;
       }
       
       @Override

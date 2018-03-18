@@ -42,12 +42,11 @@ public class ModuleProperty {
       this.value = value;
    }  
    
-   public Property compile(ModuleBody body, Scope scope, int modifiers) throws Exception {
-      Type type = constraint.getType(scope);
+   public Property define(ModuleBody body, Scope scope, int modifiers) throws Exception {
       String name = reference.getName(scope);
-      Accessor accessor = compile(body, scope);
+      Accessor accessor = define(body, scope);
       
-      return new AccessorProperty(name, null, type, accessor, modifiers);
+      return new AccessorProperty(name, null, constraint, accessor, modifiers);
    }
    
    public Value execute(ModuleBody body, Scope scope, int modifiers) throws Exception {
@@ -59,7 +58,7 @@ public class ModuleProperty {
       return value;
    }
    
-   private Accessor compile(ModuleBody body, Scope scope) throws Exception {
+   private Accessor define(ModuleBody body, Scope scope) throws Exception {
       Module module = scope.getModule();
       String name = reference.getName(scope);
 

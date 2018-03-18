@@ -92,6 +92,9 @@ public class ContextModule implements Module {
             type = loader.defineType(prefix, name, category);
          }
          if(type != null) {
+            if(type.getName().contains("ImageManip")){
+               System.err.println("Added " + type + " as " +name +" to " + System.identityHashCode(this));
+            }
             types.cache(name, type);
             references.add(type);
          }
@@ -107,6 +110,9 @@ public class ContextModule implements Module {
          Module module = modules.fetch(name);
          
          if(module == null) {
+            if(prefix.endsWith(name)) {
+               return this;
+            }
             if(!types.contains(name)) { // don't resolve if its a type
                module = manager.getModule(name); // import tetris.game.*
                
@@ -125,9 +131,11 @@ public class ContextModule implements Module {
    public Type getType(String name) {
       try {
          Type type = types.fetch(name);
-         
+         if(name.contains("ImageManip")){
+            System.err.println("Find " + type + " as " +name +" to " + System.identityHashCode(this));
+         }
          if(type == null) {
-            if(!modules.contains(name)) {// don't resolve if its a module
+            if(!modules.contains(name) && !prefix.endsWith(name)) {// don't resolve if its a module
                type = manager.getType(name);
             
                if(type != null) {

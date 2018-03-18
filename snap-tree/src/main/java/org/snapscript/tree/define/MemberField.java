@@ -2,6 +2,7 @@ package org.snapscript.tree.define;
 
 import java.util.List;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
@@ -49,7 +50,7 @@ public class MemberField implements TypePart {
       for(MemberFieldDeclaration declaration : declarations) {
          MemberFieldData data = declaration.create(scope);
          String name = data.getName();
-         Type constraint = data.getConstraint();
+         Constraint constraint = data.getConstraint();
          TypeFactory declare = assembler.assemble(data);
          
          if (checker.isStatic()) {

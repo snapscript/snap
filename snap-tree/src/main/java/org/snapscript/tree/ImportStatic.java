@@ -3,11 +3,14 @@ package org.snapscript.tree;
 import java.util.List;
 
 import org.snapscript.core.Compilation;
+import org.snapscript.core.Execution;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.Module;
 import org.snapscript.core.NameBuilder;
+import org.snapscript.core.NoExecution;
 import org.snapscript.core.Path;
+import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
@@ -68,6 +71,11 @@ public class ImportStatic implements Compilation {
                }
             }
          }
+      }
+      
+      @Override
+      public Execution compile(Scope scope) throws Exception {
+         return new NoExecution(ResultType.NORMAL);
       }
       
    }

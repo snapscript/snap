@@ -30,7 +30,7 @@ public class EnumBuilder {
       this.name = name;
    }
    
-   public Type define(Scope outer) throws Exception {
+   public Type create(Scope outer) throws Exception {
       Module module = outer.getModule();
       String alias = name.getName(outer);
       Type type = module.addType(alias, ENUM);
@@ -40,7 +40,7 @@ public class EnumBuilder {
       return type;
    }
    
-   public Type compile(Scope outer) throws Exception {
+   public Type define(Scope outer) throws Exception {
       Type type = reference.get();
       Type enclosing = outer.getType();
       Scope scope = type.getScope();
@@ -60,7 +60,7 @@ public class EnumBuilder {
       return type;
    }
    
-   public Type validate(Scope outer) throws Exception {
+   public Type compile(Scope outer) throws Exception {
       return reference.get();
    }
 }

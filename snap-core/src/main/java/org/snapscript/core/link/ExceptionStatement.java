@@ -1,7 +1,7 @@
 package org.snapscript.core.link;
 
+import org.snapscript.core.Execution;
 import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 
@@ -24,9 +24,9 @@ public class ExceptionStatement extends Statement {
    public void define(Scope scope) throws Exception {
       throw new InternalStateException(message, cause);
    }
-   
+
    @Override
-   public Result execute(Scope scope) throws Exception {
+   public Execution compile(Scope scope) throws Exception {
       throw new InternalStateException(message, cause);
    }
 }

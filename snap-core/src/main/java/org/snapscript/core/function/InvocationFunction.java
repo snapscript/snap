@@ -21,19 +21,19 @@ public class InvocationFunction implements Function {
    private final String name;
    private final int modifiers;
 
-   public InvocationFunction(Signature signature, Invocation invocation, Type parent, Type constraint, String name){
+   public InvocationFunction(Signature signature, Invocation invocation, Type parent, Constraint constraint, String name){
       this(signature, invocation, parent, constraint, name, 0);
    }
    
-   public InvocationFunction(Signature signature, Invocation invocation, Type parent, Type constraint, String name, int modifiers){
+   public InvocationFunction(Signature signature, Invocation invocation, Type parent, Constraint constraint, String name, int modifiers){
       this(signature, invocation, parent, constraint, name, modifiers, 0);
    }
    
-   public InvocationFunction(Signature signature, Invocation invocation, Type parent, Type constraint, String name, int modifiers, int start){
+   public InvocationFunction(Signature signature, Invocation invocation, Type parent, Constraint constraint, String name, int modifiers, int start){
       this.description = new FunctionDescription(signature, parent, name, start);
-      this.constraint = new ConstantConstraint(constraint);
       this.annotations = new ArrayList<Annotation>();
       this.proxy = new FunctionProxy(this);
+      this.constraint = constraint;
       this.invocation = invocation;
       this.signature = signature;
       this.modifiers = modifiers;

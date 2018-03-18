@@ -2,6 +2,7 @@ package org.snapscript.tree;
 
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
+import org.snapscript.core.Execution;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
 import org.snapscript.core.Result;
@@ -39,15 +40,15 @@ public class TryStatement implements Compilation {
       return new CompileResult(handler, statement, list, finish);
    }
 
-   private static class CompileResult extends SuspendStatement<Resume> {
+   private static class CompileResult extends Statement {
    
-      private final StatementResume statement;
       private final ErrorHandler handler;
+      private final Statement statement;
       private final Statement finish;
       private final CatchBlockList list;
       
       public CompileResult(ErrorHandler handler, Statement statement, CatchBlockList list, Statement finish) {
-         this.statement = new StatementResume(statement);
+         this.statement = statement;
          this.handler = handler;
          this.finish = finish;  
          this.list = list;
@@ -63,6 +64,35 @@ public class TryStatement implements Compilation {
          }
          statement.define(scope);
       }
+      
+      @Override
+      public Execution compile(Scope scope) throws Exception {
+         if(list != null) {
+            list.compile(scope);
+         }
+         Execution a = null;
+         Execution b = null;
+         if(finish != null) {
+            a =finish.compile(scope);
+         }
+         b=statement.compile(scope);
+         return new CompileExecution(handler, b, list, a);
+      }
+   }
+   
+   private static class CompileExecution extends SuspendStatement<Resume>  {
+      
+      private final StatementResume statement;
+      private final ErrorHandler handler;
+      private final Execution finish;
+      private final CatchBlockList list;
+      
+      public CompileExecution(ErrorHandler handler, Execution statement, CatchBlockList list, Execution finish) {
+         this.statement = new StatementResume(statement);
+         this.handler = handler;
+         this.finish = finish;  
+         this.list = list;
+      }    
    
       @Override
       public Result execute(Scope scope) throws Exception {

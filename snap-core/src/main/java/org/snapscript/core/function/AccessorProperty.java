@@ -18,9 +18,12 @@ public class AccessorProperty<T> implements Property<T> {
    private final String name;
    private final int modifiers;
    
-   public AccessorProperty(String name, Type type, Type constraint, Accessor<T> accessor, int modifiers){
-      this.constraint = new ConstantConstraint(constraint);
+   public AccessorProperty(String name, Type type, Constraint constraint, Accessor<T> accessor, int modifiers){
+      if(constraint == null){
+         throw new IllegalStateException();
+      }
       this.annotations = new ArrayList<Annotation>();
+      this.constraint = constraint;
       this.modifiers = modifiers;
       this.accessor = accessor;
       this.name = name;

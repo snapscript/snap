@@ -210,7 +210,7 @@ public class EvaluationTest extends TestCase {
       Statement statement = (Statement) builder.assemble(token, new Path("xx"));
       statement.create(scope);
       statement.define(scope);
-      return statement.execute(scope);
+      return statement.compile(scope).execute(scope);
    }
 
    public static Object evaluate(String source, String grammar, Map<String, Object> map) throws Exception {

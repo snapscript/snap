@@ -9,6 +9,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.snapscript.core.ConstantConstraint;
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Context;
 import org.snapscript.core.Module;
 import org.snapscript.core.Type;
@@ -49,6 +51,7 @@ public class FunctionPropertyGenerator {
       for(Function function : functions) {
          Signature signature = function.getSignature();
          List<Parameter> names = signature.getParameters();
+         Constraint constraint = function.getConstraint();
          int modifiers = function.getModifiers(); 
          int count = names.size();
          
@@ -57,7 +60,7 @@ public class FunctionPropertyGenerator {
    
             if(done.add(name)) {
                FunctionAccessor accessor = new FunctionAccessor(function, stack);
-               AccessorProperty property = new AccessorProperty(name, type, null, accessor, modifiers & ~MODIFIERS);
+               AccessorProperty property = new AccessorProperty(name, type, constraint, accessor, modifiers & ~MODIFIERS);
          
                properties.add(property);
             }

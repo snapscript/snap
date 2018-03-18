@@ -1,5 +1,6 @@
 package org.snapscript.tree.script;
 
+import org.snapscript.core.Execution;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
@@ -28,24 +29,36 @@ public class Script extends Statement {
    }
    
    @Override
-   public void compile(Scope scope) throws Exception {
-      for(Statement statement : statements) {
-         statement.compile(scope);
+   public Execution compile(Scope scope) throws Exception {
+      Execution[] list = new Execution[statements.length];
+      
+      for(int i = 0; i < statements.length; i++){
+         list[i] = statements[i].compile(scope);
       }
+      return new ScriptExecution(list);
    }
    
-   @Override
-   public Result execute(Scope scope) throws Exception {
-      Result last = Result.getNormal();
+   private static class ScriptExecution extends Execution {
       
-      for(Statement statement : statements) {
-         Result result = statement.execute(scope);
-         
-         if(!result.isNormal()){
-            throw new InternalStateException("Illegal statement");
-         }
-         last = result;
+      private final Execution[] statements;
+      
+      public ScriptExecution(Execution... statements) {
+         this.statements = statements;
       }
-      return last;
+   
+      @Override
+      public Result execute(Scope scope) throws Exception {
+         Result last = Result.getNormal();
+         
+         for(Execution statement : statements) {
+            Result result = statement.execute(scope);
+            
+            if(!result.isNormal()){
+               throw new InternalStateException("Illegal statement");
+            }
+            last = result;
+         }
+         return last;
+      }
    }
 }

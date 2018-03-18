@@ -10,6 +10,7 @@ import org.snapscript.core.InternalArgumentException;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
+import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.convert.ProxyWrapper;
 import org.snapscript.tree.Argument;
@@ -40,7 +41,19 @@ public class CollectionIndex extends Evaluation {
    
    @Override
    public Constraint compile(Scope scope, Constraint left) throws Exception {
-      return Constraint.getInstance(scope, Integer.class);
+      Constraint constraint = variable.compile(scope, left);
+      Type type = constraint.getType(scope);
+      
+      if(type != null) {
+         Type entry = type.getEntry();
+         Constraint next = Constraint.getInstance(entry);
+               
+         for(Evaluation evaluation : evaluations) {
+            next = evaluation.compile(scope, next);
+         }
+         return next;
+      }
+      return constraint;
    }
    
    @Override

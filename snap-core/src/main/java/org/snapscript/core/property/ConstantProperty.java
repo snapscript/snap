@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.snapscript.core.Constant;
-import org.snapscript.core.ConstantConstraint;
 import org.snapscript.core.Constraint;
 import org.snapscript.core.Type;
 import org.snapscript.core.annotation.Annotation;
@@ -18,10 +17,13 @@ public class ConstantProperty implements Property<Object> {
    private final String name;
    private final int modifiers;
    
-   public ConstantProperty(String name, Type type, Type constraint, Object value, int modifiers){
-      this.constraint = new ConstantConstraint(constraint);
+   public ConstantProperty(String name, Type type, Constraint constraint, Object value, int modifiers){
+      if(constraint == null){
+         throw new IllegalStateException();
+      }
       this.annotations = new ArrayList<Annotation>();
       this.constant = new Constant(value, type);
+      this.constraint = constraint;
       this.modifiers = modifiers;
       this.name = name;
       this.type = type;

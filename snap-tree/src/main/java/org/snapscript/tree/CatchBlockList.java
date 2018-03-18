@@ -3,6 +3,7 @@ package org.snapscript.tree;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.snapscript.core.Constraint;
+import org.snapscript.core.Execution;
 import org.snapscript.core.Index;
 import org.snapscript.core.Local;
 import org.snapscript.core.Result;
@@ -21,16 +22,19 @@ public class CatchBlockList {
    private final CompatibilityChecker checker;
    private final AtomicInteger offset;
    private final CatchBlock[] blocks;
+   private final Execution[] list;
    
    public CatchBlockList(CatchBlock... blocks) {
       this.extractor = new ErrorCauseExtractor();
       this.checker = new CompatibilityChecker();
       this.offset = new AtomicInteger(-1);
+      this.list = new Execution[blocks.length];
       this.blocks = blocks;
    }    
    
    public Result define(Scope scope) throws Exception {  
-      for(CatchBlock block : blocks) {
+      for(int i = 0; i < blocks.length; i++){
+         CatchBlock block = blocks[i];
          Statement statement = block.getStatement();
          
          if(statement != null) {
@@ -52,13 +56,36 @@ public class CatchBlockList {
       }
       return Result.getNormal();
    }
+   
+   public Result compile(Scope scope) throws Exception {  
+      for(int i = 0; i < blocks.length; i++){
+         CatchBlock block = blocks[i];
+         Statement statement = block.getStatement();
+         
+         if(statement != null) {
+            ParameterDeclaration declaration = block.getDeclaration();
+            Parameter parameter = declaration.get(scope);
+            Constraint constraint = parameter.getType();
+            Type type = constraint.getType(scope);
+            String name = parameter.getName();
+            Table table = scope.getTable();
+            Local local = Local.getConstant(null, name, type);
+            int index = offset.get();
+            
+            table.add(index, local);
+   
+            list[i] = statement.compile(scope);
+         }
+      }
+      return Result.getNormal();
+   }
 
    public Result execute(Scope scope, Result result) throws Exception {
       Object data = result.getValue();
       
-      for(CatchBlock block : blocks) {
+      for(int i = 0; i < blocks.length; i++){
+         CatchBlock block = blocks[i];
          ParameterDeclaration declaration = block.getDeclaration();
-         Statement statement = block.getStatement();
          Parameter parameter = declaration.get(scope);
          Constraint constraint = parameter.getType();
          Type type = constraint.getType(scope);
@@ -74,7 +101,7 @@ public class CatchBlockList {
                
                table.add(index, local);
 
-               return statement.execute(scope);
+               return list[i].execute(scope);
             }
          }
       }

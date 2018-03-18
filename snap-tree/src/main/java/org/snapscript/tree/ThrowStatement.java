@@ -3,6 +3,7 @@ package org.snapscript.tree;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.Execution;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
 import org.snapscript.core.Result;
@@ -44,6 +45,21 @@ public class ThrowStatement implements Compilation {
       public void define(Scope scope) throws Exception {
          evaluation.define(scope);
       }
+   
+      @Override
+      public Execution compile(Scope scope) throws Exception {
+         evaluation.compile(scope, null);
+         return new CompileExecution(evaluation);
+      }
+   }
+   
+   private static class CompileExecution extends Execution {
+      
+      private final Evaluation evaluation;
+      
+      public CompileExecution(Evaluation evaluation) {
+         this.evaluation = evaluation; 
+      }   
    
       @Override
       public Result execute(Scope scope) throws Exception {

@@ -2,6 +2,7 @@ package org.snapscript.tree.condition;
 
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
+import org.snapscript.core.Execution;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
 import org.snapscript.core.Result;
@@ -33,7 +34,7 @@ public class LoopStatement implements Compilation {
       return new TraceStatement(interceptor, handler, loop, trace);
    }
    
-   private static class CompileResult extends SuspendStatement<Object> {
+   private static class CompileResult extends Statement {
       
       private final Statement body;
       
@@ -44,6 +45,22 @@ public class LoopStatement implements Compilation {
       @Override
       public void define(Scope scope) throws Exception {   
          body.define(scope);
+      }
+      
+      @Override
+      public Execution compile(Scope scope) throws Exception {
+         Execution e = body.compile(scope);
+         return new CompileExecution(e);
+      }
+   }
+   
+   
+   private static class CompileExecution extends SuspendStatement<Object> {
+      
+      private final Execution body;
+      
+      public CompileExecution(Execution body) {
+         this.body = body;
       }
    
       @Override

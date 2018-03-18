@@ -3,7 +3,6 @@ package org.snapscript.tree.define;
 import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
-import org.snapscript.core.Type;
 import org.snapscript.tree.NameReference;
 import org.snapscript.tree.constraint.SafeConstraint;
 import org.snapscript.tree.literal.TextLiteral;
@@ -33,9 +32,7 @@ public class MemberFieldDeclaration {
    }   
 
    public MemberFieldData create(Scope scope) throws Exception {
-      Type type = constraint.getType(scope);
       String name = identifier.getName(scope);
-
-      return new MemberFieldData(name, type, value);
+      return new MemberFieldData(name, constraint, value);
    }
 }

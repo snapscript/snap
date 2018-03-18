@@ -52,7 +52,7 @@ public abstract class MemberConstructor implements TypePart {
       Function function = handle.create(scope);
       Scope outer = ValidationHelper.create(type, function);
       
-      handle.validate(outer);
+      handle.compile(outer);
       
       return null;
    }
@@ -67,7 +67,7 @@ public abstract class MemberConstructor implements TypePart {
       
       annotations.apply(scope, constructor);
       functions.add(constructor);
-      handle.compile(scope);
+      handle.define(scope);
       reference.set(handle);
       
       return null;

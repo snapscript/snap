@@ -7,6 +7,7 @@ import static org.snapscript.core.Reserved.TYPE_THIS;
 
 import java.util.List;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Type;
@@ -46,7 +47,8 @@ public class ClassConstantGenerator {
    
    protected void generateConstant(Scope scope, String name, Type type, Type parent, Object value) throws Exception {
       List<Property> properties = type.getProperties();
-      Property property = builder.createConstant(name, value, type, type);
+      Constraint constraint = Constraint.getInstance(type);
+      Property property = builder.createConstant(name, value, type, constraint);
       Value constant = Value.getBlank(value, parent, PUBLIC.mask | CONSTANT.mask);
       State state = scope.getState();
 

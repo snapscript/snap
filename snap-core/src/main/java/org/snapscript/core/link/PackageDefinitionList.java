@@ -3,6 +3,7 @@ package org.snapscript.core.link;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.snapscript.core.Execution;
 import org.snapscript.core.Path;
 import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
@@ -30,13 +31,11 @@ public class PackageDefinitionList implements PackageDefinition {
       return new StatementList(statements);
    }
    
-   private class StatementList extends Statement {
+   private static class StatementList extends Statement {
       
       private final List<Statement> statements;
-      private final Result normal;
       
       public StatementList(List<Statement> statements) {
-         this.normal = Result.getNormal();
          this.statements = statements;
       }
       
@@ -55,10 +54,32 @@ public class PackageDefinitionList implements PackageDefinition {
       }
       
       @Override
+      public Execution compile(Scope scope) throws Exception {
+         List<Execution> executions = new ArrayList<Execution>();
+         
+         for(Statement statement : statements){
+            Execution next = statement.compile(scope);
+            executions.add(next);
+         }
+         return new ExecutionList(executions);
+      }
+   }
+   
+   private static class ExecutionList extends Execution {
+      
+      private final List<Execution> statements;
+      private final Result normal;
+      
+      public ExecutionList(List<Execution> statements) {
+         this.normal = Result.getNormal();
+         this.statements = statements;
+      }
+      
+      @Override
       public Result execute(Scope scope) throws Exception {
          Result result = normal;
          
-         for(Statement statement : statements){
+         for(Execution statement : statements){
             Result next = statement.execute(scope);
          
             if(!next.isNormal()){
