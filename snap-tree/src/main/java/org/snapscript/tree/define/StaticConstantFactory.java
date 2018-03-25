@@ -11,7 +11,7 @@ public class StaticConstantFactory extends StaticFactory {
    }
 
    @Override
-   protected void allocate(Type type) throws Exception { 
+   protected void compile(Type type) throws Exception { 
       collector.collect(type);
    }
 }

@@ -12,11 +12,13 @@ import org.snapscript.common.Progress;
 import org.snapscript.core.Execution;
 import org.snapscript.core.NoExecution;
 import org.snapscript.core.Phase;
+import org.snapscript.core.Reserved;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
 import org.snapscript.core.TypePart;
+import org.snapscript.core.Value;
 import org.snapscript.tree.annotation.AnnotationList;
 
 public class TraitDefinition extends Statement {   
@@ -24,9 +26,9 @@ public class TraitDefinition extends Statement {
    private final FunctionPropertyGenerator generator;
    private final TypeFactoryCollector collector;
    private final TypeFactory constants;
-   private final AtomicBoolean validate;
    private final AtomicBoolean compile;
    private final AtomicBoolean define;
+   private final AtomicBoolean create;
    private final ClassBuilder builder;
    private final TypePart[] parts;
    
@@ -35,15 +37,15 @@ public class TraitDefinition extends Statement {
       this.generator = new FunctionPropertyGenerator(); 
       this.constants = new StaticConstantFactory();
       this.collector = new TypeFactoryCollector();
-      this.validate = new AtomicBoolean(true);
       this.compile = new AtomicBoolean(true);
       this.define = new AtomicBoolean(true);
+      this.create = new AtomicBoolean(true);
       this.parts = parts;
    }
    
    @Override
    public void create(Scope outer) throws Exception {
-      if(!define.compareAndSet(false, true)) {
+      if(!create.compareAndSet(false, true)) {
          Type type = builder.create(outer);
          Progress<Phase> progress = type.getProgress();
          
@@ -60,9 +62,10 @@ public class TraitDefinition extends Statement {
 
    @Override
    public void define(Scope outer) throws Exception {
-      if(!compile.compareAndSet(false, true)) {
+      if(!define.compareAndSet(false, true)) {
          Type type = builder.define(outer);
          Progress<Phase> progress = type.getProgress();
+         Scope scope = type.getScope();
          
          try {
             collector.update(constants); // collect static constants first
@@ -71,6 +74,7 @@ public class TraitDefinition extends Statement {
                TypeFactory factory = part.define(collector, type);
                collector.update(factory);
             } 
+            collector.define(scope, type);
             generator.generate(type);
          } finally {
             progress.done(DEFINED); 
@@ -80,15 +84,20 @@ public class TraitDefinition extends Statement {
    
    @Override
    public Execution compile(Scope outer) throws Exception {
-      if(!validate.compareAndSet(false, true)) {
+      if(!compile.compareAndSet(false, true)) {
          Type type = builder.compile(outer);
          Progress<Phase> progress = type.getProgress();
+         Scope scope = type.getScope();
+         Scope local = scope.getStack(); // make it temporary
          
          try {
+            local.getState().add(Reserved.TYPE_THIS, Value.getReference(null, type));
+            
             for(TypePart part : parts) {
                TypeFactory factory = part.compile(collector, type);
                collector.update(factory);
             } 
+            collector.compile(local, type);
          } finally {
             progress.done(COMPILED); 
          }

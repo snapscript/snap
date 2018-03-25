@@ -46,7 +46,7 @@ public class StaticConstantCollector {
                   if(ModifierType.isStatic(modifiers)) {
                      PropertyValue value = new PropertyValue(property, null, name);
                      
-                     if(names.add(name)) {
+                     if(names.add(name)) { // ensure only supers are added
                         state.add(name, value);
                      }
                   }
