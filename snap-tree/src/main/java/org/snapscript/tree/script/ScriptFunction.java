@@ -13,6 +13,7 @@ import org.snapscript.core.Module;
 import org.snapscript.core.NoExecution;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
+import org.snapscript.core.ValidationHelper;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionHandle;
 import org.snapscript.core.function.Signature;
@@ -58,12 +59,15 @@ public class ScriptFunction extends Statement {
    @Override
    public Execution compile(Scope scope) throws Exception {
       FunctionHandle handle = reference.get();
-      String name = identifier.getName(scope);
+      String name = identifier.getName(scope);      
       
       if(handle == null) {
          throw new InternalStateException("Function '" + name + "' was not compiled");
       }
-      handle.compile(scope);
-      return new NoExecution(NORMAL);
+      Function function = handle.create(scope);
+      Scope combined = ValidationHelper.create(scope, null, function);
+      
+      handle.compile(combined);
+      return Execution.getNone();
    }
 }

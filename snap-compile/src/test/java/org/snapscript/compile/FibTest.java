@@ -17,7 +17,7 @@ public class FibTest extends TestCase {
    "   return fib(n-1) + fib(n-2);\n"+
    "}\n"+
    "var result = fib(30);\n"+
-   "System.err.println(result);\n";
+   "println(result);\n";
 
    //time=1498 memory=1,933,564,016
    //time=1514 memory=1,933,196,408
