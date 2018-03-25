@@ -82,7 +82,7 @@ public class ModuleFunction implements ModulePart {
          Type type = module.getType(); // ???
          Function function = handle.create(scope);
          Scope outer = ValidationHelper.create(type, function);
-         
+         function.getConstraint().getType(outer);
          handle.compile(outer);
          
          return new NoExecution(NORMAL);

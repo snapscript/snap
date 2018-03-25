@@ -28,6 +28,24 @@ public class StaticCompileTest extends TestCase {
    "}\n"+
    "println('x');";
    
+   private static final String SOURCE_3=
+   "class A {\n"+
+   "   static create(name): B{\n"+
+   "      return new B(name);\n"+
+   "   }\n"+
+   "   class B with Runnable{\n"+
+   "      var name;\n"+
+   "      new(name){\n"+
+   "         this.name=name;\n"+
+   "      }\n"+
+   "      override run(){}\n"+
+   "   }\n"+
+   "}\n"+
+   "var b = A.create('test');\n"+
+   "assert b != null;\n"+
+   "println(b);\n";
+   
+   
    public void testStaticAssignmentCompileError() throws Exception {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
       boolean failure = false;
@@ -57,5 +75,11 @@ public class StaticCompileTest extends TestCase {
       }
       assertTrue("Should be a compile failure", failure);
 
+   }
+   
+   public void testStaticMethodCompile() throws Exception {
+      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
+      System.err.println(SOURCE_3);
+      compiler.compile(SOURCE_3).execute();
    }
 }

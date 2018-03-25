@@ -56,7 +56,7 @@ public class MemberFunction extends TypePart {
       Scope scope = type.getScope();
       Function function = handle.create(scope);
       Scope outer = ValidationHelper.create(type, function);
-      
+      function.getConstraint().getType(outer);
       handle.compile(outer);
       
       return null;

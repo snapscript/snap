@@ -28,20 +28,20 @@ public class ContextModule implements Module {
    private final Type type;
    private final int order;
    
-   public ContextModule(Context context, Executor executor, Path path, String prefix) {
-      this(context, executor, path, prefix, 0);
+   public ContextModule(Context context, Executor executor, Path path, String prefix, String local) {
+      this(context, executor, path, prefix, local, 0);
    }
    
-   public ContextModule(Context context, Executor executor, Path path, String prefix, int order) {
-      this.manager = new ImportManager(this, executor, path, prefix);
+   public ContextModule(Context context, Executor executor, Path path, String prefix, String local, int order) {
+      this.manager = new ImportManager(this, executor, path, prefix, local);
       this.annotations = new CopyOnWriteArrayList<Annotation>();
       this.functions = new CopyOnWriteArrayList<Function>();
       this.properties = new CopyOnWriteArrayList<Property>();
       this.references = new CopyOnWriteArrayList<Type>();
       this.modules = new CopyOnWriteCache<String, Module>();
       this.types = new CopyOnWriteCache<String, Type>(); 
-      this.scope = new ModuleScope(this);
       this.type = new ModuleType(this);
+      this.scope = new ModuleScope(this);
       this.context = context;
       this.prefix = prefix;
       this.order = order;
@@ -107,9 +107,6 @@ public class ContextModule implements Module {
          Module module = modules.fetch(name);
          
          if(module == null) {
-            if(prefix.endsWith("."+name)) {
-               return this;
-            }
             if(!types.contains(name)) { // don't resolve if its a type
                module = manager.getModule(name); // import tetris.game.*
                
@@ -130,7 +127,7 @@ public class ContextModule implements Module {
          Type type = types.fetch(name);
 
          if(type == null) {
-            if(!modules.contains(name) && !prefix.endsWith("."+name)) {// don't resolve if its a module
+            if(!modules.contains(name)) {// don't resolve if its a module
                type = manager.getType(name);
             
                if(type != null) {

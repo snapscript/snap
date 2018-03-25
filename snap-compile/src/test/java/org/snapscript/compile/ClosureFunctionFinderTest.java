@@ -32,7 +32,7 @@ public class ClosureFunctionFinderTest extends TestCase {
       ConstraintMatcher matcher = context.getMatcher();
       Path path = new Path("/");
       FunctionComparator comparator = new FunctionComparator(matcher);
-      Module module = new ContextModule(context, null, path, "yy", 1);
+      Module module = new ContextModule(context, null, path, "yy", "", 1);
       FunctionFinder finder = new FunctionFinder(comparator, extractor, loader);
       Parameter parameter = new Parameter("n", loader.loadType(String.class), false);
       Signature signature = new FunctionSignature(Arrays.asList(parameter), module, null, false);

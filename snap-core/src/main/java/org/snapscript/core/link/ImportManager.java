@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.Executor;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
@@ -24,13 +25,15 @@ public class ImportManager {
    private final NameBuilder builder;
    private final Module parent;
    private final String from;
+   private final String local;
    
-   public ImportManager(Module parent, Executor executor, Path path, String from) {
+   public ImportManager(Module parent, Executor executor, Path path, String from, String local) {
       this.aliases = new ConcurrentHashMap<String, String>();
       this.imports = new CopyOnWriteArraySet<String>();
       this.matcher = new ImportMatcher(parent, executor, path, from);
       this.builder = new TypeNameBuilder();
       this.parent = parent;
+      this.local = local;
       this.from = from;
    }
    
@@ -53,10 +56,27 @@ public class ImportManager {
    
    public Module getModule(String name) {
       try {
+         String alias = builder.createLocalName(name);
+         char first = alias.charAt(0);
+         
+         if(!Character.isUpperCase(first)) {
+            return null;
+         }
+         if(alias.equals(local)) {
+            return parent;
+         }
+         return getModule(name, true);
+      } catch(Exception e){
+         throw new InternalStateException("Could not find '" + name + "' in '" + from + "'", e);
+      }
+   }
+   
+   private Module getModule(String name, boolean load) {
+      try {
          Context context = parent.getContext();
          ModuleRegistry registry = context.getRegistry();
          Module module = registry.getModule(name);
-         
+
          if(module == null) {
             String alias = aliases.get(name);
             
@@ -65,9 +85,9 @@ public class ImportManager {
             }
          }
          if(module == null) {
-            Type type = getType(name); // do a quick check
+            Type type = getType(name, load); // do a quick check
             
-            if(type == null) {
+            if(type == null && load) {
                module = matcher.importModule(imports, name);
             }
          }
@@ -76,14 +96,22 @@ public class ImportManager {
          throw new InternalStateException("Could not find '" + name + "' in '" + from + "'", e);
       }
    }
-
+   @Bug("crap")
    public Type getType(String name) {
       try {
-         String top = builder.createTopName(name);
-         Type type = getTypeX(top, true);
+         String alias = builder.createLocalName(name);
+         char first = alias.charAt(0);
+         
+         if(!Character.isUpperCase(first)) {
+            return null;
+         }
+         if(alias.equals(local)) {
+            return null;
+         }
+         Type type = getType(alias, true);
         
-         if(!name.equals(top)) {
-            return getTypeX(name, false);
+         if(!name.equals(alias)) {
+            return getType(name, false);
          }         
          return type;
       } catch(Exception e){
@@ -91,7 +119,7 @@ public class ImportManager {
       }
    }
    
-   private Type getTypeX(String name, boolean load) {
+   private Type getType(String name, boolean load) {
       try {
          Context context = parent.getContext();
          TypeLoader loader = context.getLoader();

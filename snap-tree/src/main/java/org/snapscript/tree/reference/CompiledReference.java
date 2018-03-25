@@ -32,9 +32,6 @@ public class CompiledReference extends TypeReference {
    public Constraint compile(Scope scope, Constraint left) throws Exception {
       Constraint value = reference.compile(scope, left);
       Type result = value.getType(scope);
-      if(result == null){
-         System.err.println();
-      }
       Progress<Phase> progress = result.getProgress();
       
       if(!progress.wait(DEFINED, duration)) {

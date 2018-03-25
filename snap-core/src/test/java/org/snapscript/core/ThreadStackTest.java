@@ -44,12 +44,12 @@ public class ThreadStackTest extends TestCase {
    
    public static void createTrace(ThreadStack stack, String resource, int line){
       FilePathConverter converter = new FilePathConverter();
-      stack.before(new Trace(TraceType.NORMAL, new ContextModule(null, null, converter.createPath(resource), converter.createModule(resource), -1), converter.createPath(resource), line));
+      stack.before(new Trace(TraceType.NORMAL, new ContextModule(null, null, converter.createPath(resource), converter.createModule(resource),"", -1), converter.createPath(resource), line));
    }
    
    public static void createTypeFunction(ThreadStack stack, String functionName, String typeName, String moduleName){
       FilePathConverter converter = new FilePathConverter();
-      Module module = new ContextModule(null, null, converter.createPath(moduleName), moduleName, -1);
+      Module module = new ContextModule(null, null, converter.createPath(moduleName), moduleName,"", -1);
       TestType type = new TestType(module, typeName, null, null);
       List<Parameter> parameters = new ArrayList<Parameter>();
       Signature signature = new FunctionSignature(parameters, module, null, true);
@@ -59,7 +59,7 @@ public class ThreadStackTest extends TestCase {
    
    public static void createModuleFunction(ThreadStack stack, String functionName, String moduleName){
       FilePathConverter converter = new FilePathConverter();
-      Module module = new ContextModule(null, null, converter.createPath(moduleName), moduleName, -1);
+      Module module = new ContextModule(null, null, converter.createPath(moduleName), moduleName,"", -1);
       List<Parameter> parameters = new ArrayList<Parameter>();
       Signature signature = new FunctionSignature(parameters, module, null, true);
       FunctionType type = new FunctionType(signature, module, null);

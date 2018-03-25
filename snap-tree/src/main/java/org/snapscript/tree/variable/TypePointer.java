@@ -1,14 +1,10 @@
 package org.snapscript.tree.variable;
 
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.Constraint;
-import org.snapscript.core.Context;
-import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
-import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.Value;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.property.PropertyValue;
@@ -16,12 +12,12 @@ import org.snapscript.core.property.PropertyValue;
 public class TypePointer implements VariablePointer<Type> {
    
    private final AtomicReference<Property> reference;
-   private final ObjectPointer pointer;
+   private final ConstantResolver resolver;
    private final String name;
    
    public TypePointer(ConstantResolver resolver, String name) {
       this.reference = new AtomicReference<Property>();
-      this.pointer = new ObjectPointer(resolver, name);
+      this.resolver = resolver;
       this.name = name;
    }
 
@@ -31,13 +27,13 @@ public class TypePointer implements VariablePointer<Type> {
       
       if(property == null) {
          Type t=x.getType(scope);
-         Property match = pointer.match(scope, t, t);
+         Property match = resolver.matchFromType(scope, t, name);
          
          if(match != null) {
             reference.set(match);
             return match.getConstraint();
          }
-         match = pointer.match(scope, t);
+         match = resolver.matchFromObject(scope, t, name);
          
          if(match != null) {
             reference.set(match);
@@ -53,13 +49,13 @@ public class TypePointer implements VariablePointer<Type> {
       Property property = reference.get();
       
       if(property == null) {
-         Property match = pointer.match(scope, left, left);
+         Property match = resolver.matchFromType(scope, left, name);
          
          if(match != null) {
             reference.set(match);
             return new PropertyValue(match, left, name);
          }
-         match = pointer.match(scope, left);
+         match = resolver.matchFromObject(scope, left, name);
          
          if(match != null) {
             reference.set(match);

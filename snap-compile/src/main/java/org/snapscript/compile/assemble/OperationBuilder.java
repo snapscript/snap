@@ -26,7 +26,7 @@ public class OperationBuilder {
 
    public OperationBuilder(Context context, Executor executor) {
       this.path = new Path(DEFAULT_RESOURCE);
-      this.module = new ContextModule(context, executor, path, DEFAULT_PACKAGE, 0);
+      this.module = new ContextModule(context, executor, path, DEFAULT_PACKAGE, "", 0);
       this.processor = new OperationProcessor(context);
    }
    

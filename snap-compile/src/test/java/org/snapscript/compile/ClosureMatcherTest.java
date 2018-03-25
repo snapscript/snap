@@ -31,7 +31,7 @@ public class ClosureMatcherTest extends TestCase {
       Store store = new ClassPathStore();
       Context context = new StoreContext(store);
       Path path = new Path("/");
-      Module module = new ContextModule(context, null, path, "yy", 1);
+      Module module = new ContextModule(context, null, path, "yy", "", 1);
       ConstraintMatcher matcher = context.getMatcher();
       TypeLoader loader = context.getLoader();
       TypeExtractor extractor = context.getExtractor();

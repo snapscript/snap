@@ -25,7 +25,7 @@ public class FunctionTypeTest extends TestCase {
    }
    
    public static Module createModule(String moduleName){
-      return new ContextModule(null, null, new Path(moduleName), moduleName, -1);
+      return new ContextModule(null, null, new Path(moduleName), moduleName, "", -1);
    }
    
    public static Signature createSignature(String functionName, Module module){

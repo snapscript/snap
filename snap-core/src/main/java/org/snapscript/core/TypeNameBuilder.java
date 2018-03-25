@@ -37,6 +37,17 @@ public class TypeNameBuilder implements NameBuilder {
    }
    
    @Override
+   public String createShortName(String type) {
+      int index = type.lastIndexOf('.');
+      int length = type.length();
+      
+      if(index > 0) {
+         return type.substring(index+1, length);
+      }
+      return type;
+   }
+   
+   @Override
    public String createFullName(String module, String name) {
       if(module == null) { // is a null module legal?
          return name;
@@ -75,6 +86,21 @@ public class TypeNameBuilder implements NameBuilder {
                return createFullName(module, parent);
             }
          }
+      }
+      return null;
+   }
+   
+   @Override
+   public String createLocalName(String type) {
+      if(type != null) {
+         String name = createTopName(type);
+         int index = name.lastIndexOf('.');
+         int length = name.length();
+         
+         if(index > 0) {
+            return name.substring(index+1, length);
+         }
+         return name;
       }
       return null;
    }

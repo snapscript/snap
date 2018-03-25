@@ -59,7 +59,8 @@ reference-part = { <collection-index> |
 				   <closure> | 
 				   <function-reference> | 
 				   <variable-reference> | 
-				   <literal> } ;
+				   <literal> |
+				   '(' <cast> ')' };
 
 reference-navigation = <reference-part>*(<reference-operator><reference-navigation>);
 reference-constraint = <array-constraint>;
@@ -230,7 +231,7 @@ match-statement = 'match''('<reference>')''{'*<match-case>?<match-default>'}';
 match-case = 'case'?_<value-operand>':'<expression-statement>;
 match-default = 'default'':'<expression-statement>;
  
-synchronized-statement = 'synchronized' '(' <reference> ')' <compound-statement>;
+synchronized-statement = 'synchronized' '(' <argument> ')' <compound-statement>;
 
 try-block = 'try'<group-statement>;
 catch-block = 'catch''(' <parameter-declaration> ')' <group-statement>;

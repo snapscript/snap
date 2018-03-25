@@ -28,7 +28,15 @@ public class ArrayTypeComparator {
          if(constraintEntry != null && actualEntry != null) {
             return score(constraintEntry, actualEntry);
          }
-         return checker.cast(actual, constraint); // convention of order is broken
+         if(constraintEntry == null && actualEntry == null) {
+            Class constraintType = constraint.getType();
+            Class actualType = actual.getType();
+            
+            if(constraintType != null && actualType != null) {
+               return score(constraintType, actualType);
+            }
+            return checker.cast(actual, constraint); // convention of order is broken
+         }
       } 
       return INVALID; 
    }
@@ -48,6 +56,12 @@ public class ArrayTypeComparator {
             return EXACT;
          }
          if(constraintType.isAssignableFrom(actualType)) {
+            return SIMILAR;
+         }
+         if(!Number.class.isAssignableFrom(constraintType)) {
+            return INVALID;
+         }
+         if(Number.class.isAssignableFrom(actualType)) {
             return SIMILAR;
          }
       }

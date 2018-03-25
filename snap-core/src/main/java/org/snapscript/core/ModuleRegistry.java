@@ -16,6 +16,7 @@ public class ModuleRegistry {
    private final PathConverter converter;
    private final ModuleExtender extender;
    private final AtomicInteger counter;
+   private final NameBuilder builder;
    private final Executor executor;
    private final Context context;
    private final int limit;
@@ -29,6 +30,7 @@ public class ModuleRegistry {
       this.references = new CopyOnWriteArrayList<Module>();
       this.extender = new ModuleExtender(context);
       this.converter = new FilePathConverter();
+      this.builder = new TypeNameBuilder();
       this.counter = new AtomicInteger(1);
       this.executor = executor;
       this.context = context;
@@ -66,12 +68,13 @@ public class ModuleRegistry {
       Module current = modules.get(name);
 
       if (current == null) {
+         String local = builder.createLocalName(name);
          int order = counter.getAndIncrement();
          
          if(order > limit) {
             throw new InternalStateException("Module limit of " + limit + " exceeded");
          }
-         Module module = new ContextModule(context, executor, path, name, order);
+         Module module = new ContextModule(context, executor, path, name, local, order);
 
          modules.put(name, module);
          extender.extend(module); 
