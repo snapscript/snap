@@ -30,7 +30,7 @@ public class FunctionGenerator {
    public Function generate(Type type, Method method, Class[] types, String name, int modifiers) {
       Signature signature = generator.generate(type, method);
       Class real = method.getReturnType();
-      
+
       try {
          Platform platform = provider.create();
          Invocation invocation = platform.createMethod(type, method);
@@ -49,7 +49,7 @@ public class FunctionGenerator {
          if(real != void.class && real != Any.class && real != Object.class) {
             return new InvocationFunction(signature, invocation, type, constraint, name, modifiers);
          }
-         return new InvocationFunction(signature, invocation, type, null, name, modifiers);
+         return new InvocationFunction(signature, invocation, type, constraint, name, modifiers);
       } catch(Exception e) {
          throw new InternalStateException("Could not create function for " + method, e);
       }

@@ -124,7 +124,7 @@ public class ConstraintMatcher {
          return new ClassConverter(type);
       }  
       if(comparator.isArray(type)) {
-         return new ArrayConverter(this, wrapper, type);
+         return new ArrayConverter(this, checker, wrapper, type);
       }
       if(comparator.isFunction(type)) {
          return new FunctionConverter(extractor, checker, wrapper, type);

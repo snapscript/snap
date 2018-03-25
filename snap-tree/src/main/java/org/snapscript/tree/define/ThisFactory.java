@@ -2,10 +2,11 @@ package org.snapscript.tree.define;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.Execution;
 import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
-import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
 import org.snapscript.core.Value;
@@ -13,45 +14,44 @@ import org.snapscript.core.define.Instance;
 
 public class ThisFactory extends TypeFactory {
    
-   private final AtomicBoolean execute;
+   private final AtomicBoolean allocate;
+   private final AtomicBoolean define;
    private final AtomicBoolean compile;
-   private final AtomicBoolean validate;
    private final Evaluation expression;
-   private final Statement statement;
+   private final Execution execution;
    
-   public ThisFactory(Statement statement, Evaluation expression) {
+   public ThisFactory(Execution execution, Evaluation expression) {
+      this.define = new AtomicBoolean();
+      this.allocate = new AtomicBoolean();
       this.compile = new AtomicBoolean();
-      this.execute = new AtomicBoolean();
-      this.validate = new AtomicBoolean();
       this.expression = expression;
-      this.statement = statement;
+      this.execution = execution;
    }
 
    @Override
    public void define(Scope instance, Type real) throws Exception {
-      if(compile.compareAndSet(false, true)) {
+      if(define.compareAndSet(false, true)) {
          expression.define(instance);
       }
    }
    
    @Override
    public void compile(Scope instance, Type real) throws Exception {
-      if(validate.compareAndSet(false, true)) {
+      if(compile.compareAndSet(false, true)) {
          expression.compile(instance, null);
-         statement.compile(instance);
       }
    }   
    
    @Override
-   public Result execute(Scope instance, Type real) throws Exception {
-      if(execute.compareAndSet(false, true)) {
-         statement.define(instance);
+   public void allocate(Scope instance, Type real) throws Exception {
+      if(allocate.compareAndSet(false, true)) {
+         execution.execute(instance);
       }
-      return create(instance, real);
    }
-
-   private Result create(Scope scope, Type real) throws Exception {
-      Value value = expression.evaluate(scope, null);
+   
+   @Override
+   public Result execute(Scope instance, Type real) throws Exception {
+      Value value = expression.evaluate(instance, null);
       Instance result = value.getValue();
       
       return Result.getNormal(result); // this will return the instance created!!

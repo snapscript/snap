@@ -15,6 +15,7 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
+import org.snapscript.core.TypePart;
 import org.snapscript.tree.annotation.AnnotationList;
 
 public class EnumDefinition extends Statement {
@@ -54,16 +55,17 @@ public class EnumDefinition extends Statement {
       if(!define.compareAndSet(false, true)) {
          Type type = builder.define(outer);
          TypeFactory keys = list.define(collector, type);
-         Scope scope = type.getScope();
          Progress<Phase> progress = type.getProgress();
+         Scope scope = type.getScope();
          
          try {
+            collector.update(keys); // collect enum constants first
+            
             for(TypePart part : parts) {
                TypeFactory factory = part.define(collector, type);
                collector.update(factory);
             }  
             constructor.define(collector, type); 
-            keys.execute(scope, type);
             collector.define(scope, type); 
          } finally {
             progress.done(DEFINED);
@@ -76,6 +78,8 @@ public class EnumDefinition extends Statement {
       if(!compile.compareAndSet(false, true)) {
          Type type = builder.compile(outer);
          Progress<Phase> progress = type.getProgress();
+         Scope scope = type.getScope();
+         Scope local = scope.getStack(); // make it temporary
          
          try {
             for(TypePart part : parts) {
@@ -83,6 +87,7 @@ public class EnumDefinition extends Statement {
                collector.update(factory);
             }  
             constructor.compile(collector, type); 
+            collector.compile(local, type);
          } finally {
             progress.done(COMPILED);
          }

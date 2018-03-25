@@ -105,7 +105,6 @@ public class CompilerTest extends TestCase {
          failure = true;
          e.printStackTrace();
       }
-      assertEquals(map.get("num"), 1.0);
       assertTrue(failure);
    }
 

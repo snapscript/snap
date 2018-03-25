@@ -3,7 +3,6 @@ package org.snapscript.core.function;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.snapscript.core.ConstantConstraint;
 import org.snapscript.core.Constraint;
 import org.snapscript.core.Type;
 import org.snapscript.core.annotation.Annotation;

@@ -13,6 +13,9 @@ public class LocalReference extends Local {
    }
    
    public LocalReference(Object value, String name, Type type) {
+      if("func".equals(name)){
+         System.err.println();
+      }
       this.value = value;
       this.name = name;
       this.type = type; 

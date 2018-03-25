@@ -58,6 +58,9 @@ public class ConstructMap implements Compilation {
       
       @Override
       public Constraint compile(Scope scope, Constraint left) throws Exception {
+         if(list != null) {
+            list.compile(scope, null);
+         }
          return Constraint.getInstance(scope, Map.class);
       }
       

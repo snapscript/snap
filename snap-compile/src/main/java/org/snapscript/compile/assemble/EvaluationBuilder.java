@@ -13,6 +13,7 @@ import org.snapscript.core.Evaluation;
 import org.snapscript.core.FilePathConverter;
 import org.snapscript.core.Path;
 import org.snapscript.core.PathConverter;
+import org.snapscript.core.Scope;
 import org.snapscript.parse.SyntaxCompiler;
 import org.snapscript.parse.SyntaxNode;
 import org.snapscript.parse.SyntaxParser;
@@ -39,11 +40,11 @@ public class EvaluationBuilder {
       this.limit = limit;
    }
    
-   public Evaluation create(String source, String module) throws Exception{
+   public Evaluation create(Scope scope, String source, String module) throws Exception{
       Evaluation evaluation = cache.fetch(source);
 
       if(evaluation == null) {
-         Executable executable = new Executable(source, module);
+         Executable executable = new Executable(scope, source, module);
          FutureTask<Evaluation> task = new FutureTask<Evaluation>(executable);
          
          if(executor != null) {
@@ -60,10 +61,12 @@ public class EvaluationBuilder {
       
       private final String source;
       private final String module;
+      private final Scope scope;
       
-      public Executable(String source, String module) {
+      public Executable(Scope scope, String source, String module) {
          this.source = source;
          this.module = module;
+         this.scope = scope;
       }
       
       @Override
@@ -74,9 +77,12 @@ public class EvaluationBuilder {
          Evaluation evaluation = assembler.assemble(node, path);
          int length = source.length();
          
+         evaluation.define(scope);
+         evaluation.compile(scope, null);
+         
          if(length < limit) {
             cache.cache(source, evaluation);
-         }
+         }                 
          return evaluation;
       }
    }

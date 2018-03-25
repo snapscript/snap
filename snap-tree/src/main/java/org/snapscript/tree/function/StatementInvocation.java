@@ -15,7 +15,7 @@ public class StatementInvocation implements Invocation<Object> {
    @Override
    public Object invoke(Scope scope, Object object, Object... list) throws Exception {
       Scope outer = scope.getScope(); 
-      Invocation invocation = builder.define(outer); // what if the body is compiled
+      Invocation invocation = builder.create(outer); // what if the body is compiled
       
       return invocation.invoke(outer, object, list);
    }

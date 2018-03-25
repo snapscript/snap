@@ -19,7 +19,7 @@ public class ScriptInvocation implements Invocation<Object> {
    @Override
    public Object invoke(Scope scope, Object object, Object... list) throws Exception {
       Scope capture = extractor.extract(scope);
-      Invocation invocation = builder.define(capture);
+      Invocation invocation = builder.create(capture);
 
       return invocation.invoke(capture, object, list);
    }

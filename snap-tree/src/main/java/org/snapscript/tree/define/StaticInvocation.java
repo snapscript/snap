@@ -16,7 +16,7 @@ public class StaticInvocation implements Invocation<Object> {
    
    @Override
    public Object invoke(Scope outer, Object object, Object... list) throws Exception {
-      Invocation invocation = builder.define(inner);   
+      Invocation invocation = builder.create(inner);   
       return invocation.invoke(inner, object, list);
    }
 }

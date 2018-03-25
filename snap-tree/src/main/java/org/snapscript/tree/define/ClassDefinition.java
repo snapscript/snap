@@ -12,11 +12,11 @@ import org.snapscript.common.Progress;
 import org.snapscript.core.Execution;
 import org.snapscript.core.NoExecution;
 import org.snapscript.core.Phase;
-import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
+import org.snapscript.core.TypePart;
 import org.snapscript.tree.annotation.AnnotationList;
 
 public class ClassDefinition extends Statement {   
@@ -65,6 +65,7 @@ public class ClassDefinition extends Statement {
       if(!define.compareAndSet(false, true)) {
          Type type = builder.define(outer);
          Progress<Phase> progress = type.getProgress();
+         Scope scope = type.getScope();
          
          try {
             collector.update(constants); // collect static constants first
@@ -72,8 +73,9 @@ public class ClassDefinition extends Statement {
             for(TypePart part : parts) {
                TypeFactory factory = part.define(collector, type);
                collector.update(factory);
-            } 
+            }
             constructor.define(collector, type);
+            collector.define(scope, type);
             generator.generate(type);
          } finally {
             progress.done(DEFINED);
@@ -86,6 +88,8 @@ public class ClassDefinition extends Statement {
       if(!compile.compareAndSet(false, true)) {
          Type type = builder.compile(outer);
          Progress<Phase> progress = type.getProgress();
+         Scope scope = type.getScope();
+         Scope local = scope.getStack(); // make it temporary
          
          try {
             for(TypePart part : parts) {
@@ -93,6 +97,7 @@ public class ClassDefinition extends Statement {
                collector.update(factory);
             } 
             constructor.compile(collector, type);
+            collector.compile(local, type);
          } finally {
             progress.done(COMPILED);
          }

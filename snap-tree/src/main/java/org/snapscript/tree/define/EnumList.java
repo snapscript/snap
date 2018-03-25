@@ -2,23 +2,14 @@ package org.snapscript.tree.define;
 
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
+import org.snapscript.core.TypePart;
 
-public class EnumList implements TypePart {
+public class EnumList extends TypePart {
    
    private final EnumValue[] values;
    
    public EnumList(EnumValue... values){
       this.values = values;
-   }
-   
-   @Override
-   public TypeFactory create(TypeFactory factory, Type type) throws Exception {
-      return null;
-   }
-   
-   @Override
-   public TypeFactory compile(TypeFactory factory, Type type) throws Exception {
-      return null;
    }
 
    @Override
@@ -27,12 +18,12 @@ public class EnumList implements TypePart {
       int index = 0;
       
       for(EnumValue value : values) {
-         TypeFactory initializer = value.compile(type, index++);
+         TypeFactory initializer = value.define(type, index++);
          
          if(initializer != null) {
             collector.update(initializer);
          }
       }
       return collector;
-   }   
+   }
 }

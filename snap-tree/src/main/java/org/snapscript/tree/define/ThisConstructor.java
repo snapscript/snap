@@ -1,15 +1,16 @@
 package org.snapscript.tree.define;
 
 import org.snapscript.core.Evaluation;
-import org.snapscript.core.Statement;
-import org.snapscript.core.Type;
+import org.snapscript.core.Execution;
 import org.snapscript.core.Identity;
+import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
+import org.snapscript.core.TypePart;
 import org.snapscript.parse.StringToken;
 import org.snapscript.tree.ArgumentList;
 import org.snapscript.tree.construct.CreateObject;
 
-public class ThisConstructor implements TypePart {
+public class ThisConstructor extends TypePart {
    
    private final ArgumentList arguments;
    
@@ -24,23 +25,13 @@ public class ThisConstructor implements TypePart {
    public ThisConstructor(StringToken token, ArgumentList arguments) {
       this.arguments = arguments;
    }
-
-   @Override
-   public TypeFactory create(TypeFactory factory, Type type) throws Exception {
-      return null;
-   }
-   
-   @Override
-   public TypeFactory compile(TypeFactory factory, Type type) throws Exception {
-      return null;
-   }
    
    @Override
    public TypeFactory define(TypeFactory factory, Type type) throws Exception {  
-      Statement statement = new StaticBody(factory, type);
-      Evaluation reference = new Identity(type);
+      Execution execution = new StaticBody.StaticExecution(factory, type);
+      Evaluation reference = new Identity(type, type);
       CreateObject evaluation = new CreateObject(reference, arguments);
       
-      return new ThisFactory(statement, evaluation);
-   }
+      return new ThisFactory(execution, evaluation);
+   }   
 }

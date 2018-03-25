@@ -18,7 +18,7 @@ public class EnumValue {
       this.key = key;
    }
 
-   public TypeFactory compile(Type type, int index) throws Exception { 
+   public TypeFactory define(Type type, int index) throws Exception { 
       return new EnumFactory(key, arguments, index);
    }
 }

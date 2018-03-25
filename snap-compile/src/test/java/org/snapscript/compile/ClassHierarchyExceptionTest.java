@@ -22,7 +22,7 @@ public class ClassHierarchyExceptionTest extends TestCase {
          executable.execute();
       }catch(Exception e) {
          e.printStackTrace();
-         assertEquals(e.getCause().getMessage(), "No super type for 'default.Foo'");
+         assertEquals(e.getCause().getMessage(), "No type found for 'NoSuchClass' in 'default'");
       }
    }
 

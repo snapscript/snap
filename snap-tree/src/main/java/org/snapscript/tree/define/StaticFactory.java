@@ -1,36 +1,34 @@
 package org.snapscript.tree.define;
 
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.Context;
 import org.snapscript.core.Module;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
 
 public abstract class StaticFactory extends TypeFactory {
 
-   private final AtomicBoolean compile;
+   private final AtomicBoolean allocate;
  
    protected StaticFactory() {
-      this.compile = new AtomicBoolean();
+      this.allocate = new AtomicBoolean();
    }
 
    @Override
-   public void define(Scope scope, Type type) throws Exception { 
-      if(!compile.get()) {
+   public void allocate(Scope scope, Type type) throws Exception { 
+      if(!allocate.get()) {
          Module module = type.getModule();
          Context context = module.getContext();
          
          synchronized(context) { // static lock to force wait
-            if(compile.compareAndSet(false, true)) { // only do it once
-               compile(type);
+            if(allocate.compareAndSet(false, true)) { // only do it once
+               allocate(type);
             }
          }
       }
    }
-   
-   protected abstract void compile(Type type) throws Exception; 
+
+   protected abstract void allocate(Type type) throws Exception; 
 }

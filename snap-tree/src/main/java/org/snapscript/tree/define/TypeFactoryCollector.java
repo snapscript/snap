@@ -37,6 +37,13 @@ public class TypeFactoryCollector extends TypeFactory {
    } 
 
    @Override
+   public void allocate(Scope scope, Type type) throws Exception {
+      for(TypeFactory factory : list) {
+         factory.allocate(scope, type);
+      }
+   } 
+   
+   @Override
    public Result execute(Scope scope, Type type) throws Exception {
       Result last = null;
 

@@ -57,9 +57,6 @@ public class ArgumentList {
       
       for(int i = 0; i < list.length; i++){
          Constraint result = list[i].compile(scope, null);
-         if(result == null){
-            System.err.println();
-         }
          Type type = result.getType(scope);
          
          values[i + prefix.length] = type;

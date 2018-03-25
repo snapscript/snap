@@ -104,7 +104,6 @@ public class Import implements Compilation {
       
       @Override
       public Execution compile(Scope scope) throws Exception {
-         System.err.println("Import "+location+"."+target+": "+path);
          if(statement == null) {
             throw new InternalStateException("Import '" + location + "' was not compiled");
          }

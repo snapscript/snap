@@ -17,7 +17,7 @@ public class TypeDelegateAllocator implements TypeAllocator {
 
    @Override
    public Instance allocate(Scope scope, Instance object, Object... list) throws Exception {
-      Invocation invocation = builder.define(object);
+      Invocation invocation = builder.create(object);
       Instance base = (Instance)invocation.invoke(scope, object, list);
       
       return allocator.allocate(scope, base, list);

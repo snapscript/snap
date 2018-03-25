@@ -1,5 +1,7 @@
 package org.snapscript.tree.closure;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
@@ -8,6 +10,8 @@ import org.snapscript.core.Module;
 import org.snapscript.core.Path;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
+import org.snapscript.core.Type;
+import org.snapscript.core.ValidationHelper;
 import org.snapscript.core.Value;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionHandle;
@@ -47,12 +51,14 @@ public class Closure implements Compilation {
   
    private static class CompileResult extends Evaluation {
    
+      private final AtomicReference<FunctionHandle> reference;
       private final LocalScopeExtractor extractor;
       private final ClosureParameterList parameters;
       private final ClosureBuilder builder;
       private final Module module;
 
       public CompileResult(ClosureParameterList parameters, Statement closure, Module module){
+         this.reference = new AtomicReference<FunctionHandle>();
          this.extractor = new LocalScopeExtractor(false, true);
          this.builder = new ClosureBuilder(closure, module);
          this.parameters = parameters;
@@ -61,23 +67,34 @@ public class Closure implements Compilation {
       
       @Override
       public void define(Scope scope) throws Exception {
-         ////// index params here???
+         Scope parent = module.getScope();
+         Signature signature = parameters.create(parent);
+         Scope capture = extractor.extract(scope);
+         FunctionHandle handle = builder.create(signature, capture); // creating new function each time
+         
+         handle.define(capture);
+         reference.set(handle);
       }
       
       @Override
       public Constraint compile(Scope scope, Constraint left) throws Exception {
+         Type type = scope.getType();
+         FunctionHandle handle = reference.get();
+         Scope capture = extractor.extract(scope);
+         Function function = handle.create(capture);      
+         Scope combined = ValidationHelper.create(capture, type, function);
+         
+         handle.compile(combined);
+         
+         //return Constraint.getInstance(scope, Function.class);
          return Constraint.getNone();
       }
       
       @Override
       public Value evaluate(Scope scope, Object left) throws Exception {
-         Scope parent = module.getScope();
-         Signature signature = parameters.create(parent);
+         FunctionHandle handle = reference.get();
          Scope capture = extractor.extract(scope);
-         FunctionHandle handle = builder.create(signature, capture); // creating new function each time
          Function function = handle.create(capture);
-         
-         handle.define(capture);
          
          return Value.getTransient(function);
       }

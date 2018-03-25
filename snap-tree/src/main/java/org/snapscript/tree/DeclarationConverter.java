@@ -1,5 +1,7 @@
 package org.snapscript.tree;
 
+import org.snapscript.core.Bug;
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
@@ -15,8 +17,27 @@ public class DeclarationConverter {
       super();
    }
 
-   public Object convert(Scope scope, Object value, Type type, String name) throws Exception {
+   @Bug("we need some line numbers here")
+   public Type compile(Scope scope, Type value, Constraint constraint, String name) throws Exception {
       if(value != null) {
+         Type type = constraint.getType(scope);
+         Module module = scope.getModule();
+         Context context = module.getContext();
+         ConstraintMatcher matcher = context.getMatcher();
+         ConstraintConverter converter = matcher.match(type);
+         Score score = converter.score(value);
+         
+         if(score.isInvalid()) {
+            throw new InternalStateException("Variable '" + name + "' does not match constraint '" + type + "'");
+         }
+         return type;
+      }
+      return null;
+   }
+   
+   public Object convert(Scope scope, Object value, Constraint constraint, String name) throws Exception {
+      if(value != null) {
+         Type type = constraint.getType(scope);
          Module module = scope.getModule();
          Context context = module.getContext();
          ConstraintMatcher matcher = context.getMatcher();
@@ -28,6 +49,6 @@ public class DeclarationConverter {
          }
          return converter.assign(value);
       }
-      return value;
+      return null;
    }
 }

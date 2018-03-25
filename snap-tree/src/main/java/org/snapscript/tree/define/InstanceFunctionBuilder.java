@@ -33,7 +33,7 @@ public class InstanceFunctionBuilder implements MemberFunctionBuilder {
    
    @Override
    public FunctionHandle create(TypeFactory factory, Scope scope, Type type){
-      InvocationBuilder builder = new StatementInvocationBuilder(signature, body, body, constraint);
+      InvocationBuilder builder = new StatementInvocationBuilder(signature, body, constraint);
       Invocation invocation = new InstanceInvocation(builder, name, body == null);
       Function function = new InvocationFunction(signature, invocation, type, constraint, name, modifiers);
       
@@ -42,6 +42,6 @@ public class InstanceFunctionBuilder implements MemberFunctionBuilder {
             throw new InternalStateException("Function '" + function + "' is not abstract");
          }
       }
-      return new FunctionHandle(builder, function, body);
+      return new FunctionHandle(builder, null, function);
    }
 }

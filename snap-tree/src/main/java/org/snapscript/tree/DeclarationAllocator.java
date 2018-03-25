@@ -1,6 +1,6 @@
 package org.snapscript.tree;
 
-import org.snapscript.core.Bug;
+import org.snapscript.core.Allocator;
 import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Local;
@@ -10,7 +10,7 @@ import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.tree.constraint.SafeConstraint;
 
-public class DeclarationAllocator {
+public class DeclarationAllocator implements Allocator {
 
    private final DeclarationConverter converter;
    private final Constraint constraint;
@@ -22,14 +22,23 @@ public class DeclarationAllocator {
       this.expression = expression;
    }   
    
-   @Bug("really really bad")
-   public <T extends Value> T validate(Scope scope, String name, int modifiers) throws Exception {
+   @Override
+   public <T extends Value> T compile(Scope scope, String name, int modifiers) throws Exception {
       Type type = constraint.getType(scope);
-      Object object = null;
-
-      return create(scope, name, object, type, modifiers);
+      
+      if(expression != null) {
+         Constraint object = expression.compile(scope, null);
+         Type real = object.getType(scope);
+         
+         if(real != null) {
+            type = converter.compile(scope, real, constraint, name);        
+         }
+      }
+      return create(scope, name, type, type, modifiers);
    }
    
+   
+   @Override
    public <T extends Value> T allocate(Scope scope, String name, int modifiers) throws Exception {
       Type type = constraint.getType(scope);
       Object object = null;
@@ -39,7 +48,7 @@ public class DeclarationAllocator {
          Object original = value.getValue();
          
          if(type != null) {
-            object = converter.convert(scope, original, type, name);
+            object = converter.convert(scope, original, constraint, name);
          } else {
             object = original;
          }

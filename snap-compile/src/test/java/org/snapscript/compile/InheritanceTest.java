@@ -17,7 +17,7 @@ public class InheritanceTest extends TestCase {
    "      println(\"${x},${y}\");\n"+
    "   }\n"+
    "}\n"+
-   "var types = X.getTypes();\n"+
+   "var types = X.class.getTypes();\n"+
    "println(types);\n"+
    "println(X.class);\n"+
    "println(Y.class);\n"+

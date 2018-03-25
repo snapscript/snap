@@ -25,10 +25,10 @@ public class ModuleFunctionBuilder {
 
    public FunctionHandle create(Signature signature, Module module, Constraint constraint, String name) {
       Type type = new FunctionType(signature, module, null);
-      InvocationBuilder builder = new StatementInvocationBuilder(signature, statement, statement, constraint);
+      InvocationBuilder builder = new StatementInvocationBuilder(signature, statement, constraint);
       Invocation invocation = new StatementInvocation(builder);
       Function function = new InvocationFunction(signature, invocation, type, constraint, name, 0);
       
-      return new FunctionHandle(builder, function, statement);
+      return new FunctionHandle(builder, null, function);
    }
 }

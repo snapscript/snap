@@ -38,7 +38,7 @@ public class Declaration {
       this.value = value;
    }   
 
-   public void compile(Scope scope, int modifiers) throws Exception {
+   public void define(Scope scope, int modifiers) throws Exception {
       String name = reference.getName(scope);
       
       if(value != null){
@@ -50,9 +50,9 @@ public class Declaration {
       offset.set(depth);
    }
    
-   public Value validate(Scope scope, int modifiers) throws Exception {
+   public Value compile(Scope scope, int modifiers) throws Exception {
       String name = reference.getName(scope);
-      Local local = allocator.validate(scope, name, modifiers);
+      Local local = allocator.compile(scope, name, modifiers);
       Table table = scope.getTable();
       int depth = offset.get();
       

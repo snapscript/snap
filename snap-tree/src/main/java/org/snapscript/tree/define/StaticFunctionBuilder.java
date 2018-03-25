@@ -1,6 +1,7 @@
 package org.snapscript.tree.define;
 
 import org.snapscript.core.Constraint;
+import org.snapscript.core.Execution;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
@@ -11,8 +12,7 @@ import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationBuilder;
 import org.snapscript.core.function.InvocationFunction;
 import org.snapscript.core.function.Signature;
-import org.snapscript.tree.StatementBlock;
-import org.snapscript.tree.StatementInvocationBuilder;
+import org.snapscript.tree.StaticInvocationBuilder;
 
 public class StaticFunctionBuilder implements MemberFunctionBuilder {
    
@@ -32,12 +32,11 @@ public class StaticFunctionBuilder implements MemberFunctionBuilder {
    
    @Override
    public FunctionHandle create(TypeFactory factory, Scope scope, Type type){
-      Statement initialize = new StaticBody(factory, type); 
-      Statement statement = new StatementBlock(initialize, body); 
-      InvocationBuilder builder = new StatementInvocationBuilder(signature, body, statement, constraint);
+      Execution execution = new StaticBody.StaticExecution(factory, type); 
+      InvocationBuilder builder = new StaticInvocationBuilder(signature, execution, body, constraint);
       Invocation invocation = new StaticInvocation(builder, scope);
       Function function = new InvocationFunction(signature, invocation, type, constraint, name, modifiers);
       
-      return new FunctionHandle(builder, function, body);
+      return new FunctionHandle(builder, null, function);
    }
 }

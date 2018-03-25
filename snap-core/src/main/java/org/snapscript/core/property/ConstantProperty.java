@@ -18,8 +18,8 @@ public class ConstantProperty implements Property<Object> {
    private final int modifiers;
    
    public ConstantProperty(String name, Type type, Constraint constraint, Object value, int modifiers){
-      if(constraint == null){
-         throw new IllegalStateException();
+      if("Config".equals(name)){
+         System.err.println();
       }
       this.annotations = new ArrayList<Annotation>();
       this.constant = new Constant(value, type);

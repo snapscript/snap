@@ -34,10 +34,10 @@ public class ClosureBuilder {
    public FunctionHandle create(Signature signature, Scope scope, int modifiers) {
       Constraint constraint = new ConstantConstraint(null);
       Type type = new FunctionType(signature, module, null);
-      InvocationBuilder builder = new StatementInvocationBuilder(signature, statement, statement, constraint, true);
+      InvocationBuilder builder = new StatementInvocationBuilder(signature, statement, constraint, true);
       Invocation invocation = new ClosureInvocation(builder, scope);
       Function function = new InvocationFunction(signature, invocation, type, constraint, METHOD_CLOSURE, modifiers);
       
-      return new FunctionHandle(builder, function, statement);
+      return new ClosureHandle(builder, null, function);
    }
 }

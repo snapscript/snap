@@ -35,7 +35,7 @@ public class ConstructorBuilder {
    
    public FunctionHandle create(TypeFactory factory, Type type, int modifiers, boolean compile) {
       Constraint none = new ConstantConstraint(null);
-      InvocationBuilder external = new StatementInvocationBuilder(signature, statement, statement, none);
+      InvocationBuilder external = new StatementInvocationBuilder(signature, statement, none);
       Invocation body = new StatementInvocation(external);
       TypeAllocator instance = new ThisAllocator(factory, body, type);
       InvocationBuilder internal = new TypeInvocationBuilder(delegate, signature, type);
@@ -44,6 +44,6 @@ public class ConstructorBuilder {
       Constraint constraint = new ConstantConstraint(type);
       Function function = new InvocationFunction(signature, constructor, type, constraint, TYPE_CONSTRUCTOR, modifiers | STATIC.mask, 1);
       
-      return new FunctionHandle(external, function, statement);
+      return new FunctionHandle(external, internal, function);
    }
 }

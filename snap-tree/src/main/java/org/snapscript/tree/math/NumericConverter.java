@@ -112,6 +112,9 @@ public enum NumericConverter {
    public abstract Value decrement(Number number);
    
    public static NumericConverter resolveConverter(Number number) {
+      if(number == null){
+         System.err.println();
+      }
       Class type = number.getClass();
       
       if (Double.class == type) {

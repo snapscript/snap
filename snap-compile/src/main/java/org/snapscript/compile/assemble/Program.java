@@ -36,19 +36,21 @@ public class Program implements Executable{
    public void execute() throws Exception {
       execute(model);
    }
-   
+   Execution e;
    @Override
    public void execute(Model model) throws Exception{ 
       Scope scope = merger.merge(model, name, path);
       PackageDefinition definition = library.create(scope); // create all types
       Statement statement = definition.define(scope, null); // define tree
-      ProgramValidator validator = context.getValidator();
       ErrorHandler handler = context.getHandler();
       
       try {
-         Execution e = statement.compile(scope);
-         
-         validator.validate(context); // validate program
+         if(e == null) {
+            ProgramValidator validator = context.getValidator();
+            
+            e = statement.compile(scope);
+            validator.validate(context); // validate program
+         }
          e.execute(scope);        
       } catch(Throwable cause) {
          handler.throwExternalError(scope, cause);

@@ -2,6 +2,7 @@ package org.snapscript.tree.define;
 
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
+import org.snapscript.core.TypePart;
 import org.snapscript.core.define.SuperExtractor;
 
 public class ConstructorSelector {
@@ -16,7 +17,7 @@ public class ConstructorSelector {
       this.part = part;
    } 
 
-   public TypeFactory compile(TypeFactory factory, Type type) throws Exception {
+   public TypeFactory define(TypeFactory factory, Type type) throws Exception {
       Type base = extractor.extractor(type);
       
       if(part != null){

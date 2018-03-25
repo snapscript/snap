@@ -3,26 +3,19 @@ package org.snapscript.tree.define;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.snapscript.core.Context;
-import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
+import org.snapscript.core.TypePart;
 import org.snapscript.core.ValidationHelper;
-import org.snapscript.core.define.Instance;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionHandle;
-import org.snapscript.core.function.Invocation;
-import org.snapscript.core.function.Parameter;
-import org.snapscript.core.function.Signature;
-import org.snapscript.core.platform.Platform;
-import org.snapscript.core.platform.PlatformProvider;
 import org.snapscript.tree.ModifierList;
 import org.snapscript.tree.annotation.AnnotationList;
 import org.snapscript.tree.function.ParameterList;
 
-public abstract class MemberConstructor implements TypePart {
+public abstract class MemberConstructor extends TypePart {
    
    private final AtomicReference<FunctionHandle> reference;
    private final ConstructorAssembler assembler;
@@ -39,14 +32,14 @@ public abstract class MemberConstructor implements TypePart {
       this.annotations = annotations;
       this.list = list;
    } 
-   
-   @Override
-   public TypeFactory create(TypeFactory factory, Type type) throws Exception {
-      return null;
-   }
-   
+   Exception e;
    @Override
    public TypeFactory compile(TypeFactory factory, Type type) throws Exception {
+      if(e!=null){
+         System.err.println();
+      } else {
+         e=new Exception();
+      }
       FunctionHandle handle = reference.get();
       Scope scope = type.getScope();
       Function function = handle.create(scope);

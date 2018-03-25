@@ -3,5 +3,7 @@ package org.snapscript.core.function;
 import org.snapscript.core.Scope;
 
 public interface InvocationBuilder {
-   Invocation define(Scope scope) throws Exception;
+   void define(Scope scope) throws Exception;
+   void compile(Scope scope) throws Exception;
+   Invocation create(Scope scope) throws Exception;
 }

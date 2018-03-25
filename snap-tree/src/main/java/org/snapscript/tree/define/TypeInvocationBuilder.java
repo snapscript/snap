@@ -1,5 +1,6 @@
 package org.snapscript.tree.define;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
@@ -11,6 +12,7 @@ import org.snapscript.core.function.Signature;
 import org.snapscript.core.function.SignatureAligner;
 import org.snapscript.tree.function.ParameterExtractor;
 
+@Bug("this will not work!!")
 public class TypeInvocationBuilder implements InvocationBuilder {
    
    private ParameterExtractor extractor;
@@ -25,22 +27,35 @@ public class TypeInvocationBuilder implements InvocationBuilder {
       this.factory = factory;
       this.type = type;
    }
-   
+   Exception e;
+   Exception e2;
    @Override
-   public Invocation define(Scope scope) throws Exception {
-      if(invocation == null) {
-         invocation = assemble(scope);
-      }
-      return invocation;
-   }
-   
-   private Invocation assemble(Scope scope) throws Exception {
+   public void define(Scope scope) throws Exception {
+      e=new Exception();
       Scope inner = scope.getStack();
       
       extractor.define(inner); // count parameters
       factory.define(inner, type); // start counting from here 
-     
-      return new ResultConverter(factory);
+   }
+   
+   
+   @Override
+   public void compile(Scope scope) throws Exception {
+      if(e2==null){
+         e2=new Exception();
+      } else {
+         System.err.println();
+      }
+      factory.compile(scope, type);
+   }
+   
+   @Override
+   public Invocation create(Scope scope) throws Exception {
+      if(invocation == null) {
+         factory.allocate(scope, type);
+         invocation = new ResultConverter(factory);
+      }
+      return invocation;
    }
 
    private class ResultConverter implements Invocation<Instance> {

@@ -13,6 +13,40 @@ import org.snapscript.core.property.Property;
 /** we should cache the member data so we can fill the state quickly */
 @Bug("wtf???")
 public class ValidationHelper {
+
+   public static Scope create(Scope scope, Type type, Function function) {
+      Signature signature = function.getSignature();
+      
+      try {
+         Scope outer = scope.getStack();
+         State state = outer.getState();
+         Table table = outer.getTable();
+         List<Parameter> parameters = signature.getParameters();
+         int count = parameters.size();
+         
+         for(int i = 0; i < count; i++) {
+            Parameter parameter = parameters.get(i);
+            String name = parameter.getName();
+            Constraint constraint = parameter.getType();
+            Type result = constraint.getType(scope);
+            Local local = Local.getReference(null, name, result);
+            
+            state.add(name, local);
+            table.add(i, local);
+         }
+         if(type != null){
+            Set<Type> types = scope.getModule().getContext().getExtractor().getTypes(type);
+            //extract(type, outer, state);
+            for(Type t:types){
+               extract(t, outer, state);
+            }
+         }
+         return outer;
+      }catch(Exception e) {
+         e.printStackTrace();
+         return null;
+      }
+   }
    
    public static Scope create(Type type, Function function) {
       Signature signature = function.getSignature();

@@ -62,7 +62,7 @@ public class FunctionInvocation implements Compilation {
          String name = reference.getName(scope); 
          Index index = scope.getIndex();
          int depth = index.get(name);
-         
+
          offset.set(depth);
          arguments.define(scope);
          
@@ -75,7 +75,7 @@ public class FunctionInvocation implements Compilation {
       @Override
       public Constraint compile(Scope scope, Constraint left) throws Exception {
          int depth = offset.get();
-         
+
          if(depth != -1 && left == null){
             Table table = scope.getTable();
             Value value = table.get(depth);
@@ -86,14 +86,21 @@ public class FunctionInvocation implements Compilation {
                if(Function.class.isInstance(type)) {
                   return executeV(scope, Constraint.getInstance(type), type);
                }
+               return Constraint.getNone(); // this is because we don't know that its not a function
             }
          }
          Type t = null;
-         if(left != null)
+         if(left != null) {
             t =left.getType(scope);
+         } else {
+            t = scope.getType();
+            left = Constraint.getInstance(t);
+         }
          
          if(t != null) {
             return executeV(scope, left, t);
+         }else {
+            arguments.compile(scope);
          }
          return Constraint.getNone();
       }

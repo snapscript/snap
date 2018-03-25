@@ -6,6 +6,7 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
+import org.snapscript.core.TypePart;
 import org.snapscript.core.function.Signature;
 import org.snapscript.tree.function.ParameterList;
 
@@ -23,7 +24,7 @@ public class ConstructorAssembler {
    
    public ConstructorBuilder assemble(TypeFactory factory, Type type) throws Exception {
       Scope scope = type.getScope();
-      TypeFactory internal = delegate.compile(factory, type);
+      TypeFactory internal = delegate.define(factory, type);
       Signature signature = parameters.create(scope, TYPE_CLASS);
       
       return new ConstructorBuilder(internal, signature, body);

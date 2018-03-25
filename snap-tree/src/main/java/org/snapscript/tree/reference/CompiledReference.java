@@ -3,6 +3,8 @@ package org.snapscript.tree.reference;
 import static org.snapscript.core.Phase.DEFINED;
 
 import org.snapscript.common.Progress;
+import org.snapscript.core.Bug;
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Phase;
@@ -23,6 +25,22 @@ public class CompiledReference extends TypeReference {
    public CompiledReference(Evaluation reference, long duration) {
       this.reference = reference;
       this.duration = duration;
+   }
+   
+   @Bug("cache!!")
+   @Override
+   public Constraint compile(Scope scope, Constraint left) throws Exception {
+      Constraint value = reference.compile(scope, left);
+      Type result = value.getType(scope);
+      if(result == null){
+         System.err.println();
+      }
+      Progress<Phase> progress = result.getProgress();
+      
+      if(!progress.wait(DEFINED, duration)) {
+         throw new InternalStateException("Type '" + result + "' not compiled");
+      }
+      return value;
    }
    
    @Override

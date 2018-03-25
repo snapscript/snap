@@ -30,7 +30,7 @@ public class StaticAccessor implements Accessor {
          Value field = state.get(name);
          
          if(field == null) {
-            factory.define(scope, type);           
+            factory.allocate(scope, type);           
          }
       }catch(Exception e){
          throw new InternalStateException("Static reference to '" + name + "' in '" + type + "' failed", e);
@@ -45,7 +45,7 @@ public class StaticAccessor implements Accessor {
          Value field = state.get(name);
          
          if(field == null) {
-            factory.define(scope, type);           
+            factory.allocate(scope, type);           
          }    
       }catch(Exception e){
          throw new InternalStateException("Static reference to '" + name + "' in '" + type + "' failed", e);

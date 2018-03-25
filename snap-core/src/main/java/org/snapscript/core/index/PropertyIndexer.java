@@ -93,8 +93,7 @@ public class PropertyIndexer {
          if(ModifierType.isPublic(modifiers) || ModifierType.isProtected(modifiers)) {
             String name = entry.getSimpleName();
             Type element = indexer.loadType(entry);
-            Type match = indexer.loadType(Type.class);
-            Constraint constraint = Constraint.getInstance(match);
+            Constraint constraint = Constraint.getStatic(element);
             Property property = generator.generate(element, constraint, name, modifiers | CONSTANT.mask); 
             List<Annotation> extracted = extractor.extract(entry);
             List<Annotation> actual = property.getAnnotations();

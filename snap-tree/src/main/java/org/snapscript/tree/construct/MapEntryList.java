@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Module;
@@ -22,8 +23,16 @@ public class MapEntryList extends Evaluation{
    @Override
    public void define(Scope scope) throws Exception{
       for(int i = 0; i < list.length; i++){
+         list[i].define(scope);
+      }
+   }
+   
+   @Override
+   public Constraint compile(Scope scope, Constraint left) throws Exception {
+      for(int i = 0; i < list.length; i++){
          list[i].compile(scope);
       }
+      return Constraint.getNone();
    }
    
    @Override

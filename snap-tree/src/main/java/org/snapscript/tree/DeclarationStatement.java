@@ -47,7 +47,7 @@ public class DeclarationStatement implements Compilation {
          ModifierType type = modifier.getType();
          
          for(Declaration declaration : declarations) {
-            declaration.compile(scope, type.mask); 
+            declaration.define(scope, type.mask); 
          }
       }
       
@@ -56,7 +56,7 @@ public class DeclarationStatement implements Compilation {
          ModifierType type = modifier.getType();
          
          for(Declaration declaration : declarations) {
-            declaration.validate(scope, type.mask); 
+            declaration.compile(scope, type.mask); 
          }
          return new CompileExecution(modifier, declarations);
       }

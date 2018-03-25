@@ -2,14 +2,16 @@ package org.snapscript.core.convert;
 
 import static org.snapscript.core.convert.Score.EXACT;
 import static org.snapscript.core.convert.Score.INVALID;
-import static org.snapscript.core.convert.Score.SIMILAR;
+import static org.snapscript.core.convert.Score.*;
 import static org.snapscript.core.convert.Score.TRANSIENT;
 
 import java.lang.reflect.Array;
 import java.util.List;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Type;
+import org.snapscript.core.TypeCastChecker;
 
 public class ArrayConverter extends ConstraintConverter {
 
@@ -18,23 +20,25 @@ public class ArrayConverter extends ConstraintConverter {
    private final ProxyWrapper wrapper;
    private final Type type;
    
-   public ArrayConverter(ConstraintMatcher matcher, ProxyWrapper wrapper, Type type) {
-      this.comparator = new ArrayTypeComparator();
+   public ArrayConverter(ConstraintMatcher matcher, TypeCastChecker checker, ProxyWrapper wrapper, Type type) {
+      this.comparator = new ArrayTypeComparator(checker);
       this.wrapper = wrapper;
       this.matcher = matcher;
       this.type = type;
    }
    
+   @Bug("is this right??")
    @Override
    public Score score(Type actual) throws Exception {
       if(actual != null) {
          Class require = type.getType();
          Class real = actual.getType();
-         
+      
+         if(List.class.isAssignableFrom(real)) {
+            return POSSIBLE;
+         }
          if(require != real) {
-            if(!comparator.isEqual(require, real)) {
-               return INVALID; 
-            }
+            return comparator.score(type, actual);
          }
       }
       return EXACT;
@@ -46,16 +50,19 @@ public class ArrayConverter extends ConstraintConverter {
          Class require = type.getType();
          Class actual = object.getClass();
          
-         if(actual.isArray()) {
-            if(require != actual) {
-               if(!comparator.isEqual(require, actual)) {
-                  return score(object, type);
-               }
-            }
-            return EXACT;
-         }
          if(List.class.isInstance(object)) {
             return score((List)object, type);
+         }
+         if(actual.isArray()) {
+            if(require != actual) {
+               Score score = comparator.score(require, actual);
+               
+               if(score.isInvalid()) {               
+                  return score(object, type);
+               }
+               return score;
+            }
+            return EXACT;
          }
          return INVALID;
       }
@@ -123,7 +130,9 @@ public class ArrayConverter extends ConstraintConverter {
          Class actual = object.getClass();
          
          if(actual.isArray()) {
-            if(!comparator.isEqual(require, actual)) {
+            Score score = comparator.score(require, actual);
+             
+            if(score.isInvalid()) {   
                return convert(object, type);
             }
             return object;

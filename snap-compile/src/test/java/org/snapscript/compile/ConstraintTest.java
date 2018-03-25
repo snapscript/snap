@@ -10,11 +10,18 @@ public class ConstraintTest extends TestCase {
    "y++;\n"+
    "y.hashCode();\n"+
    "println(x);\n";
-
    
    private static final String SOURCE_2 =
    "System.err.println('x');";
    
+   private static final String SOURCE_3 = 
+   "class Foo {\n"+
+   "   foo(x): List{\n"+
+   "      return [];\n"+
+   "   }\n"+
+   "}\n"+
+   "new Foo().foo(1).foo();\n";
+
    public void testCompoundStatement() throws Exception {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
       Executable executable = compiler.compile(SOURCE_1);
@@ -26,6 +33,21 @@ public class ConstraintTest extends TestCase {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
       Executable executable = compiler.compile(SOURCE_2);
       executable.execute();
+   
+   }
+   
+   public void testInvalidReference() throws Exception {
+      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
+      boolean failure = false;
+      
+      try{
+         Executable executable = compiler.compile(SOURCE_3);
+         executable.execute();
+      }catch(Exception e){
+         failure = true;
+         e.printStackTrace();
+      }
+      assertTrue("Compile error", failure);
    
    }
 }

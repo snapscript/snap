@@ -34,7 +34,7 @@ public class NewInvocation implements Invocation<Instance>{
       Instance inner = builder.create(scope, base, real);
 
       if(compile.compareAndSet(true, false)) {
-         factory.define(scope, type); // static stuff if needed
+         factory.allocate(scope, type); // static stuff if needed
       }
       return allocator.allocate(scope, inner, list);
    }

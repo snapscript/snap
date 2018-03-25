@@ -57,9 +57,6 @@ public class Variable implements Compilation {
       
       @Override
       public Constraint compile(Scope scope, Constraint left) throws Exception{
-         if(scope== null){
-            System.err.println();
-         }
          if(left == null) {
             int depth = offset.get();
             

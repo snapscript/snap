@@ -34,9 +34,6 @@ public class ClassBuilder {
    public Type create(Scope outer) throws Exception {
       Module module = outer.getModule();
       String alias = name.getName(outer);
-      if(alias.contains("ImageMan")){
-         System.err.println();
-      }
       Type type = module.addType(alias, category); 
       
       reference.set(type);
@@ -46,9 +43,6 @@ public class ClassBuilder {
    
    public Type define(Scope outer) throws Exception {
       Type type = reference.get();
-      if(type.getName().contains("ImageMan")){
-         System.err.println();
-      }
       Type enclosing = outer.getType();
       Scope scope = type.getScope();
       

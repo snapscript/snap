@@ -27,7 +27,9 @@ public class CreateObject extends Evaluation {
    }      
 
    @Override
-   public void define(Scope scope) throws Exception { 
+   public void define(Scope scope) throws Exception {
+      reference.define(scope);
+      
       if(arguments != null) {
          arguments.define(scope);
       }
@@ -35,7 +37,13 @@ public class CreateObject extends Evaluation {
    
    @Override
    public Constraint compile(Scope scope, Constraint left) throws Exception {
-      return reference.compile(scope, left);
+      Constraint constraint = reference.compile(scope, null);
+      Type type = constraint.getType(scope);
+      
+      if(arguments != null) {
+         arguments.compile(scope, type);
+      }
+      return constraint;
    }   
    
    @Override

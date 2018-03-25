@@ -52,7 +52,7 @@ public class OperationEvaluator implements ExpressionEvaluator {
    public <T> T evaluate(Scope scope, String source, String module) throws Exception{ 
       try {
          Scope capture = extractor.extract(scope);
-         Evaluation evaluation = builder.create(source, module);
+         Evaluation evaluation = builder.create(capture, source, module);
          Value reference = evaluation.evaluate(capture,null);
          
          return (T)reference.getValue();

@@ -27,6 +27,7 @@ public class ThisConstructorCallTest extends TestCase {
 
          
    public void testThisCall() throws Exception{
+      System.err.println(SOURCE);
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
       Executable executable = compiler.compile(SOURCE);
       long start = System.currentTimeMillis();

@@ -26,6 +26,11 @@ public class FunctionCall {
       return invocation;
    }
    
+   @Override
+   public String toString() {
+      return String.valueOf(function);
+   }
+   
    private static class StackInvocation implements Invocation {
    
       private final ThreadStack stack;

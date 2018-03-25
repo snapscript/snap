@@ -1,5 +1,6 @@
 package org.snapscript.core.trace;
 
+import static org.snapscript.core.trace.TraceType.ALLOCATE;
 import static org.snapscript.core.trace.TraceType.CONSTRUCT;
 import static org.snapscript.core.trace.TraceType.INVOKE;
 import static org.snapscript.core.trace.TraceType.NATIVE;
@@ -24,6 +25,10 @@ public class Trace {
    
    public static Trace getNormal(Module module, Path path, int line) {
       return new Trace(NORMAL, module, path, line);
+   }
+   
+   public static Trace getAllocate(Module module, Path path, int line) {
+      return new Trace(ALLOCATE, module, path, line);
    }
    
    private final TraceType type;

@@ -1,28 +1,33 @@
 package org.snapscript.core.function;
 
 import org.snapscript.core.Scope;
-import org.snapscript.core.Statement;
 
 public class FunctionHandle {
    
-   private final InvocationBuilder builder;
-   private final Statement statement;
-   private final Function function;
+   protected final InvocationBuilder builder;
+   protected final InvocationBuilder other;
+   protected final Function function;
    
-   public FunctionHandle(InvocationBuilder builder, Function function, Statement statement) {
-      this.statement = statement;
+   public FunctionHandle(InvocationBuilder builder, InvocationBuilder other, Function function) {
       this.function = function;
       this.builder = builder;
-   }
-   
-   public void compile(Scope scope) throws Exception {
-      if(statement != null) {
-         statement.compile(scope);
-      }
+      this.other = other;
    }
    
    public void define(Scope scope) throws Exception {
       builder.define(scope);
+      
+      if(other != null) {
+         other.define(scope);
+      }
+   }   
+   
+   public void compile(Scope scope) throws Exception {
+      builder.compile(scope);
+      
+      if(other != null) {
+         other.compile(scope);
+      }
    }
    
    public Function create(Scope scope) throws Exception {

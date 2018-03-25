@@ -1,6 +1,5 @@
 package org.snapscript.tree.define;
 
-import org.snapscript.core.Result;
 import org.snapscript.core.Type;
 
 public class StaticConstantFactory extends StaticFactory {
@@ -12,7 +11,7 @@ public class StaticConstantFactory extends StaticFactory {
    }
 
    @Override
-   protected void compile(Type type) throws Exception { 
+   protected void allocate(Type type) throws Exception { 
       collector.collect(type);
    }
 }

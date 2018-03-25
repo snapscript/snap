@@ -1,5 +1,7 @@
 package org.snapscript.tree;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import org.snapscript.core.Bug;
 import org.snapscript.core.Constraint;
 import org.snapscript.core.Context;
@@ -18,7 +20,7 @@ import org.snapscript.core.function.Signature;
 import org.snapscript.core.function.SignatureAligner;
 import org.snapscript.tree.function.ParameterExtractor;
 
-public class StatementInvocationBuilder implements InvocationBuilder {
+public class StaticInvocationBuilder implements InvocationBuilder {
    
    private ParameterExtractor extractor;
    private ResultConverter converter;
@@ -26,50 +28,34 @@ public class StatementInvocationBuilder implements InvocationBuilder {
    private Constraint constraint;
    private Statement statement;
    private Execution execution;
-   private Exception e;
-   private Exception e2;
-   public StatementInvocationBuilder(Signature signature, Statement statement, Constraint constraint) {
-      this(signature, statement, constraint, false);
-   }
-   
-   public StatementInvocationBuilder(Signature signature, Statement statement, Constraint constraint, boolean closure) {
-      e=new Exception();
-      this.extractor = new ParameterExtractor(signature, closure);
+   private Execution compile;
+
+   public StaticInvocationBuilder(Signature signature, Execution compile, Statement statement, Constraint constraint) {
+      this.extractor = new ParameterExtractor(signature, true);
       this.aligner = new SignatureAligner(signature);
       this.constraint = constraint;
       this.statement = statement;
+      this.compile = compile;
    }
    
    @Override
    public void define(Scope scope) throws Exception {
       Scope inner = scope.getStack();
       
-      if(statement != null) {
-         extractor.define(inner); // count parameters
-         statement.define(inner); // start counting from here
-      }
+      extractor.define(inner); // count parameters
+      statement.define(scope);     
    }
    
    @Override
    public void compile(Scope scope) throws Exception {
-      e2=new Exception();
       if(execution != null) {
          throw new InternalStateException("Function has already been compiled");
       }
-      if(execution == null && statement != null) {
-         execution = statement.compile(scope);
-      }
+      execution = statement.compile(scope); // who is going to execute this????
    }
    
-   @Bug("fix errors")
    @Override
    public Invocation create(Scope scope) throws Exception {
-      if(statement == null) {
-         throw new InternalStateException("Function is abstract");         
-      }
-      if(execution == null) {
-         throw new InternalStateException("Function has not been compiled");
-      }
       if(converter == null) {
          converter = build(scope);
       }
@@ -81,17 +67,22 @@ public class StatementInvocationBuilder implements InvocationBuilder {
       Context context = module.getContext();
       ConstraintMatcher matcher = context.getMatcher();      
 
-      return new ResultConverter(matcher, execution);
+      return new ResultConverter(matcher, compile, execution);
    }
 
    private class ResultConverter implements Invocation<Object> {
       
-      private ConstraintMatcher matcher;
-      private Execution execution;
+      private final ConstraintMatcher matcher;
+      @Bug("why do we need to know about this??? should push logic up stack")
+      private final AtomicBoolean execute;
+      private final Execution execution;
+      private final Execution compile;
       
-      public ResultConverter(ConstraintMatcher matcher, Execution execution) {
+      public ResultConverter(ConstraintMatcher matcher, Execution compile, Execution execution) {
+         this.execute = new AtomicBoolean(false);
          this.execution = execution;
          this.matcher = matcher;
+         this.compile = compile;
       }
       
       @Override
@@ -100,13 +91,23 @@ public class StatementInvocationBuilder implements InvocationBuilder {
          Scope inner = extractor.extract(scope, arguments);
          Type type = constraint.getType(scope);
          ConstraintConverter converter = matcher.match(type);
-         Result result = execution.execute(inner);
-         Object value = result.getValue();
          
-         if(value != null) {
-            value = converter.assign(value);
+         if(execute.compareAndSet(false, true)) {
+            compile.execute(inner); // could be a static block
          }
-         return value;
+         try {
+            Result result = execution.execute(inner);
+            Object value = result.getValue();
+            
+            if(value != null) {
+               value = converter.assign(value);
+            }
+            return value;
+         }catch(Exception e){
+            e.printStackTrace();
+            throw e;
+         }
+         
       }
    }
 }

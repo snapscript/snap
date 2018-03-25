@@ -4,8 +4,9 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
+import org.snapscript.core.TypePart;
 
-public class InnerDefinition implements TypePart {
+public class InnerDefinition extends TypePart {
    
    private final Statement statement;
    

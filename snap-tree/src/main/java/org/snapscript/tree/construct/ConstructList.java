@@ -60,6 +60,9 @@ public class ConstructList implements Compilation {
       
       @Override
       public Constraint compile(Scope scope, Constraint left) throws Exception {
+         if(arguments != null) {
+            arguments.compile(scope);      
+         }   
          return Constraint.getInstance(scope, List.class);
       }
       

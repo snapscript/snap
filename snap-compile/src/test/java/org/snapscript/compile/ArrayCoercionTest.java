@@ -53,7 +53,7 @@ public class ArrayCoercionTest extends TestCase {
    "}\n"+
    "var array1: Score[] = [new Score(1.1), new Score(1.0), new Score(2.0)];\n"+
    "var array2: Comparable[] = array1;\n"+   
-   "var array3: Score[] = array2;\n"+  
+   "var array3: Score[] = array2 as Score[];\n"+  
    "var array4: Comparable[] = array3;\n"+    
    "\n"+
    "println(array1);\n"+  

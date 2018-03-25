@@ -11,6 +11,7 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
+import org.snapscript.core.TypePart;
 import org.snapscript.core.ValidationHelper;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionHandle;
@@ -18,7 +19,7 @@ import org.snapscript.tree.ModifierList;
 import org.snapscript.tree.annotation.AnnotationList;
 import org.snapscript.tree.function.ParameterList;
 
-public class MemberFunction implements TypePart {
+public class MemberFunction extends TypePart {
    
    protected final AtomicReference<FunctionHandle> reference;
    protected final MemberFunctionAssembler assembler;
@@ -43,11 +44,6 @@ public class MemberFunction implements TypePart {
       this.annotations = annotations;
       this.body = body;
    } 
-   
-   @Override
-   public TypeFactory create(TypeFactory factory, Type type) throws Exception {
-      return null;
-   }
 
    @Override
    public TypeFactory define(TypeFactory factory, Type type) throws Exception {

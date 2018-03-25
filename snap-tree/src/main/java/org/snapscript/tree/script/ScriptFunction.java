@@ -3,15 +3,16 @@ package org.snapscript.tree.script;
 import static org.snapscript.core.ResultType.NORMAL;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Execution;
+import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
 import org.snapscript.core.NoExecution;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
-import org.snapscript.core.Type;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionHandle;
 import org.snapscript.core.function.Signature;
@@ -22,6 +23,7 @@ import org.snapscript.tree.function.ParameterList;
 
 public class ScriptFunction extends Statement {
    
+   private final AtomicReference<FunctionHandle> reference;
    private final ParameterList parameters;
    private final FunctionBuilder builder;
    private final NameReference identifier;
@@ -32,6 +34,7 @@ public class ScriptFunction extends Statement {
    }
    
    public ScriptFunction(Evaluation identifier, ParameterList parameters, Constraint constraint, Statement body){  
+      this.reference = new AtomicReference<FunctionHandle>();
       this.constraint = new SafeConstraint(constraint);
       this.identifier = new NameReference(identifier);
       this.builder = new ScriptFunctionBuilder(body);
@@ -49,10 +52,18 @@ public class ScriptFunction extends Statement {
       
       functions.add(function);
       handle.define(scope); // count stack
+      reference.set(handle);
    }
    
    @Override
    public Execution compile(Scope scope) throws Exception {
+      FunctionHandle handle = reference.get();
+      String name = identifier.getName(scope);
+      
+      if(handle == null) {
+         throw new InternalStateException("Function '" + name + "' was not compiled");
+      }
+      handle.compile(scope);
       return new NoExecution(NORMAL);
    }
 }

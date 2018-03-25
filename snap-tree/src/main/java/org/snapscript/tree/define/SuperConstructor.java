@@ -6,12 +6,13 @@ import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
+import org.snapscript.core.TypePart;
 import org.snapscript.core.define.SuperExtractor;
 import org.snapscript.parse.StringToken;
 import org.snapscript.tree.ArgumentList;
 import org.snapscript.tree.literal.TextLiteral;
 
-public class SuperConstructor implements TypePart {
+public class SuperConstructor extends TypePart {
    
    private final SuperExtractor extractor;
    private final ArgumentList arguments;
@@ -32,11 +33,6 @@ public class SuperConstructor implements TypePart {
       this.extractor = new SuperExtractor();
       this.arguments = arguments;
    }
-   
-   @Override
-   public TypeFactory create(TypeFactory factory, Type type) throws Exception {
-      return null;
-   }
 
    @Override
    public TypeFactory define(TypeFactory factory, Type type) throws Exception {
@@ -47,12 +43,7 @@ public class SuperConstructor implements TypePart {
       }     
       return assemble(factory, base);
    }
-   
-   @Override
-   public TypeFactory compile(TypeFactory factory, Type type) throws Exception {
-      return null;
-   }
-   
+
    protected TypeFactory assemble(TypeFactory statements, Type type) throws Exception {
       StringToken name = new StringToken(TYPE_CONSTRUCTOR);
       Evaluation literal = new TextLiteral(name);

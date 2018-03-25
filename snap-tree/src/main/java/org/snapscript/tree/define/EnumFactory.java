@@ -10,7 +10,6 @@ import java.util.concurrent.Callable;
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Type;
@@ -35,7 +34,7 @@ public class EnumFactory extends TypeFactory {
    }
    
    @Override
-   public Result execute(Scope scope, Type type) throws Exception {
+   public void compile(Scope scope, Type type) throws Exception {
       String name = reference.getName(scope);
       State state = scope.getState();
 
@@ -53,6 +52,9 @@ public class EnumFactory extends TypeFactory {
       Value result = call.call();
       Scope instance = result.getValue();
       Value value = state.get(ENUM_VALUES);
+      if(value == null){
+         System.err.println();
+      }
       List values = value.getValue();
       Object object = wrapper.toProxy(instance);
       
@@ -60,7 +62,5 @@ public class EnumFactory extends TypeFactory {
       generator.generateConstant(instance, ENUM_NAME, type, name); // might declare name as property many times
       generator.generateConstant(instance, ENUM_ORDINAL, type, index);
       values.add(object);
-      
-      return Result.getNormal(instance);
    }
 }

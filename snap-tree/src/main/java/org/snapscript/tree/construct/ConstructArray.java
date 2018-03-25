@@ -58,6 +58,11 @@ public class ConstructArray implements Compilation {
       @Bug("how would we do an array?")
       @Override
       public Constraint compile(Scope scope, Constraint left) throws Exception {
+         reference.compile(scope, null);
+         
+         for(int i = 0; i < arguments.length; i++) {
+            arguments[i].compile(scope, null);
+         }  
          return Constraint.getNone();
       }
       
