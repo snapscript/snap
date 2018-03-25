@@ -6,7 +6,7 @@ class Test{
 		this.x=x;
 	}
 	fo(){
-		out.println("fun");
+		System.out.println("fun");
 	}
 	foo(){
 		return x;
@@ -15,4 +15,4 @@ class Test{
 		x++;
 	}
 }
-out.println("TODO: fix class declaration");
+System.out.println("TODO: fix class declaration");

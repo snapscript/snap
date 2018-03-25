@@ -50,16 +50,13 @@ public class MemberFieldAssembler {
          this.modifiers = modifiers;
          this.name = name;
       }  
-      Exception cause;
+
       @Override
       public Constraint compile(Scope scope, Constraint left) throws Exception {
          Value value = allocator.compile(scope, name, modifiers);
          State state = scope.getState();
          
          try { 
-            if(cause == null){
-               cause = new Exception();
-            }
             state.add(name, value);
          }catch(Exception e) {
             e.printStackTrace();

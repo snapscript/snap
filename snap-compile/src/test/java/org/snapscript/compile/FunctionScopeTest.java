@@ -50,15 +50,31 @@ public class FunctionScopeTest extends TestCase {
    
    public void testFunctionScope() throws Exception {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
-      System.err.println(SOURCE_1);
-      Executable executable = compiler.compile(SOURCE_1);
-      executable.execute();
+      boolean failure = false;
+      
+      try {
+         System.err.println(SOURCE_1);
+         Executable executable = compiler.compile(SOURCE_1);
+         executable.execute();
+      } catch(Exception e){
+         e.printStackTrace();
+         failure = true;
+      }
+      assertTrue("Compile failure", failure);
    }
    
    public void testFunctionCallingFunctionInScope() throws Exception {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
-      System.err.println(SOURCE_2);
-      Executable executable = compiler.compile(SOURCE_2);
-      executable.execute();
+      boolean failure = false;
+      
+      try {
+         System.err.println(SOURCE_2);
+         Executable executable = compiler.compile(SOURCE_2);
+         executable.execute();
+      } catch(Exception e){
+         e.printStackTrace();
+         failure = true;
+      }
+      assertTrue("Compile failure", failure);
    }
 }

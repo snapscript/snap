@@ -1,11 +1,16 @@
 package org.snapscript.tree.define;
 
+import java.lang.reflect.Executable;
+
 import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.Execution;
+import org.snapscript.core.InternalStateException;
+import org.snapscript.core.Local;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
-import org.snapscript.core.Type;
+import org.snapscript.core.Table;
 import org.snapscript.core.Value;
 import org.snapscript.core.function.Accessor;
 import org.snapscript.core.function.AccessorProperty;
@@ -48,13 +53,30 @@ public class ModuleProperty {
       
       return new AccessorProperty(name, null, constraint, accessor, modifiers);
    }
+
+   public Value compile(ModuleBody body, Scope scope, int modifiers) throws Exception {
+      String name = reference.getName(scope);
+      Value value = allocator.compile(scope, name, modifiers);
+      State state = scope.getState();
+      
+      try {
+         state.add(name, value);
+      }catch(Exception e) {
+         throw new InternalStateException("Declaration of variable '" + name +"' failed", e);
+      }
+      return value;
+   }
    
    public Value execute(ModuleBody body, Scope scope, int modifiers) throws Exception {
       String name = reference.getName(scope);
       Value value = allocator.allocate(scope, name, modifiers);
       State state = scope.getState();
-      
-      state.add(name, value);
+     
+      try {
+         state.add(name, value);
+      }catch(Exception e) {
+         throw new InternalStateException("Declaration of variable '" + name +"' failed", e);
+      } 
       return value;
    }
    

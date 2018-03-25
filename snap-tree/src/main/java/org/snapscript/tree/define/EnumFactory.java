@@ -32,6 +32,7 @@ public class EnumFactory extends TypeFactory {
       this.reference = new NameReference(key);
       this.index = index;
    }
+
    
    @Override
    public void compile(Scope scope, Type type) throws Exception {
@@ -52,9 +53,6 @@ public class EnumFactory extends TypeFactory {
       Value result = call.call();
       Scope instance = result.getValue();
       Value value = state.get(ENUM_VALUES);
-      if(value == null){
-         System.err.println();
-      }
       List values = value.getValue();
       Object object = wrapper.toProxy(instance);
       

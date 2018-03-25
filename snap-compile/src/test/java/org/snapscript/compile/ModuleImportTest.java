@@ -22,7 +22,14 @@ public class ModuleImportTest extends TestCase {
        
    public void testModuleImport() throws Exception {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
-      System.err.println(SOURCE);
-      compiler.compile(SOURCE).execute(new EmptyModel());
+      boolean failure = false;
+      try {
+         System.err.println(SOURCE);
+         compiler.compile(SOURCE).execute(new EmptyModel());
+      } catch(Exception e) {
+         failure = true;
+         e.printStackTrace();
+      }
+      assertTrue("Compile failure", failure);
    }   
 }

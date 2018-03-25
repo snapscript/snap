@@ -87,6 +87,7 @@ public class ModuleInitTest extends TestCase {
    
    public void testInitWithVariableReferenceAndCall() throws Exception {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
+      System.err.println(SOURCE_3);
       Executable executable = compiler.compile(SOURCE_3);
       executable.execute();
    }

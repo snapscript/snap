@@ -47,7 +47,7 @@ public class LocalPointer implements VariablePointer<Object> {
                reference.set(value);
                return Constraint.getInstance(scope, value);
             }
-            return Constraint.getNone();
+            return null;
          }
          return Constraint.getInstance(scope, variable.getValue());
       }

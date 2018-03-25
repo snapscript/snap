@@ -5,6 +5,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.bind.FunctionResolver;
+import org.snapscript.core.convert.ProxyWrapper;
 import org.snapscript.core.stack.ThreadStack;
 
 public class PlatformBuilder {
@@ -12,13 +13,15 @@ public class PlatformBuilder {
    private final AtomicReference<Platform> reference;
    private final PlatformClassLoader loader;
    private final FunctionResolver resolver;
+   private final ProxyWrapper wrapper;
    private final Platform partial;
    
-   public PlatformBuilder(TypeExtractor extractor, ThreadStack stack) {
+   public PlatformBuilder(TypeExtractor extractor, ProxyWrapper wrapper, ThreadStack stack) {
       this.resolver = new FunctionResolver(extractor, stack);
       this.loader = new PlatformClassLoader();
       this.partial = new PartialPlatform();
       this.reference = new AtomicReference<Platform>();
+      this.wrapper = wrapper;
    }
 
    public synchronized Platform create() {
@@ -27,7 +30,7 @@ public class PlatformBuilder {
       if(platform == null) {
          try {
             Constructor constructor = loader.loadConstructor();
-            Object instance = constructor.newInstance(resolver);
+            Object instance = constructor.newInstance(resolver, wrapper);
             
             reference.set((Platform)instance);
          }catch(Exception e) {

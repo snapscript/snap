@@ -77,15 +77,20 @@ public class ScriptPackage extends Statement {
       
       @Override
       public Execution call() throws Exception {
-         Execution[] executions = new Execution[statements.length];
-         Execution execution = new ScriptPackageExecution(executions);
-         
-         for(int i = 0; i < statements.length; i++) {
-            executions[i] = statements[i].compile(scope);
-            statements[i] = null;
+         try {
+            Execution[] executions = new Execution[statements.length];
+            Execution execution = new ScriptPackageExecution(executions);
+            
+            for(int i = 0; i < statements.length; i++) {
+               executions[i] = statements[i].compile(scope);
+               statements[i] = null;
+            }
+            reference.set(execution);
+            return execution;
+         }catch(Exception e){
+            e.printStackTrace();
+            throw e;
          }
-         reference.set(execution);
-         return execution;
       }
    }
    

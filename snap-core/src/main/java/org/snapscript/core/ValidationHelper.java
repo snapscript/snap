@@ -22,7 +22,7 @@ public class ValidationHelper {
       }
       return null;
    }
-   
+
    public static Scope create(Scope scope, Type type, Function function) {
       Signature signature = function.getSignature();
       

@@ -35,7 +35,7 @@ public class ObjectPointer implements VariablePointer<Object> {
       
       if(accessor == null) {
          Type t = left.getType(scope);
-         Property match = match(scope, t);
+         Property match = match(scope, t, t);
          
          if(match != null) {
             reference.set(match);

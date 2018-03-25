@@ -41,6 +41,6 @@ public class LocalConstant extends Local {
    
    @Override
    public String toString() {
-      return String.valueOf(value);
+      return String.format("%s: %s", name, value);
    }
 }

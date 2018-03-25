@@ -13,9 +13,6 @@ public class LocalReference extends Local {
    }
    
    public LocalReference(Object value, String name, Type type) {
-      if("func".equals(name)){
-         System.err.println();
-      }
       this.value = value;
       this.name = name;
       this.type = type; 
@@ -43,6 +40,6 @@ public class LocalReference extends Local {
    
    @Override
    public String toString() {
-      return String.valueOf(value);
+      return String.format("%s: %s", name, value);
    }
 }

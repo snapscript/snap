@@ -10,15 +10,18 @@ import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
 import org.snapscript.core.ModuleRegistry;
+import org.snapscript.core.NameBuilder;
 import org.snapscript.core.Path;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeLoader;
+import org.snapscript.core.TypeNameBuilder;
 
 public class ImportManager {
 
    private final Map<String, String> aliases;
    private final Set<String> imports;
    private final ImportMatcher matcher;
+   private final NameBuilder builder;
    private final Module parent;
    private final String from;
    
@@ -26,6 +29,7 @@ public class ImportManager {
       this.aliases = new ConcurrentHashMap<String, String>();
       this.imports = new CopyOnWriteArraySet<String>();
       this.matcher = new ImportMatcher(parent, executor, path, from);
+      this.builder = new TypeNameBuilder();
       this.parent = parent;
       this.from = from;
    }
@@ -75,6 +79,20 @@ public class ImportManager {
 
    public Type getType(String name) {
       try {
+         String top = builder.createTopName(name);
+         Type type = getTypeX(top, true);
+        
+         if(!name.equals(top)) {
+            return getTypeX(name, false);
+         }         
+         return type;
+      } catch(Exception e){
+         throw new InternalStateException("Could not find '" + name + "' in '" + from + "'", e);
+      }
+   }
+   
+   private Type getTypeX(String name, boolean load) {
+      try {
          Context context = parent.getContext();
          TypeLoader loader = context.getLoader();
          ModuleRegistry registry = context.getRegistry();
@@ -103,7 +121,8 @@ public class ImportManager {
             if(type == null) {
                type = loader.resolveType(null, name); // null is "java.*"
             }
-            if(type == null) {
+            // HERE WE DO NOT ALLOW DYNAMIC LOADING OF SUBTYPES
+            if(type == null && load) {
                type = matcher.importType(imports, name);
             }
          }

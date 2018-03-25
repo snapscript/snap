@@ -48,7 +48,8 @@ public class ModuleDefinition extends Statement {
    public Execution compile(Scope scope) throws Exception {
       Module module = reference.get();
       Scope inner = module.getScope();
+      Scope local = inner.getStack();
       
-      return body.compile(inner); // must be module scope
+      return body.compile(local); // must be module scope
    }
 }

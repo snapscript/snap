@@ -1,6 +1,7 @@
 package org.snapscript.core.platform;
 
 import org.snapscript.core.TypeExtractor;
+import org.snapscript.core.convert.ProxyWrapper;
 import org.snapscript.core.stack.ThreadStack;
 
 public class CachePlatformProvider implements PlatformProvider {
@@ -8,8 +9,8 @@ public class CachePlatformProvider implements PlatformProvider {
    private PlatformBuilder loader;
    private Platform builder;
    
-   public CachePlatformProvider(TypeExtractor extractor, ThreadStack stack) {
-      this.loader = new PlatformBuilder(extractor, stack);
+   public CachePlatformProvider(TypeExtractor extractor, ProxyWrapper wrapper, ThreadStack stack) {
+      this.loader = new PlatformBuilder(extractor, wrapper, stack);
    }
 
    @Override

@@ -121,9 +121,9 @@ public class ForInStatement implements Compilation {
       @Override
       public Result resume(Scope scope, Iterator iterator) throws Exception {
          Table table = scope.getTable();
-         Local local = Local.getReference(name, name);
+         Local local = Local.getReference(null, name);
          
-         table.add(offset, local);
+         table.add(offset, local); 
          
          while (iterator.hasNext()) {
             Object entry = iterator.next();

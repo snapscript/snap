@@ -9,14 +9,17 @@ import static org.snapscript.core.ResultType.NORMAL;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.snapscript.common.Progress;
+import org.snapscript.core.Bug;
 import org.snapscript.core.Execution;
 import org.snapscript.core.NoExecution;
 import org.snapscript.core.Phase;
+import org.snapscript.core.Reserved;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
 import org.snapscript.core.TypePart;
+import org.snapscript.core.Value;
 import org.snapscript.tree.annotation.AnnotationList;
 
 public class ClassDefinition extends Statement {   
@@ -83,6 +86,7 @@ public class ClassDefinition extends Statement {
       }
    }
 
+   @Bug("fix 'this' for compile time")
    @Override
    public Execution compile(Scope outer) throws Exception {
       if(!compile.compareAndSet(false, true)) {
@@ -92,6 +96,8 @@ public class ClassDefinition extends Statement {
          Scope local = scope.getStack(); // make it temporary
          
          try {
+            local.getState().add(Reserved.TYPE_THIS, Value.getReference(null, type));
+            
             for(TypePart part : parts) {
                TypeFactory factory = part.compile(collector, type);
                collector.update(factory);

@@ -106,18 +106,21 @@ public class ModuleBody extends Statement {
          this.module = module;
       }
    
+      @Bug("fix me")
       @Override
       public Result execute(Scope scope) throws Exception {
          Result last = Result.getNormal();
          
-         if(execute.compareAndSet(true, false)) {
+         if(execute.compareAndSet(true, false)) {  
+            Scope s = module.getModule().getScope();
+            
             for(int i = 0; i < executions.length; i++) {
-               Result result = executions[i].execute(module);
+               Result result = executions[i].execute(s);
                
                if(!result.isNormal()){
                   return result;
                }
-               executions[i] = null;
+               //executions[i] = null;
                last = result;
             }
          }

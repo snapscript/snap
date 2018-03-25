@@ -81,15 +81,15 @@ public class ModuleDeclaration implements Compilation {
          this.body = body;
       }  
       
+      @Bug("this should not properties.add(propety) it should be done in the declaration")
       @Override
       public void define(Scope scope) throws Exception {
          Module module = scope.getModule();
-         Scope outer = scope.getScope();
          List<Property> list = module.getProperties();
          int mask = modifiers.getModifiers();
          
          for(ModuleProperty declaration : properties) {
-            Property property = declaration.define(body, outer, mask | STATIC.mask); 
+            Property property = declaration.define(body, scope, mask | STATIC.mask); 
             list.add(property);
          }
       }
@@ -97,6 +97,11 @@ public class ModuleDeclaration implements Compilation {
       @Bug("do we need to compile here??")
       @Override
       public Execution compile(Scope scope) throws Exception {
+         int mask = modifiers.getModifiers();
+         
+         for(ModuleProperty declaration : properties) {
+            declaration.compile(body, scope, mask | STATIC.mask); 
+         }
          return new CompileExecution(modifiers, properties, body);
       }
    }

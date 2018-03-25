@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.snapscript.core.Any;
 import org.snapscript.core.ContextClassLoader;
 import org.snapscript.core.bind.FunctionResolver;
+import org.snapscript.core.convert.ProxyWrapper;
 
 public class PlatformClassLoader {
    
@@ -28,7 +29,7 @@ public class PlatformClassLoader {
             String type = builder.createFullName(platform);
             Class value = loader.loadClass(type);
             
-            constructor = value.getDeclaredConstructor(FunctionResolver.class);
+            constructor = value.getDeclaredConstructor(FunctionResolver.class, ProxyWrapper.class);
             reference.set(constructor);
          }catch(Exception e) {
             throw new IllegalStateException("Could not load constructor", e);
