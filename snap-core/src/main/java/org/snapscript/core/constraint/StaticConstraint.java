@@ -3,7 +3,7 @@ package org.snapscript.core.constraint;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 
-class StaticConstraint extends Constraint {
+public class StaticConstraint extends Constraint {
 
    private final Type require;
    
@@ -11,6 +11,7 @@ class StaticConstraint extends Constraint {
       this.require = require;
    }
    
+   @Override
    public Type getType(Scope scope){
       return require;
    }      

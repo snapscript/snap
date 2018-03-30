@@ -38,7 +38,7 @@ public class VariablePointerBuilder {
             return new MapPointer(finder, name);
          }         
          if(Scope.class.isInstance(left)) {
-            return new ScopePointer(name);
+            return new ScopePointer(finder, name);
          }
          if(Type.class.isInstance(left)) {
             return new TypePointer(finder, name);
@@ -80,6 +80,6 @@ public class VariablePointerBuilder {
             return new ObjectPointer(finder, name);
          }
       }
-      return new ScopePointer(name);
+      return new ScopePointer(finder, name);
    }
 }

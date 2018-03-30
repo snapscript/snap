@@ -3,20 +3,22 @@ package org.snapscript.core.constraint;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
+import org.snapscript.core.Value;
 
-public class ObjectConstraint extends Constraint {
+public class ValueConstraint extends Constraint {
 
-   private final Object object;
+   private final Value value;
    
-   public ObjectConstraint(Object object) {
-      this.object = object;
+   public ValueConstraint(Value value) {
+      this.value = value;
    }
    
    @Override
    public Type getType(Scope scope){
       Module module = scope.getModule();
-
-      if(object != null) {
+      Object object = value.getValue();
+      
+      if(value != null) {
          Class require = object.getClass();
          return module.getType(require); 
       }

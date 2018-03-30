@@ -2,16 +2,12 @@ package org.snapscript.tree.variable;
 
 import static org.snapscript.core.constraint.Constraint.NONE;
 
-import java.util.List;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.snapscript.core.Context;
-import org.snapscript.core.Module;
+import org.snapscript.core.Bug;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Type;
-import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.Value;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.property.Property;
@@ -22,14 +18,17 @@ public class ScopePointer implements VariablePointer<Scope> {
    
    private final AtomicReference<Property> reference;
    private final ThisScopeBinder binder;
+   private final VariableFinder finder;
    private final String name;
    
-   public ScopePointer(String name) {
+   public ScopePointer(VariableFinder finder, String name) {
       this.reference = new AtomicReference<Property>();
       this.binder = new ThisScopeBinder();
+      this.finder = finder;
       this.name = name;
    }
 
+   @Bug("are we really compiling here?")
    @Override
    public Constraint check(Scope scope, Constraint left) {
       Type type = left.getType(scope);
@@ -53,7 +52,7 @@ public class ScopePointer implements VariablePointer<Scope> {
          Type type = left.getType();
          
          if(type != null) {
-            Property property = match(scope, instance);
+            Property property = finder.findPropertyFromScope(scope, instance, name);
             
             if(property != null) {
                reference.set(property);
@@ -62,39 +61,5 @@ public class ScopePointer implements VariablePointer<Scope> {
          }
       }
       return value;
-   }
-   
-   private Property match(Scope scope, Scope left) {
-      Property property = reference.get();
-      
-      if(property == null) {
-         Type source = left.getType();
-         Module module = scope.getModule();
-         Context context = module.getContext();
-         TypeExtractor extractor = context.getExtractor();
-         Set<Type> list = extractor.getTypes(source);
-         
-         for(Type base : list) {
-            Property match = match(scope, left, base);
-            
-            if(match != null) {
-               return match;
-            }
-         }
-      }
-      return property;
-   }
-   
-   private Property match(Scope scope, Object left, Type type) {
-      List<Property> properties = type.getProperties();
-      
-      for(Property property : properties){
-         String field = property.getName();
-         
-         if(field.equals(name)) {
-            return property;
-         }
-      } 
-      return null;
    }
 }

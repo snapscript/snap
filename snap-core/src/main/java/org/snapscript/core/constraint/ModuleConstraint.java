@@ -4,7 +4,7 @@ import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 
-class ModuleConstraint extends Constraint {
+public class ModuleConstraint extends Constraint {
    
    private final Module module;
    
@@ -12,6 +12,7 @@ class ModuleConstraint extends Constraint {
       this.module = module;
    }
    
+   @Override
    public Type getType(Scope scope){
       return module.getType();
    }

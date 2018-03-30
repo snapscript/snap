@@ -7,10 +7,11 @@ import java.util.Set;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
+import org.snapscript.core.Value;
 
 public abstract class Constraint {
 
-   public static final Constraint NONE = new ConstantConstraint(null);
+   public static final Constraint NONE = new IdentityConstraint(null);
    public static final Constraint INTEGER = new ClassConstraint(Integer.class);
    public static final Constraint LONG = new ClassConstraint(Long.class);
    public static final Constraint STRING = new ClassConstraint(String.class);
@@ -22,11 +23,11 @@ public abstract class Constraint {
    public static final Constraint TYPE = new ClassConstraint(Type.class);
 
    public static Constraint getNone() {
-      return new ConstantConstraint(null);
+      return new IdentityConstraint(null);
    }
    
    public static Constraint getInstance(Type type) {
-      return new ConstantConstraint(type);
+      return new IdentityConstraint(type);
    }
    
    public static Constraint getStatic(Type type) {
@@ -43,6 +44,10 @@ public abstract class Constraint {
 
    public static Constraint getInstance(Object value) {
       return new ObjectConstraint(value);
+   }
+   
+   public static Constraint getInstance(Value value) {
+      return new ValueConstraint(value);
    }
    
    public boolean isInstance() {

@@ -136,8 +136,17 @@ public class VariableFinder {
          }
       }
       return findAnyFromObject(scope, left, name);
-   }
+   }   
    
+   public Property findPropertyFromScope(Scope scope, Scope left, String name) {
+      Type type = left.getType();
+
+      if(type != null) {
+         return findPropertyFromType(scope, type, name);
+      }
+      return null;
+   }
+
    public Property findPropertyFromMap(Scope scope, Type left, String name) {
       Property property = findPropertyFromType(scope, left, name);
    
