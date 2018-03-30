@@ -1,4 +1,4 @@
-package org.snapscript.core;
+package org.snapscript.core.constraint;
 
 public enum ConstraintType {
    INSTANCE(0x0001),

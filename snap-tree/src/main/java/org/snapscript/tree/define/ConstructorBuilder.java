@@ -3,11 +3,11 @@ package org.snapscript.tree.define;
 import static org.snapscript.core.ModifierType.STATIC;
 import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
 
-import org.snapscript.core.ConstantConstraint;
-import org.snapscript.core.Constraint;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
+import org.snapscript.core.constraint.ConstantConstraint;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionHandle;
 import org.snapscript.core.function.Invocation;

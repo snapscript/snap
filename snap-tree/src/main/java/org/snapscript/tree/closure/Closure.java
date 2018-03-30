@@ -1,10 +1,11 @@
 package org.snapscript.tree.closure;
 
+import static org.snapscript.core.constraint.Constraint.NONE;
+
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.ClosureScopeCompiler;
 import org.snapscript.core.Compilation;
-import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.LocalScopeExtractor;
 import org.snapscript.core.Module;
@@ -13,6 +14,7 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionHandle;
 import org.snapscript.core.function.Signature;
@@ -90,7 +92,7 @@ public class Closure implements Compilation {
          constraint.getType(scope);
          handle.compile(combined);
         
-         return Constraint.getNone();
+         return NONE;
       }
       
       @Override

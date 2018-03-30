@@ -4,12 +4,12 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.LocalScopeExtractor;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.parse.StringToken;
 
 public class TextTemplate extends Evaluation {
@@ -25,7 +25,7 @@ public class TextTemplate extends Evaluation {
    
    @Override
    public Constraint compile(Scope scope, Constraint left) throws Exception {
-      return Constraint.getInstance(scope.getModule().getType(String.class));
+      return Constraint.STRING;
    }
 
    @Override

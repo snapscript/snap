@@ -1,16 +1,14 @@
 package org.snapscript.tree.variable;
 
-import static org.snapscript.core.ModifierType.PUBLIC;
+import static org.snapscript.core.constraint.Constraint.NONE;
 
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.snapscript.core.Constraint;
-import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
-import org.snapscript.core.property.MapProperty;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.property.PropertyValue;
 
@@ -38,7 +36,7 @@ public class MapPointer implements VariablePointer<Map> {
             reference.set(match);
             return match.getConstraint();
          }
-         return Constraint.getNone();
+         return NONE;
       }
       return accessor.getConstraint();
    }

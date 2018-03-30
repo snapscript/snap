@@ -6,8 +6,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.snapscript.common.Cache;
 import org.snapscript.common.CopyOnWriteCache;
-import org.snapscript.core.Constraint;
 import org.snapscript.core.Type;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.Signature;

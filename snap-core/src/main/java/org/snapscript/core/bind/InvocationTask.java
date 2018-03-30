@@ -2,9 +2,9 @@ package org.snapscript.core.bind;
 
 import java.util.concurrent.Callable;
 
-import org.snapscript.core.Constraint;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Invocation;
 
 public class InvocationTask implements Callable<Value> {

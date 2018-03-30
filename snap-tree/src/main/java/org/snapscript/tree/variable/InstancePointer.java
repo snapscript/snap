@@ -1,8 +1,10 @@
 package org.snapscript.tree.variable;
 
-import org.snapscript.core.Constraint;
+import static org.snapscript.core.constraint.Constraint.NONE;
+
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.tree.define.ThisScopeBinder;
 
 public class InstancePointer implements VariablePointer<Object> {
@@ -22,7 +24,7 @@ public class InstancePointer implements VariablePointer<Object> {
       if(instance != null) {
          return pointer.check(instance, left);
       }
-      return Constraint.getNone();
+      return NONE;
    }
    
    @Override

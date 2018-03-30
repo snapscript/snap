@@ -3,12 +3,13 @@ package org.snapscript.tree.define;
 import static org.snapscript.core.Reserved.ENUM_NAME;
 import static org.snapscript.core.Reserved.ENUM_ORDINAL;
 import static org.snapscript.core.Reserved.ENUM_VALUES;
+import static org.snapscript.core.constraint.Constraint.INTEGER;
+import static org.snapscript.core.constraint.Constraint.STRING;
 
 import java.util.List;
 import java.util.concurrent.Callable;
 
 import org.snapscript.core.Bug;
-import org.snapscript.core.Constraint;
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
@@ -17,6 +18,7 @@ import org.snapscript.core.State;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
 import org.snapscript.core.Value;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.ProxyWrapper;
 import org.snapscript.tree.ArgumentList;
 import org.snapscript.tree.NameReference;
@@ -57,10 +59,11 @@ public class EnumFactory extends TypeFactory {
       Value value = state.get(ENUM_VALUES);
       List values = value.getValue();
       Object object = wrapper.toProxy(instance);
-      
-      generator.generateConstant(scope, name, type, instance, Constraint.getInstance(type));
-      generator.generateConstant(instance, ENUM_NAME, type, name, Constraint.getInstance(String.class)); // might declare name as property many times
-      generator.generateConstant(instance, ENUM_ORDINAL, type, index, Constraint.getInstance(Integer.class));
+      Constraint constraint = Constraint.getInstance(type);
+            
+      generator.generateConstant(scope, name, type, instance, constraint);
+      generator.generateConstant(instance, ENUM_NAME, type, name, STRING); // might declare name as property many times
+      generator.generateConstant(instance, ENUM_ORDINAL, type, index, INTEGER);
       values.add(object);
    }
 }

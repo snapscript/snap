@@ -4,13 +4,13 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.snapscript.core.Compilation;
-import org.snapscript.core.Constraint;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.ProxyWrapper;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceEvaluation;
@@ -63,7 +63,7 @@ public class ConstructSet implements Compilation {
          if(arguments != null) {
             arguments.compile(scope);      
          }  
-         return Constraint.getInstance(Set.class);
+         return Constraint.SET;
       } 
       
       @Override

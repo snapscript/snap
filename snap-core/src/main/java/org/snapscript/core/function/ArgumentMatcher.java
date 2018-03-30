@@ -2,11 +2,11 @@ package org.snapscript.core.function;
 
 import java.util.List;
 
-import org.snapscript.core.Constraint;
 import org.snapscript.core.Context;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.ConstraintConverter;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.FixedArgumentConverter;

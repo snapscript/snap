@@ -1,6 +1,10 @@
 package org.snapscript.core;
 
+import org.snapscript.core.constraint.Constraint;
+
 public abstract class Value extends Constraint {
+   
+   public static final Value NULL = new Null();
    
    public static Value getNull() {
       return new Null();

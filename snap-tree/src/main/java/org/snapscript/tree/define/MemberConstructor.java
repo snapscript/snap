@@ -3,13 +3,13 @@ package org.snapscript.tree.define;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.snapscript.core.Constraint;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
 import org.snapscript.core.TypePart;
 import org.snapscript.core.TypeScopeCompiler;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionHandle;
 import org.snapscript.tree.ModifierList;

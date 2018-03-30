@@ -9,12 +9,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.snapscript.core.Constraint;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.PrimitivePromoter;
 import org.snapscript.core.Type;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.annotation.AnnotationExtractor;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.property.Property;
 
 public class PropertyIndexer {
@@ -114,8 +114,7 @@ public class PropertyIndexer {
          if(ModifierType.isPublic(modifiers) || ModifierType.isProtected(modifiers)) {
             String name = field.getName();
             Class declaration = field.getType();
-            Type match = indexer.loadType(declaration);
-            Constraint constraint = Constraint.getInstance(match);
+            Constraint constraint = Constraint.getInstance(declaration);
             Property property = generator.generate(field, type, constraint, name, modifiers); 
             List<Annotation> extracted = extractor.extract(field);
             List<Annotation> actual = property.getAnnotations();
@@ -146,8 +145,7 @@ public class PropertyIndexer {
                   modifiers |= CONSTANT.mask;
                }
                Class normal = promoter.promote(declaration);
-               Type match = indexer.loadType(normal);
-               Constraint constraint = Constraint.getInstance(match);
+               Constraint constraint = Constraint.getInstance(normal);
                Property property = generator.generate(method, write, type, constraint, name, modifiers);                
                List<Annotation> extracted = extractor.extract(method);
                List<Annotation> actual = property.getAnnotations();

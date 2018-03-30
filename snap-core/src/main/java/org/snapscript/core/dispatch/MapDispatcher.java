@@ -1,9 +1,10 @@
 package org.snapscript.core.dispatch;
 
+import static org.snapscript.core.constraint.Constraint.NONE;
+
 import java.util.Map;
 import java.util.concurrent.Callable;
 
-import org.snapscript.core.Constraint;
 import org.snapscript.core.Context;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
@@ -11,6 +12,7 @@ import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.core.bind.InvocationTask;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.ProxyWrapper;
 import org.snapscript.core.error.ErrorHandler;
 
@@ -30,10 +32,10 @@ public class MapDispatcher implements CallDispatcher<Map> {
    public Constraint compile(Scope scope, Type map, Type... arguments) throws Exception {
       InvocationTask local = binder.bindInstance(scope, map, name, arguments);
       
-      if(local == null) {
-         return Constraint.getNone();
+      if(local != null) {
+         return local.getReturn();
       }
-      return local.getReturn();
+      return NONE;      
    }
    
    @Override

@@ -1,12 +1,12 @@
 package org.snapscript.core.dispatch;
 
-import org.snapscript.core.Constraint;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.core.bind.InvocationTask;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
 
 public class LocalDispatcher implements CallDispatcher<Object> {

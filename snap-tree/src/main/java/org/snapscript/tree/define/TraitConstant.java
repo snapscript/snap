@@ -3,7 +3,6 @@ package org.snapscript.tree.define;
 import java.util.List;
 
 import org.snapscript.core.Compilation;
-import org.snapscript.core.Constraint;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
@@ -15,6 +14,7 @@ import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
 import org.snapscript.core.TypePart;
 import org.snapscript.core.Value;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.function.Accessor;
 import org.snapscript.core.function.AccessorProperty;

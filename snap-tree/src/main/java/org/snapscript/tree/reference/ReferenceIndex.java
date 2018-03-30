@@ -1,11 +1,11 @@
 package org.snapscript.tree.reference;
 
 import org.snapscript.core.Bug;
-import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Identity;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.tree.Argument;
 import org.snapscript.tree.collection.CollectionIndex;
 

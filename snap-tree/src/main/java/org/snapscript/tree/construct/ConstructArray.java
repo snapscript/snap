@@ -1,8 +1,9 @@
 package org.snapscript.tree.construct;
 
+import static org.snapscript.core.constraint.Constraint.NONE;
+
 import org.snapscript.core.Bug;
 import org.snapscript.core.Compilation;
-import org.snapscript.core.Constraint;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalArgumentException;
@@ -12,6 +13,7 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.array.ArrayBuilder;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceEvaluation;
 import org.snapscript.core.trace.TraceInterceptor;
@@ -63,7 +65,7 @@ public class ConstructArray implements Compilation {
          for(int i = 0; i < arguments.length; i++) {
             arguments[i].compile(scope, null);
          }  
-         return Constraint.getNone();
+         return NONE;
       }
       
       @Override

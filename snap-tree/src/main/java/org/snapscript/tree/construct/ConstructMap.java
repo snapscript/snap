@@ -4,13 +4,13 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.snapscript.core.Compilation;
-import org.snapscript.core.Constraint;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceEvaluation;
 import org.snapscript.core.trace.TraceInterceptor;
@@ -61,7 +61,7 @@ public class ConstructMap implements Compilation {
          if(list != null) {
             list.compile(scope, null);
          }
-         return Constraint.getInstance(Map.class);
+         return Constraint.MAP;
       }
       
       @Override

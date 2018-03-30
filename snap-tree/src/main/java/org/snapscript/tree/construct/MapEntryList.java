@@ -1,15 +1,17 @@
 package org.snapscript.tree.construct;
 
+import static org.snapscript.core.constraint.Constraint.NONE;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.snapscript.core.Constraint;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.ProxyWrapper;
 
 public class MapEntryList extends Evaluation{
@@ -32,7 +34,7 @@ public class MapEntryList extends Evaluation{
       for(int i = 0; i < list.length; i++){
          list[i].compile(scope);
       }
-      return Constraint.getNone();
+      return NONE;
    }
    
    @Override

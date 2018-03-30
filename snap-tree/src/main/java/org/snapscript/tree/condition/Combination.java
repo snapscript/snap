@@ -1,10 +1,10 @@
 package org.snapscript.tree.condition;
 
 import org.snapscript.core.BooleanValue;
-import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.parse.StringToken;
 
 public class Combination extends Evaluation {
@@ -39,7 +39,7 @@ public class Combination extends Evaluation {
       if(right != null) {
          right.compile(scope, null);
       }
-      return Constraint.getInstance(Boolean.class);
+      return Constraint.BOOLEAN;
    }
    
    @Override

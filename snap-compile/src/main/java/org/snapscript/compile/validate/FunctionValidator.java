@@ -3,13 +3,13 @@ package org.snapscript.compile.validate;
 import java.util.List;
 import java.util.Set;
 
-import org.snapscript.core.Constraint;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.bind.FunctionCall;
 import org.snapscript.core.bind.FunctionResolver;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.FunctionComparator;
 import org.snapscript.core.convert.Score;

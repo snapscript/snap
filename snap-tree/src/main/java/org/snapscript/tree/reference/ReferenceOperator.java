@@ -17,6 +17,17 @@ public enum ReferenceOperator {
          throw new NullPointerException("Reference to a null object");
       }      
    }, 
+   FORCE("!."){
+      @Override
+      public Value operate(Scope scope, Evaluation next, Value value) throws Exception {
+         Object object = value.getValue();
+         
+         if(object != null) {
+            return next.evaluate(scope, object);
+         }
+         throw new NullPointerException("Reference to a null object");
+      } 
+   },
    EXISTENTIAL("?."){
       @Override
       public Value operate(Scope scope, Evaluation next, Value value) throws Exception {
@@ -27,7 +38,7 @@ public enum ReferenceOperator {
          }
          return Value.getTransient(object);
       }
-   };
+   };   
    
    private final String symbol;
    

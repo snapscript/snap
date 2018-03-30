@@ -1,13 +1,15 @@
 package org.snapscript.tree.define;
 
+import static org.snapscript.core.constraint.Constraint.NONE;
+
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.Category;
-import org.snapscript.core.Constraint;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.property.ConstantPropertyBuilder;
 import org.snapscript.core.property.Property;
 import org.snapscript.tree.annotation.AnnotationList;
@@ -51,7 +53,7 @@ public class ClassBuilder {
          String name = type.getName();
          String prefix = enclosing.getName();
          String key = name.replace(prefix + '$', ""); // get the class name
-         Property property = builder.createConstant(key, type, enclosing, Constraint.getNone());
+         Property property = builder.createConstant(key, type, enclosing, NONE);
          List<Property> properties = enclosing.getProperties();
          
          properties.add(property);

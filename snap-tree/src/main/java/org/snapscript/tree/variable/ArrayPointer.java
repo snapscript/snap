@@ -6,10 +6,10 @@ import static org.snapscript.core.Reserved.TYPE_CLASS;
 import java.lang.reflect.Array;
 
 import org.snapscript.core.Bug;
-import org.snapscript.core.Constraint;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
+import org.snapscript.core.constraint.Constraint;
 
 public class ArrayPointer implements VariablePointer<Object> {
    
@@ -24,10 +24,10 @@ public class ArrayPointer implements VariablePointer<Object> {
    @Override
    public Constraint check(Scope scope, Constraint left) {
       if(name.equals(PROPERTY_LENGTH)) {
-         return Constraint.getInstance(Integer.class);
+         return Constraint.INTEGER;
       }
       if(name.equals(TYPE_CLASS)) {
-         return Constraint.getInstance(Type.class);
+         return Constraint.TYPE;
       }
       return pointer.check(scope, left);
    }

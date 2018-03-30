@@ -2,12 +2,12 @@ package org.snapscript.tree.closure;
 
 import static org.snapscript.core.Reserved.METHOD_CLOSURE;
 
-import org.snapscript.core.ConstantConstraint;
-import org.snapscript.core.Constraint;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
+import org.snapscript.core.constraint.ConstantConstraint;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionHandle;
 import org.snapscript.core.function.FunctionType;

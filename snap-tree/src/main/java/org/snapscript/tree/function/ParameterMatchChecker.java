@@ -1,8 +1,8 @@
 package org.snapscript.tree.function;
 
-import org.snapscript.core.Constraint;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Parameter;
 
 public class ParameterMatchChecker {

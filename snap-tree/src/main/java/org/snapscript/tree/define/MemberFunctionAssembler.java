@@ -1,10 +1,10 @@
 package org.snapscript.tree.define;
 
-import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Signature;
 import org.snapscript.tree.ModifierChecker;
 import org.snapscript.tree.ModifierList;

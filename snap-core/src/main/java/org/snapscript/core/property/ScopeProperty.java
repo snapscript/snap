@@ -3,10 +3,10 @@ package org.snapscript.core.property;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.snapscript.core.Constraint;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.annotation.Annotation;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Accessor;
 import org.snapscript.core.function.ScopeAccessor;
 

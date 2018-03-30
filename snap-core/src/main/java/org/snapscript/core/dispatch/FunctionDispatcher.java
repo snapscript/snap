@@ -4,13 +4,13 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 import org.snapscript.core.Any;
-import org.snapscript.core.Constraint;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.core.bind.InvocationTask;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
@@ -30,8 +30,7 @@ public class FunctionDispatcher implements CallDispatcher<Function> {
    
    @Override
    public Constraint compile(Scope scope, Type function, Type... arguments) throws Exception { 
-      Type t= scope.getModule().getType(Object.class);
-      return Constraint.getInstance(t);
+      return Constraint.NONE;
    }
 
    @Override

@@ -4,9 +4,9 @@ import static org.snapscript.core.Reserved.PROPERTY_LENGTH;
 
 import java.util.Collection;
 
-import org.snapscript.core.Constraint;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
+import org.snapscript.core.constraint.Constraint;
 
 public class CollectionPointer implements VariablePointer<Collection> {
    
@@ -21,7 +21,7 @@ public class CollectionPointer implements VariablePointer<Collection> {
    @Override
    public Constraint check(Scope scope, Constraint left) {
       if(name.equals(PROPERTY_LENGTH)) {
-         return Constraint.getInstance(Integer.class);
+         return Constraint.INTEGER;
       }
       return pointer.check(scope, left);
    }

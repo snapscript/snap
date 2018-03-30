@@ -2,7 +2,6 @@ package org.snapscript.tree;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.snapscript.core.Constraint;
 import org.snapscript.core.Execution;
 import org.snapscript.core.Index;
 import org.snapscript.core.Local;
@@ -11,6 +10,7 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Table;
 import org.snapscript.core.Type;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.CompatibilityChecker;
 import org.snapscript.core.error.ErrorCauseExtractor;
 import org.snapscript.core.function.Parameter;

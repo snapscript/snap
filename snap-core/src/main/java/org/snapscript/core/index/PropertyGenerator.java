@@ -6,10 +6,10 @@ import static org.snapscript.core.ModifierType.OVERRIDE;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-import org.snapscript.core.Constraint;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.Type;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.AccessorProperty;
 import org.snapscript.core.property.ConstantProperty;
 import org.snapscript.core.property.Property;

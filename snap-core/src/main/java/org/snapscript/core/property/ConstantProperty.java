@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.snapscript.core.Constant;
-import org.snapscript.core.Constraint;
 import org.snapscript.core.Type;
 import org.snapscript.core.annotation.Annotation;
+import org.snapscript.core.constraint.Constraint;
 
 public class ConstantProperty implements Property<Object> {
 

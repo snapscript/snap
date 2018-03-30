@@ -1,5 +1,7 @@
 package org.snapscript.core;
 
+import org.snapscript.core.constraint.Constraint;
+
 public class Identity extends Evaluation {
    
    private final Object value;

@@ -4,10 +4,10 @@ import java.util.Collection;
 import java.util.Map;
 
 import org.snapscript.core.Category;
-import org.snapscript.core.Constraint;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.define.Instance;
 import org.snapscript.core.dispatch.ArrayDispatcher;
 

@@ -1,8 +1,8 @@
 package org.snapscript.tree.constraint;
 
-import org.snapscript.core.Constraint;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
+import org.snapscript.core.constraint.Constraint;
 
 public class SafeConstraint extends Constraint {
    

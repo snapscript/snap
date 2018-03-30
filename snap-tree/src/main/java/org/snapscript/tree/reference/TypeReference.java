@@ -1,11 +1,11 @@
 package org.snapscript.tree.reference;
 
-import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
+import org.snapscript.core.constraint.Constraint;
 
 public class TypeReference extends Evaluation {
    

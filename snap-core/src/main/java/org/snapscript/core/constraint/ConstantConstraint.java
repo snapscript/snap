@@ -1,6 +1,9 @@
-package org.snapscript.core;
+package org.snapscript.core.constraint;
 
-import static org.snapscript.core.ConstraintType.INSTANCE;
+import static org.snapscript.core.constraint.ConstraintType.INSTANCE;
+
+import org.snapscript.core.Scope;
+import org.snapscript.core.Type;
 
 public class ConstantConstraint extends Constraint {
    

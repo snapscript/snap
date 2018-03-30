@@ -3,10 +3,10 @@ package org.snapscript.core.dispatch;
 import org.snapscript.common.Cache;
 import org.snapscript.common.CopyOnWriteCache;
 import org.snapscript.core.Bug;
-import org.snapscript.core.Constraint;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.bind.FunctionBinder;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
 
 public class CallBinder {

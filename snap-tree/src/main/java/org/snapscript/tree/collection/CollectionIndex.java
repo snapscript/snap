@@ -3,7 +3,6 @@ package org.snapscript.tree.collection;
 import java.util.List;
 import java.util.Map;
 
-import org.snapscript.core.Constraint;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalArgumentException;
@@ -12,6 +11,7 @@ import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.ProxyWrapper;
 import org.snapscript.tree.Argument;
 

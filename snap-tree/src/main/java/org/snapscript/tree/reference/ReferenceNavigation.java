@@ -1,13 +1,15 @@
 package org.snapscript.tree.reference;
 
+import static org.snapscript.core.constraint.Constraint.NONE;
+import static org.snapscript.tree.reference.ReferenceOperator.FORCE;
+
 import org.snapscript.core.Compilation;
-import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
 import org.snapscript.core.Scope;
-import org.snapscript.core.Type;
 import org.snapscript.core.Value;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.parse.StringToken;
 
 public class ReferenceNavigation implements Compilation {
@@ -56,6 +58,9 @@ public class ReferenceNavigation implements Compilation {
       public Constraint compile(Scope scope, Constraint left) throws Exception {
          Constraint value = part.compile(scope, left);         
          
+         if(operator == FORCE) {
+            return next.compile(scope, NONE);
+         }
          if(value != null) {
             return next.compile(scope, value);
          }

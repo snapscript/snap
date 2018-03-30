@@ -25,7 +25,7 @@ conditional-operator = {'&&' | '||'};
 prefix-operator = {'!' | '~' | '+' | '-'};
 increment-operator = '++';
 decrement-operator = '--';
-reference-operator = {'?.' | '.'};
+reference-operator = {'?.' | '!.' | '.'};
 
 this = 'this';
 class = 'class';

@@ -1,11 +1,13 @@
 package org.snapscript.core.index;
 
+import static org.snapscript.core.constraint.Constraint.NONE;
+
 import java.lang.reflect.Method;
 
 import org.snapscript.core.Any;
-import org.snapscript.core.Constraint;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Type;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationFunction;
@@ -18,13 +20,11 @@ public class FunctionGenerator {
    private final SignatureGenerator generator;
    private final DefaultMethodChecker checker;
    private final PlatformProvider provider;
-   private final TypeIndexer indexer;
    
    public FunctionGenerator(TypeIndexer indexer, PlatformProvider provider) {
       this.generator = new SignatureGenerator(indexer);
       this.checker = new DefaultMethodChecker();
       this.provider = provider;
-      this.indexer = indexer;
    }
 
    public Function generate(Type type, Method method, Class[] types, String name, int modifiers) {
@@ -40,8 +40,7 @@ public class FunctionGenerator {
          } else {
             invocation = new MethodInvocation(invocation, method);
          }
-         Type returns = indexer.loadType(real);
-         Constraint constraint = Constraint.getInstance(returns);
+         Constraint constraint = Constraint.getInstance(real);
          
          if(!method.isAccessible()) {
             method.setAccessible(true);
@@ -49,7 +48,7 @@ public class FunctionGenerator {
          if(real != void.class && real != Any.class && real != Object.class) {
             return new InvocationFunction(signature, invocation, type, constraint, name, modifiers);
          }
-         return new InvocationFunction(signature, invocation, type, constraint, name, modifiers);
+         return new InvocationFunction(signature, invocation, type, NONE, name, modifiers);
       } catch(Exception e) {
          throw new InternalStateException("Could not create function for " + method, e);
       }

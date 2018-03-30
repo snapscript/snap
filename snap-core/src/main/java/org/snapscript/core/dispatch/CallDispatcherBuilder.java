@@ -3,12 +3,12 @@ package org.snapscript.core.dispatch;
 import java.util.Map;
 
 import org.snapscript.core.Category;
-import org.snapscript.core.Constraint;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.bind.FunctionBinder;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.Delegate;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.function.Function;

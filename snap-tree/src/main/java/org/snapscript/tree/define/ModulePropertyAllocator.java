@@ -1,11 +1,11 @@
 package org.snapscript.tree.define;
 
-import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.tree.DeclarationAllocator;
 
 public class ModulePropertyAllocator extends DeclarationAllocator {

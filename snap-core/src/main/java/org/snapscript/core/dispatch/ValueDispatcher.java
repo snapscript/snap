@@ -1,13 +1,15 @@
 package org.snapscript.core.dispatch;
 
+import static org.snapscript.core.constraint.Constraint.NONE;
+
 import java.util.concurrent.Callable;
 
-import org.snapscript.core.Constraint;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.bind.FunctionBinder;
+import org.snapscript.core.constraint.Constraint;
 
 public class ValueDispatcher implements CallDispatcher<Value> {
    
@@ -21,7 +23,7 @@ public class ValueDispatcher implements CallDispatcher<Value> {
    
    @Override
    public Constraint compile(Scope scope, Type value, Type... arguments) throws Exception {
-      return Constraint.getNone();
+      return NONE;
    }
 
    @Override

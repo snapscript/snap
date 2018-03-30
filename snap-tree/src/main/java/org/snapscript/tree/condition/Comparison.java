@@ -1,9 +1,9 @@
 package org.snapscript.tree.condition;
 
-import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.parse.StringToken;
 
 public class Comparison extends Evaluation {   
@@ -36,7 +36,7 @@ public class Comparison extends Evaluation {
          right.compile(scope, null);
       }
       left.compile(scope, null);
-      return Constraint.getInstance(Boolean.class);
+      return Constraint.BOOLEAN;
    }
    
    @Override

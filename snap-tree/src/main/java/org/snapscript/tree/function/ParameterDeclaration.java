@@ -1,11 +1,11 @@
 package org.snapscript.tree.function;
 
-import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.tree.Modifier;
 import org.snapscript.tree.ModifierChecker;

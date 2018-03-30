@@ -1,9 +1,11 @@
 package org.snapscript.tree.variable;
 
+import static org.snapscript.core.constraint.Constraint.NONE;
+
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.Compilation;
-import org.snapscript.core.Constraint;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Index;
@@ -14,6 +16,7 @@ import org.snapscript.core.State;
 import org.snapscript.core.Table;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.ProxyWrapper;
 import org.snapscript.tree.NameReference;
 
@@ -55,6 +58,7 @@ public class Variable implements Compilation {
          offset.set(depth);
       }
       
+      @Bug("crap")
       @Override
       public Constraint compile(Scope scope, Constraint left) throws Exception{
          if(left == null) {
@@ -65,16 +69,14 @@ public class Variable implements Compilation {
                Value value = state.get(name);
                
                if(value != null) { 
-                  Type t= value.getType(scope);
-                  return Constraint.getInstance(t);
+                  return value;
                }
             }else {
                Table table = scope.getTable();
                Value value = table.get(depth);
    
                if(value != null) { 
-                  Type t= value.getType(scope);
-                  return Constraint.getInstance(t);
+                  return value;
                }
             }
             return binder.check(scope);
@@ -83,7 +85,7 @@ public class Variable implements Compilation {
          if(t!=null) {
             return binder.check(scope, left);
          }
-         return Constraint.getNone();
+         return NONE;
       } 
       
       @Override

@@ -9,11 +9,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.snapscript.core.ConstantConstraint;
-import org.snapscript.core.Constraint;
 import org.snapscript.core.Context;
 import org.snapscript.core.Module;
 import org.snapscript.core.Type;
+import org.snapscript.core.constraint.ConstantConstraint;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.AccessorProperty;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Parameter;

@@ -1,10 +1,11 @@
 package org.snapscript.tree.function;
 
+import static org.snapscript.core.constraint.Constraint.NONE;
+
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.snapscript.core.Bug;
 import org.snapscript.core.Compilation;
-import org.snapscript.core.Constraint;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Index;
@@ -15,6 +16,7 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Table;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.dispatch.CallDispatcher;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.trace.Trace;
@@ -86,22 +88,9 @@ public class FunctionInvocation implements Compilation {
                if(Function.class.isInstance(type)) {
                   return executeV(scope, Constraint.getInstance(type), type);
                }
-               return Constraint.getNone(); // this is because we don't know that its not a function
+               return NONE; // this is because we don't know that its not a function
             }
          }
-//         Type t = null;
-//         if(left != null) {
-//            t =left.getType(scope);
-//         } else {
-//            t = scope.getType();
-//         }
-//         //String x = reference.getName(scope);
-//
-//         if(t != null) {
-//            if(left == null){
-//               left = Constraint.getInstance(t);
-//            }
-//         }
          if(left != null){
             Type t =left.getType(scope);
             if(t != null){

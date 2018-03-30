@@ -1,9 +1,9 @@
 package org.snapscript.tree;
 
-import org.snapscript.core.Constraint;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
+import org.snapscript.core.constraint.Constraint;
 
 public class ArgumentList {
    
