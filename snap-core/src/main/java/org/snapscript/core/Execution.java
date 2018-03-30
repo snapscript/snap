@@ -1,12 +1,7 @@
 package org.snapscript.core;
 
-import static org.snapscript.core.ResultType.NORMAL;
+import org.snapscript.core.result.Result;
 
 public abstract class Execution {
-   
-   public static Execution getNone() {
-      return new NoExecution(NORMAL);
-   }
-   
    public abstract Result execute(Scope scope) throws Exception;
 }

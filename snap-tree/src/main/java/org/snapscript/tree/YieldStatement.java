@@ -1,16 +1,18 @@
 package org.snapscript.tree;
 
+import static org.snapscript.core.result.Result.YIELD;
+
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Execution;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Value;
 import org.snapscript.core.error.ErrorHandler;
+import org.snapscript.core.result.Result;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.trace.TraceStatement;
@@ -45,10 +47,8 @@ public class YieldStatement implements Compilation {
    private static class CompileResult extends Statement {
    
       private final Evaluation evaluation;
-      private final Result result;
 
       public CompileResult(Evaluation evaluation){
-         this.result = Result.getYield();
          this.evaluation = evaluation;
       }
       
@@ -71,10 +71,8 @@ public class YieldStatement implements Compilation {
    private static class CompileExecution extends Execution {
       
       private final Evaluation evaluation;
-      private final Result result;
 
       public CompileExecution(Evaluation evaluation){
-         this.result = Result.getYield();
          this.evaluation = evaluation;
       }
       
@@ -86,7 +84,7 @@ public class YieldStatement implements Compilation {
 
             return Result.getYield(object);
          }
-         return result;
+         return YIELD;
       }
    }
 }

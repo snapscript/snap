@@ -1,6 +1,6 @@
 package org.snapscript.core;
 
-import static org.snapscript.core.ResultType.NORMAL;
+import static org.snapscript.core.result.Result.NORMAL;
 
 @Bug("really???")
 public class NoStatement extends Statement {

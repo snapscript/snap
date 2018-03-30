@@ -1,15 +1,17 @@
 package org.snapscript.tree;
 
+import static org.snapscript.core.result.Result.NORMAL;
+
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Execution;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.error.ErrorHandler;
+import org.snapscript.core.result.Result;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.trace.TraceStatement;
@@ -79,7 +81,7 @@ public class DeclarationStatement implements Compilation {
          for(Declaration declaration : declarations) {
             declaration.create(scope, type.mask); 
          }
-         return Result.getNormal();
+         return NORMAL;
       }
    }
 }

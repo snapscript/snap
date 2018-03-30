@@ -1,6 +1,6 @@
 package org.snapscript.tree.define;
 
-import static org.snapscript.core.ResultType.NORMAL;
+import static org.snapscript.core.result.Result.NORMAL;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -32,6 +32,7 @@ public class ModuleFunction implements ModulePart {
    private final NameReference reference;
    private final Constraint constraint;
    private final Statement statement;
+   private final Execution execution;
    
    public ModuleFunction(AnnotationList annotations, ModifierList modifiers, Evaluation identifier, ParameterList parameters, Statement statement){  
       this(annotations, modifiers, identifier, parameters, null, statement);
@@ -40,6 +41,7 @@ public class ModuleFunction implements ModulePart {
    public ModuleFunction(AnnotationList annotations, ModifierList modifiers, Evaluation identifier, ParameterList parameters, Constraint constraint, Statement statement){  
       this.constraint = new SafeConstraint(constraint);
       this.reference = new NameReference(identifier);
+      this.execution = new NoExecution(NORMAL);
       this.compiler = new TypeScopeCompiler();
       this.annotations = annotations;
       this.parameters = parameters;
@@ -89,7 +91,7 @@ public class ModuleFunction implements ModulePart {
          constraint.getType(outer);
          handle.compile(outer);
          
-         return new NoExecution(NORMAL);
+         return execution;
       }
    }
 }

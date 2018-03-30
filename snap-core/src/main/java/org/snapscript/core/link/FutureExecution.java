@@ -5,8 +5,8 @@ import java.util.concurrent.FutureTask;
 import org.snapscript.core.Execution;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Path;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
+import org.snapscript.core.result.Result;
 
 public class FutureExecution extends Execution {
    

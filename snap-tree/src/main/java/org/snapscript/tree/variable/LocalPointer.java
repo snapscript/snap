@@ -13,12 +13,12 @@ import org.snapscript.core.constraint.Constraint;
 public class LocalPointer implements VariablePointer<Object> {
    
    private final AtomicReference<Object> reference;
-   private final ConstantResolver resolver;
+   private final VariableFinder finder;
    private final String name;
    
-   public LocalPointer(ConstantResolver resolver, String name) {
+   public LocalPointer(VariableFinder finder, String name) {
       this.reference = new AtomicReference<Object>();
-      this.resolver = resolver;
+      this.finder = finder;
       this.name = name;
    }
 
@@ -33,7 +33,7 @@ public class LocalPointer implements VariablePointer<Object> {
          
          if(variable == null) { 
             //THIS LINE HERE IS LOADING TONNES OF CLASSES BY NAME... this is not good
-            Object value = resolver.resolve(scope, name);
+            Object value = finder.findTypes(scope, name);
             
             if(value instanceof Type) {
                reference.set(value);
@@ -69,7 +69,7 @@ public class LocalPointer implements VariablePointer<Object> {
          Value variable = state.get(name);
          
          if(variable == null) { 
-            Object value = resolver.resolve(scope, name);
+            Object value = finder.findTypes(scope, name);
             
             if(value != null) {
                reference.set(value);

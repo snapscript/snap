@@ -1,6 +1,6 @@
 package org.snapscript.tree;
 
-import static org.snapscript.core.ResultType.BREAK;
+import static org.snapscript.core.result.Result.BREAK;
 
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
@@ -36,9 +36,15 @@ public class BreakStatement implements Compilation {
    
    private static class CompileResult extends Statement {
       
+      private final Execution execution;
+      
+      public CompileResult() {
+         this.execution = new NoExecution(BREAK);
+      }
+      
       @Override
       public Execution compile(Scope scope) throws Exception {
-         return new NoExecution(BREAK);
+         return execution;
       }
    }
 }

@@ -18,17 +18,17 @@ import org.snapscript.core.property.ConstantPropertyBuilder;
 import org.snapscript.core.property.MapProperty;
 import org.snapscript.core.property.Property;
 
-public class ConstantResolver {
+public class VariableFinder {
    
    private final ConstantPropertyBuilder builder;
    private final ModuleScopeBinder binder;
    
-   public ConstantResolver() {
+   public VariableFinder() {
       this.builder = new ConstantPropertyBuilder();
       this.binder = new ModuleScopeBinder();
    }
    
-   public Object resolve(Scope scope, String name) {
+   public Object findTypes(Scope scope, String name) {
       Scope current = binder.bind(scope); // this could be slow
       Module module = current.getModule();
       Type type = module.getType(name); // this is super slow if a variable is referenced
@@ -48,13 +48,13 @@ public class ConstantResolver {
       return type;
    }
    
-   public Property matchFromObject(Scope scope, Object left, String name) {
+   public Property findAnyFromObject(Scope scope, Object left, String name) {
       Class type = left.getClass();
       Module module = scope.getModule();
       Type source = module.getType(type);
       
       if(source != null) {
-         Property match = matchFromType(scope, source, name);
+         Property match = findAnyFromType(scope, source, name);
          
          if(match != null) {
             return match;
@@ -63,13 +63,13 @@ public class ConstantResolver {
       return null;
    }
    
-   public Property matchPropertyFromObject(Scope scope, Object left, String name) {
+   public Property findPropertyFromObject(Scope scope, Object left, String name) {
       Class type = left.getClass();
       Module module = scope.getModule();
       Type source = module.getType(type);
       
       if(source != null) {
-         Property match = matchPropertyFromType(scope, source, name);
+         Property match = findPropertyFromType(scope, source, name);
          
          if(match != null) {
             return match;
@@ -78,16 +78,16 @@ public class ConstantResolver {
       return null;
    }
    
-   public Property matchFromType(Scope scope, Type type, String name) {
-      Property match = matchPropertyFromType(scope, type, name);
+   public Property findAnyFromType(Scope scope, Type type, String name) {
+      Property match = findPropertyFromType(scope, type, name);
       
       if(match != null) {
          return match;
       }
-      return matchConstantFromType(scope, type, name);
+      return findConstantFromType(scope, type, name);
    }
    
-   public Property matchPropertyFromType(Scope scope, Type type, String name) {
+   public Property findPropertyFromType(Scope scope, Type type, String name) {
       Module module = scope.getModule();
       Context context = module.getContext();
       TypeExtractor extractor = context.getExtractor();
@@ -108,7 +108,7 @@ public class ConstantResolver {
    }
    
    @Bug("what about constraints?")
-   public Property matchConstantFromType(Scope scope, Type type, String name) {
+   public Property findConstantFromType(Scope scope, Type type, String name) {
       Module module = scope.getModule();
       Context context = module.getContext();
       TypeExtractor extractor = context.getExtractor();
@@ -116,7 +116,7 @@ public class ConstantResolver {
       
       for(Type base : list) {
          Scope outer = base.getScope();
-         Object value = resolve(outer, name); // this is really slow
+         Object value = findTypes(outer, name); // this is really slow
    
          if(value != null) {
             return builder.createConstant(name, value, null, NONE);
@@ -125,7 +125,7 @@ public class ConstantResolver {
       return null;
    }
    
-   public Property matchFromModule(Scope scope, Module left, String name) {
+   public Property findAnyFromModule(Scope scope, Module left, String name) {
       List<Property> properties = left.getProperties();
       
       for(Property property : properties){
@@ -135,11 +135,11 @@ public class ConstantResolver {
             return property;
          }
       }
-      return matchFromObject(scope, left, name);
+      return findAnyFromObject(scope, left, name);
    }
    
-   public Property matchFromMap(Scope scope, Type left, String name) {
-      Property property = matchPropertyFromType(scope, left, name);
+   public Property findPropertyFromMap(Scope scope, Type left, String name) {
+      Property property = findPropertyFromType(scope, left, name);
    
       if(property == null) {
          return new MapProperty(name, left, PUBLIC.mask);
@@ -147,8 +147,8 @@ public class ConstantResolver {
       return property;
    }
    
-   public Property matchFromMap(Scope scope, Map left, String name) {
-      Property property = matchPropertyFromObject(scope, left, name);
+   public Property findPropertyFromMap(Scope scope, Map left, String name) {
+      Property property = findPropertyFromObject(scope, left, name);
    
       if(property == null) {
          Module module = scope.getModule();

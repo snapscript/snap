@@ -1,10 +1,12 @@
 package org.snapscript.tree.define;
 
+import static org.snapscript.core.result.Result.NORMAL;
+
 import org.snapscript.core.Evaluation;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
+import org.snapscript.core.result.Result;
 
 public class InstanceFieldFactory extends TypeFactory {
    
@@ -33,6 +35,6 @@ public class InstanceFieldFactory extends TypeFactory {
       if(evaluation != null) {
          evaluation.evaluate(scope, null); 
       }
-      return Result.getNormal();
+      return NORMAL;
    }
 }

@@ -1,6 +1,7 @@
 package org.snapscript.tree;
 
-import static org.snapscript.core.ResultType.CONTINUE;
+import static org.snapscript.core.result.Result.CONTINUE;
+import static org.snapscript.core.result.Result.NORMAL;
 
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
@@ -36,9 +37,15 @@ public class ContinueStatement implements Compilation {
    
    private static class CompileResult extends Statement {
       
+      private final Execution execution;
+      
+      public CompileResult() {
+         this.execution = new NoExecution(CONTINUE);
+      }
+      
       @Override
       public Execution compile(Scope scope) throws Exception {
-         return new NoExecution(CONTINUE);
+         return execution;
       }
    }
 }

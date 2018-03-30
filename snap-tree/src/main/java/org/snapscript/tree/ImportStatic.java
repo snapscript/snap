@@ -1,5 +1,7 @@
 package org.snapscript.tree;
 
+import static org.snapscript.core.result.Result.NORMAL;
+
 import java.util.List;
 
 import org.snapscript.core.Compilation;
@@ -10,12 +12,12 @@ import org.snapscript.core.Module;
 import org.snapscript.core.NameBuilder;
 import org.snapscript.core.NoExecution;
 import org.snapscript.core.Path;
-import org.snapscript.core.ResultType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeNameBuilder;
 import org.snapscript.core.function.Function;
+import org.snapscript.core.result.Result;
 
 public class ImportStatic implements Compilation {   
    
@@ -36,13 +38,15 @@ public class ImportStatic implements Compilation {
    
    private static class CompileResult extends Statement {
       
-      private final NameBuilder builder;
+      private final Execution execution;
+      private final NameBuilder builder;      
       private final String location;
       private final String target;
       private final String prefix;
       
       public CompileResult(String location, String target, String prefix) {
-         this.builder = new TypeNameBuilder();
+         this.execution = new NoExecution(NORMAL);
+         this.builder = new TypeNameBuilder();        
          this.location = location;
          this.target = target;
          this.prefix = prefix;
@@ -75,7 +79,7 @@ public class ImportStatic implements Compilation {
       
       @Override
       public Execution compile(Scope scope) throws Exception {
-         return new NoExecution(ResultType.NORMAL);
+         return execution;
       }
       
    }

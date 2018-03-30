@@ -1,13 +1,15 @@
 package org.snapscript.core.link;
 
+import static org.snapscript.core.result.Result.NORMAL;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.snapscript.core.Execution;
 import org.snapscript.core.Path;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
+import org.snapscript.core.result.Result;
 
 public class PackageDefinitionList implements PackageDefinition {
    
@@ -67,17 +69,15 @@ public class PackageDefinitionList implements PackageDefinition {
    
    private static class ExecutionList extends Execution {
       
-      private final List<Execution> statements;
-      private final Result normal;
+      private final List<Execution> statements;      
       
-      public ExecutionList(List<Execution> statements) {
-         this.normal = Result.getNormal();
+      public ExecutionList(List<Execution> statements) {         
          this.statements = statements;
       }
       
       @Override
       public Result execute(Scope scope) throws Exception {
-         Result result = normal;
+         Result result = NORMAL;
          
          for(Execution statement : statements){
             Result next = statement.execute(scope);

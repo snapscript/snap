@@ -1,9 +1,9 @@
 package org.snapscript.tree.define;
 
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
+import org.snapscript.core.result.Result;
 
 public class PrimitiveConstructor extends TypeFactory {
 

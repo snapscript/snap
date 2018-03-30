@@ -1,14 +1,16 @@
 package org.snapscript.tree.define;
 
+import static org.snapscript.core.result.Result.NORMAL;
+
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.snapscript.core.Bug;
 import org.snapscript.core.Execution;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
+import org.snapscript.core.result.Result;
 
 public class StaticBody extends Statement {
 
@@ -38,12 +40,10 @@ public class StaticBody extends Statement {
       
       private final AtomicBoolean execute;
       private final TypeFactory factory;
-      private final Result normal;
       private final Type type;
       
       public StaticExecution(TypeFactory factory, Type type) {
          this.execute = new AtomicBoolean(false);
-         this.normal = Result.getNormal();
          this.factory = factory;
          this.type = type;
       }
@@ -54,7 +54,7 @@ public class StaticBody extends Statement {
             Scope outer = type.getScope();
             factory.allocate(outer, type);
          }
-         return normal;
+         return NORMAL;
       } 
    }
 }

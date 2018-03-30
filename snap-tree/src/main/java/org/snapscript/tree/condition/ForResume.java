@@ -1,8 +1,10 @@
 package org.snapscript.tree.condition;
 
+import static org.snapscript.core.result.Result.NORMAL;
+
 import org.snapscript.core.Evaluation;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
+import org.snapscript.core.result.Result;
 import org.snapscript.core.yield.Resume;
 import org.snapscript.core.yield.Yield;
 import org.snapscript.tree.Suspend;
@@ -12,10 +14,8 @@ public class ForResume extends Suspend<Object, Object> {
    private final Evaluation assignment;
    private final Resume parent;
    private final Resume child;
-   private final Result normal;
    
    public ForResume(Resume child, Resume parent, Evaluation assignment){
-      this.normal = Result.getNormal();
       this.assignment = assignment;
       this.parent = parent;
       this.child = child;
@@ -32,7 +32,7 @@ public class ForResume extends Suspend<Object, Object> {
          return result;
       }
       if(result.isBreak()) {
-         return normal;
+         return NORMAL;
       }
       if(assignment != null) {
          assignment.evaluate(scope, null);

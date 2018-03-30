@@ -1,5 +1,7 @@
 package org.snapscript.tree.condition;
 
+import static org.snapscript.core.result.Result.NORMAL;
+
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
@@ -7,11 +9,11 @@ import org.snapscript.core.Execution;
 import org.snapscript.core.Index;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Value;
 import org.snapscript.core.error.ErrorHandler;
+import org.snapscript.core.result.Result;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.trace.TraceStatement;
@@ -102,10 +104,8 @@ public class ForStatement implements Compilation {
       private final Execution declaration;
       private final Evaluation assignment;
       private final Execution body;
-      private final Result normal;
 
       public CompileExecution(Execution declaration, Evaluation condition, Evaluation assignment, Execution body) {
-         this.normal = Result.getNormal();
          this.declaration = declaration;
          this.assignment = assignment;
          this.condition = condition;
@@ -134,10 +134,10 @@ public class ForStatement implements Compilation {
                   return next;
                }
                if(next.isBreak()) {
-                  return normal;
+                  return NORMAL;
                }
             } else {
-               return normal;
+               return NORMAL;
             } 
             if(assignment != null) {
                assignment.evaluate(scope, null);

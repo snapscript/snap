@@ -1,5 +1,8 @@
 package org.snapscript.tree;
 
+import static java.lang.Boolean.TRUE;
+import static org.snapscript.core.result.Result.NORMAL;
+
 import org.snapscript.core.AssertionException;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
@@ -7,11 +10,11 @@ import org.snapscript.core.Evaluation;
 import org.snapscript.core.Execution;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Value;
 import org.snapscript.core.error.ErrorHandler;
+import org.snapscript.core.result.Result;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.trace.TraceStatement;
@@ -67,10 +70,10 @@ public class AssertStatement implements Compilation {
          Value value = evaluation.evaluate(scope, null);
          Object object = value.getValue();
 
-         if(!Boolean.TRUE.equals(object)) {
+         if(!TRUE.equals(object)) {
             throw new AssertionException("Assertion failed");
          }
-         return Result.getNormal();
+         return NORMAL;
       }
    }
 }

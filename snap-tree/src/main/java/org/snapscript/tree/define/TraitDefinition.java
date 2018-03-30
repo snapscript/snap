@@ -4,7 +4,7 @@ import static org.snapscript.core.Category.TRAIT;
 import static org.snapscript.core.Phase.COMPILED;
 import static org.snapscript.core.Phase.CREATED;
 import static org.snapscript.core.Phase.DEFINED;
-import static org.snapscript.core.ResultType.NORMAL;
+import static org.snapscript.core.result.Result.NORMAL;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -30,6 +30,7 @@ public class TraitDefinition extends Statement {
    private final AtomicBoolean define;
    private final AtomicBoolean create;
    private final ClassBuilder builder;
+   private final Execution execution;
    private final TypePart[] parts;
    
    public TraitDefinition(AnnotationList annotations, TraitName name, TypeHierarchy hierarchy, TypePart... parts) {
@@ -37,6 +38,7 @@ public class TraitDefinition extends Statement {
       this.generator = new FunctionPropertyGenerator(); 
       this.constants = new StaticConstantFactory();
       this.collector = new TypeFactoryCollector();
+      this.execution = new NoExecution(NORMAL);
       this.compile = new AtomicBoolean(true);
       this.define = new AtomicBoolean(true);
       this.create = new AtomicBoolean(true);
@@ -92,8 +94,6 @@ public class TraitDefinition extends Statement {
          Scope local = scope.getStack(); // make it temporary
          
          try {
-            local.getState().add(Reserved.TYPE_THIS, Value.getReference(null, type));
-            
             for(TypePart part : parts) {
                TypeFactory factory = part.compile(collector, type, local);
                collector.update(factory);
@@ -103,6 +103,6 @@ public class TraitDefinition extends Statement {
             progress.done(COMPILED); 
          }
       }
-      return new NoExecution(NORMAL);
+      return execution;
    }
 }

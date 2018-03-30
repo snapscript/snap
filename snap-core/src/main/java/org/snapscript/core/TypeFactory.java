@@ -1,5 +1,9 @@
 package org.snapscript.core;
 
+import static org.snapscript.core.result.Result.NORMAL;
+
+import org.snapscript.core.result.Result;
+
 @Bug("this is a crap name")
 public abstract class TypeFactory {
 
@@ -8,6 +12,6 @@ public abstract class TypeFactory {
    public void allocate(Scope scope, Type type) throws Exception {} // static stuff
    
    public Result execute(Scope scope, Type type) throws Exception { // instance stuff
-      return Result.getNormal();
+      return NORMAL;
    }
 }

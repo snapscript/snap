@@ -5,7 +5,6 @@ import org.snapscript.core.Context;
 import org.snapscript.core.Execution;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
@@ -16,6 +15,7 @@ import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationBuilder;
 import org.snapscript.core.function.Signature;
 import org.snapscript.core.function.SignatureAligner;
+import org.snapscript.core.result.Result;
 import org.snapscript.tree.function.ParameterExtractor;
 
 public class StatementInvocationBuilder implements InvocationBuilder {

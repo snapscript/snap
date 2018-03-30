@@ -1,9 +1,11 @@
 package org.snapscript.tree.condition;
 
+import static org.snapscript.core.result.Result.NORMAL;
+
 import java.util.Iterator;
 
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
+import org.snapscript.core.result.Result;
 import org.snapscript.core.yield.Resume;
 import org.snapscript.core.yield.Yield;
 import org.snapscript.tree.Suspend;
@@ -13,10 +15,8 @@ public class ForInResume extends Suspend<Object, Iterator> {
    private final Iterator iterator;
    private final Resume parent;
    private final Resume child;
-   private final Result normal;
    
    public ForInResume(Resume child, Resume parent, Iterator iterator){
-      this.normal = Result.getNormal();
       this.iterator = iterator;
       this.parent = parent;
       this.child = child;
@@ -33,7 +33,7 @@ public class ForInResume extends Suspend<Object, Iterator> {
          return result;
       }
       if(result.isBreak()) {
-         return normal;
+         return NORMAL;
       }
       return parent.resume(scope, iterator);
    }

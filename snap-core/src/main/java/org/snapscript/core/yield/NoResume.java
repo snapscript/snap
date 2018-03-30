@@ -1,13 +1,15 @@
 package org.snapscript.core.yield;
 
-import org.snapscript.core.Result;
+import static org.snapscript.core.result.Result.NORMAL;
+
 import org.snapscript.core.Scope;
+import org.snapscript.core.result.Result;
 
 public class NoResume implements Resume {
    
    @Override
    public Result resume(Scope scope, Object value) throws Exception {
-      return Result.getNormal();
+      return NORMAL;
    }
 
    @Override

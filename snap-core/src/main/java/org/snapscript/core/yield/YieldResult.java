@@ -1,12 +1,11 @@
 package org.snapscript.core.yield;
 
-import static org.snapscript.core.ResultType.YIELD;
-
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
+import org.snapscript.core.result.Result;
 
 public class YieldResult extends Result {
 
+   private final Object value;
    private final Resume next;
    private final Scope scope;
    
@@ -19,9 +18,14 @@ public class YieldResult extends Result {
    }
    
    public YieldResult(Object value, Scope scope, Resume next) {
-      super(YIELD, value);
+      this.value = value;
       this.scope = scope;
       this.next = next;
+   }
+   
+   @Override
+   public boolean isYield() {
+      return true;
    }
    
    @Override

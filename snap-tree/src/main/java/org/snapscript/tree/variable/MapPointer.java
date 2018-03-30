@@ -15,12 +15,12 @@ import org.snapscript.core.property.PropertyValue;
 public class MapPointer implements VariablePointer<Map> {
    
    private final AtomicReference<Property> reference;
-   private final ConstantResolver resolver;
+   private final VariableFinder finder;
    private final String name;
    
-   public MapPointer(ConstantResolver resolver, String name) {
+   public MapPointer(VariableFinder finder, String name) {
       this.reference = new AtomicReference<Property>();
-      this.resolver = resolver;
+      this.finder = finder;
       this.name = name;
    }
    
@@ -30,7 +30,7 @@ public class MapPointer implements VariablePointer<Map> {
       
       if(accessor == null) {
          Type type = left.getType(scope);
-         Property match = resolver.matchFromMap(scope, type, name);
+         Property match = finder.findPropertyFromMap(scope, type, name);
          
          if(match != null) {
             reference.set(match);
@@ -46,7 +46,7 @@ public class MapPointer implements VariablePointer<Map> {
       Property accessor = reference.get();
       
       if(accessor == null) {
-         Property match = resolver.matchFromMap(scope, left, name);
+         Property match = finder.findPropertyFromMap(scope, left, name);
          
          if(match != null) {
             reference.set(match);

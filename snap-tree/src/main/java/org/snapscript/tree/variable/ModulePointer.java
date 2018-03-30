@@ -15,12 +15,12 @@ import org.snapscript.core.property.PropertyValue;
 public class ModulePointer implements VariablePointer<Module> {
    
    private final AtomicReference<Property> reference;
-   private final ConstantResolver resolver;
+   private final VariableFinder finder;
    private final String name;
    
-   public ModulePointer(ConstantResolver resolver, String name) {
+   public ModulePointer(VariableFinder finder, String name) {
       this.reference = new AtomicReference<Property>();
-      this.resolver = resolver;
+      this.finder = finder;
       this.name = name;
    }
 
@@ -41,7 +41,7 @@ public class ModulePointer implements VariablePointer<Module> {
             if(type != null) {
                return Constraint.getInstance(type);
             }
-            Property match = resolver.matchFromModule(scope, module, name);
+            Property match = finder.findAnyFromModule(scope, module, name);
             
             if(match != null) {
                reference.set(match);
@@ -68,7 +68,7 @@ public class ModulePointer implements VariablePointer<Module> {
             if(type != null) {
                return Value.getTransient(type);
             }
-            Property match = resolver.matchFromModule(scope, left, name);
+            Property match = finder.findAnyFromModule(scope, left, name);
             
             if(match != null) {
                reference.set(match);

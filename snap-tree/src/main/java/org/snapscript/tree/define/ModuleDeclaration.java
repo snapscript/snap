@@ -1,6 +1,7 @@
 package org.snapscript.tree.define;
 
 import static org.snapscript.core.ModifierType.STATIC;
+import static org.snapscript.core.result.Result.NORMAL;
 
 import java.util.List;
 
@@ -10,11 +11,11 @@ import org.snapscript.core.Context;
 import org.snapscript.core.Execution;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.property.Property;
+import org.snapscript.core.result.Result;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.trace.TraceStatement;
@@ -127,7 +128,7 @@ public class ModuleDeclaration implements Compilation {
          for(ModuleProperty declaration : properties) {
             declaration.execute(body, outer, mask | STATIC.mask); 
          }
-         return Result.getNormal();
+         return NORMAL;
       }
    }
 }

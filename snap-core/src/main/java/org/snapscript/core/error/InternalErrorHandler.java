@@ -1,10 +1,10 @@
 package org.snapscript.core.error;
 
 import org.snapscript.core.Module;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeExtractor;
+import org.snapscript.core.result.Result;
 import org.snapscript.core.stack.ThreadStack;
 import org.snapscript.core.trace.Trace;
 

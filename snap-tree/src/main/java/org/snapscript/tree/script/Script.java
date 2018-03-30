@@ -1,10 +1,12 @@
 package org.snapscript.tree.script;
 
+import static org.snapscript.core.result.Result.NORMAL;
+
 import org.snapscript.core.Execution;
 import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
+import org.snapscript.core.result.Result;
 
 public class Script extends Statement {
    
@@ -48,7 +50,7 @@ public class Script extends Statement {
    
       @Override
       public Result execute(Scope scope) throws Exception {
-         Result last = Result.getNormal();
+         Result last = NORMAL;
          
          for(Execution statement : statements) {
             Result result = statement.execute(scope);

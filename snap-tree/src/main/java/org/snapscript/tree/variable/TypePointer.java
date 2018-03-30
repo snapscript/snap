@@ -14,12 +14,12 @@ import org.snapscript.core.property.PropertyValue;
 public class TypePointer implements VariablePointer<Type> {
    
    private final AtomicReference<Property> reference;
-   private final ConstantResolver resolver;
+   private final VariableFinder finder;
    private final String name;
    
-   public TypePointer(ConstantResolver resolver, String name) {
+   public TypePointer(VariableFinder finder, String name) {
       this.reference = new AtomicReference<Property>();
-      this.resolver = resolver;
+      this.finder = finder;
       this.name = name;
    }
 
@@ -29,13 +29,13 @@ public class TypePointer implements VariablePointer<Type> {
       
       if(property == null) {
          Type type = left.getType(scope);
-         Property match = resolver.matchFromType(scope, type, name);
+         Property match = finder.findAnyFromType(scope, type, name);
          
          if(match != null) {
             reference.set(match);
             return match.getConstraint();
          }
-         match = resolver.matchFromObject(scope, type, name);
+         match = finder.findAnyFromObject(scope, type, name);
          
          if(match != null) {
             reference.set(match);
@@ -51,13 +51,13 @@ public class TypePointer implements VariablePointer<Type> {
       Property property = reference.get();
       
       if(property == null) {
-         Property match = resolver.matchFromType(scope, left, name);
+         Property match = finder.findAnyFromType(scope, left, name);
          
          if(match != null) {
             reference.set(match);
             return new PropertyValue(match, left, name);
          }
-         match = resolver.matchFromObject(scope, left, name);
+         match = finder.findAnyFromObject(scope, left, name);
          
          if(match != null) {
             reference.set(match);

@@ -1,12 +1,14 @@
 package org.snapscript.tree.define;
 
+import static org.snapscript.core.result.Result.NORMAL;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
+import org.snapscript.core.result.Result;
 
 public class TypeFactoryCollector extends TypeFactory {
    
@@ -56,7 +58,7 @@ public class TypeFactoryCollector extends TypeFactory {
          last = result;
       }
       if(last == null) {
-         return Result.getNormal();
+         return NORMAL;
       }
       return last;
    }              

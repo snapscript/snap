@@ -1,5 +1,7 @@
 package org.snapscript.tree.script;
 
+import static org.snapscript.core.result.Result.NORMAL;
+
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -8,6 +10,7 @@ import org.snapscript.core.Execution;
 import org.snapscript.core.FunctionScopeCompiler;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
+import org.snapscript.core.NoExecution;
 import org.snapscript.core.Scope;
 import org.snapscript.core.ScopeCompiler;
 import org.snapscript.core.Statement;
@@ -28,6 +31,7 @@ public class ScriptFunction extends Statement {
    private final FunctionBuilder builder;
    private final NameReference identifier;
    private final Constraint constraint;
+   private final Execution execution;
    
    public ScriptFunction(Evaluation identifier, ParameterList parameters, Statement body){  
       this(identifier, parameters, null, body);
@@ -39,6 +43,7 @@ public class ScriptFunction extends Statement {
       this.identifier = new NameReference(identifier);
       this.builder = new ScriptFunctionBuilder(body);
       this.compiler = new FunctionScopeCompiler();
+      this.execution = new NoExecution(NORMAL);
       this.parameters = parameters;
    }  
    
@@ -71,6 +76,6 @@ public class ScriptFunction extends Statement {
       constraint.getType(scope);
       handle.compile(combined);
       
-      return Execution.getNone();
+      return execution;
    }
 }

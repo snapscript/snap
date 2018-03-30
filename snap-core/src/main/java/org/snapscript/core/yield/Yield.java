@@ -3,8 +3,8 @@ package org.snapscript.core.yield;
 import java.util.Iterator;
 
 import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
+import org.snapscript.core.result.Result;
 
 public class Yield implements Iterable<Object> {
 

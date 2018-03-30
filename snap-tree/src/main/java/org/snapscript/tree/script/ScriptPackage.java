@@ -1,5 +1,7 @@
 package org.snapscript.tree.script;
 
+import static org.snapscript.core.result.Result.NORMAL;
+
 import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -7,10 +9,10 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.Execution;
 import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.link.FutureExecution;
+import org.snapscript.core.result.Result;
 
 public class ScriptPackage extends Statement {
 
@@ -107,7 +109,7 @@ public class ScriptPackage extends Statement {
    
       @Override
       public Result execute(Scope scope) throws Exception {
-         Result last = Result.getNormal();
+         Result last = NORMAL;
          
          if(execute.compareAndSet(true, false)) {
             for(int i = 0; i < statements.length; i++) {

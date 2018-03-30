@@ -3,7 +3,7 @@ package org.snapscript.tree.define;
 import static org.snapscript.core.Phase.COMPILED;
 import static org.snapscript.core.Phase.CREATED;
 import static org.snapscript.core.Phase.DEFINED;
-import static org.snapscript.core.ResultType.NORMAL;
+import static org.snapscript.core.result.Result.NORMAL;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -26,6 +26,7 @@ public class EnumDefinition extends Statement {
    private final AtomicBoolean define;
    private final AtomicBoolean create;
    private final EnumBuilder builder;
+   private final Execution execution;
    private final EnumList list;
    private final TypePart[] parts;
    
@@ -33,6 +34,7 @@ public class EnumDefinition extends Statement {
       this.builder = new EnumBuilder(name, hierarchy);
       this.constructor = new DefaultConstructor(true);
       this.collector = new TypeFactoryCollector();
+      this.execution = new NoExecution(NORMAL);
       this.compile = new AtomicBoolean(true);
       this.define = new AtomicBoolean(true);
       this.create = new AtomicBoolean(true);
@@ -92,6 +94,6 @@ public class EnumDefinition extends Statement {
             progress.done(COMPILED);
          }
       }
-      return new NoExecution(NORMAL);
+      return execution;
    }
 }

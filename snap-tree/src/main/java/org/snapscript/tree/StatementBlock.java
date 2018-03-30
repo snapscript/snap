@@ -1,11 +1,13 @@
 package org.snapscript.tree;
 
+import static org.snapscript.core.result.Result.NORMAL;
+
 import org.snapscript.core.Execution;
 import org.snapscript.core.Index;
 import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
+import org.snapscript.core.result.Result;
 import org.snapscript.core.yield.Resume;
 import org.snapscript.core.yield.Yield;
 
@@ -76,14 +78,11 @@ public class StatementBlock extends Statement {
    
    private static class StatementExecutor extends SuspendStatement<Integer> {
       
-      private final Execution[] statements;
-      private final Result normal;
+      private final Execution[] statements;     
       
-      public StatementExecutor(Execution[] statements) {
-         this.normal = Result.getNormal();
+      public StatementExecutor(Execution[] statements) {         
          this.statements = statements;
-      }
-      
+      }      
       
       @Override
       public Result execute(Scope scope) throws Exception {
@@ -92,7 +91,7 @@ public class StatementBlock extends Statement {
       
       @Override
       public Result resume(Scope scope, Integer index) throws Exception {
-         Result last = normal;
+         Result last = NORMAL;
 
          for(int i = index; i < statements.length; i++){
             Execution statement = statements[i];

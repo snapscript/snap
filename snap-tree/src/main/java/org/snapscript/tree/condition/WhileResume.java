@@ -1,7 +1,9 @@
 package org.snapscript.tree.condition;
 
-import org.snapscript.core.Result;
+import static org.snapscript.core.result.Result.NORMAL;
+
 import org.snapscript.core.Scope;
+import org.snapscript.core.result.Result;
 import org.snapscript.core.yield.Resume;
 import org.snapscript.core.yield.Yield;
 import org.snapscript.tree.Suspend;
@@ -10,10 +12,8 @@ public class WhileResume extends Suspend<Object, Object> {
    
    private final Resume parent;
    private final Resume child;
-   private final Result normal;
    
    public WhileResume(Resume child, Resume parent){
-      this.normal = Result.getNormal();
       this.parent = parent;
       this.child = child;
    }
@@ -29,7 +29,7 @@ public class WhileResume extends Suspend<Object, Object> {
          return result;
       }
       if(result.isBreak()) {
-         return normal;
+         return NORMAL;
       }
       return parent.resume(scope, null);
    }

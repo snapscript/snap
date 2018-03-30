@@ -9,23 +9,22 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.define.Instance;
-import org.snapscript.core.dispatch.ArrayDispatcher;
 
 public class VariablePointerBuilder {
 
-   private final ConstantResolver resolver;
+   private final VariableFinder finder;
    private final String name;
    
    public VariablePointerBuilder(String name) {
-      this.resolver = new ConstantResolver();
+      this.finder = new VariableFinder();
       this.name = name;
    }
 
    public VariablePointer create(Scope scope) throws Exception {
       if(Instance.class.isInstance(scope)) {
-         return new InstancePointer(resolver, name);
+         return new InstancePointer(finder, name);
       }
-      return new LocalPointer(resolver, name);
+      return new LocalPointer(finder, name);
    }
    
    public VariablePointer create(Scope scope, Object left) throws Exception {
@@ -33,24 +32,24 @@ public class VariablePointerBuilder {
          Class type = left.getClass();
          
          if(Module.class.isInstance(left)) {
-            return new ModulePointer(resolver, name);
+            return new ModulePointer(finder, name);
          }
          if(Map.class.isInstance(left)) {
-            return new MapPointer(resolver, name);
+            return new MapPointer(finder, name);
          }         
          if(Scope.class.isInstance(left)) {
             return new ScopePointer(name);
          }
          if(Type.class.isInstance(left)) {
-            return new TypePointer(resolver, name);
+            return new TypePointer(finder, name);
          }
          if(Collection.class.isInstance(left)) {
-            return new CollectionPointer(resolver, name);
+            return new CollectionPointer(finder, name);
          }
          if(type.isArray()) {
-            return new ArrayPointer(resolver, name);
+            return new ArrayPointer(finder, name);
          }
-         return new ObjectPointer(resolver, name);
+         return new ObjectPointer(finder, name);
       }
       return create(scope);
    }
@@ -63,22 +62,22 @@ public class VariablePointerBuilder {
          Class real = type.getType();
          
          if(left.isModule()) {
-            return new ModulePointer(resolver, name);
+            return new ModulePointer(finder, name);
          }
          if(left.isStatic()) {
-            return new TypePointer(resolver, name);
+            return new TypePointer(finder, name);
          }
          if(category.isArray()) {
-            return new ArrayPointer(resolver, name);
+            return new ArrayPointer(finder, name);
          }
          if(real != null) {
             if(Map.class.isAssignableFrom(real)) {
-               return new MapPointer(resolver, name);
+               return new MapPointer(finder, name);
             }         
             if(Collection.class.isAssignableFrom(real)) {
-               return new CollectionPointer(resolver, name);
+               return new CollectionPointer(finder, name);
             }
-            return new ObjectPointer(resolver, name);
+            return new ObjectPointer(finder, name);
          }
       }
       return new ScopePointer(name);

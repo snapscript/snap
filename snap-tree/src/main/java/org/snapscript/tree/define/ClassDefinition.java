@@ -4,12 +4,11 @@ import static org.snapscript.core.Category.CLASS;
 import static org.snapscript.core.Phase.COMPILED;
 import static org.snapscript.core.Phase.CREATED;
 import static org.snapscript.core.Phase.DEFINED;
-import static org.snapscript.core.ResultType.NORMAL;
+import static org.snapscript.core.result.Result.NORMAL;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.snapscript.common.Progress;
-import org.snapscript.core.Bug;
 import org.snapscript.core.Execution;
 import org.snapscript.core.NoExecution;
 import org.snapscript.core.Phase;
@@ -30,6 +29,7 @@ public class ClassDefinition extends Statement {
    private final AtomicBoolean define;
    private final AtomicBoolean create;
    private final ClassBuilder builder;
+   private final Execution execution;
    private final TypePart[] parts;
    
    public ClassDefinition(AnnotationList annotations, TypeName name, TypeHierarchy hierarchy, TypePart... parts) {
@@ -38,6 +38,7 @@ public class ClassDefinition extends Statement {
       this.constants = new StaticConstantFactory();
       this.collector = new TypeFactoryCollector();
       this.constructor = new DefaultConstructor();
+      this.execution = new NoExecution(NORMAL);
       this.compile = new AtomicBoolean(true);
       this.define = new AtomicBoolean(true);
       this.create = new AtomicBoolean(true);
@@ -85,7 +86,6 @@ public class ClassDefinition extends Statement {
       }
    }
 
-   @Bug("fix 'this' for compile time")
    @Override
    public Execution compile(Scope outer) throws Exception {
       if(!compile.compareAndSet(false, true)) {
@@ -95,9 +95,6 @@ public class ClassDefinition extends Statement {
          Scope local = scope.getStack(); // make it temporary
          
          try {
-            //local = ValidationHelper.createTypeScope(local, type);
-            //local.getState().add(Reserved.TYPE_THIS, Value.getReference(null, type));
-            
             for(TypePart part : parts) {
                TypeFactory factory = part.compile(collector, type, local);
                collector.update(factory);
@@ -108,6 +105,6 @@ public class ClassDefinition extends Statement {
             progress.done(COMPILED);
          }
       }
-      return new NoExecution(NORMAL);
+      return execution;
    }
 }

@@ -1,11 +1,12 @@
 package org.snapscript.tree;
 
+import static org.snapscript.core.result.Result.NORMAL;
+
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.snapscript.core.Execution;
 import org.snapscript.core.Index;
 import org.snapscript.core.Local;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Table;
@@ -14,6 +15,7 @@ import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.CompatibilityChecker;
 import org.snapscript.core.error.ErrorCauseExtractor;
 import org.snapscript.core.function.Parameter;
+import org.snapscript.core.result.Result;
 import org.snapscript.tree.function.ParameterDeclaration;
 
 public class CatchBlockList {
@@ -54,7 +56,7 @@ public class CatchBlockList {
             }
          }
       }
-      return Result.getNormal();
+      return NORMAL;
    }
    
    public Result compile(Scope scope) throws Exception {  
@@ -77,7 +79,7 @@ public class CatchBlockList {
             list[i] = statement.compile(scope);
          }
       }
-      return Result.getNormal();
+      return NORMAL;
    }
 
    public Result execute(Scope scope, Result result) throws Exception {

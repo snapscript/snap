@@ -1,12 +1,12 @@
 package org.snapscript.tree.define;
 
 import org.snapscript.core.Evaluation;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
 import org.snapscript.core.Value;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.result.Result;
 
 public class SuperFactory extends TypeFactory {
    

@@ -1,5 +1,7 @@
 package org.snapscript.compile;
 
+import static org.snapscript.core.result.Result.NORMAL;
+
 import java.lang.management.ManagementFactory;
 import java.text.DecimalFormat;
 import java.util.HashMap;
@@ -10,7 +12,7 @@ import junit.framework.TestCase;
 import org.snapscript.core.MapModel;
 import org.snapscript.core.Model;
 import org.snapscript.core.Reserved;
-import org.snapscript.core.Result;
+import org.snapscript.core.result.Result;
 import org.snapscript.parse.SourceCode;
 import org.snapscript.parse.SourceProcessor;
 import org.snapscript.parse.SyntaxCompiler;
@@ -116,7 +118,7 @@ public class CompilePerformanceTest extends TestCase {
       for(int j=0;j<ITERATIONS;j++){
          checkMemoryForParseOnly(source, script, compressed, maxLine);
       }
-      return Result.getNormal();
+      return NORMAL;
    } 
    
    private static void compileScript(String source, String script, int compressed, int maxLine) throws Exception {

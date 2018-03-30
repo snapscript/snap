@@ -1,5 +1,6 @@
 package org.snapscript.tree.condition;
 
+import static org.snapscript.core.result.Result.NORMAL;
 import static org.snapscript.tree.condition.RelationalOperator.EQUALS;
 
 import org.snapscript.core.Compilation;
@@ -8,11 +9,11 @@ import org.snapscript.core.Evaluation;
 import org.snapscript.core.Execution;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Value;
 import org.snapscript.core.error.ErrorHandler;
+import org.snapscript.core.result.Result;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.trace.TraceStatement;
@@ -124,10 +125,10 @@ public class MatchStatement implements Compilation {
                if(statement != null) {
                   return statement.execute(scope);
                }
-               return Result.getNormal();
+               return NORMAL;
             }  
          }
-         return Result.getNormal();
+         return NORMAL;
       }
    }
 }

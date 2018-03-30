@@ -13,8 +13,8 @@ public class CollectionPointer implements VariablePointer<Collection> {
    private final ObjectPointer pointer;
    private final String name;
    
-   public CollectionPointer(ConstantResolver resolver, String name) {
-      this.pointer = new ObjectPointer(resolver, name);
+   public CollectionPointer(VariableFinder finder, String name) {
+      this.pointer = new ObjectPointer(finder, name);
       this.name = name;
    }
 

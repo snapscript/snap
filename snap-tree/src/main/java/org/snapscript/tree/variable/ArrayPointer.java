@@ -7,7 +7,6 @@ import java.lang.reflect.Array;
 
 import org.snapscript.core.Bug;
 import org.snapscript.core.Scope;
-import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.constraint.Constraint;
 
@@ -16,8 +15,8 @@ public class ArrayPointer implements VariablePointer<Object> {
    private final ObjectPointer pointer;
    private final String name;
    
-   public ArrayPointer(ConstantResolver resolver, String name) {
-      this.pointer = new ObjectPointer(resolver, name);
+   public ArrayPointer(VariableFinder finder, String name) {
+      this.pointer = new ObjectPointer(finder, name);
       this.name = name;
    }
 

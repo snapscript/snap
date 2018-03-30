@@ -1,5 +1,7 @@
 package org.snapscript.tree.condition;
 
+import static org.snapscript.core.result.Result.NORMAL;
+
 import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -11,12 +13,12 @@ import org.snapscript.core.Index;
 import org.snapscript.core.Local;
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
-import org.snapscript.core.Result;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Table;
 import org.snapscript.core.Value;
 import org.snapscript.core.error.ErrorHandler;
+import org.snapscript.core.result.Result;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.trace.TraceStatement;
@@ -139,10 +141,10 @@ public class ForInStatement implements Compilation {
                return result;
             }
             if (result.isBreak()) {
-               return Result.getNormal();
+               return NORMAL;
             }
          }    
-         return Result.getNormal();
+         return NORMAL;
       }
 
       @Override
