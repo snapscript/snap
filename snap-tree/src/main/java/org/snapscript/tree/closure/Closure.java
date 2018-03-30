@@ -2,6 +2,7 @@ package org.snapscript.tree.closure;
 
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.snapscript.core.ClosureScopeCompiler;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
@@ -11,7 +12,6 @@ import org.snapscript.core.Path;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
-import org.snapscript.core.ValidationHelper;
 import org.snapscript.core.Value;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionHandle;
@@ -54,6 +54,7 @@ public class Closure implements Compilation {
       private final AtomicReference<FunctionHandle> reference;
       private final LocalScopeExtractor extractor;
       private final ClosureParameterList parameters;
+      private final ClosureScopeCompiler compiler;
       private final ClosureBuilder builder;
       private final Module module;
 
@@ -61,6 +62,7 @@ public class Closure implements Compilation {
          this.reference = new AtomicReference<FunctionHandle>();
          this.extractor = new LocalScopeExtractor(false, true);
          this.builder = new ClosureBuilder(closure, module);
+         this.compiler = new ClosureScopeCompiler();
          this.parameters = parameters;
          this.module = module;
       }
@@ -71,9 +73,7 @@ public class Closure implements Compilation {
          Signature signature = parameters.create(parent);
          Scope capture = extractor.extract(scope);
          FunctionHandle handle = builder.create(signature, capture); // creating new function each time
-         if(signature.toString().equals("(annotation)")){
-            System.err.println();
-         }
+
          handle.define(capture);
          reference.set(handle);
       }
@@ -83,12 +83,13 @@ public class Closure implements Compilation {
          Type type = scope.getType();
          FunctionHandle handle = reference.get();
          Scope capture = extractor.extract(scope);
-         Function function = handle.create(capture);      
-         Scope combined = ValidationHelper.create(capture, type, function);
+         Function function = handle.create(capture);   
+         Constraint constraint = function.getConstraint();
+         Scope combined = compiler.compile(capture, type, function);
          
+         constraint.getType(scope);
          handle.compile(combined);
-         
-         //return Constraint.getInstance(scope, Function.class);
+        
          return Constraint.getNone();
       }
       

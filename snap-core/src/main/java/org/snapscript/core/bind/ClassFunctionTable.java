@@ -32,9 +32,7 @@ public class ClassFunctionTable implements FunctionTable {
          FunctionCall match = searcher.search(calls, name, types);
          Function function = match.getFunction();
          Signature signature = function.getSignature();
-         if(match.toString().contains("io.PrintStream.println(a: char[])")){
-            System.err.println();
-         }
+
          if(signature.isAbsolute()) {
             cache.cache(key, match);
          }

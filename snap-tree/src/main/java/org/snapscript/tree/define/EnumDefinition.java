@@ -54,18 +54,18 @@ public class EnumDefinition extends Statement {
    public void define(Scope outer) throws Exception {
       if(!define.compareAndSet(false, true)) {
          Type type = builder.define(outer);
-         TypeFactory keys = list.define(collector, type);
-         Progress<Phase> progress = type.getProgress();
          Scope scope = type.getScope();
+         TypeFactory keys = list.define(collector, type, scope);
+         Progress<Phase> progress = type.getProgress();
          
          try {
             collector.update(keys); // collect enum constants first
             
             for(TypePart part : parts) {
-               TypeFactory factory = part.define(collector, type);
+               TypeFactory factory = part.define(collector, type, scope);
                collector.update(factory);
             }  
-            constructor.define(collector, type); 
+            constructor.define(collector, type, scope); 
             collector.define(scope, type); 
          } finally {
             progress.done(DEFINED);
@@ -83,10 +83,10 @@ public class EnumDefinition extends Statement {
          
          try {
             for(TypePart part : parts) {
-               TypeFactory factory = part.compile(collector, type);
+               TypeFactory factory = part.compile(collector, type, local);
                collector.update(factory);
             }  
-            constructor.compile(collector, type); 
+            constructor.compile(collector, type, local); 
             collector.compile(local, type);
          } finally {
             progress.done(COMPILED);

@@ -3,6 +3,7 @@ package org.snapscript.tree.define;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Execution;
 import org.snapscript.core.Identity;
+import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
 import org.snapscript.core.TypePart;
@@ -27,7 +28,7 @@ public class ThisConstructor extends TypePart {
    }
    
    @Override
-   public TypeFactory define(TypeFactory factory, Type type) throws Exception {  
+   public TypeFactory define(TypeFactory factory, Type type, Scope scope) throws Exception {  
       Execution execution = new StaticBody.StaticExecution(factory, type);
       Evaluation reference = new Identity(type, type);
       CreateObject evaluation = new CreateObject(reference, arguments);

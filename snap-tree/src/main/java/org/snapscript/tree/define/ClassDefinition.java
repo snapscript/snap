@@ -13,13 +13,11 @@ import org.snapscript.core.Bug;
 import org.snapscript.core.Execution;
 import org.snapscript.core.NoExecution;
 import org.snapscript.core.Phase;
-import org.snapscript.core.Reserved;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
 import org.snapscript.core.TypePart;
-import org.snapscript.core.Value;
 import org.snapscript.tree.annotation.AnnotationList;
 
 public class ClassDefinition extends Statement {   
@@ -51,10 +49,11 @@ public class ClassDefinition extends Statement {
       if(!create.compareAndSet(false, true)) {
          Type type = builder.create(outer);
          Progress<Phase> progress = type.getProgress();
-         
+         Scope scope = type.getScope();
+               
          try {
             for(TypePart part : parts) {
-               TypeFactory factory = part.create(collector, type);
+               TypeFactory factory = part.create(collector, type, scope);
                collector.update(factory);
             } 
          } finally {
@@ -74,10 +73,10 @@ public class ClassDefinition extends Statement {
             collector.update(constants); // collect static constants first
             
             for(TypePart part : parts) {
-               TypeFactory factory = part.define(collector, type);
+               TypeFactory factory = part.define(collector, type, scope);
                collector.update(factory);
             }
-            constructor.define(collector, type);
+            constructor.define(collector, type, scope);
             collector.define(scope, type);
             generator.generate(type);
          } finally {
@@ -96,13 +95,14 @@ public class ClassDefinition extends Statement {
          Scope local = scope.getStack(); // make it temporary
          
          try {
-            local.getState().add(Reserved.TYPE_THIS, Value.getReference(null, type));
+            //local = ValidationHelper.createTypeScope(local, type);
+            //local.getState().add(Reserved.TYPE_THIS, Value.getReference(null, type));
             
             for(TypePart part : parts) {
-               TypeFactory factory = part.compile(collector, type);
+               TypeFactory factory = part.compile(collector, type, local);
                collector.update(factory);
             } 
-            constructor.compile(collector, type);
+            constructor.compile(collector, type, local);
             collector.compile(local, type);
          } finally {
             progress.done(COMPILED);

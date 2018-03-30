@@ -3,6 +3,7 @@ package org.snapscript.tree.define;
 import org.snapscript.core.Constraint;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.ModifierType;
+import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
@@ -29,10 +30,10 @@ public class TraitFunction extends MemberFunction {
    } 
    
    @Override
-   protected TypeFactory assemble(TypeFactory factory, Type type, int mask) throws Exception {
+   protected TypeFactory assemble(TypeFactory factory, Type type, Scope scope, int mask) throws Exception {
       if(body == null) {
-         return super.assemble(factory, type, ModifierType.ABSTRACT.mask);
+         return super.assemble(factory, type, scope, ModifierType.ABSTRACT.mask);
       }  
-      return super.assemble(factory, type, 0);
+      return super.assemble(factory, type, scope, 0);
    }
 }

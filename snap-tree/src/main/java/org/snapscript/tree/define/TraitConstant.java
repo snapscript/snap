@@ -66,8 +66,7 @@ public class TraitConstant implements Compilation {
       }
    
       @Override
-      public TypeFactory define(TypeFactory factory, Type type) throws Exception {
-         Scope scope = type.getScope();
+      public TypeFactory define(TypeFactory factory, Type type, Scope scope) throws Exception {
          TypeFactory declare = declaration.declare(factory, type);
          List<Property> properties = type.getProperties();
          Value value = identifier.evaluate(scope, null);

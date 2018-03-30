@@ -14,7 +14,7 @@ import org.snapscript.core.NoExecution;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
-import org.snapscript.core.ValidationHelper;
+import org.snapscript.core.TypeScopeCompiler;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionHandle;
 import org.snapscript.core.function.Signature;
@@ -26,6 +26,7 @@ import org.snapscript.tree.function.ParameterList;
 
 public class ModuleFunction implements ModulePart {
    
+   private final TypeScopeCompiler compiler;
    private final AnnotationList annotations;
    private final ParameterList parameters;
    private final NameReference reference;
@@ -39,6 +40,7 @@ public class ModuleFunction implements ModulePart {
    public ModuleFunction(AnnotationList annotations, ModifierList modifiers, Evaluation identifier, ParameterList parameters, Constraint constraint, Statement statement){  
       this.constraint = new SafeConstraint(constraint);
       this.reference = new NameReference(identifier);
+      this.compiler = new TypeScopeCompiler();
       this.annotations = annotations;
       this.parameters = parameters;
       this.statement = statement;
@@ -81,8 +83,10 @@ public class ModuleFunction implements ModulePart {
          Module module = scope.getModule();
          Type type = module.getType(); // ???
          Function function = handle.create(scope);
-         Scope outer = ValidationHelper.create(type, function);
-         function.getConstraint().getType(outer);
+         Scope outer = compiler.compile(scope, type, function);
+         Constraint constraint = function.getConstraint();
+         
+         constraint.getType(outer);
          handle.compile(outer);
          
          return new NoExecution(NORMAL);

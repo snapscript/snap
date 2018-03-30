@@ -12,7 +12,7 @@ import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
 import org.snapscript.core.TypePart;
-import org.snapscript.core.ValidationHelper;
+import org.snapscript.core.TypeScopeCompiler;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionHandle;
 import org.snapscript.tree.ModifierList;
@@ -23,6 +23,7 @@ public class MemberFunction extends TypePart {
    
    protected final AtomicReference<FunctionHandle> reference;
    protected final MemberFunctionAssembler assembler;
+   protected final TypeScopeCompiler compiler;
    protected final AnnotationList annotations;
    protected final Statement body;
    
@@ -41,29 +42,30 @@ public class MemberFunction extends TypePart {
    public MemberFunction(AnnotationList annotations, ModifierList modifiers, Evaluation identifier, ParameterList parameters, Constraint constraint, Statement body){  
       this.assembler = new MemberFunctionAssembler(modifiers, identifier, parameters, constraint, body);
       this.reference = new AtomicReference<FunctionHandle>();
+      this.compiler = new TypeScopeCompiler();
       this.annotations = annotations;
       this.body = body;
    } 
 
    @Override
-   public TypeFactory define(TypeFactory factory, Type type) throws Exception {
-      return assemble(factory, type, 0);
+   public TypeFactory define(TypeFactory factory, Type type, Scope scope) throws Exception {
+      return assemble(factory, type, scope, 0);
    }
    
    @Override
-   public TypeFactory compile(TypeFactory factory, Type type) throws Exception {
+   public TypeFactory compile(TypeFactory factory, Type type, Scope scope) throws Exception {
       FunctionHandle handle = reference.get();
-      Scope scope = type.getScope();
       Function function = handle.create(scope);
-      Scope outer = ValidationHelper.create(type, function);
-      function.getConstraint().getType(outer);
+      Scope outer = compiler.compile(scope, type, function);
+      Constraint constraint = function.getConstraint();
+      
+      constraint.getType(outer);
       handle.compile(outer);
       
       return null;
    }
    
-   protected TypeFactory assemble(TypeFactory factory, Type type, int mask) throws Exception {
-      Scope scope = type.getScope();
+   protected TypeFactory assemble(TypeFactory factory, Type type, Scope scope, int mask) throws Exception {
       MemberFunctionBuilder builder = assembler.assemble(type, mask);
       FunctionHandle handle = builder.create(factory, scope, type);
       Function function = handle.create(scope);

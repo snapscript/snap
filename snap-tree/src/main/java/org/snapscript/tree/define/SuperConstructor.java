@@ -4,6 +4,7 @@ import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
 
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
+import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
 import org.snapscript.core.TypePart;
@@ -35,16 +36,16 @@ public class SuperConstructor extends TypePart {
    }
 
    @Override
-   public TypeFactory define(TypeFactory factory, Type type) throws Exception {
+   public TypeFactory define(TypeFactory factory, Type type, Scope scope) throws Exception {
       Type base = extractor.extractor(type);
       
       if(base == null) {
          throw new InternalStateException("No super type for '" + type + "'");
       }     
-      return assemble(factory, base);
+      return assemble(factory, base, scope);
    }
 
-   protected TypeFactory assemble(TypeFactory statements, Type type) throws Exception {
+   protected TypeFactory assemble(TypeFactory statements, Type type, Scope scope) throws Exception {
       StringToken name = new StringToken(TYPE_CONSTRUCTOR);
       Evaluation literal = new TextLiteral(name);
       Evaluation evaluation = new SuperInvocation(literal, arguments, type);

@@ -38,7 +38,7 @@ public class DefaultConstructor extends TypePart {
    } 
 
    @Override
-   public TypeFactory define(TypeFactory factory, Type type) throws Exception {
+   public TypeFactory define(TypeFactory factory, Type type, Scope scope) throws Exception {
       List<Function> functions = type.getFunctions();
       
       for(Function function : functions) {
@@ -48,21 +48,21 @@ public class DefaultConstructor extends TypePart {
             return null;
          }
       }
-      ClassConstructor done = assemble(factory, type, compile);
+      ClassConstructor done = assemble(factory, type, scope, compile);
       constructor.set(done);
-      return done.assemble(factory, type, compile);
+      return done.assemble(factory, type, scope, compile);
    }
    
    @Override
-   public TypeFactory compile(TypeFactory factory, Type type) throws Exception {
+   public TypeFactory compile(TypeFactory factory, Type type, Scope scope) throws Exception {
       ClassConstructor done = constructor.get();
       if(done != null) {
-         done.compile(factory, type);
+         done.compile(factory, type, scope);
       }
       return null;
    }
 
-   protected ClassConstructor assemble(TypeFactory factory, Type type, boolean compile) throws Exception {
+   protected ClassConstructor assemble(TypeFactory factory, Type type, Scope scope, boolean compile) throws Exception {
       Statement statement = new NoStatement();
       ClassConstructor constructor = new ClassConstructor(annotations, modifiers, parameters, statement);
       

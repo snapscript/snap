@@ -3,12 +3,13 @@ package org.snapscript.tree.define;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
 import org.snapscript.core.TypePart;
-import org.snapscript.core.ValidationHelper;
+import org.snapscript.core.TypeScopeCompiler;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionHandle;
 import org.snapscript.tree.ModifierList;
@@ -19,6 +20,7 @@ public abstract class MemberConstructor extends TypePart {
    
    private final AtomicReference<FunctionHandle> reference;
    private final ConstructorAssembler assembler;
+   private final TypeScopeCompiler compiler;
    private final AnnotationList annotations;
    private final ModifierList list;
    
@@ -29,31 +31,27 @@ public abstract class MemberConstructor extends TypePart {
    public MemberConstructor(AnnotationList annotations, ModifierList list, ParameterList parameters, TypePart part, Statement body){  
       this.assembler = new ConstructorAssembler(parameters, part, body);
       this.reference = new AtomicReference<FunctionHandle>();
+      this.compiler = new TypeScopeCompiler();
       this.annotations = annotations;
       this.list = list;
    } 
-   Exception e;
+
    @Override
-   public TypeFactory compile(TypeFactory factory, Type type) throws Exception {
-      if(e!=null){
-         System.err.println();
-      } else {
-         e=new Exception();
-      }
+   public TypeFactory compile(TypeFactory factory, Type type, Scope scope) throws Exception {
       FunctionHandle handle = reference.get();
-      Scope scope = type.getScope();
       Function function = handle.create(scope);
-      Scope outer = ValidationHelper.create(type, function);
+      Scope outer = compiler.compile(scope, type, function);
+      Constraint constraint = function.getConstraint();
       
+      constraint.getType(outer);
       handle.compile(outer);
       
       return null;
    }
    
-   protected TypeFactory assemble(TypeFactory factory, Type type, boolean compile) throws Exception {
+   protected TypeFactory assemble(TypeFactory factory, Type type, Scope scope, boolean compile) throws Exception {
       int modifiers = list.getModifiers();
-      Scope scope = type.getScope();
-      ConstructorBuilder builder = assembler.assemble(factory, type);
+      ConstructorBuilder builder = assembler.assemble(factory, type, scope);
       FunctionHandle handle = builder.create(factory, type, modifiers, compile);
       Function constructor = handle.create(scope);
       List<Function> functions = type.getFunctions();

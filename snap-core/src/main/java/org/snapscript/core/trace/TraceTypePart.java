@@ -19,11 +19,9 @@ public class TraceTypePart extends TypePart {
    }
 
    @Override
-   public TypeFactory create(TypeFactory factory, Type type) throws Exception {
-      Scope scope = type.getScope();
-      
+   public TypeFactory create(TypeFactory factory, Type type, Scope scope) throws Exception {
       try {
-         TypeFactory result = part.create(factory, type);
+         TypeFactory result = part.create(factory, type, scope);
          
          if(result != null) {
             return new TraceTypeFactory(handler, result, trace);
@@ -35,11 +33,9 @@ public class TraceTypePart extends TypePart {
    }
    
    @Override
-   public TypeFactory define(TypeFactory factory, Type type) throws Exception {
-      Scope scope = type.getScope();
-      
+   public TypeFactory define(TypeFactory factory, Type type, Scope scope) throws Exception {
       try {
-         TypeFactory result = part.define(factory, type);
+         TypeFactory result = part.define(factory, type, scope);
          
          if(result != null) {
             return new TraceTypeFactory(handler, result, trace);
@@ -51,11 +47,9 @@ public class TraceTypePart extends TypePart {
    }
    
    @Override
-   public TypeFactory compile(TypeFactory factory, Type type) throws Exception {
-      Scope scope = type.getScope();
-      
+   public TypeFactory compile(TypeFactory factory, Type type, Scope scope) throws Exception {
       try {
-         TypeFactory result = part.compile(factory, type);
+         TypeFactory result = part.compile(factory, type, scope);
          
          if(result != null) {
             return new TraceTypeFactory(handler, result, trace);

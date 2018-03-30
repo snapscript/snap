@@ -1,5 +1,6 @@
 package org.snapscript.tree.define;
 
+import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
 import org.snapscript.core.TypePart;
@@ -17,14 +18,14 @@ public class ConstructorSelector {
       this.part = part;
    } 
 
-   public TypeFactory define(TypeFactory factory, Type type) throws Exception {
+   public TypeFactory define(TypeFactory factory, Type type, Scope scope) throws Exception {
       Type base = extractor.extractor(type);
       
       if(part != null){
-         return part.define(factory, type);              
+         return part.define(factory, type, scope);              
       }
       if(base != null) {
-         return constructor.define(factory, type);
+         return constructor.define(factory, type, scope);
       }
       return new PrimitiveConstructor(); 
    }

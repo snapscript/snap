@@ -1,5 +1,6 @@
 package org.snapscript.tree.define;
 
+import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
@@ -19,7 +20,7 @@ public class ClassConstructor extends MemberConstructor {
    } 
    
    @Override
-   public TypeFactory define(TypeFactory factory, Type type) throws Exception {
-      return assemble(factory, type, true);
+   public TypeFactory define(TypeFactory factory, Type type, Scope scope) throws Exception {
+      return assemble(factory, type, scope, true);
    }
 }

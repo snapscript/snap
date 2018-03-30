@@ -48,10 +48,11 @@ public class TraitDefinition extends Statement {
       if(!create.compareAndSet(false, true)) {
          Type type = builder.create(outer);
          Progress<Phase> progress = type.getProgress();
+         Scope scope = type.getScope();
          
          try {
             for(TypePart part : parts) {
-               TypeFactory factory = part.create(collector, type);
+               TypeFactory factory = part.create(collector, type, scope);
                collector.update(factory);
             } 
          } finally {
@@ -71,7 +72,7 @@ public class TraitDefinition extends Statement {
             collector.update(constants); // collect static constants first
             
             for(TypePart part : parts) {
-               TypeFactory factory = part.define(collector, type);
+               TypeFactory factory = part.define(collector, type, scope);
                collector.update(factory);
             } 
             collector.define(scope, type);
@@ -94,7 +95,7 @@ public class TraitDefinition extends Statement {
             local.getState().add(Reserved.TYPE_THIS, Value.getReference(null, type));
             
             for(TypePart part : parts) {
-               TypeFactory factory = part.compile(collector, type);
+               TypeFactory factory = part.compile(collector, type, local);
                collector.update(factory);
             } 
             collector.compile(local, type);

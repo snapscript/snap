@@ -57,8 +57,7 @@ public class MemberField implements Compilation {
       }
    
       @Override
-      public TypeFactory define(TypeFactory factory, Type type) throws Exception {
-         Scope scope = type.getScope();
+      public TypeFactory define(TypeFactory factory, Type type, Scope scope) throws Exception {
          List<Property> properties = type.getProperties();
          int mask = checker.getModifiers();
          

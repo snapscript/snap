@@ -22,9 +22,8 @@ public class ConstructorAssembler {
       this.body = body;
    } 
    
-   public ConstructorBuilder assemble(TypeFactory factory, Type type) throws Exception {
-      Scope scope = type.getScope();
-      TypeFactory internal = delegate.define(factory, type);
+   public ConstructorBuilder assemble(TypeFactory factory, Type type, Scope scope) throws Exception {
+      TypeFactory internal = delegate.define(factory, type, scope);
       Signature signature = parameters.create(scope, TYPE_CLASS);
       
       return new ConstructorBuilder(internal, signature, body);

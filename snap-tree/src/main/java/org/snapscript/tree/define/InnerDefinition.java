@@ -15,22 +15,19 @@ public class InnerDefinition extends TypePart {
    }
 
    @Override
-   public TypeFactory create(TypeFactory factory, Type outer) throws Exception {
-      Scope scope = outer.getScope();
+   public TypeFactory create(TypeFactory factory, Type outer, Scope scope) throws Exception {
       statement.create(scope);
       return null;
    }
    
    @Override
-   public TypeFactory define(TypeFactory factory, Type outer) throws Exception {
-      Scope scope = outer.getScope();
+   public TypeFactory define(TypeFactory factory, Type outer, Scope scope) throws Exception {
       statement.define(scope);
       return null;
    }
 
    @Override
-   public TypeFactory compile(TypeFactory factory, Type outer) throws Exception {
-      Scope scope = outer.getScope();
+   public TypeFactory compile(TypeFactory factory, Type outer, Scope scope) throws Exception {
       statement.compile(scope);
       return null;
    }

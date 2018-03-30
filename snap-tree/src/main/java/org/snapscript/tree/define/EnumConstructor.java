@@ -1,5 +1,6 @@
 package org.snapscript.tree.define;
 
+import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
@@ -14,7 +15,7 @@ public class EnumConstructor extends ClassConstructor {
    }
 
    @Override
-   public TypeFactory define(TypeFactory statements, Type type) throws Exception {
-      return assemble(statements, type, false);
+   public TypeFactory define(TypeFactory statements, Type type, Scope scope) throws Exception {
+      return assemble(statements, type, scope, false);
    }
 }

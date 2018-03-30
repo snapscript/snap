@@ -26,14 +26,12 @@ public class StatementInvocationBuilder implements InvocationBuilder {
    private Constraint constraint;
    private Statement statement;
    private Execution execution;
-   private Exception e;
-   private Exception e2;
+
    public StatementInvocationBuilder(Signature signature, Statement statement, Constraint constraint) {
       this(signature, statement, constraint, false);
    }
    
    public StatementInvocationBuilder(Signature signature, Statement statement, Constraint constraint, boolean closure) {
-      e=new Exception();
       this.extractor = new ParameterExtractor(signature, closure);
       this.aligner = new SignatureAligner(signature);
       this.constraint = constraint;
@@ -52,7 +50,6 @@ public class StatementInvocationBuilder implements InvocationBuilder {
    
    @Override
    public void compile(Scope scope) throws Exception {
-      e2=new Exception();
       if(execution != null) {
          throw new InternalStateException("Function has already been compiled");
       }
