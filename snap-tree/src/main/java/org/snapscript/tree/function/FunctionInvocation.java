@@ -4,7 +4,6 @@ import static org.snapscript.core.constraint.Constraint.NONE;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
@@ -73,41 +72,26 @@ public class FunctionInvocation implements Compilation {
          }
       }
       
-      @Bug("this is vert wrong!!")
       @Override
       public Constraint compile(Scope scope, Constraint left) throws Exception {
+         String name = reference.getName(scope); 
          int depth = offset.get();
 
-         if(depth != -1 && left == null){
+         if(depth != -1){
             Table table = scope.getTable();
             Value value = table.get(depth);
             
             if(value != null) {
-               Type type = value.getType(scope);
-            
-               if(Function.class.isInstance(type)) {
-                  return executeV(scope, Constraint.getInstance(type), type);
-               }
                return NONE; // this is because we don't know that its not a function
             }
          }
-         if(left != null){
-            Type t =left.getType(scope);
-            if(t != null){
-               return executeV(scope, left, t);
-            }else {
-              arguments.compile(scope); 
-            }
-            return Constraint.getNone();
-         }
-         return executeV(scope, null, null);         
+         return compile(scope, name);         
       }
       
-      private Constraint executeV(Scope scope, Constraint left, Type type) throws Exception {
-         String name = reference.getName(scope); 
+      private Constraint compile(Scope scope, String name) throws Exception {
          Type[] array = arguments.compile(scope); 
-         CallDispatcher handler = site.get(scope, left);
-         Constraint result = handler.compile(scope, type, array);
+         CallDispatcher handler = site.get(scope);
+         Constraint result = handler.compile(scope, null, array);
          
          for(Evaluation evaluation : evaluations) {
             if(result == null) {
@@ -120,9 +104,10 @@ public class FunctionInvocation implements Compilation {
 
       @Override
       public Value evaluate(Scope scope, Object left) throws Exception {
+         String name = reference.getName(scope); 
          int depth = offset.get();
          
-         if(depth != -1 && left == null){
+         if(depth != -1){
             Table table = scope.getTable();
             Value value = table.get(depth);
             
@@ -130,18 +115,33 @@ public class FunctionInvocation implements Compilation {
                Object object = value.getValue();
             
                if(Function.class.isInstance(object)) {
-                  return execute(scope, value);
+                  return evaluate(scope, name, value);
                }
             }
          }
-         return execute(scope, left);
+         return evaluate(scope, name);
       }
       
-      private Value execute(Scope scope, Object left) throws Exception {
-         String name = reference.getName(scope); 
+      private Value evaluate(Scope scope, String name) throws Exception {
          Object[] array = arguments.create(scope); 
-         CallDispatcher handler = site.get(scope, left);
-         Value value = handler.dispatch(scope, left, array);
+         CallDispatcher handler = site.get(scope);
+         Value value = handler.dispatch(scope, null, array);
+         
+         for(Evaluation evaluation : evaluations) {
+            Object result = value.getValue();
+            
+            if(result == null) {
+               throw new InternalStateException("Result of '" + name + "' null"); 
+            }
+            value = evaluation.evaluate(scope, result);
+         }
+         return value; 
+      }
+      
+      private Value evaluate(Scope scope, String name, Object local) throws Exception {
+         Object[] array = arguments.create(scope); 
+         CallDispatcher handler = site.get(scope, local);
+         Value value = handler.dispatch(scope, local, array);
          
          for(Evaluation evaluation : evaluations) {
             Object result = value.getValue();

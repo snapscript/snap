@@ -32,7 +32,7 @@ public class StaticFunctionBuilder implements MemberFunctionBuilder {
    
    @Override
    public FunctionHandle create(TypeFactory factory, Scope scope, Type type){
-      Execution execution = new StaticBody.StaticExecution(factory, type); 
+      Execution execution = new StaticBody(factory, type); 
       InvocationBuilder builder = new StaticInvocationBuilder(signature, execution, body, constraint);
       Invocation invocation = new StaticInvocation(builder, scope);
       Function function = new InvocationFunction(signature, invocation, type, constraint, name, modifiers);

@@ -1,37 +1,106 @@
 package org.snapscript.tree.reference;
 
-import java.util.concurrent.Callable;
+import java.util.concurrent.atomic.AtomicInteger;
 
+import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.Index;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
+import org.snapscript.core.Path;
 import org.snapscript.core.Scope;
+import org.snapscript.core.Type;
 import org.snapscript.core.Value;
-import org.snapscript.core.bind.FunctionBinder;
+import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.dispatch.CallDispatcher;
+import org.snapscript.core.trace.Trace;
+import org.snapscript.core.trace.TraceEvaluation;
+import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.tree.ArgumentList;
+import org.snapscript.tree.CallSite;
+import org.snapscript.tree.NameReference;
 
-public class ReferenceInvocation extends Evaluation {
+public class ReferenceInvocation implements Compilation {
    
-   private final ArgumentList arguments;
+   private final Evaluation invocation;
    
-   public ReferenceInvocation(ArgumentList arguments) {
-      this.arguments = arguments;
+   public ReferenceInvocation(Evaluation function, ArgumentList arguments, Evaluation... evaluations) {
+      this.invocation = new CompileResult(function, arguments, evaluations);
    }
-      
+   
    @Override
-   public Value evaluate(Scope scope, Object left) throws Exception { 
-      Module module = scope.getModule();
+   public Evaluation compile(Module module, Path path, int line) throws Exception {
       Context context = module.getContext();
-      FunctionBinder binder = context.getBinder();
-      Value value = Value.getTransient(left);        
-      Object[] array = arguments.create(scope); 
-      Callable<Value> call = binder.bindValue(value, array);
-      int width = array.length;
+      TraceInterceptor interceptor = context.getInterceptor();
+      Trace trace = Trace.getInvoke(module, path, line);
       
-      if(call == null) {
-         throw new InternalStateException("Result was not a closure of " + width +" arguments");
+      return new TraceEvaluation(interceptor, invocation, trace);
+   }
+   
+   private static class CompileResult extends Evaluation {
+   
+      private final NameReference reference;
+      private final ArgumentList arguments;
+      private final Evaluation[] evaluations; // func()[1][x]
+      private final AtomicInteger offset;
+      private final CallSite site;
+      
+      public CompileResult(Evaluation function, ArgumentList arguments, Evaluation... evaluations) {
+         this.reference = new NameReference(function);
+         this.site = new CallSite(reference);
+         this.offset = new AtomicInteger();
+         this.evaluations = evaluations;
+         this.arguments = arguments;
       }
-      return call.call();
+      
+      @Override
+      public void define(Scope scope) throws Exception {
+         String name = reference.getName(scope); 
+         Index index = scope.getIndex();
+         int depth = index.get(name);
+
+         offset.set(depth);
+         arguments.define(scope);
+         
+         for(Evaluation evaluation : evaluations) {
+            evaluation.define(scope);
+         }
+      }
+      
+      @Override
+      public Constraint compile(Scope scope, Constraint left) throws Exception {
+         String name = reference.getName(scope); 
+         Type type = left.getType(scope);         
+         Type[] array = arguments.compile(scope); 
+         CallDispatcher handler = site.get(scope, left);
+         Constraint result = handler.compile(scope, type, array);
+         
+         for(Evaluation evaluation : evaluations) {
+            if(result == null) {
+               throw new InternalStateException("Result of '" + name + "' null"); 
+            }
+            result = evaluation.compile(scope, result);
+         }
+         return result; 
+      }
+
+      @Override
+      public Value evaluate(Scope scope, Object left) throws Exception {
+         String name = reference.getName(scope); 
+         Object[] array = arguments.create(scope); 
+         CallDispatcher handler = site.get(scope, left);
+         Value value = handler.dispatch(scope, left, array);
+         
+         for(Evaluation evaluation : evaluations) {
+            Object result = value.getValue();
+            
+            if(result == null) {
+               throw new InternalStateException("Result of '" + name + "' null"); 
+            }
+            value = evaluation.evaluate(scope, result);
+         }
+         return value; 
+      }
    }
 }

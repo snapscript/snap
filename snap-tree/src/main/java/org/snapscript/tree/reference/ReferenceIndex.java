@@ -1,8 +1,6 @@
 package org.snapscript.tree.reference;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Evaluation;
-import org.snapscript.core.Identity;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
 import org.snapscript.core.constraint.Constraint;
@@ -22,17 +20,40 @@ public class ReferenceIndex extends Evaluation {
       argument.define(scope);
    }
    
-   @Bug("is this right???")
    @Override
-   public Constraint compile(Scope scope, Constraint left) throws Exception {
-      return argument.compile(scope, left);
+   public Constraint compile(Scope scope, Constraint left) throws Exception {      
+      Evaluation value = new IndexValue(null, left);
+      CollectionIndex index = new CollectionIndex(value, argument);
+      
+      return index.compile(scope, left);
    }
 
    @Override
    public Value evaluate(Scope scope, Object left) throws Exception {
-      Evaluation value = new Identity(left);
+      Evaluation value = new IndexValue(left, null);
       CollectionIndex index = new CollectionIndex(value, argument);
       
       return index.evaluate(scope, left);
+   }
+   
+   private static class IndexValue extends Evaluation {
+      
+      private final Constraint constraint;
+      private final Object value;
+      
+      private IndexValue(Object value, Constraint constraint) {
+         this.constraint = constraint;
+         this.value = value;
+      }
+      
+      @Override
+      public Constraint compile(Scope scope, Constraint left) throws Exception {
+         return constraint;
+      }
+
+      @Override
+      public Value evaluate(Scope scope, Object left) throws Exception {
+         return Value.getTransient(value);
+      }
    }
 }

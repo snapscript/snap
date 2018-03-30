@@ -42,6 +42,7 @@ public class CollectionIndex extends Evaluation {
    @Override
    public Constraint compile(Scope scope, Constraint left) throws Exception {
       Constraint constraint = variable.compile(scope, left);
+      Constraint index = argument.compile(scope, null);
       Type type = constraint.getType(scope);
       
       if(type != null) {

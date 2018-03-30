@@ -39,31 +39,39 @@ variable-reference = {<super> | <variable>};
 
 range = <argument>'..'<argument>;
 
-collection-index = <variable-reference> ( '[' <argument> ']' ) * { '('<reference-invocation>')' | '['<reference-index>']' };
+collection-index = <variable-reference> ( '[' <argument> ']' ) * { '('<reference-curry>')' | '['<reference-index>']' };
  
 constructor = 'new';
 
 function = {<constructor> | [identifier]};
 function-argument-list = ?<argument>*(','<argument>);
-function-invocation = <function> ( '(' <function-argument-list> ')' )* { '(' <reference-invocation>')' | '['<reference-index>']' }; 
+function-invocation = <function> ( '(' <function-argument-list> ')' )* { '(' <reference-curry>')' | '['<reference-index>']' }; 
 function-reference = <variable-reference> '::' <function>;
 
-reference-invocation = <function-argument-list>;
+reference-curry = <function-argument-list>;
+reference-invocation = <function> ( '(' <function-argument-list> ')' )* { '(' <reference-curry>')' | '['<reference-index>']' }; 
 reference-index = <argument>;
 reference = { <reference-type> |
-			  <reference-navigation> } ;
+			  <reference-chain> } ;
 
-reference-part = { <collection-index> | 
-				   <function-invocation> | 
-				   <construct> | 
-				   <closure> | 
-				   <function-reference> | 
+reference-part = { <collection-index> |
+				   <reference-invocation> | 
+				   <function-reference> |
 				   <variable-reference> | 
-				   <literal> |
-				   '(' <cast> ')' };
-
+				   <literal> };
+			   				   
 reference-navigation = <reference-part>*(<reference-operator><reference-navigation>);
 reference-constraint = <array-constraint>;
+reference-variable = { <collection-index> |
+					   <function-invocation> | 
+					   <construct> | 
+					   <closure> | 
+					   <function-reference> | 
+					   <variable-reference> | 
+					   <literal> |					   
+					   '(' <cast> ')' };
+				   
+reference-chain = <reference-variable>*(<reference-operator><reference-navigation>);				   
 reference-type = <reference-constraint>*(<reference-operator><reference-navigation>);
       
 list-entry = <argument>;

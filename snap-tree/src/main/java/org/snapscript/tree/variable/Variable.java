@@ -1,10 +1,7 @@
 package org.snapscript.tree.variable;
 
-import static org.snapscript.core.constraint.Constraint.NONE;
-
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
@@ -14,7 +11,6 @@ import org.snapscript.core.Path;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Table;
-import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.ProxyWrapper;
@@ -58,7 +54,6 @@ public class Variable implements Compilation {
          offset.set(depth);
       }
       
-      @Bug("crap")
       @Override
       public Constraint compile(Scope scope, Constraint left) throws Exception{
          if(left == null) {
@@ -81,11 +76,7 @@ public class Variable implements Compilation {
             }
             return binder.check(scope);
          }
-         Type t = left.getType(scope);
-         if(t!=null) {
-            return binder.check(scope, left);
-         }
-         return NONE;
+         return binder.check(scope, left);
       } 
       
       @Override

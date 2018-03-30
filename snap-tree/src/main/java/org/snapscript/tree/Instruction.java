@@ -79,6 +79,7 @@ import org.snapscript.tree.operation.PrefixIncrement;
 import org.snapscript.tree.operation.PrefixOperation;
 import org.snapscript.tree.operation.SignedNumber;
 import org.snapscript.tree.reference.ReferenceConstraint;
+import org.snapscript.tree.reference.ReferenceCurry;
 import org.snapscript.tree.reference.ReferenceIndex;
 import org.snapscript.tree.reference.ReferenceInvocation;
 import org.snapscript.tree.reference.ReferenceNavigation;
@@ -119,10 +120,13 @@ public enum Instruction {
    ARGUMENT_LIST(ArgumentList.class, "argument-list"),     
    REFERENCE_INDEX(ReferenceIndex.class, "reference-index"),
    REFERENCE_CONSTRAINT(ReferenceConstraint.class, "reference-constraint"), // array
-   REFERENCE_INVOCATION(ReferenceInvocation.class, "reference-invocation"),
-   REFERENCE_NAVIGATION(ReferenceNavigation.class, "reference-navigation"), 
+   REFERENCE_CURRY(ReferenceCurry.class, "reference-curry"),  
+   REFERENCE_INVOCATION(ReferenceInvocation.class, "reference-invocation"),   
+   REFERENCE_NAVIGATION(ReferenceNavigation.class, "reference-navigation"),
+   REFERENCE_CHAIN(ReferenceNavigation.class, "reference-chain"),  
    REFERENCE_TYPE(ReferenceNavigation.class, "reference-type"),   
    REFERENCE_PART(ReferencePart.class, "reference-part"),
+   REFERENCE_VARIABLE(ReferencePart.class, "reference-variable"),
    CALCULATION_LIST(CalculationList.class, "calculation-list"),
    CALCULATION_OPERATOR(CalculationOperator.class, "calculation-operator"),
    CALCULATION_OPERAND(CalculationOperand.class, "calculation-operand"),   

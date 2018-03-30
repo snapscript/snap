@@ -55,32 +55,29 @@ public class CallDispatcherBuilder {
    
    public CallDispatcher create(Scope scope, Constraint left) throws Exception {
       Type type = left.getType(scope);
+      Category category = type.getCategory();
+      Class real = type.getType();
       
-      if(type != null) {
-         Category category = type.getCategory();
-         Class real = type.getType();
-         
-         if(left.isModule()) {
-            return new ModuleDispatcher(binder, handler, name);
-         }
-         if(left.isStatic()) {
-            return new TypeDispatcher(binder, handler, name);
-         }
-         if(category.isFunction()) {
-            return new FunctionDispatcher(binder, handler, name);
-         }
-         if(category.isProxy()) { 
-            return new DelegateDispatcher(binder, handler, name);
-         } 
-         if(category.isArray()) {
-            return new ArrayDispatcher(binder, handler, name);
-         }
-         if(real != null) {
-            if(Map.class.isAssignableFrom(real)) {
-               return new MapDispatcher(binder, handler, name);
-            }         
-            return new ObjectDispatcher(binder, handler, name);     
-         }
+      if(left.isModule()) {
+         return new ModuleDispatcher(binder, handler, name);
+      }
+      if(left.isStatic()) {
+         return new TypeDispatcher(binder, handler, name);
+      }
+      if(category.isFunction()) {
+         return new FunctionDispatcher(binder, handler, name);
+      }
+      if(category.isProxy()) { 
+         return new DelegateDispatcher(binder, handler, name);
+      } 
+      if(category.isArray()) {
+         return new ArrayDispatcher(binder, handler, name);
+      }
+      if(real != null) {
+         if(Map.class.isAssignableFrom(real)) {
+            return new MapDispatcher(binder, handler, name);
+         }         
+         return new ObjectDispatcher(binder, handler, name);     
       }
       return new DynamicDispatcher(binder, handler, name);  
    }

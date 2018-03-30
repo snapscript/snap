@@ -29,7 +29,7 @@ public class ThisConstructor extends TypePart {
    
    @Override
    public TypeFactory define(TypeFactory factory, Type type, Scope scope) throws Exception {  
-      Execution execution = new StaticBody.StaticExecution(factory, type);
+      Execution execution = new StaticBody(factory, type);
       Evaluation reference = new Identity(type, type);
       CreateObject evaluation = new CreateObject(reference, arguments);
       
