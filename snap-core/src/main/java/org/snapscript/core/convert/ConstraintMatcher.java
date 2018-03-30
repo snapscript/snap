@@ -114,6 +114,9 @@ public class ConstraintMatcher {
       if(comparator.isSame(type, String.class)) {
          return new StringConverter();
       }
+      if(comparator.isFunction(type)) {
+         return new FunctionConverter(extractor, checker, wrapper, type);
+      }
       if(comparator.isLike(type, Scope.class)) {
          return new ScopeConverter();
       }
@@ -125,9 +128,6 @@ public class ConstraintMatcher {
       }  
       if(comparator.isArray(type)) {
          return new ArrayConverter(this, checker, wrapper, type);
-      }
-      if(comparator.isFunction(type)) {
-         return new FunctionConverter(extractor, checker, wrapper, type);
       }
       return new ObjectConverter(extractor, checker, wrapper, type);
    }

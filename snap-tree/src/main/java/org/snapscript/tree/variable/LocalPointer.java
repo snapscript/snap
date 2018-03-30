@@ -45,11 +45,11 @@ public class LocalPointer implements VariablePointer<Object> {
             }
             if(value != null) {
                reference.set(value);
-               return Constraint.getInstance(scope, value);
+               return Constraint.getInstance(value);
             }
             return null;
          }
-         return Constraint.getInstance(scope, variable.getValue());
+         return Constraint.getInstance(variable.getValue());
       }
       if(result instanceof Type) {
          return Constraint.getStatic((Type)result);
@@ -57,7 +57,7 @@ public class LocalPointer implements VariablePointer<Object> {
       if(result instanceof Module) {
          return Constraint.getModule((Module)result);
       }
-      return Constraint.getInstance(scope, result);
+      return Constraint.getInstance(result);
    }
    
    @Override

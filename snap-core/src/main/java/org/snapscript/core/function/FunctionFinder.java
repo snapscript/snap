@@ -7,6 +7,8 @@ import static org.snapscript.core.Reserved.METHOD_TO_STRING;
 import java.util.List;
 import java.util.Set;
 
+import org.snapscript.core.Bug;
+import org.snapscript.core.Category;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeCache;
@@ -31,6 +33,18 @@ public class FunctionFinder {
       this.comparator = comparator;
       this.extractor = extractor;
       this.loader = loader;
+   }
+   
+   public Function findFunctional(Object actual) throws Exception {
+      if(actual != null) {
+         Class type = actual.getClass();
+         
+         if(type == Class.class) {
+            return findFunctional((Class)actual);
+         }
+         return findFunctional((Type)actual);
+      }
+      return null;
    }
    
    public Function findFunctional(Class actual) throws Exception {
@@ -70,7 +84,14 @@ public class FunctionFinder {
       return function;
    }
    
+   @Bug("fix me")
    private Function resolveSingle(Type type) throws Exception {
+      Category category = type.getCategory();
+      
+      if(category.isFunction()) {
+         List<Function> functions = type.getFunctions();
+         return functions.get(0);
+      }
       Set<Type> types = extractor.getTypes(type);
       Function function = invalid;
       

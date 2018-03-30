@@ -7,6 +7,8 @@ import static org.snapscript.core.Reserved.ENUM_VALUES;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+import org.snapscript.core.Bug;
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
@@ -33,7 +35,7 @@ public class EnumFactory extends TypeFactory {
       this.index = index;
    }
 
-   
+   @Bug("fix constants")
    @Override
    public void compile(Scope scope, Type type) throws Exception {
       String name = reference.getName(scope);
@@ -56,9 +58,9 @@ public class EnumFactory extends TypeFactory {
       List values = value.getValue();
       Object object = wrapper.toProxy(instance);
       
-      generator.generateConstant(scope, name, type, type, instance);
-      generator.generateConstant(instance, ENUM_NAME, type, name); // might declare name as property many times
-      generator.generateConstant(instance, ENUM_ORDINAL, type, index);
+      generator.generateConstant(scope, name, type, instance, Constraint.getInstance(type));
+      generator.generateConstant(instance, ENUM_NAME, type, name, Constraint.getInstance(String.class)); // might declare name as property many times
+      generator.generateConstant(instance, ENUM_ORDINAL, type, index, Constraint.getInstance(Integer.class));
       values.add(object);
    }
 }

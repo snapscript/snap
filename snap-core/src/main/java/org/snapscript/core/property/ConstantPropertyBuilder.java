@@ -14,17 +14,17 @@ public class ConstantPropertyBuilder {
       this.none = new ConstantConstraint(null);
    }
    
-   public Property createConstant(String name) throws Exception {
-      return new ScopeProperty(name, null, none, CONSTANT.mask);
-   }
-
-   public Property createConstant(String name, Object value) {
-      return new ConstantProperty(name, null, none, value, CONSTANT.mask);
-   }
-   
-   public Property createConstant(String name, Object value, Type type) {
-      return new ConstantProperty(name, type, none, value, CONSTANT.mask);
-   }
+//   public Property createConstant(String name) throws Exception {
+//      return new ScopeProperty(name, null, none, CONSTANT.mask);
+//   }
+//
+//   public Property createConstant(String name, Object value) {
+//      return new ConstantProperty(name, null, none, value, CONSTANT.mask);
+//   }
+//   
+//   public Property createConstant(String name, Object value, Type type) {
+//      return new ConstantProperty(name, type, none, value, CONSTANT.mask);
+//   }
    
    public Property createConstant(String name, Object value, Type type, Constraint constraint) {
       return new ConstantProperty(name, type, constraint, value, CONSTANT.mask);

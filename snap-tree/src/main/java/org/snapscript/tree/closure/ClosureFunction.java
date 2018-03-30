@@ -78,5 +78,10 @@ public class ClosureFunction implements Function {
    public Object getProxy() {
       return proxy.getProxy();
    }
+   
+   @Override
+   public String toString(){
+      return String.valueOf(template);
+   }
 
 }

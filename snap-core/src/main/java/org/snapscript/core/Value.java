@@ -1,6 +1,6 @@
 package org.snapscript.core;
 
-public abstract class Value {
+public abstract class Value extends Constraint {
    
    public static Value getNull() {
       return new Null();
@@ -101,7 +101,8 @@ public abstract class Value {
       return null;
    }   
    
-   public Class getType() {
+   @Bug("fix me")
+   public Class getValueType() {
       Object value = getValue();
       
       if(value != null) {
@@ -110,7 +111,7 @@ public abstract class Value {
       return null;
    }     
    
-   public Type getConstraint(){
+   public Type getType(Scope scope){
       return null; 
    }   
    

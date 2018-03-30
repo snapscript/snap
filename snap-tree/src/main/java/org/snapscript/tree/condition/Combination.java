@@ -39,7 +39,7 @@ public class Combination extends Evaluation {
       if(right != null) {
          right.compile(scope, null);
       }
-      return Constraint.getInstance(scope, Boolean.class);
+      return Constraint.getInstance(Boolean.class);
    }
    
    @Override

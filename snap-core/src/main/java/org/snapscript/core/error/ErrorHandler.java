@@ -14,12 +14,16 @@ public class ErrorHandler {
    private final InternalErrorHandler internal;
    
    public ErrorHandler(TypeExtractor extractor, ThreadStack stack) {
-      this(extractor, stack, false);
+      this(extractor, stack, true);
    }
    
    public ErrorHandler(TypeExtractor extractor, ThreadStack stack, boolean replace) {
       this.internal = new InternalErrorHandler(extractor, stack, replace);
       this.external = new ExternalErrorHandler();
+   }
+   
+   public Result throwInternalException(Scope scope,String name, Type... list) {
+      return internal.throwInternalException(scope, name, list); 
    }
    
    public Result throwInternalException(Scope scope,String name, Object... list) {

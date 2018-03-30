@@ -23,7 +23,7 @@ public class Range extends Evaluation {
    
    @Override
    public Constraint compile(Scope scope, Constraint left) throws Exception {
-      return Constraint.getInstance(scope, Iterable.class);
+      return Constraint.getInstance(Iterable.class);
    }
    
    @Override

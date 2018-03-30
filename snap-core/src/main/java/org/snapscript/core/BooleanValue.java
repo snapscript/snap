@@ -12,7 +12,7 @@ public class BooleanValue extends Value {
    }
    
    @Override
-   public Class getType() {
+   public Class getValueType() {
       return Boolean.class;
    }     
    

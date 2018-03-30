@@ -31,7 +31,7 @@ public class ObjectConverter extends ConstraintConverter {
          if(require == real) {
             return EXACT;
          }
-         return checker.cast(actual, constraint);
+         return checker.toType(actual, constraint);
       }
       return EXACT;
    }
@@ -44,7 +44,7 @@ public class ObjectConverter extends ConstraintConverter {
          if(match.equals(constraint)) {
             return EXACT;
          }
-         return checker.cast(match, constraint, object);
+         return checker.toType(match, constraint, object);
       }
       return EXACT;
    }
@@ -56,7 +56,7 @@ public class ObjectConverter extends ConstraintConverter {
          
          if(match != constraint) {
             Category category = match.getCategory();
-            Score score = checker.cast(match, constraint, object);
+            Score score = checker.toType(match, constraint, object);
             
             if(score.isInvalid()) {
                Class require = constraint.getType();

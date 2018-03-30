@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.snapscript.core.Bug;
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
@@ -40,6 +42,7 @@ public class EnumBuilder {
       return type;
    }
    
+   @Bug("are constraints right for class property")
    public Type define(Scope outer) throws Exception {
       Type type = reference.get();
       Type enclosing = outer.getType();
@@ -49,7 +52,7 @@ public class EnumBuilder {
          String name = type.getName();
          String prefix = enclosing.getName();
          String key = name.replace(prefix + '$', ""); // get the class name
-         Property property = builder.createConstant(key, type, enclosing);
+         Property property = builder.createConstant(key, type, enclosing, Constraint.getNone());
          List<Property> properties = enclosing.getProperties();
          
          properties.add(property);

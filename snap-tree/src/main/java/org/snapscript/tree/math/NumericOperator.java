@@ -109,8 +109,8 @@ public enum NumericOperator {
    }   
    
    public Value operate(Value left, Value right) {
-      Class primary = left.getType();
-      Class secondary = right.getType();
+      Class primary = left.getValueType();
+      Class secondary = right.getValueType();
       
       if(Double.class == primary || Double.class == secondary) {
          return operate(left, right, DOUBLE);

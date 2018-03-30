@@ -63,7 +63,7 @@ public class ConstructList implements Compilation {
          if(arguments != null) {
             arguments.compile(scope);      
          }   
-         return Constraint.getInstance(scope, List.class);
+         return Constraint.getInstance(List.class);
       }
       
       @Override

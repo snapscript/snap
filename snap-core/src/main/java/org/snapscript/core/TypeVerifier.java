@@ -23,7 +23,7 @@ public class TypeVerifier {
    
    public boolean isLike(Type type, Class require) throws Exception {
       Type actual = loader.loadType(require);
-      Score score = checker.cast(type, actual);
+      Score score = checker.toType(type, actual);
       
       return score.isValid();
    }

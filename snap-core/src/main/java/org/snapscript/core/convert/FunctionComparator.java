@@ -20,24 +20,24 @@ public class FunctionComparator {
       this.matcher = matcher;
    }
 
-   public Score compare(Function actual, Function require) throws Exception{
+   public Score compare(Function actual, Function constraint) throws Exception{
       Signature actualSignature = actual.getSignature();
-      Signature requireSignature = require.getSignature();
+      Signature constraintSignature = constraint.getSignature();
       List<Parameter> actualParameters = actualSignature.getParameters();
-      List<Parameter> requireParameters = requireSignature.getParameters();
+      List<Parameter> constraintParameters = constraintSignature.getParameters();
       int actualSize = actualParameters.size();
-      int requireSize = requireParameters.size();
-      boolean actualVariable = actualSignature.isVariable();
+      int constraintSize = constraintParameters.size();
+      boolean constraintVariable = constraintSignature.isVariable();
       
-      if(actualSize == requireSize) {
-         Score score = compare(actualParameters, requireParameters);
+      if(actualSize == constraintSize) {
+         Score score = compare(actualParameters, constraintParameters);
          
          if(score.isValid()) {
             return score;
          }
       }
-      if(actualVariable && actualSize <= requireSize) {
-         Score score = compare(actualParameters, requireParameters); // compare(a...) == compare(a, b)
+      if(constraintVariable && constraintSize <= actualSize) {
+         Score score = compare(actualParameters, constraintParameters); // compare(a...) == compare(a, b)
          
          if(score.isValid()) {
             return score;
@@ -46,23 +46,23 @@ public class FunctionComparator {
       return INVALID;
    }
    
-   private Score compare(List<Parameter> actual, List<Parameter> require) throws Exception{
-      int requireSize = require.size();
+   private Score compare(List<Parameter> actual, List<Parameter> constraint) throws Exception{
+      int actualSize = actual.size();
       
-      if(requireSize > 0) {
+      if(actualSize > 0) {
          Score total = INVALID;
          
-         for(int i = 0, j = 0; i < requireSize; i++) {
-            Parameter actualParameter = actual.get(j);
-            Parameter requireParameter = require.get(i);
-            Score score = compare(actualParameter, requireParameter);
+         for(int i = 0, j = 0; i < actualSize; i++) {
+            Parameter actualParameter = actual.get(i);
+            Parameter constraintParameter = constraint.get(j);
+            Score score = compare(actualParameter, constraintParameter);
             
             if(score.isInvalid()) { // must check for numbers
                return INVALID;
             }
             total = Score.sum(total, score); // sum for better match
             
-            if(!actualParameter.isVariable()) { // if variable stick
+            if(!constraintParameter.isVariable()) { // if variable stick
                j++;
             }
          }
@@ -71,15 +71,15 @@ public class FunctionComparator {
       return EXACT;
    }
    
-   private Score compare(Parameter actual, Parameter require) throws Exception{
+   private Score compare(Parameter actual, Parameter constraint) throws Exception{
       Constraint actualConstraint  = actual.getType();
-      Constraint requireConstraint = require.getType();
+      Constraint constraintConstraint = constraint.getType();
       Type actualType  = actualConstraint.getType(null);
-      Type requireType = requireConstraint.getType(null);
-      ConstraintConverter converter = matcher.match(requireType);
-      Score score = converter.score(actualType);
+      Type constraintType = constraintConstraint.getType(null);
+      ConstraintConverter converter = matcher.match(actualType);
+      Score score = converter.score(constraintType);
       
-      if(actual.isVariable()) {
+      if(constraint.isVariable()) {
          if(score.isInvalid()) {
             return INVALID;
          }

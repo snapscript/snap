@@ -81,7 +81,7 @@ public class FunctionInvocation implements Compilation {
             Value value = table.get(depth);
             
             if(value != null) {
-               Type type = value.getConstraint();
+               Type type = value.getType(scope);
             
                if(Function.class.isInstance(type)) {
                   return executeV(scope, Constraint.getInstance(type), type);
@@ -89,20 +89,29 @@ public class FunctionInvocation implements Compilation {
                return Constraint.getNone(); // this is because we don't know that its not a function
             }
          }
-         Type t = null;
-         if(left != null) {
-            t =left.getType(scope);
-         } else {
-            t = scope.getType();
-            left = Constraint.getInstance(t);
+//         Type t = null;
+//         if(left != null) {
+//            t =left.getType(scope);
+//         } else {
+//            t = scope.getType();
+//         }
+//         //String x = reference.getName(scope);
+//
+//         if(t != null) {
+//            if(left == null){
+//               left = Constraint.getInstance(t);
+//            }
+//         }
+         if(left != null){
+            Type t =left.getType(scope);
+            if(t != null){
+               return executeV(scope, left, t);
+            }else {
+              arguments.compile(scope); 
+            }
+            return Constraint.getNone();
          }
-         
-         if(t != null) {
-            return executeV(scope, left, t);
-         }else {
-            arguments.compile(scope);
-         }
-         return Constraint.getNone();
+         return executeV(scope, null, null);         
       }
       
       private Constraint executeV(Scope scope, Constraint left, Type type) throws Exception {

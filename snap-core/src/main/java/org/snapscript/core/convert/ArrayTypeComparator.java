@@ -19,35 +19,35 @@ public class ArrayTypeComparator {
       this.checker = checker;
    }
 
-   @Bug("fix convention")
-   public Score score(Type constraint, Type actual) throws Exception {
+   public Score toArray(Type actual, Type constraint) throws Exception {
       if(constraint != null && actual != null) {
          Type constraintEntry = constraint.getEntry();
          Type actualEntry = actual.getEntry();
             
          if(constraintEntry != null && actualEntry != null) {
-            return score(constraintEntry, actualEntry);
+            return toArray(actualEntry, constraintEntry);
          }
          if(constraintEntry == null && actualEntry == null) {
             Class constraintType = constraint.getType();
             Class actualType = actual.getType();
             
             if(constraintType != null && actualType != null) {
-               return score(constraintType, actualType);
+               return toArray(actualType, constraintType);
             }
-            return checker.cast(actual, constraint); // convention of order is broken
+            return checker.toType(actual, constraint); // convention of order is broken
          }
       } 
       return INVALID; 
    }
    
-   public Score score(Class constraint, Class actual) throws Exception{
+   @Bug("better number/primitive checking")
+   public Score toArray(Class actual, Class constraint) throws Exception{
       if(constraint != null && actual != null) {
          if(constraint.isArray() && actual.isArray()) {
             Class constraintEntry = constraint.getComponentType();
             Class actualEntry = actual.getComponentType();
             
-            return score(constraintEntry, actualEntry);
+            return toArray(actualEntry, constraintEntry);
          }
          Class constraintType = promoter.promote(constraint);
          Class actualType = promoter.promote(actual);

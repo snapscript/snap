@@ -36,7 +36,7 @@ public class Comparison extends Evaluation {
          right.compile(scope, null);
       }
       left.compile(scope, null);
-      return Constraint.getInstance(scope, Boolean.class);
+      return Constraint.getInstance(Boolean.class);
    }
    
    @Override

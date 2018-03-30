@@ -30,6 +30,11 @@ public class InternalErrorHandler {
       String message = formatter.format(cause, trace);
       throw builder.createError(message);
    }
+
+   public Result throwInternalException(Scope scope, String name, Type... list) {
+      String message = formatter.format(name, list);
+      throw builder.createException(message);
+   }
    
    public Result throwInternalException(Scope scope, String name, Object... list) {
       String message = formatter.format(name, list);

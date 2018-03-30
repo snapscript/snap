@@ -24,10 +24,10 @@ public class ArrayPointer implements VariablePointer<Object> {
    @Override
    public Constraint check(Scope scope, Constraint left) {
       if(name.equals(PROPERTY_LENGTH)) {
-         return Constraint.getInstance(scope, Integer.class);
+         return Constraint.getInstance(Integer.class);
       }
       if(name.equals(TYPE_CLASS)) {
-         return Constraint.getInstance(scope, Type.class);
+         return Constraint.getInstance(Type.class);
       }
       return pointer.check(scope, left);
    }

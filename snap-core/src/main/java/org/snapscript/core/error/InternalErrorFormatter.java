@@ -1,5 +1,8 @@
 package org.snapscript.core.error;
 
+import static org.snapscript.core.Reserved.ANY_TYPE;
+import static org.snapscript.core.Reserved.DEFAULT_PACKAGE;
+
 import org.snapscript.core.Path;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeExtractor;
@@ -30,6 +33,20 @@ public class InternalErrorFormatter {
          return builder.toString();
       }
       return cause.getMessage();
+   }
+
+   public String format(String name, Type... list) {
+      StringBuilder builder = new StringBuilder();
+      
+      builder.append("Method '");
+      builder.append(name);
+      
+      String signature = format(list);
+      
+      builder.append(signature);
+      builder.append("' not found in scope");
+      
+      return builder.toString();
    }
    
    public String format(String name, Object... list) {
@@ -134,7 +151,13 @@ public class InternalErrorFormatter {
          if(i > 0) {
             builder.append(", ");
          }
-         builder.append(parameter);
+         if(parameter != null) {
+            builder.append(parameter);
+         } else {
+            builder.append(DEFAULT_PACKAGE);
+            builder.append(".");
+            builder.append(ANY_TYPE);
+         }
       }
       builder.append(")");
       
@@ -152,7 +175,13 @@ public class InternalErrorFormatter {
          if(i > 0) {
             builder.append(", ");
          }
-         builder.append(type);
+         if(type != null) {
+            builder.append(type);
+         } else {
+            builder.append(DEFAULT_PACKAGE);
+            builder.append(".");
+            builder.append(ANY_TYPE);
+         }
       }
       builder.append(")");
       

@@ -16,7 +16,7 @@ public class ArrayValue extends Value {
    }
    
    @Override
-   public Class getType() {
+   public Class getValueType() {
       return type.getComponentType();
    }
    

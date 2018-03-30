@@ -71,7 +71,9 @@ public class Closure implements Compilation {
          Signature signature = parameters.create(parent);
          Scope capture = extractor.extract(scope);
          FunctionHandle handle = builder.create(signature, capture); // creating new function each time
-         
+         if(signature.toString().equals("(annotation)")){
+            System.err.println();
+         }
          handle.define(capture);
          reference.set(handle);
       }

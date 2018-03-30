@@ -35,6 +35,15 @@ public class FunctionBinder {
       return null;
    }
    
+   public InvocationTask bindScope(Scope scope, String name, Type... list) throws Exception { // function variable
+      FunctionCall call = scopes.match(scope, name, list);
+      
+      if(call != null) {
+         return new InvocationTask(call, scope, scope, list);
+      }
+      return null;
+   }
+   
    public InvocationTask bindScope(Scope scope, String name, Object... list) throws Exception { // function variable
       FunctionCall call = scopes.match(scope, name, list);
       

@@ -58,7 +58,7 @@ public class LocalDispatcher implements CallDispatcher<Object> {
       return local;  
    }
    
-   private InvocationTask bind(Scope scope, Object object, Type... arguments) throws Exception {
+   private InvocationTask bind(Scope scope, Type object, Type... arguments) throws Exception {
       Module module = scope.getModule();
       InvocationTask local = binder.bindModule(scope, module, name, arguments);
       

@@ -11,13 +11,13 @@ import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.core.bind.InvocationTask;
 import org.snapscript.core.error.ErrorHandler;
 
-public class ScopeDispatcher implements CallDispatcher<Scope> {
+public class DynamicDispatcher implements CallDispatcher<Scope> {
    
    private final FunctionBinder binder;
    private final ErrorHandler handler;
    private final String name;
    
-   public ScopeDispatcher(FunctionBinder binder, ErrorHandler handler, String name) {
+   public DynamicDispatcher(FunctionBinder binder, ErrorHandler handler, String name) {
       this.handler = handler;
       this.binder = binder;
       this.name = name;
@@ -57,6 +57,11 @@ public class ScopeDispatcher implements CallDispatcher<Scope> {
          
          if(external != null) {
             return external;
+         }
+         InvocationTask closure = binder.bindScope(scope, name, arguments); // closure
+         
+         if(closure != null) {
+            return closure;
          }
       }
       return local;  

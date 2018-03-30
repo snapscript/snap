@@ -32,7 +32,7 @@ public class SignedNumber extends Literal {
       }
       Value result = operator.operate(number);
       Object signed = result.getValue();
-      Type constraint = value.getConstraint();
+      Type constraint = value.getType(scope);
       
       return Value.getTransient(signed, constraint);
    }

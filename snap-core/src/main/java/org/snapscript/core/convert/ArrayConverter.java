@@ -34,11 +34,13 @@ public class ArrayConverter extends ConstraintConverter {
          Class require = type.getType();
          Class real = actual.getType();
       
-         if(List.class.isAssignableFrom(real)) {
-            return POSSIBLE;
+         if(real != null) {
+            if(List.class.isAssignableFrom(real)) {
+               return POSSIBLE;
+            }
          }
          if(require != real) {
-            return comparator.score(type, actual);
+            return comparator.toArray(actual, type);
          }
       }
       return EXACT;
@@ -55,7 +57,7 @@ public class ArrayConverter extends ConstraintConverter {
          }
          if(actual.isArray()) {
             if(require != actual) {
-               Score score = comparator.score(require, actual);
+               Score score = comparator.toArray(actual, require);
                
                if(score.isInvalid()) {               
                   return score(object, type);
@@ -130,9 +132,9 @@ public class ArrayConverter extends ConstraintConverter {
          Class actual = object.getClass();
          
          if(actual.isArray()) {
-            Score score = comparator.score(require, actual);
+            Score score = comparator.toArray(actual, require);
              
-            if(score.isInvalid()) {   
+            if(!score.isExact()) {   
                return convert(object, type);
             }
             return object;

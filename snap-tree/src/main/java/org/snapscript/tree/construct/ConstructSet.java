@@ -63,7 +63,7 @@ public class ConstructSet implements Compilation {
          if(arguments != null) {
             arguments.compile(scope);      
          }  
-         return Constraint.getInstance(scope, Set.class);
+         return Constraint.getInstance(Set.class);
       } 
       
       @Override

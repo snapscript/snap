@@ -18,7 +18,7 @@ public abstract class Literal extends Evaluation {
       if(value == null) {
          value = create(scope);
       }
-      return Constraint.getInstance(value.getConstraint());
+      return Constraint.getInstance(value.getType(scope));
    }
    
    @Override

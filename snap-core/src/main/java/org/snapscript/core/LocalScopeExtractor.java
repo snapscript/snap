@@ -37,7 +37,7 @@ public class LocalScopeExtractor {
                inner.add(name, local); // enable modification of local
             } else {
                Object value = local.getValue();
-               Type constraint = local.getConstraint();
+               Type constraint = local.getType(original);
                Value constant = Value.getConstant(value, constraint);
                
                inner.add(name, constant); // local is a visible constant

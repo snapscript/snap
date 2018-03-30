@@ -40,7 +40,7 @@ public class ScopePointer implements VariablePointer<Scope> {
       if(value == null) {
          return Constraint.getNone();
       }
-      return Constraint.getInstance(value.getConstraint());
+      return Constraint.getInstance(value.getType(scope));
    }
    
    @Override

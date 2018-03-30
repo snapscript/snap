@@ -25,7 +25,7 @@ public class FunctionConverter extends ConstraintConverter {
    @Override
    public Score score(Type actual) throws Exception {
       if(actual != null) {
-         return checker.cast(actual, constraint);
+         return checker.toFunction(actual, constraint);
       }
       return EXACT;
    }
@@ -43,7 +43,7 @@ public class FunctionConverter extends ConstraintConverter {
                return score(real);
             }
          }
-         return checker.cast(match, constraint, object);
+         return checker.toFunction(match, constraint, object);
       }
       return EXACT;
    }
@@ -61,7 +61,7 @@ public class FunctionConverter extends ConstraintConverter {
                return assign(real);
             }
          }
-         Score score = checker.cast(match, constraint, object);
+         Score score = checker.toFunction(match, constraint, object);
          
          if(score.isInvalid()) {
             throw new InternalArgumentException("Conversion from " + match + " to '" + constraint + "' is not possible");
@@ -83,7 +83,7 @@ public class FunctionConverter extends ConstraintConverter {
                return assign(real);
             }
          }
-         Score score = checker.cast(match, constraint, object);
+         Score score = checker.toFunction(match, constraint, object);
          
          if(score.isInvalid()) {
             throw new InternalArgumentException("Conversion from " + match + " to '" + constraint + "' is not possible");

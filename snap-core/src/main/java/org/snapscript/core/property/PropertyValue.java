@@ -1,5 +1,8 @@
 package org.snapscript.core.property;
 
+import org.snapscript.core.Bug;
+import org.snapscript.core.Scope;
+import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 
 public class PropertyValue extends Value {
@@ -12,6 +15,12 @@ public class PropertyValue extends Value {
       this.property = property;
       this.object = object;
       this.name = name;
+   }   
+   
+   @Bug("fix")
+   @Override
+   public Type getType(Scope scope) {
+      return property.getConstraint().getType(scope);
    }
    
    @Override

@@ -21,7 +21,7 @@ public class CollectionPointer implements VariablePointer<Collection> {
    @Override
    public Constraint check(Scope scope, Constraint left) {
       if(name.equals(PROPERTY_LENGTH)) {
-         return Constraint.getInstance(scope, Integer.class);
+         return Constraint.getInstance(Integer.class);
       }
       return pointer.check(scope, left);
    }

@@ -9,10 +9,10 @@ import org.snapscript.core.error.ErrorHandler;
 
 public class InstanceDispatcher implements CallDispatcher<Object> {
    
-   private final ScopeDispatcher dispatcher;    
+   private final DynamicDispatcher dispatcher;    
    
    public InstanceDispatcher(FunctionBinder binder, ErrorHandler handler, String name) {
-      this.dispatcher = new ScopeDispatcher(binder, handler, name);
+      this.dispatcher = new DynamicDispatcher(binder, handler, name);
    }
 
    @Override

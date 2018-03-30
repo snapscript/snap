@@ -27,7 +27,7 @@ public class CallDispatcherBuilder {
    
    public CallDispatcher create(Scope scope, Class type) throws Exception  {
       if(Scope.class.isAssignableFrom(type)) {
-         return new ScopeDispatcher(binder, handler, name);            
+         return new DynamicDispatcher(binder, handler, name);            
       }
       if(Module.class.isAssignableFrom(type)) {
          return new ModuleDispatcher(binder, handler, name);
@@ -82,6 +82,6 @@ public class CallDispatcherBuilder {
             return new ObjectDispatcher(binder, handler, name);     
          }
       }
-      return new ScopeDispatcher(binder, handler, name);  
+      return new DynamicDispatcher(binder, handler, name);  
    }
 }

@@ -31,7 +31,7 @@ public class Reference extends Value {
    }
    
    @Override
-   public Type getConstraint() {
+   public Type getType(Scope scope) {
       return type;
    }
    

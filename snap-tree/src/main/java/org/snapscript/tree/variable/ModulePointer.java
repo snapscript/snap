@@ -48,7 +48,7 @@ public class ModulePointer implements VariablePointer<Module> {
                return match.getConstraint();
             }
          }
-         return Constraint.getInstance(value.getConstraint());
+         return Constraint.getInstance(value.getType(scope));
       } 
       return property.getConstraint();
    }

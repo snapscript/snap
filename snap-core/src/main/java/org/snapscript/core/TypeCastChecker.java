@@ -4,6 +4,7 @@ import static org.snapscript.core.convert.Score.EXACT;
 import static org.snapscript.core.convert.Score.INVALID;
 import static org.snapscript.core.convert.Score.SIMILAR;
 
+import java.util.List;
 import java.util.Set;
 
 import org.snapscript.core.convert.ConstraintMatcher;
@@ -12,30 +13,20 @@ import org.snapscript.core.convert.Score;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionFinder;
 
+@Bug("this is not fast enough")
 public class TypeCastChecker {
 
    private final FunctionComparator comparator;
    private final FunctionFinder finder;
    private final TypeExtractor extractor;
-   private final TypeLoader loader;
    
    public TypeCastChecker(ConstraintMatcher matcher, TypeExtractor extractor, TypeLoader loader) {
       this.comparator = new FunctionComparator(matcher);
       this.finder = new FunctionFinder(comparator, extractor, loader);
       this.extractor = extractor;
-      this.loader = loader;
    }
    
-   public Score cast(Class actual, Type constraint) throws Exception {
-      Type type = loader.loadType(actual);
-
-      if(!actual.equals(constraint)) {
-         return cast(type, constraint);
-      }
-      return EXACT;
-   }
-   
-   public Score cast(Type actual, Type constraint) throws Exception {
+   public Score toType(Type actual, Type constraint) throws Exception {
       if(!actual.equals(constraint)) {
          Set<Type> list = extractor.getTypes(actual);
          
@@ -45,25 +36,74 @@ public class TypeCastChecker {
          if(list.contains(constraint)) {
             return SIMILAR;
          }
+         Category category = actual.getCategory();
+         
+         if(category.isFunction()) {
+            return toFunction(constraint, actual);
+         }
          return INVALID;
       }
       return EXACT;
    }
    
-   public Score cast(Type type, Type constraint, Object value) throws Exception {
-      if(Function.class.isInstance(value)) {
-         Class real = constraint.getType(); // this is the functional type interface
-         Function require = null;
+   public Score toType(Type actual, Type constraint, Object value) throws Exception {
+      if(!actual.equals(constraint)) {
+         Set<Type> list = extractor.getTypes(actual);
          
-         if(real != null) {
-            require = finder.findFunctional(real);
-         } else {
-            require = finder.findFunctional(constraint);
+         if(list.isEmpty()) {
+            return INVALID;
          }
-         if(require != null) {
-            return comparator.compare((Function)value, require);
+         if(list.contains(constraint)) {
+            return SIMILAR;
          }
+         Category category = actual.getCategory();
+         
+         if(category.isFunction()) {
+            return toFunction(constraint, actual);
+         }
+         return INVALID;
       }
-      return cast(type, constraint);
+      return EXACT;
+   }
+   
+   public Score toFunction(Type actual, Type constraint) throws Exception {
+      Category category = constraint.getCategory();
+      
+      if(!category.isFunction()) {
+         throw new InternalStateException("Type '" + actual + "' is not a function");
+      }
+      Function possible = finder.findFunctional(actual);
+      List<Function> functions = constraint.getFunctions();
+      
+      if(functions.isEmpty()) {
+         throw new InternalStateException("Type '" + actual + "' does not contain any functions");
+      }
+      Function required = functions.get(0);
+      
+      if(possible != null) {         
+         return comparator.compare(possible, required);         
+      }
+      return INVALID;
+   }
+   
+   public Score toFunction(Type actual, Type constraint, Object value) throws Exception {
+      Type type = extractor.getType(value);
+      Category category = type.getCategory();
+      
+      if(!category.isFunction()) {
+         throw new InternalStateException("Type '" + type + "' is not a function");
+      }
+      Function possible = finder.findFunctional(type);
+      List<Function> functions = constraint.getFunctions();
+      
+      if(functions.isEmpty()) {
+         throw new InternalStateException("Type '" + actual + "' does not contain any functions");
+      }
+      Function required = functions.get(0);
+      
+      if(possible != null) {
+         return comparator.compare(possible, required);
+      }
+      return INVALID;
    }
 }

@@ -65,7 +65,7 @@ public class Variable implements Compilation {
                Value value = state.get(name);
                
                if(value != null) { 
-                  Type t= value.getConstraint();
+                  Type t= value.getType(scope);
                   return Constraint.getInstance(t);
                }
             }else {
@@ -73,7 +73,7 @@ public class Variable implements Compilation {
                Value value = table.get(depth);
    
                if(value != null) { 
-                  Type t= value.getConstraint();
+                  Type t= value.getType(scope);
                   return Constraint.getInstance(t);
                }
             }

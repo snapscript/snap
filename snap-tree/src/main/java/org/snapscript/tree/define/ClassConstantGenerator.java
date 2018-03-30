@@ -24,32 +24,32 @@ public class ClassConstantGenerator {
    }
 
    public void generate(Scope scope, Type type) throws Exception {
-      generateConstant(scope, TYPE_THIS, type);
-      generateConstant(scope, TYPE_CLASS, type, type);
+      generateConstant(scope, TYPE_THIS, type, null, Constraint.getInstance(type));
+      generateConstant(scope, TYPE_CLASS, type, type, Constraint.getInstance(Type.class));
    }
+//   
+//   protected void generateConstant(Scope scope, String name, Type type) throws Exception {
+//      List<Property> properties = type.getProperties();
+//      Property property = builder.createConstant(name);
+//      
+//      properties.add(property);
+//   }
+//   
+//   protected void generateConstant(Scope scope, String name, Type type, Object value) throws Exception {
+//      List<Property> properties = type.getProperties();
+//      Property property = builder.createConstant(name, value);
+//      Value constant = Value.getBlank(value, null, PUBLIC.mask | CONSTANT.mask);
+//      State state = scope.getState();
+//
+//      properties.add(property);
+//      state.add(name, constant);
+//   }
    
-   protected void generateConstant(Scope scope, String name, Type type) throws Exception {
-      List<Property> properties = type.getProperties();
-      Property property = builder.createConstant(name);
-      
-      properties.add(property);
-   }
-   
-   protected void generateConstant(Scope scope, String name, Type type, Object value) throws Exception {
-      List<Property> properties = type.getProperties();
-      Property property = builder.createConstant(name, value);
-      Value constant = Value.getBlank(value, null, PUBLIC.mask | CONSTANT.mask);
-      State state = scope.getState();
-
-      properties.add(property);
-      state.add(name, constant);
-   }
-   
-   protected void generateConstant(Scope scope, String name, Type type, Type parent, Object value) throws Exception {
-      List<Property> properties = type.getProperties();
-      Constraint constraint = Constraint.getInstance(type);
-      Property property = builder.createConstant(name, value, type, constraint);
-      Value constant = Value.getBlank(value, parent, PUBLIC.mask | CONSTANT.mask);
+   protected void generateConstant(Scope scope, String name, Type parent, Object value, Constraint constraint) throws Exception {
+      List<Property> properties = parent.getProperties();
+      Type field = constraint.getType(scope);
+      Property property = builder.createConstant(name, value, parent, constraint);
+      Value constant = Value.getBlank(value, field, PUBLIC.mask | CONSTANT.mask);
       State state = scope.getState();
 
       properties.add(property);

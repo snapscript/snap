@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.snapscript.core.Bug;
+import org.snapscript.core.Constraint;
 import org.snapscript.core.Context;
 import org.snapscript.core.Module;
 import org.snapscript.core.ModuleScopeBinder;
@@ -105,6 +107,7 @@ public class ConstantResolver {
       return null;
    }
    
+   @Bug("what about constraints?")
    public Property matchConstantFromType(Scope scope, Type type, String name) {
       Module module = scope.getModule();
       Context context = module.getContext();
@@ -116,7 +119,7 @@ public class ConstantResolver {
          Object value = resolve(outer, name); // this is really slow
    
          if(value != null) {
-            return builder.createConstant(name, value);
+            return builder.createConstant(name, value, null, Constraint.getNone());
          }
       }
       return null;

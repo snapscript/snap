@@ -24,7 +24,7 @@ public class LocalReference extends Local {
    }
    
    @Override
-   public Type getConstraint() {
+   public Type getType(Scope scope) {
       return type;
    }
    
