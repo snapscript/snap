@@ -2,7 +2,6 @@ package org.snapscript.core.trace;
 
 import static org.snapscript.core.result.Result.NORMAL;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Execution;
 import org.snapscript.core.NoExecution;
 import org.snapscript.core.Scope;
@@ -35,14 +34,12 @@ public class TraceStatement extends Statement {
       }
    }
    
-   @Bug("printstacktrace remove it")
    @Override
    public Execution compile(Scope scope) throws Exception {
       try {
          Execution execution = statement.compile(scope);
          return new TraceExecution(interceptor, handler, execution, trace);
       }catch(Exception cause) {
-         cause.printStackTrace();
          handler.throwInternalError(scope, cause, trace);
       }
       return execution;

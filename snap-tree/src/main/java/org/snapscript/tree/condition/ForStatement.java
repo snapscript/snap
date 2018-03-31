@@ -78,25 +78,22 @@ public class ForStatement implements Compilation {
       @Override
       public Execution compile(Scope scope) throws Exception {
          Index index = scope.getIndex();
+         Execution variable = declaration.compile(scope);
+         Execution execution = body.compile(scope);
          int size = index.size();
-         Execution dec = null;
-         Execution bod = null;
          
          try {
-            dec = declaration.compile(scope);
             condition.compile(scope, null);
             
             if(assignment != null) {
                assignment.compile(scope, null);
             }
-            bod = body.compile(scope);
          } finally {
             index.reset(size);
          }
-         return new CompileExecution(dec, condition, assignment, bod);
+         return new CompileExecution(variable, condition, assignment, execution);
       }
-   }
-   
+   }   
    
    private static class CompileExecution extends SuspendStatement<Object> {
 

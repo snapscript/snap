@@ -17,6 +17,7 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Table;
 import org.snapscript.core.Value;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.result.Result;
 import org.snapscript.core.trace.Trace;
@@ -80,7 +81,7 @@ public class ForInStatement implements Compilation {
       
       @Override
       public Execution compile(Scope scope) throws Exception { 
-         collection.compile(scope, null);
+         Constraint constraint = collection.compile(scope, null);
          String name = reference.getName(scope);
          Table table = scope.getTable();
          Local local = Local.getReference(name, name);

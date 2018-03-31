@@ -11,6 +11,7 @@ import org.snapscript.core.Path;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Value;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.result.Result;
 import org.snapscript.core.trace.Trace;
@@ -63,14 +64,14 @@ public class IfStatement implements Compilation {
       
       @Override
       public Execution compile(Scope scope) throws Exception {
-         condition.compile(scope, null);
-         Execution p = positive.compile(scope);         
-         Execution n = null;
+         Constraint result = condition.compile(scope, null);
+         Execution success = positive.compile(scope);         
+         Execution failure = null;
          
          if(negative != null){
-            n = negative.compile(scope);
+            failure = negative.compile(scope);
          }         
-         return new CompileExecution(condition, p, n);
+         return new CompileExecution(condition, success, failure);
       }
    }
    

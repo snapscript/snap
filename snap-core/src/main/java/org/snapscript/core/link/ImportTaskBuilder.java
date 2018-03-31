@@ -36,7 +36,6 @@ public class ImportTaskBuilder {
          
          return new TypeImport(loader, module, path, name); // import exceptions will propagate
       } catch(Exception e) {
-         e.printStackTrace();
          return null;
       }
    }
@@ -50,7 +49,6 @@ public class ImportTaskBuilder {
          
          return new ModuleImport(registry, module, path, name); // import exceptions will propagate
       } catch(Exception e) {
-         e.printStackTrace();
          return null;
       }
    }
