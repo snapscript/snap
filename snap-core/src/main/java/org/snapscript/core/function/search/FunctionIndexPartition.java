@@ -1,4 +1,4 @@
-package org.snapscript.core.function.find;
+package org.snapscript.core.function.search;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,9 +10,9 @@ public class FunctionIndexPartition {
 
    private final Map<String, FunctionIndexGroup> groups;
    private final FunctionKeyBuilder builder;
-   private final FunctionSearcher matcher;
+   private final FunctionScanner matcher;
    
-   public FunctionIndexPartition(FunctionSearcher matcher, FunctionKeyBuilder builder) {
+   public FunctionIndexPartition(FunctionScanner matcher, FunctionKeyBuilder builder) {
       this.groups = new HashMap<String, FunctionIndexGroup>();
       this.matcher = matcher;
       this.builder = builder;

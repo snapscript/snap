@@ -13,7 +13,7 @@ import org.snapscript.core.Type;
 import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.function.Function;
-import org.snapscript.core.function.find.FunctionResolver;
+import org.snapscript.core.function.search.FunctionResolver;
 import org.snapscript.core.property.Property;
 
 public class TypeValidator {

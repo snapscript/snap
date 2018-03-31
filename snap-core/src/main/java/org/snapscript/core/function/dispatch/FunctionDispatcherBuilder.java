@@ -11,15 +11,15 @@ import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.Delegate;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.function.Function;
-import org.snapscript.core.function.find.FunctionFinder;
+import org.snapscript.core.function.search.FunctionSearcher;
 
 public class FunctionDispatcherBuilder {
 
-   private final FunctionFinder binder;
+   private final FunctionSearcher binder;
    private final ErrorHandler handler;
    private final String name;
    
-   public FunctionDispatcherBuilder(FunctionFinder binder, ErrorHandler handler, String name) {
+   public FunctionDispatcherBuilder(FunctionSearcher binder, ErrorHandler handler, String name) {
       this.handler = handler;
       this.binder = binder;
       this.name = name;

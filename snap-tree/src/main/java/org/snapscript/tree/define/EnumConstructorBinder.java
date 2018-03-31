@@ -6,8 +6,8 @@ import org.snapscript.core.Context;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
-import org.snapscript.core.function.find.FunctionCall;
-import org.snapscript.core.function.find.FunctionFinder;
+import org.snapscript.core.function.search.FunctionCall;
+import org.snapscript.core.function.search.FunctionSearcher;
 import org.snapscript.tree.ArgumentList;
 
 public class EnumConstructorBinder {
@@ -21,12 +21,12 @@ public class EnumConstructorBinder {
    public FunctionCall bind(Scope scope, Type type) throws Exception {
       Module module = scope.getModule();
       Context context = module.getContext();
-      FunctionFinder binder = context.getFinder();
+      FunctionSearcher binder = context.getSearcher();
       
       if(arguments != null) {
          Object[] array = arguments.create(scope, type); // arguments have no left hand side
-         return binder.bindStatic(scope, type, TYPE_CONSTRUCTOR, array);
+         return binder.searchStatic(scope, type, TYPE_CONSTRUCTOR, array);
       }
-      return binder.bindStatic(scope, type, TYPE_CONSTRUCTOR, type);
+      return binder.searchStatic(scope, type, TYPE_CONSTRUCTOR, type);
    }
 }

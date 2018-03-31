@@ -1,4 +1,4 @@
-package org.snapscript.core.function.find;
+package org.snapscript.core.function.search;
 
 import static org.snapscript.core.convert.Score.INVALID;
 
@@ -13,27 +13,27 @@ import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Signature;
 import org.snapscript.core.stack.ThreadStack;
 
-public class FunctionSearcher {
+public class FunctionScanner {
    
    private final FunctionPointer invalid;
    private final Signature signature;
    private final Function empty;
    
-   public FunctionSearcher(ThreadStack stack) {
+   public FunctionScanner(ThreadStack stack) {
       this.signature = new EmptySignature();
       this.empty = new EmptyFunction(signature);
       this.invalid = new FunctionPointer(empty, stack);
    }
 
-   public FunctionPointer search(List<FunctionPointer> calls, String name, Type... types) throws Exception { 
-      int size = calls.size();
+   public FunctionPointer scan(List<FunctionPointer> pointers, String name, Type... types) throws Exception { 
+      int size = pointers.size();
       
       if(size > 0) {
          FunctionPointer call = invalid;
          Score best = INVALID;
          
          for(int i = size - 1; i >= 0; i--) {
-            FunctionPointer next = calls.get(i);
+            FunctionPointer next = pointers.get(i);
             Function function = next.getFunction();
             String match = function.getName();
             
@@ -53,15 +53,15 @@ public class FunctionSearcher {
       return invalid;
    }
 
-   public FunctionPointer search(List<FunctionPointer> calls, String name, Object... values) throws Exception { 
-      int size = calls.size();
+   public FunctionPointer scan(List<FunctionPointer> pointers, String name, Object... values) throws Exception { 
+      int size = pointers.size();
       
       if(size > 0) {
          FunctionPointer call = invalid;
          Score best = INVALID;
          
          for(int i = size - 1; i >= 0; i--) {
-            FunctionPointer next = calls.get(i);
+            FunctionPointer next = pointers.get(i);
             Function function = next.getFunction();
             String match = function.getName();
             

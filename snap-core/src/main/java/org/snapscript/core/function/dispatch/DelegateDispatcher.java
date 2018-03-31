@@ -6,16 +6,16 @@ import org.snapscript.core.Value;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.Delegate;
 import org.snapscript.core.error.ErrorHandler;
-import org.snapscript.core.function.find.FunctionCall;
-import org.snapscript.core.function.find.FunctionFinder;
+import org.snapscript.core.function.search.FunctionCall;
+import org.snapscript.core.function.search.FunctionSearcher;
 
 public class DelegateDispatcher implements FunctionDispatcher<Delegate> {
    
-   private final FunctionFinder binder;
+   private final FunctionSearcher binder;
    private final ErrorHandler handler;
    private final String name;      
    
-   public DelegateDispatcher(FunctionFinder binder, ErrorHandler handler, String name) {
+   public DelegateDispatcher(FunctionSearcher binder, ErrorHandler handler, String name) {
       this.handler = handler;
       this.binder = binder;
       this.name = name;
@@ -23,7 +23,7 @@ public class DelegateDispatcher implements FunctionDispatcher<Delegate> {
    
    @Override
    public Constraint compile(Scope scope, Type object, Type... arguments) throws Exception {
-      FunctionCall call = binder.bindFunction(scope, object, name, arguments);
+      FunctionCall call = binder.searchFunction(scope, object, name, arguments);
       
       if(call == null) {
          handler.throwInternalException(scope, object, name, arguments);
@@ -33,7 +33,7 @@ public class DelegateDispatcher implements FunctionDispatcher<Delegate> {
    
    @Override
    public Value dispatch(Scope scope, Delegate object, Object... arguments) throws Exception {
-      FunctionCall call = binder.bindFunction(scope, object, name, arguments);
+      FunctionCall call = binder.searchFunction(scope, object, name, arguments);
       
       if(call == null) {
          handler.throwInternalException(scope, object, name, arguments);

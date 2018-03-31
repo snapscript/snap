@@ -7,15 +7,15 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.function.find.FunctionCall;
-import org.snapscript.core.function.find.FunctionFinder;
+import org.snapscript.core.function.search.FunctionCall;
+import org.snapscript.core.function.search.FunctionSearcher;
 
 public class ValueDispatcher implements FunctionDispatcher<Value> {
    
-   private final FunctionFinder binder;
+   private final FunctionSearcher binder;
    private final String name;
    
-   public ValueDispatcher(FunctionFinder binder, String name) {
+   public ValueDispatcher(FunctionSearcher binder, String name) {
       this.binder = binder;
       this.name = name;
    }
@@ -27,7 +27,7 @@ public class ValueDispatcher implements FunctionDispatcher<Value> {
 
    @Override
    public Value dispatch(Scope scope, Value value, Object... arguments) throws Exception {
-      FunctionCall closure = binder.bindValue(value, arguments); // function variable
+      FunctionCall closure = binder.searchValue(value, arguments); // function variable
       
       if(closure == null) {
          throw new InternalStateException("Method '" + name + "' not found in scope");

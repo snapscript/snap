@@ -5,7 +5,7 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.function.Accessor;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
-import org.snapscript.core.function.find.FunctionPointer;
+import org.snapscript.core.function.search.FunctionPointer;
 import org.snapscript.core.stack.ThreadStack;
 
 public class FunctionAccessor implements Accessor<Scope> {

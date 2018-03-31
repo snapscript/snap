@@ -5,16 +5,16 @@ import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
-import org.snapscript.core.function.find.FunctionCall;
-import org.snapscript.core.function.find.FunctionFinder;
+import org.snapscript.core.function.search.FunctionCall;
+import org.snapscript.core.function.search.FunctionSearcher;
 
 public class ObjectDispatcher implements FunctionDispatcher<Object> {
    
-   private final FunctionFinder binder;
+   private final FunctionSearcher binder;
    private final ErrorHandler handler;
    private final String name;    
    
-   public ObjectDispatcher(FunctionFinder binder, ErrorHandler handler, String name) {
+   public ObjectDispatcher(FunctionSearcher binder, ErrorHandler handler, String name) {
       this.handler = handler;
       this.binder = binder;
       this.name = name;
@@ -22,7 +22,7 @@ public class ObjectDispatcher implements FunctionDispatcher<Object> {
    
    @Override
    public Constraint compile(Scope scope, Type object, Type... arguments) throws Exception {
-      FunctionCall call = binder.bindInstance(scope, object, name, arguments);
+      FunctionCall call = binder.searchInstance(scope, object, name, arguments);
       
       if(call == null) {
          handler.throwInternalException(scope, object, name, arguments);
@@ -32,7 +32,7 @@ public class ObjectDispatcher implements FunctionDispatcher<Object> {
    
    @Override
    public Value dispatch(Scope scope, Object object, Object... arguments) throws Exception {
-      FunctionCall call = binder.bindInstance(scope, object, name, arguments);
+      FunctionCall call = binder.searchInstance(scope, object, name, arguments);
       
       if(call == null) {
          handler.throwInternalException(scope, object, name, arguments);

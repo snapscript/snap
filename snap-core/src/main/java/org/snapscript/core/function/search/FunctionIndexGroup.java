@@ -1,4 +1,4 @@
-package org.snapscript.core.function.find;
+package org.snapscript.core.function.search;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,10 +18,10 @@ public class FunctionIndexGroup {
    private final List<FunctionPointer> group;
    private final AtomicBoolean constraints;
    private final FunctionKeyBuilder builder;
-   private final FunctionSearcher searcher;
+   private final FunctionScanner searcher;
    private final String name;
    
-   public FunctionIndexGroup(FunctionSearcher searcher, FunctionKeyBuilder builder, String name) {
+   public FunctionIndexGroup(FunctionScanner searcher, FunctionKeyBuilder builder, String name) {
       this.cache = new CopyOnWriteCache<Object, FunctionPointer>();
       this.group = new ArrayList<FunctionPointer>();
       this.constraints = new AtomicBoolean();
@@ -38,7 +38,7 @@ public class FunctionIndexGroup {
          FunctionPointer pointer = cache.fetch(key);
          
          if(pointer == null) {
-            FunctionPointer match = searcher.search(group, name, list);
+            FunctionPointer match = searcher.scan(group, name, list);
             Function function = match.getFunction();
             Signature signature = function.getSignature();
             
@@ -63,7 +63,7 @@ public class FunctionIndexGroup {
          FunctionPointer pointer = cache.fetch(key);
          
          if(pointer == null) {
-            FunctionPointer match = searcher.search(group, name, list);
+            FunctionPointer match = searcher.scan(group, name, list);
             Function function = match.getFunction();
             Signature signature = function.getSignature();
             

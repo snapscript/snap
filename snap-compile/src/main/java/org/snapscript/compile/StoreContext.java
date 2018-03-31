@@ -19,8 +19,9 @@ import org.snapscript.core.convert.ProxyWrapper;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.function.dispatch.CacheFunctionIndexer;
 import org.snapscript.core.function.dispatch.FunctionBinder;
-import org.snapscript.core.function.find.FunctionFinder;
-import org.snapscript.core.function.find.FunctionResolver;
+import org.snapscript.core.function.search.ConstraintFunctionSearcher;
+import org.snapscript.core.function.search.FunctionResolver;
+import org.snapscript.core.function.search.FunctionSearcher;
 import org.snapscript.core.link.PackageLinker;
 import org.snapscript.core.platform.CachePlatformProvider;
 import org.snapscript.core.platform.PlatformProvider;
@@ -36,7 +37,7 @@ public class StoreContext implements Context {
    private final ConstraintMatcher matcher;
    private final ResourceManager manager;
    private final FunctionResolver resolver;
-   private final FunctionFinder binder;
+   private final FunctionSearcher binder;
    private final TypeExtractor extractor;
    private final ModuleRegistry registry;
    private final ErrorHandler handler;
@@ -63,7 +64,7 @@ public class StoreContext implements Context {
       this.handler = new ErrorHandler(extractor, stack);
       this.resolver = new FunctionResolver(extractor, stack);
       this.validator = new ExecutableValidator(matcher, extractor, resolver);
-      this.binder = new FunctionFinder(extractor, stack, resolver);
+      this.binder = new ConstraintFunctionSearcher(extractor, stack, resolver);
       this.evaluator = new OperationEvaluator(this, executor);
       this.provider = new CachePlatformProvider(extractor, wrapper, stack);
       this.table = new CacheFunctionIndexer(binder, handler);
@@ -125,7 +126,7 @@ public class StoreContext implements Context {
    }
    
    @Override
-   public FunctionFinder getFinder() {
+   public FunctionSearcher getSearcher() {
       return binder;
    }
 

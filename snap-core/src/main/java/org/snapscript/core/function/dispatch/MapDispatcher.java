@@ -13,16 +13,16 @@ import org.snapscript.core.Value;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.ProxyWrapper;
 import org.snapscript.core.error.ErrorHandler;
-import org.snapscript.core.function.find.FunctionCall;
-import org.snapscript.core.function.find.FunctionFinder;
+import org.snapscript.core.function.search.FunctionCall;
+import org.snapscript.core.function.search.FunctionSearcher;
 
 public class MapDispatcher implements FunctionDispatcher<Map> {
    
-   private final FunctionFinder binder;
+   private final FunctionSearcher binder;
    private final ErrorHandler handler;
    private final String name;      
    
-   public MapDispatcher(FunctionFinder binder, ErrorHandler handler, String name) {
+   public MapDispatcher(FunctionSearcher binder, ErrorHandler handler, String name) {
       this.handler = handler;
       this.binder = binder;
       this.name = name;
@@ -30,7 +30,7 @@ public class MapDispatcher implements FunctionDispatcher<Map> {
    
    @Override
    public Constraint compile(Scope scope, Type map, Type... arguments) throws Exception {
-      FunctionCall local = binder.bindInstance(scope, map, name, arguments);
+      FunctionCall local = binder.searchInstance(scope, map, name, arguments);
       
       if(local != null) {
          return local.check();
@@ -50,7 +50,7 @@ public class MapDispatcher implements FunctionDispatcher<Map> {
    
    private FunctionCall bind(Scope scope, Map map, Object... arguments) throws Exception {
       Module module = scope.getModule();
-      FunctionCall local = binder.bindInstance(scope, map, name, arguments);
+      FunctionCall local = binder.searchInstance(scope, map, name, arguments);
       
       if(local == null) {
          Object value = map.get(name);
@@ -61,7 +61,7 @@ public class MapDispatcher implements FunctionDispatcher<Map> {
             Object function = wrapper.fromProxy(value);
             Value reference = Value.getTransient(function);
             
-            return binder.bindValue(reference, arguments);
+            return binder.searchValue(reference, arguments);
          }
       }
       return local;

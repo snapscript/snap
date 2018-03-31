@@ -14,8 +14,8 @@ import org.snapscript.core.convert.Score;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.Signature;
-import org.snapscript.core.function.find.FunctionPointer;
-import org.snapscript.core.function.find.FunctionResolver;
+import org.snapscript.core.function.search.FunctionPointer;
+import org.snapscript.core.function.search.FunctionResolver;
 import org.snapscript.tree.ModifierValidator;
 
 public class FunctionValidator {

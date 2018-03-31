@@ -6,7 +6,7 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
-import org.snapscript.core.function.find.FunctionFinder;
+import org.snapscript.core.function.search.FunctionSearcher;
 
 public class CacheFunctionIndex implements FunctionGroup {
    
@@ -16,7 +16,7 @@ public class CacheFunctionIndex implements FunctionGroup {
    private final FunctionDispatcher local;
    private final FunctionDispatcher empty;
    
-   public CacheFunctionIndex(FunctionFinder binder, ErrorHandler handler, String name) {
+   public CacheFunctionIndex(FunctionSearcher binder, ErrorHandler handler, String name) {
       this.builder = new FunctionDispatcherBuilder(binder, handler, name);
       this.cache = new CopyOnWriteCache<Class, FunctionDispatcher>();
       this.instance = new InstanceDispatcher(binder, handler, name);

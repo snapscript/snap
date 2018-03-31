@@ -1,4 +1,4 @@
-package org.snapscript.core.function.find;
+package org.snapscript.core.function.search;
 
 import org.snapscript.core.Value;
 import org.snapscript.core.convert.Score;

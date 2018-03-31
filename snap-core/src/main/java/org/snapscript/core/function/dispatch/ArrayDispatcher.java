@@ -8,17 +8,17 @@ import org.snapscript.core.Value;
 import org.snapscript.core.array.ArrayBuilder;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
-import org.snapscript.core.function.find.FunctionCall;
-import org.snapscript.core.function.find.FunctionFinder;
+import org.snapscript.core.function.search.FunctionCall;
+import org.snapscript.core.function.search.FunctionSearcher;
 
 public class ArrayDispatcher implements FunctionDispatcher<Object> {
    
-   private final FunctionFinder binder;
+   private final FunctionSearcher binder;
    private final ArrayBuilder builder;
    private final ErrorHandler handler;
    private final String name;
    
-   public ArrayDispatcher(FunctionFinder binder, ErrorHandler handler, String name) {
+   public ArrayDispatcher(FunctionSearcher binder, ErrorHandler handler, String name) {
       this.builder = new ArrayBuilder();
       this.handler = handler;
       this.binder = binder;
@@ -28,7 +28,7 @@ public class ArrayDispatcher implements FunctionDispatcher<Object> {
    @Override
    public Constraint compile(Scope scope, Type object, Type... arguments) throws Exception {
       Type list = builder.convert(object);
-      FunctionCall call = binder.bindInstance(scope, list, name, arguments);
+      FunctionCall call = binder.searchInstance(scope, list, name, arguments);
       
       if(call == null) {
          handler.throwInternalException(scope, object, name, arguments);
@@ -39,7 +39,7 @@ public class ArrayDispatcher implements FunctionDispatcher<Object> {
    @Override
    public Value dispatch(Scope scope, Object object, Object... arguments) throws Exception {
       List list = builder.convert(object);
-      FunctionCall call = binder.bindInstance(scope, list, name, arguments);
+      FunctionCall call = binder.searchInstance(scope, list, name, arguments);
       
       if(call == null) {
          handler.throwInternalException(scope, object, name, arguments);

@@ -1,4 +1,4 @@
-package org.snapscript.core.function.find;
+package org.snapscript.core.function.search;
 
 import java.util.List;
 
@@ -10,15 +10,15 @@ import org.snapscript.core.function.Signature;
 public class ScopeFunctionIndex implements FunctionIndex {
 
    private FunctionKeyBuilder builder;
-   private FunctionSearcher matcher;
+   private FunctionScanner matcher;
    private FunctionIndexPartition[] caches;
    private int limit; 
    
-   public ScopeFunctionIndex(FunctionSearcher matcher, FunctionKeyBuilder builder) {
+   public ScopeFunctionIndex(FunctionScanner matcher, FunctionKeyBuilder builder) {
       this(matcher, builder, 20);
    }
    
-   public ScopeFunctionIndex(FunctionSearcher matcher, FunctionKeyBuilder builder, int limit) {
+   public ScopeFunctionIndex(FunctionScanner matcher, FunctionKeyBuilder builder, int limit) {
       this.caches = new FunctionIndexPartition[2];
       this.matcher = matcher;
       this.builder = builder;

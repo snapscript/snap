@@ -12,16 +12,16 @@ import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.Signature;
-import org.snapscript.core.function.find.FunctionCall;
-import org.snapscript.core.function.find.FunctionFinder;
+import org.snapscript.core.function.search.FunctionCall;
+import org.snapscript.core.function.search.FunctionSearcher;
 
 public class ClosureDispatcher implements FunctionDispatcher<Function> {
 
-   private final FunctionFinder binder;
+   private final FunctionSearcher binder;
    private final ErrorHandler handler;
    private final String name;      
    
-   public ClosureDispatcher(FunctionFinder binder, ErrorHandler handler, String name) {
+   public ClosureDispatcher(FunctionSearcher binder, ErrorHandler handler, String name) {
       this.handler = handler;
       this.binder = binder;
       this.name = name;
@@ -43,12 +43,12 @@ public class ClosureDispatcher implements FunctionDispatcher<Function> {
    }
    
    private FunctionCall bind(Scope scope, Function function, Object... arguments) throws Exception {
-      FunctionCall call = binder.bindInstance(scope, function, name, arguments); // this is not used often
+      FunctionCall call = binder.searchInstance(scope, function, name, arguments); // this is not used often
       
       if(call == null) {
          Object adapter = new FunctionAdapter(function);
          
-         return binder.bindInstance(scope, adapter, name, arguments);
+         return binder.searchInstance(scope, adapter, name, arguments);
       }
       return call;
    }

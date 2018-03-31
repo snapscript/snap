@@ -1,4 +1,4 @@
-package org.snapscript.core.function.find;
+package org.snapscript.core.function.search;
 
 import org.snapscript.core.Module;
 import org.snapscript.core.Type;
@@ -8,7 +8,7 @@ import org.snapscript.core.stack.ThreadStack;
 public class FunctionIndexBuilder {
 
    private final FunctionKeyBuilder builder;
-   private final FunctionSearcher searcher;
+   private final FunctionScanner searcher;
    private final int limit; 
    
    public FunctionIndexBuilder(TypeExtractor extractor, ThreadStack stack) {
@@ -17,7 +17,7 @@ public class FunctionIndexBuilder {
    
    public FunctionIndexBuilder(TypeExtractor extractor, ThreadStack stack, int limit) {
       this.builder = new FunctionKeyBuilder(extractor);
-      this.searcher = new FunctionSearcher(stack);
+      this.searcher = new FunctionScanner(stack);
       this.limit = limit;
    }
    

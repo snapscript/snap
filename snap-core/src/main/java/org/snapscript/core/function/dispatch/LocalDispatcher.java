@@ -6,16 +6,16 @@ import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
-import org.snapscript.core.function.find.FunctionCall;
-import org.snapscript.core.function.find.FunctionFinder;
+import org.snapscript.core.function.search.FunctionCall;
+import org.snapscript.core.function.search.FunctionSearcher;
 
 public class LocalDispatcher implements FunctionDispatcher<Object> {
    
-   private final FunctionFinder binder;
+   private final FunctionSearcher binder;
    private final ErrorHandler handler;
    private final String name;  
    
-   public LocalDispatcher(FunctionFinder binder, ErrorHandler handler, String name) {
+   public LocalDispatcher(FunctionSearcher binder, ErrorHandler handler, String name) {
       this.handler = handler;
       this.binder = binder;
       this.name = name;
@@ -43,10 +43,10 @@ public class LocalDispatcher implements FunctionDispatcher<Object> {
    
    private FunctionCall bind(Scope scope, Object object, Object... arguments) throws Exception {
       Module module = scope.getModule();
-      FunctionCall local = binder.bindModule(scope, module, name, arguments);
+      FunctionCall local = binder.searchModule(scope, module, name, arguments);
       
       if(local == null) {
-         FunctionCall closure = binder.bindScope(scope, name, arguments); // function variable
+         FunctionCall closure = binder.searchScope(scope, name, arguments); // function variable
          
          if(closure != null) {
             return closure;   
@@ -60,10 +60,10 @@ public class LocalDispatcher implements FunctionDispatcher<Object> {
    
    private FunctionCall bind(Scope scope, Type object, Type... arguments) throws Exception {
       Module module = scope.getModule();
-      FunctionCall local = binder.bindModule(scope, module, name, arguments);
+      FunctionCall local = binder.searchModule(scope, module, name, arguments);
       
       if(local == null) {
-         FunctionCall closure = binder.bindScope(scope, name, arguments); // function variable
+         FunctionCall closure = binder.searchScope(scope, name, arguments); // function variable
          
          if(closure != null) {
             return closure;   

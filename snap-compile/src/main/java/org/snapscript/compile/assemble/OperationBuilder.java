@@ -14,8 +14,8 @@ import org.snapscript.core.Path;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
-import org.snapscript.core.function.find.FunctionCall;
-import org.snapscript.core.function.find.FunctionFinder;
+import org.snapscript.core.function.search.FunctionCall;
+import org.snapscript.core.function.search.FunctionSearcher;
 import org.snapscript.parse.Line;
 
 public class OperationBuilder {
@@ -33,8 +33,8 @@ public class OperationBuilder {
    public Object create(Type type, Object[] arguments, Line line) throws Exception {
       Scope scope = module.getScope();
       Context context = module.getContext();
-      FunctionFinder binder = context.getFinder();
-      FunctionCall callable = binder.bindStatic(scope, type, TYPE_CONSTRUCTOR, arguments);
+      FunctionSearcher binder = context.getSearcher();
+      FunctionCall callable = binder.searchStatic(scope, type, TYPE_CONSTRUCTOR, arguments);
       
       if(callable == null) {
          throw new InternalStateException("No constructor for '" + type + "' at line " + line);

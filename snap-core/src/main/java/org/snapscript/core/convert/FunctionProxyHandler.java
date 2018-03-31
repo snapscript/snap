@@ -14,8 +14,8 @@ import org.snapscript.core.Transient;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.function.Function;
-import org.snapscript.core.function.find.FunctionCall;
-import org.snapscript.core.function.find.FunctionFinder;
+import org.snapscript.core.function.search.FunctionCall;
+import org.snapscript.core.function.search.FunctionSearcher;
 
 public class FunctionProxyHandler implements ProxyHandler { 
    
@@ -78,17 +78,17 @@ public class FunctionProxyHandler implements ProxyHandler {
    
    private FunctionCall resolve(Object proxy, String name, Object[] convert, Object[] arguments) throws Throwable {
       Type type = function.getType();
-      FunctionFinder binder = context.getFinder();  
+      FunctionSearcher binder = context.getSearcher();  
 
       if(type != null) {
          Scope scope = type.getScope();
-         FunctionCall call = binder.bindInstance(scope, proxy, name, arguments); 
+         FunctionCall call = binder.searchInstance(scope, proxy, name, arguments); 
          
          if(call != null) {
             return call;
          }
       }
-      return binder.bindValue(value, convert); // here arguments can be null!!! 
+      return binder.searchValue(value, convert); // here arguments can be null!!! 
    }
    
    @Override

@@ -1,4 +1,4 @@
-package org.snapscript.core.function.find;
+package org.snapscript.core.function.search;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +14,9 @@ public class ClassFunctionIndex implements FunctionIndex {
    private final Cache<Object, FunctionPointer> cache;
    private final List<FunctionPointer> pointers;
    private final FunctionKeyBuilder builder;
-   private final FunctionSearcher searcher;
+   private final FunctionScanner searcher;
    
-   public ClassFunctionIndex(FunctionSearcher searcher, FunctionKeyBuilder builder) {
+   public ClassFunctionIndex(FunctionScanner searcher, FunctionKeyBuilder builder) {
       this.cache = new CopyOnWriteCache<Object, FunctionPointer>();
       this.pointers = new ArrayList<FunctionPointer>();
       this.searcher = searcher;
@@ -29,7 +29,7 @@ public class ClassFunctionIndex implements FunctionIndex {
       FunctionPointer pointer = cache.fetch(key);
       
       if(pointer == null) {
-         FunctionPointer match = searcher.search(pointers, name, types);
+         FunctionPointer match = searcher.scan(pointers, name, types);
          Function function = match.getFunction();
          Signature signature = function.getSignature();
 
@@ -47,7 +47,7 @@ public class ClassFunctionIndex implements FunctionIndex {
       FunctionPointer pointer = cache.fetch(key);
       
       if(pointer == null) {
-         FunctionPointer match = searcher.search(pointers, name, list);
+         FunctionPointer match = searcher.scan(pointers, name, list);
          Function function = match.getFunction();
          Signature signature = function.getSignature();
          

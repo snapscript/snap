@@ -5,13 +5,13 @@ import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
-import org.snapscript.core.function.find.FunctionFinder;
+import org.snapscript.core.function.search.FunctionSearcher;
 
 public class InstanceDispatcher implements FunctionDispatcher<Object> {
    
    private final AnyDispatcher dispatcher;    
    
-   public InstanceDispatcher(FunctionFinder binder, ErrorHandler handler, String name) {
+   public InstanceDispatcher(FunctionSearcher binder, ErrorHandler handler, String name) {
       this.dispatcher = new AnyDispatcher(binder, handler, name);
    }
 

@@ -8,16 +8,16 @@ import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
-import org.snapscript.core.function.find.FunctionCall;
-import org.snapscript.core.function.find.FunctionFinder;
+import org.snapscript.core.function.search.FunctionCall;
+import org.snapscript.core.function.search.FunctionSearcher;
 
 public class ModuleDispatcher implements FunctionDispatcher<Module> {
    
-   private final FunctionFinder binder;
+   private final FunctionSearcher binder;
    private final ErrorHandler handler;
    private final String name;
    
-   public ModuleDispatcher(FunctionFinder binder, ErrorHandler handler, String name) {
+   public ModuleDispatcher(FunctionSearcher binder, ErrorHandler handler, String name) {
       this.handler = handler;
       this.binder = binder;
       this.name = name;
@@ -46,20 +46,20 @@ public class ModuleDispatcher implements FunctionDispatcher<Module> {
    
    private FunctionCall bind(Scope scope, Module module, Type... arguments) throws Exception {
       Scope inner = module.getScope();
-      FunctionCall call = binder.bindModule(inner, module, name, arguments);
+      FunctionCall call = binder.searchModule(inner, module, name, arguments);
       
       if(call == null) {
-         return binder.bindInstance(inner, (Object)module, name, arguments);
+         return binder.searchInstance(inner, (Object)module, name, arguments);
       }
       return call;
    }
    
    private FunctionCall bind(Scope scope, Module module, Object... arguments) throws Exception {
       Scope inner = module.getScope();
-      FunctionCall call = binder.bindModule(inner, module, name, arguments);
+      FunctionCall call = binder.searchModule(inner, module, name, arguments);
       
       if(call == null) {
-         return binder.bindInstance(inner, (Object)module, name, arguments);
+         return binder.searchInstance(inner, (Object)module, name, arguments);
       }
       return call;
    }

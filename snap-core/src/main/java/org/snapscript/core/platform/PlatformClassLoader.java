@@ -6,7 +6,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.snapscript.core.Any;
 import org.snapscript.core.ContextClassLoader;
 import org.snapscript.core.convert.ProxyWrapper;
-import org.snapscript.core.function.find.FunctionResolver;
+import org.snapscript.core.function.search.FunctionResolver;
 
 public class PlatformClassLoader {
    

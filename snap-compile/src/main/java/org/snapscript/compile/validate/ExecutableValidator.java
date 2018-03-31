@@ -9,7 +9,7 @@ import org.snapscript.core.ProgramValidator;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.convert.ConstraintMatcher;
-import org.snapscript.core.function.find.FunctionResolver;
+import org.snapscript.core.function.search.FunctionResolver;
 
 public class ExecutableValidator implements ProgramValidator {
 
