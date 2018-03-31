@@ -79,7 +79,7 @@ public class DeclarationStatement implements Compilation {
          ModifierType type = modifier.getType();
          
          for(Declaration declaration : declarations) {
-            declaration.create(scope, type.mask); 
+            declaration.declare(scope, type.mask); 
          }
          return NORMAL;
       }

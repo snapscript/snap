@@ -1,17 +1,31 @@
 package org.snapscript.tree.constraint;
 
+import org.snapscript.core.ModifierType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.constraint.Constraint;
 
-public class SafeConstraint extends Constraint {
+public class ModifierConstraint extends Constraint {
    
    private final Constraint constraint;
+   private final int modifiers;
    
-   public SafeConstraint(Constraint constraint) {
-      this.constraint = constraint;
+   public ModifierConstraint(Constraint constraint) {
+      this(constraint, 0);
    }
-
+   
+   public ModifierConstraint(Constraint constraint, int modifiers) {      
+      this.constraint = constraint;
+      this.modifiers = modifiers;
+   }
+   
+   public ModifierConstraint getConstraint(Scope scope, int mask) {
+      if(mask != modifiers) {
+         return new ModifierConstraint(constraint, mask);
+      }
+      return this;
+   }
+   
    @Override
    public Type getType(Scope scope) {
       if(constraint != null) {
@@ -21,9 +35,9 @@ public class SafeConstraint extends Constraint {
    }
    
    @Override
-   public boolean isInstance() {
+   public boolean isVariable() {
       if(constraint != null) {
-         return constraint.isInstance();
+         return constraint.isVariable();
       }
       return true;
    }
@@ -42,5 +56,13 @@ public class SafeConstraint extends Constraint {
          return constraint.isModule();
       }
       return false;
+   }
+   
+   @Override
+   public boolean isConstant() {
+      if(constraint != null) {
+         return constraint.isConstant();
+      }
+      return ModifierType.isConstant(modifiers);
    }
 }

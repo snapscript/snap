@@ -24,8 +24,9 @@ public class TraitConstantDeclaration {
    }
    
    public TypeFactory declare(TypeFactory factory, Type type) throws Exception {
+      int mask = modifiers.getModifiers();
       Scope scope = type.getScope();
-      MemberFieldData data = declaration.create(scope);
+      MemberFieldData data = declaration.create(scope, mask);
       
       return assembler.assemble(data);
    }

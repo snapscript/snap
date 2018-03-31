@@ -59,7 +59,7 @@ public class EnumFactory extends TypeFactory {
       Value value = state.get(ENUM_VALUES);
       List values = value.getValue();
       Object object = wrapper.toProxy(instance);
-      Constraint constraint = Constraint.getInstance(type);
+      Constraint constraint = Constraint.getVariable(type);
             
       generator.generateConstant(scope, name, type, instance, constraint);
       generator.generateConstant(instance, ENUM_NAME, type, name, STRING); // might declare name as property many times

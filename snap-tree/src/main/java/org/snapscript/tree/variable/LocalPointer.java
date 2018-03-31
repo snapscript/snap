@@ -10,13 +10,13 @@ import org.snapscript.core.constraint.Constraint;
 public class LocalPointer implements VariablePointer<Object> {
    
    private final AtomicReference<Object> reference;
-   private final VariableConstraintWrapper wrapper;
+   private final VariableConstraintMapper mapper;
    private final VariableFinder finder;
    private final String name;
    
    public LocalPointer(VariableFinder finder, String name) {
       this.reference = new AtomicReference<Object>();
-      this.wrapper = new VariableConstraintWrapper();
+      this.mapper = new VariableConstraintMapper();
       this.finder = finder;
       this.name = name;
    }
@@ -33,13 +33,13 @@ public class LocalPointer implements VariablePointer<Object> {
             Object value = finder.findTypes(scope, name);
             
             if(value != null) {
-               return wrapper.toConstraint(value);
+               return mapper.toConstraint(value);
             }
             return null;
          }
-         return Constraint.getInstance(variable);
+         return Constraint.getVariable(variable);
       }
-      return wrapper.toConstraint(result);
+      return mapper.toConstraint(result);
    }
    
    @Override

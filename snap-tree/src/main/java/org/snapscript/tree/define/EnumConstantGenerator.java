@@ -25,7 +25,7 @@ public class EnumConstantGenerator extends ClassConstantGenerator {
    
    @Bug("name and ordinal should be defined in a TypePart------- THESE PROPERTIES ARE PROBABLE DUPLICATED")
    public void generate(Scope scope, Type type, List values) throws Exception {
-      Constraint constraint = Constraint.getInstance(type);
+      Constraint constraint = Constraint.getVariable(type);
       
       generateConstant(scope, TYPE_THIS, type, null, constraint);      
       generateConstant(scope, TYPE_CLASS, type, type, TYPE);

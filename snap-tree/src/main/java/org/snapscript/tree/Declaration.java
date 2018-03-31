@@ -38,7 +38,7 @@ public class Declaration {
       this.value = value;
    }   
 
-   public void define(Scope scope, int modifiers) throws Exception {
+   public int define(Scope scope, int modifiers) throws Exception {
       String name = reference.getName(scope);
       
       if(value != null){
@@ -48,6 +48,7 @@ public class Declaration {
       int depth = index.index(name);
       
       offset.set(depth);
+      return depth;
    }
    
    public Value compile(Scope scope, int modifiers) throws Exception {
@@ -64,7 +65,7 @@ public class Declaration {
       return local;
    }
    
-   public Value create(Scope scope, int modifiers) throws Exception {
+   public Value declare(Scope scope, int modifiers) throws Exception {
       String name = reference.getName(scope);
       Local local = allocator.allocate(scope, name, modifiers);
       Table table = scope.getTable();

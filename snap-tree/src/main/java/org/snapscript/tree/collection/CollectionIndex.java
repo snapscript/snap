@@ -1,5 +1,7 @@
 package org.snapscript.tree.collection;
 
+import static org.snapscript.core.constraint.Constraint.NONE;
+
 import java.util.List;
 import java.util.Map;
 
@@ -47,14 +49,14 @@ public class CollectionIndex extends Evaluation {
       
       if(type != null) {
          Type entry = type.getEntry();
-         Constraint next = Constraint.getInstance(entry);
+         Constraint next = Constraint.getVariable(entry);
                
          for(Evaluation evaluation : evaluations) {
             next = evaluation.compile(scope, next);
          }
          return next;
       }
-      return constraint;
+      return NONE;
    }
    
    @Override

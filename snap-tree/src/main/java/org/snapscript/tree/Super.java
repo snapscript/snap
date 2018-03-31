@@ -1,6 +1,7 @@
 package org.snapscript.tree;
 
 import static org.snapscript.core.Reserved.TYPE_THIS;
+import static org.snapscript.core.constraint.Constraint.CONSTANT;
 
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
@@ -10,6 +11,7 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.define.Instance;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.stack.ThreadStack;
@@ -21,6 +23,11 @@ public class Super extends Evaluation {
    
    public Super(StringToken token) {
       this.token = token;
+   }
+   
+   @Override
+   public Constraint compile(Scope scope, Constraint left) throws Exception {
+      return CONSTANT;
    }
    
    @Override

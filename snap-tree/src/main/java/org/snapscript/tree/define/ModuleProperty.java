@@ -18,14 +18,14 @@ import org.snapscript.core.function.ModuleAccessor;
 import org.snapscript.core.property.Property;
 import org.snapscript.tree.DeclarationAllocator;
 import org.snapscript.tree.NameReference;
-import org.snapscript.tree.constraint.SafeConstraint;
+import org.snapscript.tree.constraint.ModifierConstraint;
 import org.snapscript.tree.literal.TextLiteral;
 
 public class ModuleProperty {
    
    private final DeclarationAllocator allocator;
+   private final ModifierConstraint constraint;
    private final NameReference reference;
-   private final Constraint constraint;
    private final Evaluation value;
    
    public ModuleProperty(TextLiteral identifier) {
@@ -42,7 +42,7 @@ public class ModuleProperty {
    
    public ModuleProperty(TextLiteral identifier, Constraint constraint, Evaluation value) {
       this.allocator = new ModulePropertyAllocator(constraint, value);
-      this.constraint = new SafeConstraint(constraint);
+      this.constraint = new ModifierConstraint(constraint);
       this.reference = new NameReference(identifier);
       this.value = value;
    }  
@@ -50,8 +50,9 @@ public class ModuleProperty {
    public Property define(ModuleBody body, Scope scope, int modifiers) throws Exception {
       String name = reference.getName(scope);
       Accessor accessor = define(body, scope);
+      Constraint require = constraint.getConstraint(scope, modifiers);
       
-      return new AccessorProperty(name, null, constraint, accessor, modifiers);
+      return new AccessorProperty(name, null, require, accessor, modifiers);
    }
 
    public Value compile(ModuleBody body, Scope scope, int modifiers) throws Exception {

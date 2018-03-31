@@ -1,6 +1,7 @@
 package org.snapscript.tree.operation;
 
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
 import org.snapscript.core.constraint.Constraint;
@@ -23,12 +24,17 @@ public class PrefixOperation extends Evaluation {
    
    @Override
    public Constraint compile(Scope scope, Constraint left) throws Exception {
-      return evaluation.compile(scope, left);
+      Constraint constraint = evaluation.compile(scope, left);
+      
+      if(constraint.isConstant()) {
+         throw new InternalStateException("Illegal modification of constant");
+      }
+      return constraint;
    }
    
    @Override
-   public Value evaluate(Scope scope, Object context) throws Exception {
-      Value rightResult = evaluation.evaluate(scope, null);      
-      return operator.operate(rightResult);
+   public Value evaluate(Scope scope, Object left) throws Exception {
+      Value reference = evaluation.evaluate(scope, null);
+      return operator.operate(reference);
    } 
 }

@@ -15,6 +15,11 @@ public class Blank extends Value {
    }
    
    @Override
+   public boolean isConstant() {
+      return reference.get() != null;
+   }
+   
+   @Override
    public boolean isProperty() {
       return modifiers != -1;
    }

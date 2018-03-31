@@ -17,13 +17,13 @@ public class TypeScopeCompiler extends ScopeCompiler{
       Scope outer = scope.getStack();
 
       compileParameters(outer, function);
-      extractThis(outer, type);
+      compileThis(outer, type);
 
       return outer;
    }
    
-   protected void extractThis(Scope scope, Type type) {
-      Value value = Value.getTransient(scope, type);
+   protected void compileThis(Scope scope, Type type) {
+      Value value = Value.getConstant(scope, type);
       Module module = scope.getModule();
       Context context = module.getContext();
       TypeExtractor extractor = context.getExtractor();      

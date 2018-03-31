@@ -1,6 +1,7 @@
 package org.snapscript.compile.assemble;
 
 import org.snapscript.compile.Executable;
+import org.snapscript.core.Bug;
 import org.snapscript.core.Context;
 import org.snapscript.core.EmptyModel;
 import org.snapscript.core.Execution;
@@ -36,6 +37,7 @@ public class Program implements Executable{
    public void execute() throws Exception {
       execute(model);
    }
+   @Bug("crap")
    Execution e;
    @Override
    public void execute(Model model) throws Exception{ 

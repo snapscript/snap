@@ -25,7 +25,7 @@ public class ClassConstantGenerator {
    }
 
    public void generate(Scope scope, Type type) throws Exception {
-      Constraint constraint = Constraint.getInstance(type);
+      Constraint constraint = Constraint.getVariable(type);
       
       generateConstant(scope, TYPE_THIS, type, null, constraint);
       generateConstant(scope, TYPE_CLASS, type, type, TYPE);

@@ -174,6 +174,7 @@ public enum Instruction {
    WHILE_STATEMENT(WhileStatement.class, "while-statement"),
    FOR_ASSIGNMENT_LIST(Expression.class, "for-assignment-list"),
    FOR_STATEMENT(ForStatement.class, "for-statement"),
+   FOR_IN_DECLARATION(Declaration.class, "for-in-declaration"),
    FOR_IN_STATEMENT(ForInStatement.class, "for-in-statement"),
    LOOP_STATEMENT(LoopStatement.class, "loop-statement"),
    SWITCH_STATEMENT(SwitchStatement.class, "switch-statement"),

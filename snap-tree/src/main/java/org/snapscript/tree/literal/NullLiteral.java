@@ -1,7 +1,8 @@
 package org.snapscript.tree.literal;
 
+import static org.snapscript.core.constraint.Constraint.NONE;
+
 import org.snapscript.core.Scope;
-import org.snapscript.core.Value;
 import org.snapscript.parse.StringToken;
 
 public class NullLiteral extends Literal {
@@ -17,7 +18,7 @@ public class NullLiteral extends Literal {
    }
 
    @Override
-   protected Value create(Scope scope) throws Exception {
-      return Value.getNull();
+   protected LiteralValue create(Scope scope) throws Exception {
+      return new LiteralValue(null, NONE);
    }
 }

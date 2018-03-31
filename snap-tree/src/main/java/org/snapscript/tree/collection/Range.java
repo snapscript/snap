@@ -1,5 +1,7 @@
 package org.snapscript.tree.collection;
 
+import static org.snapscript.core.constraint.Constraint.ITERABLE;
+
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
@@ -23,7 +25,7 @@ public class Range extends Evaluation {
    
    @Override
    public Constraint compile(Scope scope, Constraint left) throws Exception {
-      return Constraint.ITERABLE;
+      return ITERABLE;
    }
    
    @Override

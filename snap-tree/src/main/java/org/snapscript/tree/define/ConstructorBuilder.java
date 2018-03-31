@@ -6,7 +6,7 @@ import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeFactory;
-import org.snapscript.core.constraint.IdentityConstraint;
+import org.snapscript.core.constraint.VariableConstraint;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionHandle;
@@ -34,14 +34,14 @@ public class ConstructorBuilder {
    }
    
    public FunctionHandle create(TypeFactory factory, Type type, int modifiers, boolean compile) {
-      Constraint none = new IdentityConstraint(null);
+      Constraint none = new VariableConstraint(null);
       InvocationBuilder external = new StatementInvocationBuilder(signature, statement, none);
       Invocation body = new StatementInvocation(external);
       TypeAllocator instance = new ThisAllocator(factory, body, type);
       InvocationBuilder internal = new TypeInvocationBuilder(delegate, signature, type);
       TypeAllocator base = new TypeDelegateAllocator(instance, internal); 
       Invocation constructor = new NewInvocation(factory, base, type, compile);
-      Constraint constraint = new IdentityConstraint(type);
+      Constraint constraint = new VariableConstraint(type);
       Function function = new InvocationFunction(signature, constructor, type, constraint, TYPE_CONSTRUCTOR, modifiers | STATIC.mask, 1);
       
       return new FunctionHandle(external, internal, function);

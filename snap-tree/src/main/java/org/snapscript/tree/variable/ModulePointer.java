@@ -39,7 +39,7 @@ public class ModulePointer implements VariablePointer<Module> {
             Type type = module.getType(name);
             
             if(type != null) {
-               return Constraint.getInstance(type);
+               return Constraint.getVariable(type);
             }
             Property match = finder.findAnyFromModule(scope, module, name);
             
@@ -48,7 +48,7 @@ public class ModulePointer implements VariablePointer<Module> {
                return match.getConstraint();
             }
          }
-         return Constraint.getInstance(value.getType(scope));
+         return Constraint.getVariable(value.getType(scope));
       } 
       return property.getConstraint();
    }

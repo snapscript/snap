@@ -19,7 +19,7 @@ import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionHandle;
 import org.snapscript.core.function.Signature;
 import org.snapscript.tree.NameReference;
-import org.snapscript.tree.constraint.SafeConstraint;
+import org.snapscript.tree.constraint.ModifierConstraint;
 import org.snapscript.tree.function.FunctionBuilder;
 import org.snapscript.tree.function.ParameterList;
 
@@ -39,7 +39,7 @@ public class ScriptFunction extends Statement {
    
    public ScriptFunction(Evaluation identifier, ParameterList parameters, Constraint constraint, Statement body){  
       this.reference = new AtomicReference<FunctionHandle>();
-      this.constraint = new SafeConstraint(constraint);
+      this.constraint = new ModifierConstraint(constraint);
       this.identifier = new NameReference(identifier);
       this.builder = new ScriptFunctionBuilder(body);
       this.compiler = new FunctionScopeCompiler();

@@ -3,11 +3,11 @@ package org.snapscript.core.constraint;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 
-public class IdentityConstraint extends Constraint {
+public class VariableConstraint extends Constraint {
    
    private final Type type;
    
-   public IdentityConstraint(Type type) {
+   public VariableConstraint(Type type) {
       this.type = type;
    }
 
@@ -17,7 +17,7 @@ public class IdentityConstraint extends Constraint {
    }
 
    @Override
-   public boolean isInstance() {
+   public boolean isVariable() {
       return true;
    }
 }

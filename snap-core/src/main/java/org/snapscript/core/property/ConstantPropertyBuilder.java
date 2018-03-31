@@ -3,7 +3,7 @@ package org.snapscript.core.property;
 import static org.snapscript.core.ModifierType.CONSTANT;
 
 import org.snapscript.core.Type;
-import org.snapscript.core.constraint.IdentityConstraint;
+import org.snapscript.core.constraint.VariableConstraint;
 import org.snapscript.core.constraint.Constraint;
 
 public class ConstantPropertyBuilder {
@@ -11,7 +11,7 @@ public class ConstantPropertyBuilder {
    private final Constraint none;
    
    public ConstantPropertyBuilder() {
-      this.none = new IdentityConstraint(null);
+      this.none = new VariableConstraint(null);
    }
    
 //   public Property createConstant(String name) throws Exception {

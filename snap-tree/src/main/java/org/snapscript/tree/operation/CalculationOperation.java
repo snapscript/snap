@@ -43,7 +43,7 @@ public class CalculationOperation extends Evaluation {
          Object leftValue = leftResult.getValue();
          Object rightValue = rightResult.getValue();
          
-         if(!NumericChecker.bothNumeric(leftValue, rightValue)) {
+         if(!NumericChecker.isBothNumeric(leftValue, rightValue)) {
             String leftText = StringBuilder.create(scope, leftValue);
             String rightText = StringBuilder.create(scope, rightValue);            
             String text = leftText.concat(rightText);

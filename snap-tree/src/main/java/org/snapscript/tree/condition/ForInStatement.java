@@ -1,5 +1,6 @@
 package org.snapscript.tree.condition;
 
+import static org.snapscript.core.ModifierType.VARIABLE;
 import static org.snapscript.core.result.Result.NORMAL;
 
 import java.util.Iterator;
@@ -17,7 +18,6 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Table;
 import org.snapscript.core.Value;
-import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.result.Result;
 import org.snapscript.core.trace.Trace;
@@ -25,7 +25,7 @@ import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.trace.TraceStatement;
 import org.snapscript.core.yield.Resume;
 import org.snapscript.core.yield.Yield;
-import org.snapscript.tree.NameReference;
+import org.snapscript.tree.Declaration;
 import org.snapscript.tree.SuspendStatement;
 import org.snapscript.tree.collection.Iteration;
 import org.snapscript.tree.collection.IterationConverter;
@@ -34,8 +34,8 @@ public class ForInStatement implements Compilation {
    
    private final Statement loop;
    
-   public ForInStatement(Evaluation identifier, Evaluation collection, Statement body) {
-      this.loop = new CompileResult(identifier, collection, body);
+   public ForInStatement(Declaration declaration, Evaluation collection, Statement body) {
+      this.loop = new CompileResult(declaration, collection, body);
    }
    
    @Override
@@ -50,30 +50,29 @@ public class ForInStatement implements Compilation {
    
    private static class CompileResult extends Statement {
    
-      private final NameReference reference;
+      private final Declaration declaration;
       private final Evaluation collection;
       private final AtomicInteger offset;
       private final Statement body;
    
-      public CompileResult(Evaluation identifier, Evaluation collection, Statement body) {
-         this.reference = new NameReference(identifier);
+      public CompileResult(Declaration declaration, Evaluation collection, Statement body) {
          this.offset = new AtomicInteger();
+         this.declaration = declaration;
          this.collection = collection;
          this.body = body;
       }
       
       @Override
       public void define(Scope scope) throws Exception { 
-         String name = reference.getName(scope);
          Index index = scope.getIndex();
          int size = index.size();
-         int depth = index.index(name);
          
          try {   
-            collection.define(scope);
-            offset.set(depth);
+            int depth = declaration.define(scope, VARIABLE.mask);
             
+            collection.define(scope);            
             body.define(scope);
+            offset.set(depth);
          } finally {
             index.reset(size);
          }
@@ -81,38 +80,43 @@ public class ForInStatement implements Compilation {
       
       @Override
       public Execution compile(Scope scope) throws Exception { 
-         Constraint constraint = collection.compile(scope, null);
-         String name = reference.getName(scope);
-         Table table = scope.getTable();
-         Local local = Local.getReference(name, name);
-         int depth = offset.get();
+         Index index = scope.getIndex();
+         int size = index.size();
          
-         table.add(depth, local);
-         Execution execution = body.compile(scope);
-         
-         return new CompileExecution(name, collection, execution, depth);
+         try {  
+            Value variable = declaration.compile(scope, VARIABLE.mask);
+            Execution execution = body.compile(scope);
+            int depth = offset.get();
+            
+            collection.compile(scope, null);
+            
+            return new CompileExecution(declaration, collection, execution, depth);
+         } finally {
+            index.reset(size);
+         }
       }
    }
    
    private static class CompileExecution extends SuspendStatement<Iterator> {
       
       private final IterationConverter converter;
+      private final Declaration declaration;
       private final Evaluation collection;
       private final Execution body;
-      private final String name;
-      private final int offset;
+      private final int depth;
    
-      public CompileExecution(String name, Evaluation collection, Execution body, int offset) {
+      public CompileExecution(Declaration declaration, Evaluation collection, Execution body, int depth) {
          this.converter = new IterationConverter();
-         this.collection = collection;
-         this.offset = offset;
-         this.name = name;
+         this.declaration = declaration;
+         this.collection = collection;      
+         this.depth = depth;
          this.body = body;
       }
    
       @Override
       public Result execute(Scope scope) throws Exception { 
          Value list = collection.evaluate(scope, null);
+         Value value = declaration.declare(scope, VARIABLE.mask);
          Object object = list.getValue();
          Iteration iteration = converter.convert(scope, object);
          Iterable iterable = iteration.getIterable(scope);
@@ -124,9 +128,7 @@ public class ForInStatement implements Compilation {
       @Override
       public Result resume(Scope scope, Iterator iterator) throws Exception {
          Table table = scope.getTable();
-         Local local = Local.getReference(null, name);
-         
-         table.add(offset, local); 
+         Local local = table.get(depth);
          
          while (iterator.hasNext()) {
             Object entry = iterator.next();

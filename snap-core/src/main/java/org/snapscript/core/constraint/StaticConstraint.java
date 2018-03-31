@@ -20,4 +20,9 @@ public class StaticConstraint extends Constraint {
    public boolean isStatic(){
       return true;
    }
+   
+   @Override
+   public boolean isConstant(){
+      return true;
+   }   
 }

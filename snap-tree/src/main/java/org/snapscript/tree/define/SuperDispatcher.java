@@ -22,7 +22,7 @@ public class SuperDispatcher implements CallDispatcher<Object> {
    
    @Override
    public Constraint compile(Scope scope, Type object, Type... list) throws Exception {
-      return Constraint.getInstance(type);
+      return Constraint.getVariable(type);
    }
    
    @Override

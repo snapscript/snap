@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.snapscript.core.ModifierType;
-import org.snapscript.core.PrimitivePromoter;
 import org.snapscript.core.Type;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.annotation.AnnotationExtractor;
@@ -20,19 +19,19 @@ import org.snapscript.core.property.Property;
 public class PropertyIndexer {
    
    private final AnnotationExtractor extractor;
+   private final ClassConstraintMapper mapper;
    private final ClassPropertyBuilder builder;
    private final ModifierConverter converter;
    private final PropertyGenerator generator;
-   private final PrimitivePromoter promoter;
    private final MethodMatcher matcher;
    private final TypeIndexer indexer;
    
    public PropertyIndexer(TypeIndexer indexer){
       this.builder = new ClassPropertyBuilder(indexer);
+      this.mapper = new ClassConstraintMapper();
       this.extractor = new AnnotationExtractor();
       this.converter = new ModifierConverter();
       this.generator = new PropertyGenerator();
-      this.promoter = new PrimitivePromoter();
       this.matcher = new MethodMatcher();
       this.indexer = indexer;
    }
@@ -112,9 +111,8 @@ public class PropertyIndexer {
          int modifiers = converter.convert(field);
          
          if(ModifierType.isPublic(modifiers) || ModifierType.isProtected(modifiers)) {
-            String name = field.getName();
-            Class declaration = field.getType();
-            Constraint constraint = Constraint.getInstance(declaration);
+            String name = field.getName();           
+            Constraint constraint = mapper.toConstraint(field, modifiers);
             Property property = generator.generate(field, type, constraint, name, modifiers); 
             List<Annotation> extracted = extractor.extract(field);
             List<Annotation> actual = property.getAnnotations();
@@ -144,8 +142,7 @@ public class PropertyIndexer {
                if(write == null) {
                   modifiers |= CONSTANT.mask;
                }
-               Class normal = promoter.promote(declaration);
-               Constraint constraint = Constraint.getInstance(normal);
+               Constraint constraint = mapper.toConstraint(method, modifiers);
                Property property = generator.generate(method, write, type, constraint, name, modifiers);                
                List<Annotation> extracted = extractor.extract(method);
                List<Annotation> actual = property.getAnnotations();

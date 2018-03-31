@@ -5,6 +5,7 @@ import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.NoStatement;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
@@ -17,7 +18,6 @@ import org.snapscript.tree.annotation.AnnotationList;
 import org.snapscript.tree.function.ParameterList;
 
 public class DefaultConstructor extends TypePart {
-   
    
    private final AtomicReference<ClassConstructor> constructor;
    private final AnnotationList annotations;
@@ -37,6 +37,7 @@ public class DefaultConstructor extends TypePart {
       this.compile = compile;
    } 
 
+   @Bug("bit rubbish")
    @Override
    public TypeFactory define(TypeFactory factory, Type type, Scope scope) throws Exception {
       List<Function> functions = type.getFunctions();
@@ -56,6 +57,7 @@ public class DefaultConstructor extends TypePart {
    @Override
    public TypeFactory compile(TypeFactory factory, Type type, Scope scope) throws Exception {
       ClassConstructor done = constructor.get();
+      
       if(done != null) {
          done.compile(factory, type, scope);
       }

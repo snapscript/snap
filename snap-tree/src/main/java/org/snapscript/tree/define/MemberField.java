@@ -62,7 +62,7 @@ public class MemberField implements Compilation {
          int mask = checker.getModifiers();
          
          for(MemberFieldDeclaration declaration : declarations) {
-            MemberFieldData data = declaration.create(scope);
+            MemberFieldData data = declaration.create(scope, mask);
             String name = data.getName();
             Constraint constraint = data.getConstraint();
             TypeFactory declare = assembler.assemble(data);

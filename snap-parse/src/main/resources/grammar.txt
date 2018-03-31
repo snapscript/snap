@@ -221,7 +221,8 @@ while-statement = 'while''('<conditional>')'<statement>;
 for-assignment = {<assignment> | <increment-decrement> | <reference>};
 for-assignment-list = <for-assignment>*(','<for-assignment>);
 for-statement = 'for''('(<declaration-statement> | <assignment-statement> | <terminal-statement>)<conditional>';'?(<for-assignment-list>)')'<statement>;
-for-in-statement = 'for''('?('var'_)([identifier])_'in'?_{<range> | <reference>}')'<statement>;
+for-in-declaration = ?('var'_)<assignment-variable>?(':'<constraint>);
+for-in-statement = 'for''('<for-in-declaration>_'in'?_{<range> | <reference>}')'<statement>;
 loop-statement = {'loop' | 'for(;;)'}<statement>;
 conditional-statement = { <if-statement> | 
 						  <while-statement> | 

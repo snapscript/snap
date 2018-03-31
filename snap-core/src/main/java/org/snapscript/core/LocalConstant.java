@@ -20,6 +20,11 @@ public class LocalConstant extends Local {
    }
    
    @Override
+   public boolean isConstant(){
+      return true;
+   }
+   
+   @Override
    public String getName() {
       return name;
    }

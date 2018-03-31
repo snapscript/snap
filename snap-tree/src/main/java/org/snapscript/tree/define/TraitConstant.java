@@ -25,7 +25,7 @@ import org.snapscript.core.trace.TraceTypePart;
 import org.snapscript.tree.ModifierChecker;
 import org.snapscript.tree.ModifierList;
 import org.snapscript.tree.annotation.AnnotationList;
-import org.snapscript.tree.constraint.SafeConstraint;
+import org.snapscript.tree.constraint.ModifierConstraint;
 import org.snapscript.tree.literal.TextLiteral;
 
 public class TraitConstant implements Compilation {
@@ -59,7 +59,7 @@ public class TraitConstant implements Compilation {
       
       public CompileResult(AnnotationList annotations, ModifierList list, TextLiteral identifier, Constraint constraint, Evaluation value) {
          this.declaration = new TraitConstantDeclaration(identifier, constraint, value);
-         this.constraint = new SafeConstraint(constraint);
+         this.constraint = new ModifierConstraint(constraint);
          this.checker = new ModifierChecker(list);
          this.annotations = annotations;
          this.identifier = identifier;

@@ -30,4 +30,9 @@ public class CharacterToken implements Token<Character>{
    public short getType() {
       return type;
    }
+   
+   @Override
+   public String toString(){
+      return String.valueOf(value);
+   }   
 }

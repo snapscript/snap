@@ -17,7 +17,13 @@ public class ModuleConstraint extends Constraint {
       return module.getType();
    }
    
+   @Override
    public boolean isModule() {
+      return true;
+   }
+   
+   @Override
+   public boolean isConstant() {
       return true;
    }
 }

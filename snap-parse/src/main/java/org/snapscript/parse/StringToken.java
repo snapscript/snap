@@ -30,4 +30,9 @@ public class StringToken implements Token<String>{
    public short getType() {
       return type;
    }
+   
+   @Override
+   public String toString() {
+      return value;
+   }
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
@@ -11,9 +12,14 @@ import org.snapscript.core.Value;
 
 public abstract class Constraint {
 
-   public static final Constraint NONE = new IdentityConstraint(null);
+   public static final Constraint NONE = new VariableConstraint(null);
+   public static final Constraint CONSTANT = new ConstantConstraint(null);
    public static final Constraint INTEGER = new ClassConstraint(Integer.class);
    public static final Constraint LONG = new ClassConstraint(Long.class);
+   public static final Constraint FLOAT = new ClassConstraint(Float.class);
+   public static final Constraint DOUBLE = new ClassConstraint(Double.class);
+   public static final Constraint SHORT = new ClassConstraint(Short.class);
+   public static final Constraint BYTE = new ClassConstraint(Byte.class);
    public static final Constraint STRING = new ClassConstraint(String.class);
    public static final Constraint BOOLEAN = new ClassConstraint(Boolean.class);
    public static final Constraint SET = new ClassConstraint(Set.class);
@@ -21,13 +27,10 @@ public abstract class Constraint {
    public static final Constraint MAP = new ClassConstraint(Map.class);
    public static final Constraint ITERABLE = new ClassConstraint(Iterable.class);  
    public static final Constraint TYPE = new ClassConstraint(Type.class);
-
-   public static Constraint getNone() {
-      return new IdentityConstraint(null);
-   }
    
-   public static Constraint getInstance(Type type) {
-      return new IdentityConstraint(type);
+   @Bug("this static methods might collide with Value static methods")
+   public static Constraint getVariable(Type type) {
+      return new VariableConstraint(type);
    }
    
    public static Constraint getStatic(Type type) {
@@ -37,20 +40,24 @@ public abstract class Constraint {
    public static Constraint getModule(Module module) {
       return new ModuleConstraint(module);
    }
-
-   public static Constraint getInstance(Class type) {
+   
+   public static Constraint getVariable(Class type) {
       return new ClassConstraint(type);
    }
 
-   public static Constraint getInstance(Object value) {
+   public static Constraint getFinal(Class type) {
+      return new ConstantConstraint(type);
+   }
+
+   public static Constraint getVariable(Object value) {
       return new ObjectConstraint(value);
    }
    
-   public static Constraint getInstance(Value value) {
+   public static Constraint getVariable(Value value) {
       return new ValueConstraint(value);
    }
    
-   public boolean isInstance() {
+   public boolean isVariable() {
       return true;
    }
    
@@ -61,6 +68,10 @@ public abstract class Constraint {
    public boolean isModule() {
       return false;
    }   
+   
+   public boolean isConstant() {
+      return false;
+   }
    
    public abstract Type getType(Scope scope);
 }

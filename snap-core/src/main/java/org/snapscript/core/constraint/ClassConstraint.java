@@ -4,7 +4,7 @@ import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 
-class ClassConstraint extends Constraint {
+public class ClassConstraint extends Constraint {
 
    private final Class require;
    
@@ -13,7 +13,10 @@ class ClassConstraint extends Constraint {
    }
    
    public Type getType(Scope scope){
-      Module module = scope.getModule();
-      return module.getType(require);      
+      if(require != null) {
+         Module module = scope.getModule();
+         return module.getType(require);
+      }
+      return null;
    }
 }

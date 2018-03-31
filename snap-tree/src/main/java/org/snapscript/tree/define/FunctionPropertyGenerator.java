@@ -12,7 +12,7 @@ import java.util.Set;
 import org.snapscript.core.Context;
 import org.snapscript.core.Module;
 import org.snapscript.core.Type;
-import org.snapscript.core.constraint.IdentityConstraint;
+import org.snapscript.core.constraint.VariableConstraint;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.AccessorProperty;
 import org.snapscript.core.function.Function;

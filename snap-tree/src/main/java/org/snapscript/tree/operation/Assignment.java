@@ -28,7 +28,11 @@ public class Assignment extends Evaluation {
    
    @Override
    public Constraint compile(Scope scope, Constraint type) throws Exception { 
-      left.compile(scope, type);
+      Constraint constraint = left.compile(scope, type);
+      
+      if(constraint.isConstant()) {
+         throw new InternalStateException("Illegal modification of constant");
+      }
       return right.compile(scope, type);
    }
    

@@ -18,6 +18,10 @@ public abstract class Value extends Constraint {
       return new Constant(value, type);
    }
    
+   public static Value getConstant(Object value, Type type, int modifiers) {
+      return new Constant(value, type, modifiers);
+   }
+   
    public static Value getReference(Object value) {
       return new Reference(value);
    }
@@ -115,9 +119,15 @@ public abstract class Value extends Constraint {
       return null;
    }     
    
+   @Override
    public Type getType(Scope scope){
       return null; 
    }   
+   
+   @Override
+   public boolean isConstant() {
+      return false;
+   }
    
    public boolean isProperty() {
       return false;

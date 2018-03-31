@@ -8,7 +8,7 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.tree.constraint.SafeConstraint;
+import org.snapscript.tree.constraint.ModifierConstraint;
 
 public class DeclarationAllocator implements Allocator {
 
@@ -17,7 +17,7 @@ public class DeclarationAllocator implements Allocator {
    private final Evaluation expression;
    
    public DeclarationAllocator(Constraint constraint, Evaluation expression) {      
-      this.constraint = new SafeConstraint(constraint);
+      this.constraint = new ModifierConstraint(constraint);
       this.converter = new DeclarationConverter();
       this.expression = expression;
    }   
@@ -33,8 +33,9 @@ public class DeclarationAllocator implements Allocator {
          if(real != null) {
             type = converter.compile(scope, real, constraint, name);        
          }
+         return assign(scope, name, object, type, modifiers);
       }
-      return create(scope, name, type, type, modifiers);
+      return declare(scope, name, type, modifiers); // nothing assigned yet
    }
    
    
@@ -52,11 +53,19 @@ public class DeclarationAllocator implements Allocator {
          } else {
             object = original;
          }
+         return assign(scope, name, object, type, modifiers);
       }
-      return create(scope, name, object, type, modifiers);
+      return declare(scope, name, type, modifiers);
+   }   
+   
+   protected <T extends Value> T declare(Scope scope, String name, Type type, int modifiers) throws Exception {
+      if(ModifierType.isConstant(modifiers)) {
+         return (T)Local.getConstant(null, name, type);
+      }
+      return (T)Local.getReference(null, name, type);
    }
    
-   protected <T extends Value> T create(Scope scope, String name, Object value, Type type, int modifiers) throws Exception {
+   protected <T extends Value> T assign(Scope scope, String name, Object value, Type type, int modifiers) throws Exception {
       if(ModifierType.isConstant(modifiers)) {
          return (T)Local.getConstant(value, name, type);
       }

@@ -21,7 +21,7 @@ import org.snapscript.core.function.Signature;
 import org.snapscript.tree.ModifierList;
 import org.snapscript.tree.NameReference;
 import org.snapscript.tree.annotation.AnnotationList;
-import org.snapscript.tree.constraint.SafeConstraint;
+import org.snapscript.tree.constraint.ModifierConstraint;
 import org.snapscript.tree.function.ParameterList;
 
 public class ModuleFunction implements ModulePart {
@@ -39,7 +39,7 @@ public class ModuleFunction implements ModulePart {
    }
    
    public ModuleFunction(AnnotationList annotations, ModifierList modifiers, Evaluation identifier, ParameterList parameters, Constraint constraint, Statement statement){  
-      this.constraint = new SafeConstraint(constraint);
+      this.constraint = new ModifierConstraint(constraint);
       this.reference = new NameReference(identifier);
       this.execution = new NoExecution(NORMAL);
       this.compiler = new TypeScopeCompiler();

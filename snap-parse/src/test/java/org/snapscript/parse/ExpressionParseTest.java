@@ -10,6 +10,17 @@ public class ExpressionParseTest extends TestCase {
       SyntaxParser tree = LexerBuilder.create(GRAMMAR_FILE);
 
       assertNotNull(tree);
+      analyze(tree, "0..10", "range");
+      analyze(tree, "i", "for-in-declaration");
+      analyze(tree, "var i", "for-in-declaration");
+      analyze(tree, "var i: Integer", "for-in-declaration");
+      analyze(tree, "i: Integer", "for-in-declaration");
+      analyze(tree, "for(i in x) println(i);", "for-in-statement");
+      analyze(tree, "for(var i in x) println(i);", "for-in-statement");
+      analyze(tree, "for(var i: Integer in x) println(i);", "for-in-statement");
+      analyze(tree, "for(i: Integer in x) println(i);", "for-in-statement");
+      analyze(tree, "for(i: Integer in x.getValues().iterator()) println(i);", "for-in-statement");
+      analyze(tree, "for(i in 0..10) println(i);", "for-in-statement");       
       analyze(tree, "util.function.Function", "full-qualifier");
       analyze(tree, "import util.function.Function;", "import");
       analyze(tree, "return i;", "statement");

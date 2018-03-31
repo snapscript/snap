@@ -21,9 +21,7 @@ public abstract class ScopeCompiler {
          String name = property.getName();
          
          if(!name.equals(TYPE_THIS)) {
-            Constraint constraint = property.getConstraint();
-            Type result = constraint.getType(scope);
-            Value field = Value.getReference(null, result);
+            Value field = compileProperty(scope, property);
             Value current = state.get(name);
             
             if(current == null) {
@@ -32,29 +30,46 @@ public abstract class ScopeCompiler {
          }
       }
    }
+
+   protected Value compileProperty(Scope scope, Property property) {
+      Constraint constraint = property.getConstraint();
+      Type result = constraint.getType(scope);
+
+      if(constraint.isConstant()) {
+         return Value.getConstant(null, result);  
+      }
+      return Local.getReference(null, result);      
+   }
    
    protected void compileParameters(Scope scope, Function function) {
       Signature signature = function.getSignature();
       State state = scope.getState();
       Table table = scope.getTable();
       List<Parameter> parameters = signature.getParameters();
-      boolean variable = signature.isVariable();
       int count = parameters.size();
       
       for(int i = 0; i < count; i++) {
          Parameter parameter = parameters.get(i);
          String name = parameter.getName();
-         Constraint constraint = parameter.getType();
-         Type result = constraint.getType(scope);
-         
-         if(variable && i + 1 >= count) {
-            result = compileArray(scope, result);
-         }
-         Local local = Local.getReference(null, name, result);
+         Local local = compileParameter(scope, parameter);
          
          state.add(name, local);
          table.add(i, local);
       }
+   }
+   
+   protected Local compileParameter(Scope scope, Parameter parameter) {
+      String name = parameter.getName();
+      Constraint constraint = parameter.getType();
+      Type result = constraint.getType(scope);
+      
+      if(parameter.isVariable()) {
+         result = compileArray(scope, result);
+      }
+      if(parameter.isConstant()) {
+         return Local.getConstant(null, name, result);  
+      }
+      return Local.getReference(null, name, result);      
    }
    
    protected Type compileArray(Scope scope, Type type) {

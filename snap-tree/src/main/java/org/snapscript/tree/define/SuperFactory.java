@@ -25,7 +25,7 @@ public class SuperFactory extends TypeFactory {
    
    @Override
    public void compile(Scope instance, Type real) throws Exception {
-      Constraint constraint = Constraint.getInstance(real);
+      Constraint constraint = Constraint.getVariable(real);
       expression.compile(instance, constraint);
    }
 

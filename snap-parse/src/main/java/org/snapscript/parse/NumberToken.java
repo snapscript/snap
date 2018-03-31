@@ -30,4 +30,9 @@ public class NumberToken implements Token<Number> {
    public short getType() {
       return type;
    }
+   
+   @Override
+   public String toString(){
+      return String.valueOf(value);
+   }
 }

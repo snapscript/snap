@@ -40,6 +40,7 @@ public class TraceStatement extends Statement {
          Execution execution = statement.compile(scope);
          return new TraceExecution(interceptor, handler, execution, trace);
       }catch(Exception cause) {
+         cause.printStackTrace();
          handler.throwInternalError(scope, cause, trace);
       }
       return execution;

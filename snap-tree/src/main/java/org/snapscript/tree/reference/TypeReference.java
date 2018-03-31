@@ -21,7 +21,7 @@ public class TypeReference extends Evaluation {
       Value value = evaluate(scope, null);
       Type type = value.getValue();
       
-      return Constraint.getInstance(type);
+      return Constraint.getVariable(type);
    }
    
    @Override

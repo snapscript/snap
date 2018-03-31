@@ -1,10 +1,9 @@
 package org.snapscript.tree.literal;
 
 import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
-import org.snapscript.core.Type;
 import org.snapscript.core.Value;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.parse.NumberToken;
 import org.snapscript.parse.StringToken;
 import org.snapscript.tree.operation.SignOperator;
@@ -24,18 +23,17 @@ public class NumberLiteral extends Literal {
    }
 
    @Override
-   protected Value create(Scope scope) throws Exception {
+   protected LiteralValue create(Scope scope) throws Exception {
       Number number = token.getValue();
       
       if(number == null) {
          throw new InternalStateException("Number value was null");
       }
       Value value = operator.operate(number);
-      Object result = value.getValue();
+      Number result = value.getValue();
       Class real = result.getClass();
-      Module module = scope.getModule();
-      Type constraint = module.getType(real);
+      Constraint constraint = Constraint.getFinal(real);
       
-      return Value.getTransient(result, constraint);
+      return new LiteralValue(result, constraint);
    }
 }

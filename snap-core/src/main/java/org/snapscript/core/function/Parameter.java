@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.snapscript.core.Type;
 import org.snapscript.core.annotation.Annotation;
-import org.snapscript.core.constraint.IdentityConstraint;
+import org.snapscript.core.constraint.VariableConstraint;
 import org.snapscript.core.constraint.Constraint;
 
 public class Parameter {
@@ -21,7 +21,7 @@ public class Parameter {
    }
    
    public Parameter(String name, Type constraint, boolean constant, boolean variable){
-      this.constraint = new IdentityConstraint(constraint);
+      this.constraint = new VariableConstraint(constraint);
       this.annotations = new ArrayList<Annotation>();
       this.variable = variable;
       this.constant = constant;

@@ -78,20 +78,21 @@ public class ForStatement implements Compilation {
       @Override
       public Execution compile(Scope scope) throws Exception {
          Index index = scope.getIndex();
-         Execution variable = declaration.compile(scope);
-         Execution execution = body.compile(scope);
          int size = index.size();
          
-         try {
+         try {            
+            Execution variable = declaration.compile(scope);
+            Execution execution = body.compile(scope);
+            
             condition.compile(scope, null);
             
             if(assignment != null) {
                assignment.compile(scope, null);
             }
+            return new CompileExecution(variable, condition, assignment, execution);
          } finally {
             index.reset(size);
          }
-         return new CompileExecution(variable, condition, assignment, execution);
       }
    }   
    
