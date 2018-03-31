@@ -16,7 +16,7 @@ import org.snapscript.core.TypeLoader;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.FunctionComparator;
 import org.snapscript.core.function.Function;
-import org.snapscript.core.function.FunctionFinder;
+import org.snapscript.core.function.ClosureFunctionFinder;
 import org.snapscript.core.function.FunctionSignature;
 import org.snapscript.core.function.InvocationFunction;
 import org.snapscript.core.function.Parameter;
@@ -33,7 +33,7 @@ public class ClosureFunctionFinderTest extends TestCase {
       Path path = new Path("/");
       FunctionComparator comparator = new FunctionComparator(matcher);
       Module module = new ContextModule(context, null, path, "yy", "", 1);
-      FunctionFinder finder = new FunctionFinder(comparator, extractor, loader);
+      ClosureFunctionFinder finder = new ClosureFunctionFinder(comparator, extractor, loader);
       Parameter parameter = new Parameter("n", loader.loadType(String.class), false);
       Signature signature = new FunctionSignature(Arrays.asList(parameter), module, null, false);
       Type type = new InvocationFunction(signature, null, null, null, "xx").getHandle();

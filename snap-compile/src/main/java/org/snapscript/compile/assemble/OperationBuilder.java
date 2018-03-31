@@ -4,7 +4,6 @@ import static org.snapscript.core.Reserved.DEFAULT_PACKAGE;
 import static org.snapscript.core.Reserved.DEFAULT_RESOURCE;
 import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
 
-import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 
 import org.snapscript.core.Context;
@@ -15,7 +14,8 @@ import org.snapscript.core.Path;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
-import org.snapscript.core.bind.FunctionBinder;
+import org.snapscript.core.function.find.FunctionCall;
+import org.snapscript.core.function.find.FunctionFinder;
 import org.snapscript.parse.Line;
 
 public class OperationBuilder {
@@ -33,8 +33,8 @@ public class OperationBuilder {
    public Object create(Type type, Object[] arguments, Line line) throws Exception {
       Scope scope = module.getScope();
       Context context = module.getContext();
-      FunctionBinder binder = context.getBinder();
-      Callable<Value> callable = binder.bindStatic(scope, type, TYPE_CONSTRUCTOR, arguments);
+      FunctionFinder binder = context.getFinder();
+      FunctionCall callable = binder.bindStatic(scope, type, TYPE_CONSTRUCTOR, arguments);
       
       if(callable == null) {
          throw new InternalStateException("No constructor for '" + type + "' at line " + line);

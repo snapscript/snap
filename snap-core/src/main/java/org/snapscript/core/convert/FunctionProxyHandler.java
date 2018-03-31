@@ -13,8 +13,9 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Transient;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
-import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.core.function.Function;
+import org.snapscript.core.function.find.FunctionCall;
+import org.snapscript.core.function.find.FunctionFinder;
 
 public class FunctionProxyHandler implements ProxyHandler { 
    
@@ -63,7 +64,7 @@ public class FunctionProxyHandler implements ProxyHandler {
    }
    
    private Object invoke(Object proxy, String name, Object[] convert, Object[] arguments) throws Throwable {
-      Callable<Value> call = resolve(proxy, name, convert, arguments);  
+      FunctionCall call = resolve(proxy, name, convert, arguments);  
       int width = arguments.length;
       
       if(call == null) {
@@ -75,13 +76,13 @@ public class FunctionProxyHandler implements ProxyHandler {
       return wrapper.toProxy(data);  
    }
    
-   private Callable<Value> resolve(Object proxy, String name, Object[] convert, Object[] arguments) throws Throwable {
+   private FunctionCall resolve(Object proxy, String name, Object[] convert, Object[] arguments) throws Throwable {
       Type type = function.getType();
-      FunctionBinder binder = context.getBinder();  
+      FunctionFinder binder = context.getFinder();  
 
       if(type != null) {
          Scope scope = type.getScope();
-         Callable<Value> call = binder.bindInstance(scope, proxy, name, arguments); 
+         FunctionCall call = binder.bindInstance(scope, proxy, name, arguments); 
          
          if(call != null) {
             return call;

@@ -14,12 +14,13 @@ import org.snapscript.core.ResourceManager;
 import org.snapscript.core.StoreManager;
 import org.snapscript.core.TypeExtractor;
 import org.snapscript.core.TypeLoader;
-import org.snapscript.core.bind.FunctionBinder;
-import org.snapscript.core.bind.FunctionResolver;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.ProxyWrapper;
-import org.snapscript.core.dispatch.CallTable;
 import org.snapscript.core.error.ErrorHandler;
+import org.snapscript.core.function.dispatch.CacheFunctionIndexer;
+import org.snapscript.core.function.dispatch.FunctionBinder;
+import org.snapscript.core.function.find.FunctionFinder;
+import org.snapscript.core.function.find.FunctionResolver;
 import org.snapscript.core.link.PackageLinker;
 import org.snapscript.core.platform.CachePlatformProvider;
 import org.snapscript.core.platform.PlatformProvider;
@@ -35,7 +36,7 @@ public class StoreContext implements Context {
    private final ConstraintMatcher matcher;
    private final ResourceManager manager;
    private final FunctionResolver resolver;
-   private final FunctionBinder binder;
+   private final FunctionFinder binder;
    private final TypeExtractor extractor;
    private final ModuleRegistry registry;
    private final ErrorHandler handler;
@@ -43,7 +44,7 @@ public class StoreContext implements Context {
    private final PackageLinker linker;
    private final ThreadStack stack;
    private final TypeLoader loader; 
-   private final CallTable table;
+   private final FunctionBinder table;
    
    public StoreContext(Store store){
       this(store, null);
@@ -62,10 +63,10 @@ public class StoreContext implements Context {
       this.handler = new ErrorHandler(extractor, stack);
       this.resolver = new FunctionResolver(extractor, stack);
       this.validator = new ExecutableValidator(matcher, extractor, resolver);
-      this.binder = new FunctionBinder(extractor, stack, resolver);
+      this.binder = new FunctionFinder(extractor, stack, resolver);
       this.evaluator = new OperationEvaluator(this, executor);
       this.provider = new CachePlatformProvider(extractor, wrapper, stack);
-      this.table = new CallTable(binder, handler);
+      this.table = new CacheFunctionIndexer(binder, handler);
    }
    
    @Override
@@ -124,12 +125,12 @@ public class StoreContext implements Context {
    }
    
    @Override
-   public FunctionBinder getBinder() {
+   public FunctionFinder getFinder() {
       return binder;
    }
 
    @Override
-   public CallTable getTable() {
+   public FunctionBinder getBinder() {
       return table;
    }
 

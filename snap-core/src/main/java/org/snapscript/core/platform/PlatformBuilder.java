@@ -4,8 +4,8 @@ import java.lang.reflect.Constructor;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.TypeExtractor;
-import org.snapscript.core.bind.FunctionResolver;
 import org.snapscript.core.convert.ProxyWrapper;
+import org.snapscript.core.function.find.FunctionResolver;
 import org.snapscript.core.stack.ThreadStack;
 
 public class PlatformBuilder {

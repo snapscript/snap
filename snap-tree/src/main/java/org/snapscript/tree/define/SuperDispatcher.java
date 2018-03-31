@@ -7,12 +7,12 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.dispatch.CallDispatcher;
 import org.snapscript.core.function.Invocation;
+import org.snapscript.core.function.dispatch.FunctionDispatcher;
 import org.snapscript.core.platform.Platform;
 import org.snapscript.core.platform.PlatformProvider;
 
-public class SuperDispatcher implements CallDispatcher<Object> {
+public class SuperDispatcher implements FunctionDispatcher<Object> {
 
    private final Type type;
    

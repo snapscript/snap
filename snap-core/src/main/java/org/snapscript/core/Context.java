@@ -1,10 +1,10 @@
 package org.snapscript.core;
 
-import org.snapscript.core.bind.FunctionBinder;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.ProxyWrapper;
-import org.snapscript.core.dispatch.CallTable;
 import org.snapscript.core.error.ErrorHandler;
+import org.snapscript.core.function.dispatch.FunctionBinder;
+import org.snapscript.core.function.find.FunctionFinder;
 import org.snapscript.core.link.PackageLinker;
 import org.snapscript.core.platform.PlatformProvider;
 import org.snapscript.core.stack.ThreadStack;
@@ -20,8 +20,8 @@ public interface Context extends Any {
    ProgramValidator getValidator();
    TraceInterceptor getInterceptor();
    ExpressionEvaluator getEvaluator();
+   FunctionFinder getFinder();
    FunctionBinder getBinder();
-   CallTable getTable();
    PlatformProvider getProvider();
    PackageLinker getLinker();
    ProxyWrapper getWrapper();

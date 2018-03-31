@@ -7,8 +7,6 @@ import org.snapscript.core.InternalStateException;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeExtractor;
-import org.snapscript.core.bind.FunctionCall;
-import org.snapscript.core.bind.FunctionResolver;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.FunctionComparator;
@@ -16,6 +14,8 @@ import org.snapscript.core.convert.Score;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.Signature;
+import org.snapscript.core.function.find.FunctionPointer;
+import org.snapscript.core.function.find.FunctionResolver;
 import org.snapscript.tree.ModifierValidator;
 
 public class FunctionValidator {
@@ -93,7 +93,7 @@ public class FunctionValidator {
             
             types[i] = type;
          }
-         FunctionCall match = resolver.resolve(parent, name, types);
+         FunctionPointer match = resolver.resolve(parent, name, types);
          
          if(match == null) {
             throw new IllegalStateException("Function '" + require +"' does not match override");
@@ -126,7 +126,7 @@ public class FunctionValidator {
                
                types[i] = type;
             }
-            FunctionCall resolved = resolver.resolve(parent, name, types);
+            FunctionPointer resolved = resolver.resolve(parent, name, types);
             
             if(resolved == actual) {
                throw new IllegalStateException("Function '" + actual +"' has a duplicate '" + resolved + "'");

@@ -8,8 +8,8 @@ import org.snapscript.core.ModuleRegistry;
 import org.snapscript.core.ProgramValidator;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeExtractor;
-import org.snapscript.core.bind.FunctionResolver;
 import org.snapscript.core.convert.ConstraintMatcher;
+import org.snapscript.core.function.find.FunctionResolver;
 
 public class ExecutableValidator implements ProgramValidator {
 

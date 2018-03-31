@@ -11,18 +11,18 @@ import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.FunctionComparator;
 import org.snapscript.core.convert.Score;
 import org.snapscript.core.function.Function;
-import org.snapscript.core.function.FunctionFinder;
+import org.snapscript.core.function.ClosureFunctionFinder;
 
 @Bug("this is not fast enough")
 public class TypeCastChecker {
 
    private final FunctionComparator comparator;
-   private final FunctionFinder finder;
+   private final ClosureFunctionFinder finder;
    private final TypeExtractor extractor;
    
    public TypeCastChecker(ConstraintMatcher matcher, TypeExtractor extractor, TypeLoader loader) {
       this.comparator = new FunctionComparator(matcher);
-      this.finder = new FunctionFinder(comparator, extractor, loader);
+      this.finder = new ClosureFunctionFinder(comparator, extractor, loader);
       this.extractor = extractor;
    }
    

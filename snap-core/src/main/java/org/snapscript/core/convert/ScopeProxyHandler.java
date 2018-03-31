@@ -1,13 +1,13 @@
 package org.snapscript.core.convert;
 
 import java.lang.reflect.Method;
-import java.util.concurrent.Callable;
 
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
-import org.snapscript.core.bind.FunctionBinder;
+import org.snapscript.core.function.find.FunctionCall;
+import org.snapscript.core.function.find.FunctionFinder;
 
 public class ScopeProxyHandler implements ProxyHandler {
    
@@ -24,9 +24,9 @@ public class ScopeProxyHandler implements ProxyHandler {
    @Override
    public Object invoke(Object proxy, Method method, Object[] arguments) throws Throwable {
       String name = method.getName();
-      FunctionBinder binder = context.getBinder();  
+      FunctionFinder binder = context.getFinder();  
       Object[] convert = extractor.extract(arguments);
-      Callable<Value> call = binder.bindInstance(scope, scope, name, convert); // here arguments can be null!!!
+      FunctionCall call = binder.bindInstance(scope, scope, name, convert); // here arguments can be null!!!
       
       if(call == null) {
          throw new InternalStateException("Method '" + name + "' not found");

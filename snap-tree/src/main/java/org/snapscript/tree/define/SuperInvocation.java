@@ -7,7 +7,7 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.dispatch.CallDispatcher;
+import org.snapscript.core.function.dispatch.FunctionDispatcher;
 import org.snapscript.tree.ArgumentList;
 import org.snapscript.tree.NameReference;
 
@@ -17,13 +17,13 @@ public class SuperInvocation extends Evaluation {
    private final LocalScopeExtractor extractor;
    private final NameReference reference;
    private final ArgumentList arguments;
-   private final SuperCallSite site;
+   private final SuperFunctionHolder site;
    private final Type type;
    
    public SuperInvocation(Evaluation function, ArgumentList arguments, Type type) {
       this.extractor = new LocalScopeExtractor(true, false);
       this.reference = new NameReference(function);
-      this.site = new SuperCallSite(reference, type);
+      this.site = new SuperFunctionHolder(reference, type);
       this.builder = new SuperInstanceBuilder(type);
       this.arguments = arguments;
       this.type = type;
@@ -32,7 +32,7 @@ public class SuperInvocation extends Evaluation {
    @Bug("this is a total guess")
    @Override
    public Constraint compile(Scope scope, Constraint left) throws Exception {
-      CallDispatcher dispatcher = site.get(scope, type);  
+      FunctionDispatcher dispatcher = site.get(scope, type);  
       
       if(arguments != null) {
          Scope outer = scope.getScope();
@@ -48,7 +48,7 @@ public class SuperInvocation extends Evaluation {
    public Value evaluate(Scope scope, Object left) throws Exception {
       Type real = scope.getType();  
       Scope instance = builder.create(scope, left);
-      CallDispatcher dispatcher = site.get(instance, null);  
+      FunctionDispatcher dispatcher = site.get(instance, null);  
       
       if(arguments != null) {
          Scope outer = real.getScope();

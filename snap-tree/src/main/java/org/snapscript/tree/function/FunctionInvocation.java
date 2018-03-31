@@ -16,13 +16,12 @@ import org.snapscript.core.Table;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.dispatch.CallDispatcher;
 import org.snapscript.core.function.Function;
+import org.snapscript.core.function.dispatch.FunctionDispatcher;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceEvaluation;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.tree.ArgumentList;
-import org.snapscript.tree.CallSite;
 import org.snapscript.tree.NameReference;
 
 public class FunctionInvocation implements Compilation {
@@ -47,12 +46,12 @@ public class FunctionInvocation implements Compilation {
       private final NameReference reference;
       private final ArgumentList arguments;
       private final Evaluation[] evaluations; // func()[1][x]
+      private final FunctionHolder holder;
       private final AtomicInteger offset;
-      private final CallSite site;
       
       public CompileResult(Evaluation function, ArgumentList arguments, Evaluation... evaluations) {
          this.reference = new NameReference(function);
-         this.site = new CallSite(reference);
+         this.holder = new FunctionHolder(reference);
          this.offset = new AtomicInteger();
          this.evaluations = evaluations;
          this.arguments = arguments;
@@ -90,7 +89,7 @@ public class FunctionInvocation implements Compilation {
       
       private Constraint compile(Scope scope, String name) throws Exception {
          Type[] array = arguments.compile(scope); 
-         CallDispatcher handler = site.get(scope);
+         FunctionDispatcher handler = holder.get(scope);
          Constraint result = handler.compile(scope, null, array);
          
          for(Evaluation evaluation : evaluations) {
@@ -124,7 +123,7 @@ public class FunctionInvocation implements Compilation {
       
       private Value evaluate(Scope scope, String name) throws Exception {
          Object[] array = arguments.create(scope); 
-         CallDispatcher handler = site.get(scope);
+         FunctionDispatcher handler = holder.get(scope);
          Value value = handler.dispatch(scope, null, array);
          
          for(Evaluation evaluation : evaluations) {
@@ -140,7 +139,7 @@ public class FunctionInvocation implements Compilation {
       
       private Value evaluate(Scope scope, String name, Object local) throws Exception {
          Object[] array = arguments.create(scope); 
-         CallDispatcher handler = site.get(scope, local);
+         FunctionDispatcher handler = holder.get(scope, local);
          Value value = handler.dispatch(scope, local, array);
          
          for(Evaluation evaluation : evaluations) {

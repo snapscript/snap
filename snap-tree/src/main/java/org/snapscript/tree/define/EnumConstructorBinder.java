@@ -2,14 +2,12 @@ package org.snapscript.tree.define;
 
 import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
 
-import java.util.concurrent.Callable;
-
 import org.snapscript.core.Context;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
-import org.snapscript.core.Value;
-import org.snapscript.core.bind.FunctionBinder;
+import org.snapscript.core.function.find.FunctionCall;
+import org.snapscript.core.function.find.FunctionFinder;
 import org.snapscript.tree.ArgumentList;
 
 public class EnumConstructorBinder {
@@ -20,10 +18,10 @@ public class EnumConstructorBinder {
       this.arguments = arguments;
    }
    
-   public Callable<Value> bind(Scope scope, Type type) throws Exception {
+   public FunctionCall bind(Scope scope, Type type) throws Exception {
       Module module = scope.getModule();
       Context context = module.getContext();
-      FunctionBinder binder = context.getBinder();
+      FunctionFinder binder = context.getFinder();
       
       if(arguments != null) {
          Object[] array = arguments.create(scope, type); // arguments have no left hand side

@@ -13,13 +13,13 @@ import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.dispatch.CallDispatcher;
+import org.snapscript.core.function.dispatch.FunctionDispatcher;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceEvaluation;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.tree.ArgumentList;
-import org.snapscript.tree.CallSite;
 import org.snapscript.tree.NameReference;
+import org.snapscript.tree.function.FunctionHolder;
 
 public class ReferenceInvocation implements Compilation {
    
@@ -43,12 +43,12 @@ public class ReferenceInvocation implements Compilation {
       private final NameReference reference;
       private final ArgumentList arguments;
       private final Evaluation[] evaluations; // func()[1][x]
+      private final FunctionHolder holder;
       private final AtomicInteger offset;
-      private final CallSite site;
       
       public CompileResult(Evaluation function, ArgumentList arguments, Evaluation... evaluations) {
          this.reference = new NameReference(function);
-         this.site = new CallSite(reference);
+         this.holder = new FunctionHolder(reference);
          this.offset = new AtomicInteger();
          this.evaluations = evaluations;
          this.arguments = arguments;
@@ -73,7 +73,7 @@ public class ReferenceInvocation implements Compilation {
          String name = reference.getName(scope); 
          Type type = left.getType(scope);         
          Type[] array = arguments.compile(scope); 
-         CallDispatcher handler = site.get(scope, left);
+         FunctionDispatcher handler = holder.get(scope, left);
          Constraint result = handler.compile(scope, type, array);
          
          for(Evaluation evaluation : evaluations) {
@@ -89,7 +89,7 @@ public class ReferenceInvocation implements Compilation {
       public Value evaluate(Scope scope, Object left) throws Exception {
          String name = reference.getName(scope); 
          Object[] array = arguments.create(scope); 
-         CallDispatcher handler = site.get(scope, left);
+         FunctionDispatcher handler = holder.get(scope, left);
          Value value = handler.dispatch(scope, left, array);
          
          for(Evaluation evaluation : evaluations) {
