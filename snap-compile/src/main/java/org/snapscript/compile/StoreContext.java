@@ -19,7 +19,6 @@ import org.snapscript.core.convert.ProxyWrapper;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.function.dispatch.CacheFunctionIndexer;
 import org.snapscript.core.function.dispatch.FunctionBinder;
-import org.snapscript.core.function.search.ConstraintFunctionSearcher;
 import org.snapscript.core.function.search.FunctionResolver;
 import org.snapscript.core.function.search.FunctionSearcher;
 import org.snapscript.core.link.PackageLinker;
@@ -64,7 +63,7 @@ public class StoreContext implements Context {
       this.handler = new ErrorHandler(extractor, stack);
       this.resolver = new FunctionResolver(extractor, stack);
       this.validator = new ExecutableValidator(matcher, extractor, resolver);
-      this.binder = new ConstraintFunctionSearcher(extractor, stack, resolver);
+      this.binder = new FunctionSearcher(extractor, stack, resolver);
       this.evaluator = new OperationEvaluator(this, executor);
       this.provider = new CachePlatformProvider(extractor, wrapper, stack);
       this.table = new CacheFunctionIndexer(binder, handler);

@@ -1,6 +1,5 @@
 package org.snapscript.tree.condition;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
@@ -22,10 +21,10 @@ public class NullCoalesce extends Evaluation {
       substitute.define(scope);
    }   
 
-   @Bug("eval both???")
    @Override
    public Constraint compile(Scope scope, Constraint left) throws Exception {
-      return evaluation.compile(scope, left);
+      substitute.compile(scope, null);
+      return evaluation.compile(scope, null);
    }
    
    @Override

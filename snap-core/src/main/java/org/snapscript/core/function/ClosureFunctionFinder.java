@@ -7,7 +7,6 @@ import static org.snapscript.core.Reserved.METHOD_TO_STRING;
 import java.util.List;
 import java.util.Set;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Category;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.Type;
@@ -72,7 +71,7 @@ public class ClosureFunctionFinder {
       Function function = functions.fetch(type);
       
       if(function == null) {
-         Function match = resolveSingle(type);
+         Function match = resolveBest(type);
          
          if(match != null) {
             functions.cache(type, match);
@@ -83,15 +82,21 @@ public class ClosureFunctionFinder {
       }
       return function;
    }
-   
-   @Bug("fix me")
-   private Function resolveSingle(Type type) throws Exception {
+ 
+   private Function resolveBest(Type type) throws Exception {
       Category category = type.getCategory();
       
       if(category.isFunction()) {
          List<Function> functions = type.getFunctions();
-         return functions.get(0);
+         
+         if(!functions.isEmpty()) {
+            return functions.get(0);
+         }
       }
+      return resolveSingle(type);
+   }
+   
+   private Function resolveSingle(Type type) throws Exception {
       Set<Type> types = extractor.getTypes(type);
       Function function = invalid;
       

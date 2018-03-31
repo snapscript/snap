@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
@@ -28,7 +27,6 @@ public abstract class Constraint {
    public static final Constraint ITERABLE = new ClassConstraint(Iterable.class);  
    public static final Constraint TYPE = new ClassConstraint(Type.class);
    
-   @Bug("this static methods might collide with Value static methods")
    public static Constraint getVariable(Type type) {
       return new VariableConstraint(type);
    }

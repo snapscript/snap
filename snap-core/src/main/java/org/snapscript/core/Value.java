@@ -109,8 +109,7 @@ public abstract class Value extends Constraint {
       return null;
    }   
    
-   @Bug("fix me")
-   public Class getValueType() {
+   public Class getType() {
       Object value = getValue();
       
       if(value != null) {
@@ -123,11 +122,6 @@ public abstract class Value extends Constraint {
    public Type getType(Scope scope){
       return null; 
    }   
-   
-   @Override
-   public boolean isConstant() {
-      return false;
-   }
    
    public boolean isProperty() {
       return false;

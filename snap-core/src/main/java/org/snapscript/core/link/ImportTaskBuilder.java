@@ -4,7 +4,6 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Context;
 import org.snapscript.core.Execution;
 import org.snapscript.core.InternalStateException;
@@ -67,7 +66,6 @@ public class ImportTaskBuilder {
          this.path = path;
       }
 
-      @Bug("does this block more than it needs to")
       @Override
       public Type call() {
          try {

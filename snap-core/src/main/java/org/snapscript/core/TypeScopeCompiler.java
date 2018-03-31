@@ -12,14 +12,14 @@ public class TypeScopeCompiler extends ScopeCompiler{
       super();
    }
 
-   public Scope compile(Scope x, Type type, Function function) throws Exception {          
-      Scope scope = type.getScope();
-      Scope outer = scope.getStack();
+   public Scope compile(Scope scope, Type type, Function function) throws Exception {          
+      Scope outer = type.getScope();
+      Scope inner = outer.getStack();
 
-      compileParameters(outer, function);
-      compileThis(outer, type);
+      compileParameters(inner, function);
+      compileThis(inner, type);
 
-      return outer;
+      return inner;
    }
    
    protected void compileThis(Scope scope, Type type) {

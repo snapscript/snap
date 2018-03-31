@@ -12,7 +12,6 @@ import org.snapscript.core.property.Property;
 
 public abstract class ScopeCompiler {
    
-   @Bug("TYPE_THIS is not generic")
    protected void compileProperties(Scope scope, Type type) {
       List<Property> properties = type.getProperties();
       State state = scope.getState();

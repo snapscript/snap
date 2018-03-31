@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Context;
 import org.snapscript.core.Module;
 import org.snapscript.core.ModuleScopeBinder;
@@ -107,7 +106,6 @@ public class VariableFinder {
       return null;
    }
    
-   @Bug("what about constraints?")
    public Property findConstantFromType(Scope scope, Type type, String name) {
       Module module = scope.getModule();
       Context context = module.getContext();

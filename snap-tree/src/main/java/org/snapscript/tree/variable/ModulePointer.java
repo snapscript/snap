@@ -2,7 +2,6 @@ package org.snapscript.tree.variable;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
@@ -24,14 +23,13 @@ public class ModulePointer implements VariablePointer<Module> {
       this.name = name;
    }
 
-   @Bug("messy")
    @Override
    public Constraint check(Scope scope, Constraint left) {
       Property property = reference.get();
       
       if(property == null) {
-         Type ty = left.getType(scope);
-         Module module = ty.getModule();
+         Type parent = left.getType(scope);
+         Module module = parent.getModule();
          State state = scope.getState();
          Value value = state.get(name);
          
@@ -48,7 +46,7 @@ public class ModulePointer implements VariablePointer<Module> {
                return match.getConstraint();
             }
          }
-         return Constraint.getVariable(value.getType(scope));
+         return value;
       } 
       return property.getConstraint();
    }

@@ -10,10 +10,9 @@ import java.util.Set;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.FunctionComparator;
 import org.snapscript.core.convert.Score;
-import org.snapscript.core.function.Function;
 import org.snapscript.core.function.ClosureFunctionFinder;
+import org.snapscript.core.function.Function;
 
-@Bug("this is not fast enough")
 public class TypeCastChecker {
 
    private final FunctionComparator comparator;

@@ -4,7 +4,6 @@ import static org.snapscript.core.convert.Score.EXACT;
 import static org.snapscript.core.convert.Score.INVALID;
 import static org.snapscript.core.convert.Score.SIMILAR;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.PrimitivePromoter;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeCastChecker;
@@ -40,7 +39,6 @@ public class ArrayTypeComparator {
       return INVALID; 
    }
    
-   @Bug("better number/primitive checking")
    public Score toArray(Class actual, Class constraint) throws Exception{
       if(constraint != null && actual != null) {
          if(constraint.isArray() && actual.isArray()) {

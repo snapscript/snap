@@ -7,12 +7,10 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import org.snapscript.core.Any;
-import org.snapscript.core.Bug;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.PrimitivePromoter;
 import org.snapscript.core.constraint.Constraint;
 
-@Bug("crap")
 public class ClassConstraintMapper {
    
    private final PrimitivePromoter promoter;

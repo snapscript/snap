@@ -5,7 +5,6 @@ import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.NoStatement;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
@@ -19,7 +18,7 @@ import org.snapscript.tree.function.ParameterList;
 
 public class DefaultConstructor extends TypePart {
    
-   private final AtomicReference<ClassConstructor> constructor;
+   private final AtomicReference<ClassConstructor> reference;
    private final AnnotationList annotations;
    private final ParameterList parameters;
    private final ModifierList modifiers;
@@ -30,14 +29,13 @@ public class DefaultConstructor extends TypePart {
    }
    
    public DefaultConstructor(boolean compile) {
-      this.constructor = new AtomicReference<ClassConstructor>();
+      this.reference = new AtomicReference<ClassConstructor>();
       this.annotations = new AnnotationList();
       this.parameters = new ParameterList();
       this.modifiers = new ModifierList();
       this.compile = compile;
    } 
 
-   @Bug("bit rubbish")
    @Override
    public TypeFactory define(TypeFactory factory, Type type, Scope scope) throws Exception {
       List<Function> functions = type.getFunctions();
@@ -49,25 +47,25 @@ public class DefaultConstructor extends TypePart {
             return null;
          }
       }
-      ClassConstructor done = assemble(factory, type, scope, compile);
-      constructor.set(done);
-      return done.assemble(factory, type, scope, compile);
+      return assemble(factory, type, scope, compile);
    }
    
    @Override
    public TypeFactory compile(TypeFactory factory, Type type, Scope scope) throws Exception {
-      ClassConstructor done = constructor.get();
+      ClassConstructor constructor = reference.get();
       
-      if(done != null) {
-         done.compile(factory, type, scope);
+      if(constructor != null) {
+         constructor.compile(factory, type, scope);
       }
       return null;
    }
 
-   protected ClassConstructor assemble(TypeFactory factory, Type type, Scope scope, boolean compile) throws Exception {
+   protected TypeFactory assemble(TypeFactory factory, Type type, Scope scope, boolean compile) throws Exception {
       Statement statement = new NoStatement();
       ClassConstructor constructor = new ClassConstructor(annotations, modifiers, parameters, statement);
       
-      return constructor;
+      reference.set(constructor);
+      
+      return constructor.assemble(factory, type, scope, compile);
    }
 }

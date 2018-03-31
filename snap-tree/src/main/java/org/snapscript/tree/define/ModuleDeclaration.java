@@ -5,7 +5,6 @@ import static org.snapscript.core.result.Result.NORMAL;
 
 import java.util.List;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Execution;
@@ -82,7 +81,6 @@ public class ModuleDeclaration implements Compilation {
          this.body = body;
       }  
       
-      @Bug("this should not properties.add(propety) it should be done in the declaration")
       @Override
       public void define(Scope scope) throws Exception {
          Module module = scope.getModule();
@@ -95,7 +93,6 @@ public class ModuleDeclaration implements Compilation {
          }
       }
       
-      @Bug("do we need to compile here??")
       @Override
       public Execution compile(Scope scope) throws Exception {
          int mask = modifiers.getModifiers();

@@ -2,13 +2,13 @@ package org.snapscript.core.convert;
 
 import static org.snapscript.core.convert.Score.EXACT;
 import static org.snapscript.core.convert.Score.INVALID;
-import static org.snapscript.core.convert.Score.*;
+import static org.snapscript.core.convert.Score.POSSIBLE;
+import static org.snapscript.core.convert.Score.SIMILAR;
 import static org.snapscript.core.convert.Score.TRANSIENT;
 
 import java.lang.reflect.Array;
 import java.util.List;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeCastChecker;
@@ -27,7 +27,6 @@ public class ArrayConverter extends ConstraintConverter {
       this.type = type;
    }
    
-   @Bug("is this right??")
    @Override
    public Score score(Type actual) throws Exception {
       if(actual != null) {

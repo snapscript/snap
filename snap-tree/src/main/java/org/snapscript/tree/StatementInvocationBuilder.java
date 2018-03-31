@@ -1,6 +1,5 @@
 package org.snapscript.tree;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Context;
 import org.snapscript.core.Execution;
 import org.snapscript.core.InternalStateException;
@@ -58,7 +57,6 @@ public class StatementInvocationBuilder implements InvocationBuilder {
       }
    }
    
-   @Bug("fix errors")
    @Override
    public Invocation create(Scope scope) throws Exception {
       if(statement == null) {

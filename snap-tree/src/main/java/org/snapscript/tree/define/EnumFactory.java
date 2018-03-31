@@ -9,7 +9,6 @@ import static org.snapscript.core.constraint.Constraint.STRING;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
@@ -37,7 +36,6 @@ public class EnumFactory extends TypeFactory {
       this.index = index;
    }
 
-   @Bug("fix constants")
    @Override
    public void compile(Scope scope, Type type) throws Exception {
       String name = reference.getName(scope);

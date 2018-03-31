@@ -2,7 +2,6 @@ package org.snapscript.tree;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Context;
 import org.snapscript.core.Execution;
 import org.snapscript.core.InternalStateException;
@@ -73,7 +72,6 @@ public class StaticInvocationBuilder implements InvocationBuilder {
    private class ResultConverter implements Invocation<Object> {
       
       private final ConstraintMatcher matcher;
-      @Bug("why do we need to know about this??? should push logic up stack")
       private final AtomicBoolean execute;
       private final Execution execution;
       private final Execution compile;
@@ -95,19 +93,13 @@ public class StaticInvocationBuilder implements InvocationBuilder {
          if(execute.compareAndSet(false, true)) {
             compile.execute(inner); // could be a static block
          }
-         try {
-            Result result = execution.execute(inner);
-            Object value = result.getValue();
-            
-            if(value != null) {
-               value = converter.assign(value);
-            }
-            return value;
-         }catch(Exception e){
-            e.printStackTrace();
-            throw e;
-         }
+         Result result = execution.execute(inner);
+         Object value = result.getValue();
          
+         if(value != null) {
+            value = converter.assign(value);
+         }
+         return value;
       }
    }
 }

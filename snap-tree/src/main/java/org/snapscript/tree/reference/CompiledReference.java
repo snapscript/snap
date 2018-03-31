@@ -3,7 +3,6 @@ package org.snapscript.tree.reference;
 import static org.snapscript.core.Phase.DEFINED;
 
 import org.snapscript.common.Progress;
-import org.snapscript.core.Bug;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Phase;
@@ -15,6 +14,7 @@ import org.snapscript.core.constraint.Constraint;
 public class CompiledReference extends TypeReference {
    
    private Evaluation reference;
+   private Constraint constraint;
    private Value type;
    private long duration;
 
@@ -27,17 +27,19 @@ public class CompiledReference extends TypeReference {
       this.duration = duration;
    }
    
-   @Bug("cache!!")
    @Override
    public Constraint compile(Scope scope, Constraint left) throws Exception {
-      Constraint value = reference.compile(scope, left);
-      Type result = value.getType(scope);
-      Progress<Phase> progress = result.getProgress();
-      
-      if(!progress.wait(DEFINED, duration)) {
-         throw new InternalStateException("Type '" + result + "' not compiled");
+      if(constraint == null) {
+         Constraint value = reference.compile(scope, left);
+         Type result = value.getType(scope);
+         Progress<Phase> progress = result.getProgress();
+         
+         if(!progress.wait(DEFINED, duration)) {
+            throw new InternalStateException("Type '" + result + "' not compiled");
+         }
+         constraint = value;
       }
-      return value;
+      return constraint;
    }
    
    @Override

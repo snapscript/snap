@@ -6,7 +6,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.Executor;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
@@ -96,7 +95,7 @@ public class ImportManager {
          throw new InternalStateException("Could not find '" + name + "' in '" + from + "'", e);
       }
    }
-   @Bug("crap")
+   
    public Type getType(String name) {
       try {
          String alias = builder.createLocalName(name);
@@ -149,7 +148,6 @@ public class ImportManager {
             if(type == null) {
                type = loader.resolveType(null, name); // null is "java.*"
             }
-            // HERE WE DO NOT ALLOW DYNAMIC LOADING OF SUBTYPES
             if(type == null && load) {
                type = matcher.importType(imports, name);
             }

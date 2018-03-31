@@ -8,7 +8,7 @@ import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.function.search.FunctionSearcher;
 
-public class CacheFunctionIndex implements FunctionGroup {
+public class CacheFunctionGroup implements FunctionGroup {
    
    private final Cache<Class, FunctionDispatcher> cache;
    private final FunctionDispatcherBuilder builder;
@@ -16,7 +16,7 @@ public class CacheFunctionIndex implements FunctionGroup {
    private final FunctionDispatcher local;
    private final FunctionDispatcher empty;
    
-   public CacheFunctionIndex(FunctionSearcher binder, ErrorHandler handler, String name) {
+   public CacheFunctionGroup(FunctionSearcher binder, ErrorHandler handler, String name) {
       this.builder = new FunctionDispatcherBuilder(binder, handler, name);
       this.cache = new CopyOnWriteCache<Class, FunctionDispatcher>();
       this.instance = new InstanceDispatcher(binder, handler, name);
@@ -24,6 +24,7 @@ public class CacheFunctionIndex implements FunctionGroup {
       this.empty = new EmptyDispatcher();
    }
    
+   @Override
    public FunctionDispatcher get(Scope scope) throws Exception {
       Type type = scope.getType();
       
@@ -33,6 +34,7 @@ public class CacheFunctionIndex implements FunctionGroup {
       return local;
    }
    
+   @Override
    public FunctionDispatcher get(Scope scope, Constraint left) throws Exception {
       Type type = left.getType(scope);
       
@@ -42,6 +44,7 @@ public class CacheFunctionIndex implements FunctionGroup {
       return empty;
    }
    
+   @Override
    public FunctionDispatcher get(Scope scope, Object left) throws Exception {
       Type type = scope.getType();
       

@@ -136,8 +136,8 @@ public enum NumericConverter {
    }
    
    public static NumericConverter resolveConverter(Value left, Value right) {
-      Class primary = left.getValueType();
-      Class secondary = right.getValueType();
+      Class primary = left.getType();
+      Class secondary = right.getType();
 
       if (Double.class == primary || Double.class == secondary) {
          return DOUBLE;

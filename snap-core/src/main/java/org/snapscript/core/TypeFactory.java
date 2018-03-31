@@ -4,7 +4,6 @@ import static org.snapscript.core.result.Result.NORMAL;
 
 import org.snapscript.core.result.Result;
 
-@Bug("this is a crap name")
 public abstract class TypeFactory {
 
    public void define(Scope scope, Type type) throws Exception {} 

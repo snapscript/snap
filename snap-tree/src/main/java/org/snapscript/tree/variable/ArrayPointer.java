@@ -5,7 +5,6 @@ import static org.snapscript.core.Reserved.TYPE_CLASS;
 
 import java.lang.reflect.Array;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
 import org.snapscript.core.constraint.Constraint;
@@ -31,7 +30,6 @@ public class ArrayPointer implements VariablePointer<Object> {
       return pointer.check(scope, left);
    }
 
-   @Bug("no symmetry on .class TYPE_CLASS")
    @Override
    public Value get(Scope scope, Object left) {
       if(name.equals(PROPERTY_LENGTH)) {

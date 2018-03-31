@@ -5,7 +5,6 @@ import static org.snapscript.core.result.Result.NORMAL;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Execution;
 import org.snapscript.core.Module;
@@ -78,7 +77,6 @@ public class ModuleFunction implements ModulePart {
          cache.set(handle);
       }      
       
-      @Bug("what going on here?")
       @Override
       public Execution compile(Scope scope) throws Exception {
          FunctionHandle handle = cache.get();

@@ -4,7 +4,6 @@ import static org.snapscript.core.constraint.Constraint.NONE;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Type;
@@ -27,8 +26,7 @@ public class ScopePointer implements VariablePointer<Scope> {
       this.finder = finder;
       this.name = name;
    }
-
-   @Bug("are we really compiling here?")
+   
    @Override
    public Constraint check(Scope scope, Constraint left) {
       Type type = left.getType(scope);

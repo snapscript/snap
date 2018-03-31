@@ -35,20 +35,14 @@ public class TypeDispatcher implements FunctionDispatcher<Type> {
 
    @Override
    public Value dispatch(Scope scope, Type type, Object... arguments) throws Exception {   
-      FunctionCall call = bind(scope, type, arguments);
+      FunctionCall call = binder.searchStatic(scope, type, name, arguments);
       
+      if(call == null) {
+         call = binder.searchInstance(scope, (Object)type, name, arguments);
+      }
       if(call == null) {
          handler.throwInternalException(scope, type, name, arguments);
       }
       return call.call();          
    } 
-   
-   private FunctionCall bind(Scope scope, Type type, Object... arguments) throws Exception {
-      FunctionCall call = binder.searchStatic(scope, type, name, arguments);
-      
-      if(call == null) {
-         return binder.searchInstance(scope, (Object)type, name, arguments);
-      }
-      return call;
-   }
 }

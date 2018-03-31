@@ -22,7 +22,7 @@ public class CacheFunctionIndexer implements FunctionBinder {
       FunctionGroup index = cache.fetch(name);
       
       if(index == null) {
-         index = new CacheFunctionIndex(binder, handler, name);
+         index = new CacheFunctionGroup(binder, handler, name);
          cache.cache(name, index);
       }
       return index;

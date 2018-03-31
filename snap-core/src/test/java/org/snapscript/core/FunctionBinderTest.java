@@ -12,7 +12,6 @@ import org.snapscript.core.convert.ProxyWrapper;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.function.dispatch.CacheFunctionIndexer;
 import org.snapscript.core.function.dispatch.FunctionBinder;
-import org.snapscript.core.function.search.ConstraintFunctionSearcher;
 import org.snapscript.core.function.search.FunctionResolver;
 import org.snapscript.core.function.search.FunctionSearcher;
 import org.snapscript.core.link.NoPackage;
@@ -147,7 +146,7 @@ public class FunctionBinderTest extends TestCase {
          this.loader = new TypeLoader(linker, registry, manager, wrapper, stack);
          this.extractor = new TypeExtractor(loader);
          this.resolver = new FunctionResolver(extractor, stack);
-         this.binder = new ConstraintFunctionSearcher(extractor, stack, resolver);
+         this.binder = new FunctionSearcher(extractor, stack, resolver);
          this.matcher = new ConstraintMatcher(loader, wrapper);
          this.handler = new ErrorHandler(extractor, stack);
          this.table = new CacheFunctionIndexer(binder, handler);

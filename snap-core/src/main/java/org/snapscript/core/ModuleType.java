@@ -11,7 +11,6 @@ import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.property.Property;
 
-@Bug("This could be dodgy")
 public class ModuleType implements Type {
    
    private final Progress<Phase> progress;
@@ -62,7 +61,6 @@ public class ModuleType implements Type {
       return module.getScope();
    }
 
-   @Bug("is this dodgy")
    @Override
    public Class getType() {
       return Module.class;

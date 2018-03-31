@@ -1,6 +1,5 @@
 package org.snapscript.tree;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Module;
@@ -17,7 +16,6 @@ public class DeclarationConverter {
       super();
    }
 
-   @Bug("we need some line numbers here")
    public Type compile(Scope scope, Type value, Constraint constraint, String name) throws Exception {
       if(value != null) {
          Type type = constraint.getType(scope);

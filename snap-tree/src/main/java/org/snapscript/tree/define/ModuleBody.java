@@ -7,7 +7,6 @@ import java.util.concurrent.FutureTask;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Execution;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
@@ -50,7 +49,6 @@ public class ModuleBody extends Statement {
       }
    }
    
-   @Bug("fix this")
    @Override
    public Execution compile(Scope scope) throws Exception {
       Execution result = reference.get();
@@ -88,7 +86,6 @@ public class ModuleBody extends Statement {
          
          for(int i = 0; i < statements.length; i++) {
             executions[i] = statements[i].compile(module);
-            //statements[i] = null;
          }
          reference.set(execution);
          return execution;
@@ -107,8 +104,7 @@ public class ModuleBody extends Statement {
          this.executions = executions;
          this.module = module;
       }
-   
-      @Bug("fix me")
+  
       @Override
       public Result execute(Scope scope) throws Exception {
          Result last = NORMAL;
@@ -122,7 +118,6 @@ public class ModuleBody extends Statement {
                if(!result.isNormal()){
                   return result;
                }
-               //executions[i] = null;
                last = result;
             }
          }

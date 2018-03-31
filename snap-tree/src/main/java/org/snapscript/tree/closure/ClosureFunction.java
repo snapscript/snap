@@ -2,7 +2,6 @@ package org.snapscript.tree.closure;
 
 import java.util.List;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Type;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.constraint.Constraint;
@@ -68,7 +67,6 @@ public class ClosureFunction implements Function {
       return template.getDescription();
    }
 
-   @Bug("this should be more efficient")
    @Override
    public Object getProxy(Class type) {
       return proxy.getProxy(type);

@@ -18,7 +18,7 @@ public class MapValue extends Value {
    }
    
    @Override
-   public Class getValueType() {
+   public Class getType() {
       return Object.class;
    }
    

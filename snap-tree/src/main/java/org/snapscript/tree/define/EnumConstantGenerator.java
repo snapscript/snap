@@ -12,7 +12,6 @@ import static org.snapscript.core.constraint.Constraint.TYPE;
 
 import java.util.List;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.constraint.Constraint;
@@ -23,7 +22,6 @@ public class EnumConstantGenerator extends ClassConstantGenerator {
       super();
    }
    
-   @Bug("name and ordinal should be defined in a TypePart------- THESE PROPERTIES ARE PROBABLE DUPLICATED")
    public void generate(Scope scope, Type type, List values) throws Exception {
       Constraint constraint = Constraint.getVariable(type);
       

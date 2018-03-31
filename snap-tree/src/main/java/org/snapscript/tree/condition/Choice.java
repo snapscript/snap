@@ -1,6 +1,5 @@
 package org.snapscript.tree.condition;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
@@ -25,9 +24,11 @@ public class Choice extends Evaluation {
       negative.define(scope);
    }
    
-   @Bug("probably do both")
    @Override
    public Constraint compile(Scope scope, Constraint left) throws Exception {
+      condition.define(scope);     
+      negative.define(scope);
+      
       return positive.compile(scope, left);
    }
    

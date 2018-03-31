@@ -2,7 +2,6 @@ package org.snapscript.tree.construct;
 
 import static org.snapscript.core.constraint.Constraint.NONE;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
@@ -57,7 +56,6 @@ public class ConstructArray implements Compilation {
          }
       }
       
-      @Bug("how would we do an array?")
       @Override
       public Constraint compile(Scope scope, Constraint left) throws Exception {
          reference.compile(scope, null);
