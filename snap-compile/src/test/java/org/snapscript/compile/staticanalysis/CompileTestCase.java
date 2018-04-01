@@ -22,6 +22,7 @@ public abstract class CompileTestCase extends TestCase {
          
          for(VerifyError error : errors) {
             error.getCause().printStackTrace();
+            System.err.println(error);
             assertEquals(message, error.getDescription());
          }
          failure=true;

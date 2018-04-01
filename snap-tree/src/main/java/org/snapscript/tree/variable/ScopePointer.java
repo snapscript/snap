@@ -35,7 +35,13 @@ public class ScopePointer implements VariablePointer<Scope> {
       Value value = state.get(name);
       
       if(value == null) {
-         return NONE;
+         Property property = finder.findPropertyFromScope(scope, instance, name);
+         
+         if(property != null) {
+            reference.set(property);
+            return new PropertyValue(property, instance, name);
+         }
+         return null;
       }
       return value;
    }
