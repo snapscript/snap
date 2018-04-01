@@ -1,5 +1,7 @@
 package org.snapscript.core.function.dispatch;
 
+import static org.snapscript.core.constraint.Constraint.NONE;
+
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
@@ -22,11 +24,12 @@ public class AnyDispatcher implements FunctionDispatcher<Scope> {
    }
    
    @Override
-   public Constraint compile(Scope scope, Type object, Type... arguments) throws Exception {
-      FunctionCall match = bind(scope, object, arguments);
+   public Constraint compile(Scope scope, Type type, Type... arguments) throws Exception {
+      FunctionCall match = bind(scope, type, arguments);
       
       if(match == null) {
-         handler.throwInternalException(scope, name, arguments);
+         handler.handleCompileError(scope, type, name, arguments);
+         return NONE;
       }
       return match.check();   
    }
@@ -39,9 +42,9 @@ public class AnyDispatcher implements FunctionDispatcher<Scope> {
          Type type = object.getType();
          
          if(type != null) {
-            handler.throwInternalException(scope, type, name, arguments);
+            handler.handleRuntimeError(scope, type, name, arguments);
          }
-         handler.throwInternalException(scope, name, arguments);
+         handler.handleRuntimeError(scope, name, arguments);
       }
       return match.call();          
    }

@@ -26,7 +26,7 @@ public class LocalDispatcher implements FunctionDispatcher<Object> {
       FunctionCall call = bind(scope, object, arguments);
       
       if(call == null) {
-         handler.throwInternalException(scope, name, arguments);
+         handler.handleCompileError(scope, name, arguments);
       }
       return call.check();
    }
@@ -36,7 +36,7 @@ public class LocalDispatcher implements FunctionDispatcher<Object> {
       FunctionCall call = bind(scope, object, arguments);
       
       if(call == null) {
-         handler.throwInternalException(scope, name, arguments);
+         handler.handleRuntimeError(scope, name, arguments);
       }
       return call.call();
    }
@@ -52,9 +52,6 @@ public class LocalDispatcher implements FunctionDispatcher<Object> {
             return closure;   
          }
       }
-      if(local == null) {
-         handler.throwInternalException(scope, name, arguments);
-      }
       return local;  
    }
    
@@ -68,9 +65,6 @@ public class LocalDispatcher implements FunctionDispatcher<Object> {
          if(closure != null) {
             return closure;   
          }
-      }
-      if(local == null) {
-         handler.throwInternalException(scope, name, arguments);
       }
       return local;  
    }

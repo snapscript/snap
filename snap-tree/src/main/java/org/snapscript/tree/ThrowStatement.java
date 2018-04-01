@@ -70,7 +70,7 @@ public class ThrowStatement implements Compilation {
          ErrorHandler handler = context.getHandler();
          Object value = reference.getValue();
          
-         return handler.throwInternalError(scope, value); 
+         return handler.handleInternalError(scope, value); 
       }
    }
 

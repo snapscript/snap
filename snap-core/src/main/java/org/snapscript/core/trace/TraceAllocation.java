@@ -26,7 +26,7 @@ public class TraceAllocation extends Allocation {
       try {
          return factory.define(scope, type);
       }catch(Exception cause) {
-         handler.throwInternalError(scope, cause, trace);
+         handler.handleInternalError(scope, cause, trace);
       }
       return OTHER;
    }
@@ -36,7 +36,7 @@ public class TraceAllocation extends Allocation {
       try {
          factory.compile(scope, type);
       }catch(Exception cause) {
-         handler.throwInternalError(scope, cause, trace);
+         handler.handleInternalError(scope, cause, trace);
       }
    }
    
@@ -45,7 +45,7 @@ public class TraceAllocation extends Allocation {
       try {
          factory.allocate(scope, type);
       }catch(Exception cause) {
-         handler.throwInternalError(scope, cause, trace);
+         handler.handleInternalError(scope, cause, trace);
       }
    }
    
@@ -54,7 +54,7 @@ public class TraceAllocation extends Allocation {
       try {
          return factory.execute(scope, type);
       }catch(Exception cause) {
-         handler.throwInternalError(scope, cause, trace);
+         handler.handleInternalError(scope, cause, trace);
       }
       return null;
    }

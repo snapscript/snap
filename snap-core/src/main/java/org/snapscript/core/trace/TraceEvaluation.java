@@ -1,5 +1,7 @@
 package org.snapscript.core.trace;
 
+import static org.snapscript.core.constraint.Constraint.NONE;
+
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Value;
@@ -24,7 +26,12 @@ public class TraceEvaluation extends Evaluation {
    
    @Override
    public Constraint compile(Scope scope, Constraint left) throws Exception {
-      return evaluation.compile(scope, left); 
+      try {
+         return evaluation.compile(scope, left);
+      }catch(Exception cause) {
+         interceptor.warning(scope, trace, cause);
+      }
+      return NONE;
    }
    
    @Override

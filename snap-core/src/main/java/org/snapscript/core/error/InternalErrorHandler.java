@@ -1,5 +1,7 @@
 package org.snapscript.core.error;
 
+import static org.snapscript.core.result.Result.NORMAL;
+
 import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
@@ -22,41 +24,41 @@ public class InternalErrorHandler {
       this.formatter = new InternalErrorFormatter(extractor);
    }
    
-   public Result throwInternalError(Scope scope, Object value) {
+   public Result handleInternalError(Scope scope, Object value) {
       throw builder.createError(value);
    }
    
-   public Result throwInternalError(Scope scope, Throwable cause, Trace trace) {
+   public Result handleInternalError(Scope scope, Throwable cause, Trace trace) {
       String message = formatter.format(cause, trace);
       throw builder.createError(message);
    }
 
-   public Result throwInternalException(Scope scope, String name, Type... list) {
+   public Result handleCompileError(Scope scope, String name, Type... list) {
       String message = formatter.format(name, list);
       throw builder.createException(message);
    }
    
-   public Result throwInternalException(Scope scope, String name, Object... list) {
+   public Result handleCompileError(Scope scope, Type type, String name, Type... list) {
+      String message = formatter.format(type, name, list);
+      throw builder.createException(message);
+   }
+   
+   public Result handleRuntimeError(Scope scope, String name, Object... list) {
       String message = formatter.format(name, list);
       throw builder.createException(message);
    }
    
-   public Result throwInternalException(Scope scope, Object value, String name, Object... list) {
+   public Result handleRuntimeError(Scope scope, Object value, String name, Object... list) {
       String message = formatter.format(value, name, list);
       throw builder.createException(message);
    }
    
-   public Result throwInternalException(Scope scope, Type type, String name, Object... list) {
+   public Result handleRuntimeError(Scope scope, Type type, String name, Object... list) {
       String message = formatter.format(type, name, list);
       throw builder.createException(message);
    }
    
-   public Result throwInternalException(Scope scope, Type type, String name, Type... list) {
-      String message = formatter.format(type, name, list);
-      throw builder.createException(message);
-   }
-   
-   public Result throwInternalException(Scope scope, Module module, String name, Object... list) {
+   public Result handleRuntimeError(Scope scope, Module module, String name, Object... list) {
       String message = formatter.format(module, name, list);
       throw builder.createException(message);
    }

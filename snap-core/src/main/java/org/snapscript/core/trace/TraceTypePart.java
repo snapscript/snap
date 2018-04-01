@@ -24,7 +24,7 @@ public class TraceTypePart extends TypePart {
       try {
          part.create(body, type, scope);
       }catch(Exception cause) {
-         handler.throwInternalError(scope, cause, trace);
+         handler.handleInternalError(scope, cause, trace);
       }
    }
    
@@ -37,7 +37,7 @@ public class TraceTypePart extends TypePart {
             return new TraceAllocation(handler, statement, trace);
          }
       }catch(Exception cause) {
-         handler.throwInternalError(scope, cause, trace);
+         handler.handleInternalError(scope, cause, trace);
       }
       return null;
    }
@@ -47,7 +47,7 @@ public class TraceTypePart extends TypePart {
       try {
          part.compile(body, type, scope);
       }catch(Exception cause) {
-         handler.throwInternalError(scope, cause, trace);
+         handler.handleInternalError(scope, cause, trace);
       }
    }
 }

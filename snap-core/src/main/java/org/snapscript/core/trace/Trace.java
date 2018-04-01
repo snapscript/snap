@@ -5,6 +5,7 @@ import static org.snapscript.core.trace.TraceType.CONSTRUCT;
 import static org.snapscript.core.trace.TraceType.INVOKE;
 import static org.snapscript.core.trace.TraceType.NATIVE;
 import static org.snapscript.core.trace.TraceType.NORMAL;
+import static org.snapscript.core.trace.TraceType.REFERENCE;
 
 import org.snapscript.core.Module;
 import org.snapscript.core.Path;
@@ -17,6 +18,10 @@ public class Trace {
    
    public static Trace getConstruct(Module module, Path path, int line) {
       return new Trace(CONSTRUCT, module, path, line);
+   }
+   
+   public static Trace getReference(Module module, Path path, int line) {
+      return new Trace(REFERENCE, module, path, line);
    }
    
    public static Trace getInvoke(Module module, Path path, int line) {

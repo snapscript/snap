@@ -1,5 +1,7 @@
 package org.snapscript.core.function.dispatch;
 
+import static org.snapscript.core.constraint.Constraint.NONE;
+
 import java.util.concurrent.Callable;
 
 import org.snapscript.core.Module;
@@ -24,12 +26,13 @@ public class ModuleDispatcher implements FunctionDispatcher<Module> {
    }
    
    @Override
-   public Constraint compile(Scope scope, Type module, Type... arguments) throws Exception {
-      Module mod = module.getModule();
-      FunctionCall call = bind(scope, mod, arguments);
+   public Constraint compile(Scope scope, Type type, Type... arguments) throws Exception {
+      Module module = type.getModule();
+      FunctionCall call = bind(scope, module, arguments);
       
       if(call == null) {
-         handler.throwInternalException(scope, module, name, arguments);
+         handler.handleCompileError(scope, type, name, arguments);
+         return NONE;
       }
       return call.check();    
    }
@@ -39,7 +42,7 @@ public class ModuleDispatcher implements FunctionDispatcher<Module> {
       FunctionCall call = bind(scope, module, arguments);
       
       if(call == null) {
-         handler.throwInternalException(scope, module, name, arguments);
+         handler.handleRuntimeError(scope, module, name, arguments);
       }
       return call.call();           
    }

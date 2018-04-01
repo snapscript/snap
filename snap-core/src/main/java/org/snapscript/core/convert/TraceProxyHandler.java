@@ -35,7 +35,7 @@ public class TraceProxyHandler implements ProxyHandler {
          interceptor.before(scope, trace);
          return delegate.invoke(proxy, method, list); 
       } catch(Exception cause) {
-         return handler.throwInternalError(scope, cause);
+         return handler.handleInternalError(scope, cause);
       } finally {
          interceptor.after(scope, trace);
       }

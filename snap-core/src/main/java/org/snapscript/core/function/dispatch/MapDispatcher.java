@@ -43,7 +43,7 @@ public class MapDispatcher implements FunctionDispatcher<Map> {
       FunctionCall call = bind(scope, map, arguments);
       
       if(call == null) {
-         handler.throwInternalException(scope, map, name, arguments);
+         handler.handleRuntimeError(scope, map, name, arguments);
       }
       return call.call();
    }

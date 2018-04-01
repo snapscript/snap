@@ -1,5 +1,7 @@
 package org.snapscript.core.function.dispatch;
 
+import static org.snapscript.core.constraint.Constraint.NONE;
+
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
@@ -28,7 +30,8 @@ public class TypeDispatcher implements FunctionDispatcher<Type> {
          call = binder.searchInstance(scope, type, name, arguments);
       }
       if(call == null) {
-         handler.throwInternalException(scope, type, name, arguments);
+         handler.handleCompileError(scope, type, name, arguments);
+         return NONE;
       }
       return call.check();
    } 
@@ -41,7 +44,7 @@ public class TypeDispatcher implements FunctionDispatcher<Type> {
          call = binder.searchInstance(scope, (Object)type, name, arguments);
       }
       if(call == null) {
-         handler.throwInternalException(scope, type, name, arguments);
+         handler.handleRuntimeError(scope, type, name, arguments);
       }
       return call.call();          
    } 

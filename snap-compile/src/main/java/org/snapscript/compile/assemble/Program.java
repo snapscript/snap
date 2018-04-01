@@ -43,7 +43,7 @@ public class Program implements Executable{
          Execution execution = compiler.compile(scope); // create all types
          execution.execute(scope);
       } catch(Throwable cause) {
-         handler.throwExternalError(scope, cause);
+         handler.handleExternalError(scope, cause);
       }
    }
 }

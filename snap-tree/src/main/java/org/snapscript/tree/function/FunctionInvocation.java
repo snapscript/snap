@@ -16,6 +16,7 @@ import org.snapscript.core.Table;
 import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.dispatch.FunctionDispatcher;
 import org.snapscript.core.trace.Trace;

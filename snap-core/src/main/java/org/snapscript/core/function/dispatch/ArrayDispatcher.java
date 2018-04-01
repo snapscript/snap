@@ -1,5 +1,7 @@
 package org.snapscript.core.function.dispatch;
 
+import static org.snapscript.core.constraint.Constraint.NONE;
+
 import java.util.List;
 
 import org.snapscript.core.Scope;
@@ -31,7 +33,8 @@ public class ArrayDispatcher implements FunctionDispatcher<Object> {
       FunctionCall call = binder.searchInstance(scope, list, name, arguments);
       
       if(call == null) {
-         handler.throwInternalException(scope, object, name, arguments);
+         handler.handleCompileError(scope, object, name, arguments);
+         return NONE;
       }
       return call.check();
    }
@@ -42,7 +45,7 @@ public class ArrayDispatcher implements FunctionDispatcher<Object> {
       FunctionCall call = binder.searchInstance(scope, list, name, arguments);
       
       if(call == null) {
-         handler.throwInternalException(scope, object, name, arguments);
+         handler.handleRuntimeError(scope, object, name, arguments);
       }
       return call.call();
    }

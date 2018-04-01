@@ -36,8 +36,8 @@ public class FunctionIndexPartition {
       return null;
    }
 
-   public void index(FunctionPointer call) throws Exception {
-      Function function = call.getFunction();
+   public void index(FunctionPointer pointer) throws Exception {
+      Function function = pointer.getFunction();
       String name = function.getName();
       FunctionIndexGroup group = groups.get(name);
       
@@ -45,6 +45,6 @@ public class FunctionIndexPartition {
          group = new FunctionIndexGroup(matcher, builder, name);
          groups.put(name, group);
       }
-      group.index(call);
+      group.index(pointer);
    }
 }

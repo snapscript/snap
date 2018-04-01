@@ -13,6 +13,7 @@ import org.snapscript.core.Type;
 import org.snapscript.core.Value;
 import org.snapscript.core.array.ArrayBuilder;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceEvaluation;
 import org.snapscript.core.trace.TraceInterceptor;

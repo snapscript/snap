@@ -28,6 +28,15 @@ public class TraceInterceptor implements TraceListener {
    }
    
    @Override
+   public void warning(Scope scope, Trace trace, Exception cause) {
+      if(!listeners.isEmpty()) {
+         for(TraceListener listener : listeners) {
+            listener.warning(scope, trace, cause);
+         }
+      }
+   }
+   
+   @Override
    public void error(Scope scope, Trace trace, Exception cause) {
       if(!listeners.isEmpty()) {
          for(TraceListener listener : listeners) {

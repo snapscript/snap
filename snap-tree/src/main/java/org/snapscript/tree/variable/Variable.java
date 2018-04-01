@@ -23,7 +23,7 @@ public class Variable implements Compilation {
    public Variable(Evaluation identifier) {
       this.reference = new NameReference(identifier);
    }
-
+   
    @Override
    public Evaluation compile(Module module, Path path, int line) throws Exception {
       Scope scope = module.getScope();

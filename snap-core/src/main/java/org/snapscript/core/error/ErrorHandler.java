@@ -22,45 +22,45 @@ public class ErrorHandler {
       this.external = new ExternalErrorHandler();
    }
    
-   public Result throwInternalException(Scope scope,String name, Type... list) {
-      return internal.throwInternalException(scope, name, list); 
-   }
-   
-   public Result throwInternalException(Scope scope,String name, Object... list) {
-      return internal.throwInternalException(scope, name, list); 
-   }
-   
-   public Result throwInternalException(Scope scope, Object object, String name, Object... list) {
-      return internal.throwInternalException(scope, object, name, list); 
-   }
-   
-   public Result throwInternalException(Scope scope, Type type, String name, Object... list) {
-      return internal.throwInternalException(scope, type, name, list); 
+   public Result handleCompileError(Scope scope, String name, Type... list) {
+      return internal.handleCompileError(scope, name, list); 
    }
 
-   public Result throwInternalException(Scope scope, Type type, String name, Type... list) {
-      return internal.throwInternalException(scope, type, name, list); 
+   public Result handleCompileError(Scope scope, Type type, String name, Type... list) {
+      return internal.handleCompileError(scope, type, name, list); 
+   }
+
+   public Result handleRuntimeError(Scope scope,String name, Object... list) {
+      return internal.handleRuntimeError(scope, name, list); 
    }
    
-   public Result throwInternalException(Scope scope, Module module, String name, Object... list) {
-      return internal.throwInternalException(scope, module, name, list); 
+   public Result handleRuntimeError(Scope scope, Object object, String name, Object... list) {
+      return internal.handleRuntimeError(scope, object, name, list); 
    }
    
-   public Result throwInternalError(Scope scope, Object cause) {
+   public Result handleRuntimeError(Scope scope, Type type, String name, Object... list) {
+      return internal.handleRuntimeError(scope, type, name, list); 
+   }
+   
+   public Result handleRuntimeError(Scope scope, Module module, String name, Object... list) {
+      return internal.handleRuntimeError(scope, module, name, list); 
+   }
+   
+   public Result handleInternalError(Scope scope, Object cause) {
       if(InternalError.class.isInstance(cause)) {
          throw (InternalError)cause;
       }
-      return internal.throwInternalError(scope, cause); // fill in trace
+      return internal.handleInternalError(scope, cause); // fill in trace
    }
    
-   public Result throwInternalError(Scope scope, Throwable cause, Trace trace) {
+   public Result handleInternalError(Scope scope, Throwable cause, Trace trace) {
       if(InternalError.class.isInstance(cause)) {
          throw (InternalError)cause;
       }
-      return internal.throwInternalError(scope, cause, trace); 
+      return internal.handleInternalError(scope, cause, trace); 
    }
    
-   public Result throwExternalError(Scope scope, Throwable cause) throws Exception {
+   public Result handleExternalError(Scope scope, Throwable cause) throws Exception {
       if(InternalError.class.isInstance(cause)) {
          InternalError error = (InternalError)cause;
          Object original = error.getValue();

@@ -37,7 +37,7 @@ public class ClosureDispatcher implements FunctionDispatcher<Function> {
       FunctionCall call = bind(scope, function, arguments); // this is not used often
       
       if(call == null) {
-         handler.throwInternalException(scope, function, name, arguments);
+         handler.handleRuntimeError(scope, function, name, arguments);
       }
       return call.call();
    }
