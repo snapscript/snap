@@ -1,3 +1,5 @@
+*** SAVE BEFORE STATIC COMPILATION ***
+
 SnapScript
 ==============
 
