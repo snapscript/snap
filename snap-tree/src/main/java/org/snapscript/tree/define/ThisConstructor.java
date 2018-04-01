@@ -5,8 +5,9 @@ import org.snapscript.core.Execution;
 import org.snapscript.core.Identity;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
-import org.snapscript.core.TypeFactory;
+import org.snapscript.core.TypeBody;
 import org.snapscript.core.TypePart;
+import org.snapscript.core.Allocation;
 import org.snapscript.parse.StringToken;
 import org.snapscript.tree.ArgumentList;
 import org.snapscript.tree.construct.CreateObject;
@@ -28,11 +29,11 @@ public class ThisConstructor extends TypePart {
    }
    
    @Override
-   public TypeFactory define(TypeFactory factory, Type type, Scope scope) throws Exception {  
-      Execution execution = new StaticBody(factory, type);
+   public Allocation define(TypeBody body, Type type, Scope scope) throws Exception {  
+      Execution execution = new StaticBody(body, type);
       Evaluation reference = new Identity(type, type);
       CreateObject evaluation = new CreateObject(reference, arguments);
       
-      return new ThisFactory(execution, evaluation);
+      return new ThisState(execution, evaluation);
    }   
 }

@@ -14,14 +14,14 @@ import org.snapscript.core.Phase;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
-import org.snapscript.core.TypeFactory;
+import org.snapscript.core.Allocation;
 import org.snapscript.core.TypePart;
 import org.snapscript.tree.annotation.AnnotationList;
 
 public class EnumDefinition extends Statement {
 
    private final DefaultConstructor constructor;
-   private final TypeFactoryCollector collector;
+   private final AllocationCollector collector;
    private final AtomicBoolean compile;
    private final AtomicBoolean define;
    private final AtomicBoolean create;
@@ -33,7 +33,7 @@ public class EnumDefinition extends Statement {
    public EnumDefinition(AnnotationList annotations, TypeName name, TypeHierarchy hierarchy, EnumList list, TypePart... parts) {
       this.builder = new EnumBuilder(name, hierarchy);
       this.constructor = new DefaultConstructor(true);
-      this.collector = new TypeFactoryCollector();
+      this.collector = new AllocationCollector();
       this.execution = new NoExecution(NORMAL);
       this.compile = new AtomicBoolean(true);
       this.define = new AtomicBoolean(true);
@@ -57,14 +57,14 @@ public class EnumDefinition extends Statement {
       if(!define.compareAndSet(false, true)) {
          Type type = builder.define(outer);
          Scope scope = type.getScope();
-         TypeFactory keys = list.define(collector, type, scope);
+         Allocation keys = list.define(collector, type, scope);
          Progress<Phase> progress = type.getProgress();
          
          try {
             collector.update(keys); // collect enum constants first
             
             for(TypePart part : parts) {
-               TypeFactory factory = part.define(collector, type, scope);
+               Allocation factory = part.define(collector, type, scope);
                collector.update(factory);
             }  
             constructor.define(collector, type, scope); 
@@ -86,8 +86,7 @@ public class EnumDefinition extends Statement {
          
          try {
             for(TypePart part : parts) {
-               TypeFactory factory = part.compile(collector, type, local);
-               collector.update(factory);
+               part.compile(collector, type, local);
             }  
             constructor.compile(collector, type, local); 
             collector.compile(local, type);

@@ -1,26 +1,29 @@
 package org.snapscript.tree.define;
 
+import static org.snapscript.core.Order.STATIC;
+
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.snapscript.core.Context;
 import org.snapscript.core.Module;
+import org.snapscript.core.Order;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
-import org.snapscript.core.TypeFactory;
+import org.snapscript.core.Allocation;
 
-public abstract class StaticFactory extends TypeFactory {
+public abstract class StaticBlock extends Allocation {
 
    private final AtomicBoolean allocate;
    private final AtomicBoolean compile;
    
-   protected StaticFactory() {
+   protected StaticBlock() {
       this.allocate = new AtomicBoolean();
       this.compile = new AtomicBoolean();
    }
    
    @Override
-   public boolean define(Scope scope, Type type) throws Exception {
-      return true;
+   public Order define(Scope scope, Type type) throws Exception {
+      return STATIC;
    }
    
    @Override

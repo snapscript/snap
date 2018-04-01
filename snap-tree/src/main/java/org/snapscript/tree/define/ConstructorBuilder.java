@@ -5,9 +5,10 @@ import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
 
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
-import org.snapscript.core.TypeFactory;
-import org.snapscript.core.constraint.VariableConstraint;
+import org.snapscript.core.TypeBody;
+import org.snapscript.core.Allocation;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.constraint.VariableConstraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionHandle;
 import org.snapscript.core.function.Invocation;
@@ -19,28 +20,28 @@ import org.snapscript.tree.function.StatementInvocation;
 
 public class ConstructorBuilder {
    
-   private final TypeFactory delegate;
+   private final Allocation delegate;
    private final Statement statement;
    private final Signature signature;
 
-   public ConstructorBuilder(TypeFactory delegate, Signature signature, Statement statement) {
+   public ConstructorBuilder(Allocation delegate, Signature signature, Statement statement) {
       this.signature = signature;
       this.statement = statement;
       this.delegate = delegate;
    }
    
-   public Function create(TypeFactory factory, Type type, int modifiers) {
-      return create(factory, type, modifiers);
+   public Function create(TypeBody body, Type type, int modifiers) {
+      return create(body, type, modifiers);
    }
    
-   public FunctionHandle create(TypeFactory factory, Type type, int modifiers, boolean compile) {
+   public FunctionHandle create(TypeBody body, Type type, int modifiers, boolean compile) {
       Constraint none = new VariableConstraint(null);
       InvocationBuilder external = new StatementInvocationBuilder(signature, statement, none);
-      Invocation body = new StatementInvocation(external);
-      TypeAllocator instance = new ThisAllocator(factory, body, type);
+      Invocation invocation = new StatementInvocation(external);
+      TypeAllocator instance = new ThisAllocator(body, invocation, type);
       InvocationBuilder internal = new TypeInvocationBuilder(delegate, signature, type);
       TypeAllocator base = new TypeDelegateAllocator(instance, internal); 
-      Invocation constructor = new NewInvocation(factory, base, type, compile);
+      Invocation constructor = new NewInvocation(body, base, type, compile);
       Constraint constraint = new VariableConstraint(type);
       Function function = new InvocationFunction(signature, constructor, type, constraint, TYPE_CONSTRUCTOR, modifiers | STATIC.mask, 1);
       

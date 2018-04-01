@@ -1,7 +1,7 @@
 package org.snapscript.tree.define;
 
 import org.snapscript.core.Type;
-import org.snapscript.core.TypeFactory;
+import org.snapscript.core.Allocation;
 import org.snapscript.tree.ArgumentList;
 
 public class EnumValue {
@@ -18,7 +18,7 @@ public class EnumValue {
       this.key = key;
    }
 
-   public TypeFactory define(Type type, int index) throws Exception { 
-      return new EnumFactory(key, arguments, index);
+   public Allocation define(Type type, int index) throws Exception { 
+      return new EnumState(key, arguments, index);
    }
 }

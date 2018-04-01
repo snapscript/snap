@@ -11,8 +11,9 @@ import org.snapscript.core.Module;
 import org.snapscript.core.Path;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
-import org.snapscript.core.TypeFactory;
+import org.snapscript.core.TypeBody;
 import org.snapscript.core.TypePart;
+import org.snapscript.core.Allocation;
 import org.snapscript.core.Value;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
@@ -66,8 +67,8 @@ public class TraitConstant implements Compilation {
       }
    
       @Override
-      public TypeFactory define(TypeFactory factory, Type type, Scope scope) throws Exception {
-         TypeFactory declare = declaration.declare(factory, type);
+      public Allocation define(TypeBody body, Type type, Scope scope) throws Exception {
+         Allocation declare = declaration.declare(body, type);
          List<Property> properties = type.getProperties();
          Value value = identifier.evaluate(scope, null);
          String name = value.getString();
@@ -75,7 +76,7 @@ public class TraitConstant implements Compilation {
          if(!checker.isConstant()) {
             throw new InternalStateException("Variable '" + name + "' for '" + type + "' must be constant");
          }
-         Accessor accessor = new StaticAccessor(factory, scope, type, name);
+         Accessor accessor = new StaticAccessor(body, scope, type, name);
          Property property = new AccessorProperty(name, type, constraint, accessor, ModifierType.STATIC.mask | ModifierType.CONSTANT.mask);
          
          annotations.apply(scope, property);

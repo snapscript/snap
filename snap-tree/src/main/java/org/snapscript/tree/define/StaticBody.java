@@ -7,18 +7,18 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.snapscript.core.Execution;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
-import org.snapscript.core.TypeFactory;
+import org.snapscript.core.TypeBody;
 import org.snapscript.core.result.Result;
 
 public class StaticBody extends Execution {
    
    private final AtomicBoolean execute;
-   private final TypeFactory factory;
+   private final TypeBody body;
    private final Type type;
    
-   public StaticBody(TypeFactory factory, Type type) {
+   public StaticBody(TypeBody body, Type type) {
       this.execute = new AtomicBoolean(false);
-      this.factory = factory;
+      this.body = body;
       this.type = type;
    }
 
@@ -26,7 +26,7 @@ public class StaticBody extends Execution {
    public Result execute(Scope scope) throws Exception {
       if(execute.compareAndSet(false, true)) {
          Scope outer = type.getScope();
-         factory.allocate(outer, type);
+         body.allocate(outer, type);
       }
       return NORMAL;
    } 

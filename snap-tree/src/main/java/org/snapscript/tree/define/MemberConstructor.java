@@ -6,7 +6,8 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
-import org.snapscript.core.TypeFactory;
+import org.snapscript.core.TypeBody;
+import org.snapscript.core.Allocation;
 import org.snapscript.core.TypePart;
 import org.snapscript.core.TypeScopeCompiler;
 import org.snapscript.core.constraint.Constraint;
@@ -37,20 +38,18 @@ public abstract class MemberConstructor extends TypePart {
    } 
 
    @Override
-   public TypeFactory compile(TypeFactory factory, Type type, Scope scope) throws Exception {
+   public void compile(TypeBody body, Type type, Scope scope) throws Exception {
       FunctionHandle handle = reference.get();
       Function function = handle.create(scope);
       Scope outer = compiler.compile(scope, type, function);
 
       handle.compile(outer);
-      
-      return null;
    }
    
-   protected TypeFactory assemble(TypeFactory factory, Type type, Scope scope, boolean compile) throws Exception {
+   protected Allocation assemble(TypeBody body, Type type, Scope scope, boolean compile) throws Exception {
       int modifiers = list.getModifiers();
-      ConstructorBuilder builder = assembler.assemble(factory, type, scope);
-      FunctionHandle handle = builder.create(factory, type, modifiers, compile);
+      ConstructorBuilder builder = assembler.assemble(body, type, scope);
+      FunctionHandle handle = builder.create(body, type, modifiers, compile);
       Function constructor = handle.create(scope);
       Constraint constraint = constructor.getConstraint();
       List<Function> functions = type.getFunctions();

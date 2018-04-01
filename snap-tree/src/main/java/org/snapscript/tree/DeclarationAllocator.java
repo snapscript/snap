@@ -1,6 +1,5 @@
 package org.snapscript.tree;
 
-import org.snapscript.core.Allocator;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Local;
 import org.snapscript.core.ModifierType;
@@ -10,7 +9,7 @@ import org.snapscript.core.Value;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.tree.constraint.ModifierConstraint;
 
-public class DeclarationAllocator implements Allocator {
+public class DeclarationAllocator {
 
    private final DeclarationConverter converter;
    private final Constraint constraint;
@@ -22,7 +21,6 @@ public class DeclarationAllocator implements Allocator {
       this.expression = expression;
    }   
    
-   @Override
    public <T extends Value> T compile(Scope scope, String name, int modifiers) throws Exception {
       Type type = constraint.getType(scope);
       
@@ -39,7 +37,6 @@ public class DeclarationAllocator implements Allocator {
    }
    
    
-   @Override
    public <T extends Value> T allocate(Scope scope, String name, int modifiers) throws Exception {
       Type type = constraint.getType(scope);
       Object object = null;

@@ -2,7 +2,8 @@ package org.snapscript.tree.define;
 
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
-import org.snapscript.core.TypeFactory;
+import org.snapscript.core.TypeBody;
+import org.snapscript.core.Allocation;
 import org.snapscript.core.TypePart;
 import org.snapscript.core.define.SuperExtractor;
 
@@ -18,15 +19,15 @@ public class ConstructorSelector {
       this.part = part;
    } 
 
-   public TypeFactory define(TypeFactory factory, Type type, Scope scope) throws Exception {
+   public Allocation define(TypeBody body, Type type, Scope scope) throws Exception {
       Type base = extractor.extractor(type);
       
       if(part != null){
-         return part.define(factory, type, scope);              
+         return part.define(body, type, scope);              
       }
       if(base != null) {
-         return constructor.define(factory, type, scope);
+         return constructor.define(body, type, scope);
       }
-      return new PrimitiveConstructor(); 
+      return new PrimitiveState(); 
    }
 }

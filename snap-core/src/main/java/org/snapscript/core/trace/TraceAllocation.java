@@ -1,31 +1,34 @@
 package org.snapscript.core.trace;
 
+import static org.snapscript.core.Order.OTHER;
+
+import org.snapscript.core.Order;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
-import org.snapscript.core.TypeFactory;
+import org.snapscript.core.Allocation;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.result.Result;
 
-public class TraceTypeFactory extends TypeFactory {
+public class TraceAllocation extends Allocation {
 
    private final ErrorHandler handler;
-   private final TypeFactory factory;
+   private final Allocation factory;
    private final Trace trace;
    
-   public TraceTypeFactory(ErrorHandler handler, TypeFactory factory, Trace trace) {
+   public TraceAllocation(ErrorHandler handler, Allocation factory, Trace trace) {
       this.handler = handler;
       this.factory = factory;
       this.trace = trace;
    }
    
    @Override
-   public boolean define(Scope scope, Type type) throws Exception {
+   public Order define(Scope scope, Type type) throws Exception {
       try {
          return factory.define(scope, type);
       }catch(Exception cause) {
          handler.throwInternalError(scope, cause, trace);
       }
-      return false;
+      return OTHER;
    }
    
    @Override

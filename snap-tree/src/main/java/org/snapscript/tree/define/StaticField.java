@@ -6,12 +6,12 @@ import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 
-public class StaticFieldFactory extends StaticFactory {
+public class StaticField extends StaticBlock {
    
    private final AtomicBoolean compile;
    private final Evaluation evaluation;
    
-   public StaticFieldFactory(Evaluation evaluation){
+   public StaticField(Evaluation evaluation){
       this.compile = new AtomicBoolean(false);
       this.evaluation = evaluation;
    }

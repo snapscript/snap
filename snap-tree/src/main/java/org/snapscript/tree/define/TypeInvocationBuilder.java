@@ -3,7 +3,7 @@ package org.snapscript.tree.define;
 import org.snapscript.core.Bug;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
-import org.snapscript.core.TypeFactory;
+import org.snapscript.core.Allocation;
 import org.snapscript.core.define.Instance;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationBuilder;
@@ -17,10 +17,10 @@ public class TypeInvocationBuilder implements InvocationBuilder {
    private ParameterExtractor extractor;
    private SignatureAligner aligner;
    private Invocation invocation;
-   private TypeFactory factory;
+   private Allocation factory;
    private Type type;
 
-   public TypeInvocationBuilder(TypeFactory factory, Signature signature, Type type) {
+   public TypeInvocationBuilder(Allocation factory, Signature signature, Type type) {
       this.extractor = new ParameterExtractor(signature); // this seems wrong!
       this.aligner = new SignatureAligner(signature);
       this.factory = factory;
@@ -52,9 +52,9 @@ public class TypeInvocationBuilder implements InvocationBuilder {
 
    private class ResultConverter implements Invocation<Instance> {
       
-      private final TypeFactory factory;
+      private final Allocation factory;
       
-      public ResultConverter(TypeFactory factory) {
+      public ResultConverter(Allocation factory) {
          this.factory = factory;
       }
       

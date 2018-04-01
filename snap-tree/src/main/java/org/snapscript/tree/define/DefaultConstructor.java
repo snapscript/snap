@@ -9,7 +9,8 @@ import org.snapscript.core.NoStatement;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
-import org.snapscript.core.TypeFactory;
+import org.snapscript.core.TypeBody;
+import org.snapscript.core.Allocation;
 import org.snapscript.core.TypePart;
 import org.snapscript.core.function.Function;
 import org.snapscript.tree.ModifierList;
@@ -37,7 +38,7 @@ public class DefaultConstructor extends TypePart {
    } 
 
    @Override
-   public TypeFactory define(TypeFactory factory, Type type, Scope scope) throws Exception {
+   public Allocation define(TypeBody body, Type type, Scope scope) throws Exception {
       List<Function> functions = type.getFunctions();
       
       for(Function function : functions) {
@@ -47,25 +48,24 @@ public class DefaultConstructor extends TypePart {
             return null;
          }
       }
-      return assemble(factory, type, scope, compile);
+      return assemble(body, type, scope, compile);
    }
    
    @Override
-   public TypeFactory compile(TypeFactory factory, Type type, Scope scope) throws Exception {
+   public void compile(TypeBody body, Type type, Scope scope) throws Exception {
       ClassConstructor constructor = reference.get();
       
       if(constructor != null) {
-         constructor.compile(factory, type, scope);
+         constructor.compile(body, type, scope);
       }
-      return null;
    }
 
-   protected TypeFactory assemble(TypeFactory factory, Type type, Scope scope, boolean compile) throws Exception {
+   protected Allocation assemble(TypeBody body, Type type, Scope scope, boolean compile) throws Exception {
       Statement statement = new NoStatement();
       ClassConstructor constructor = new ClassConstructor(annotations, modifiers, parameters, statement);
       
       reference.set(constructor);
       
-      return constructor.assemble(factory, type, scope, compile);
+      return constructor.assemble(body, type, scope, compile);
    }
 }

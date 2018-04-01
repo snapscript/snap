@@ -2,7 +2,8 @@ package org.snapscript.tree.define;
 
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
-import org.snapscript.core.TypeFactory;
+import org.snapscript.core.TypeBody;
+import org.snapscript.core.Allocation;
 import org.snapscript.core.TypePart;
 
 public class EnumList extends TypePart {
@@ -14,12 +15,12 @@ public class EnumList extends TypePart {
    }
 
    @Override
-   public TypeFactory define(TypeFactory factory, Type type, Scope scope) throws Exception {
-      TypeFactoryCollector collector = new TypeFactoryCollector();
+   public Allocation define(TypeBody body, Type type, Scope scope) throws Exception {
+      AllocationCollector collector = new AllocationCollector();
       int index = 0;
       
       for(EnumValue value : values) {
-         TypeFactory initializer = value.define(type, index++);
+         Allocation initializer = value.define(type, index++);
          
          if(initializer != null) {
             collector.update(initializer);

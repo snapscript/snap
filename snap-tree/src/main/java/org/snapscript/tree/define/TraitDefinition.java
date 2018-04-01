@@ -12,20 +12,18 @@ import org.snapscript.common.Progress;
 import org.snapscript.core.Execution;
 import org.snapscript.core.NoExecution;
 import org.snapscript.core.Phase;
-import org.snapscript.core.Reserved;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
-import org.snapscript.core.TypeFactory;
+import org.snapscript.core.Allocation;
 import org.snapscript.core.TypePart;
-import org.snapscript.core.Value;
 import org.snapscript.tree.annotation.AnnotationList;
 
 public class TraitDefinition extends Statement {   
    
    private final FunctionPropertyGenerator generator;
-   private final TypeFactoryCollector collector;
-   private final TypeFactory constants;
+   private final AllocationCollector collector;
+   private final Allocation constants;
    private final AtomicBoolean compile;
    private final AtomicBoolean define;
    private final AtomicBoolean create;
@@ -36,8 +34,8 @@ public class TraitDefinition extends Statement {
    public TraitDefinition(AnnotationList annotations, TraitName name, TypeHierarchy hierarchy, TypePart... parts) {
       this.builder = new ClassBuilder(annotations, name, hierarchy, TRAIT);
       this.generator = new FunctionPropertyGenerator(); 
-      this.constants = new StaticConstantFactory();
-      this.collector = new TypeFactoryCollector();
+      this.constants = new StaticState();
+      this.collector = new AllocationCollector();
       this.execution = new NoExecution(NORMAL);
       this.compile = new AtomicBoolean(true);
       this.define = new AtomicBoolean(true);
@@ -54,8 +52,7 @@ public class TraitDefinition extends Statement {
          
          try {
             for(TypePart part : parts) {
-               TypeFactory factory = part.create(collector, type, scope);
-               collector.update(factory);
+               part.create(collector, type, scope);               
             } 
          } finally {
             progress.done(CREATED);
@@ -74,7 +71,7 @@ public class TraitDefinition extends Statement {
             collector.update(constants); // collect static constants first
             
             for(TypePart part : parts) {
-               TypeFactory factory = part.define(collector, type, scope);
+               Allocation factory = part.define(collector, type, scope);
                collector.update(factory);
             } 
             collector.define(scope, type);
@@ -96,8 +93,7 @@ public class TraitDefinition extends Statement {
          
          try {
             for(TypePart part : parts) {
-               TypeFactory factory = part.compile(collector, type, local);
-               collector.update(factory);
+               part.compile(collector, type, local);
             } 
             collector.compile(local, type);
          } finally {

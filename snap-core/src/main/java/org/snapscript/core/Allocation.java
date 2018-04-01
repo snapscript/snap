@@ -1,13 +1,14 @@
 package org.snapscript.core;
 
+import static org.snapscript.core.Order.OTHER;
 import static org.snapscript.core.result.Result.NORMAL;
 
 import org.snapscript.core.result.Result;
 
-public abstract class TypeFactory {
+public abstract class Allocation {
 
-   public boolean define(Scope scope, Type type) throws Exception {
-      return false;
+   public Order define(Scope scope, Type type) throws Exception {
+      return OTHER;
    } 
    
    public void compile(Scope scope, Type type) throws Exception {}

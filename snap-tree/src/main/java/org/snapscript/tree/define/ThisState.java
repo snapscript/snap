@@ -1,18 +1,20 @@
 package org.snapscript.tree.define;
 
+import static org.snapscript.core.Order.OTHER;
+
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Execution;
+import org.snapscript.core.Order;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
-import org.snapscript.core.TypeFactory;
+import org.snapscript.core.Allocation;
 import org.snapscript.core.Value;
 import org.snapscript.core.define.Instance;
 import org.snapscript.core.result.Result;
 
-public class ThisFactory extends TypeFactory {
+public class ThisState extends Allocation {
    
    private final AtomicBoolean allocate;
    private final AtomicBoolean define;
@@ -20,7 +22,7 @@ public class ThisFactory extends TypeFactory {
    private final Evaluation expression;
    private final Execution execution;
    
-   public ThisFactory(Execution execution, Evaluation expression) {
+   public ThisState(Execution execution, Evaluation expression) {
       this.define = new AtomicBoolean();
       this.allocate = new AtomicBoolean();
       this.compile = new AtomicBoolean();
@@ -29,11 +31,11 @@ public class ThisFactory extends TypeFactory {
    }
 
    @Override
-   public boolean define(Scope instance, Type real) throws Exception {
+   public Order define(Scope instance, Type real) throws Exception {
       if(define.compareAndSet(false, true)) {
          expression.define(instance);
       }
-      return false;
+      return OTHER;
    }
    
    @Override

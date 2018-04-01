@@ -2,7 +2,8 @@ package org.snapscript.core.trace;
 
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
-import org.snapscript.core.TypeFactory;
+import org.snapscript.core.TypeBody;
+import org.snapscript.core.Allocation;
 import org.snapscript.core.TypePart;
 import org.snapscript.core.error.ErrorHandler;
 
@@ -19,12 +20,21 @@ public class TraceTypePart extends TypePart {
    }
 
    @Override
-   public TypeFactory create(TypeFactory factory, Type type, Scope scope) throws Exception {
+   public void create(TypeBody body, Type type, Scope scope) throws Exception {
       try {
-         TypeFactory result = part.create(factory, type, scope);
+         part.create(body, type, scope);
+      }catch(Exception cause) {
+         handler.throwInternalError(scope, cause, trace);
+      }
+   }
+   
+   @Override
+   public Allocation define(TypeBody body, Type type, Scope scope) throws Exception {
+      try {
+         Allocation statement = part.define(body, type, scope);
          
-         if(result != null) {
-            return new TraceTypeFactory(handler, result, trace);
+         if(statement != null) {
+            return new TraceAllocation(handler, statement, trace);
          }
       }catch(Exception cause) {
          handler.throwInternalError(scope, cause, trace);
@@ -33,30 +43,11 @@ public class TraceTypePart extends TypePart {
    }
    
    @Override
-   public TypeFactory define(TypeFactory factory, Type type, Scope scope) throws Exception {
+   public void compile(TypeBody body, Type type, Scope scope) throws Exception {
       try {
-         TypeFactory result = part.define(factory, type, scope);
-         
-         if(result != null) {
-            return new TraceTypeFactory(handler, result, trace);
-         }
+         part.compile(body, type, scope);
       }catch(Exception cause) {
          handler.throwInternalError(scope, cause, trace);
       }
-      return null;
-   }
-   
-   @Override
-   public TypeFactory compile(TypeFactory factory, Type type, Scope scope) throws Exception {
-      try {
-         TypeFactory result = part.compile(factory, type, scope);
-         
-         if(result != null) {
-            return new TraceTypeFactory(handler, result, trace);
-         }
-      }catch(Exception cause) {
-         handler.throwInternalError(scope, cause, trace);
-      }
-      return null;
    }
 }

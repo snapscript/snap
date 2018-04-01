@@ -2,11 +2,11 @@ package org.snapscript.tree.define;
 
 import org.snapscript.core.Type;
 
-public class StaticConstantFactory extends StaticFactory {
+public class StaticState extends StaticBlock {
    
    private final StaticConstantCollector collector;
    
-   public StaticConstantFactory() {
+   public StaticState() {
       this.collector = new StaticConstantCollector();
    }
 

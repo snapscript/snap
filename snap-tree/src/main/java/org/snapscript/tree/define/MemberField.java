@@ -8,7 +8,8 @@ import org.snapscript.core.Module;
 import org.snapscript.core.Path;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
-import org.snapscript.core.TypeFactory;
+import org.snapscript.core.TypeBody;
+import org.snapscript.core.Allocation;
 import org.snapscript.core.TypePart;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
@@ -43,7 +44,7 @@ public class MemberField implements Compilation {
    private static class CompileResult extends TypePart {
    
       private final MemberFieldDeclaration[] declarations;
-      private final TypeFactoryCollector collector;
+      private final AllocationCollector collector;
       private final MemberFieldAssembler assembler;
       private final AnnotationList annotations;
       private final ModifierChecker checker;
@@ -51,13 +52,13 @@ public class MemberField implements Compilation {
       public CompileResult(AnnotationList annotations, ModifierList modifiers, MemberFieldDeclaration... declarations) {
          this.assembler = new MemberFieldAssembler(modifiers);
          this.checker = new ModifierChecker(modifiers);
-         this.collector = new TypeFactoryCollector();
+         this.collector = new AllocationCollector();
          this.declarations = declarations;
          this.annotations = annotations;
       }
    
       @Override
-      public TypeFactory define(TypeFactory factory, Type type, Scope scope) throws Exception {
+      public Allocation define(TypeBody body, Type type, Scope scope) throws Exception {
          List<Property> properties = type.getProperties();
          int mask = checker.getModifiers();
          
@@ -65,10 +66,10 @@ public class MemberField implements Compilation {
             MemberFieldData data = declaration.create(scope, mask);
             String name = data.getName();
             Constraint constraint = data.getConstraint();
-            TypeFactory declare = assembler.assemble(data);
+            Allocation declare = assembler.assemble(data);
             
             if (checker.isStatic()) {
-               Accessor accessor = new StaticAccessor(factory, scope, type, name);
+               Accessor accessor = new StaticAccessor(body, scope, type, name);
                Property property = new AccessorProperty(name, type, constraint, accessor, mask);
                
                annotations.apply(scope, property);

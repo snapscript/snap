@@ -9,7 +9,8 @@ import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
-import org.snapscript.core.TypeFactory;
+import org.snapscript.core.TypeBody;
+import org.snapscript.core.Allocation;
 import org.snapscript.core.TypePart;
 import org.snapscript.core.TypeScopeCompiler;
 import org.snapscript.core.constraint.Constraint;
@@ -25,7 +26,7 @@ public class MemberFunction extends TypePart {
    protected final MemberFunctionAssembler assembler;
    protected final TypeScopeCompiler compiler;
    protected final AnnotationList annotations;
-   protected final Statement body;
+   protected final Statement statement;
    
    public MemberFunction(AnnotationList annotations, ModifierList modifiers, Evaluation identifier, ParameterList parameters){
       this(annotations, modifiers, identifier, parameters, null, null);
@@ -39,33 +40,31 @@ public class MemberFunction extends TypePart {
       this(annotations, modifiers, identifier, parameters, null, body);
    }
    
-   public MemberFunction(AnnotationList annotations, ModifierList modifiers, Evaluation identifier, ParameterList parameters, Constraint constraint, Statement body){  
-      this.assembler = new MemberFunctionAssembler(modifiers, identifier, parameters, constraint, body);
+   public MemberFunction(AnnotationList annotations, ModifierList modifiers, Evaluation identifier, ParameterList parameters, Constraint constraint, Statement statement){  
+      this.assembler = new MemberFunctionAssembler(modifiers, identifier, parameters, constraint, statement);
       this.reference = new AtomicReference<FunctionHandle>();
       this.compiler = new TypeScopeCompiler();
       this.annotations = annotations;
-      this.body = body;
+      this.statement = statement;
    } 
 
    @Override
-   public TypeFactory define(TypeFactory factory, Type type, Scope scope) throws Exception {
+   public Allocation define(TypeBody factory, Type type, Scope scope) throws Exception {
       return assemble(factory, type, scope, 0);
    }
    
    @Override
-   public TypeFactory compile(TypeFactory factory, Type type, Scope scope) throws Exception {
+   public void compile(TypeBody body, Type type, Scope scope) throws Exception {
       FunctionHandle handle = reference.get();
       Function function = handle.create(scope);
       Scope outer = compiler.compile(scope, type, function);
 
       handle.compile(outer);
-      
-      return null;
    }
    
-   protected TypeFactory assemble(TypeFactory factory, Type type, Scope scope, int mask) throws Exception {
+   protected Allocation assemble(TypeBody body, Type type, Scope scope, int mask) throws Exception {
       MemberFunctionBuilder builder = assembler.assemble(type, mask);
-      FunctionHandle handle = builder.create(factory, scope, type);
+      FunctionHandle handle = builder.create(body, scope, type);
       Function function = handle.create(scope);
       Constraint constraint = function.getConstraint();
       List<Function> functions = type.getFunctions();

@@ -3,7 +3,8 @@ package org.snapscript.tree.define;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
-import org.snapscript.core.TypeFactory;
+import org.snapscript.core.TypeBody;
+import org.snapscript.core.Allocation;
 import org.snapscript.core.TypePart;
 import org.snapscript.tree.ModifierList;
 import org.snapscript.tree.annotation.AnnotationList;
@@ -20,7 +21,7 @@ public class ClassConstructor extends MemberConstructor {
    } 
    
    @Override
-   public TypeFactory define(TypeFactory factory, Type type, Scope scope) throws Exception {
-      return assemble(factory, type, scope, true);
+   public Allocation define(TypeBody body, Type type, Scope scope) throws Exception {
+      return assemble(body, type, scope, true);
    }
 }

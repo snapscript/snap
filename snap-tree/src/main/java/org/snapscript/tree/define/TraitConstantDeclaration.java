@@ -6,7 +6,8 @@ import static org.snapscript.core.ModifierType.STATIC;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
-import org.snapscript.core.TypeFactory;
+import org.snapscript.core.TypeBody;
+import org.snapscript.core.Allocation;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.tree.ModifierData;
 import org.snapscript.tree.literal.TextLiteral;
@@ -23,7 +24,7 @@ public class TraitConstantDeclaration {
       this.assembler = new MemberFieldAssembler(modifiers);
    }
    
-   public TypeFactory declare(TypeFactory factory, Type type) throws Exception {
+   public Allocation declare(TypeBody body, Type type) throws Exception {
       int mask = modifiers.getModifiers();
       Scope scope = type.getScope();
       MemberFieldData data = declaration.create(scope, mask);

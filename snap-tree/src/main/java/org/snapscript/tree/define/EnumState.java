@@ -15,21 +15,21 @@ import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.State;
 import org.snapscript.core.Type;
-import org.snapscript.core.TypeFactory;
+import org.snapscript.core.Allocation;
 import org.snapscript.core.Value;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.ProxyWrapper;
 import org.snapscript.tree.ArgumentList;
 import org.snapscript.tree.NameReference;
 
-public class EnumFactory extends TypeFactory {
+public class EnumState extends Allocation {
    
    private final EnumConstantGenerator generator;
    private final EnumConstructorBinder binder;
    private final NameReference reference;
    private final int index;
    
-   public EnumFactory(EnumKey key, ArgumentList arguments, int index) {
+   public EnumState(EnumKey key, ArgumentList arguments, int index) {
       this.generator = new EnumConstantGenerator();
       this.binder = new EnumConstructorBinder(arguments);
       this.reference = new NameReference(key);

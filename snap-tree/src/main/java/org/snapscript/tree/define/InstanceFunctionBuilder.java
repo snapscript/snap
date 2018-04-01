@@ -5,7 +5,7 @@ import org.snapscript.core.ModifierType;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Type;
-import org.snapscript.core.TypeFactory;
+import org.snapscript.core.TypeBody;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionHandle;
@@ -19,26 +19,26 @@ public class InstanceFunctionBuilder implements MemberFunctionBuilder {
       
    private final Constraint constraint;
    private final Signature signature;
-   private final Statement body;
+   private final Statement statement;
    private final String name;
    private final int modifiers;
 
-   public InstanceFunctionBuilder(Signature signature, Statement body, Constraint constraint, String name, int modifiers) {
+   public InstanceFunctionBuilder(Signature signature, Statement statement, Constraint constraint, String name, int modifiers) {
       this.constraint = constraint;
       this.modifiers = modifiers;
       this.signature = signature;
-      this.body = body;
+      this.statement = statement;
       this.name = name;
    }
    
    @Override
-   public FunctionHandle create(TypeFactory factory, Scope scope, Type type){
-      InvocationBuilder builder = new StatementInvocationBuilder(signature, body, constraint);
-      Invocation invocation = new InstanceInvocation(builder, name, body == null);
+   public FunctionHandle create(TypeBody body, Scope scope, Type type){
+      InvocationBuilder builder = new StatementInvocationBuilder(signature, statement, constraint);
+      Invocation invocation = new InstanceInvocation(builder, name, statement == null);
       Function function = new InvocationFunction(signature, invocation, type, constraint, name, modifiers);
       
       if(!ModifierType.isAbstract(modifiers)) {
-         if(body == null) {
+         if(statement == null) {
             throw new InternalStateException("Function '" + function + "' is not abstract");
          }
       }
