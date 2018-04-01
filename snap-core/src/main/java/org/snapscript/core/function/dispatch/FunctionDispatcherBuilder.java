@@ -2,13 +2,13 @@ package org.snapscript.core.function.dispatch;
 
 import java.util.Map;
 
-import org.snapscript.core.Category;
-import org.snapscript.core.Module;
-import org.snapscript.core.Scope;
-import org.snapscript.core.Type;
-import org.snapscript.core.Value;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.Value;
+import org.snapscript.core.type.Category;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.convert.Delegate;
+import org.snapscript.core.convert.proxy.Delegate;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.search.FunctionSearcher;
@@ -26,14 +26,11 @@ public class FunctionDispatcherBuilder {
    }
    
    public FunctionDispatcher create(Scope scope, Class type) throws Exception  {
-      if(Scope.class.isAssignableFrom(type)) {
-         return new AnyDispatcher(binder, handler, name);            
-      }
       if(Module.class.isAssignableFrom(type)) {
          return new ModuleDispatcher(binder, handler, name);
       }  
       if(Type.class.isAssignableFrom(type)) {
-         return new TypeDispatcher(binder, handler, name);
+         return new TypeStaticDispatcher(binder, handler, name);
       }  
       if(Map.class.isAssignableFrom(type)) {
          return new MapDispatcher(binder, handler, name);
@@ -50,7 +47,7 @@ public class FunctionDispatcherBuilder {
       if(type.isArray()) {
          return new ArrayDispatcher(binder, handler, name);
       }
-      return new ObjectDispatcher(binder, handler, name);     
+      return new TypeInstanceDispatcher(binder, handler, name);     
    }
    
    public FunctionDispatcher create(Scope scope, Constraint left) throws Exception {
@@ -62,7 +59,7 @@ public class FunctionDispatcherBuilder {
          return new ModuleDispatcher(binder, handler, name);
       }
       if(left.isStatic()) {
-         return new TypeDispatcher(binder, handler, name);
+         return new TypeStaticDispatcher(binder, handler, name);
       }
       if(category.isFunction()) {
          return new ClosureDispatcher(binder, handler, name);
@@ -76,9 +73,8 @@ public class FunctionDispatcherBuilder {
       if(real != null) {
          if(Map.class.isAssignableFrom(real)) {
             return new MapDispatcher(binder, handler, name);
-         }         
-         return new ObjectDispatcher(binder, handler, name);     
+         }
       }
-      return new AnyDispatcher(binder, handler, name);  
+      return new TypeInstanceDispatcher(binder, handler, name);      
    }
 }

@@ -1,12 +1,12 @@
 package org.snapscript.tree.define;
 
 import org.snapscript.core.Context;
-import org.snapscript.core.Module;
-import org.snapscript.core.ModuleRegistry;
-import org.snapscript.core.Path;
-import org.snapscript.core.Scope;
-import org.snapscript.core.TypeNameBuilder;
 import org.snapscript.core.link.ImportManager;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.module.ModuleRegistry;
+import org.snapscript.core.module.Path;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.TypeNameBuilder;
 import org.snapscript.tree.NameReference;
 import org.snapscript.tree.annotation.AnnotationList;
 

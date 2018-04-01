@@ -1,9 +1,9 @@
 package org.snapscript.core.link;
 
 import org.snapscript.core.NoStatement;
-import org.snapscript.core.Path;
-import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
+import org.snapscript.core.module.Path;
+import org.snapscript.core.scope.Scope;
 
 public class NoDefinition implements PackageDefinition {
 

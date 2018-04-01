@@ -6,18 +6,18 @@ import java.util.List;
 
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Execution;
-import org.snapscript.core.InternalStateException;
 import org.snapscript.core.ModifierType;
-import org.snapscript.core.Module;
-import org.snapscript.core.NameBuilder;
 import org.snapscript.core.NoExecution;
-import org.snapscript.core.Path;
-import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
-import org.snapscript.core.Type;
-import org.snapscript.core.TypeNameBuilder;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.NameBuilder;
+import org.snapscript.core.type.Type;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.Function;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.module.Path;
 import org.snapscript.core.result.Result;
+import org.snapscript.core.type.TypeNameBuilder;
 
 public class ImportStatic implements Compilation {   
    

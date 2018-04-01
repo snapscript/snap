@@ -6,8 +6,8 @@ import static org.snapscript.core.Reserved.DEFAULT_PARAMETER;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.snapscript.core.Module;
-import org.snapscript.core.Type;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionSignature;
 import org.snapscript.core.function.FunctionType;

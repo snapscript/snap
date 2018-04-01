@@ -5,12 +5,12 @@ import static org.snapscript.core.Reserved.GRAMMAR_FILE;
 import java.util.concurrent.Executor;
 
 import org.snapscript.core.Context;
-import org.snapscript.core.FilePathConverter;
-import org.snapscript.core.Path;
-import org.snapscript.core.PathConverter;
 import org.snapscript.core.Statement;
 import org.snapscript.core.link.Package;
 import org.snapscript.core.link.StatementPackage;
+import org.snapscript.core.module.FilePathConverter;
+import org.snapscript.core.module.Path;
+import org.snapscript.core.module.PathConverter;
 import org.snapscript.parse.SyntaxCompiler;
 import org.snapscript.parse.SyntaxNode;
 import org.snapscript.parse.SyntaxParser;

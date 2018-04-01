@@ -1,7 +1,7 @@
 package org.snapscript.tree.collection;
 
-import org.snapscript.core.Scope;
-import org.snapscript.core.Type;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Type;
 
 public interface Iteration {
    Type getEntry(Scope scope) throws Exception;

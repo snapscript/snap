@@ -4,9 +4,8 @@ import static org.snapscript.core.ModifierType.STATIC;
 import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
 
 import org.snapscript.core.Statement;
-import org.snapscript.core.Type;
-import org.snapscript.core.TypeBody;
-import org.snapscript.core.Allocation;
+import org.snapscript.core.type.Allocation;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.constraint.VariableConstraint;
 import org.snapscript.core.function.Function;
@@ -15,6 +14,7 @@ import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationBuilder;
 import org.snapscript.core.function.InvocationFunction;
 import org.snapscript.core.function.Signature;
+import org.snapscript.core.type.TypeBody;
 import org.snapscript.tree.StatementInvocationBuilder;
 import org.snapscript.tree.function.StatementInvocation;
 

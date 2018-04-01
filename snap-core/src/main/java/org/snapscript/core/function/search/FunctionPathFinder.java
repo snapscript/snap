@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.snapscript.core.Type;
-import org.snapscript.core.TypeCache;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.convert.TypeInspector;
+import org.snapscript.core.type.TypeCache;
 
 public class FunctionPathFinder {
    

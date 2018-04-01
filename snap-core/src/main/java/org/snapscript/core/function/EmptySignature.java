@@ -4,7 +4,7 @@ import java.lang.reflect.Member;
 import java.util.Collections;
 import java.util.List;
 
-import org.snapscript.core.Type;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.convert.NoArgumentConverter;
 
 public class EmptySignature implements Signature {

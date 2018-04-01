@@ -1,6 +1,6 @@
 package org.snapscript.compile;
 
-import static org.snapscript.core.Category.CLASS;
+import static org.snapscript.core.type.Category.CLASS;
 
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
@@ -11,8 +11,8 @@ import junit.framework.TestCase;
 import org.snapscript.common.store.ClassPathStore;
 import org.snapscript.common.store.Store;
 import org.snapscript.core.Context;
-import org.snapscript.core.Type;
-import org.snapscript.core.TypeLoader;
+import org.snapscript.core.type.Type;
+import org.snapscript.core.type.TypeLoader;
 
 public class TypeLoaderTest extends TestCase {
    

@@ -2,10 +2,10 @@ package org.snapscript.tree.closure;
 
 import java.util.List;
 
-import org.snapscript.core.Type;
-import org.snapscript.core.annotation.Annotation;
+import org.snapscript.core.type.Type;
+import org.snapscript.core.type.annotation.Annotation;
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.convert.FunctionProxy;
+import org.snapscript.core.convert.proxy.FunctionProxy;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.Signature;

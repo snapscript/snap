@@ -4,16 +4,16 @@ import static org.snapscript.tree.Instruction.SCRIPT;
 
 import org.snapscript.compile.assemble.Program;
 import org.snapscript.core.Context;
-import org.snapscript.core.EmptyModule;
-import org.snapscript.core.FilePathConverter;
-import org.snapscript.core.Module;
-import org.snapscript.core.Path;
-import org.snapscript.core.PathConverter;
 import org.snapscript.core.ResourceManager;
 import org.snapscript.core.error.ThreadExceptionHandler;
-import org.snapscript.core.extend.ModuleExtender;
 import org.snapscript.core.link.Package;
 import org.snapscript.core.link.PackageLinker;
+import org.snapscript.core.module.EmptyModule;
+import org.snapscript.core.module.FilePathConverter;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.module.Path;
+import org.snapscript.core.module.PathConverter;
+import org.snapscript.core.type.extend.ModuleExtender;
 
 public class ResourceCompiler implements Compiler {
 

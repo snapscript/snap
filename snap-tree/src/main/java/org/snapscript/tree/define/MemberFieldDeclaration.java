@@ -3,8 +3,8 @@ package org.snapscript.tree.define;
 import static org.snapscript.core.ModifierType.CONSTANT;
 
 import org.snapscript.core.Evaluation;
-import org.snapscript.core.Scope;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.scope.Scope;
 import org.snapscript.tree.NameReference;
 import org.snapscript.tree.constraint.ModifierConstraint;
 import org.snapscript.tree.literal.TextLiteral;

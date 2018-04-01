@@ -2,11 +2,11 @@ package org.snapscript.compile.assemble;
 
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
-import org.snapscript.core.FilePathConverter;
-import org.snapscript.core.Module;
-import org.snapscript.core.ModuleRegistry;
-import org.snapscript.core.Path;
-import org.snapscript.core.PathConverter;
+import org.snapscript.core.module.FilePathConverter;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.module.ModuleRegistry;
+import org.snapscript.core.module.Path;
+import org.snapscript.core.module.PathConverter;
 import org.snapscript.parse.Line;
 
 public class OperationProcessor {

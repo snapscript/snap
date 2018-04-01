@@ -1,7 +1,7 @@
 package org.snapscript.tree.define;
 
-import org.snapscript.core.Type;
-import org.snapscript.core.Allocation;
+import org.snapscript.core.type.Allocation;
+import org.snapscript.core.type.Type;
 import org.snapscript.tree.ArgumentList;
 
 public class EnumValue {

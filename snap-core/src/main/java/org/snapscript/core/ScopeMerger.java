@@ -1,5 +1,15 @@
 package org.snapscript.core;
 
+import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.module.FilePathConverter;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.module.ModuleRegistry;
+import org.snapscript.core.module.Path;
+import org.snapscript.core.module.PathConverter;
+import org.snapscript.core.scope.Model;
+import org.snapscript.core.scope.ModelScope;
+import org.snapscript.core.scope.Scope;
+
 public class ScopeMerger {
 
    private final PathConverter converter;

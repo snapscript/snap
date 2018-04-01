@@ -2,10 +2,10 @@ package org.snapscript.tree.template;
 
 import java.io.Writer;
 
-import org.snapscript.core.Scope;
-import org.snapscript.core.State;
-import org.snapscript.core.Value;
 import org.snapscript.core.convert.StringBuilder;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.Value;
 
 public class VariableSegment implements Segment {
    

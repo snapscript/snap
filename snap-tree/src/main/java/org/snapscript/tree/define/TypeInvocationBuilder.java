@@ -1,10 +1,9 @@
 package org.snapscript.tree.define;
 
-import org.snapscript.core.Bug;
-import org.snapscript.core.Scope;
-import org.snapscript.core.Type;
-import org.snapscript.core.Allocation;
-import org.snapscript.core.define.Instance;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.instance.Instance;
+import org.snapscript.core.type.Allocation;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationBuilder;
 import org.snapscript.core.function.Signature;

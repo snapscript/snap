@@ -7,7 +7,7 @@ import junit.framework.TestCase;
 import org.snapscript.common.store.ClassPathStore;
 import org.snapscript.common.store.Store;
 import org.snapscript.core.Context;
-import org.snapscript.core.Type;
+import org.snapscript.core.type.Type;
 
 public class FunctionReferenceInSuperInterfaceTest extends TestCase{
 

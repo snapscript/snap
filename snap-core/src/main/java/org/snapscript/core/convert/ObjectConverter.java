@@ -2,11 +2,12 @@ package org.snapscript.core.convert;
 
 import static org.snapscript.core.convert.Score.EXACT;
 
-import org.snapscript.core.Category;
-import org.snapscript.core.InternalArgumentException;
-import org.snapscript.core.Type;
-import org.snapscript.core.TypeCastChecker;
-import org.snapscript.core.TypeExtractor;
+import org.snapscript.core.type.Type;
+import org.snapscript.core.convert.proxy.ProxyWrapper;
+import org.snapscript.core.error.InternalArgumentException;
+import org.snapscript.core.type.Category;
+import org.snapscript.core.type.TypeCastChecker;
+import org.snapscript.core.type.TypeExtractor;
 
 public class ObjectConverter extends ConstraintConverter {
    

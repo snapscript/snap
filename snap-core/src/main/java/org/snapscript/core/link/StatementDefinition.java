@@ -5,12 +5,12 @@ import java.util.concurrent.FutureTask;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.Context;
-import org.snapscript.core.Module;
-import org.snapscript.core.ModuleRegistry;
 import org.snapscript.core.NoStatement;
-import org.snapscript.core.Path;
-import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.module.ModuleRegistry;
+import org.snapscript.core.module.Path;
+import org.snapscript.core.scope.Scope;
 
 public class StatementDefinition implements PackageDefinition {
 

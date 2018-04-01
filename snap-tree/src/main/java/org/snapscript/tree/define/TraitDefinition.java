@@ -1,22 +1,22 @@
 package org.snapscript.tree.define;
 
-import static org.snapscript.core.Category.TRAIT;
-import static org.snapscript.core.Phase.COMPILED;
-import static org.snapscript.core.Phase.CREATED;
-import static org.snapscript.core.Phase.DEFINED;
 import static org.snapscript.core.result.Result.NORMAL;
+import static org.snapscript.core.type.Category.TRAIT;
+import static org.snapscript.core.type.Phase.COMPILED;
+import static org.snapscript.core.type.Phase.CREATED;
+import static org.snapscript.core.type.Phase.DEFINED;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.snapscript.common.Progress;
 import org.snapscript.core.Execution;
 import org.snapscript.core.NoExecution;
-import org.snapscript.core.Phase;
-import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
-import org.snapscript.core.Type;
-import org.snapscript.core.Allocation;
-import org.snapscript.core.TypePart;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Allocation;
+import org.snapscript.core.type.Phase;
+import org.snapscript.core.type.Type;
+import org.snapscript.core.type.TypePart;
 import org.snapscript.tree.annotation.AnnotationList;
 
 public class TraitDefinition extends Statement {   

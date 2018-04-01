@@ -8,10 +8,10 @@ import junit.framework.TestCase;
 import org.snapscript.common.store.ClassPathStore;
 import org.snapscript.common.store.Store;
 import org.snapscript.core.Context;
-import org.snapscript.core.EmptyModel;
 import org.snapscript.core.ExpressionEvaluator;
-import org.snapscript.core.MapModel;
-import org.snapscript.core.Model;
+import org.snapscript.core.scope.EmptyModel;
+import org.snapscript.core.scope.MapModel;
+import org.snapscript.core.scope.Model;
 
 public class DynamicConstructionTest extends TestCase {
 

@@ -1,17 +1,17 @@
 package org.snapscript.tree.define;
 
-import static org.snapscript.core.Order.OTHER;
+import static org.snapscript.core.type.Order.OTHER;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Execution;
-import org.snapscript.core.Order;
-import org.snapscript.core.Scope;
-import org.snapscript.core.Type;
-import org.snapscript.core.Allocation;
-import org.snapscript.core.Value;
-import org.snapscript.core.define.Instance;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.Value;
+import org.snapscript.core.scope.instance.Instance;
+import org.snapscript.core.type.Allocation;
+import org.snapscript.core.type.Order;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.result.Result;
 
 public class ThisState extends Allocation {

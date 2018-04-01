@@ -6,9 +6,9 @@ import static org.snapscript.core.Reserved.ENUM_VALUES;
 import static org.snapscript.core.Reserved.TYPE_CLASS;
 import static org.snapscript.core.Reserved.TYPE_THIS;
 
-import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Type;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.convert.ConstraintMatcher;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.property.Property;
 import org.snapscript.tree.ModifierValidator;
 

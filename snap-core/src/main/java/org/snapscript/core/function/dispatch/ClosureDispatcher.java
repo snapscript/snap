@@ -2,11 +2,11 @@ package org.snapscript.core.function.dispatch;
 
 import java.util.List;
 
-import org.snapscript.core.Any;
-import org.snapscript.core.Scope;
-import org.snapscript.core.Type;
-import org.snapscript.core.Value;
-import org.snapscript.core.annotation.Annotation;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.Value;
+import org.snapscript.core.type.Any;
+import org.snapscript.core.type.Type;
+import org.snapscript.core.type.annotation.Annotation;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.function.Function;

@@ -4,7 +4,7 @@ import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
 
 import java.lang.reflect.Proxy;
 
-import org.snapscript.core.Type;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.function.Function;
 
 public class TypeInspector {

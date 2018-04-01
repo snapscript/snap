@@ -1,8 +1,8 @@
 package org.snapscript.tree.function;
 
-import org.snapscript.core.Module;
 import org.snapscript.core.Statement;
-import org.snapscript.core.Type;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionHandle;

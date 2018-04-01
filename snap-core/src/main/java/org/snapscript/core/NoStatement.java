@@ -2,6 +2,8 @@ package org.snapscript.core;
 
 import static org.snapscript.core.result.Result.NORMAL;
 
+import org.snapscript.core.scope.Scope;
+
 public class NoStatement extends Statement {
    
    private final Execution execution;

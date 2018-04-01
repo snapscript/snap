@@ -1,19 +1,19 @@
 package org.snapscript.tree.define;
 
-import static org.snapscript.core.Order.INSTANCE;
-import static org.snapscript.core.Order.OTHER;
-import static org.snapscript.core.Order.STATIC;
 import static org.snapscript.core.result.Result.NORMAL;
+import static org.snapscript.core.type.Order.INSTANCE;
+import static org.snapscript.core.type.Order.OTHER;
+import static org.snapscript.core.type.Order.STATIC;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.snapscript.core.Order;
-import org.snapscript.core.Scope;
-import org.snapscript.core.Type;
-import org.snapscript.core.TypeBody;
-import org.snapscript.core.Allocation;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Allocation;
+import org.snapscript.core.type.Order;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.result.Result;
+import org.snapscript.core.type.TypeBody;
 
 public class AllocationCollector extends Allocation implements TypeBody {
 

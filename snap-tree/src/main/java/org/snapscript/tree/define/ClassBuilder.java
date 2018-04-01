@@ -5,11 +5,11 @@ import static org.snapscript.core.constraint.Constraint.NONE;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.snapscript.core.Category;
-import org.snapscript.core.Module;
-import org.snapscript.core.Scope;
-import org.snapscript.core.Type;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Category;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.module.Module;
 import org.snapscript.core.property.ConstantPropertyBuilder;
 import org.snapscript.core.property.Property;
 import org.snapscript.tree.annotation.AnnotationList;

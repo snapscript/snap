@@ -3,7 +3,7 @@ package org.snapscript.core.convert;
 import static org.snapscript.core.convert.Score.EXACT;
 import static org.snapscript.core.convert.Score.INVALID;
 
-import org.snapscript.core.Type;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.function.ArgumentConverter;
 
 public class NoArgumentConverter implements ArgumentConverter {

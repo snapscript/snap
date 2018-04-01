@@ -1,7 +1,7 @@
 package org.snapscript.tree.define;
 
-import org.snapscript.core.Scope;
-import org.snapscript.core.Type;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.function.dispatch.FunctionDispatcher;
 import org.snapscript.tree.NameReference;
 import org.snapscript.tree.function.FunctionHolder;

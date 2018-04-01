@@ -3,14 +3,14 @@ package org.snapscript.tree.reference;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
-import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Module;
-import org.snapscript.core.Path;
-import org.snapscript.core.Scope;
-import org.snapscript.core.Type;
-import org.snapscript.core.TypeExtractor;
-import org.snapscript.core.Value;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.module.Path;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.Value;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.type.TypeExtractor;
 import org.snapscript.tree.NameReference;
 
 public class TypeReferencePart implements Compilation {

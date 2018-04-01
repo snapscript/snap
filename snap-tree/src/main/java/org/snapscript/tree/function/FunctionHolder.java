@@ -1,12 +1,12 @@
 package org.snapscript.tree.function;
 
 import org.snapscript.core.Context;
-import org.snapscript.core.Module;
-import org.snapscript.core.Scope;
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.function.dispatch.FunctionBinder;
+import org.snapscript.core.function.bind.FunctionBinder;
+import org.snapscript.core.function.bind.FunctionGroup;
 import org.snapscript.core.function.dispatch.FunctionDispatcher;
-import org.snapscript.core.function.dispatch.FunctionGroup;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.scope.Scope;
 import org.snapscript.tree.NameReference;
 
 public class FunctionHolder {

@@ -2,7 +2,7 @@ package org.snapscript.core.property;
 
 import static org.snapscript.core.ModifierType.CONSTANT;
 
-import org.snapscript.core.Type;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.VariableConstraint;
 import org.snapscript.core.constraint.Constraint;
 

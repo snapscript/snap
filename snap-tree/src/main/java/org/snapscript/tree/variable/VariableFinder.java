@@ -8,14 +8,14 @@ import java.util.Map;
 import java.util.Set;
 
 import org.snapscript.core.Context;
-import org.snapscript.core.Module;
-import org.snapscript.core.ModuleScopeBinder;
-import org.snapscript.core.Scope;
-import org.snapscript.core.Type;
-import org.snapscript.core.TypeExtractor;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Type;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.module.ModuleScopeBinder;
 import org.snapscript.core.property.ConstantPropertyBuilder;
 import org.snapscript.core.property.MapProperty;
 import org.snapscript.core.property.Property;
+import org.snapscript.core.type.TypeExtractor;
 
 public class VariableFinder {
    

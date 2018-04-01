@@ -1,8 +1,8 @@
 package org.snapscript.tree.define;
 
-import org.snapscript.core.Scope;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationBuilder;
+import org.snapscript.core.scope.Scope;
 
 public class StaticInvocation implements Invocation<Object> {
 

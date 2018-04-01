@@ -2,9 +2,9 @@ package org.snapscript.compile.validate;
 
 import java.util.List;
 
-import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Module;
-import org.snapscript.core.Type;
+import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.type.Type;
 
 public class ModuleValidator {
 

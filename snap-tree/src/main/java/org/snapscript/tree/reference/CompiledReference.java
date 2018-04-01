@@ -1,15 +1,15 @@
 package org.snapscript.tree.reference;
 
-import static org.snapscript.core.Phase.DEFINED;
+import static org.snapscript.core.type.Phase.DEFINED;
 
 import org.snapscript.common.Progress;
 import org.snapscript.core.Evaluation;
-import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Phase;
-import org.snapscript.core.Scope;
-import org.snapscript.core.Type;
-import org.snapscript.core.Value;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.Value;
+import org.snapscript.core.type.Phase;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.error.InternalStateException;
 
 public class CompiledReference extends TypeReference {
    

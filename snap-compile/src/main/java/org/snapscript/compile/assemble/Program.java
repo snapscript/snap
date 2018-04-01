@@ -2,14 +2,14 @@ package org.snapscript.compile.assemble;
 
 import org.snapscript.compile.Executable;
 import org.snapscript.core.Context;
-import org.snapscript.core.EmptyModel;
 import org.snapscript.core.Execution;
-import org.snapscript.core.Model;
-import org.snapscript.core.Path;
-import org.snapscript.core.Scope;
 import org.snapscript.core.ScopeMerger;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.link.Package;
+import org.snapscript.core.module.Path;
+import org.snapscript.core.scope.EmptyModel;
+import org.snapscript.core.scope.Model;
+import org.snapscript.core.scope.Scope;
 
 public class Program implements Executable{
    

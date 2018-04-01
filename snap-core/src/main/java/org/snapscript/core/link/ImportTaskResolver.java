@@ -7,11 +7,11 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 
-import org.snapscript.core.FilePathConverter;
-import org.snapscript.core.Module;
-import org.snapscript.core.Path;
-import org.snapscript.core.PathConverter;
-import org.snapscript.core.Type;
+import org.snapscript.core.module.FilePathConverter;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.module.Path;
+import org.snapscript.core.module.PathConverter;
+import org.snapscript.core.type.Type;
 
 public class ImportTaskResolver {
 

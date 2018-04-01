@@ -3,10 +3,10 @@ package org.snapscript.tree.template;
 import java.io.Writer;
 
 import org.snapscript.core.convert.StringBuilder;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.scope.Scope;
 import org.snapscript.core.Context;
 import org.snapscript.core.ExpressionEvaluator;
-import org.snapscript.core.Module;
-import org.snapscript.core.Scope;
 
 public class ExpressionSegment implements Segment {
    

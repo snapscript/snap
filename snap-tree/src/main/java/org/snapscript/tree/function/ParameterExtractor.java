@@ -2,17 +2,17 @@ package org.snapscript.tree.function;
 
 import java.util.List;
 
-import org.snapscript.core.Index;
-import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Local;
-import org.snapscript.core.Scope;
-import org.snapscript.core.State;
-import org.snapscript.core.Table;
-import org.snapscript.core.Type;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.CompatibilityChecker;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.Signature;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.index.Index;
+import org.snapscript.core.scope.index.Local;
+import org.snapscript.core.scope.index.Table;
+import org.snapscript.core.type.Type;
 
 public class ParameterExtractor {
    

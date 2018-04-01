@@ -1,21 +1,16 @@
 package org.snapscript.tree.define;
 
-import java.lang.reflect.Executable;
-
 import org.snapscript.core.Evaluation;
-import org.snapscript.core.Execution;
-import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Local;
-import org.snapscript.core.Module;
-import org.snapscript.core.Scope;
-import org.snapscript.core.State;
-import org.snapscript.core.Table;
-import org.snapscript.core.Value;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.Accessor;
 import org.snapscript.core.function.AccessorProperty;
 import org.snapscript.core.function.ModuleAccessor;
+import org.snapscript.core.module.Module;
 import org.snapscript.core.property.Property;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.Value;
 import org.snapscript.tree.DeclarationAllocator;
 import org.snapscript.tree.NameReference;
 import org.snapscript.tree.constraint.ModifierConstraint;

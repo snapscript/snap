@@ -1,15 +1,17 @@
 package org.snapscript.tree.define;
 
 import static org.snapscript.core.ModifierType.PUBLIC;
+import static org.snapscript.core.ModifierType.STATIC;
+import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.snapscript.core.Context;
-import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Module;
-import org.snapscript.core.Type;
-import org.snapscript.core.TypeLoader;
+import org.snapscript.core.Reserved;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.type.Type;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionSignature;
 import org.snapscript.core.function.Invocation;
@@ -17,6 +19,7 @@ import org.snapscript.core.function.InvocationFunction;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.ParameterBuilder;
 import org.snapscript.core.function.Signature;
+import org.snapscript.core.type.TypeLoader;
 
 public class AnyFunctionBuilder {
    
@@ -51,6 +54,9 @@ public class AnyFunctionBuilder {
             parameter = builder.create(constraint, i);
          }
          parameters.add(parameter);
+      }
+      if(name.equals(TYPE_CONSTRUCTOR)) {
+         return new InvocationFunction(signature, invocation, type, null, name, STATIC.mask | PUBLIC.mask);
       }
       return new InvocationFunction(signature, invocation, type, null, name, PUBLIC.mask);
    }

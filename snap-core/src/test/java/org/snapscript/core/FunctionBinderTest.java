@@ -8,18 +8,27 @@ import junit.framework.TestCase;
 import org.snapscript.common.store.ClassPathStore;
 import org.snapscript.common.store.Store;
 import org.snapscript.core.convert.ConstraintMatcher;
-import org.snapscript.core.convert.ProxyWrapper;
+import org.snapscript.core.convert.proxy.ProxyWrapper;
 import org.snapscript.core.error.ErrorHandler;
-import org.snapscript.core.function.dispatch.CacheFunctionIndexer;
-import org.snapscript.core.function.dispatch.FunctionBinder;
+import org.snapscript.core.function.bind.FunctionBinder;
 import org.snapscript.core.function.search.FunctionResolver;
 import org.snapscript.core.function.search.FunctionSearcher;
 import org.snapscript.core.link.NoPackage;
 import org.snapscript.core.link.Package;
 import org.snapscript.core.link.PackageLinker;
+import org.snapscript.core.module.ContextModule;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.module.ModuleRegistry;
+import org.snapscript.core.module.Path;
 import org.snapscript.core.platform.PlatformProvider;
+import org.snapscript.core.scope.EmptyModel;
+import org.snapscript.core.scope.Model;
+import org.snapscript.core.scope.ModelScope;
+import org.snapscript.core.scope.Scope;
 import org.snapscript.core.stack.ThreadStack;
 import org.snapscript.core.trace.TraceInterceptor;
+import org.snapscript.core.type.TypeExtractor;
+import org.snapscript.core.type.TypeLoader;
 
 public class FunctionBinderTest extends TestCase {
    
@@ -149,7 +158,7 @@ public class FunctionBinderTest extends TestCase {
          this.binder = new FunctionSearcher(extractor, stack, resolver);
          this.matcher = new ConstraintMatcher(loader, wrapper);
          this.handler = new ErrorHandler(extractor, stack);
-         this.table = new CacheFunctionIndexer(binder, handler);
+         this.table = new FunctionBinder(binder, handler);
       }
 
       @Override

@@ -1,14 +1,14 @@
 package org.snapscript.tree.operation;
 
 import org.snapscript.core.Context;
-import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Module;
-import org.snapscript.core.Scope;
-import org.snapscript.core.Type;
-import org.snapscript.core.Value;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.Value;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.convert.ConstraintConverter;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.Score;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.parse.StringToken;
 import org.snapscript.tree.math.NumericOperator;
 

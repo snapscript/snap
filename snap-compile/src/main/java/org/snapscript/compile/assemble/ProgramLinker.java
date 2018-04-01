@@ -7,9 +7,9 @@ import java.util.concurrent.Executor;
 import org.snapscript.common.Cache;
 import org.snapscript.common.LeastRecentlyUsedCache;
 import org.snapscript.core.Context;
-import org.snapscript.core.Path;
 import org.snapscript.core.link.Package;
 import org.snapscript.core.link.PackageLinker;
+import org.snapscript.core.module.Path;
 
 public class ProgramLinker implements PackageLinker {
    

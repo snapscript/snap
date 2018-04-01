@@ -2,13 +2,13 @@ package org.snapscript.tree.define;
 
 import static org.snapscript.core.Reserved.TYPE_CLASS;
 
-import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
-import org.snapscript.core.Type;
-import org.snapscript.core.TypeBody;
-import org.snapscript.core.Allocation;
-import org.snapscript.core.TypePart;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.function.Signature;
+import org.snapscript.core.type.Allocation;
+import org.snapscript.core.type.TypeBody;
+import org.snapscript.core.type.TypePart;
 import org.snapscript.tree.function.ParameterList;
 
 public class ConstructorAssembler {

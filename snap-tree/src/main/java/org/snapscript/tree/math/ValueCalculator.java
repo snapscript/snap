@@ -1,6 +1,6 @@
 package org.snapscript.tree.math;
 
-import org.snapscript.core.Value;
+import org.snapscript.core.scope.Value;
 
 public abstract class ValueCalculator implements NumericCalculator {
    

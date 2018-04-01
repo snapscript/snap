@@ -5,15 +5,15 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
-import org.snapscript.core.Index;
-import org.snapscript.core.Module;
-import org.snapscript.core.Path;
-import org.snapscript.core.Scope;
-import org.snapscript.core.State;
-import org.snapscript.core.Table;
-import org.snapscript.core.Value;
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.convert.ProxyWrapper;
+import org.snapscript.core.convert.proxy.ProxyWrapper;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.module.Path;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.Value;
+import org.snapscript.core.scope.index.Index;
+import org.snapscript.core.scope.index.Table;
 import org.snapscript.tree.NameReference;
 
 public class Variable implements Compilation {

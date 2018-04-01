@@ -5,11 +5,11 @@ import static org.snapscript.core.Reserved.TYPE_THIS;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.Execution;
-import org.snapscript.core.Module;
-import org.snapscript.core.Scope;
-import org.snapscript.core.State;
 import org.snapscript.core.Statement;
-import org.snapscript.core.Value;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.Value;
 import org.snapscript.tree.annotation.AnnotationList;
 
 public class ModuleDefinition extends Statement {   

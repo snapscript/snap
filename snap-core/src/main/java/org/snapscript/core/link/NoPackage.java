@@ -1,6 +1,6 @@
 package org.snapscript.core.link;
 
-import org.snapscript.core.Scope;
+import org.snapscript.core.scope.Scope;
 
 public class NoPackage implements Package {
 

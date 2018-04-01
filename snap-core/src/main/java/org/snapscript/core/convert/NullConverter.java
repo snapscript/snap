@@ -3,7 +3,7 @@ package org.snapscript.core.convert;
 import static org.snapscript.core.convert.Score.EXACT;
 import static org.snapscript.core.convert.Score.SIMILAR;
 
-import org.snapscript.core.Type;
+import org.snapscript.core.type.Type;
 
 public class NullConverter extends ConstraintConverter { 
 

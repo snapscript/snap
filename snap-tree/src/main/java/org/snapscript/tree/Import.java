@@ -4,19 +4,19 @@ import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Execution;
-import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Module;
-import org.snapscript.core.NameBuilder;
 import org.snapscript.core.NoStatement;
-import org.snapscript.core.Path;
-import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
-import org.snapscript.core.TypeLoader;
-import org.snapscript.core.TypeNameBuilder;
-import org.snapscript.core.Value;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.link.ImportManager;
 import org.snapscript.core.link.Package;
 import org.snapscript.core.link.PackageDefinition;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.module.Path;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.Value;
+import org.snapscript.core.type.NameBuilder;
+import org.snapscript.core.type.TypeLoader;
+import org.snapscript.core.type.TypeNameBuilder;
 
 public class Import implements Compilation {
 

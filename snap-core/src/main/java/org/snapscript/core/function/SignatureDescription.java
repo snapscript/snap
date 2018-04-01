@@ -2,7 +2,7 @@ package org.snapscript.core.function;
 
 import java.util.List;
 
-import org.snapscript.core.Type;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
 
 public class SignatureDescription {

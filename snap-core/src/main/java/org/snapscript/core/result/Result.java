@@ -1,6 +1,6 @@
 package org.snapscript.core.result;
 
-import org.snapscript.core.Scope;
+import org.snapscript.core.scope.Scope;
 import org.snapscript.core.yield.Resume;
 import org.snapscript.core.yield.YieldResult;
 

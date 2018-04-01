@@ -2,11 +2,11 @@ package org.snapscript.core.function.search;
 
 import java.util.concurrent.Callable;
 
-import org.snapscript.core.Scope;
-import org.snapscript.core.Value;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.Value;
 
 public class FunctionCall implements Callable<Value> {
    

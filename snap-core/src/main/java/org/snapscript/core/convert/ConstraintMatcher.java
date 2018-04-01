@@ -5,13 +5,14 @@ import java.math.BigInteger;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.snapscript.core.Scope;
-import org.snapscript.core.Type;
-import org.snapscript.core.TypeCache;
-import org.snapscript.core.TypeCastChecker;
-import org.snapscript.core.TypeExtractor;
-import org.snapscript.core.TypeLoader;
-import org.snapscript.core.TypeVerifier;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Type;
+import org.snapscript.core.convert.proxy.ProxyWrapper;
+import org.snapscript.core.type.TypeCache;
+import org.snapscript.core.type.TypeCastChecker;
+import org.snapscript.core.type.TypeExtractor;
+import org.snapscript.core.type.TypeLoader;
+import org.snapscript.core.type.TypeVerifier;
 
 public class ConstraintMatcher {
    

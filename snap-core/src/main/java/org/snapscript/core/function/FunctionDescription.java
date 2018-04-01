@@ -1,7 +1,7 @@
 package org.snapscript.core.function;
 
-import org.snapscript.core.Module;
-import org.snapscript.core.Type;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.type.Type;
 
 public class FunctionDescription {
 

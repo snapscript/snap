@@ -6,7 +6,7 @@ import org.snapscript.common.store.ClassPathStore;
 import org.snapscript.common.store.Store;
 import org.snapscript.core.Context;
 import org.snapscript.core.ExpressionEvaluator;
-import org.snapscript.core.Model;
+import org.snapscript.core.scope.Model;
 
 import java.util.HashMap;
 import java.util.Map;

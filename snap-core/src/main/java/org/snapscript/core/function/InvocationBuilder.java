@@ -1,6 +1,6 @@
 package org.snapscript.core.function;
 
-import org.snapscript.core.Scope;
+import org.snapscript.core.scope.Scope;
 
 public interface InvocationBuilder {
    void define(Scope scope) throws Exception;

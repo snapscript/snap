@@ -3,13 +3,13 @@ package org.snapscript.tree;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.snapscript.core.Evaluation;
-import org.snapscript.core.Index;
-import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Local;
-import org.snapscript.core.Scope;
-import org.snapscript.core.Table;
-import org.snapscript.core.Value;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.Value;
+import org.snapscript.core.scope.index.Index;
+import org.snapscript.core.scope.index.Local;
+import org.snapscript.core.scope.index.Table;
 import org.snapscript.tree.literal.TextLiteral;
 
 public class Declaration {

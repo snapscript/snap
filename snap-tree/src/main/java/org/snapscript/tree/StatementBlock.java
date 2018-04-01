@@ -3,11 +3,11 @@ package org.snapscript.tree;
 import static org.snapscript.core.result.Result.NORMAL;
 
 import org.snapscript.core.Execution;
-import org.snapscript.core.Index;
-import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.result.Result;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.index.Index;
 import org.snapscript.core.yield.Resume;
 import org.snapscript.core.yield.Yield;
 

@@ -1,8 +1,8 @@
 package org.snapscript.tree.define;
 
-import org.snapscript.core.Scope;
-import org.snapscript.core.Type;
-import org.snapscript.core.Allocation;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Allocation;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.result.Result;
 
 public class PrimitiveState extends Allocation {

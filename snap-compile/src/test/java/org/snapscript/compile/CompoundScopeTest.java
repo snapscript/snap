@@ -1,6 +1,6 @@
 package org.snapscript.compile;
 
-import org.snapscript.core.EmptyModel;
+import org.snapscript.core.scope.EmptyModel;
 
 import junit.framework.TestCase;
 

@@ -9,7 +9,7 @@ import java.math.BigInteger;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.snapscript.core.Type;
+import org.snapscript.core.type.Type;
 
 public class LongConverter extends NumberConverter{
    

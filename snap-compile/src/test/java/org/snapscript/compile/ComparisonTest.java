@@ -6,8 +6,8 @@ import org.snapscript.common.store.ClassPathStore;
 import org.snapscript.common.store.Store;
 import org.snapscript.compile.StoreContext;
 import org.snapscript.core.Context;
-import org.snapscript.core.EmptyModel;
-import org.snapscript.core.Model;
+import org.snapscript.core.scope.EmptyModel;
+import org.snapscript.core.scope.Model;
 
 public class ComparisonTest extends TestCase {
 

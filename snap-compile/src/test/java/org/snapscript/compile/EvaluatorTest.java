@@ -10,8 +10,8 @@ import org.snapscript.common.store.Store;
 import org.snapscript.compile.StoreContext;
 import org.snapscript.core.Context;
 import org.snapscript.core.ExpressionEvaluator;
-import org.snapscript.core.MapModel;
-import org.snapscript.core.Model;
+import org.snapscript.core.scope.MapModel;
+import org.snapscript.core.scope.Model;
 
 public class EvaluatorTest extends TestCase {
 

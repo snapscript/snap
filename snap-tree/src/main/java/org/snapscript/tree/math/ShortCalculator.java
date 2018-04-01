@@ -1,7 +1,7 @@
 package org.snapscript.tree.math;
 
-import org.snapscript.core.Value;
-import org.snapscript.core.ValueCache;
+import org.snapscript.core.scope.Value;
+import org.snapscript.core.scope.ValueCache;
 
 public class ShortCalculator extends IntegerCalculator {
 

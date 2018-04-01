@@ -1,8 +1,8 @@
 package org.snapscript.tree;
 
 import org.snapscript.core.Execution;
-import org.snapscript.core.Scope;
 import org.snapscript.core.result.Result;
+import org.snapscript.core.scope.Scope;
 import org.snapscript.core.yield.Resume;
 
 public class StatementResume extends Execution implements Resume {

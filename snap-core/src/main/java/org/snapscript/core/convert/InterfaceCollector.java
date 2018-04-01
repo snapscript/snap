@@ -5,13 +5,13 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.snapscript.core.Any;
 import org.snapscript.core.Context;
-import org.snapscript.core.Module;
-import org.snapscript.core.Scope;
-import org.snapscript.core.Type;
-import org.snapscript.core.TypeCache;
-import org.snapscript.core.TypeExtractor;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Any;
+import org.snapscript.core.type.Type;
+import org.snapscript.core.type.TypeCache;
+import org.snapscript.core.type.TypeExtractor;
 
 public class InterfaceCollector {
 

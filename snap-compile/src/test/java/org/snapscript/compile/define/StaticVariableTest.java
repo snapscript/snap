@@ -7,9 +7,9 @@ import junit.framework.TestCase;
 
 import org.snapscript.compile.ClassPathCompilerBuilder;
 import org.snapscript.compile.Compiler;
-import org.snapscript.core.MapModel;
-import org.snapscript.core.Model;
-import org.snapscript.core.Value;
+import org.snapscript.core.scope.MapModel;
+import org.snapscript.core.scope.Model;
+import org.snapscript.core.scope.Value;
 
 public class StaticVariableTest extends TestCase{
    public static class Pet{

@@ -1,8 +1,8 @@
 package org.snapscript.tree.variable;
 
-import org.snapscript.core.Module;
-import org.snapscript.core.Type;
-import org.snapscript.core.Value;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.scope.Value;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
 
 public class VariableConstraintMapper {

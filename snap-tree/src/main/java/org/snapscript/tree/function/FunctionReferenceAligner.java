@@ -2,7 +2,7 @@ package org.snapscript.tree.function;
 
 import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
 
-import org.snapscript.core.index.ScopeType;
+import org.snapscript.core.type.index.ScopeType;
 
 public class FunctionReferenceAligner {
    

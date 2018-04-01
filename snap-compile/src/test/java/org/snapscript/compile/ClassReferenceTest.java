@@ -3,7 +3,7 @@ package org.snapscript.compile;
 import junit.framework.TestCase;
 
 import org.snapscript.compile.Compiler;
-import org.snapscript.core.EmptyModel;
+import org.snapscript.core.scope.EmptyModel;
 
 public class ClassReferenceTest extends TestCase {
 

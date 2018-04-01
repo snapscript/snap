@@ -7,8 +7,8 @@ import static org.snapscript.core.trace.TraceType.NATIVE;
 import static org.snapscript.core.trace.TraceType.NORMAL;
 import static org.snapscript.core.trace.TraceType.REFERENCE;
 
-import org.snapscript.core.Module;
-import org.snapscript.core.Path;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.module.Path;
 
 public class Trace {
    

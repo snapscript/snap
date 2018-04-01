@@ -1,5 +1,7 @@
 package org.snapscript.core;
 
+import org.snapscript.core.scope.Scope;
+
 public abstract class Statement {
    
    public void create(Scope scope) throws Exception {}

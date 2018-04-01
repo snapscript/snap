@@ -1,9 +1,9 @@
 package org.snapscript.tree;
 
 import org.snapscript.core.Compilation;
-import org.snapscript.core.Module;
-import org.snapscript.core.Path;
 import org.snapscript.core.Statement;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.module.Path;
 
 public class CompoundStatement implements Compilation {
    

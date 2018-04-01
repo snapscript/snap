@@ -1,6 +1,7 @@
 package org.snapscript.core;
 
 import org.snapscript.core.result.Result;
+import org.snapscript.core.scope.Scope;
 
 public class NoExecution extends Execution {
    

@@ -1,29 +1,35 @@
 package org.snapscript.core.function.search;
 
-import org.snapscript.core.Module;
-import org.snapscript.core.Scope;
-import org.snapscript.core.Type;
-import org.snapscript.core.TypeExtractor;
-import org.snapscript.core.Value;
-import org.snapscript.core.convert.Delegate;
+import org.snapscript.core.type.Type;
+import org.snapscript.core.convert.proxy.Delegate;
+import org.snapscript.core.function.match.DelegateFunctionMatcher;
+import org.snapscript.core.function.match.LocalFunctionMatcher;
+import org.snapscript.core.function.match.ModuleFunctionMatcher;
+import org.snapscript.core.function.match.TypeInstanceFunctionMatcher;
+import org.snapscript.core.function.match.TypeStaticFunctionMatcher;
+import org.snapscript.core.function.match.ValueFunctionMatcher;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.Value;
 import org.snapscript.core.stack.ThreadStack;
+import org.snapscript.core.type.TypeExtractor;
 
 public class FunctionSearcher { 
    
    private final DelegateFunctionMatcher delegates;
-   private final ObjectFunctionMatcher objects;
+   private final TypeInstanceFunctionMatcher objects;
    private final ModuleFunctionMatcher modules;
    private final ValueFunctionMatcher values;
-   private final ScopeFunctionMatcher scopes;
-   private final TypeFunctionMatcher types;
+   private final LocalFunctionMatcher scopes;
+   private final TypeStaticFunctionMatcher types;
    
    public FunctionSearcher(TypeExtractor extractor, ThreadStack stack, FunctionResolver resolver) {
       this.delegates = new DelegateFunctionMatcher(extractor, stack);
-      this.objects = new ObjectFunctionMatcher(extractor, resolver);
+      this.objects = new TypeInstanceFunctionMatcher(extractor, resolver);
       this.modules = new ModuleFunctionMatcher(extractor, stack);
-      this.types = new TypeFunctionMatcher(extractor, stack);
+      this.types = new TypeStaticFunctionMatcher(extractor, stack);
       this.values = new ValueFunctionMatcher(stack);
-      this.scopes = new ScopeFunctionMatcher(stack);
+      this.scopes = new LocalFunctionMatcher(stack);
    }
    
    public FunctionCall searchValue(Value value, Object... list) throws Exception { // closures

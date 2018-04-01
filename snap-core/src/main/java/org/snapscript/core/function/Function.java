@@ -2,9 +2,9 @@ package org.snapscript.core.function;
 
 import java.util.List;
 
-import org.snapscript.core.Handle;
-import org.snapscript.core.Type;
-import org.snapscript.core.annotation.Annotation;
+import org.snapscript.core.type.Handle;
+import org.snapscript.core.type.Type;
+import org.snapscript.core.type.annotation.Annotation;
 import org.snapscript.core.constraint.Constraint;
 
 public interface Function extends Handle {

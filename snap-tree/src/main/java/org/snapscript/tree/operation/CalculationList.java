@@ -2,8 +2,8 @@ package org.snapscript.tree.operation;
 
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Evaluation;
-import org.snapscript.core.Module;
-import org.snapscript.core.Path;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.module.Path;
 
 public class CalculationList implements Compilation { 
    

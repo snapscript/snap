@@ -5,9 +5,9 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.snapscript.core.ContextModule;
-import org.snapscript.core.Module;
-import org.snapscript.core.Path;
+import org.snapscript.core.module.ContextModule;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.module.Path;
 
 public class FunctionTypeTest extends TestCase {
    

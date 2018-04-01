@@ -5,10 +5,10 @@ import junit.framework.TestCase;
 import org.snapscript.common.store.ClassPathStore;
 import org.snapscript.common.store.Store;
 import org.snapscript.core.Context;
-import org.snapscript.core.Type;
-import org.snapscript.core.TypeLoader;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.convert.ConstraintConverter;
 import org.snapscript.core.convert.ConstraintMatcher;
+import org.snapscript.core.type.TypeLoader;
 
 public class PrimitiveArrayPromotionTest extends TestCase {
 

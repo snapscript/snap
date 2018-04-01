@@ -3,8 +3,8 @@ package org.snapscript.tree.define;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.snapscript.core.Evaluation;
-import org.snapscript.core.Scope;
-import org.snapscript.core.Type;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Type;
 
 public class StaticField extends StaticBlock {
    

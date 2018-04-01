@@ -3,10 +3,10 @@ package org.snapscript.core.link;
 import java.util.concurrent.FutureTask;
 
 import org.snapscript.core.Execution;
-import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Path;
-import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
+import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.module.Path;
+import org.snapscript.core.scope.Scope;
 
 public class FutureStatement extends Statement {
    

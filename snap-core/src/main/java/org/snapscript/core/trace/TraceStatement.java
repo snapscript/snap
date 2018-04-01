@@ -4,10 +4,10 @@ import static org.snapscript.core.result.Result.NORMAL;
 
 import org.snapscript.core.Execution;
 import org.snapscript.core.NoExecution;
-import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.result.Result;
+import org.snapscript.core.scope.Scope;
 
 public class TraceStatement extends Statement {
    

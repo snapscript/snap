@@ -1,6 +1,6 @@
 package org.snapscript.compile.verify;
 
-import org.snapscript.core.Path;
+import org.snapscript.core.module.Path;
 import org.snapscript.core.trace.Trace;
 
 public class VerifyError {

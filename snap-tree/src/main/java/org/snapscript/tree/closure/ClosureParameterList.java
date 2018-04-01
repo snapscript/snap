@@ -1,7 +1,7 @@
 package org.snapscript.tree.closure;
 
-import org.snapscript.core.Scope;
 import org.snapscript.core.function.Signature;
+import org.snapscript.core.scope.Scope;
 import org.snapscript.tree.function.ParameterDeclaration;
 import org.snapscript.tree.function.ParameterList;
 

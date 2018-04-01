@@ -2,9 +2,9 @@ package org.snapscript.core.property;
 
 import java.util.List;
 
-import org.snapscript.core.Any;
-import org.snapscript.core.Type;
-import org.snapscript.core.annotation.Annotation;
+import org.snapscript.core.type.Any;
+import org.snapscript.core.type.Type;
+import org.snapscript.core.type.annotation.Annotation;
 import org.snapscript.core.constraint.Constraint;
 
 public interface Property<T> extends Any {

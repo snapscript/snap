@@ -5,7 +5,7 @@ import static org.snapscript.core.convert.Score.INVALID;
 import static org.snapscript.core.convert.Score.POSSIBLE;
 import static org.snapscript.core.convert.Score.SIMILAR;
 
-import org.snapscript.core.Type;
+import org.snapscript.core.type.Type;
 
 public class EnumConverter extends ConstraintConverter {
    

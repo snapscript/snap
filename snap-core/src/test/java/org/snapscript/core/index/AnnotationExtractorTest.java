@@ -9,8 +9,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.util.List;
 
-import org.snapscript.core.annotation.Annotation;
-import org.snapscript.core.annotation.AnnotationExtractor;
+import org.snapscript.core.type.annotation.Annotation;
+import org.snapscript.core.type.annotation.AnnotationExtractor;
 
 import junit.framework.TestCase;
 

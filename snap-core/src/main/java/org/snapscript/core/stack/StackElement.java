@@ -1,11 +1,11 @@
 package org.snapscript.core.stack;
 
-import org.snapscript.core.Module;
-import org.snapscript.core.Path;
-import org.snapscript.core.Type;
-import org.snapscript.core.TypeNameBuilder;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.module.Path;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.trace.Trace;
+import org.snapscript.core.type.TypeNameBuilder;
 
 public class StackElement {
    

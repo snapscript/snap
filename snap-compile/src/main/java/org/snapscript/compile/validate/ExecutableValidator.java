@@ -4,13 +4,13 @@ import java.util.List;
 
 import org.snapscript.compile.verify.Verifier;
 import org.snapscript.core.Context;
-import org.snapscript.core.Module;
-import org.snapscript.core.ModuleRegistry;
 import org.snapscript.core.ProgramValidator;
-import org.snapscript.core.Type;
-import org.snapscript.core.TypeExtractor;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.module.ModuleRegistry;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.function.search.FunctionResolver;
+import org.snapscript.core.type.TypeExtractor;
 
 public class ExecutableValidator implements ProgramValidator {
 

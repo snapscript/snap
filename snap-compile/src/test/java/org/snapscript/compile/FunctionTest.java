@@ -2,7 +2,7 @@ package org.snapscript.compile;
 
 import junit.framework.TestCase;
 
-import org.snapscript.core.EmptyModel;
+import org.snapscript.core.scope.EmptyModel;
 
 public class FunctionTest extends TestCase {
 

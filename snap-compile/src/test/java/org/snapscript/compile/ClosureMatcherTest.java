@@ -7,12 +7,10 @@ import junit.framework.TestCase;
 import org.snapscript.common.store.ClassPathStore;
 import org.snapscript.common.store.Store;
 import org.snapscript.core.Context;
-import org.snapscript.core.ContextModule;
-import org.snapscript.core.Module;
-import org.snapscript.core.Path;
-import org.snapscript.core.Type;
-import org.snapscript.core.TypeExtractor;
-import org.snapscript.core.TypeLoader;
+import org.snapscript.core.module.ContextModule;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.module.Path;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.convert.ConstraintConverter;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.FunctionComparator;
@@ -24,6 +22,8 @@ import org.snapscript.core.function.FunctionSignature;
 import org.snapscript.core.function.InvocationFunction;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.Signature;
+import org.snapscript.core.type.TypeExtractor;
+import org.snapscript.core.type.TypeLoader;
 
 public class ClosureMatcherTest extends TestCase {
 

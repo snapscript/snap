@@ -3,8 +3,8 @@ package org.snapscript.core.function;
 import java.lang.reflect.Member;
 import java.util.List;
 
-import org.snapscript.core.Module;
-import org.snapscript.core.Type;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.type.Type;
 
 public class FunctionSignature implements Signature {
    

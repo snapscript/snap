@@ -3,7 +3,7 @@ package org.snapscript.core.function;
 import java.lang.reflect.Member;
 import java.util.List;
 
-import org.snapscript.core.Type;
+import org.snapscript.core.type.Type;
 
 public interface Signature {
    ArgumentConverter getConverter();

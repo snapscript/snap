@@ -5,11 +5,11 @@ import static org.snapscript.tree.Instruction.SCRIPT;
 
 import org.snapscript.compile.assemble.Program;
 import org.snapscript.core.Context;
-import org.snapscript.core.FilePathConverter;
-import org.snapscript.core.Path;
-import org.snapscript.core.PathConverter;
 import org.snapscript.core.link.Package;
 import org.snapscript.core.link.PackageLinker;
+import org.snapscript.core.module.FilePathConverter;
+import org.snapscript.core.module.Path;
+import org.snapscript.core.module.PathConverter;
 
 public class StringCompiler implements Compiler {
    

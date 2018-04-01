@@ -3,10 +3,10 @@ package org.snapscript.core.error;
 import static org.snapscript.core.Reserved.ANY_TYPE;
 import static org.snapscript.core.Reserved.DEFAULT_PACKAGE;
 
-import org.snapscript.core.Path;
-import org.snapscript.core.Type;
-import org.snapscript.core.TypeExtractor;
+import org.snapscript.core.module.Path;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.trace.Trace;
+import org.snapscript.core.type.TypeExtractor;
 
 public class InternalErrorFormatter {
    

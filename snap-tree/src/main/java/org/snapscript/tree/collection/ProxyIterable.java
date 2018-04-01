@@ -3,7 +3,7 @@ package org.snapscript.tree.collection;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
-import org.snapscript.core.convert.ProxyWrapper;
+import org.snapscript.core.convert.proxy.ProxyWrapper;
 
 public class ProxyIterable implements Iterable {
 

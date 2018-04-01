@@ -1,9 +1,9 @@
 package org.snapscript.core.link;
 
 import org.snapscript.core.Execution;
-import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
+import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.scope.Scope;
 
 public class ExceptionStatement extends Statement {
    

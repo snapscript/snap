@@ -3,11 +3,11 @@ package org.snapscript.tree.construct;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.snapscript.core.Evaluation;
-import org.snapscript.core.Index;
-import org.snapscript.core.Scope;
-import org.snapscript.core.State;
-import org.snapscript.core.Table;
-import org.snapscript.core.Value;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.Value;
+import org.snapscript.core.scope.index.Index;
+import org.snapscript.core.scope.index.Table;
 import org.snapscript.tree.NameReference;
 
 public class MapKey extends Evaluation {

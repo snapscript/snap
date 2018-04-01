@@ -4,7 +4,7 @@ import static org.snapscript.core.convert.Score.INVALID;
 
 import java.util.List;
 
-import org.snapscript.core.Type;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.convert.Score;
 import org.snapscript.core.function.ArgumentConverter;
 import org.snapscript.core.function.EmptyFunction;

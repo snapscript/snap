@@ -1,6 +1,7 @@
 package org.snapscript.tree.collection;
 
-import org.snapscript.core.Value;
+import org.snapscript.core.scope.Value;
+
 import java.lang.reflect.Array;
 
 public class ArrayValue extends Value {

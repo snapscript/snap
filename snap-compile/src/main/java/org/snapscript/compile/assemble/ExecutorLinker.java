@@ -7,11 +7,11 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.FutureTask;
 
 import org.snapscript.core.Context;
-import org.snapscript.core.Path;
 import org.snapscript.core.link.ExceptionPackage;
 import org.snapscript.core.link.FuturePackage;
 import org.snapscript.core.link.Package;
 import org.snapscript.core.link.PackageLinker;
+import org.snapscript.core.module.Path;
 
 public class ExecutorLinker implements PackageLinker {
    

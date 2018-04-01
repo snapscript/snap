@@ -2,11 +2,11 @@ package org.snapscript.core.link;
 
 import java.util.List;
 
-import org.snapscript.core.FilePathConverter;
-import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Path;
-import org.snapscript.core.PathConverter;
 import org.snapscript.core.ResourceManager;
+import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.module.FilePathConverter;
+import org.snapscript.core.module.Path;
+import org.snapscript.core.module.PathConverter;
 
 public class PackageLoader {
    

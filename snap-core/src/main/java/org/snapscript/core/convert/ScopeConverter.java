@@ -4,8 +4,8 @@ import static org.snapscript.core.convert.Score.EXACT;
 import static org.snapscript.core.convert.Score.INVALID;
 import static org.snapscript.core.convert.Score.POSSIBLE;
 
-import org.snapscript.core.Scope;
-import org.snapscript.core.Type;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Type;
 
 public class ScopeConverter extends ConstraintConverter {
    

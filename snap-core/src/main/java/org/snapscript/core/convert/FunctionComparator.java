@@ -6,7 +6,7 @@ import static org.snapscript.core.convert.Score.POSSIBLE;
 
 import java.util.List;
 
-import org.snapscript.core.Type;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Parameter;

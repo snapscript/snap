@@ -5,8 +5,8 @@ import static org.snapscript.core.convert.Score.INVALID;
 import static org.snapscript.core.convert.Score.SIMILAR;
 
 import org.snapscript.core.PrimitivePromoter;
-import org.snapscript.core.Type;
-import org.snapscript.core.TypeCastChecker;
+import org.snapscript.core.type.Type;
+import org.snapscript.core.type.TypeCastChecker;
 
 public class ArrayTypeComparator {
    

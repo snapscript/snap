@@ -10,15 +10,15 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 import org.snapscript.core.Context;
-import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Module;
-import org.snapscript.core.Scope;
-import org.snapscript.core.State;
-import org.snapscript.core.Type;
-import org.snapscript.core.Allocation;
-import org.snapscript.core.Value;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.Value;
+import org.snapscript.core.type.Allocation;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.convert.ProxyWrapper;
+import org.snapscript.core.convert.proxy.ProxyWrapper;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.tree.ArgumentList;
 import org.snapscript.tree.NameReference;
 

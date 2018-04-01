@@ -1,8 +1,8 @@
 package org.snapscript.core.platform;
 
-import org.snapscript.core.TypeExtractor;
-import org.snapscript.core.convert.ProxyWrapper;
+import org.snapscript.core.convert.proxy.ProxyWrapper;
 import org.snapscript.core.stack.ThreadStack;
+import org.snapscript.core.type.TypeExtractor;
 
 public class CachePlatformProvider implements PlatformProvider {
 

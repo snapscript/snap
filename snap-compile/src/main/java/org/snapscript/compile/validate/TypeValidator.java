@@ -7,14 +7,14 @@ import static org.snapscript.core.Reserved.TYPE_THIS;
 import java.util.List;
 import java.util.Set;
 
-import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Module;
-import org.snapscript.core.Type;
-import org.snapscript.core.TypeExtractor;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.convert.ConstraintMatcher;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.search.FunctionResolver;
+import org.snapscript.core.module.Module;
 import org.snapscript.core.property.Property;
+import org.snapscript.core.type.TypeExtractor;
 
 public class TypeValidator {
    

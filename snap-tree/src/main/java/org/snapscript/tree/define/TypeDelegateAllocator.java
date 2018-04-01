@@ -1,9 +1,9 @@
 package org.snapscript.tree.define;
 
-import org.snapscript.core.Scope;
-import org.snapscript.core.define.Instance;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationBuilder;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.instance.Instance;
 
 public class TypeDelegateAllocator implements TypeAllocator {
    

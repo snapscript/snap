@@ -7,14 +7,14 @@ import static org.snapscript.core.Reserved.METHOD_TO_STRING;
 import java.util.List;
 import java.util.Set;
 
-import org.snapscript.core.Category;
 import org.snapscript.core.ModifierType;
-import org.snapscript.core.Type;
-import org.snapscript.core.TypeCache;
-import org.snapscript.core.TypeExtractor;
-import org.snapscript.core.TypeLoader;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.convert.FunctionComparator;
 import org.snapscript.core.convert.Score;
+import org.snapscript.core.type.Category;
+import org.snapscript.core.type.TypeCache;
+import org.snapscript.core.type.TypeExtractor;
+import org.snapscript.core.type.TypeLoader;
 
 public class ClosureFunctionFinder {
 

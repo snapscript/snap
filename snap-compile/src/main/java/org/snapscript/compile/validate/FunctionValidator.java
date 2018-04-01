@@ -3,19 +3,19 @@ package org.snapscript.compile.validate;
 import java.util.List;
 import java.util.Set;
 
-import org.snapscript.core.InternalStateException;
 import org.snapscript.core.ModifierType;
-import org.snapscript.core.Type;
-import org.snapscript.core.TypeExtractor;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.FunctionComparator;
 import org.snapscript.core.convert.Score;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.Signature;
 import org.snapscript.core.function.search.FunctionPointer;
 import org.snapscript.core.function.search.FunctionResolver;
+import org.snapscript.core.type.TypeExtractor;
 import org.snapscript.tree.ModifierValidator;
 
 public class FunctionValidator {

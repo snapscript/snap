@@ -1,8 +1,8 @@
 package org.snapscript.tree.constraint;
 
 import org.snapscript.core.ModifierType;
-import org.snapscript.core.Scope;
-import org.snapscript.core.Type;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
 
 public class ModifierConstraint extends Constraint {

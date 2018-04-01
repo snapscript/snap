@@ -3,7 +3,7 @@ package org.snapscript.core.array;
 import java.util.AbstractList;
 import java.util.RandomAccess;
 
-import org.snapscript.core.InternalArgumentException;
+import org.snapscript.core.error.InternalArgumentException;
 
 public abstract class ArrayWrapper<T> extends AbstractList<T> implements RandomAccess {
 

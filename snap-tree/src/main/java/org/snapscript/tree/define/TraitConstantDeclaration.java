@@ -4,11 +4,11 @@ import static org.snapscript.core.ModifierType.CONSTANT;
 import static org.snapscript.core.ModifierType.STATIC;
 
 import org.snapscript.core.Evaluation;
-import org.snapscript.core.Scope;
-import org.snapscript.core.Type;
-import org.snapscript.core.TypeBody;
-import org.snapscript.core.Allocation;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Allocation;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.type.TypeBody;
 import org.snapscript.tree.ModifierData;
 import org.snapscript.tree.literal.TextLiteral;
 

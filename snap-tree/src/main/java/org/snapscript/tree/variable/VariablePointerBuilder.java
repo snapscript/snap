@@ -3,12 +3,12 @@ package org.snapscript.tree.variable;
 import java.util.Collection;
 import java.util.Map;
 
-import org.snapscript.core.Category;
-import org.snapscript.core.Module;
-import org.snapscript.core.Scope;
-import org.snapscript.core.Type;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.instance.Instance;
+import org.snapscript.core.type.Category;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.define.Instance;
 
 public class VariablePointerBuilder {
 

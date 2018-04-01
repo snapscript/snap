@@ -4,7 +4,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.snapscript.common.io.PropertyReader;
-import org.snapscript.core.InternalStateException;
+import org.snapscript.core.error.InternalStateException;
 
 public class DefaultImportReader extends PropertyReader<DefaultImport>{
    

@@ -4,9 +4,9 @@ import static org.snapscript.core.Reserved.PROPERTY_LENGTH;
 
 import java.util.Collection;
 
-import org.snapscript.core.Scope;
-import org.snapscript.core.Value;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.Value;
 
 public class CollectionPointer implements VariablePointer<Collection> {
    

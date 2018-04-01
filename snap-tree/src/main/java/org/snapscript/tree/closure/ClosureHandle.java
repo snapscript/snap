@@ -1,10 +1,10 @@
 package org.snapscript.tree.closure;
 
-import org.snapscript.core.Scope;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionHandle;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationBuilder;
+import org.snapscript.core.scope.Scope;
 
 public class ClosureHandle extends FunctionHandle {
 

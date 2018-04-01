@@ -1,6 +1,6 @@
 package org.snapscript.core.error;
 
-import org.snapscript.core.Scope;
+import org.snapscript.core.scope.Scope;
 
 public class ErrorCauseExtractor {
 

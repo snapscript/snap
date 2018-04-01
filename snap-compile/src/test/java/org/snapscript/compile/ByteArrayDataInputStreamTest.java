@@ -12,8 +12,8 @@ import java.util.Map.Entry;
 
 import junit.framework.TestCase;
 
-import org.snapscript.core.MapModel;
-import org.snapscript.core.Model;
+import org.snapscript.core.scope.MapModel;
+import org.snapscript.core.scope.Model;
 
 public class ByteArrayDataInputStreamTest extends TestCase {
    

@@ -5,10 +5,10 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.snapscript.core.Context;
 import org.snapscript.core.Execution;
 import org.snapscript.core.ProgramValidator;
-import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.link.Package;
 import org.snapscript.core.link.PackageDefinition;
+import org.snapscript.core.scope.Scope;
 
 public class ProgramCompiler {
    

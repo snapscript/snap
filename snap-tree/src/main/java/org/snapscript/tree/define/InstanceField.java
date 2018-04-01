@@ -1,13 +1,13 @@
 package org.snapscript.tree.define;
 
-import static org.snapscript.core.Order.INSTANCE;
 import static org.snapscript.core.result.Result.NORMAL;
+import static org.snapscript.core.type.Order.INSTANCE;
 
 import org.snapscript.core.Evaluation;
-import org.snapscript.core.Order;
-import org.snapscript.core.Scope;
-import org.snapscript.core.Type;
-import org.snapscript.core.Allocation;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Allocation;
+import org.snapscript.core.type.Order;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.result.Result;
 
 public class InstanceField extends Allocation {

@@ -2,13 +2,13 @@ package org.snapscript.core.error;
 
 import static org.snapscript.core.result.Result.NORMAL;
 
-import org.snapscript.core.Module;
-import org.snapscript.core.Scope;
-import org.snapscript.core.Type;
-import org.snapscript.core.TypeExtractor;
+import org.snapscript.core.type.Type;
+import org.snapscript.core.module.Module;
 import org.snapscript.core.result.Result;
+import org.snapscript.core.scope.Scope;
 import org.snapscript.core.stack.ThreadStack;
 import org.snapscript.core.trace.Trace;
+import org.snapscript.core.type.TypeExtractor;
 
 public class InternalErrorHandler {
 

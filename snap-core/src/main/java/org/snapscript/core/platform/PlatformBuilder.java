@@ -3,10 +3,10 @@ package org.snapscript.core.platform;
 import java.lang.reflect.Constructor;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.snapscript.core.TypeExtractor;
-import org.snapscript.core.convert.ProxyWrapper;
+import org.snapscript.core.convert.proxy.ProxyWrapper;
 import org.snapscript.core.function.search.FunctionResolver;
 import org.snapscript.core.stack.ThreadStack;
+import org.snapscript.core.type.TypeExtractor;
 
 public class PlatformBuilder {
    

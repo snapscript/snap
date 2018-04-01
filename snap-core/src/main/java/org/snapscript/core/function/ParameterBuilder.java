@@ -1,6 +1,6 @@
 package org.snapscript.core.function;
 
-import org.snapscript.core.Type;
+import org.snapscript.core.type.Type;
 
 public class ParameterBuilder {
    

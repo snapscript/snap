@@ -1,11 +1,11 @@
 package org.snapscript.tree.function;
 
 import org.snapscript.core.Identity;
-import org.snapscript.core.Module;
-import org.snapscript.core.Scope;
-import org.snapscript.core.Value;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.dispatch.FunctionDispatcher;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.Value;
 import org.snapscript.tree.NameReference;
 
 public class FunctionReferenceInvocation implements Invocation {

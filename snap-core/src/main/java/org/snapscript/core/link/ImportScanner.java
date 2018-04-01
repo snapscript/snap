@@ -10,9 +10,9 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 import org.snapscript.common.Cache;
 import org.snapscript.common.CopyOnWriteCache;
-import org.snapscript.core.NameBuilder;
 import org.snapscript.core.ResourceManager;
-import org.snapscript.core.TypeNameBuilder;
+import org.snapscript.core.type.NameBuilder;
+import org.snapscript.core.type.TypeNameBuilder;
 
 public class ImportScanner {
 

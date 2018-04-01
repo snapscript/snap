@@ -1,8 +1,8 @@
 package org.snapscript.tree.annotation;
 
 import org.snapscript.core.Evaluation;
-import org.snapscript.core.Scope;
-import org.snapscript.core.Value;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.Value;
 import org.snapscript.tree.literal.TextLiteral;
 
 public class AnnotationName extends Evaluation {

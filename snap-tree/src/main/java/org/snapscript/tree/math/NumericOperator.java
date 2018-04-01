@@ -7,7 +7,7 @@ import static org.snapscript.tree.math.ValueCalculator.INTEGER;
 import static org.snapscript.tree.math.ValueCalculator.LONG;
 import static org.snapscript.tree.math.ValueCalculator.SHORT;
 
-import org.snapscript.core.Value;
+import org.snapscript.core.scope.Value;
 import org.snapscript.parse.StringToken;
 
 public enum NumericOperator {

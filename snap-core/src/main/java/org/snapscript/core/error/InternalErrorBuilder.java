@@ -1,6 +1,5 @@
 package org.snapscript.core.error;
 
-import org.snapscript.core.InternalException;
 import org.snapscript.core.stack.ThreadStack;
 
 public class InternalErrorBuilder {

@@ -7,14 +7,14 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.Executor;
 
 import org.snapscript.core.Context;
-import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Module;
-import org.snapscript.core.ModuleRegistry;
-import org.snapscript.core.NameBuilder;
-import org.snapscript.core.Path;
-import org.snapscript.core.Type;
-import org.snapscript.core.TypeLoader;
-import org.snapscript.core.TypeNameBuilder;
+import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.module.ModuleRegistry;
+import org.snapscript.core.module.Path;
+import org.snapscript.core.type.NameBuilder;
+import org.snapscript.core.type.Type;
+import org.snapscript.core.type.TypeLoader;
+import org.snapscript.core.type.TypeNameBuilder;
 
 public class ImportManager {
 

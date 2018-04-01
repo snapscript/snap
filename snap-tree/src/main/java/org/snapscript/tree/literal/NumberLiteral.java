@@ -1,9 +1,9 @@
 package org.snapscript.tree.literal;
 
-import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Scope;
-import org.snapscript.core.Value;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.Value;
 import org.snapscript.parse.NumberToken;
 import org.snapscript.parse.StringToken;
 import org.snapscript.tree.operation.SignOperator;

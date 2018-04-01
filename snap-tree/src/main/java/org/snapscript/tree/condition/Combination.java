@@ -1,13 +1,13 @@
 package org.snapscript.tree.condition;
 
-import static org.snapscript.core.BooleanValue.FALSE;
-import static org.snapscript.core.BooleanValue.TRUE;
 import static org.snapscript.core.constraint.Constraint.BOOLEAN;
+import static org.snapscript.core.scope.BooleanValue.FALSE;
+import static org.snapscript.core.scope.BooleanValue.TRUE;
 
 import org.snapscript.core.Evaluation;
-import org.snapscript.core.Scope;
-import org.snapscript.core.Value;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.Value;
 import org.snapscript.parse.StringToken;
 
 public class Combination extends Evaluation {

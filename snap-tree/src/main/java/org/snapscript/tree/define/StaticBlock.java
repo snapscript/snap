@@ -1,15 +1,15 @@
 package org.snapscript.tree.define;
 
-import static org.snapscript.core.Order.STATIC;
+import static org.snapscript.core.type.Order.STATIC;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.snapscript.core.Context;
-import org.snapscript.core.Module;
-import org.snapscript.core.Order;
-import org.snapscript.core.Scope;
-import org.snapscript.core.Type;
-import org.snapscript.core.Allocation;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Allocation;
+import org.snapscript.core.type.Order;
+import org.snapscript.core.type.Type;
 
 public abstract class StaticBlock extends Allocation {
 

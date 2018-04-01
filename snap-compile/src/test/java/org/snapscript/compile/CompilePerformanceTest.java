@@ -9,10 +9,10 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.snapscript.core.MapModel;
-import org.snapscript.core.Model;
 import org.snapscript.core.Reserved;
 import org.snapscript.core.result.Result;
+import org.snapscript.core.scope.MapModel;
+import org.snapscript.core.scope.Model;
 import org.snapscript.parse.SourceCode;
 import org.snapscript.parse.SourceProcessor;
 import org.snapscript.parse.SyntaxCompiler;

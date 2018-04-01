@@ -1,6 +1,6 @@
 package org.snapscript.core.trace;
 
-import org.snapscript.core.Scope;
+import org.snapscript.core.scope.Scope;
                    
 public interface TraceListener {
    void traceBefore(Scope scope, Trace trace);

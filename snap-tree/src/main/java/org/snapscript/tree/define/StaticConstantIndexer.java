@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.snapscript.core.ModifierType;
-import org.snapscript.core.Type;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.property.Property;
 
 public class StaticConstantIndexer {

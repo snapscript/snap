@@ -8,11 +8,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.Execution;
-import org.snapscript.core.Module;
-import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.link.FutureExecution;
+import org.snapscript.core.module.Module;
 import org.snapscript.core.result.Result;
+import org.snapscript.core.scope.Scope;
 
 public class ModuleBody extends Statement {
 

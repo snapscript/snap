@@ -1,18 +1,18 @@
 package org.snapscript.tree.define;
 
-import org.snapscript.core.InternalStateException;
 import org.snapscript.core.ModifierType;
-import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
-import org.snapscript.core.Type;
-import org.snapscript.core.TypeBody;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionHandle;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationBuilder;
 import org.snapscript.core.function.InvocationFunction;
 import org.snapscript.core.function.Signature;
+import org.snapscript.core.type.TypeBody;
 import org.snapscript.tree.StatementInvocationBuilder;
 
 public class InstanceFunctionBuilder implements MemberFunctionBuilder {

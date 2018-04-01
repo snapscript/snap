@@ -2,8 +2,8 @@ package org.snapscript.tree.literal;
 
 import static org.snapscript.core.constraint.Constraint.BOOLEAN;
 
-import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Scope;
+import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.scope.Scope;
 import org.snapscript.parse.StringToken;
 
 public class BooleanLiteral extends Literal {

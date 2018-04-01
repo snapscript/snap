@@ -3,9 +3,9 @@ package org.snapscript.tree.construct;
 import java.util.Map.Entry;
 
 import org.snapscript.core.Evaluation;
-import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Scope;
-import org.snapscript.core.Value;
+import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.Value;
 
 public class MapEntry {
    

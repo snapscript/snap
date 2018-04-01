@@ -3,7 +3,7 @@ package org.snapscript.compile.assemble;
 import java.util.concurrent.Executor;
 
 import org.snapscript.core.Context;
-import org.snapscript.core.Path;
+import org.snapscript.core.module.Path;
 import org.snapscript.core.stack.ThreadStack;
 import org.snapscript.parse.SyntaxNode;
 import org.snapscript.tree.InstructionResolver;

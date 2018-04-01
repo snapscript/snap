@@ -3,12 +3,12 @@ package org.snapscript.tree.define;
 import static org.snapscript.core.Reserved.DEFAULT_PACKAGE;
 
 import org.snapscript.core.Context;
-import org.snapscript.core.Module;
-import org.snapscript.core.ModuleRegistry;
-import org.snapscript.core.Scope;
-import org.snapscript.core.Type;
-import org.snapscript.core.define.Instance;
-import org.snapscript.core.define.PrimitiveInstance;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.module.ModuleRegistry;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.instance.Instance;
+import org.snapscript.core.scope.instance.PrimitiveInstance;
+import org.snapscript.core.type.Type;
 
 public class AnyInstanceBuilder {
    

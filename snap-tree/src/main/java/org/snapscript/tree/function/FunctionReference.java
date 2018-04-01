@@ -1,10 +1,10 @@
 package org.snapscript.tree.function;
 
 import org.snapscript.core.Evaluation;
-import org.snapscript.core.Module;
-import org.snapscript.core.Scope;
-import org.snapscript.core.Value;
 import org.snapscript.core.function.Function;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.Value;
 import org.snapscript.tree.NameReference;
 
 public class FunctionReference extends Evaluation {

@@ -2,10 +2,10 @@ package org.snapscript.tree.variable;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.snapscript.core.Scope;
-import org.snapscript.core.State;
-import org.snapscript.core.Value;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.Value;
 
 public class LocalPointer implements VariablePointer<Object> {
    

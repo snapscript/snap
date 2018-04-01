@@ -3,8 +3,8 @@ package org.snapscript.tree;
 import org.snapscript.common.Cache;
 import org.snapscript.common.CopyOnWriteCache;
 import org.snapscript.core.Context;
-import org.snapscript.core.Type;
-import org.snapscript.core.TypeLoader;
+import org.snapscript.core.type.Type;
+import org.snapscript.core.type.TypeLoader;
 
 public class InstructionResolver implements OperationResolver {
 

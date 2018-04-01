@@ -1,7 +1,7 @@
 package org.snapscript.core.function;
 
-import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Module;
+import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.module.Module;
 
 public class SignatureMatcher {
 

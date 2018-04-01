@@ -9,24 +9,23 @@ import org.snapscript.compile.validate.ExecutableValidator;
 import org.snapscript.compile.verify.ExecutableVerifier;
 import org.snapscript.core.Context;
 import org.snapscript.core.ExpressionEvaluator;
-import org.snapscript.core.ModuleRegistry;
 import org.snapscript.core.ProgramValidator;
 import org.snapscript.core.ResourceManager;
 import org.snapscript.core.StoreManager;
-import org.snapscript.core.TypeExtractor;
-import org.snapscript.core.TypeLoader;
 import org.snapscript.core.convert.ConstraintMatcher;
-import org.snapscript.core.convert.ProxyWrapper;
+import org.snapscript.core.convert.proxy.ProxyWrapper;
 import org.snapscript.core.error.ErrorHandler;
-import org.snapscript.core.function.dispatch.CacheFunctionIndexer;
-import org.snapscript.core.function.dispatch.FunctionBinder;
+import org.snapscript.core.function.bind.FunctionBinder;
 import org.snapscript.core.function.search.FunctionResolver;
 import org.snapscript.core.function.search.FunctionSearcher;
 import org.snapscript.core.link.PackageLinker;
+import org.snapscript.core.module.ModuleRegistry;
 import org.snapscript.core.platform.CachePlatformProvider;
 import org.snapscript.core.platform.PlatformProvider;
 import org.snapscript.core.stack.ThreadStack;
 import org.snapscript.core.trace.TraceInterceptor;
+import org.snapscript.core.type.TypeExtractor;
+import org.snapscript.core.type.TypeLoader;
 
 public class StoreContext implements Context {
 
@@ -69,7 +68,7 @@ public class StoreContext implements Context {
       this.binder = new FunctionSearcher(extractor, stack, resolver);
       this.evaluator = new OperationEvaluator(this, verifier, executor);
       this.provider = new CachePlatformProvider(extractor, wrapper, stack);
-      this.table = new CacheFunctionIndexer(binder, handler);
+      this.table = new FunctionBinder(binder, handler);
    }
    
    @Override

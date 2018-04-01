@@ -1,7 +1,7 @@
 package org.snapscript.core.function;
 
-import org.snapscript.core.Scope;
 import org.snapscript.core.function.Invocation;
+import org.snapscript.core.scope.Scope;
 
 public class ConstantInvocation implements Invocation {
 

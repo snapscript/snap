@@ -3,12 +3,12 @@ package org.snapscript.tree;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Execution;
-import org.snapscript.core.Module;
-import org.snapscript.core.Path;
-import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.error.ErrorHandler;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.module.Path;
 import org.snapscript.core.result.Result;
+import org.snapscript.core.scope.Scope;
 import org.snapscript.core.yield.Resume;
 import org.snapscript.core.yield.Yield;
 

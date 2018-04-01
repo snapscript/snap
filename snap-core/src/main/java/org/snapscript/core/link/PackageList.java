@@ -3,7 +3,7 @@ package org.snapscript.core.link;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.snapscript.core.Scope;
+import org.snapscript.core.scope.Scope;
 
 public class PackageList implements Package {
    

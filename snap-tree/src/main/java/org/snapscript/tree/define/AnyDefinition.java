@@ -1,10 +1,7 @@
 package org.snapscript.tree.define;
 
-import static org.snapscript.core.Category.CLASS;
 import static org.snapscript.core.ModifierType.CONSTANT;
 import static org.snapscript.core.ModifierType.PUBLIC;
-import static org.snapscript.core.Phase.DEFINED;
-import static org.snapscript.core.Phase.CREATED;
 import static org.snapscript.core.Reserved.ANY_TYPE;
 import static org.snapscript.core.Reserved.DEFAULT_PACKAGE;
 import static org.snapscript.core.Reserved.METHOD_EQUALS;
@@ -15,22 +12,25 @@ import static org.snapscript.core.Reserved.METHOD_TO_STRING;
 import static org.snapscript.core.Reserved.METHOD_WAIT;
 import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
 import static org.snapscript.core.Reserved.TYPE_THIS;
+import static org.snapscript.core.type.Category.CLASS;
+import static org.snapscript.core.type.Phase.CREATED;
+import static org.snapscript.core.type.Phase.DEFINED;
 
 import java.util.List;
 
 import org.snapscript.common.Progress;
 import org.snapscript.core.Context;
-import org.snapscript.core.Module;
-import org.snapscript.core.Phase;
-import org.snapscript.core.Scope;
-import org.snapscript.core.State;
-import org.snapscript.core.Type;
-import org.snapscript.core.TypeLoader;
-import org.snapscript.core.Value;
-import org.snapscript.core.define.Instance;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.Value;
+import org.snapscript.core.scope.instance.Instance;
+import org.snapscript.core.type.Phase;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
+import org.snapscript.core.module.Module;
 import org.snapscript.core.result.Result;
+import org.snapscript.core.type.TypeLoader;
 
 public class AnyDefinition{
    

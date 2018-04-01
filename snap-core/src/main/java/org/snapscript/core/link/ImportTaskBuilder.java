@@ -6,14 +6,14 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 import org.snapscript.core.Context;
 import org.snapscript.core.Execution;
-import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Module;
-import org.snapscript.core.ModuleRegistry;
-import org.snapscript.core.Path;
-import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
-import org.snapscript.core.Type;
-import org.snapscript.core.TypeLoader;
+import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.module.ModuleRegistry;
+import org.snapscript.core.module.Path;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Type;
+import org.snapscript.core.type.TypeLoader;
 
 public class ImportTaskBuilder {
 

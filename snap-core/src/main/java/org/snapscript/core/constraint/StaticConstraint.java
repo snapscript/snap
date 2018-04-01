@@ -1,7 +1,7 @@
 package org.snapscript.core.constraint;
 
-import org.snapscript.core.Scope;
-import org.snapscript.core.Type;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Type;
 
 public class StaticConstraint extends Constraint {
 

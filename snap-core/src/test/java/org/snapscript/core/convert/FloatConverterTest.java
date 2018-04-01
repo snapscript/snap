@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import junit.framework.TestCase;
 
 import org.snapscript.core.TestType;
-import org.snapscript.core.Type;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.convert.FloatConverter;
 import org.snapscript.core.convert.Score;
 

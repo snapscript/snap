@@ -1,5 +1,8 @@
 package org.snapscript.core;
 
+import org.snapscript.core.module.FilePathConverter;
+import org.snapscript.core.module.PathConverter;
+
 import junit.framework.TestCase;
 
 public class FilePathConverterTest extends TestCase {

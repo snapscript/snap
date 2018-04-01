@@ -1,0 +1,44 @@
+package org.snapscript.core.type.index;
+
+import java.lang.reflect.Method;
+
+import org.snapscript.core.Context;
+import org.snapscript.core.scope.instance.SuperInstance;
+import org.snapscript.core.type.Type;
+import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.function.Invocation;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.platform.Platform;
+import org.snapscript.core.platform.PlatformProvider;
+
+public class SuperCall implements MethodCall<SuperInstance> {
+   
+   private final Method method;
+   
+   public SuperCall(Method method) {
+      this.method = method;
+   }
+
+   @Override
+   public Object call(SuperInstance instance, Object[] arguments) throws Exception {
+      String name = method.getName();
+      Type type = instance.getType();
+      Object value = instance.getBridge();
+      
+      if(value == null) {
+         throw new InternalStateException("No 'super' object could be found");
+      }
+      Module module = instance.getModule();
+      Context context = module.getContext();
+      PlatformProvider provider = context.getProvider();
+      Platform platform = provider.create();
+
+      if(platform == null) {
+         throw new InternalStateException("No 'super' method for '" + name + "' found in '" + type + "'");
+      }
+      Invocation invocation = platform.createSuperMethod(type, method);
+      Object result = invocation.invoke(instance, value, arguments);
+      
+      return result;
+   }
+}

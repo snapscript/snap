@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.snapscript.core.Execution;
-import org.snapscript.core.Path;
-import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
+import org.snapscript.core.module.Path;
 import org.snapscript.core.result.Result;
+import org.snapscript.core.scope.Scope;
 
 public class PackageDefinitionList implements PackageDefinition {
    

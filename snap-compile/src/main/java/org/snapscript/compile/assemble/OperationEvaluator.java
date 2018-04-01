@@ -8,12 +8,12 @@ import org.snapscript.compile.verify.Verifier;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.ExpressionEvaluator;
-import org.snapscript.core.InternalStateException;
-import org.snapscript.core.LocalScopeExtractor;
-import org.snapscript.core.Model;
-import org.snapscript.core.Scope;
 import org.snapscript.core.ScopeMerger;
-import org.snapscript.core.Value;
+import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.scope.Model;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.Value;
+import org.snapscript.core.scope.index.LocalScopeExtractor;
 
 public class OperationEvaluator implements ExpressionEvaluator {
    

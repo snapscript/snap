@@ -1,6 +1,6 @@
 package org.snapscript.tree.define;
 
-import org.snapscript.core.Type;
+import org.snapscript.core.type.Type;
 
 public class StaticState extends StaticBlock {
    

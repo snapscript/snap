@@ -2,8 +2,8 @@ package org.snapscript.tree.collection;
 
 import java.util.Map;
 
-import org.snapscript.core.Value;
-import org.snapscript.core.convert.ProxyWrapper;
+import org.snapscript.core.convert.proxy.ProxyWrapper;
+import org.snapscript.core.scope.Value;
 
 public class MapValue extends Value {
    

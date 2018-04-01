@@ -1,11 +1,11 @@
 package org.snapscript.core.trace;
 
-import org.snapscript.core.Allocation;
-import org.snapscript.core.Scope;
-import org.snapscript.core.Type;
-import org.snapscript.core.TypeBody;
-import org.snapscript.core.TypePart;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.error.ErrorHandler;
+import org.snapscript.core.type.Allocation;
+import org.snapscript.core.type.TypeBody;
+import org.snapscript.core.type.TypePart;
 
 public class TraceTypePart extends TypePart {
    
