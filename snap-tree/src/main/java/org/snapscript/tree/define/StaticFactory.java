@@ -19,6 +19,11 @@ public abstract class StaticFactory extends TypeFactory {
    }
    
    @Override
+   public boolean define(Scope scope, Type type) throws Exception {
+      return true;
+   }
+   
+   @Override
    public void compile(Scope scope, Type type) throws Exception { 
       if(!compile.get()) {
          Module module = type.getModule();

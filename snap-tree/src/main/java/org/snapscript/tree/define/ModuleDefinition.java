@@ -34,7 +34,7 @@ public class ModuleDefinition extends Statement {
    }
 
    @Override
-   public void define(Scope scope) throws Exception {
+   public boolean define(Scope scope) throws Exception {
       Module module = reference.get();
       Value value = Value.getTransient(module);
       Scope inner = module.getScope();
@@ -42,6 +42,8 @@ public class ModuleDefinition extends Statement {
       
       state.add(TYPE_THIS, value);
       body.define(inner); // must be module scope
+      
+      return true;
    }
    
    @Override

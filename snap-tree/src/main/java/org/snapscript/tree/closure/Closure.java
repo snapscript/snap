@@ -75,8 +75,11 @@ public class Closure implements Compilation {
          Signature signature = parameters.create(parent);
          Scope capture = extractor.extract(scope);
          FunctionHandle handle = builder.create(signature, capture); // creating new function each time
-
+         Function function = handle.create(capture);  
+         Constraint constraint = function.getConstraint();
+         
          handle.define(capture);
+         constraint.getType(scope);
          reference.set(handle);
       }
       
@@ -86,10 +89,8 @@ public class Closure implements Compilation {
          FunctionHandle handle = reference.get();
          Scope capture = extractor.extract(scope);
          Function function = handle.create(capture);   
-         Constraint constraint = function.getConstraint();
          Scope combined = compiler.compile(capture, type, function);
          
-         constraint.getType(scope);
          handle.compile(combined);
         
          return NONE;

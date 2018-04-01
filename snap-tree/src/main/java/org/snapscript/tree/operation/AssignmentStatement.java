@@ -43,8 +43,9 @@ public class AssignmentStatement implements Compilation {
       }
       
       @Override
-      public void define(Scope scope) throws Exception {
+      public boolean define(Scope scope) throws Exception {
          assignment.define(scope);
+         return false;
       }
       
       @Override

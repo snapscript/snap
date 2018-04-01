@@ -21,10 +21,11 @@ public class StatementBlock extends Statement {
    }
    
    @Override
-   public void define(Scope scope) throws Exception {
+   public boolean define(Scope scope) throws Exception {
       if(compiler == null) {
          compiler = builder.create(scope);
       }
+      return true;
    }
    
    @Override
@@ -38,8 +39,10 @@ public class StatementBlock extends Statement {
    private static class StatementBuilder {
       
       private final Statement[] statements;
+      private final Statement[] executable;
       
       public StatementBuilder(Statement[] statements) {
+         this.executable = new Statement[statements.length];
          this.statements = statements;
       }
       
@@ -48,29 +51,47 @@ public class StatementBlock extends Statement {
          int size = index.size();
          
          try {
-            for(Statement statement : statements) {
-               statement.define(scope);
+            for(int i = 0; i < statements.length; i++){
+               Statement statement = statements[i];
+            
+               if(statement.define(scope)) {
+                  executable[i] = statement;
+                  statements[i] = null;
+               }
             }
          } finally {
             index.reset(size);
          }
-         return new StatementCompiler(statements);
+         return new StatementCompiler(statements, executable);
       }
    }
    
    private static class StatementCompiler {
       
       private final Statement[] statements;
+      private final Statement[] executable;      
       private final Execution[] executions;
       
-      public StatementCompiler(Statement[] statements) {
+      public StatementCompiler(Statement[] statements, Statement[] executable) {
          this.executions = new Execution[statements.length];
+         this.executable = executable;
          this.statements = statements;
       }
       
       public Execution compile(Scope scope) throws Exception {
+         for(int i = 0; i < executable.length; i++) {
+            Statement statement = executable[i];
+            
+            if(statement != null) {
+               executions[i]  = statement.compile(scope);
+            }
+         }
          for(int i = 0; i < statements.length; i++) {
-            executions[i]  = statements[i].compile(scope);
+            Statement statement = statements[i];
+            
+            if(statement != null) {
+               executions[i]  = statement.compile(scope);
+            }
          }
          return new StatementExecutor(executions);
       }
@@ -78,10 +99,10 @@ public class StatementBlock extends Statement {
    
    private static class StatementExecutor extends SuspendStatement<Integer> {
       
-      private final Execution[] statements;     
+      private final Execution[] executions;     
       
-      public StatementExecutor(Execution[] statements) {         
-         this.statements = statements;
+      public StatementExecutor(Execution[] executions) {         
+         this.executions = executions;
       }      
       
       @Override
@@ -93,9 +114,9 @@ public class StatementBlock extends Statement {
       public Result resume(Scope scope, Integer index) throws Exception {
          Result last = NORMAL;
 
-         for(int i = index; i < statements.length; i++){
-            Execution statement = statements[i];
-            Result result = statement.execute(scope);
+         for(int i = index; i < executions.length; i++){
+            Execution execution = executions[i];
+            Result result = execution.execute(scope);
             
             if(result.isYield()) {
                return suspend(scope, result, this, i + 1);

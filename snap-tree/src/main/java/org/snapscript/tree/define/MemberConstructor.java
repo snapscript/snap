@@ -41,9 +41,7 @@ public abstract class MemberConstructor extends TypePart {
       FunctionHandle handle = reference.get();
       Function function = handle.create(scope);
       Scope outer = compiler.compile(scope, type, function);
-      Constraint constraint = function.getConstraint();
-      
-      constraint.getType(outer);
+
       handle.compile(outer);
       
       return null;
@@ -54,11 +52,13 @@ public abstract class MemberConstructor extends TypePart {
       ConstructorBuilder builder = assembler.assemble(factory, type, scope);
       FunctionHandle handle = builder.create(factory, type, modifiers, compile);
       Function constructor = handle.create(scope);
+      Constraint constraint = constructor.getConstraint();
       List<Function> functions = type.getFunctions();
       
       annotations.apply(scope, constructor);
       functions.add(constructor);
       handle.define(scope);
+      constraint.getType(scope);
       reference.set(handle);
       
       return null;

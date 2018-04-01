@@ -55,7 +55,7 @@ public class TryStatement implements Compilation {
       }    
       
       @Override
-      public void define(Scope scope) throws Exception {  
+      public boolean define(Scope scope) throws Exception {  
          if(list != null) {
             list.define(scope);
          }
@@ -63,6 +63,7 @@ public class TryStatement implements Compilation {
             finish.define(scope);
          }
          statement.define(scope);
+         return true;
       }
       
       @Override

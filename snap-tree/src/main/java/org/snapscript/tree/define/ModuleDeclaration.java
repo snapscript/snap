@@ -82,7 +82,7 @@ public class ModuleDeclaration implements Compilation {
       }  
       
       @Override
-      public void define(Scope scope) throws Exception {
+      public boolean define(Scope scope) throws Exception {
          Module module = scope.getModule();
          List<Property> list = module.getProperties();
          int mask = modifiers.getModifiers();
@@ -91,6 +91,7 @@ public class ModuleDeclaration implements Compilation {
             Property property = declaration.define(body, scope, mask | STATIC.mask); 
             list.add(property);
          }
+         return true;
       }
       
       @Override

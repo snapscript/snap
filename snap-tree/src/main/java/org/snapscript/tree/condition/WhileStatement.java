@@ -49,9 +49,10 @@ public class WhileStatement implements Compilation {
       }
       
       @Override
-      public void define(Scope scope) throws Exception { 
+      public boolean define(Scope scope) throws Exception { 
          condition.define(scope);
          body.define(scope);
+         return true;
       }
    
       @Override

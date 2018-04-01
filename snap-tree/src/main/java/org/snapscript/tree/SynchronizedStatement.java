@@ -9,6 +9,7 @@ import org.snapscript.core.Path;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.Value;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.define.Instance;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.result.Result;
@@ -47,15 +48,17 @@ public class SynchronizedStatement implements Compilation {
       }
       
       @Override
-      public void define(Scope scope) throws Exception {
+      public boolean define(Scope scope) throws Exception {
          reference.define(scope);
          statement.define(scope);
+         return true;
       }
 
       @Override
       public Execution compile(Scope scope) throws Exception {
-         reference.compile(scope, null);
+         Constraint constraint = reference.compile(scope, null);
          Execution execution = statement.compile(scope);
+         
          return new CompileExecution(reference, execution);
       }
    }

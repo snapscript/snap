@@ -11,8 +11,10 @@ import org.snapscript.core.result.Result;
 public class Script extends Statement {
    
    private final Statement[] statements;
+   private final Statement[] executable;
    
    public Script(Statement... statements) {
+      this.executable = new Statement[statements.length];
       this.statements = statements;
    }
    
@@ -24,35 +26,52 @@ public class Script extends Statement {
    }
    
    @Override
-   public void define(Scope scope) throws Exception {
-      for(Statement statement : statements) {
-         statement.define(scope);
+   public boolean define(Scope scope) throws Exception {      
+      for(int i = 0; i < statements.length; i++){
+         Statement statement = statements[i];
+         
+         if(statement.define(scope)){
+            executable[i] = statement;
+            statements[i] = null;
+         }
       }
+      return true;
    }
    
    @Override
    public Execution compile(Scope scope) throws Exception {
-      Execution[] list = new Execution[statements.length];
+      Execution[] executions = new Execution[statements.length];
       
-      for(int i = 0; i < statements.length; i++){
-         list[i] = statements[i].compile(scope);
+      for(int i = 0; i < executable.length; i++) {
+         Statement statement = executable[i];
+         
+         if(statement != null) {
+            executions[i]  = statement.compile(scope);
+         }
       }
-      return new ScriptExecution(list);
+      for(int i = 0; i < statements.length; i++) {
+         Statement statement = statements[i];
+         
+         if(statement != null) {
+            executions[i]  = statement.compile(scope);
+         }
+      }
+      return new ScriptExecution(executions);
    }
    
    private static class ScriptExecution extends Execution {
       
-      private final Execution[] statements;
+      private final Execution[] executions;
       
-      public ScriptExecution(Execution... statements) {
-         this.statements = statements;
+      public ScriptExecution(Execution... executions) {
+         this.executions = executions;
       }
    
       @Override
       public Result execute(Scope scope) throws Exception {
          Result last = NORMAL;
          
-         for(Execution statement : statements) {
+         for(Execution statement : executions) {
             Result result = statement.execute(scope);
             
             if(!result.isNormal()){

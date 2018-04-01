@@ -63,18 +63,22 @@ public class ModuleFunction implements ModulePart {
       }
       
       @Override
-      public void define(Scope scope) throws Exception {
+      public boolean define(Scope scope) throws Exception {
          Module module = scope.getModule();
          List<Function> functions = module.getFunctions();
          Signature signature = parameters.create(scope);
          String name = reference.getName(scope);
          FunctionHandle handle = builder.create(signature, module, constraint, name);
          Function function = handle.create(scope);
-         
+         Constraint constraint = function.getConstraint();         
+
          annotations.apply(scope, function);
          functions.add(function);
          handle.define(scope); // count stack
+         constraint.getType(scope);
          cache.set(handle);
+         
+         return false;
       }      
       
       @Override
@@ -84,9 +88,7 @@ public class ModuleFunction implements ModulePart {
          Type type = module.getType(); // ???
          Function function = handle.create(scope);
          Scope outer = compiler.compile(scope, type, function);
-         Constraint constraint = function.getConstraint();
-         
-         constraint.getType(outer);
+
          handle.compile(outer);
          
          return execution;

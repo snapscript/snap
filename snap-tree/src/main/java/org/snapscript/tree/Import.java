@@ -93,13 +93,14 @@ public class Import implements Compilation {
       }
 
       @Override
-      public void define(Scope scope) throws Exception {
+      public boolean define(Scope scope) throws Exception {
          if(definition == null) {
             throw new InternalStateException("Import '" + location + "' was not defined");
          }
          if(statement == null) { // compile once
             statement = definition.define(scope, path);
          }
+         return true;
       }
       
       @Override

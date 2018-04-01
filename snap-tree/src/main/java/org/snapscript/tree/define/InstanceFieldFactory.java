@@ -17,10 +17,11 @@ public class InstanceFieldFactory extends TypeFactory {
    }
    
    @Override
-   public void define(Scope scope, Type type) throws Exception {
+   public boolean define(Scope scope, Type type) throws Exception {
       if(evaluation != null) {
          evaluation.define(scope); 
       }
+      return false;
    }
 
    @Override

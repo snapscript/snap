@@ -42,8 +42,9 @@ public class ExpressionStatement implements Compilation {
       }
       
       @Override
-      public void define(Scope scope) throws Exception {
+      public boolean define(Scope scope) throws Exception {
          expression.define(scope);
+         return true;
       }
       
       @Override

@@ -49,10 +49,11 @@ public class PackageDefinitionList implements PackageDefinition {
       }
                      
       @Override
-      public void define(Scope scope) throws Exception {
+      public boolean define(Scope scope) throws Exception {
          for(Statement statement : statements){
             statement.define(scope);
          }
+         return true;
       }
       
       @Override

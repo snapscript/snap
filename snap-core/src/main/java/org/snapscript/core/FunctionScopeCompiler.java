@@ -4,16 +4,18 @@ import org.snapscript.core.function.Function;
 
 public class FunctionScopeCompiler extends ScopeCompiler {
    
+   private final LocalScopeExtractor extractor;
+   
    public FunctionScopeCompiler() {
-      super();
+      this.extractor = new LocalScopeExtractor(false, true);          
    }
 
    public Scope compile(Scope local, Type type, Function function) throws Exception {    
-      Scope scope = local.getScope();
-      Scope outer = scope.getStack();
+      Scope scope = extractor.extract(local);
+      Scope stack = scope.getStack();
+      
+      compileParameters(stack, function);
 
-      compileParameters(outer, function);
-
-      return outer;
+      return stack;
    }
 }

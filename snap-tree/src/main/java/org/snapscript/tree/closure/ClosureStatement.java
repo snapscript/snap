@@ -18,13 +18,14 @@ public class ClosureStatement extends Statement {
    }
    
    @Override
-   public void define(Scope scope) throws Exception {   
+   public boolean define(Scope scope) throws Exception {   
       if(evaluation != null){
          evaluation.define(scope);
       }
       if(statement != null) {
          statement.define(scope);
       }
+      return true;
    }
    
    @Override

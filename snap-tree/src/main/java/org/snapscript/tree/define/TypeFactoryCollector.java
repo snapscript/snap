@@ -11,10 +11,12 @@ import org.snapscript.core.TypeFactory;
 import org.snapscript.core.result.Result;
 
 public class TypeFactoryCollector extends TypeFactory {
-   
+
+   private final List<TypeFactory> statics;
    private final List<TypeFactory> list;
-   
+
    public TypeFactoryCollector(){
+      this.statics = new ArrayList<TypeFactory>();
       this.list = new ArrayList<TypeFactory>();
    }
 
@@ -25,14 +27,20 @@ public class TypeFactoryCollector extends TypeFactory {
    }
    
    @Override
-   public void define(Scope scope, Type type) throws Exception {
+   public boolean define(Scope scope, Type type) throws Exception {
       for(TypeFactory factory : list) {
-         factory.define(scope, type);
-      }
+         if(factory.define(scope, type)) {
+            statics.add(factory);
+         }
+      }      
+      return list.removeAll(statics);
    } 
    
    @Override
    public void compile(Scope scope, Type type) throws Exception {
+      for(TypeFactory factory : statics) {
+         factory.compile(scope, type);
+      }
       for(TypeFactory factory : list) {
          factory.compile(scope, type);
       }
@@ -40,6 +48,9 @@ public class TypeFactoryCollector extends TypeFactory {
 
    @Override
    public void allocate(Scope scope, Type type) throws Exception {
+      for(TypeFactory factory : statics) {
+         factory.allocate(scope, type);
+      }
       for(TypeFactory factory : list) {
          factory.allocate(scope, type);
       }
@@ -47,18 +58,13 @@ public class TypeFactoryCollector extends TypeFactory {
    
    @Override
    public Result execute(Scope scope, Type type) throws Exception {
-      Result last = null;
-
-      for(TypeFactory factory : list) {
-         Result result = factory.execute(scope, type);
-         
-         if(!result.isNormal()){
-            return result;
-         }
-         last = result;
+      Result last = NORMAL;
+      
+      for(TypeFactory factory : statics) {
+         factory.execute(scope, type);
       }
-      if(last == null) {
-         return NORMAL;
+      for(TypeFactory factory : list) {
+         last = factory.execute(scope, type);
       }
       return last;
    }              

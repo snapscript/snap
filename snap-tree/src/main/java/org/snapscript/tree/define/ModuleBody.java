@@ -8,6 +8,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.Execution;
+import org.snapscript.core.Module;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Statement;
 import org.snapscript.core.link.FutureExecution;
@@ -17,6 +18,7 @@ public class ModuleBody extends Statement {
 
    private final AtomicReference<Execution> reference;
    private final Statement[] statements;
+   private final Statement[] executable;
    private final ModulePart[] parts;
    private final AtomicBoolean create;
    private final AtomicBoolean define;
@@ -24,6 +26,7 @@ public class ModuleBody extends Statement {
    public ModuleBody(ModulePart... parts) {
       this.reference = new AtomicReference<Execution>();
       this.statements = new Statement[parts.length];
+      this.executable = new Statement[parts.length];
       this.define = new AtomicBoolean(true);
       this.create = new AtomicBoolean(true);
       this.parts = parts;
@@ -33,20 +36,29 @@ public class ModuleBody extends Statement {
    public void create(Scope scope) throws Exception {
       if(create.compareAndSet(true, false)) {
          for(int i = 0; i < parts.length; i++) {
-            statements[i] = parts[i].define(this);
-            statements[i].create(scope);
+            ModulePart part = parts[i];
+            Statement statement = part.define(this);
+            
+            statement.create(scope);
+            statements[i] = statement;           
             parts[i] = null;
          }
       }
    }
    
    @Override
-   public void define(Scope scope) throws Exception {
+   public boolean define(Scope scope) throws Exception {
       if(define.compareAndSet(true, false)) {
          for(int i = 0; i < statements.length; i++) {
-            statements[i].define(scope);
+            Statement statement = statements[i];
+            
+            if(statement.define(scope)){
+               executable[i] = statement;
+               statements[i] = null;
+            }
          }
       }
+      return true;
    }
    
    @Override
@@ -54,7 +66,7 @@ public class ModuleBody extends Statement {
       Execution result = reference.get();
       
       if(result == null) {
-         ModuleTask job = new ModuleTask(reference, scope, statements);
+         ModuleTask job = new ModuleTask(scope, statements, executable);
          FutureTask<Execution> task = new FutureTask<Execution>(job);
          FutureExecution execution = new FutureExecution(task, null);
          
@@ -67,15 +79,15 @@ public class ModuleBody extends Statement {
       return result;
    }
    
-   private static class ModuleTask implements Callable<Execution> {
-      
-      private final AtomicReference<Execution> reference;
+   private class ModuleTask implements Callable<Execution> {
+
+      private final Statement[] executable;
       private final Statement[] statements;
       private final Scope module;
       
-      public ModuleTask(AtomicReference<Execution> reference, Scope module, Statement... statements) {
-         this.reference = reference;
+      public ModuleTask(Scope module, Statement[] statements, Statement[] executable) {
          this.statements = statements;
+         this.executable = executable;
          this.module = module;
       }
       
@@ -84,8 +96,19 @@ public class ModuleBody extends Statement {
          Execution[] executions = new Execution[statements.length];
          Execution execution = new ModuleExecution(module, executions);
          
+         for(int i = 0; i < executable.length; i++) {
+            Statement statement = executable[i];
+            
+            if(statement != null) {
+               executions[i]  = statement.compile(module);
+            }
+         }
          for(int i = 0; i < statements.length; i++) {
-            executions[i] = statements[i].compile(module);
+            Statement statement = statements[i];
+            
+            if(statement != null) {
+               executions[i]  = statement.compile(module);
+            }
          }
          reference.set(execution);
          return execution;
@@ -93,13 +116,13 @@ public class ModuleBody extends Statement {
    }   
  
    
-   private static class ModuleExecution extends Execution {
+   private class ModuleExecution extends Execution {
       
       private final Execution[] executions;
       private final AtomicBoolean execute;
       private final Scope module;
       
-      public ModuleExecution(Scope module, Execution... executions) {
+      public ModuleExecution(Scope module, Execution[] executions) {
          this.execute = new AtomicBoolean(true);
          this.executions = executions;
          this.module = module;
@@ -109,11 +132,12 @@ public class ModuleBody extends Statement {
       public Result execute(Scope scope) throws Exception {
          Result last = NORMAL;
          
-         if(execute.compareAndSet(true, false)) {  
-            Scope s = module.getModule().getScope();
+         if(execute.compareAndSet(true, false)) {
+            Module parent = module.getModule();
+            Scope root = parent.getScope();            
             
             for(int i = 0; i < executions.length; i++) {
-               Result result = executions[i].execute(s);
+               Result result = executions[i].execute(root);
                
                if(!result.isNormal()){
                   return result;

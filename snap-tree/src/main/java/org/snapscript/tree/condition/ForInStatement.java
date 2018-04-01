@@ -63,7 +63,7 @@ public class ForInStatement implements Compilation {
       }
       
       @Override
-      public void define(Scope scope) throws Exception { 
+      public boolean define(Scope scope) throws Exception { 
          Index index = scope.getIndex();
          int size = index.size();
          
@@ -76,6 +76,7 @@ public class ForInStatement implements Compilation {
          } finally {
             index.reset(size);
          }
+         return true;
       }
       
       @Override

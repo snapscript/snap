@@ -26,12 +26,13 @@ public class TraceStatement extends Statement {
    }
    
    @Override
-   public void define(Scope scope) throws Exception {
+   public boolean define(Scope scope) throws Exception {
       try {
-         statement.define(scope);
+         return statement.define(scope);
       }catch(Exception cause) {
          handler.throwInternalError(scope, cause, trace);
       }
+      return true;
    }
    
    @Override

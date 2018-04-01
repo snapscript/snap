@@ -38,12 +38,13 @@ public class ScriptPackage extends Statement {
    }
    
    @Override
-   public void define(Scope scope) throws Exception {
+   public boolean define(Scope scope) throws Exception {
       if(define.compareAndSet(true, false)) {
          for(Statement statement : statements) {
             statement.define(scope);
          }
       }
+      return true;
    }
    
    @Override

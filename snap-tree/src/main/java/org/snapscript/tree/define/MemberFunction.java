@@ -57,9 +57,7 @@ public class MemberFunction extends TypePart {
       FunctionHandle handle = reference.get();
       Function function = handle.create(scope);
       Scope outer = compiler.compile(scope, type, function);
-      Constraint constraint = function.getConstraint();
-      
-      constraint.getType(outer);
+
       handle.compile(outer);
       
       return null;
@@ -69,6 +67,7 @@ public class MemberFunction extends TypePart {
       MemberFunctionBuilder builder = assembler.assemble(type, mask);
       FunctionHandle handle = builder.create(factory, scope, type);
       Function function = handle.create(scope);
+      Constraint constraint = function.getConstraint();
       List<Function> functions = type.getFunctions();
       int modifiers = function.getModifiers();
 
@@ -77,10 +76,11 @@ public class MemberFunction extends TypePart {
          List<Function> list = module.getFunctions();
          
          list.add(function); // This is VERY STRANGE!!! NEEDED BUT SHOULD NOT BE HERE!!!
-      }
+      }      
       annotations.apply(scope, function);
       functions.add(function);
       handle.define(scope); // count stacks
+      constraint.getType(scope);
       reference.set(handle);
       
       return null; 

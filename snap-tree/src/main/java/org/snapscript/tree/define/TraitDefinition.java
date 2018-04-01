@@ -64,7 +64,7 @@ public class TraitDefinition extends Statement {
    }
 
    @Override
-   public void define(Scope outer) throws Exception {
+   public boolean define(Scope outer) throws Exception {
       if(!define.compareAndSet(false, true)) {
          Type type = builder.define(outer);
          Progress<Phase> progress = type.getProgress();
@@ -83,6 +83,7 @@ public class TraitDefinition extends Statement {
             progress.done(DEFINED); 
          }
       }
+      return true;
    }
    
    @Override

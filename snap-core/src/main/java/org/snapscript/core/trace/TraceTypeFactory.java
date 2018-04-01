@@ -19,12 +19,13 @@ public class TraceTypeFactory extends TypeFactory {
    }
    
    @Override
-   public void define(Scope scope, Type type) throws Exception {
+   public boolean define(Scope scope, Type type) throws Exception {
       try {
-         factory.define(scope, type);
+         return factory.define(scope, type);
       }catch(Exception cause) {
          handler.throwInternalError(scope, cause, trace);
       }
+      return false;
    }
    
    @Override

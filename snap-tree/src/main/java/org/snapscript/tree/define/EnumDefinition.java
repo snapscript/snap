@@ -53,7 +53,7 @@ public class EnumDefinition extends Statement {
    }
 
    @Override
-   public void define(Scope outer) throws Exception {
+   public boolean define(Scope outer) throws Exception {
       if(!define.compareAndSet(false, true)) {
          Type type = builder.define(outer);
          Scope scope = type.getScope();
@@ -73,6 +73,7 @@ public class EnumDefinition extends Statement {
             progress.done(DEFINED);
          }
       }
+      return true;
    }
    
    @Override

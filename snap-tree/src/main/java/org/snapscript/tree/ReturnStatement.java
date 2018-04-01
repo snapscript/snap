@@ -53,10 +53,11 @@ public class ReturnStatement implements Compilation {
       }
       
       @Override
-      public void define(Scope scope) throws Exception {
+      public boolean define(Scope scope) throws Exception {
          if(evaluation != null) {
             evaluation.define(scope);
          }
+         return true;
       }
       
       @Override

@@ -66,12 +66,13 @@ public class MatchStatement implements Compilation {
       }
       
       @Override
-      public void define(Scope scope) throws Exception {
+      public boolean define(Scope scope) throws Exception {
          for(int i = 0; i < cases.length; i++){
             Statement statement = cases[i].getStatement();
             statement.define(scope);
          }
          condition.define(scope);
+         return true;
       }
       
       @Override

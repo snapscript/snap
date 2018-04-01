@@ -26,10 +26,10 @@ public class Choice extends Evaluation {
    
    @Override
    public Constraint compile(Scope scope, Constraint left) throws Exception {
-      condition.define(scope);     
-      negative.define(scope);
+      condition.compile(scope, null);     
+      negative.compile(scope, null);
       
-      return positive.compile(scope, left);
+      return positive.compile(scope, null);
    }
    
    @Override

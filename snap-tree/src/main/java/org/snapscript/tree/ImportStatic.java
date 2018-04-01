@@ -53,7 +53,7 @@ public class ImportStatic implements Compilation {
       }
       
       @Override
-      public void define(Scope scope) throws Exception {
+      public boolean define(Scope scope) throws Exception {
          Module module = scope.getModule();
          String parent = builder.createFullName(location, target);
          Type type = module.getType(parent); // this is a type name
@@ -75,6 +75,7 @@ public class ImportStatic implements Compilation {
                }
             }
          }
+         return true;
       }
       
       @Override

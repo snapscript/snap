@@ -29,10 +29,11 @@ public class ThisFactory extends TypeFactory {
    }
 
    @Override
-   public void define(Scope instance, Type real) throws Exception {
+   public boolean define(Scope instance, Type real) throws Exception {
       if(define.compareAndSet(false, true)) {
          expression.define(instance);
       }
+      return false;
    }
    
    @Override

@@ -48,17 +48,21 @@ public class ScriptFunction extends Statement {
    }  
    
    @Override
-   public void define(Scope scope) throws Exception {
+   public boolean define(Scope scope) throws Exception {
       Module module = scope.getModule();
       List<Function> functions = module.getFunctions();
       Signature signature = parameters.create(scope);
       String name = identifier.getName(scope);
       FunctionHandle handle = builder.create(signature, module, constraint, name);
       Function function = handle.create(scope);
+      Constraint constraint = function.getConstraint();
       
       functions.add(function);
       handle.define(scope); // count stack
+      constraint.getType(scope);
       reference.set(handle);
+      
+      return false;
    }
    
    @Override
@@ -70,10 +74,8 @@ public class ScriptFunction extends Statement {
          throw new InternalStateException("Function '" + name + "' was not compiled");
       }
       Function function = handle.create(scope);
-      Constraint constraint = function.getConstraint();
       Scope combined = compiler.compile(scope, null, function);
       
-      constraint.getType(scope);
       handle.compile(combined);
       
       return execution;
