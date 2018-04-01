@@ -9,6 +9,7 @@ import java.util.concurrent.FutureTask;
 
 import org.snapscript.common.Cache;
 import org.snapscript.common.LeastRecentlyUsedCache;
+import org.snapscript.compile.verify.Verifier;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.FilePathConverter;
 import org.snapscript.core.Path;
@@ -24,19 +25,21 @@ public class EvaluationBuilder {
    private final PathConverter converter;
    private final SyntaxCompiler compiler;
    private final Assembler assembler;
+   private final Verifier verifier;
    private final Executor executor;
    private final int limit;
    
-   public EvaluationBuilder(Assembler assembler, Executor executor){
-      this(assembler, executor, 200);
+   public EvaluationBuilder(Assembler assembler, Verifier verifier, Executor executor){
+      this(assembler, verifier, executor, 200);
    }
    
-   public EvaluationBuilder(Assembler assembler, Executor executor, int limit) {
+   public EvaluationBuilder(Assembler assembler, Verifier verifier, Executor executor, int limit) {
       this.cache = new LeastRecentlyUsedCache<String, Evaluation>();
       this.compiler = new SyntaxCompiler(GRAMMAR_FILE);
       this.converter = new FilePathConverter();
       this.assembler = assembler;
       this.executor = executor;
+      this.verifier = verifier;
       this.limit = limit;
    }
    
@@ -79,6 +82,7 @@ public class EvaluationBuilder {
          
          evaluation.define(scope);
          evaluation.compile(scope, null);
+         verifier.verify();
          
          if(length < limit) {
             cache.cache(source, evaluation);

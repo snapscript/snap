@@ -2,6 +2,7 @@ package org.snapscript.compile.validate;
 
 import java.util.List;
 
+import org.snapscript.compile.verify.Verifier;
 import org.snapscript.core.Context;
 import org.snapscript.core.Module;
 import org.snapscript.core.ModuleRegistry;
@@ -15,16 +16,20 @@ public class ExecutableValidator implements ProgramValidator {
 
    private final ModuleValidator modules;
    private final TypeValidator types;
+   private final Verifier verifier;
    
-   public ExecutableValidator(ConstraintMatcher matcher, TypeExtractor extractor, FunctionResolver resolver) {
+   public ExecutableValidator(ConstraintMatcher matcher, TypeExtractor extractor, FunctionResolver resolver, Verifier verifier) {
       this.types = new TypeValidator(matcher, extractor, resolver);
       this.modules = new ModuleValidator(types);
+      this.verifier = verifier;
    }
    
    @Override
    public void validate(Context context) throws Exception {
       ModuleRegistry registry = context.getRegistry();
       List<Module> modules = registry.getModules();
+    
+      verifier.verify();
       
       for(Module module : modules) {
          validate(module);

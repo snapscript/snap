@@ -9,10 +9,12 @@ import org.snapscript.core.stack.ThreadStack;
 public class TraceInterceptor implements TraceListener {
    
    private final Set<TraceListener> listeners;
+   private final TraceErrorCollector collector;
    private final ThreadStack stack;
    
-   public TraceInterceptor(ThreadStack stack) {
+   public TraceInterceptor(TraceErrorCollector collector, ThreadStack stack) {
       this.listeners = new CopyOnWriteArraySet<TraceListener>();
+      this.collector = collector;
       this.stack = stack;
    }
    
@@ -26,18 +28,12 @@ public class TraceInterceptor implements TraceListener {
          }
       }
    }
-   
-   @Override
-   public void warning(Scope scope, Trace trace, Exception cause) {
-      if(!listeners.isEmpty()) {
-         for(TraceListener listener : listeners) {
-            listener.warning(scope, trace, cause);
-         }
-      }
-   }
+
    
    @Override
    public void error(Scope scope, Trace trace, Exception cause) {
+      collector.update(cause, trace);
+      
       if(!listeners.isEmpty()) {
          for(TraceListener listener : listeners) {
             listener.error(scope, trace, cause);

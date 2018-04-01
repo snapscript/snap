@@ -29,7 +29,7 @@ public class TraceEvaluation extends Evaluation {
       try {
          return evaluation.compile(scope, left);
       }catch(Exception cause) {
-         interceptor.warning(scope, trace, cause);
+         interceptor.error(scope, trace, cause);
       }
       return NONE;
    }

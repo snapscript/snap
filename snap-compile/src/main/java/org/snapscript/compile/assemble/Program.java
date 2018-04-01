@@ -38,9 +38,9 @@ public class Program implements Executable{
    public void execute(Model model) throws Exception{ 
       Scope scope = merger.merge(model, name, path);
       ErrorHandler handler = context.getHandler();
+      Execution execution = compiler.compile(scope); // create all types
       
       try {
-         Execution execution = compiler.compile(scope); // create all types
          execution.execute(scope);
       } catch(Throwable cause) {
          handler.handleExternalError(scope, cause);

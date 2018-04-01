@@ -50,12 +50,12 @@ public class TraceStatement extends Statement {
       
       private final TraceInterceptor interceptor;
       private final ErrorHandler handler;
-      private final Execution statement;
+      private final Execution execution;
       private final Trace trace;
       
-      public TraceExecution(TraceInterceptor interceptor, ErrorHandler handler, Execution statement, Trace trace) {
+      public TraceExecution(TraceInterceptor interceptor, ErrorHandler handler, Execution execution, Trace trace) {
          this.interceptor = interceptor;
-         this.statement = statement;
+         this.execution = execution;
          this.handler = handler;
          this.trace = trace;
       }
@@ -64,7 +64,7 @@ public class TraceStatement extends Statement {
       public Result execute(Scope scope) throws Exception {
          try {
             interceptor.before(scope, trace);
-            return statement.execute(scope); 
+            return execution.execute(scope); 
          } catch(Exception cause) {
             interceptor.error(scope, trace, cause);
             return handler.handleInternalError(scope, cause);

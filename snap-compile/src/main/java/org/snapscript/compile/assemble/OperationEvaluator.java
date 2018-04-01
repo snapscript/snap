@@ -4,6 +4,7 @@ import static org.snapscript.core.Reserved.DEFAULT_PACKAGE;
 
 import java.util.concurrent.Executor;
 
+import org.snapscript.compile.verify.Verifier;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.ExpressionEvaluator;
@@ -21,13 +22,13 @@ public class OperationEvaluator implements ExpressionEvaluator {
    private final ScopeMerger merger;
    private final Assembler assembler;
    
-   public OperationEvaluator(Context context, Executor executor){
-      this(context, executor, 200);
+   public OperationEvaluator(Context context, Verifier verifier, Executor executor){
+      this(context, verifier, executor, 200);
    }
    
-   public OperationEvaluator(Context context, Executor executor, int limit) {
+   public OperationEvaluator(Context context, Verifier verifier, Executor executor, int limit) {
       this.assembler = new OperationAssembler(context, executor);
-      this.builder = new EvaluationBuilder(assembler, executor, limit);
+      this.builder = new EvaluationBuilder(assembler, verifier, executor, limit);
       this.extractor = new LocalScopeExtractor(true, true);
       this.merger = new ScopeMerger(context);
    }

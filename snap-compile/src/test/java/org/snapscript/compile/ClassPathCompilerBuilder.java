@@ -16,12 +16,11 @@ public class ClassPathCompilerBuilder {
       Context context = new StoreContext(store, null);
       context.getInterceptor().register(new TraceListener() {
          @Override
-         public void warning(Scope scope, Trace trace, Exception cause) {
+         public void error(Scope scope, Trace trace, Exception cause) {
             String message = cause.getMessage();
             System.err.printf("%s in %s%n", message, trace);
          }
          public void before(Scope scope, Trace trace) {}
-         public void error(Scope scope, Trace trace, Exception cause) {}
          public void after(Scope scope, Trace trace) {}         
       });
       return new StringCompiler(context);

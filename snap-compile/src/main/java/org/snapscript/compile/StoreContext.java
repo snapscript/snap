@@ -6,6 +6,7 @@ import org.snapscript.common.store.Store;
 import org.snapscript.compile.assemble.ExecutorLinker;
 import org.snapscript.compile.assemble.OperationEvaluator;
 import org.snapscript.compile.validate.ExecutableValidator;
+import org.snapscript.compile.verify.ExecutableVerifier;
 import org.snapscript.core.Context;
 import org.snapscript.core.ExpressionEvaluator;
 import org.snapscript.core.ModuleRegistry;
@@ -33,6 +34,7 @@ public class StoreContext implements Context {
    private final ExpressionEvaluator evaluator;
    private final TraceInterceptor interceptor;
    private final PlatformProvider provider;
+   private final ExecutableVerifier verifier;
    private final ConstraintMatcher matcher;
    private final ResourceManager manager;
    private final FunctionResolver resolver;
@@ -53,7 +55,8 @@ public class StoreContext implements Context {
    public StoreContext(Store store, Executor executor){
       this.stack = new ThreadStack();
       this.wrapper = new ProxyWrapper(this);
-      this.interceptor = new TraceInterceptor(stack);
+      this.verifier = new ExecutableVerifier();
+      this.interceptor = new TraceInterceptor(verifier, stack);
       this.manager = new StoreManager(store);
       this.registry = new ModuleRegistry(this, executor);
       this.linker = new ExecutorLinker(this, executor);      
@@ -62,9 +65,9 @@ public class StoreContext implements Context {
       this.extractor = new TypeExtractor(loader);
       this.handler = new ErrorHandler(extractor, stack);
       this.resolver = new FunctionResolver(extractor, stack);
-      this.validator = new ExecutableValidator(matcher, extractor, resolver);
+      this.validator = new ExecutableValidator(matcher, extractor, resolver, verifier);
       this.binder = new FunctionSearcher(extractor, stack, resolver);
-      this.evaluator = new OperationEvaluator(this, executor);
+      this.evaluator = new OperationEvaluator(this, verifier, executor);
       this.provider = new CachePlatformProvider(extractor, wrapper, stack);
       this.table = new CacheFunctionIndexer(binder, handler);
    }
