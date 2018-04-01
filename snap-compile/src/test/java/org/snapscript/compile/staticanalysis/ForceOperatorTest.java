@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 
 import org.snapscript.compile.ClassPathCompilerBuilder;
 import org.snapscript.compile.Compiler;
+import org.snapscript.compile.verify.VerifyException;
 
 public class ForceOperatorTest extends TestCase {
 
@@ -54,10 +55,10 @@ public class ForceOperatorTest extends TestCase {
       
       try {
          compiler.compile(SOURCE_1).execute();
-      } catch(Exception e) {
-         String message = e.getMessage();
-         e.printStackTrace();
-         assertEquals("Method 'foo()' not found in scope in /default.snap at line 11", message);
+      } catch(VerifyException e) {
+         e.getErrors().get(0).getCause().printStackTrace();
+         String message =  e.getErrors().get(0).getDescription();
+         assertEquals("Method 'foo()' not found for 'default.Foo' in /default.snap at line 11", message);
          failure = true;
       }
       assertTrue("Should be a compile error", failure);

@@ -2,6 +2,7 @@ package org.snapscript.tree.define;
 
 import java.util.List;
 
+import org.snapscript.core.Allocation;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Module;
@@ -9,7 +10,6 @@ import org.snapscript.core.Path;
 import org.snapscript.core.Scope;
 import org.snapscript.core.Type;
 import org.snapscript.core.TypeBody;
-import org.snapscript.core.Allocation;
 import org.snapscript.core.TypePart;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
@@ -19,6 +19,7 @@ import org.snapscript.core.function.ScopeAccessor;
 import org.snapscript.core.function.StaticAccessor;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.trace.Trace;
+import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.trace.TraceTypePart;
 import org.snapscript.tree.ModifierChecker;
 import org.snapscript.tree.ModifierList;
@@ -36,9 +37,10 @@ public class MemberField implements Compilation {
    public TypePart compile(Module module, Path path, int line) throws Exception {
       Context context = module.getContext();
       ErrorHandler handler = context.getHandler();
+      TraceInterceptor interceptor = context.getInterceptor();
       Trace trace = Trace.getAllocate(module, path, line);
       
-      return new TraceTypePart(handler, part, trace);
+      return new TraceTypePart(interceptor, handler, part, trace);
    }
    
    private static class CompileResult extends TypePart {

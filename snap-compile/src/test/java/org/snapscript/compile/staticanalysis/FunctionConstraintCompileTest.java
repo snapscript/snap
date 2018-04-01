@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 
 import org.snapscript.compile.ClassPathCompilerBuilder;
 import org.snapscript.compile.Compiler;
+import org.snapscript.compile.verify.VerifyException;
 
 public class FunctionConstraintCompileTest extends TestCase {
    
@@ -63,10 +64,10 @@ public class FunctionConstraintCompileTest extends TestCase {
       
       try {
          compiler.compile(SOURCE_3).execute();
-      } catch(Exception e) {
-         String message = e.getMessage();
-         e.printStackTrace();
-         assertEquals("Method 'c(default.Foo, lang.Integer)' not found in scope in /default.snap at line 8", message);
+      } catch(VerifyException e) {
+         e.getErrors().get(0).getCause().printStackTrace();
+         String message =  e.getErrors().get(0).getDescription();
+         assertEquals("Method 'c(default.Foo, lang.Integer)' not found for 'default.Funcs' in /default.snap at line 8", message);
          failure = true;
       }
       assertTrue("Should be a compile error", failure);

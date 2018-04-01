@@ -1,9 +1,13 @@
 package org.snapscript.compile.staticanalysis;
 
+import java.util.List;
+
 import junit.framework.TestCase;
 
 import org.snapscript.compile.ClassPathCompilerBuilder;
 import org.snapscript.compile.Compiler;
+import org.snapscript.compile.verify.VerifyError;
+import org.snapscript.compile.verify.VerifyException;
 
 public abstract class CompileTestCase extends TestCase {
    
@@ -12,11 +16,15 @@ public abstract class CompileTestCase extends TestCase {
       System.err.println(source);
       boolean failure = false;
       try {
-      compiler.compile(source).execute();
-      }catch(Exception e){
-         e.printStackTrace();
+         compiler.compile(source).execute();
+      }catch(VerifyException e){
+         List<VerifyError> errors = e.getErrors();
+         
+         for(VerifyError error : errors) {
+            error.getCause().printStackTrace();
+            assertEquals(message, error.getDescription());
+         }
          failure=true;
-         assertEquals(message, e.getMessage());
       }
       assertTrue("Should have failed: " + source, failure);
    }

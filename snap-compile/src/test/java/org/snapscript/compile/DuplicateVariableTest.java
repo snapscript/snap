@@ -2,6 +2,8 @@ package org.snapscript.compile;
 
 import junit.framework.TestCase;
 
+import org.snapscript.compile.verify.VerifyException;
+
 public class DuplicateVariableTest extends TestCase {
 
    private static final String SOURCE =
@@ -18,9 +20,9 @@ public class DuplicateVariableTest extends TestCase {
       boolean failure = false;
       try {
          executable.execute();
-      }catch(Throwable e){
-         e.printStackTrace();
-         String message = e.getMessage();
+      }catch(VerifyException e){
+         e.getErrors().get(0).getCause().printStackTrace();
+         String message =  e.getErrors().get(0).getDescription();
          assertTrue(message.contains("at line 3"));
          failure = true;
       }

@@ -22,6 +22,7 @@ import org.snapscript.core.function.AccessorProperty;
 import org.snapscript.core.function.StaticAccessor;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.trace.Trace;
+import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.trace.TraceTypePart;
 import org.snapscript.tree.ModifierChecker;
 import org.snapscript.tree.ModifierList;
@@ -45,9 +46,10 @@ public class TraitConstant implements Compilation {
    public TypePart compile(Module module, Path path, int line) throws Exception {
       Context context = module.getContext();
       ErrorHandler handler = context.getHandler();
+      TraceInterceptor interceptor = context.getInterceptor();
       Trace trace = Trace.getAllocate(module, path, line);
       
-      return new TraceTypePart(handler, part, trace);
+      return new TraceTypePart(interceptor, handler, part, trace);
    }
    
    private static class CompileResult extends TypePart {

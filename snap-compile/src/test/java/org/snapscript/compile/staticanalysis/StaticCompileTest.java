@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 
 import org.snapscript.compile.ClassPathCompilerBuilder;
 import org.snapscript.compile.Compiler;
+import org.snapscript.compile.verify.VerifyException;
 
 public class StaticCompileTest extends TestCase {
 
@@ -68,9 +69,9 @@ public class StaticCompileTest extends TestCase {
       try {
          System.err.println(SOURCE_1);
          compiler.compile(SOURCE_1).execute();
-      } catch(Exception e) {
-         e.printStackTrace();
-         String message = e.getMessage();
+      } catch(VerifyException e) {
+         e.getErrors().get(0).getCause().printStackTrace();
+         String message =  e.getErrors().get(0).getDescription();
          assertEquals(message, "Variable 'x' does not match constraint 'lang.Integer' in /default.snap at line 2");
          failure = true;
       }
@@ -83,9 +84,9 @@ public class StaticCompileTest extends TestCase {
       try {
          System.err.println(SOURCE_2);
          compiler.compile(SOURCE_2).execute();
-      } catch(Exception e) {
-         e.printStackTrace();
-         String message = e.getMessage();
+      } catch(VerifyException e) {
+         e.getErrors().get(0).getCause().printStackTrace();
+         String message =  e.getErrors().get(0).getDescription();
          assertEquals(message, "Variable 'f' does not match constraint 'lang.Integer' in /default.snap at line 3");
          failure = true;
       }

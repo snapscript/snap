@@ -11,11 +11,13 @@ import org.snapscript.core.result.Result;
 
 public class TraceAllocation extends Allocation {
 
+   private final TraceInterceptor interceptor;
    private final ErrorHandler handler;
    private final Allocation factory;
    private final Trace trace;
    
-   public TraceAllocation(ErrorHandler handler, Allocation factory, Trace trace) {
+   public TraceAllocation(TraceInterceptor interceptor, ErrorHandler handler, Allocation factory, Trace trace) {
+      this.interceptor = interceptor;
       this.handler = handler;
       this.factory = factory;
       this.trace = trace;
@@ -26,7 +28,7 @@ public class TraceAllocation extends Allocation {
       try {
          return factory.define(scope, type);
       }catch(Exception cause) {
-         handler.handleInternalError(scope, cause, trace);
+         interceptor.error(scope, trace, cause);
       }
       return OTHER;
    }
@@ -36,7 +38,7 @@ public class TraceAllocation extends Allocation {
       try {
          factory.compile(scope, type);
       }catch(Exception cause) {
-         handler.handleInternalError(scope, cause, trace);
+         interceptor.error(scope, trace, cause);
       }
    }
    
