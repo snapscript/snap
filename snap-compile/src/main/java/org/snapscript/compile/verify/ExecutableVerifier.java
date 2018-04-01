@@ -14,14 +14,14 @@ public class ExecutableVerifier extends TraceErrorCollector implements Verifier 
    }
 
    @Override
-   public void update(Exception cause, Trace trace) {
+   public void compileError(Exception cause, Trace trace) {
       VerifyError error = new VerifyError(cause, trace);
       errors.add(error);
    }
    
    public void verify(){
       if(!errors.isEmpty()) {
-         throw new VerifyException("Compilation errors found", errors);
+         throw new VerifyException("Compilation errors found " + errors, errors);
       }
    }
 }

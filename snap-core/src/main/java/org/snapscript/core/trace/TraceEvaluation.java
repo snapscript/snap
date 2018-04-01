@@ -29,7 +29,7 @@ public class TraceEvaluation extends Evaluation {
       try {
          return evaluation.compile(scope, left);
       }catch(Exception cause) {
-         interceptor.error(scope, trace, cause);
+         interceptor.traceCompileError(scope, trace, cause);
       }
       return NONE;
    }
@@ -37,10 +37,10 @@ public class TraceEvaluation extends Evaluation {
    @Override
    public Value evaluate(Scope scope, Object left) throws Exception {
       try {
-         interceptor.before(scope, trace);
+         interceptor.traceBefore(scope, trace);
          return evaluation.evaluate(scope, left); 
       } finally {
-         interceptor.after(scope, trace);
+         interceptor.traceAfter(scope, trace);
       }
    }
 }

@@ -19,35 +19,45 @@ public class TraceInterceptor implements TraceListener {
    }
    
    @Override
-   public void before(Scope scope, Trace trace) {
+   public void traceBefore(Scope scope, Trace trace) {
       stack.before(trace);
       
       if(!listeners.isEmpty()) {
          for(TraceListener listener : listeners) {
-            listener.before(scope, trace);
-         }
-      }
-   }
-
-   
-   @Override
-   public void error(Scope scope, Trace trace, Exception cause) {
-      collector.update(cause, trace);
-      
-      if(!listeners.isEmpty()) {
-         for(TraceListener listener : listeners) {
-            listener.error(scope, trace, cause);
+            listener.traceBefore(scope, trace);
          }
       }
    }
    
    @Override
-   public void after(Scope scope, Trace trace) {
+   public void traceAfter(Scope scope, Trace trace) {
       stack.after(trace);
       
       if(!listeners.isEmpty()) {
          for(TraceListener listener : listeners) {
-            listener.after(scope, trace);
+            listener.traceAfter(scope, trace);
+         }
+      }
+   }
+   
+   @Override
+   public void traceCompileError(Scope scope, Trace trace, Exception cause) {
+      collector.compileError(cause, trace);
+      
+      if(!listeners.isEmpty()) {
+         for(TraceListener listener : listeners) {
+            listener.traceCompileError(scope, trace, cause);
+         }
+      }
+   }
+   
+   @Override
+   public void traceRuntimeError(Scope scope, Trace trace, Exception cause) {
+      collector.runtimeError(cause, trace);
+      
+      if(!listeners.isEmpty()) {
+         for(TraceListener listener : listeners) {
+            listener.traceRuntimeError(scope, trace, cause);
          }
       }
    }

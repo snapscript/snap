@@ -28,7 +28,7 @@ public class TraceAllocation extends Allocation {
       try {
          return factory.define(scope, type);
       }catch(Exception cause) {
-         interceptor.error(scope, trace, cause);
+         interceptor.traceCompileError(scope, trace, cause);
       }
       return OTHER;
    }
@@ -38,7 +38,7 @@ public class TraceAllocation extends Allocation {
       try {
          factory.compile(scope, type);
       }catch(Exception cause) {
-         interceptor.error(scope, trace, cause);
+         interceptor.traceCompileError(scope, trace, cause);
       }
    }
    

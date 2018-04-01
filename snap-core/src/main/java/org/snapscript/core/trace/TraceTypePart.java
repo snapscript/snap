@@ -26,7 +26,7 @@ public class TraceTypePart extends TypePart {
       try {
          part.create(body, type, scope);
       }catch(Exception cause) {
-         interceptor.error(scope, trace, cause);
+         interceptor.traceCompileError(scope, trace, cause);
       }
    }
    
@@ -39,7 +39,7 @@ public class TraceTypePart extends TypePart {
             return new TraceAllocation(interceptor, handler, statement, trace);
          }
       }catch(Exception cause) {
-         interceptor.error(scope, trace, cause);
+         interceptor.traceCompileError(scope, trace, cause);
       }
       return null;
    }
@@ -49,7 +49,7 @@ public class TraceTypePart extends TypePart {
       try {
          part.compile(body, type, scope);
       }catch(Exception cause) {
-         interceptor.error(scope, trace, cause);
+         interceptor.traceCompileError(scope, trace, cause);
       }
    }
 }

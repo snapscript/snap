@@ -1,5 +1,6 @@
 package org.snapscript.core.trace;
 
 public class TraceErrorCollector {
-   public void update(Exception cause, Trace trace) {}
+   public void compileError(Exception cause, Trace trace) {}
+   public void runtimeError(Exception cause, Trace trace) {}
 }

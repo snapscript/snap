@@ -30,7 +30,7 @@ public class TraceStatement extends Statement {
       try {
          return statement.define(scope);
       }catch(Exception cause) {
-         interceptor.error(scope, trace, cause);
+         interceptor.traceCompileError(scope, trace, cause);
       }
       return true;
    }
@@ -41,7 +41,7 @@ public class TraceStatement extends Statement {
          Execution execution = statement.compile(scope);
          return new TraceExecution(interceptor, handler, execution, trace);
       }catch(Exception cause) {
-         interceptor.error(scope, trace, cause);
+         interceptor.traceCompileError(scope, trace, cause);
       }
       return execution;
    }
@@ -63,13 +63,13 @@ public class TraceStatement extends Statement {
       @Override
       public Result execute(Scope scope) throws Exception {
          try {
-            interceptor.before(scope, trace);
+            interceptor.traceBefore(scope, trace);
             return execution.execute(scope); 
          } catch(Exception cause) {
-            interceptor.error(scope, trace, cause);
+            interceptor.traceRuntimeError(scope, trace, cause);
             return handler.handleInternalError(scope, cause);
          } finally {
-            interceptor.after(scope, trace);
+            interceptor.traceAfter(scope, trace);
          }
       }
    }

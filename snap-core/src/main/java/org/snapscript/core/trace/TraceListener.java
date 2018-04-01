@@ -3,8 +3,9 @@ package org.snapscript.core.trace;
 import org.snapscript.core.Scope;
                    
 public interface TraceListener {
-   void before(Scope scope, Trace trace);
-   void error(Scope scope, Trace trace, Exception cause);
-   void after(Scope scope, Trace trace);
+   void traceBefore(Scope scope, Trace trace);
+   void traceAfter(Scope scope, Trace trace);
+   void traceCompileError(Scope scope, Trace trace, Exception cause);
+   void traceRuntimeError(Scope scope, Trace trace, Exception cause);
 
 }
