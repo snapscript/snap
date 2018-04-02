@@ -8,8 +8,10 @@ public enum ModifierType {
    PROTECTED("protected", 0x0010), // java only
    CONSTANT("const", 0x0020),
    VARIABLE("var", 0x0040),
-   ABSTRACT("abstract", 0x080),
-   VARARGS("...", 0x100);
+   MODULE("module", 0x0080),
+   CLASS("class", 0x0100),   
+   ABSTRACT("abstract", 0x0200),
+   VARARGS("...", 0x0400);
    
    public final String token;
    public final int mask;
@@ -25,6 +27,14 @@ public enum ModifierType {
    
    public static boolean isStatic(int modifier){
       return modifier >= 0 && (STATIC.mask & modifier) != 0;
+   }
+   
+   public static boolean isModule(int modifier){
+      return modifier >= 0 && (MODULE.mask & modifier) != 0;
+   }
+   
+   public static boolean isClass(int modifier){
+      return modifier >= 0 && (CLASS.mask & modifier) != 0;
    }
    
    public static boolean isConstant(int modifier){

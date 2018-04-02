@@ -1,5 +1,6 @@
 package org.snapscript.tree.variable;
 
+import static org.snapscript.core.ModifierType.CONSTANT;
 import static org.snapscript.core.ModifierType.PUBLIC;
 import static org.snapscript.core.constraint.Constraint.NONE;
 
@@ -8,22 +9,20 @@ import java.util.Map;
 import java.util.Set;
 
 import org.snapscript.core.Context;
-import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Type;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.ModuleScopeBinder;
-import org.snapscript.core.property.ConstantPropertyBuilder;
+import org.snapscript.core.property.ConstantProperty;
 import org.snapscript.core.property.MapProperty;
 import org.snapscript.core.property.Property;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeExtractor;
 
 public class VariableFinder {
    
-   private final ConstantPropertyBuilder builder;
    private final ModuleScopeBinder binder;
    
    public VariableFinder() {
-      this.builder = new ConstantPropertyBuilder();
       this.binder = new ModuleScopeBinder();
    }
    
@@ -117,7 +116,7 @@ public class VariableFinder {
          Object value = findTypes(outer, name); // this is really slow
    
          if(value != null) {
-            return builder.createConstant(name, value, null, NONE);
+            return new ConstantProperty(name, base, NONE, value, CONSTANT.mask);
          }
       }
       return null;

@@ -1,5 +1,6 @@
 package org.snapscript.tree.define;
 
+import org.snapscript.core.ThisBinder;
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationBuilder;
@@ -8,12 +9,12 @@ import org.snapscript.core.scope.Scope;
 public class InstanceInvocation implements Invocation<Scope> {
 
    private final InvocationBuilder builder;
-   private final ThisScopeBinder binder;
+   private final ThisBinder binder;
    private final String name;
    private final boolean trait;
 
    public InstanceInvocation(InvocationBuilder builder, String name, boolean trait) {
-      this.binder = new ThisScopeBinder();
+      this.binder = new ThisBinder();
       this.builder = builder;
       this.trait = trait;
       this.name = name;

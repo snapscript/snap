@@ -58,7 +58,7 @@ public class FunctionDispatcherBuilder {
       if(left.isModule()) {
          return new ModuleDispatcher(binder, handler, name);
       }
-      if(left.isStatic()) {
+      if(left.isClass()) {
          return new TypeStaticDispatcher(binder, handler, name);
       }
       if(category.isFunction()) {

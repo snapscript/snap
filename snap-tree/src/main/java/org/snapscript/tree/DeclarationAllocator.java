@@ -7,7 +7,7 @@ import org.snapscript.core.scope.Value;
 import org.snapscript.core.scope.index.Local;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.tree.constraint.ModifierConstraint;
+import org.snapscript.tree.constraint.DeclarationConstraint;
 
 public class DeclarationAllocator {
 
@@ -16,7 +16,7 @@ public class DeclarationAllocator {
    private final Evaluation expression;
    
    public DeclarationAllocator(Constraint constraint, Evaluation expression) {      
-      this.constraint = new ModifierConstraint(constraint);
+      this.constraint = new DeclarationConstraint(constraint);
       this.converter = new DeclarationConverter();
       this.expression = expression;
    }   

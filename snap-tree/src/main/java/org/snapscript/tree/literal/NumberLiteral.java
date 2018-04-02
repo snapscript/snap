@@ -1,5 +1,7 @@
 package org.snapscript.tree.literal;
 
+import static org.snapscript.core.ModifierType.CONSTANT;
+
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.scope.Scope;
@@ -32,7 +34,7 @@ public class NumberLiteral extends Literal {
       Value value = operator.operate(number);
       Number result = value.getValue();
       Class real = result.getClass();
-      Constraint constraint = Constraint.getFinal(real);
+      Constraint constraint = Constraint.getConstraint(real, CONSTANT.mask);
       
       return new LiteralValue(result, constraint);
    }

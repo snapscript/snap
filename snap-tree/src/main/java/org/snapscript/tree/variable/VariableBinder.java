@@ -5,6 +5,8 @@ import org.snapscript.core.convert.proxy.ProxyWrapper;
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.Value;
+import org.snapscript.tree.variable.pointer.VariablePointer;
+import org.snapscript.tree.variable.pointer.VariablePointerResolver;
 
 public class VariableBinder {
 

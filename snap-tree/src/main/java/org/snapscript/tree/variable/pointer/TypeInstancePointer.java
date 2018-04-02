@@ -1,21 +1,25 @@
-package org.snapscript.tree.variable;
+package org.snapscript.tree.variable.pointer;
 
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.snapscript.core.Context;
+import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.property.Property;
+import org.snapscript.core.property.PropertyValue;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.Value;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.property.Property;
-import org.snapscript.core.property.PropertyValue;
+import org.snapscript.core.type.TypeExtractor;
+import org.snapscript.tree.variable.VariableFinder;
 
-public class ObjectPointer implements VariablePointer<Object> {
+public class TypeInstancePointer implements VariablePointer<Object> {
    
    private final AtomicReference<Property> reference;
    private final VariableFinder finder;
    private final String name;
    
-   public ObjectPointer(VariableFinder finder, String name) {
+   public TypeInstancePointer(VariableFinder finder, String name) {
       this.reference = new AtomicReference<Property>();
       this.finder = finder;
       this.name = name;
@@ -27,11 +31,14 @@ public class ObjectPointer implements VariablePointer<Object> {
       
       if(accessor == null) {
          Type type = left.getType(scope);
-         Property match = finder.findAnyFromType(scope, type, name);
          
-         if(match != null) {
-            reference.set(match);
-            return match.getConstraint();
+         if(type != null) {
+            Property match = finder.findAnyFromType(scope, type, name);
+            
+            if(match != null) {
+               reference.set(match);
+               return match.getConstraint();
+            }
          }
          return null;
       }
@@ -43,7 +50,11 @@ public class ObjectPointer implements VariablePointer<Object> {
       Property accessor = reference.get();
       
       if(accessor == null) {
-         Property match = finder.findAnyFromObject(scope, left, name);
+         Module module = scope.getModule();
+         Context context = module.getContext();
+         TypeExtractor extractor = context.getExtractor();
+         Type type = extractor.getType(left);
+         Property match = finder.findAnyFromType(scope, type, name);
          
          if(match != null) {
             reference.set(match);

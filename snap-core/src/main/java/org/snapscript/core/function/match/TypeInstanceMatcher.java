@@ -5,12 +5,12 @@ import org.snapscript.core.function.search.FunctionPointer;
 import org.snapscript.core.function.search.FunctionResolver;
 import org.snapscript.core.type.TypeExtractor;
 
-public class TypeInstanceFunctionMatcher {
+public class TypeInstanceMatcher {
    
    private final FunctionResolver resolver;
    private final TypeExtractor extractor;
    
-   public TypeInstanceFunctionMatcher(TypeExtractor extractor, FunctionResolver resolver) {
+   public TypeInstanceMatcher(TypeExtractor extractor, FunctionResolver resolver) {
       this.extractor = extractor;
       this.resolver = resolver;
    }

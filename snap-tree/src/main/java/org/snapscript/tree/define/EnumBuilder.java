@@ -7,16 +7,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Type;
 import org.snapscript.core.module.Module;
-import org.snapscript.core.property.ConstantPropertyBuilder;
-import org.snapscript.core.property.Property;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.Value;
+import org.snapscript.core.type.Type;
+import org.snapscript.core.type.TypeBody;
 
 public class EnumBuilder {
 
    private final AtomicReference<Type> reference;
-   private final EnumConstantGenerator generator;
+   private final EnumPropertyGenerator generator;
    private final ConstantPropertyBuilder builder;
    private final TypeHierarchy hierarchy;
    private final TypeName name;
@@ -24,14 +25,14 @@ public class EnumBuilder {
    
    public EnumBuilder(TypeName name, TypeHierarchy hierarchy) {
       this.reference = new AtomicReference<Type>();
-      this.generator = new EnumConstantGenerator();
+      this.generator = new EnumPropertyGenerator();
       this.builder = new ConstantPropertyBuilder();
       this.values = new ArrayList();
       this.hierarchy = hierarchy;
       this.name = name;
    }
    
-   public Type create(Scope outer) throws Exception {
+   public Type create(TypeBody body, Scope outer) throws Exception {
       Module module = outer.getModule();
       String alias = name.getName(outer);
       Type type = module.addType(alias, ENUM);
@@ -41,7 +42,7 @@ public class EnumBuilder {
       return type;
    }
    
-   public Type define(Scope outer) throws Exception {
+   public Type define(TypeBody body, Scope outer) throws Exception {
       Type type = reference.get();
       Type enclosing = outer.getType();
       Scope scope = type.getScope();
@@ -50,18 +51,19 @@ public class EnumBuilder {
          String name = type.getName();
          String prefix = enclosing.getName();
          String key = name.replace(prefix + '$', ""); // get the class name
-         Property property = builder.createConstant(key, type, enclosing, NONE);
-         List<Property> properties = enclosing.getProperties();
+         Value value = Value.getConstant(type);
+         State state = outer.getState();
          
-         properties.add(property);
+         builder.createStaticProperty(body, key, enclosing, NONE);
+         state.add(key, value);
       }
-      generator.generate(scope, type, values);
+      generator.generate(body, scope, type, values);
       hierarchy.extend(scope, type); // this may throw exception if missing type
       
       return type;
    }
    
-   public Type compile(Scope outer) throws Exception {
+   public Type compile(TypeBody body, Scope outer) throws Exception {
       return reference.get();
    }
 }

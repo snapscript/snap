@@ -35,20 +35,20 @@ public class ClassDefinition extends Statement {
    public ClassDefinition(AnnotationList annotations, TypeName name, TypeHierarchy hierarchy, TypePart... parts) {
       this.builder = new ClassBuilder(annotations, name, hierarchy, CLASS);
       this.generator = new FunctionPropertyGenerator(); 
-      this.constants = new StaticState();
       this.collector = new AllocationCollector();
       this.constructor = new DefaultConstructor();
       this.execution = new NoExecution(NORMAL);
       this.compile = new AtomicBoolean(true);
       this.define = new AtomicBoolean(true);
       this.create = new AtomicBoolean(true);
+      this.constants = new StaticState();
       this.parts = parts;
    }
    
    @Override
    public void create(Scope outer) throws Exception {
       if(!create.compareAndSet(false, true)) {
-         Type type = builder.create(outer);
+         Type type = builder.create(collector, outer);
          Progress<Phase> progress = type.getProgress();
          Scope scope = type.getScope();
                
@@ -65,7 +65,7 @@ public class ClassDefinition extends Statement {
    @Override
    public boolean define(Scope outer) throws Exception {
       if(!define.compareAndSet(false, true)) {
-         Type type = builder.define(outer);
+         Type type = builder.define(collector, outer);
          Progress<Phase> progress = type.getProgress();
          Scope scope = type.getScope();
          
@@ -89,7 +89,7 @@ public class ClassDefinition extends Statement {
    @Override
    public Execution compile(Scope outer) throws Exception {
       if(!compile.compareAndSet(false, true)) {
-         Type type = builder.compile(outer);
+         Type type = builder.compile(collector, outer);
          Progress<Phase> progress = type.getProgress();
          Scope scope = type.getScope();
          Scope local = scope.getStack(); // make it temporary

@@ -27,7 +27,7 @@ import org.snapscript.core.type.TypePart;
 import org.snapscript.tree.ModifierChecker;
 import org.snapscript.tree.ModifierList;
 import org.snapscript.tree.annotation.AnnotationList;
-import org.snapscript.tree.constraint.ModifierConstraint;
+import org.snapscript.tree.constraint.DeclarationConstraint;
 import org.snapscript.tree.literal.TextLiteral;
 
 public class TraitConstant implements Compilation {
@@ -62,7 +62,7 @@ public class TraitConstant implements Compilation {
       
       public CompileResult(AnnotationList annotations, ModifierList list, TextLiteral identifier, Constraint constraint, Evaluation value) {
          this.declaration = new TraitConstantDeclaration(identifier, constraint, value);
-         this.constraint = new ModifierConstraint(constraint);
+         this.constraint = new DeclarationConstraint(constraint);
          this.checker = new ModifierChecker(list);
          this.annotations = annotations;
          this.identifier = identifier;
@@ -78,7 +78,7 @@ public class TraitConstant implements Compilation {
          if(!checker.isConstant()) {
             throw new InternalStateException("Variable '" + name + "' for '" + type + "' must be constant");
          }
-         Accessor accessor = new StaticAccessor(body, scope, type, name);
+         Accessor accessor = new StaticAccessor(body, type, name);
          Property property = new AccessorProperty(name, type, constraint, accessor, ModifierType.STATIC.mask | ModifierType.CONSTANT.mask);
          
          annotations.apply(scope, property);

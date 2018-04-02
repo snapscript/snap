@@ -14,11 +14,11 @@ import org.snapscript.core.scope.State;
 import org.snapscript.core.scope.Value;
 import org.snapscript.core.stack.ThreadStack;
 
-public class LocalFunctionMatcher {
+public class LocalMatcher {
    
    private final ThreadStack stack;
    
-   public LocalFunctionMatcher(ThreadStack stack) {
+   public LocalMatcher(ThreadStack stack) {
       this.stack = stack;
    }
    

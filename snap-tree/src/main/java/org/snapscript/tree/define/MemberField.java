@@ -71,7 +71,7 @@ public class MemberField implements Compilation {
             Allocation declare = assembler.assemble(data);
             
             if (checker.isStatic()) {
-               Accessor accessor = new StaticAccessor(body, scope, type, name);
+               Accessor accessor = new StaticAccessor(body, type, name);
                Property property = new AccessorProperty(name, type, constraint, accessor, mask);
                
                annotations.apply(scope, property);

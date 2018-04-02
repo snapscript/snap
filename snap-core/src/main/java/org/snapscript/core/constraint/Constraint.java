@@ -11,8 +11,7 @@ import org.snapscript.core.type.Type;
 
 public abstract class Constraint {
 
-   public static final Constraint NONE = new VariableConstraint(null);
-   public static final Constraint CONSTANT = new ConstantConstraint(null);
+   public static final Constraint NONE = new ClassConstraint(null);
    public static final Constraint INTEGER = new ClassConstraint(Integer.class);
    public static final Constraint LONG = new ClassConstraint(Long.class);
    public static final Constraint FLOAT = new ClassConstraint(Float.class);
@@ -27,31 +26,31 @@ public abstract class Constraint {
    public static final Constraint ITERABLE = new ClassConstraint(Iterable.class);  
    public static final Constraint TYPE = new ClassConstraint(Type.class);
    
-   public static Constraint getVariable(Type type) {
-      return new VariableConstraint(type);
-   }
-   
-   public static Constraint getStatic(Type type) {
-      return new StaticConstraint(type);
-   }
-   
-   public static Constraint getModule(Module module) {
+   public static Constraint getConstraint(Module module) {
       return new ModuleConstraint(module);
    }
+
+   public static Constraint getConstraint(Type type) {
+      return new IdentityConstraint(type);
+   }
    
-   public static Constraint getVariable(Class type) {
+   public static Constraint getConstraint(Type type, int modifiers) {
+      return new IdentityConstraint(type, modifiers);
+   }
+
+   public static Constraint getConstraint(Class type) {
       return new ClassConstraint(type);
    }
-
-   public static Constraint getFinal(Class type) {
-      return new ConstantConstraint(type);
+   
+   public static Constraint getConstraint(Class type, int modifiers) {
+      return new ClassConstraint(type, modifiers);
    }
 
-   public static Constraint getVariable(Object value) {
+   public static Constraint getConstraint(Object value) {
       return new ObjectConstraint(value);
    }
    
-   public static Constraint getVariable(Value value) {
+   public static Constraint getConstraint(Value value) {
       return new ValueConstraint(value);
    }
    
@@ -59,7 +58,7 @@ public abstract class Constraint {
       return true;
    }
    
-   public boolean isStatic() {
+   public boolean isClass() {
       return false;
    }
    

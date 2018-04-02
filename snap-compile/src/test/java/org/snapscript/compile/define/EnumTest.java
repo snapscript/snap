@@ -20,7 +20,10 @@ public class EnumTest extends TestCase{
    "}\n"+
    "out.println('enum for DOG='+Animal.DOG.name+' class='+Animal.DOG.class+' ordinal='+Animal.DOG.ordinal);\n"+
    "out.println('enum for CAT='+Animal.CAT.name+' class='+Animal.CAT.class+' ordinal='+Animal.CAT.ordinal);\n"+
-   "out.println('enum for FISH='+Animal.FISH.name+' class='+Animal.FISH.class+' ordinal='+Animal.FISH.ordinal);\n";   
+   "out.println('enum for FISH='+Animal.FISH.name+' class='+Animal.FISH.class+' ordinal='+Animal.FISH.ordinal);\n"+
+   "assert Animal.DOG.name == 'DOG';\n"+
+   "assert Animal.CAT.name == 'CAT';\n"+
+   "assert Animal.FISH.name == 'FISH';\n";
 
    private static final String SOURCE_2=
    "enum Person {\n"+
@@ -37,8 +40,14 @@ public class EnumTest extends TestCase{
    "}\n"+
    "out.println('enum for JIM='+Person.JIM.name+' class='+Person.JIM.class+' ordinal='+Person.JIM.ordinal+' age='+Person.JIM.age+' title='+Person.JIM.title);\n"+
    "out.println('enum for TOM='+Person.TOM.name+' class='+Person.TOM.class+' ordinal='+Person.TOM.ordinal+' age='+Person.TOM.age+' title='+Person.TOM.title);\n"+
-   "out.println('enum for BOB='+Person.BOB.name+' class='+Person.BOB.class+' ordinal='+Person.BOB.ordinal+' age='+Person.BOB.age+' title='+Person.BOB.title);\n";   
-
+   "out.println('enum for BOB='+Person.BOB.name+' class='+Person.BOB.class+' ordinal='+Person.BOB.ordinal+' age='+Person.BOB.age+' title='+Person.BOB.title);\n"+
+   "assert Person.JIM.name == 'JIM';\n"+
+   "assert Person.TOM.name == 'TOM';\n"+
+   "assert Person.BOB.name == 'BOB';\n"+
+   "assert Person.JIM.title == 'Jim';\n"+
+   "assert Person.TOM.title == 'Tom';\n"+
+   "assert Person.BOB.title == 'Bob';\n";
+   
    public void testSimpleEnum() throws Exception {
       Map map = new HashMap<String,Value>();
       map.put("out",System.out);

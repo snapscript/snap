@@ -1,11 +1,13 @@
 package org.snapscript.tree.reference;
 
+import static org.snapscript.core.ModifierType.CONSTANT;
+
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.Value;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.error.InternalStateException;
 
 public class TypeReference extends Evaluation {
    
@@ -21,7 +23,7 @@ public class TypeReference extends Evaluation {
       Value value = evaluate(scope, null);
       Type type = value.getValue();
       
-      return Constraint.getVariable(type);
+      return Constraint.getConstraint(type, CONSTANT.mask);
    }
    
    @Override

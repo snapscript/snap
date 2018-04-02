@@ -1,4 +1,4 @@
-package org.snapscript.tree.define;
+package org.snapscript.core;
 
 import static org.snapscript.core.Reserved.TYPE_THIS;
 
@@ -6,9 +6,9 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
 import org.snapscript.core.scope.Value;
 
-public class ThisScopeBinder {
+public class ThisBinder {
    
-   public ThisScopeBinder() {
+   public ThisBinder() {
       super();
    }
 

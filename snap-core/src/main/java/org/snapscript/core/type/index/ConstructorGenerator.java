@@ -28,7 +28,7 @@ public class ConstructorGenerator {
       Platform platform = provider.create();
       Signature signature = generator.generate(type, constructor);
       Invocation invocation = platform.createConstructor(type, constructor);
-      Constraint constraint = Constraint.getVariable(type);
+      Constraint constraint = Constraint.getConstraint(type);
       
       try {
          invocation = new ConstructorInvocation(invocation, constructor);

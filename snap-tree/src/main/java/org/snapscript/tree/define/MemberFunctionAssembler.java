@@ -9,7 +9,7 @@ import org.snapscript.core.function.Signature;
 import org.snapscript.tree.ModifierChecker;
 import org.snapscript.tree.ModifierList;
 import org.snapscript.tree.NameReference;
-import org.snapscript.tree.constraint.ModifierConstraint;
+import org.snapscript.tree.constraint.DeclarationConstraint;
 import org.snapscript.tree.function.ParameterList;
 
 public class MemberFunctionAssembler {
@@ -22,7 +22,7 @@ public class MemberFunctionAssembler {
    private final Statement body;
    
    public MemberFunctionAssembler(ModifierList list, Evaluation identifier, ParameterList parameters, Constraint constraint, Statement body){ 
-      this.constraint = new ModifierConstraint(constraint);
+      this.constraint = new DeclarationConstraint(constraint);
       this.identifier = new NameReference(identifier);
       this.checker = new ModifierChecker(list);
       this.parameters = parameters;

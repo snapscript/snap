@@ -1,5 +1,7 @@
 package org.snapscript.tree.reference;
 
+import static org.snapscript.core.constraint.Constraint.TYPE;
+
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
@@ -21,6 +23,6 @@ public class ReferenceConstraint extends Literal {
       if(type == null) {
          throw new InternalStateException("Could not find constraint");
       }
-      return new LiteralValue(type, Constraint.TYPE);
+      return new LiteralValue(type, TYPE);
    }
 }

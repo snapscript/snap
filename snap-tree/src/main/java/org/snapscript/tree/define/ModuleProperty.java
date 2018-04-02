@@ -13,13 +13,13 @@ import org.snapscript.core.scope.State;
 import org.snapscript.core.scope.Value;
 import org.snapscript.tree.DeclarationAllocator;
 import org.snapscript.tree.NameReference;
-import org.snapscript.tree.constraint.ModifierConstraint;
+import org.snapscript.tree.constraint.DeclarationConstraint;
 import org.snapscript.tree.literal.TextLiteral;
 
 public class ModuleProperty {
    
    private final DeclarationAllocator allocator;
-   private final ModifierConstraint constraint;
+   private final DeclarationConstraint constraint;
    private final NameReference reference;
    private final Evaluation value;
    
@@ -37,7 +37,7 @@ public class ModuleProperty {
    
    public ModuleProperty(TextLiteral identifier, Constraint constraint, Evaluation value) {
       this.allocator = new ModulePropertyAllocator(constraint, value);
-      this.constraint = new ModifierConstraint(constraint);
+      this.constraint = new DeclarationConstraint(constraint);
       this.reference = new NameReference(identifier);
       this.value = value;
    }  

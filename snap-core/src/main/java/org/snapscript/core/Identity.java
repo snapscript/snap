@@ -21,7 +21,7 @@ public class Identity extends Evaluation {
    
    @Override
    public Constraint compile(Scope scope, Constraint left) throws Exception {
-      return Constraint.getVariable(type);
+      return Constraint.getConstraint(type);
    }
 
    @Override

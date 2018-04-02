@@ -1,4 +1,4 @@
-package org.snapscript.tree.variable;
+package org.snapscript.tree.variable.pointer;
 
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -6,6 +6,8 @@ import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
 import org.snapscript.core.scope.Value;
+import org.snapscript.tree.variable.VariableConstraintMapper;
+import org.snapscript.tree.variable.VariableFinder;
 
 public class LocalPointer implements VariablePointer<Object> {
    
@@ -37,7 +39,7 @@ public class LocalPointer implements VariablePointer<Object> {
             }
             return null;
          }
-         return Constraint.getVariable(variable);
+         return Constraint.getConstraint(variable);
       }
       return mapper.toConstraint(result);
    }

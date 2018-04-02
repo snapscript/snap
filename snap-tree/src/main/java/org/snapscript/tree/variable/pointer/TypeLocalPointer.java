@@ -1,9 +1,10 @@
-package org.snapscript.tree.variable;
+package org.snapscript.tree.variable.pointer;
 
 import static org.snapscript.core.constraint.Constraint.NONE;
 
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.snapscript.core.ThisBinder;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
 import org.snapscript.core.scope.Value;
@@ -11,31 +12,31 @@ import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.property.PropertyValue;
-import org.snapscript.tree.define.ThisScopeBinder;
+import org.snapscript.tree.variable.VariableFinder;
 
-public class ScopePointer implements VariablePointer<Scope> {
+public class TypeLocalPointer implements VariablePointer<Scope> {
    
    private final AtomicReference<Property> reference;
-   private final ThisScopeBinder binder;
+   private final ThisBinder binder;
    private final VariableFinder finder;
    private final String name;
    
-   public ScopePointer(VariableFinder finder, String name) {
+   public TypeLocalPointer(VariableFinder finder, String name) {
       this.reference = new AtomicReference<Property>();
-      this.binder = new ThisScopeBinder();
+      this.binder = new ThisBinder();
       this.finder = finder;
       this.name = name;
    }
    
    @Override
    public Constraint check(Scope scope, Constraint left) {
-      Type type = left.getType(scope);
-      Scope instance = type.getScope();
+      Scope instance = binder.bind(scope, scope);
       State state = instance.getState();
       Value value = state.get(name);
       
       if(value == null) {
-         Property property = finder.findPropertyFromScope(scope, instance, name);
+         Type type = instance.getType();
+         Property property = finder.findAnyFromType(scope, type, name);
          
          if(property != null) {
             reference.set(property);
@@ -48,21 +49,19 @@ public class ScopePointer implements VariablePointer<Scope> {
    
    @Override
    public Value get(Scope scope, Scope left) {
-      Scope instance = binder.bind(left, left);
+      Scope instance = binder.bind(scope, scope);
       State state = instance.getState();
       Value value = state.get(name);
       
       if(value == null) {
-         Type type = left.getType();
+         Type type = instance.getType();
+         Property property = finder.findAnyFromType(scope, type, name);
          
-         if(type != null) {
-            Property property = finder.findPropertyFromScope(scope, instance, name);
-            
-            if(property != null) {
-               reference.set(property);
-               return new PropertyValue(property, instance, name);
-            }
+         if(property != null) {
+            reference.set(property);
+            return new PropertyValue(property, instance, name);
          }
+         return null;
       }
       return value;
    }

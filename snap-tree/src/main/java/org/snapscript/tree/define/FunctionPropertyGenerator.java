@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.snapscript.core.Context;
-import org.snapscript.core.type.Type;
-import org.snapscript.core.constraint.VariableConstraint;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.AccessorProperty;
 import org.snapscript.core.function.Function;
@@ -20,6 +18,7 @@ import org.snapscript.core.function.Signature;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.stack.ThreadStack;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.type.index.PropertyNameExtractor;
 
 public class FunctionPropertyGenerator {

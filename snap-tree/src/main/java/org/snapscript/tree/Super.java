@@ -1,11 +1,11 @@
 package org.snapscript.tree;
 
+import static org.snapscript.core.ModifierType.CONSTANT;
 import static org.snapscript.core.Reserved.TYPE_THIS;
-import static org.snapscript.core.constraint.Constraint.CONSTANT;
 
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
-import org.snapscript.core.type.Type;
+import org.snapscript.core.ThisBinder;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.Function;
@@ -15,19 +15,23 @@ import org.snapscript.core.scope.State;
 import org.snapscript.core.scope.Value;
 import org.snapscript.core.scope.instance.Instance;
 import org.snapscript.core.stack.ThreadStack;
+import org.snapscript.core.type.Type;
 import org.snapscript.parse.StringToken;
 
 public class Super extends Evaluation {
 
-   private final StringToken token;
+   private final ThisBinder binder;
    
    public Super(StringToken token) {
-      this.token = token;
+      this.binder = new ThisBinder();
    }
    
    @Override
    public Constraint compile(Scope scope, Constraint left) throws Exception {
-      return CONSTANT;
+      Scope instance = binder.bind(scope, scope);
+      Type type = instance.getType();
+      
+      return Constraint.getConstraint(type, CONSTANT.mask);
    }
    
    @Override

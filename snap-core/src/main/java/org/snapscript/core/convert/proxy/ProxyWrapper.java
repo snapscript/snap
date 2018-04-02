@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 
 import org.snapscript.core.Context;
+import org.snapscript.core.ThisBinder;
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.platform.Bridge;
@@ -12,9 +13,11 @@ import org.snapscript.core.scope.instance.Instance;
 public class ProxyWrapper {
 
    private final ProxyFactory factory;
+   private final ThisBinder binder;
    
    public ProxyWrapper(Context context) {
       this.factory = new ProxyFactory(this, context);
+      this.binder = new ThisBinder();
    }
    
    public Object asProxy(Instance instance) {
@@ -100,9 +103,9 @@ public class ProxyWrapper {
          }
          if(Bridge.class.isInstance(object)) {
             Bridge bridge = (Bridge)object;
-            Object value = bridge.getInstance();
+            Instance instance = bridge.getInstance();
             
-            return value;
+            return binder.bind(instance, instance);
          }
       }
       return object;

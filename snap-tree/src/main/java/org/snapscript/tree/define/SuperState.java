@@ -3,13 +3,13 @@ package org.snapscript.tree.define;
 import static org.snapscript.core.type.Order.OTHER;
 
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.result.Result;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.Value;
 import org.snapscript.core.type.Allocation;
 import org.snapscript.core.type.Order;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.result.Result;
 
 public class SuperState extends Allocation {
    
@@ -29,7 +29,7 @@ public class SuperState extends Allocation {
    
    @Override
    public void compile(Scope instance, Type real) throws Exception {
-      Constraint constraint = Constraint.getVariable(real);
+      Constraint constraint = Constraint.getConstraint(real);
       expression.compile(instance, constraint);
    }
 

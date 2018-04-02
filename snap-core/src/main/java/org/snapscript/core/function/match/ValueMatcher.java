@@ -8,11 +8,11 @@ import org.snapscript.core.function.search.FunctionPointer;
 import org.snapscript.core.scope.Value;
 import org.snapscript.core.stack.ThreadStack;
 
-public class ValueFunctionMatcher {
+public class ValueMatcher {
    
    private final ThreadStack stack;
    
-   public ValueFunctionMatcher(ThreadStack stack) {
+   public ValueMatcher(ThreadStack stack) {
       this.stack = stack;
    }
    

@@ -45,7 +45,7 @@ public class EnumDefinition extends Statement {
    @Override
    public void create(Scope outer) throws Exception {
       if(!create.compareAndSet(false, true)) {
-         Type type = builder.create(outer);
+         Type type = builder.create(collector, outer);
          Progress<Phase> progress = type.getProgress();
       
          progress.done(CREATED);
@@ -55,7 +55,7 @@ public class EnumDefinition extends Statement {
    @Override
    public boolean define(Scope outer) throws Exception {
       if(!define.compareAndSet(false, true)) {
-         Type type = builder.define(outer);
+         Type type = builder.define(collector, outer);
          Scope scope = type.getScope();
          Allocation keys = list.define(collector, type, scope);
          Progress<Phase> progress = type.getProgress();
@@ -79,7 +79,7 @@ public class EnumDefinition extends Statement {
    @Override
    public Execution compile(Scope outer) throws Exception {
       if(!compile.compareAndSet(false, true)) {
-         Type type = builder.compile(outer);
+         Type type = builder.compile(collector, outer);
          Progress<Phase> progress = type.getProgress();
          Scope scope = type.getScope();
          Scope local = scope.getStack(); // make it temporary

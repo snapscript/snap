@@ -1,6 +1,6 @@
 package org.snapscript.core.platform;
 
 public interface Bridge {
-   Object getInstance();
+   <T> T getInstance();
    void setInstance(Object object);
 }

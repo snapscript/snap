@@ -20,7 +20,7 @@ public class EnumList extends TypePart {
       int index = 0;
       
       for(EnumValue value : values) {
-         Allocation initializer = value.define(type, index++);
+         Allocation initializer = value.define(body, type, index++);
          
          if(initializer != null) {
             collector.update(initializer);

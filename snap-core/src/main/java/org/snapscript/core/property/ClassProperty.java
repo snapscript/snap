@@ -9,7 +9,7 @@ import java.util.List;
 
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.annotation.Annotation;
-import org.snapscript.core.constraint.VariableConstraint;
+import org.snapscript.core.constraint.IdentityConstraint;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.InternalStateException;
 
@@ -19,7 +19,7 @@ public class ClassProperty implements Property {
    private final Type type;
    
    public ClassProperty(Type type, Type constraint) {
-      this.constraint = new VariableConstraint(constraint);
+      this.constraint = new IdentityConstraint(constraint);
       this.type = type;
    }
    

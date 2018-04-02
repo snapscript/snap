@@ -1,12 +1,10 @@
 package org.snapscript.core.type.index;
 
-import static org.snapscript.core.constraint.Constraint.CONSTANT;
 import static org.snapscript.core.constraint.Constraint.NONE;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-import org.snapscript.core.ModifierType;
 import org.snapscript.core.PrimitivePromoter;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.type.Any;
@@ -22,17 +20,9 @@ public class ClassConstraintMapper {
    public Constraint toConstraint(Field field, int modifiers) {
       if(field != null) {
          Class type = field.getType();   
-         Class real = promoter.promote(type);
+         Class real = getConstraint(type);
          
-         if(ModifierType.isConstant(modifiers)) {
-            if(!isConstraint(real)) {
-               return Constraint.getFinal(real);
-            }
-            return CONSTANT;
-         }
-         if(!isConstraint(real)) {
-            return Constraint.getVariable(real);
-         }
+         return Constraint.getConstraint(real, modifiers);
       }
       return NONE;
    }
@@ -40,25 +30,23 @@ public class ClassConstraintMapper {
    public Constraint toConstraint(Method method, int modifiers) {
       if(method != null) {
          Class type = method.getReturnType();    
-         Class real = promoter.promote(type);
+         Class real = getConstraint(type);
          
-         if(isConstraint(real)) {
-            return Constraint.getVariable(real);
-         }         
+         return Constraint.getConstraint(real);        
       }
       return NONE;
    }
    
-   private boolean isConstraint(Class type) {
+   private Class getConstraint(Class type) {
       if(type == Object.class) {
-         return false;
+         return null;
       }
       if(type == Any.class){
-         return false;
+         return null;
       }
       if(type == void.class){
-         return false;
+         return null;
       }
-      return true;
+      return promoter.promote(type);
    }
 }

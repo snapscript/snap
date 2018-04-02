@@ -1,31 +1,27 @@
 package org.snapscript.core.constraint;
 
 import org.snapscript.core.ModifierType;
-import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 
-public class ClassConstraint extends Constraint {
-
-   private final Class require;
+public class IdentityConstraint extends Constraint {
+   
+   private final Type type;
    private final int modifiers;
    
-   public ClassConstraint(Class require) {
-      this(require, 0);
+   public IdentityConstraint(Type type) {
+      this(type, 0);
    }
    
-   public ClassConstraint(Class require, int modifiers) {
+   public IdentityConstraint(Type type, int modifiers) {
       this.modifiers = modifiers;
-      this.require = require;
+      this.type = type;
    }
    
+
    @Override
-   public Type getType(Scope scope){
-      if(require != null) {
-         Module module = scope.getModule();
-         return module.getType(require);
-      }
-      return null;
+   public Type getType(Scope scope) {
+      return type;
    }
 
    @Override
@@ -40,6 +36,6 @@ public class ClassConstraint extends Constraint {
    
    @Override
    public boolean isClass(){
-      return ModifierType.isConstant(modifiers);
+      return !ModifierType.isClass(modifiers);
    }
 }

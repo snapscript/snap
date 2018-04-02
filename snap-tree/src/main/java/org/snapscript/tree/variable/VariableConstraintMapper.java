@@ -1,9 +1,11 @@
 package org.snapscript.tree.variable;
 
+import static org.snapscript.core.ModifierType.CLASS;
+
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Value;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.constraint.Constraint;
 
 public class VariableConstraintMapper {
    
@@ -14,15 +16,15 @@ public class VariableConstraintMapper {
    public Constraint toConstraint(Object value) {  
       if(value != null) {
          if(Type.class.isInstance(value)) {
-            return Constraint.getStatic((Type)value);
+            return Constraint.getConstraint((Type)value, CLASS.mask);
          }
          if(Module.class.isInstance(value)) {
-            return Constraint.getModule((Module)value);
+            return Constraint.getConstraint((Module)value);
          }
          if(Value.class.isInstance(value)) {         
-            return Constraint.getVariable((Value)value);
+            return Constraint.getConstraint((Value)value);
          }
       }
-      return Constraint.getVariable(value);
+      return Constraint.getConstraint(value);
    }
 }

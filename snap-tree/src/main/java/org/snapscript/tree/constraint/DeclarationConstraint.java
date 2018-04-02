@@ -1,27 +1,27 @@
 package org.snapscript.tree.constraint;
 
 import org.snapscript.core.ModifierType;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.constraint.Constraint;
 
-public class ModifierConstraint extends Constraint {
+public class DeclarationConstraint extends Constraint {
    
    private final Constraint constraint;
    private final int modifiers;
    
-   public ModifierConstraint(Constraint constraint) {
+   public DeclarationConstraint(Constraint constraint) {
       this(constraint, 0);
    }
    
-   public ModifierConstraint(Constraint constraint, int modifiers) {      
+   public DeclarationConstraint(Constraint constraint, int modifiers) {      
       this.constraint = constraint;
       this.modifiers = modifiers;
    }
    
-   public ModifierConstraint getConstraint(Scope scope, int mask) {
+   public DeclarationConstraint getConstraint(Scope scope, int mask) {
       if(mask != modifiers) {
-         return new ModifierConstraint(constraint, mask);
+         return new DeclarationConstraint(constraint, mask);
       }
       return this;
    }
@@ -43,9 +43,9 @@ public class ModifierConstraint extends Constraint {
    }
    
    @Override
-   public boolean isStatic() {
+   public boolean isClass() {
       if(constraint != null) {
-         return constraint.isStatic();
+         return constraint.isClass();
       }
       return false;
    }
@@ -60,9 +60,6 @@ public class ModifierConstraint extends Constraint {
    
    @Override
    public boolean isConstant() {
-      if(constraint != null) {
-         return constraint.isConstant();
-      }
       return ModifierType.isConstant(modifiers);
    }
 }

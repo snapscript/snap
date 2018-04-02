@@ -2,22 +2,21 @@ package org.snapscript.tree.define;
 
 import static org.snapscript.core.constraint.Constraint.NONE;
 
-import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.Value;
 import org.snapscript.core.type.Category;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.module.Module;
-import org.snapscript.core.property.ConstantPropertyBuilder;
-import org.snapscript.core.property.Property;
+import org.snapscript.core.type.TypeBody;
 import org.snapscript.tree.annotation.AnnotationList;
 
 public class ClassBuilder {   
    
    private final AtomicReference<Type> reference;
-   private final ClassConstantGenerator generator;
+   private final ClassPropertyGenerator generator;
    private final ConstantPropertyBuilder builder;
    private final AnnotationList annotations;
    private final TypeHierarchy hierarchy;
@@ -26,7 +25,7 @@ public class ClassBuilder {
    
    public ClassBuilder(AnnotationList annotations, TypeName name, TypeHierarchy hierarchy, Category category) {
       this.reference = new AtomicReference<Type>();
-      this.generator = new ClassConstantGenerator();
+      this.generator = new ClassPropertyGenerator();
       this.builder = new ConstantPropertyBuilder();
       this.annotations = annotations;
       this.hierarchy = hierarchy;
@@ -34,7 +33,7 @@ public class ClassBuilder {
       this.name = name;
    }
    
-   public Type create(Scope outer) throws Exception {
+   public Type create(TypeBody body, Scope outer) throws Exception {
       Module module = outer.getModule();
       String alias = name.getName(outer);
       Type type = module.addType(alias, category); 
@@ -44,7 +43,7 @@ public class ClassBuilder {
       return type;
    }
    
-   public Type define(Scope outer) throws Exception {
+   public Type define(TypeBody body, Scope outer) throws Exception {
       Type type = reference.get();
       Type enclosing = outer.getType();
       Scope scope = type.getScope();
@@ -53,19 +52,20 @@ public class ClassBuilder {
          String name = type.getName();
          String prefix = enclosing.getName();
          String key = name.replace(prefix + '$', ""); // get the class name
-         Property property = builder.createConstant(key, type, enclosing, NONE);
-         List<Property> properties = enclosing.getProperties();
+         Value value = Value.getConstant(type);
+         State state = outer.getState();
          
-         properties.add(property);
+         builder.createStaticProperty(body, key, enclosing, NONE);
+         state.add(key, value);
       }
       annotations.apply(scope, type);
-      generator.generate(scope, type);
+      generator.generate(body, scope, type);
       hierarchy.extend(scope, type); 
       
       return type;
    }
    
-   public Type compile(Scope outer) throws Exception {
+   public Type compile(TypeBody body, Scope outer) throws Exception {
       return reference.get();
    }
 }

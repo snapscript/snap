@@ -21,8 +21,38 @@ public class ConstantModificationCompileTest extends CompileTestCase {
    "   new(a, b){\n"+
    "      x=a;\n"+
    "   }\n"+
+   "}";   
+   
+   private static final String SUCCESS_4 =
+   "class Typ {\n"+
+   "   static const VAR=10;\n"+
+   "   const y=-VAR;\n"+  
+   "   var x;\n"+     
+   "   new(a, b){\n"+
+   "      x=a;\n"+
+   "   }\n"+
    "}";    
-
+   
+   private static final String SUCCESS_5 =
+   "class Typ {\n"+
+   "   static const VAR=10;\n"+
+   "   const y=+VAR;\n"+            
+   "   var x;\n"+     
+   "   new(a, b){\n"+
+   "      x=!VAR;\n"+
+   "   }\n"+
+   "}";    
+   
+   private static final String SUCCESS_6 =
+   "class Typ {\n"+
+   "   static const VAR=10;\n"+
+   "   const y=+VAR;\n"+            
+   "   var x;\n"+     
+   "   new(a, b){\n"+
+   "      x=~VAR;\n"+
+   "   }\n"+
+   "}";    
+   
    private static final String FAILURE_1 =
    "const x = 11;\n"+
    "x = 12;\n";
@@ -134,11 +164,86 @@ public class ConstantModificationCompileTest extends CompileTestCase {
    "   }\n"+
    "}";   
          
+   private static final String FAILURE_17 = 
+   "enum Color {\n"+
+   "   RED,\n"+
+   "   GREEN,\n"+
+   "   BLUE;\n"+   
+   "   func(a, b){\n"+
+   "      BLUE=10;\n"+
+   "   }\n"+
+   "}";  
+   
+   private static final String FAILURE_18 = 
+   "enum Color {\n"+
+   "   RED,\n"+
+   "   GREEN,\n"+
+   "   BLUE;\n"+   
+   "   func(a, b){\n"+
+   "      BLUE.name=10;\n"+
+   "   }\n"+
+   "}";  
+   
+   private static final String FAILURE_19 = 
+   "enum Color {\n"+
+   "   RED,\n"+
+   "   GREEN,\n"+
+   "   BLUE;\n"+   
+   "   func(a, b){\n"+
+   "      BLUE.ordinal=10;\n"+
+   "   }\n"+
+   "}";  
+   
+   private static final String FAILURE_20 = 
+   "enum Color {\n"+
+   "   RED,\n"+
+   "   GREEN,\n"+
+   "   BLUE;\n"+   
+   "   func(a, b){\n"+
+   "      values=10;\n"+
+   "   }\n"+
+   "}";  
+   
+   private static final String FAILURE_21 = 
+   "enum Color {\n"+
+   "   RED,\n"+
+   "   GREEN,\n"+
+   "   BLUE;\n"+   
+   "   func(a, b){\n"+
+   "      return 0;\n"+
+   "   }\n"+
+   "}\n"+
+   "Color.RED.name=10;";
+   
+   private static final String FAILURE_22 = 
+   "enum Color {\n"+
+   "   RED,\n"+
+   "   GREEN,\n"+
+   "   BLUE;\n"+   
+   "   func(a, b){\n"+
+   "      return 0;\n"+
+   "   }\n"+
+   "}\n"+
+   "Color.RED.ordinal=10;";   
+   
+   private static final String FAILURE_23 = 
+   "enum Color {\n"+
+   "   RED,\n"+
+   "   GREEN,\n"+
+   "   BLUE;\n"+   
+   "   func(a, b){\n"+
+   "      return 0;\n"+
+   "   }\n"+
+   "}\n"+
+   "Color.values=10;";   
    
    public void testModificationOfConstants() throws Exception {
       assertCompileSuccess(SUCCESS_1);
       assertCompileSuccess(SUCCESS_2);
-      assertCompileSuccess(SUCCESS_3);        
+      assertCompileSuccess(SUCCESS_3); 
+      assertCompileSuccess(SUCCESS_4); 
+      assertCompileSuccess(SUCCESS_5); 
+      assertCompileSuccess(SUCCESS_6);
       assertCompileError(FAILURE_1, "Illegal modification of constant in /default.snap at line 2");
       assertCompileError(FAILURE_2, "Illegal modification of constant in /default.snap at line 2");
       assertCompileError(FAILURE_3, "Illegal modification of constant in /default.snap at line 1");
@@ -154,7 +259,14 @@ public class ConstantModificationCompileTest extends CompileTestCase {
       assertCompileError(FAILURE_13, "Illegal modification of constant in /default.snap at line 4");
       assertCompileError(FAILURE_14, "Illegal ++ of constant in /default.snap at line 4");
       assertCompileError(FAILURE_15, "Illegal ++ of constant in /default.snap at line 4");
-      assertCompileError(FAILURE_16, "Illegal -- of constant in /default.snap at line 4");          
+      assertCompileError(FAILURE_16, "Illegal -- of constant in /default.snap at line 4"); 
+      assertCompileError(FAILURE_17, "Illegal modification of constant in /default.snap at line 6"); 
+      assertCompileError(FAILURE_18, "Illegal modification of constant in /default.snap at line 6"); 
+      assertCompileError(FAILURE_19, "Illegal modification of constant in /default.snap at line 6"); 
+      assertCompileError(FAILURE_20, "Illegal modification of constant in /default.snap at line 6"); 
+      assertCompileError(FAILURE_21, "Illegal modification of constant in /default.snap at line 9"); 
+      assertCompileError(FAILURE_22, "Illegal modification of constant in /default.snap at line 9"); 
+      assertCompileError(FAILURE_23, "Illegal modification of constant in /default.snap at line 9"); 
    }
 
 }

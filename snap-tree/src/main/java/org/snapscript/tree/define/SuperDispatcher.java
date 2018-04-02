@@ -1,9 +1,8 @@
 package org.snapscript.tree.define;
 
+import static org.snapscript.core.ModifierType.CONSTANT;
+
 import org.snapscript.core.Context;
-import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.Value;
-import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.Invocation;
@@ -11,6 +10,9 @@ import org.snapscript.core.function.dispatch.FunctionDispatcher;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.platform.Platform;
 import org.snapscript.core.platform.PlatformProvider;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.Value;
+import org.snapscript.core.type.Type;
 
 public class SuperDispatcher implements FunctionDispatcher<Object> {
 
@@ -22,7 +24,7 @@ public class SuperDispatcher implements FunctionDispatcher<Object> {
    
    @Override
    public Constraint compile(Scope scope, Type object, Type... list) throws Exception {
-      return Constraint.getVariable(type);
+      return Constraint.getConstraint(type, CONSTANT.mask);
    }
    
    @Override

@@ -1,4 +1,4 @@
-package org.snapscript.tree.variable;
+package org.snapscript.tree.variable.pointer;
 
 import static org.snapscript.core.constraint.Constraint.NONE;
 import static org.snapscript.core.scope.Value.NULL;

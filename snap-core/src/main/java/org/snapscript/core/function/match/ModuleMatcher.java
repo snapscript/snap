@@ -14,17 +14,17 @@ import org.snapscript.core.module.Module;
 import org.snapscript.core.stack.ThreadStack;
 import org.snapscript.core.type.TypeExtractor;
 
-public class ModuleFunctionMatcher {
+public class ModuleMatcher {
    
    private final SparseArray<FunctionIndex> cache;
    private final FunctionIndexBuilder builder;
    private final FunctionWrapper wrapper;
    
-   public ModuleFunctionMatcher(TypeExtractor extractor, ThreadStack stack) {
+   public ModuleMatcher(TypeExtractor extractor, ThreadStack stack) {
       this(extractor, stack, 10000);
    }
    
-   public ModuleFunctionMatcher(TypeExtractor extractor, ThreadStack stack, int capacity) {
+   public ModuleMatcher(TypeExtractor extractor, ThreadStack stack, int capacity) {
       this.cache = new CopyOnWriteSparseArray<FunctionIndex>(capacity);
       this.builder = new FunctionIndexBuilder(extractor, stack);
       this.wrapper = new FunctionWrapper(stack);

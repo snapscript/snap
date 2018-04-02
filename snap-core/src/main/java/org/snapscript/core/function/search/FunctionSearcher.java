@@ -2,12 +2,12 @@ package org.snapscript.core.function.search;
 
 import org.snapscript.core.type.Type;
 import org.snapscript.core.convert.proxy.Delegate;
-import org.snapscript.core.function.match.DelegateFunctionMatcher;
-import org.snapscript.core.function.match.LocalFunctionMatcher;
-import org.snapscript.core.function.match.ModuleFunctionMatcher;
-import org.snapscript.core.function.match.TypeInstanceFunctionMatcher;
-import org.snapscript.core.function.match.TypeStaticFunctionMatcher;
-import org.snapscript.core.function.match.ValueFunctionMatcher;
+import org.snapscript.core.function.match.DelegateMatcher;
+import org.snapscript.core.function.match.LocalMatcher;
+import org.snapscript.core.function.match.ModuleMatcher;
+import org.snapscript.core.function.match.TypeInstanceMatcher;
+import org.snapscript.core.function.match.TypeStaticMatcher;
+import org.snapscript.core.function.match.ValueMatcher;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.Value;
@@ -16,20 +16,20 @@ import org.snapscript.core.type.TypeExtractor;
 
 public class FunctionSearcher { 
    
-   private final DelegateFunctionMatcher delegates;
-   private final TypeInstanceFunctionMatcher objects;
-   private final ModuleFunctionMatcher modules;
-   private final ValueFunctionMatcher values;
-   private final LocalFunctionMatcher scopes;
-   private final TypeStaticFunctionMatcher types;
+   private final TypeInstanceMatcher instances;
+   private final TypeStaticMatcher statics;
+   private final DelegateMatcher delegates;
+   private final ModuleMatcher modules;
+   private final ValueMatcher values;
+   private final LocalMatcher scopes;
    
    public FunctionSearcher(TypeExtractor extractor, ThreadStack stack, FunctionResolver resolver) {
-      this.delegates = new DelegateFunctionMatcher(extractor, stack);
-      this.objects = new TypeInstanceFunctionMatcher(extractor, resolver);
-      this.modules = new ModuleFunctionMatcher(extractor, stack);
-      this.types = new TypeStaticFunctionMatcher(extractor, stack);
-      this.values = new ValueFunctionMatcher(stack);
-      this.scopes = new LocalFunctionMatcher(stack);
+      this.instances = new TypeInstanceMatcher(extractor, resolver);
+      this.statics = new TypeStaticMatcher(extractor, stack);
+      this.delegates = new DelegateMatcher(extractor, stack);
+      this.modules = new ModuleMatcher(extractor, stack);
+      this.values = new ValueMatcher(stack);
+      this.scopes = new LocalMatcher(stack);
    }
    
    public FunctionCall searchValue(Value value, Object... list) throws Exception { // closures
@@ -78,7 +78,7 @@ public class FunctionSearcher {
    }
 
    public FunctionCall searchStatic(Scope scope, Type type, String name, Type... list) throws Exception {
-      FunctionPointer pointer = types.match(type, name, list);
+      FunctionPointer pointer = statics.match(type, name, list);
       
       if(pointer != null) {
          return new FunctionCall(pointer, scope, null, list);
@@ -87,7 +87,7 @@ public class FunctionSearcher {
    }
    
    public FunctionCall searchStatic(Scope scope, Type type, String name, Object... list) throws Exception {
-      FunctionPointer pointer = types.match(type, name, list);
+      FunctionPointer pointer = statics.match(type, name, list);
       
       if(pointer != null) {
          return new FunctionCall(pointer, scope, null, list);
@@ -114,7 +114,7 @@ public class FunctionSearcher {
    }
    
    public FunctionCall searchInstance(Scope scope, Type source, String name, Type... list) throws Exception {
-      FunctionPointer pointer = objects.match(source, name, list);
+      FunctionPointer pointer = instances.match(source, name, list);
       
       if(pointer != null) {
          return new FunctionCall(pointer, scope, source, list);
@@ -123,7 +123,7 @@ public class FunctionSearcher {
    }
 
    public FunctionCall searchInstance(Scope scope, Object source, String name, Object... list) throws Exception {
-      FunctionPointer pointer = objects.match(source, name, list);
+      FunctionPointer pointer = instances.match(source, name, list);
       
       if(pointer != null) {
          return new FunctionCall(pointer, scope, source, list);

@@ -1,14 +1,16 @@
-package org.snapscript.tree.variable;
+package org.snapscript.tree.variable.pointer;
 
 import java.util.Collection;
 import java.util.Map;
 
+import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.function.Function;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.instance.Instance;
 import org.snapscript.core.type.Category;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.constraint.Constraint;
+import org.snapscript.tree.variable.VariableFinder;
 
 public class VariablePointerBuilder {
 
@@ -22,36 +24,33 @@ public class VariablePointerBuilder {
 
    public VariablePointer create(Scope scope) throws Exception {
       if(Instance.class.isInstance(scope)) {
-         return new InstancePointer(finder, name);
+         return new TypeLocalPointer(finder, name);
       }
       return new LocalPointer(finder, name);
    }
    
    public VariablePointer create(Scope scope, Object left) throws Exception {
-      if(left != null) {
-         Class type = left.getClass();
-         
-         if(Module.class.isInstance(left)) {
-            return new ModulePointer(finder, name);
-         }
-         if(Map.class.isInstance(left)) {
-            return new MapPointer(finder, name);
-         }         
-         if(Scope.class.isInstance(left)) {
-            return new ScopePointer(finder, name);
-         }
-         if(Type.class.isInstance(left)) {
-            return new TypePointer(finder, name);
-         }
-         if(Collection.class.isInstance(left)) {
-            return new CollectionPointer(finder, name);
-         }
-         if(type.isArray()) {
-            return new ArrayPointer(finder, name);
-         }
-         return new ObjectPointer(finder, name);
+      Class type = left.getClass();
+      
+      if(Module.class.isInstance(left)) {
+         return new ModulePointer(finder, name);
       }
-      return create(scope);
+      if(Map.class.isInstance(left)) {
+         return new MapPointer(finder, name);
+      }         
+      if(Type.class.isInstance(left)) {
+         return new TypeStaticPointer(finder, name);
+      }
+      if(Collection.class.isInstance(left)) {
+         return new CollectionPointer(finder, name);
+      }
+      if(Function.class.isInstance(left)) {
+         return new ClosurePointer(finder, name);
+      }
+      if(type.isArray()) {
+         return new ArrayPointer(finder, name);
+      }
+      return new TypeInstancePointer(finder, name);
    }
    
    public VariablePointer create(Scope scope, Constraint left) throws Exception {
@@ -64,8 +63,11 @@ public class VariablePointerBuilder {
          if(left.isModule()) {
             return new ModulePointer(finder, name);
          }
-         if(left.isStatic()) {
-            return new TypePointer(finder, name);
+         if(left.isClass()) {
+            return new TypeStaticPointer(finder, name);
+         }
+         if(category.isFunction()) {
+            return new ClosurePointer(finder, name);
          }
          if(category.isArray()) {
             return new ArrayPointer(finder, name);
@@ -77,9 +79,8 @@ public class VariablePointerBuilder {
             if(Collection.class.isAssignableFrom(real)) {
                return new CollectionPointer(finder, name);
             }
-            return new ObjectPointer(finder, name);
          }
       }
-      return new ScopePointer(finder, name);
+      return new TypeInstancePointer(finder, name);
    }
 }

@@ -1,15 +1,19 @@
-package org.snapscript.tree.variable;
+package org.snapscript.tree.variable.pointer;
+
+import static org.snapscript.core.ModifierType.CONSTANT;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.State;
-import org.snapscript.core.scope.Value;
-import org.snapscript.core.type.Type;
+import org.snapscript.core.ModifierType;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.property.PropertyValue;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.Value;
+import org.snapscript.core.type.Type;
+import org.snapscript.tree.variable.VariableFinder;
 
 public class ModulePointer implements VariablePointer<Module> {
    
@@ -37,7 +41,7 @@ public class ModulePointer implements VariablePointer<Module> {
             Type type = module.getType(name);
             
             if(type != null) {
-               return Constraint.getVariable(type);
+               return Constraint.getConstraint(type, CONSTANT.mask);
             }
             Property match = finder.findAnyFromModule(scope, module, name);
             

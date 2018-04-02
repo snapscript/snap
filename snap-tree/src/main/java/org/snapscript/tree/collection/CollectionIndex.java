@@ -49,7 +49,7 @@ public class CollectionIndex extends Evaluation {
       
       if(type != null) {
          Type entry = type.getEntry();
-         Constraint next = Constraint.getVariable(entry);
+         Constraint next = Constraint.getConstraint(entry);
                
          for(Evaluation evaluation : evaluations) {
             next = evaluation.compile(scope, next);

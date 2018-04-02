@@ -6,12 +6,12 @@ import org.snapscript.core.Evaluation;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.tree.NameReference;
-import org.snapscript.tree.constraint.ModifierConstraint;
+import org.snapscript.tree.constraint.DeclarationConstraint;
 import org.snapscript.tree.literal.TextLiteral;
 
 public class MemberFieldDeclaration {
 
-   private final ModifierConstraint constraint;
+   private final DeclarationConstraint constraint;
    private final NameReference identifier;
    private final Evaluation value;
    
@@ -28,7 +28,7 @@ public class MemberFieldDeclaration {
    }
    
    public MemberFieldDeclaration(TextLiteral identifier, Constraint constraint, Evaluation value) {
-      this.constraint = new ModifierConstraint(constraint);
+      this.constraint = new DeclarationConstraint(constraint);
       this.identifier = new NameReference(identifier);
       this.value = value;
    }   

@@ -9,26 +9,25 @@ import org.snapscript.core.type.TypeBody;
 
 public class StaticAccessor implements Accessor {
 
-   private final TypeBody body;
    private final Accessor accessor;
-   private final Scope scope;
+   private final TypeBody body;
    private final String name;
    private final Type type;
    
-   public StaticAccessor(TypeBody body, Scope scope, Type type, String name) {
+   public StaticAccessor(TypeBody body, Type type, String name) {
       this.accessor = new ScopeAccessor(name);
       this.body = body;
-      this.scope = scope;
       this.name = name;
       this.type = type;
    }
    
    @Override
    public Object getValue(Object source) {
+      Scope scope = type.getScope();
+      State state = scope.getState();
+      Value field = state.get(name);
+      
       try {
-         State state = scope.getState();
-         Value field = state.get(name);
-         
          if(field == null) {
             body.allocate(scope, type);           
          }
@@ -40,10 +39,11 @@ public class StaticAccessor implements Accessor {
 
    @Override
    public void setValue(Object source, Object value) {
+      Scope scope = type.getScope();
+      State state = scope.getState();
+      Value field = state.get(name);
+      
       try {
-         State state = scope.getState();
-         Value field = state.get(name);
-         
          if(field == null) {
             body.allocate(scope, type);           
          }    

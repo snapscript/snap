@@ -9,7 +9,7 @@ import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.ConstraintConverter;
 import org.snapscript.core.convert.ConstraintMatcher;
-import org.snapscript.tree.constraint.ModifierConstraint;
+import org.snapscript.tree.constraint.DeclarationConstraint;
 
 public class Cast extends Evaluation {
 
@@ -17,7 +17,7 @@ public class Cast extends Evaluation {
    private final Evaluation evaluation;
    
    public Cast(Evaluation evaluation, Constraint constraint) {
-      this.constraint = new ModifierConstraint(constraint);
+      this.constraint = new DeclarationConstraint(constraint);
       this.evaluation = evaluation;
    }
    
