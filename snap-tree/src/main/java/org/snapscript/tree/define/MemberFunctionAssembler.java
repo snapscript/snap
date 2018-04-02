@@ -14,10 +14,10 @@ import org.snapscript.tree.function.ParameterList;
 
 public class MemberFunctionAssembler {
    
+   private final DeclarationConstraint constraint;
    private final ParameterList parameters;
    private final ModifierChecker checker;
    private final NameReference identifier;
-   private final Constraint constraint;
    private final ModifierList list;
    private final Statement body;
    
@@ -31,15 +31,16 @@ public class MemberFunctionAssembler {
    } 
 
    public MemberFunctionBuilder assemble(Type type, int mask) throws Exception {
+      int modifiers = list.getModifiers();
       Scope scope = type.getScope();
       String name = identifier.getName(scope);
       Signature signature = parameters.create(scope);
-      int modifiers = mask | list.getModifiers();
+      Constraint require = constraint.getConstraint(scope, modifiers | mask);
       
       if(checker.isStatic()) {
-         return new StaticFunctionBuilder(signature, body, constraint, name, modifiers);
+         return new StaticFunctionBuilder(signature, body, require, name, modifiers | mask);
       }
-      return new InstanceFunctionBuilder(signature, body, constraint, name, modifiers);
+      return new InstanceFunctionBuilder(signature, body, require, name, modifiers | mask);
       
    }
 }

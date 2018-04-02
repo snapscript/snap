@@ -59,6 +59,11 @@ public class DeclarationConstraint extends Constraint {
    }
    
    @Override
+   public boolean isPrivate() {
+      return ModifierType.isPrivate(modifiers);
+   }
+   
+   @Override
    public boolean isConstant() {
       return ModifierType.isConstant(modifiers);
    }

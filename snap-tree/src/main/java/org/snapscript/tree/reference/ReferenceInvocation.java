@@ -6,18 +6,17 @@ import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
+import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.function.dispatch.FunctionDispatcher;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.Value;
 import org.snapscript.core.scope.index.Index;
-import org.snapscript.core.type.Type;
-import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.error.ErrorHandler;
-import org.snapscript.core.function.dispatch.FunctionDispatcher;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceEvaluation;
 import org.snapscript.core.trace.TraceInterceptor;
+import org.snapscript.core.type.Type;
 import org.snapscript.tree.ArgumentList;
 import org.snapscript.tree.NameReference;
 import org.snapscript.tree.function.FunctionHolder;
@@ -77,6 +76,9 @@ public class ReferenceInvocation implements Compilation {
          FunctionDispatcher handler = holder.get(scope, left);
          Constraint result = handler.compile(scope, type, array);
          
+         if(result.isPrivate()) {
+            throw new InternalStateException("Function '" + name + "' is private");
+         }
          for(Evaluation evaluation : evaluations) {
             if(result == null) {
                throw new InternalStateException("Result of '" + name + "' null"); 

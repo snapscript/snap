@@ -57,6 +57,10 @@ public abstract class Constraint {
    public boolean isVariable() {
       return true;
    }
+
+   public boolean isPrivate() {
+      return false;
+   }
    
    public boolean isClass() {
       return false;
