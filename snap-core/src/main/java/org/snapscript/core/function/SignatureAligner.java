@@ -3,7 +3,7 @@ package org.snapscript.core.function;
 import java.lang.reflect.Array;
 import java.util.List;
 
-import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.InternalStateException;
 
 public class SignatureAligner {
 

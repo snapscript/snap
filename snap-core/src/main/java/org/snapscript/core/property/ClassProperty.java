@@ -7,11 +7,11 @@ import static org.snapscript.core.Reserved.TYPE_CLASS;
 
 import java.util.List;
 
+import org.snapscript.core.InternalStateException;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.constraint.IdentityConstraint;
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.error.InternalStateException;
 
 public class ClassProperty implements Property {
    

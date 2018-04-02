@@ -1,6 +1,6 @@
 package org.snapscript.core.scope.instance;
 
-import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.InternalStateException;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.platform.Bridge;
 import org.snapscript.core.scope.MapState;

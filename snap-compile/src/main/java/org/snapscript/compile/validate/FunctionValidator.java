@@ -3,13 +3,13 @@ package org.snapscript.compile.validate;
 import java.util.List;
 import java.util.Set;
 
+import org.snapscript.core.InternalStateException;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.FunctionComparator;
 import org.snapscript.core.convert.Score;
-import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.Signature;
@@ -36,7 +36,7 @@ public class FunctionValidator {
       Type type = function.getType();
       
       if(type == null) {
-         throw new InternalStateException("Function '" + function + "' does not have a type");
+         throw new ValidateException("Function '" + function + "' does not have a type");
       }
       validateModifiers(function);
       validateDuplicates(function);
@@ -70,7 +70,7 @@ public class FunctionValidator {
             }
          }
          if(matches == 0) {
-            throw new InternalStateException("Function '" + function + "' is not an override");
+            throw new ValidateException("Function '" + function + "' is not an override");
          }
       }
       validator.validate(parent, function, modifiers);
@@ -96,12 +96,12 @@ public class FunctionValidator {
          FunctionPointer match = resolver.resolve(parent, name, types);
          
          if(match == null) {
-            throw new IllegalStateException("Function '" + require +"' does not match override");
+            throw new ValidateException("Function '" + require +"' does not match override");
          }
          Function function = match.getFunction();
          
          if(function != require) {
-            throw new IllegalStateException("Function '" + require +"' does not match override");
+            throw new ValidateException("Function '" + require +"' does not match override");
          }
       }
    }
@@ -129,12 +129,12 @@ public class FunctionValidator {
             FunctionPointer resolved = resolver.resolve(parent, name, types);
             
             if(resolved == actual) {
-               throw new IllegalStateException("Function '" + actual +"' has a duplicate '" + resolved + "'");
+               throw new ValidateException("Function '" + actual +"' has a duplicate '" + resolved + "'");
             }
             Function function = resolved.getFunction();
             
             if(function != actual) {
-               throw new IllegalStateException("Function '" + actual +"' has a duplicate '" + resolved + "'");
+               throw new ValidateException("Function '" + actual +"' has a duplicate '" + resolved + "'");
             }
          }
       }

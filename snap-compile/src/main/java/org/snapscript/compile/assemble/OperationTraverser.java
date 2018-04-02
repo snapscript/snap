@@ -2,7 +2,7 @@ package org.snapscript.compile.assemble;
 
 import java.util.List;
 
-import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.InternalStateException;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.type.Type;
 import org.snapscript.parse.Line;

@@ -7,9 +7,9 @@ import static org.snapscript.core.Reserved.TYPE_THIS;
 import java.util.List;
 import java.util.Set;
 
+import org.snapscript.core.InternalStateException;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.convert.ConstraintMatcher;
-import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.search.FunctionResolver;
 import org.snapscript.core.module.Module;
@@ -46,7 +46,7 @@ public class TypeValidator {
       Module module = type.getModule();
       
       if(module == null) {
-         throw new InternalStateException("Type '" + type + "' has no module");
+         throw new ValidateException("Type '" + type + "' has no module");
       }
    }
    
@@ -65,7 +65,7 @@ public class TypeValidator {
             }
          }
          if(matches == 0) {
-            throw new InternalStateException("Type '" + type + "' has an invalid hierarchy");
+            throw new ValidateException("Type '" + type + "' has an invalid hierarchy");
          }
       }
    }
@@ -86,7 +86,7 @@ public class TypeValidator {
             properties.validate(property);
          }
          if(matches == 0) {
-            throw new InternalStateException("Type '" + type + "' has no property '" + require + "'");
+            throw new ValidateException("Type '" + type + "' has no property '" + require + "'");
          }
       }
    }

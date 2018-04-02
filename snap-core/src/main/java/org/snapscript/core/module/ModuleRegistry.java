@@ -8,8 +8,8 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.snapscript.core.Context;
-import org.snapscript.core.error.InternalArgumentException;
-import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.InternalArgumentException;
+import org.snapscript.core.InternalStateException;
 import org.snapscript.core.type.NameBuilder;
 import org.snapscript.core.type.TypeNameBuilder;
 import org.snapscript.core.type.extend.ModuleExtender;

@@ -3,8 +3,8 @@ package org.snapscript.tree.define;
 import static org.snapscript.core.ModifierType.CONSTANT;
 
 import org.snapscript.core.Context;
+import org.snapscript.core.InternalStateException;
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.dispatch.FunctionDispatcher;
 import org.snapscript.core.module.Module;

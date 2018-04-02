@@ -1,6 +1,6 @@
 package org.snapscript.core.type;
 
-import org.snapscript.core.error.InternalArgumentException;
+import org.snapscript.core.InternalArgumentException;
 
 public class TypeNameBuilder implements NameBuilder {
    

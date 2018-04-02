@@ -1,4 +1,4 @@
-package org.snapscript.core.compile;
+package org.snapscript.tree.compile;
 
 import org.snapscript.core.function.Function;
 import org.snapscript.core.scope.Scope;

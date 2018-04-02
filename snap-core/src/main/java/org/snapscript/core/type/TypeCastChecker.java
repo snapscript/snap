@@ -7,11 +7,11 @@ import static org.snapscript.core.convert.Score.SIMILAR;
 import java.util.List;
 import java.util.Set;
 
+import org.snapscript.core.InternalStateException;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.FunctionComparator;
 import org.snapscript.core.convert.Score;
-import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.ClosureFunctionFinder;
 import org.snapscript.core.function.Function;
 

@@ -10,12 +10,12 @@ import static org.snapscript.core.type.Category.TRAIT;
 import java.lang.reflect.Proxy;
 import java.util.List;
 
+import org.snapscript.core.InternalArgumentException;
 import org.snapscript.core.PrimitivePromoter;
 import org.snapscript.core.type.Category;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.annotation.AnnotationExtractor;
-import org.snapscript.core.error.InternalArgumentException;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.link.ImportScanner;
 import org.snapscript.core.module.Module;

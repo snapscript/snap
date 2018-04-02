@@ -11,17 +11,17 @@ import org.snapscript.core.scope.EmptyModel;
 import org.snapscript.core.scope.Model;
 import org.snapscript.core.scope.Scope;
 
-public class Program implements Executable{
+public class Application implements Executable{
    
-   private final ProgramCompiler compiler;
+   private final ApplicationCompiler compiler;
    private final ScopeMerger merger;
    private final Context context;
    private final Model model;
    private final String name;
    private final Path path;
    
-   public Program(Context context, Package library, Path path, String name){
-      this.compiler = new ProgramCompiler(context, library);
+   public Application(Context context, Package library, Path path, String name){
+      this.compiler = new ApplicationCompiler(context, library);
       this.merger = new ScopeMerger(context);
       this.model = new EmptyModel();
       this.context = context;

@@ -2,7 +2,6 @@ package org.snapscript.compile.validate;
 
 import java.util.List;
 
-import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.type.Type;
 
@@ -22,7 +21,7 @@ public class ModuleValidator {
          try {
             validator.validate(type);
          }catch(Exception e) {
-            throw new InternalStateException("Invalid reference to '" + type +"' in '" + name + "'", e);
+            throw new ValidateException("Invalid reference to '" + type +"' in '" + name + "'", e);
          }
       }
    }

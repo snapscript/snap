@@ -2,7 +2,7 @@ package org.snapscript.core.scope;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.InternalStateException;
 import org.snapscript.core.type.Type;
 
 public class Blank extends Value {

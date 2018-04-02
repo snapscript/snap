@@ -11,12 +11,12 @@ import org.snapscript.core.link.Package;
 import org.snapscript.core.link.PackageLinker;
 import org.snapscript.core.module.Path;
 
-public class ProgramLinker implements PackageLinker {
+public class ApplicationLinker implements PackageLinker {
    
    private final Cache<Path, Package> cache;
    private final PackageBuilder builder;  
    
-   public ProgramLinker(Context context, Executor executor) {
+   public ApplicationLinker(Context context, Executor executor) {
       this.cache = new LeastRecentlyUsedCache<Path, Package>();
       this.builder = new PackageBuilder(context, executor);
    }

@@ -1,6 +1,5 @@
 package org.snapscript.core;
 
-import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.module.FilePathConverter;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.ModuleRegistry;

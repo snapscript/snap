@@ -2,13 +2,13 @@ package org.snapscript.tree.constraint;
 
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.InternalStateException;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.Value;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.error.InternalStateException;
 
 public class TypeConstraint implements Compilation {
    

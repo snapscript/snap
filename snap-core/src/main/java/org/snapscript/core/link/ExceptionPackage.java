@@ -1,6 +1,6 @@
 package org.snapscript.core.link;
 
-import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.InternalStateException;
 import org.snapscript.core.scope.Scope;
 
 public class ExceptionPackage implements Package {

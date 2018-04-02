@@ -5,11 +5,11 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.snapscript.core.InternalStateException;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.annotation.AnnotationConverter;
-import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.FunctionSignature;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.ParameterBuilder;

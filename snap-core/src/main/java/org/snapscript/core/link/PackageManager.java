@@ -3,7 +3,7 @@ package org.snapscript.core.link;
 import static org.snapscript.core.link.ImportType.EXPLICIT;
 import static org.snapscript.core.link.ImportType.IMPLICIT;
 
-import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.InternalStateException;
 import org.snapscript.core.type.NameBuilder;
 import org.snapscript.core.type.TypeNameBuilder;
   

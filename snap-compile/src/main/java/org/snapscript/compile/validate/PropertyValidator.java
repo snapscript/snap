@@ -6,10 +6,9 @@ import static org.snapscript.core.Reserved.ENUM_VALUES;
 import static org.snapscript.core.Reserved.TYPE_CLASS;
 import static org.snapscript.core.Reserved.TYPE_THIS;
 
-import org.snapscript.core.type.Type;
 import org.snapscript.core.convert.ConstraintMatcher;
-import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.property.Property;
+import org.snapscript.core.type.Type;
 import org.snapscript.tree.ModifierValidator;
 
 public class PropertyValidator {
@@ -39,7 +38,7 @@ public class PropertyValidator {
       }
       if(matches == 0) {
          if(type == null) {
-            throw new InternalStateException("Property '" + property + "' does not have a type");
+            throw new ValidateException("Property '" + property + "' does not have a type");
          }
          validator.validate(type, property, modifiers);
       }

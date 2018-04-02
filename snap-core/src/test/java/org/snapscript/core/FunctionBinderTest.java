@@ -197,7 +197,7 @@ public class FunctionBinderTest extends TestCase {
       }
 
       @Override
-      public ProgramValidator getValidator() {
+      public ApplicationValidator getValidator() {
          return null;
       }
 

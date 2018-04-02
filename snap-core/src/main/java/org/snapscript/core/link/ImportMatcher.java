@@ -5,7 +5,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
 
 import org.snapscript.core.Context;
-import org.snapscript.core.ProgramValidator;
+import org.snapscript.core.ApplicationValidator;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.ModuleRegistry;
 import org.snapscript.core.module.Path;
@@ -64,7 +64,7 @@ public class ImportMatcher {
       
       if(task != null) {
          Context context = parent.getContext();
-         ProgramValidator validator = context.getValidator();
+         ApplicationValidator validator = context.getValidator();
          Type type = task.get();
          
          if(type != null) {
@@ -103,7 +103,7 @@ public class ImportMatcher {
       
       if(task != null) {
          Context context = parent.getContext();
-         ProgramValidator validator = context.getValidator();
+         ApplicationValidator validator = context.getValidator();
          Module module = task.get();
          
          if(module != null) {

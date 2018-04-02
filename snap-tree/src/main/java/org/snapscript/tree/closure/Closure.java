@@ -13,13 +13,13 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.Value;
 import org.snapscript.core.scope.index.LocalScopeExtractor;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.compile.ClosureScopeCompiler;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionHandle;
 import org.snapscript.core.function.Signature;
 import org.snapscript.tree.Expression;
 import org.snapscript.tree.ExpressionStatement;
+import org.snapscript.tree.compile.ClosureScopeCompiler;
 
 public class Closure implements Compilation {
    

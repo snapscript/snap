@@ -3,8 +3,8 @@ package org.snapscript.core.type.index;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.snapscript.core.InternalStateException;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.property.ClassProperty;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.property.ThisProperty;

@@ -2,10 +2,10 @@ package org.snapscript.tree.reference;
 
 import static org.snapscript.core.constraint.Constraint.TYPE;
 
+import org.snapscript.core.InternalStateException;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.error.InternalStateException;
 import org.snapscript.tree.literal.Literal;
 
 public class ReferenceConstraint extends Literal {

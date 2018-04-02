@@ -1,6 +1,7 @@
 package org.snapscript.tree;
 
 import org.snapscript.core.Context;
+import org.snapscript.core.InternalStateException;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
@@ -8,7 +9,6 @@ import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.ConstraintConverter;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.Score;
-import org.snapscript.core.error.InternalStateException;
 
 public class DeclarationConverter {
    

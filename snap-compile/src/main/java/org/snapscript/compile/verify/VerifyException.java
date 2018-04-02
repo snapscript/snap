@@ -2,7 +2,9 @@ package org.snapscript.compile.verify;
 
 import java.util.List;
 
-public class VerifyException extends RuntimeException {
+import org.snapscript.core.InternalException;
+
+public class VerifyException extends InternalException {
    
    private final List<VerifyError> errors;
    

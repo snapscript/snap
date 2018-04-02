@@ -1,6 +1,6 @@
 package org.snapscript.core.stack;
 
-import org.snapscript.core.error.InternalException;
+import org.snapscript.core.InternalException;
 
 public class StackOverflowException extends InternalException {
 

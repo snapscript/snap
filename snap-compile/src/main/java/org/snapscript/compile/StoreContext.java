@@ -5,11 +5,11 @@ import java.util.concurrent.Executor;
 import org.snapscript.common.store.Store;
 import org.snapscript.compile.assemble.ExecutorLinker;
 import org.snapscript.compile.assemble.OperationEvaluator;
-import org.snapscript.compile.validate.ExecutableValidator;
+import org.snapscript.compile.validate.ContextValidator;
 import org.snapscript.compile.verify.ExecutableVerifier;
 import org.snapscript.core.Context;
 import org.snapscript.core.ExpressionEvaluator;
-import org.snapscript.core.ProgramValidator;
+import org.snapscript.core.ApplicationValidator;
 import org.snapscript.core.ResourceManager;
 import org.snapscript.core.StoreManager;
 import org.snapscript.core.convert.ConstraintMatcher;
@@ -20,7 +20,6 @@ import org.snapscript.core.function.search.FunctionResolver;
 import org.snapscript.core.function.search.FunctionSearcher;
 import org.snapscript.core.link.PackageLinker;
 import org.snapscript.core.module.ModuleRegistry;
-import org.snapscript.core.platform.CachePlatformProvider;
 import org.snapscript.core.platform.PlatformProvider;
 import org.snapscript.core.stack.ThreadStack;
 import org.snapscript.core.trace.TraceInterceptor;
@@ -29,7 +28,7 @@ import org.snapscript.core.type.TypeLoader;
 
 public class StoreContext implements Context {
 
-   private final ExecutableValidator validator;
+   private final ContextValidator validator;
    private final ExpressionEvaluator evaluator;
    private final TraceInterceptor interceptor;
    private final PlatformProvider provider;
@@ -37,15 +36,15 @@ public class StoreContext implements Context {
    private final ConstraintMatcher matcher;
    private final ResourceManager manager;
    private final FunctionResolver resolver;
-   private final FunctionSearcher binder;
+   private final FunctionSearcher searcher;
    private final TypeExtractor extractor;
    private final ModuleRegistry registry;
+   private final FunctionBinder binder;
    private final ErrorHandler handler;
    private final ProxyWrapper wrapper;
    private final PackageLinker linker;
    private final ThreadStack stack;
    private final TypeLoader loader; 
-   private final FunctionBinder table;
    
    public StoreContext(Store store){
       this(store, null);
@@ -64,11 +63,11 @@ public class StoreContext implements Context {
       this.extractor = new TypeExtractor(loader);
       this.handler = new ErrorHandler(extractor, stack);
       this.resolver = new FunctionResolver(extractor, stack);
-      this.validator = new ExecutableValidator(matcher, extractor, resolver, verifier);
-      this.binder = new FunctionSearcher(extractor, stack, resolver);
+      this.validator = new ContextValidator(matcher, extractor, resolver, verifier);
+      this.searcher = new FunctionSearcher(extractor, stack, resolver);
       this.evaluator = new OperationEvaluator(this, verifier, executor);
-      this.provider = new CachePlatformProvider(extractor, wrapper, stack);
-      this.table = new FunctionBinder(binder, handler);
+      this.provider = new PlatformProvider(extractor, wrapper, stack);
+      this.binder = new FunctionBinder(searcher, handler);
    }
    
    @Override
@@ -92,7 +91,7 @@ public class StoreContext implements Context {
    }
    
    @Override
-   public ProgramValidator getValidator() {
+   public ApplicationValidator getValidator() {
       return validator;
    }
    
@@ -128,12 +127,12 @@ public class StoreContext implements Context {
    
    @Override
    public FunctionSearcher getSearcher() {
-      return binder;
+      return searcher;
    }
 
    @Override
    public FunctionBinder getBinder() {
-      return table;
+      return binder;
    }
 
    @Override

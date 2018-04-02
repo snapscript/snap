@@ -4,10 +4,10 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.snapscript.core.InternalStateException;
 import org.snapscript.core.type.Category;
 import org.snapscript.core.type.NameBuilder;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.link.ImportScanner;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.ModuleRegistry;

@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.snapscript.core.InternalException;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.error.InternalException;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.type.TypeLoader;
 

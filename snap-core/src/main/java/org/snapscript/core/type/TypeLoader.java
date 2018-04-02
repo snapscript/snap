@@ -1,7 +1,6 @@
 package org.snapscript.core.type;
 
 import org.snapscript.core.ResourceManager;
-import org.snapscript.core.type.Type;
 import org.snapscript.core.convert.proxy.ProxyWrapper;
 import org.snapscript.core.link.ImportScanner;
 import org.snapscript.core.link.Package;
@@ -9,7 +8,6 @@ import org.snapscript.core.link.PackageLinker;
 import org.snapscript.core.link.PackageLoader;
 import org.snapscript.core.link.PackageManager;
 import org.snapscript.core.module.ModuleRegistry;
-import org.snapscript.core.platform.CachePlatformProvider;
 import org.snapscript.core.platform.PlatformProvider;
 import org.snapscript.core.stack.ThreadStack;
 import org.snapscript.core.type.extend.ClassExtender;
@@ -27,7 +25,7 @@ public class TypeLoader {
    
    public TypeLoader(PackageLinker linker, ModuleRegistry registry, ResourceManager manager, ProxyWrapper wrapper, ThreadStack stack){
       this.extractor = new TypeExtractor(this);
-      this.provider = new CachePlatformProvider(extractor, wrapper, stack);
+      this.provider = new PlatformProvider(extractor, wrapper, stack);
       this.scanner = new ImportScanner(manager);
       this.extender = new ClassExtender(this);
       this.indexer = new TypeIndexer(registry, scanner, extender, provider);

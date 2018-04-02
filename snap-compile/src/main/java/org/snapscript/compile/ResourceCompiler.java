@@ -2,7 +2,7 @@ package org.snapscript.compile;
 
 import static org.snapscript.tree.Instruction.SCRIPT;
 
-import org.snapscript.compile.assemble.Program;
+import org.snapscript.compile.assemble.Application;
 import org.snapscript.core.Context;
 import org.snapscript.core.ResourceManager;
 import org.snapscript.core.error.ThreadExceptionHandler;
@@ -54,6 +54,6 @@ public class ResourceCompiler implements Compiler {
       PackageLinker linker = context.getLinker();
       Package library = linker.link(path, source, SCRIPT.name);
   
-      return new Program(context, library, path, module);
+      return new Application(context, library, path, module);
    }
 }

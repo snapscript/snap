@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.snapscript.compile.verify.Verifier;
 import org.snapscript.core.Context;
-import org.snapscript.core.ProgramValidator;
+import org.snapscript.core.ApplicationValidator;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.ModuleRegistry;
 import org.snapscript.core.type.Type;
@@ -12,13 +12,13 @@ import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.function.search.FunctionResolver;
 import org.snapscript.core.type.TypeExtractor;
 
-public class ExecutableValidator implements ProgramValidator {
+public class ContextValidator implements ApplicationValidator {
 
    private final ModuleValidator modules;
    private final TypeValidator types;
    private final Verifier verifier;
    
-   public ExecutableValidator(ConstraintMatcher matcher, TypeExtractor extractor, FunctionResolver resolver, Verifier verifier) {
+   public ContextValidator(ConstraintMatcher matcher, TypeExtractor extractor, FunctionResolver resolver, Verifier verifier) {
       this.types = new TypeValidator(matcher, extractor, resolver);
       this.modules = new ModuleValidator(types);
       this.verifier = verifier;

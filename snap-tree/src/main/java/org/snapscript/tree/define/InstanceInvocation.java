@@ -1,7 +1,7 @@
 package org.snapscript.tree.define;
 
+import org.snapscript.core.InternalStateException;
 import org.snapscript.core.ThisBinder;
-import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationBuilder;
 import org.snapscript.core.scope.Scope;

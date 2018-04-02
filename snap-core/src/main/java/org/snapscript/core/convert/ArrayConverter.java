@@ -9,9 +9,9 @@ import static org.snapscript.core.convert.Score.TRANSIENT;
 import java.lang.reflect.Array;
 import java.util.List;
 
+import org.snapscript.core.InternalStateException;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.convert.proxy.ProxyWrapper;
-import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.type.TypeCastChecker;
 
 public class ArrayConverter extends ConstraintConverter {

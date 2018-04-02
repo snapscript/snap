@@ -3,7 +3,7 @@ package org.snapscript.tree.define;
 import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
 
 import org.snapscript.core.Evaluation;
-import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.InternalStateException;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.instance.SuperExtractor;
 import org.snapscript.core.type.Type;

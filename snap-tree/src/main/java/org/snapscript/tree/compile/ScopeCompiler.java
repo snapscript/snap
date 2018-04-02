@@ -1,8 +1,9 @@
-package org.snapscript.core.compile;
+package org.snapscript.tree.compile;
 
 import static org.snapscript.core.Reserved.TYPE_THIS;
 
 import java.util.List;
+import java.util.Set;
 
 import org.snapscript.core.Context;
 import org.snapscript.core.constraint.Constraint;
@@ -17,12 +18,16 @@ import org.snapscript.core.scope.Value;
 import org.snapscript.core.scope.index.Local;
 import org.snapscript.core.scope.index.Table;
 import org.snapscript.core.type.Type;
+import org.snapscript.core.type.TypeExtractor;
 import org.snapscript.core.type.TypeLoader;
 
 public abstract class ScopeCompiler {
    
    protected void compileProperties(Scope scope, Type type) {
-      List<Property> properties = type.getProperties();
+      Module module = scope.getModule();
+      Context context = module.getContext();
+      TypeExtractor extractor = context.getExtractor();      
+      Set<Property> properties = extractor.getProperties(type); 
       State state = scope.getState();
       
       for(Property property : properties) {

@@ -1,6 +1,6 @@
 package org.snapscript.core.scope;
 
-import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.InternalStateException;
 
 public class Null extends Value {
 

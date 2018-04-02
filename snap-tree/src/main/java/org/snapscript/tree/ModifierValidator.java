@@ -8,8 +8,8 @@ import static org.snapscript.core.ModifierType.PUBLIC;
 import static org.snapscript.core.ModifierType.STATIC;
 import static org.snapscript.core.ModifierType.VARIABLE;
 
+import org.snapscript.core.InternalStateException;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.property.Property;
 

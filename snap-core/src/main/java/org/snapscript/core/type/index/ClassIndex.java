@@ -2,10 +2,10 @@ package org.snapscript.core.type.index;
 
 import java.util.List;
 
+import org.snapscript.core.InternalStateException;
 import org.snapscript.core.type.Category;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.annotation.Annotation;
-import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.property.Property;
