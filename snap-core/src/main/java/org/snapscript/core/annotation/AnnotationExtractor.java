@@ -1,4 +1,4 @@
-package org.snapscript.core.type.annotation;
+package org.snapscript.core.annotation;
 
 import java.lang.reflect.AnnotatedElement;
 import java.util.ArrayList;

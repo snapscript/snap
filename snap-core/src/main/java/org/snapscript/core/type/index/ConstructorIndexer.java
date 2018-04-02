@@ -6,8 +6,8 @@ import java.util.Collections;
 import java.util.List;
 
 import org.snapscript.core.type.Type;
-import org.snapscript.core.type.annotation.Annotation;
-import org.snapscript.core.type.annotation.AnnotationExtractor;
+import org.snapscript.core.annotation.Annotation;
+import org.snapscript.core.annotation.AnnotationExtractor;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.platform.PlatformProvider;
 

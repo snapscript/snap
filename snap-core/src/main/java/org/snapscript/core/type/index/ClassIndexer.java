@@ -13,6 +13,8 @@ import java.util.List;
 import org.snapscript.core.PrimitivePromoter;
 import org.snapscript.core.type.Category;
 import org.snapscript.core.type.Type;
+import org.snapscript.core.annotation.Annotation;
+import org.snapscript.core.annotation.AnnotationExtractor;
 import org.snapscript.core.error.InternalArgumentException;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.link.ImportScanner;
@@ -20,8 +22,6 @@ import org.snapscript.core.module.Module;
 import org.snapscript.core.module.ModuleRegistry;
 import org.snapscript.core.platform.PlatformProvider;
 import org.snapscript.core.property.Property;
-import org.snapscript.core.type.annotation.Annotation;
-import org.snapscript.core.type.annotation.AnnotationExtractor;
 import org.snapscript.core.type.extend.ClassExtender;
 
 public class ClassIndexer {

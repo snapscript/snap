@@ -38,7 +38,7 @@ public class FunctionGenerator {
          } else {
             invocation = new MethodInvocation(invocation, method);
          }
-         Constraint constraint = mapper.toConstraint(method, modifiers);
+         Constraint constraint = mapper.map(method, modifiers);
          
          if(!method.isAccessible()) {
             method.setAccessible(true);

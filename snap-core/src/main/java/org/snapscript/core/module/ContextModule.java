@@ -9,6 +9,7 @@ import org.snapscript.common.Cache;
 import org.snapscript.common.CopyOnWriteCache;
 import org.snapscript.core.Context;
 import org.snapscript.core.ResourceManager;
+import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.link.ImportManager;
 import org.snapscript.core.property.Property;
@@ -16,7 +17,6 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Category;
 import org.snapscript.core.type.TypeLoader;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.type.annotation.Annotation;
 
 public class ContextModule implements Module {
    

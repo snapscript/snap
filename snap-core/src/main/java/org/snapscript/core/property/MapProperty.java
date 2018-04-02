@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.snapscript.core.type.Type;
-import org.snapscript.core.type.annotation.Annotation;
+import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.constraint.IdentityConstraint;
 import org.snapscript.core.constraint.Constraint;
 

@@ -1,7 +1,5 @@
 package org.snapscript.core.type.index;
 
-import static org.snapscript.core.constraint.Constraint.NONE;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
@@ -17,27 +15,21 @@ public class ClassConstraintMapper {
       this.promoter = new PrimitivePromoter();
    }
    
-   public Constraint toConstraint(Field field, int modifiers) {
-      if(field != null) {
-         Class type = field.getType();   
-         Class real = getConstraint(type);
-         
-         return Constraint.getConstraint(real, modifiers);
-      }
-      return NONE;
+   public Constraint map(Field field, int modifiers) {
+      Class type = field.getType();   
+      Class real = map(type);
+      
+      return Constraint.getConstraint(real, modifiers);
    }
    
-   public Constraint toConstraint(Method method, int modifiers) {
-      if(method != null) {
-         Class type = method.getReturnType();    
-         Class real = getConstraint(type);
-         
-         return Constraint.getConstraint(real);        
-      }
-      return NONE;
+   public Constraint map(Method method, int modifiers) {
+      Class type = method.getReturnType();    
+      Class real = map(type);
+      
+      return Constraint.getConstraint(real);        
    }
    
-   private Class getConstraint(Class type) {
+   private Class map(Class type) {
       if(type == Object.class) {
          return null;
       }

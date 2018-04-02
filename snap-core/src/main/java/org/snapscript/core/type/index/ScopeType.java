@@ -7,6 +7,7 @@ import org.snapscript.common.LockProgress;
 import org.snapscript.common.Progress;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
+import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.property.Property;
@@ -14,7 +15,6 @@ import org.snapscript.core.type.Category;
 import org.snapscript.core.type.Phase;
 import org.snapscript.core.type.TypeDescription;
 import org.snapscript.core.type.TypeScope;
-import org.snapscript.core.type.annotation.Annotation;
 
 public class ScopeType implements Type {
    

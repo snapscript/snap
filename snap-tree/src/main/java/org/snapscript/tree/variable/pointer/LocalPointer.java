@@ -35,13 +35,13 @@ public class LocalPointer implements VariablePointer<Object> {
             Object value = finder.findTypes(scope, name);
             
             if(value != null) {
-               return mapper.toConstraint(value);
+               return mapper.map(value);
             }
             return null;
          }
          return Constraint.getConstraint(variable);
       }
-      return mapper.toConstraint(result);
+      return mapper.map(result);
    }
    
    @Override

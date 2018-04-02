@@ -79,10 +79,10 @@ public class VariableFinder {
    public Property findAnyFromType(Scope scope, Type type, String name) {
       Property match = findPropertyFromType(scope, type, name);
       
-      if(match != null) {
-         return match;
+      if(match == null) {
+         return findConstantFromType(scope, type, name);
       }
-      return findConstantFromType(scope, type, name);
+      return match;
    }
    
    public Property findPropertyFromType(Scope scope, Type type, String name) {
@@ -134,15 +134,6 @@ public class VariableFinder {
       }
       return findAnyFromObject(scope, left, name);
    }   
-   
-   public Property findPropertyFromScope(Scope scope, Scope left, String name) {
-      Type type = left.getType();
-
-      if(type != null) {
-         return findPropertyFromType(scope, type, name);
-      }
-      return null;
-   }
 
    public Property findPropertyFromMap(Scope scope, Type left, String name) {
       Property property = findPropertyFromType(scope, left, name);

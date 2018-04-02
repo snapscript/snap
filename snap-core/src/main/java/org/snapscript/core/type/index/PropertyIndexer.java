@@ -12,8 +12,8 @@ import java.util.Set;
 
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.type.annotation.Annotation;
-import org.snapscript.core.type.annotation.AnnotationExtractor;
+import org.snapscript.core.annotation.Annotation;
+import org.snapscript.core.annotation.AnnotationExtractor;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.property.Property;
 
@@ -113,7 +113,7 @@ public class PropertyIndexer {
          
          if(ModifierType.isPublic(modifiers) || ModifierType.isProtected(modifiers)) {
             String name = field.getName();           
-            Constraint constraint = mapper.toConstraint(field, modifiers);
+            Constraint constraint = mapper.map(field, modifiers);
             Property property = generator.generate(field, type, constraint, name, modifiers); 
             List<Annotation> extracted = extractor.extract(field);
             List<Annotation> actual = property.getAnnotations();
@@ -143,7 +143,7 @@ public class PropertyIndexer {
                if(write == null) {
                   modifiers |= CONSTANT.mask;
                }
-               Constraint constraint = mapper.toConstraint(method, modifiers);
+               Constraint constraint = mapper.map(method, modifiers);
                Property property = generator.generate(method, write, type, constraint, name, modifiers);                
                List<Annotation> extracted = extractor.extract(method);
                List<Annotation> actual = property.getAnnotations();

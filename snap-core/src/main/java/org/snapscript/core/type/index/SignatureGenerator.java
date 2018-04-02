@@ -7,8 +7,8 @@ import java.util.List;
 
 import org.snapscript.core.module.Module;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.type.annotation.Annotation;
-import org.snapscript.core.type.annotation.AnnotationConverter;
+import org.snapscript.core.annotation.Annotation;
+import org.snapscript.core.annotation.AnnotationConverter;
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.FunctionSignature;
 import org.snapscript.core.function.Parameter;

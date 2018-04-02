@@ -13,7 +13,7 @@ public class VariableConstraintMapper {
       super();
    }
 
-   public Constraint toConstraint(Object value) {  
+   public Constraint map(Object value) {  
       if(value != null) {
          if(Type.class.isInstance(value)) {
             return Constraint.getConstraint((Type)value, CLASS.mask);
