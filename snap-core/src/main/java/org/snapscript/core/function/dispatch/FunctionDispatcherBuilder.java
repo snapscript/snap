@@ -42,7 +42,7 @@ public class FunctionDispatcherBuilder {
          return new DelegateDispatcher(binder, handler, name);
       }     
       if(Value.class.isAssignableFrom(type)) {
-         return new ValueDispatcher(binder, name);
+         return new ValueDispatcher(binder, handler, name);
       }
       if(type.isArray()) {
          return new ArrayDispatcher(binder, handler, name);

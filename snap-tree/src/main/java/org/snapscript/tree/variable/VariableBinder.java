@@ -1,8 +1,8 @@
 package org.snapscript.tree.variable;
 
-import org.snapscript.core.InternalStateException;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.proxy.ProxyWrapper;
+import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.Value;
 import org.snapscript.tree.variable.pointer.VariablePointer;
@@ -11,12 +11,14 @@ import org.snapscript.tree.variable.pointer.VariablePointerResolver;
 public class VariableBinder {
 
    private final VariablePointerResolver resolver;
+   private final ErrorHandler handler;
    private final ProxyWrapper wrapper;
    private final String name;
    
-   public VariableBinder(ProxyWrapper wrapper, String name) {
+   public VariableBinder(ErrorHandler handler, ProxyWrapper wrapper, String name) {
       this.resolver = new VariablePointerResolver(name);
       this.wrapper = wrapper;
+      this.handler = handler;
       this.name = name;
    }
    
@@ -25,7 +27,7 @@ public class VariableBinder {
       Constraint value = pointer.check(scope, null);
       
       if(value == null) {
-         throw new InternalStateException("Could not resolve '" + name +"' in scope");
+         handler.handleCompileError(scope, name);
       }
       return value;
    }
@@ -35,7 +37,7 @@ public class VariableBinder {
       Constraint value = pointer.check(scope, left);
       
       if(value == null) {
-         throw new InternalStateException("Could not resolve '" + name +"' in scope");
+         handler.handleCompileError(scope, name);
       }
       return value;
    }
@@ -45,7 +47,7 @@ public class VariableBinder {
       Value value = pointer.get(scope, null);
       
       if(value == null) {
-         throw new InternalStateException("Could not resolve '" + name +"' in scope");
+         handler.handleRuntimeError(scope, name);
       }
       return value;
    }
@@ -56,7 +58,7 @@ public class VariableBinder {
       Value value = pointer.get(scope, object);
       
       if(value == null) {
-         throw new InternalStateException("Could not resolve '" + name +"' in scope");
+         handler.handleRuntimeError(scope, name);
       }
       return value;
    }

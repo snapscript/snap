@@ -1,6 +1,7 @@
 package org.snapscript.core.error;
 
 import org.snapscript.core.InternalException;
+import org.snapscript.core.InternalStateException;
 import org.snapscript.core.stack.ThreadStack;
 
 public class InternalErrorBuilder {
@@ -17,7 +18,7 @@ public class InternalErrorBuilder {
       this.stack = stack;
    }
    
-   public InternalError createError(Object value) {
+   public InternalError createInternalError(Object value) {
       InternalError error = new InternalError(value);
       
       if(replace) {
@@ -49,10 +50,17 @@ public class InternalErrorBuilder {
       return error;
    }
    
-   public InternalException createException(Object value) {
+   public InternalException createCompileException(Object value) {
       if(Throwable.class.isInstance(value)) {
-         return new InternalException((Throwable)value);
+         return new InternalStateException((Throwable)value);
       }
-      return new InternalException(String.valueOf(value));
+      return new InternalStateException(String.valueOf(value));
+   }
+   
+   public InternalException createRuntimeException(Object value) {
+      if(Throwable.class.isInstance(value)) {
+         return new InternalStateException((Throwable)value);
+      }
+      return new InternalStateException(String.valueOf(value));
    }
 }

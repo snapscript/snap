@@ -25,41 +25,61 @@ public class InternalErrorHandler {
    }
    
    public Result handleInternalError(Scope scope, Object value) {
-      throw builder.createError(value);
+      throw builder.createInternalError(value);
    }
    
    public Result handleInternalError(Scope scope, Throwable cause, Trace trace) {
-      String message = formatter.format(cause, trace);
-      throw builder.createError(message);
+      String message = formatter.formatInternalError(cause, trace);
+      throw builder.createInternalError(message);
    }
 
-   public Result handleCompileError(Scope scope, String name, Type... list) {
-      String message = formatter.format(name, list);
-      throw builder.createException(message);
+   public Result handleCompileError(Scope scope, String name) {
+      String message = formatter.formatCompileError(name);
+      throw builder.createCompileException(message);
    }
    
-   public Result handleCompileError(Scope scope, Type type, String name, Type... list) {
-      String message = formatter.format(type, name, list);
-      throw builder.createException(message);
+   public Result handleCompileError(Scope scope, Type type, String name) {
+      String message = formatter.formatCompileError(type, name);
+      throw builder.createCompileException(message);
    }
    
-   public Result handleRuntimeError(Scope scope, String name, Object... list) {
-      String message = formatter.format(name, list);
-      throw builder.createException(message);
+   public Result handleCompileError(Scope scope, String name, Type[] list) {
+      String message = formatter.formatCompileError(name, list);
+      throw builder.createCompileException(message);
    }
    
-   public Result handleRuntimeError(Scope scope, Object value, String name, Object... list) {
-      String message = formatter.format(value, name, list);
-      throw builder.createException(message);
+   public Result handleCompileError(Scope scope, Type type, String name, Type[] list) {
+      String message = formatter.formatCompileError(type, name, list);
+      throw builder.createCompileException(message);
    }
    
-   public Result handleRuntimeError(Scope scope, Type type, String name, Object... list) {
-      String message = formatter.format(type, name, list);
-      throw builder.createException(message);
+   public Result handleRuntimeError(Scope scope, String name) {
+      String message = formatter.formatRuntimeError(name);
+      throw builder.createRuntimeException(message);
    }
    
-   public Result handleRuntimeError(Scope scope, Module module, String name, Object... list) {
-      String message = formatter.format(module, name, list);
-      throw builder.createException(message);
+   public Result handleRuntimeError(Scope scope, Object object, String name) {
+      String message = formatter.formatRuntimeError(object, name);
+      throw builder.createRuntimeException(message);
+   }
+   
+   public Result handleRuntimeError(Scope scope, String name, Object[] list) {
+      String message = formatter.formatRuntimeError(name, list);
+      throw builder.createRuntimeException(message);
+   }
+   
+   public Result handleRuntimeError(Scope scope, Object value, String name, Object[] list) {
+      String message = formatter.formatRuntimeError(value, name, list);
+      throw builder.createRuntimeException(message);
+   }
+   
+   public Result handleRuntimeError(Scope scope, Type type, String name, Object[] list) {
+      String message = formatter.formatRuntimeError(type, name, list);
+      throw builder.createRuntimeException(message);
+   }
+   
+   public Result handleRuntimeError(Scope scope, Module module, String name, Object[] list) {
+      String message = formatter.formatRuntimeError(module, name, list);
+      throw builder.createRuntimeException(message);
    }
 }

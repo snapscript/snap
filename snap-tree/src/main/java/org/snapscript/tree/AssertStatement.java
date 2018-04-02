@@ -3,7 +3,7 @@ package org.snapscript.tree;
 import static java.lang.Boolean.TRUE;
 import static org.snapscript.core.result.Result.NORMAL;
 
-import org.snapscript.core.AssertionException;
+import org.snapscript.core.AssertException;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
@@ -72,7 +72,7 @@ public class AssertStatement implements Compilation {
          Object object = value.getValue();
 
          if(!TRUE.equals(object)) {
-            throw new AssertionException("Assertion failed");
+            throw new AssertException("Assertion failed");
          }
          return NORMAL;
       }

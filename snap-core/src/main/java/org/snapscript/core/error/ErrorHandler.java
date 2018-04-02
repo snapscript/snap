@@ -22,27 +22,43 @@ public class ErrorHandler {
       this.external = new ExternalErrorHandler();
    }
    
-   public Result handleCompileError(Scope scope, String name, Type... list) {
+   public Result handleCompileError(Scope scope, String name) {
+      return internal.handleCompileError(scope, name); 
+   }
+
+   public Result handleCompileError(Scope scope, Type type, String name) {
+      return internal.handleCompileError(scope, type, name); 
+   }
+   
+   public Result handleCompileError(Scope scope, String name, Type[] list) {
       return internal.handleCompileError(scope, name, list); 
    }
 
-   public Result handleCompileError(Scope scope, Type type, String name, Type... list) {
+   public Result handleCompileError(Scope scope, Type type, String name, Type[] list) {
       return internal.handleCompileError(scope, type, name, list); 
    }
 
-   public Result handleRuntimeError(Scope scope,String name, Object... list) {
+   public Result handleRuntimeError(Scope scope, String name) {
+      return internal.handleRuntimeError(scope, name); 
+   }
+
+   public Result handleRuntimeError(Scope scope, Object object, String name) {
+      return internal.handleRuntimeError(scope, object, name); 
+   }
+   
+   public Result handleRuntimeError(Scope scope,String name, Object[] list) {
       return internal.handleRuntimeError(scope, name, list); 
    }
    
-   public Result handleRuntimeError(Scope scope, Object object, String name, Object... list) {
+   public Result handleRuntimeError(Scope scope, Object object, String name, Object[] list) {
       return internal.handleRuntimeError(scope, object, name, list); 
    }
    
-   public Result handleRuntimeError(Scope scope, Type type, String name, Object... list) {
+   public Result handleRuntimeError(Scope scope, Type type, String name, Object[] list) {
       return internal.handleRuntimeError(scope, type, name, list); 
    }
    
-   public Result handleRuntimeError(Scope scope, Module module, String name, Object... list) {
+   public Result handleRuntimeError(Scope scope, Module module, String name, Object[] list) {
       return internal.handleRuntimeError(scope, module, name, list); 
    }
    

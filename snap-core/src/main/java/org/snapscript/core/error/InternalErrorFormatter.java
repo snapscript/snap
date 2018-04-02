@@ -4,8 +4,8 @@ import static org.snapscript.core.Reserved.ANY_TYPE;
 import static org.snapscript.core.Reserved.DEFAULT_PACKAGE;
 
 import org.snapscript.core.module.Path;
-import org.snapscript.core.type.Type;
 import org.snapscript.core.trace.Trace;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeExtractor;
 
 public class InternalErrorFormatter {
@@ -16,7 +16,7 @@ public class InternalErrorFormatter {
       this.extractor = extractor;
    }
 
-   public String format(Throwable cause, Trace trace) {
+   public String formatInternalError(Throwable cause, Trace trace) {
       StringBuilder builder = new StringBuilder();
       
       if(trace != null) {
@@ -35,13 +35,43 @@ public class InternalErrorFormatter {
       return cause.getMessage();
    }
 
-   public String format(String name, Type... list) {
+   public String formatCompileError(String name) {
+      StringBuilder builder = new StringBuilder();
+      
+      builder.append("Variable '");
+      builder.append(name);
+      builder.append("' not found in scope");
+      
+      return builder.toString();
+   }
+   
+   public String formatCompileError(Type type, String name) {
+      StringBuilder builder = new StringBuilder();
+      
+      builder.append("Variable '");
+      builder.append(name);
+      builder.append("' not found for '");
+      
+      Type entry = type.getEntry();
+         
+      if(entry == null) {
+         builder.append(type);
+      } else {
+         builder.append(type);
+         builder.append("[]");
+      }
+      builder.append("'");
+      
+      return builder.toString();
+   }
+   
+   public String formatCompileError(String name, Type[] list) {
       StringBuilder builder = new StringBuilder();
       
       builder.append("Method '");
       builder.append(name);
       
-      String signature = format(list);
+      String signature = formatSignature(list);
       
       builder.append(signature);
       builder.append("' not found in scope");
@@ -49,13 +79,47 @@ public class InternalErrorFormatter {
       return builder.toString();
    }
    
-   public String format(String name, Object... list) {
+   public String formatCompileError(Type type, String name, Type[] list) {
       StringBuilder builder = new StringBuilder();
       
       builder.append("Method '");
       builder.append(name);
       
-      String signature = format(list);
+      String signature = formatSignature(list);
+      
+      builder.append(signature);
+      builder.append("' not found for '");
+      
+      Type entry = type.getEntry();
+         
+      if(entry == null) {
+         builder.append(type);
+      } else {
+         builder.append(type);
+         builder.append("[]");
+      }
+      builder.append("'");
+      
+      return builder.toString();
+   }
+   
+   public String formatRuntimeError(String name) {
+      StringBuilder builder = new StringBuilder();
+      
+      builder.append("Variable '");
+      builder.append(name);
+      builder.append("' not found in scope");
+      
+      return builder.toString();
+   }
+   
+   public String formatRuntimeError(String name, Object[] list) {
+      StringBuilder builder = new StringBuilder();
+      
+      builder.append("Method '");
+      builder.append(name);
+      
+      String signature = formatSignature(list);
       
       builder.append(signature);
       builder.append("' not found in scope");
@@ -63,13 +127,36 @@ public class InternalErrorFormatter {
       return builder.toString();
    }
    
-   public String format(Object object, String name, Object... list) {
+   public String formatRuntimeError(Object object, String name) {
+      StringBuilder builder = new StringBuilder();
+      
+      builder.append("Variable '");
+      builder.append("' not found");
+      
+      if(object != null) {
+         Type type = extractor.getType(object);
+         Type entry = type.getEntry();
+         
+         builder.append(" for '");
+         
+         if(entry == null) {
+            builder.append(type);
+         } else {
+            builder.append(type);
+            builder.append("[]");
+         }
+         builder.append("'");
+      }
+      return builder.toString();
+   }
+   
+   public String formatRuntimeError(Object object, String name, Object[] list) {
       StringBuilder builder = new StringBuilder();
       
       builder.append("Method '");
       builder.append(name);
       
-      String signature = format(list);
+      String signature = formatSignature(list);
       
       builder.append(signature);
       builder.append("' not found");
@@ -91,13 +178,13 @@ public class InternalErrorFormatter {
       return builder.toString();
    }
    
-   public String format(Type type, String name, Object... list) {
+   public String formatRuntimeError(Type type, String name, Object[] list) {
       StringBuilder builder = new StringBuilder();
       
       builder.append("Method '");
       builder.append(name);
       
-      String signature = format(list);
+      String signature = formatSignature(list);
       
       builder.append(signature);
       builder.append("' not found for '");
@@ -115,31 +202,7 @@ public class InternalErrorFormatter {
       return builder.toString();
    }
    
-   public String format(Type type, String name, Type... list) {
-      StringBuilder builder = new StringBuilder();
-      
-      builder.append("Method '");
-      builder.append(name);
-      
-      String signature = format(list);
-      
-      builder.append(signature);
-      builder.append("' not found for '");
-      
-      Type entry = type.getEntry();
-         
-      if(entry == null) {
-         builder.append(type);
-      } else {
-         builder.append(type);
-         builder.append("[]");
-      }
-      builder.append("'");
-      
-      return builder.toString();
-   }
-   
-   private String format(Object... list) {
+   private String formatSignature(Object[] list) {
       StringBuilder builder = new StringBuilder();
       
       builder.append("(");
@@ -164,7 +227,7 @@ public class InternalErrorFormatter {
       return builder.toString();
    }
    
-   private String format(Type... list) {
+   private String formatSignature(Type[] list) {
       StringBuilder builder = new StringBuilder();
       
       builder.append("(");

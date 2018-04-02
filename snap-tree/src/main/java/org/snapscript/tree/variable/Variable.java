@@ -7,6 +7,7 @@ import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.proxy.ProxyWrapper;
+import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.Scope;
@@ -28,10 +29,11 @@ public class Variable implements Compilation {
    public Evaluation compile(Module module, Path path, int line) throws Exception {
       Scope scope = module.getScope();
       Context context = module.getContext();
+      ErrorHandler handler = context.getHandler();
       ProxyWrapper wrapper = context.getWrapper();
       String name = reference.getName(scope);
       
-      return new CompileResult(wrapper, name);
+      return new CompileResult(handler, wrapper, name);
    }
    
    private static class CompileResult extends Evaluation {
@@ -40,8 +42,8 @@ public class Variable implements Compilation {
       private final AtomicInteger offset;
       private final String name;
       
-      public CompileResult(ProxyWrapper wrapper, String name) {
-         this.binder = new VariableBinder(wrapper, name);
+      public CompileResult(ErrorHandler handler, ProxyWrapper wrapper, String name) {
+         this.binder = new VariableBinder(handler, wrapper, name);
          this.offset = new AtomicInteger(-1);
          this.name = name;
       }

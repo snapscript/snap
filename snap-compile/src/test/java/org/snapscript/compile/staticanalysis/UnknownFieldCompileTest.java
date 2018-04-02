@@ -14,6 +14,6 @@ public class UnknownFieldCompileTest extends CompileTestCase {
    "new Color().func();\n";
 
    public void testInvalidVariable() throws Exception {
-      assertCompileError(FAILURE_1, "Could not resolve 'unknown' in scope in /default.snap at line 6");
+      assertCompileError(FAILURE_1, "Variable 'unknown' not found in scope in /default.snap at line 6");
    }
 }
