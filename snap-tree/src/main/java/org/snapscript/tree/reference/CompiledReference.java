@@ -1,6 +1,6 @@
 package org.snapscript.tree.reference;
 
-import static org.snapscript.core.type.Phase.DEFINED;
+import static org.snapscript.core.type.Phase.DEFINE;
 
 import org.snapscript.common.Progress;
 import org.snapscript.core.Evaluation;
@@ -34,7 +34,7 @@ public class CompiledReference extends TypeReference {
          Type result = value.getType(scope);
          Progress<Phase> progress = result.getProgress();
          
-         if(!progress.wait(DEFINED, duration)) {
+         if(!progress.wait(DEFINE, duration)) {
             throw new InternalStateException("Type '" + result + "' not compiled");
          }
          constraint = value;
@@ -49,7 +49,7 @@ public class CompiledReference extends TypeReference {
          Type result = value.getValue();
          Progress<Phase> progress = result.getProgress();
          
-         if(!progress.wait(DEFINED, duration)) {
+         if(!progress.wait(DEFINE, duration)) {
             throw new InternalStateException("Type '" + result + "' not compiled");
          }
          type = value;

@@ -1,12 +1,14 @@
 package org.snapscript.core.function.dispatch;
 
-import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.Value;
-import org.snapscript.core.type.Type;
+import static org.snapscript.core.error.Reason.INVOKE;
+
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.function.search.FunctionCall;
 import org.snapscript.core.function.search.FunctionSearcher;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.Value;
+import org.snapscript.core.type.Type;
 
 public class TypeStaticDispatcher implements FunctionDispatcher<Type> {
    
@@ -28,20 +30,20 @@ public class TypeStaticDispatcher implements FunctionDispatcher<Type> {
          call = binder.searchInstance(scope, type, name, arguments);
       }
       if(call == null) {
-         handler.handleCompileError(scope, type, name, arguments);
+         handler.handleCompileError(INVOKE, scope, type, name, arguments);
       }
       return call.check();
    } 
 
    @Override
-   public Value dispatch(Scope scope, Type type, Object... arguments) throws Exception {   
+   public Value evaluate(Scope scope, Type type, Object... arguments) throws Exception {   
       FunctionCall call = binder.searchStatic(scope, type, name, arguments);
 
       if(call == null) {
          call = binder.searchInstance(scope, type, name, arguments);
       }
       if(call == null) {
-         handler.handleRuntimeError(scope, type, name, arguments);
+         handler.handleRuntimeError(INVOKE, scope, type, name, arguments);
       }
       return call.call();          
    } 

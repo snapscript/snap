@@ -1,11 +1,10 @@
 package org.snapscript.core.function.dispatch;
 
+import static org.snapscript.core.constraint.Constraint.NONE;
+import static org.snapscript.core.error.Reason.INVOKE;
+
 import java.util.List;
 
-import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.Value;
-import org.snapscript.core.type.Any;
-import org.snapscript.core.type.Type;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
@@ -14,6 +13,10 @@ import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.Signature;
 import org.snapscript.core.function.search.FunctionCall;
 import org.snapscript.core.function.search.FunctionSearcher;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.Value;
+import org.snapscript.core.type.Any;
+import org.snapscript.core.type.Type;
 
 public class ClosureDispatcher implements FunctionDispatcher<Function> {
 
@@ -29,15 +32,15 @@ public class ClosureDispatcher implements FunctionDispatcher<Function> {
    
    @Override
    public Constraint compile(Scope scope, Type function, Type... arguments) throws Exception { 
-      return Constraint.NONE;
+      return NONE;
    }
 
    @Override
-   public Value dispatch(Scope scope, Function function, Object... arguments) throws Exception {
+   public Value evaluate(Scope scope, Function function, Object... arguments) throws Exception {
       FunctionCall call = bind(scope, function, arguments); // this is not used often
       
       if(call == null) {
-         handler.handleRuntimeError(scope, function, name, arguments);
+         handler.handleRuntimeError(INVOKE, scope, function, name, arguments);
       }
       return call.call();
    }

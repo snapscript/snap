@@ -14,7 +14,7 @@ public class EmptyPointer implements VariablePointer {
    }
 
    @Override
-   public Constraint check(Scope scope, Constraint left) {
+   public Constraint compile(Scope scope, Constraint left) {
       return NONE;
    }
 

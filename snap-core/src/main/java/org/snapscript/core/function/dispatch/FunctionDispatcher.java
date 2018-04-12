@@ -7,5 +7,5 @@ import org.snapscript.core.constraint.Constraint;
                    
 public interface FunctionDispatcher<T> {
    Constraint compile(Scope scope, Type object, Type... arguments) throws Exception;
-   Value dispatch(Scope scope, T object, Object... arguments) throws Exception;
+   Value evaluate(Scope scope, T object, Object... arguments) throws Exception;
 }

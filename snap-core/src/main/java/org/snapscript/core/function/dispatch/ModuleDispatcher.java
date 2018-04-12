@@ -1,15 +1,15 @@
 package org.snapscript.core.function.dispatch;
 
-import static org.snapscript.core.constraint.Constraint.NONE;
+import static org.snapscript.core.error.Reason.INVOKE;
 
-import org.snapscript.core.module.Module;
-import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.Value;
-import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.function.search.FunctionCall;
 import org.snapscript.core.function.search.FunctionSearcher;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.Value;
+import org.snapscript.core.type.Type;
 
 public class ModuleDispatcher implements FunctionDispatcher<Module> {
    
@@ -29,18 +29,17 @@ public class ModuleDispatcher implements FunctionDispatcher<Module> {
       FunctionCall call = bind(scope, module, arguments);
       
       if(call == null) {
-         handler.handleCompileError(scope, type, name, arguments);
-         return NONE;
+         handler.handleCompileError(INVOKE, scope, type, name, arguments);
       }
       return call.check();    
    }
 
    @Override
-   public Value dispatch(Scope scope, Module module, Object... arguments) throws Exception {   
+   public Value evaluate(Scope scope, Module module, Object... arguments) throws Exception {   
       FunctionCall call = bind(scope, module, arguments);
       
       if(call == null) {
-         handler.handleRuntimeError(scope, module, name, arguments);
+         handler.handleRuntimeError(INVOKE, scope, module, name, arguments);
       }
       return call.call();           
    }

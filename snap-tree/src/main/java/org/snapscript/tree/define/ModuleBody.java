@@ -35,9 +35,11 @@ public class ModuleBody extends Statement {
    @Override
    public void create(Scope scope) throws Exception {
       if(create.compareAndSet(true, false)) {
+         Module module = scope.getModule();
+         
          for(int i = 0; i < parts.length; i++) {
             ModulePart part = parts[i];
-            Statement statement = part.define(this);
+            Statement statement = part.define(this, module);
             
             statement.create(scope);
             statements[i] = statement;           

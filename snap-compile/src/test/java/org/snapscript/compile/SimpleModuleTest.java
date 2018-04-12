@@ -6,8 +6,8 @@ public class SimpleModuleTest extends TestCase {
    
    private static final String SOURCE =
    "module Mod{\n"+
-   "   private const x=1;\n"+
-   "   private const y=x+1;\n"+
+   "   public const x=1;\n"+
+   "   public const y=x+1;\n"+
    "   if(y>x){\n"+
    "      println('y>x');\n"+
    "   }\n"+

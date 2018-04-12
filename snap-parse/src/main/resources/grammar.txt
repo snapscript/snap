@@ -33,9 +33,9 @@ super = 'super';
 module = 'module'; 
 
 # ((array[x])[x] -> (<var>[])
-variable = {<this> | <class> | <module> | [identifier] | [type]};
+variable = {<class> | <module> | [identifier] | [type]};
          
-variable-reference = {<super> | <variable>};
+variable-reference = {<super> | <this> | <variable>};
 
 range = <argument>'..'<argument>;
 
@@ -51,18 +51,20 @@ function-reference = <variable-reference> '::' <function>;
 reference-curry = <function-argument-list>;
 reference-invocation = <function> ( '(' <function-argument-list> ')' )* { '(' <reference-curry>')' | '['<reference-index>']' }; 
 reference-index = <argument>;
-reference = { <reference-type> |
-			  <reference-chain> } ;
 
+reference-property = {<class> | [identifier] | [type]};
 reference-part = { <collection-index> |
 				   <reference-invocation> | 
 				   <function-reference> |
-				   <variable-reference> | 
+				   <reference-property> | 
 				   <literal> };
 			   				   
 reference-navigation = <reference-part>*(<reference-operator><reference-navigation>);
 reference-constraint = <array-constraint>;
-reference-variable = { <collection-index> |
+
+
+reference-variable = { <reference-constraint> |
+					   <collection-index> |
 					   <function-invocation> | 
 					   <construct> | 
 					   <closure> | 
@@ -71,8 +73,7 @@ reference-variable = { <collection-index> |
 					   <literal> |					   
 					   '(' <cast> ')' };
 				   
-reference-chain = <reference-variable>*(<reference-operator><reference-navigation>);				   
-reference-type = <reference-constraint>*(<reference-operator><reference-navigation>);
+reference = <reference-variable>*(<reference-operator><reference-navigation>);				   
       
 list-entry = <argument>;
 list-entry-list = <list-entry>*(','<list-entry>);

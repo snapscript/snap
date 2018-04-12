@@ -58,52 +58,46 @@ public class Variable implements Compilation {
       
       @Override
       public Constraint compile(Scope scope, Constraint left) throws Exception{
-         if(left == null) {
-            int depth = offset.get();
+         int depth = offset.get();
+         
+         if(depth == -1){
+            State state = scope.getState();
+            Value value = state.get(name);
             
-            if(depth == -1){
-               State state = scope.getState();
-               Value value = state.get(name);
-               
-               if(value != null) { 
-                  return value;
-               }
-            }else {
-               Table table = scope.getTable();
-               Value value = table.get(depth);
-   
-               if(value != null) { 
-                  return value;
-               }
+            if(value != null) { 
+               return value;
             }
-            return binder.check(scope);
+         }else {
+            Table table = scope.getTable();
+            Value value = table.get(depth);
+
+            if(value != null) { 
+               return value;
+            }
          }
-         return binder.check(scope, left);
+         return binder.compile(scope);
       } 
       
       @Override
       public Value evaluate(Scope scope, Object left) throws Exception{
-         if(left == null) {
-            int depth = offset.get();
+         int depth = offset.get();
+         
+         if(depth == -1){
+            State state = scope.getState();
+            Value value = state.get(name);
             
-            if(depth == -1){
-               State state = scope.getState();
-               Value value = state.get(name);
-               
-               if(value != null) { 
-                  return value;
-               }
-            }else {
-               Table table = scope.getTable();
-               Value value = table.get(depth);
-   
-               if(value != null) { 
-                  return value;
-               }
+            if(value != null) { 
+               return value;
             }
-            return binder.bind(scope);
+         }else {
+            Table table = scope.getTable();
+            Value value = table.get(depth);
+
+            if(value != null) { 
+               return value;
+            }
          }
-         return binder.bind(scope, left);
+         return binder.evaluate(scope);
       } 
    }
 }

@@ -13,8 +13,8 @@ import static org.snapscript.core.Reserved.METHOD_WAIT;
 import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
 import static org.snapscript.core.Reserved.TYPE_THIS;
 import static org.snapscript.core.type.Category.CLASS;
-import static org.snapscript.core.type.Phase.CREATED;
-import static org.snapscript.core.type.Phase.DEFINED;
+import static org.snapscript.core.type.Phase.CREATE;
+import static org.snapscript.core.type.Phase.DEFINE;
 
 import java.util.List;
 
@@ -48,7 +48,7 @@ public class AnyDefinition{
       Progress<Phase> progress = result.getProgress();
       List<Function> functions = result.getFunctions();
       
-      if(progress.done(CREATED)) {
+      if(progress.done(CREATE)) {
          Function constructor = builder.create(result, TYPE_CONSTRUCTOR, NewInvocation.class, Object.class);
          Function hashCode = builder.create(result, METHOD_HASH_CODE, HashCodeInvocation.class);
          Function toString = builder.create(result, METHOD_TO_STRING, ToStringInvocation.class);
@@ -66,9 +66,9 @@ public class AnyDefinition{
          functions.add(hashCode);
          functions.add(equals);
          functions.add(toString);
-         progress.done(DEFINED);
+         progress.done(DEFINE);
       }
-      progress.wait(DEFINED);
+      progress.wait(DEFINE);
       return result;
    }
    

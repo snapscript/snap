@@ -1,20 +1,21 @@
 package org.snapscript.core.function.dispatch;
 
 import static org.snapscript.core.constraint.Constraint.NONE;
+import static org.snapscript.core.error.Reason.INVOKE;
 
 import java.util.Map;
-import java.util.concurrent.Callable;
 
 import org.snapscript.core.Context;
+import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.convert.proxy.ProxyWrapper;
+import org.snapscript.core.error.Reason;
+import org.snapscript.core.error.ErrorHandler;
+import org.snapscript.core.function.search.FunctionCall;
+import org.snapscript.core.function.search.FunctionSearcher;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.Value;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.convert.proxy.ProxyWrapper;
-import org.snapscript.core.error.ErrorHandler;
-import org.snapscript.core.function.search.FunctionCall;
-import org.snapscript.core.function.search.FunctionSearcher;
 
 public class MapDispatcher implements FunctionDispatcher<Map> {
    
@@ -39,11 +40,11 @@ public class MapDispatcher implements FunctionDispatcher<Map> {
    }
    
    @Override
-   public Value dispatch(Scope scope, Map map, Object... arguments) throws Exception {
+   public Value evaluate(Scope scope, Map map, Object... arguments) throws Exception {
       FunctionCall call = bind(scope, map, arguments);
       
       if(call == null) {
-         handler.handleRuntimeError(scope, map, name, arguments);
+         handler.handleRuntimeError(INVOKE, scope, map, name, arguments);
       }
       return call.call();
    }

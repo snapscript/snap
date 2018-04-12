@@ -1,5 +1,7 @@
 package org.snapscript.core.convert.proxy;
 
+import static org.snapscript.core.error.Reason.THROW;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
@@ -35,7 +37,7 @@ public class TraceProxyHandler implements ProxyHandler {
          interceptor.traceBefore(scope, trace);
          return delegate.invoke(proxy, method, list); 
       } catch(Exception cause) {
-         return handler.handleInternalError(scope, cause);
+         return handler.handleInternalError(THROW, scope, cause);
       } finally {
          interceptor.traceAfter(scope, trace);
       }

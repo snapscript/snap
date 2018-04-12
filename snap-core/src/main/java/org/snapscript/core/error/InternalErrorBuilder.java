@@ -50,14 +50,7 @@ public class InternalErrorBuilder {
       return error;
    }
    
-   public InternalException createCompileException(Object value) {
-      if(Throwable.class.isInstance(value)) {
-         return new InternalStateException((Throwable)value);
-      }
-      return new InternalStateException(String.valueOf(value));
-   }
-   
-   public InternalException createRuntimeException(Object value) {
+   public InternalException createInternalException(Object value) {
       if(Throwable.class.isInstance(value)) {
          return new InternalStateException((Throwable)value);
       }

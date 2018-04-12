@@ -1,14 +1,19 @@
 package org.snapscript.tree;
 
+import static org.snapscript.core.error.Reason.THROW;
+import static org.snapscript.core.type.Phase.EXECUTE;
+
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Execution;
 import org.snapscript.core.Statement;
+import org.snapscript.core.error.Reason;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.result.Result;
 import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Phase;
 import org.snapscript.core.yield.Resume;
 import org.snapscript.core.yield.Yield;
 
@@ -128,7 +133,7 @@ public class TryStatement implements Compilation {
             if(result.isThrow()) {
                Object value = result.getValue();
                
-               handler.handleInternalError(scope, value);
+               handler.handleInternalError(THROW, scope, value);
             }
          } finally {
             if(finish != null) {

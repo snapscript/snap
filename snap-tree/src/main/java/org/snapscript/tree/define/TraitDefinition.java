@@ -2,9 +2,9 @@ package org.snapscript.tree.define;
 
 import static org.snapscript.core.result.Result.NORMAL;
 import static org.snapscript.core.type.Category.TRAIT;
-import static org.snapscript.core.type.Phase.COMPILED;
-import static org.snapscript.core.type.Phase.CREATED;
-import static org.snapscript.core.type.Phase.DEFINED;
+import static org.snapscript.core.type.Phase.COMPILE;
+import static org.snapscript.core.type.Phase.CREATE;
+import static org.snapscript.core.type.Phase.DEFINE;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -55,7 +55,7 @@ public class TraitDefinition extends Statement {
                part.create(collector, type, scope);               
             } 
          } finally {
-            progress.done(CREATED);
+            progress.done(CREATE);
          }
       }
    }
@@ -77,7 +77,7 @@ public class TraitDefinition extends Statement {
             collector.define(scope, type);
             generator.generate(type);
          } finally {
-            progress.done(DEFINED); 
+            progress.done(DEFINE); 
          }
       }
       return true;
@@ -97,7 +97,7 @@ public class TraitDefinition extends Statement {
             } 
             collector.compile(local, type);
          } finally {
-            progress.done(COMPILED); 
+            progress.done(COMPILE); 
          }
       }
       return execution;

@@ -1,10 +1,13 @@
 package org.snapscript.tree.variable;
 
+import static org.snapscript.core.error.Reason.REFERENCE;
+
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.proxy.ProxyWrapper;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.Value;
+import org.snapscript.core.type.Type;
 import org.snapscript.tree.variable.pointer.VariablePointer;
 import org.snapscript.tree.variable.pointer.VariablePointerResolver;
 
@@ -22,43 +25,44 @@ public class VariableBinder {
       this.name = name;
    }
    
-   public Constraint check(Scope scope) throws Exception {
+   public Constraint compile(Scope scope) throws Exception {
       VariablePointer pointer = resolver.resolve(scope);
-      Constraint value = pointer.check(scope, null);
+      Constraint value = pointer.compile(scope, null);
       
       if(value == null) {
-         handler.handleCompileError(scope, name);
+         handler.handleCompileError(REFERENCE, scope, name);
       }
       return value;
    }
    
-   public Constraint check(Scope scope, Constraint left) throws Exception {
+   public Constraint compile(Scope scope, Constraint left) throws Exception {
       VariablePointer pointer = resolver.resolve(scope, left);
-      Constraint value = pointer.check(scope, left);
+      Constraint value = pointer.compile(scope, left);
+      Type type = left.getType(scope);
       
       if(value == null) {
-         handler.handleCompileError(scope, name);
+         handler.handleCompileError(REFERENCE, scope, type, name);
       }
       return value;
    }
    
-   public Value bind(Scope scope) throws Exception {
+   public Value evaluate(Scope scope) throws Exception {
       VariablePointer pointer = resolver.resolve(scope);
       Value value = pointer.get(scope, null);
       
       if(value == null) {
-         handler.handleRuntimeError(scope, name);
+         handler.handleRuntimeError(REFERENCE, scope, name);
       }
       return value;
    }
    
-   public Value bind(Scope scope, Object left) throws Exception {
+   public Value evaluate(Scope scope, Object left) throws Exception {
       Object object = wrapper.fromProxy(left); // what about double wrapping?
       VariablePointer pointer = resolver.resolve(scope, object);
       Value value = pointer.get(scope, object);
       
       if(value == null) {
-         handler.handleRuntimeError(scope, name);
+         handler.handleRuntimeError(REFERENCE, scope, object, name);
       }
       return value;
    }

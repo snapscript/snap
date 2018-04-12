@@ -1,6 +1,7 @@
 package org.snapscript.tree.define;
 
 import org.snapscript.core.Statement;
+import org.snapscript.core.module.Module;
 
 public class ModuleStatement implements ModulePart {
    
@@ -11,7 +12,7 @@ public class ModuleStatement implements ModulePart {
    }
 
    @Override
-   public Statement define(ModuleBody body) throws Exception {
+   public Statement define(ModuleBody body, Module module) throws Exception {
       return statement;
    }
 

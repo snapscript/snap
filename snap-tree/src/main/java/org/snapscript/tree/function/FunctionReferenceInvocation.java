@@ -31,7 +31,7 @@ public class FunctionReferenceInvocation implements Invocation {
       Scope actual = module.getScope();
       Object[] arguments = aligner.align(list); // align constructor arguments
       FunctionDispatcher dispatcher = holder.get(actual, value);
-      Value result = dispatcher.dispatch(actual, value, arguments);
+      Value result = dispatcher.evaluate(actual, value, arguments);
       
       return result.getValue();
    }

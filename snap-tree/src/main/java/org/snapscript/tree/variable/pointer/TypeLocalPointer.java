@@ -29,7 +29,7 @@ public class TypeLocalPointer implements VariablePointer<Scope> {
    }
    
    @Override
-   public Constraint check(Scope scope, Constraint left) {
+   public Constraint compile(Scope scope, Constraint left) {
       Scope instance = binder.bind(scope, scope);
       State state = instance.getState();
       Value value = state.get(name);

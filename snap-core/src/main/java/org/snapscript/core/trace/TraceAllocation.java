@@ -1,13 +1,15 @@
 package org.snapscript.core.trace;
 
+import static org.snapscript.core.error.Reason.THROW;
 import static org.snapscript.core.type.Order.OTHER;
 
+import org.snapscript.core.error.Reason;
+import org.snapscript.core.error.ErrorHandler;
+import org.snapscript.core.result.Result;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Allocation;
 import org.snapscript.core.type.Order;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.error.ErrorHandler;
-import org.snapscript.core.result.Result;
 
 public class TraceAllocation extends Allocation {
 
@@ -47,7 +49,7 @@ public class TraceAllocation extends Allocation {
       try {
          factory.allocate(scope, type);
       }catch(Exception cause) {
-         handler.handleInternalError(scope, cause, trace);
+         handler.handleInternalError(THROW, scope, cause, trace);
       }
    }
    
@@ -56,7 +58,7 @@ public class TraceAllocation extends Allocation {
       try {
          return factory.execute(scope, type);
       }catch(Exception cause) {
-         handler.handleInternalError(scope, cause, trace);
+         handler.handleInternalError(THROW, scope, cause, trace);
       }
       return null;
    }

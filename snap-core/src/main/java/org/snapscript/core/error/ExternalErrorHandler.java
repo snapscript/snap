@@ -10,7 +10,7 @@ public class ExternalErrorHandler {
       super();
    }
 
-   public Result throwExternal(Scope scope, Object cause) throws Exception {
+   public Result handleError(Scope scope, Object cause) throws Exception {
       if(Exception.class.isInstance(cause)) {
          throw (Exception)cause;
       }

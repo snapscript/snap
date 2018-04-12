@@ -28,7 +28,7 @@ public class SuperDispatcher implements FunctionDispatcher<Object> {
    }
    
    @Override
-   public Value dispatch(Scope scope, Object object, Object... list) throws Exception {
+   public Value evaluate(Scope scope, Object object, Object... list) throws Exception {
       Type real = (Type)list[0];
       Module module = scope.getModule();
       Context context = module.getContext();

@@ -1,10 +1,14 @@
 package org.snapscript.tree;
 
+import static org.snapscript.core.error.Reason.THROW;
+import static org.snapscript.core.type.Phase.EXECUTE;
+
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Execution;
 import org.snapscript.core.Statement;
+import org.snapscript.core.error.Reason;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
@@ -14,6 +18,7 @@ import org.snapscript.core.scope.Value;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.trace.TraceStatement;
+import org.snapscript.core.type.Phase;
 
 public class ThrowStatement implements Compilation {
    
@@ -70,7 +75,7 @@ public class ThrowStatement implements Compilation {
          ErrorHandler handler = context.getHandler();
          Object value = reference.getValue();
          
-         return handler.handleInternalError(scope, value); 
+         return handler.handleInternalError(THROW, scope, value); 
       }
    }
 

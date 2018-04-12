@@ -1,15 +1,19 @@
 package org.snapscript.core.function.dispatch;
 
-import static org.snapscript.core.constraint.Constraint.NONE;
+import static org.snapscript.core.error.Reason.INVOKE;
+import static org.snapscript.core.type.Phase.COMPILE;
+import static org.snapscript.core.type.Phase.EXECUTE;
 
-import org.snapscript.core.module.Module;
-import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.Value;
-import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.error.Reason;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.function.search.FunctionCall;
 import org.snapscript.core.function.search.FunctionSearcher;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.Value;
+import org.snapscript.core.type.Phase;
+import org.snapscript.core.type.Type;
 
 public class TypeLocalDispatcher implements FunctionDispatcher<Scope> {
    
@@ -31,24 +35,26 @@ public class TypeLocalDispatcher implements FunctionDispatcher<Scope> {
          Type type = scope.getType();
          
          if(type != null) {
-            handler.handleCompileError(scope, type, name, arguments);
+            handler.handleCompileError(INVOKE, scope, type, name, arguments);
+         } else {
+            handler.handleCompileError(INVOKE, scope, name, arguments);
          }
-         handler.handleCompileError(scope, name, arguments);
       }
       return match.check();   
    }
 
    @Override
-   public Value dispatch(Scope scope, Scope object, Object... arguments) throws Exception {
+   public Value evaluate(Scope scope, Scope object, Object... arguments) throws Exception {
       FunctionCall match = bind(scope, object, arguments);
       
       if(match == null) {
          Type type = object.getType();
          
          if(type != null) {
-            handler.handleRuntimeError(scope, type, name, arguments);
+            handler.handleRuntimeError(INVOKE, scope, type, name, arguments);
+         } else {
+            handler.handleRuntimeError(INVOKE, scope, name, arguments);
          }
-         handler.handleRuntimeError(scope, name, arguments);
       }
       return match.call();          
    }

@@ -93,7 +93,7 @@ public class ReferenceInvocation implements Compilation {
          String name = reference.getName(scope); 
          Object[] array = arguments.create(scope); 
          FunctionDispatcher handler = holder.get(scope, left);
-         Value value = handler.dispatch(scope, left, array);
+         Value value = handler.evaluate(scope, left, array);
          
          for(Evaluation evaluation : evaluations) {
             Object result = value.getValue();

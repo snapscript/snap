@@ -25,13 +25,12 @@ import org.snapscript.tree.function.ParameterList;
 
 public class ModuleFunction implements ModulePart {
    
-   private final TypeScopeCompiler compiler;
+   private final DeclarationConstraint constraint;
    private final AnnotationList annotations;
    private final ParameterList parameters;
    private final NameReference reference;
-   private final Constraint constraint;
+   private final ModifierList modifiers;
    private final Statement statement;
-   private final Execution execution;
    
    public ModuleFunction(AnnotationList annotations, ModifierList modifiers, Evaluation identifier, ParameterList parameters, Statement statement){  
       this(annotations, modifiers, identifier, parameters, null, statement);
@@ -40,26 +39,37 @@ public class ModuleFunction implements ModulePart {
    public ModuleFunction(AnnotationList annotations, ModifierList modifiers, Evaluation identifier, ParameterList parameters, Constraint constraint, Statement statement){  
       this.constraint = new DeclarationConstraint(constraint);
       this.reference = new NameReference(identifier);
-      this.execution = new NoExecution(NORMAL);
-      this.compiler = new TypeScopeCompiler();
       this.annotations = annotations;
       this.parameters = parameters;
       this.statement = statement;
+      this.modifiers = modifiers;
    }  
    
    @Override
-   public Statement define(ModuleBody body) throws Exception {
-      return new DefineResult(body, statement);
+   public Statement define(ModuleBody body, Module module) throws Exception {
+      Scope scope = module.getScope();
+      String name = reference.getName(scope);
+      int mask = modifiers.getModifiers();
+      
+      return new DefineResult(body, statement, name, mask);
    }
    
    private class DefineResult extends Statement {
    
       private final AtomicReference<FunctionHandle> cache;
       private final ModuleFunctionBuilder builder;
+      private final TypeScopeCompiler compiler;
+      private final Execution execution;
+      private final String name;
+      private final int modifiers;
       
-      public DefineResult(ModuleBody body, Statement statement) {
+      public DefineResult(ModuleBody body, Statement statement, String name, int modifiers) {
          this.builder = new ModuleFunctionBuilder(body, statement);
          this.cache = new AtomicReference<FunctionHandle>();
+         this.execution = new NoExecution(NORMAL);
+         this.compiler = new TypeScopeCompiler();
+         this.modifiers = modifiers;
+         this.name = name;
       }
       
       @Override
@@ -67,8 +77,8 @@ public class ModuleFunction implements ModulePart {
          Module module = scope.getModule();
          List<Function> functions = module.getFunctions();
          Signature signature = parameters.create(scope);
-         String name = reference.getName(scope);
-         FunctionHandle handle = builder.create(signature, module, constraint, name);
+         Constraint require = constraint.getConstraint(scope, modifiers);
+         FunctionHandle handle = builder.create(signature, module, require, name);
          Function function = handle.create(scope);
          Constraint constraint = function.getConstraint();         
 

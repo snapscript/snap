@@ -1,6 +1,7 @@
 package org.snapscript.core.function.dispatch;
 
 import static org.snapscript.core.constraint.Constraint.NONE;
+import static org.snapscript.core.error.Reason.INVOKE;
 
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
@@ -28,11 +29,11 @@ public class ValueDispatcher implements FunctionDispatcher<Value> {
    }
 
    @Override
-   public Value dispatch(Scope scope, Value value, Object... list) throws Exception {
+   public Value evaluate(Scope scope, Value value, Object... list) throws Exception {
       FunctionCall closure = binder.searchValue(value, list); // function variable
       
       if(closure == null) {
-         handler.handleRuntimeError(scope, name, list);
+         handler.handleRuntimeError(INVOKE, scope, name, list);
       }
       return closure.call();   
    }

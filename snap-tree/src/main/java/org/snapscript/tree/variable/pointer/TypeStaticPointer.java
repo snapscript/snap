@@ -25,7 +25,7 @@ public class TypeStaticPointer implements VariablePointer<Type> {
    }
 
    @Override
-   public Constraint check(Scope scope, Constraint left) {
+   public Constraint compile(Scope scope, Constraint left) {
       Property property = reference.get();
       
       if(property == null) {

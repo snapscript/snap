@@ -17,7 +17,6 @@ public class IdentityConstraint extends Constraint {
       this.modifiers = modifiers;
       this.type = type;
    }
-   
 
    @Override
    public Type getType(Scope scope) {
@@ -36,6 +35,6 @@ public class IdentityConstraint extends Constraint {
    
    @Override
    public boolean isClass(){
-      return !ModifierType.isClass(modifiers);
+      return ModifierType.isClass(modifiers);
    }
 }

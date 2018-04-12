@@ -1,5 +1,7 @@
 package org.snapscript.compile.assemble;
 
+import static org.snapscript.core.error.Reason.THROW;
+
 import org.snapscript.compile.Executable;
 import org.snapscript.core.Context;
 import org.snapscript.core.Execution;
@@ -43,7 +45,7 @@ public class Application implements Executable{
       try {
          execution.execute(scope);
       } catch(Throwable cause) {
-         handler.handleExternalError(scope, cause);
+         handler.handleExternalError(THROW, scope, cause);
       }
    }
 }

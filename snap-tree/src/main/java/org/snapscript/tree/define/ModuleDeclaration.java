@@ -54,7 +54,7 @@ public class ModuleDeclaration implements Compilation {
       }  
       
       @Override
-      public Statement define(ModuleBody body) throws Exception {
+      public Statement define(ModuleBody body, Module module) throws Exception {
          Context context = module.getContext();
          ErrorHandler handler = context.getHandler();
          TraceInterceptor interceptor = context.getInterceptor();

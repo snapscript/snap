@@ -1,9 +1,9 @@
 package org.snapscript.tree.define;
 
 import static org.snapscript.core.result.Result.NORMAL;
-import static org.snapscript.core.type.Phase.COMPILED;
-import static org.snapscript.core.type.Phase.CREATED;
-import static org.snapscript.core.type.Phase.DEFINED;
+import static org.snapscript.core.type.Phase.COMPILE;
+import static org.snapscript.core.type.Phase.CREATE;
+import static org.snapscript.core.type.Phase.DEFINE;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -48,7 +48,7 @@ public class EnumDefinition extends Statement {
          Type type = builder.create(collector, outer);
          Progress<Phase> progress = type.getProgress();
       
-         progress.done(CREATED);
+         progress.done(CREATE);
       }
    }
 
@@ -70,7 +70,7 @@ public class EnumDefinition extends Statement {
             constructor.define(collector, type, scope); 
             collector.define(scope, type); 
          } finally {
-            progress.done(DEFINED);
+            progress.done(DEFINE);
          }
       }
       return true;
@@ -91,7 +91,7 @@ public class EnumDefinition extends Statement {
             constructor.compile(collector, type, local); 
             collector.compile(local, type);
          } finally {
-            progress.done(COMPILED);
+            progress.done(COMPILE);
          }
       }
       return execution;
