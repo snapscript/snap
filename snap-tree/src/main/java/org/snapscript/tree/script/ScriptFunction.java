@@ -12,7 +12,7 @@ import org.snapscript.core.NoExecution;
 import org.snapscript.core.Statement;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
-import org.snapscript.core.function.FunctionHandle;
+import org.snapscript.core.function.FunctionBody;
 import org.snapscript.core.function.Signature;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
@@ -25,7 +25,7 @@ import org.snapscript.tree.function.ParameterList;
 
 public class ScriptFunction extends Statement {
    
-   private final AtomicReference<FunctionHandle> reference;
+   private final AtomicReference<FunctionBody> reference;
    private final ScopeCompiler compiler;
    private final ParameterList parameters;
    private final FunctionBuilder builder;
@@ -38,7 +38,7 @@ public class ScriptFunction extends Statement {
    }
    
    public ScriptFunction(Evaluation identifier, ParameterList parameters, Constraint constraint, Statement body){  
-      this.reference = new AtomicReference<FunctionHandle>();
+      this.reference = new AtomicReference<FunctionBody>();
       this.constraint = new DeclarationConstraint(constraint);
       this.identifier = new NameReference(identifier);
       this.builder = new ScriptFunctionBuilder(body);
@@ -53,30 +53,30 @@ public class ScriptFunction extends Statement {
       List<Function> functions = module.getFunctions();
       Signature signature = parameters.create(scope);
       String name = identifier.getName(scope);
-      FunctionHandle handle = builder.create(signature, module, constraint, name);
-      Function function = handle.create(scope);
+      FunctionBody body = builder.create(signature, module, constraint, name);
+      Function function = body.create(scope);
       Constraint constraint = function.getConstraint();
       
       functions.add(function);
-      handle.define(scope); // count stack
+      body.define(scope); // count stack
       constraint.getType(scope);
-      reference.set(handle);
+      reference.set(body);
       
       return false;
    }
    
    @Override
    public Execution compile(Scope scope) throws Exception {
-      FunctionHandle handle = reference.get();
+      FunctionBody body = reference.get();
       String name = identifier.getName(scope);      
       
-      if(handle == null) {
+      if(body == null) {
          throw new InternalStateException("Function '" + name + "' was not compiled");
       }
-      Function function = handle.create(scope);
+      Function function = body.create(scope);
       Scope combined = compiler.compile(scope, null, function);
       
-      handle.compile(combined);
+      body.compile(combined);
       
       return execution;
    }

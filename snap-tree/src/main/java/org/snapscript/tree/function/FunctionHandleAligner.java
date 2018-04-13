@@ -4,12 +4,12 @@ import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
 
 import org.snapscript.core.type.index.ScopeType;
 
-public class FunctionReferenceAligner {
+public class FunctionHandleAligner {
    
    private final String method;
    private final Object value;
 
-   public FunctionReferenceAligner(Object value, String method){
+   public FunctionHandleAligner(Object value, String method){
       this.method = method;
       this.value = value;
    }

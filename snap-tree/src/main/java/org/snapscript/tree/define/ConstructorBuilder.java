@@ -9,7 +9,7 @@ import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.constraint.IdentityConstraint;
 import org.snapscript.core.function.Function;
-import org.snapscript.core.function.FunctionHandle;
+import org.snapscript.core.function.FunctionBody;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationBuilder;
 import org.snapscript.core.function.InvocationFunction;
@@ -34,7 +34,7 @@ public class ConstructorBuilder {
       return create(body, type, modifiers);
    }
    
-   public FunctionHandle create(TypeBody body, Type type, int modifiers, boolean compile) {
+   public FunctionBody create(TypeBody body, Type type, int modifiers, boolean compile) {
       Constraint none = new IdentityConstraint(null);
       InvocationBuilder external = new StatementInvocationBuilder(signature, statement, none);
       Invocation invocation = new StatementInvocation(external);
@@ -45,6 +45,6 @@ public class ConstructorBuilder {
       Constraint constraint = new IdentityConstraint(type);
       Function function = new InvocationFunction(signature, constructor, type, constraint, TYPE_CONSTRUCTOR, modifiers | STATIC.mask, 1);
       
-      return new FunctionHandle(external, internal, function);
+      return new FunctionBody(external, internal, function);
    }
 }

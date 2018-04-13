@@ -6,7 +6,7 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
-import org.snapscript.core.function.FunctionHandle;
+import org.snapscript.core.function.FunctionBody;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationBuilder;
 import org.snapscript.core.function.InvocationFunction;
@@ -31,12 +31,12 @@ public class StaticFunctionBuilder implements MemberFunctionBuilder {
    }
    
    @Override
-   public FunctionHandle create(TypeBody body, Scope scope, Type type){
+   public FunctionBody create(TypeBody body, Scope scope, Type type){
       Execution execution = new StaticBody(body, type); 
       InvocationBuilder builder = new StaticInvocationBuilder(signature, execution, statement, constraint);
       Invocation invocation = new StaticInvocation(builder, scope);
       Function function = new InvocationFunction(signature, invocation, type, constraint, name, modifiers);
       
-      return new FunctionHandle(builder, null, function);
+      return new FunctionBody(builder, null, function);
    }
 }

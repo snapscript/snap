@@ -39,31 +39,30 @@ variable-reference = {<super> | <this> | <variable>};
 
 range = <argument>'..'<argument>;
 
-collection-index = <variable-reference> ( '[' <argument> ']' ) * { '('<reference-curry>')' | '['<reference-index>']' };
+apply-index = <argument>;
+apply-invocation = <function-argument-list>;
+apply-handle = <function>;
+
+collection-index = <variable-reference> ( '[' <argument> ']' ) * { '('<apply-invocation>')' | '['<apply-index>']' };
  
 constructor = 'new';
 
 function = {<constructor> | [identifier]};
 function-argument-list = ?<argument>*(','<argument>);
-function-invocation = <function> ( '(' <function-argument-list> ')' )* { '(' <reference-curry>')' | '['<reference-index>']' }; 
+function-invocation = <function> ( '(' <function-argument-list> ')' ) *{ '(' <apply-invocation>')' | '['<apply-index>']' }; 
 function-reference = <variable-reference> '::' <function>;
 
-reference-curry = <function-argument-list>;
-reference-invocation = <function> ( '(' <function-argument-list> ')' )* { '(' <reference-curry>')' | '['<reference-index>']' }; 
-reference-index = <argument>;
-
-reference-property = {<class> | [identifier] | [type]};
-reference-part = { <collection-index> |
-				   <reference-invocation> | 
-				   <function-reference> |
-				   <reference-property> | 
+reference-invocation = <function> ( '(' <function-argument-list> ')' ) *{ '(' <apply-invocation>')' | '['<apply-index>']' }; 
+reference-property = { <class> | 
+					  [identifier] *( '[' <apply-index> ']' ) ?('::' <apply-handle>) | 
+					  [type] };
+					  
+reference-part = { <reference-invocation> | 
+				   <reference-property> |
 				   <literal> };
 			   				   
 reference-navigation = <reference-part>*(<reference-operator><reference-navigation>);
-reference-constraint = <array-constraint>;
-
-
-reference-variable = { <reference-constraint> |
+reference-variable = { <constraint-variable> |
 					   <collection-index> |
 					   <function-invocation> | 
 					   <construct> | 
@@ -184,6 +183,7 @@ list-constraint = '[]';
 set-constraint = '{}';
 map-constraint = '{:}';
 constraint = {<array-constraint> | <type-constraint> | <function-constraint> | <list-constraint> | <set-constraint> | <map-constraint>};
+constraint-variable = <array-constraint>;
 
 return-statement = 'return'*(?_{<expression> | <closure>})';';
 yield-statement = 'yield'*(?_{<expression> | <closure>})';';

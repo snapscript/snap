@@ -8,17 +8,17 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.Value;
 import org.snapscript.tree.NameReference;
 
-public class FunctionReferenceInvocation implements Invocation {
+public class FunctionHandleInvocation implements Invocation {
 
-   private final FunctionReferenceAligner aligner;
+   private final FunctionHandleAligner aligner;
    private final NameReference reference;
    private final FunctionHolder holder;
    private final Identity identity;
    private final Module module;
    private final Object value;
    
-   public FunctionReferenceInvocation(Module module, Object value, String method) {
-      this.aligner = new FunctionReferenceAligner(value, method);
+   public FunctionHandleInvocation(Module module, Object value, String method) {
+      this.aligner = new FunctionHandleAligner(value, method);
       this.identity = new Identity(method);
       this.reference = new NameReference(identity);
       this.holder = new FunctionHolder(reference);

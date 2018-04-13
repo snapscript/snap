@@ -16,18 +16,18 @@ import org.snapscript.core.function.InvocationFunction;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.Signature;
 
-public class FunctionReferenceBuilder {
+public class FunctionHandleBuilder {
    
    private final Parameter parameter;
    
-   public FunctionReferenceBuilder() {
+   public FunctionHandleBuilder() {
       this.parameter = new Parameter(DEFAULT_PARAMETER, null, false, true);
    }
    
    public Function create(Module module, Object value, String method) throws Exception {
       List<Parameter> parameters = new ArrayList<Parameter>();
       Signature signature = new FunctionSignature(parameters, module, null, true, true);
-      Invocation invocation = new FunctionReferenceInvocation(module, value, method);
+      Invocation invocation = new FunctionHandleInvocation(module, value, method);
       Type type = new FunctionType(signature, module, null);
       
       parameters.add(parameter);

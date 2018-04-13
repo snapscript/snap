@@ -14,7 +14,7 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
-import org.snapscript.core.function.FunctionHandle;
+import org.snapscript.core.function.FunctionBody;
 import org.snapscript.core.function.Signature;
 import org.snapscript.tree.ModifierList;
 import org.snapscript.tree.NameReference;
@@ -56,7 +56,7 @@ public class ModuleFunction implements ModulePart {
    
    private class DefineResult extends Statement {
    
-      private final AtomicReference<FunctionHandle> cache;
+      private final AtomicReference<FunctionBody> cache;
       private final ModuleFunctionBuilder builder;
       private final TypeScopeCompiler compiler;
       private final Execution execution;
@@ -65,7 +65,7 @@ public class ModuleFunction implements ModulePart {
       
       public DefineResult(ModuleBody body, Statement statement, String name, int modifiers) {
          this.builder = new ModuleFunctionBuilder(body, statement);
-         this.cache = new AtomicReference<FunctionHandle>();
+         this.cache = new AtomicReference<FunctionBody>();
          this.execution = new NoExecution(NORMAL);
          this.compiler = new TypeScopeCompiler();
          this.modifiers = modifiers;
@@ -78,28 +78,28 @@ public class ModuleFunction implements ModulePart {
          List<Function> functions = module.getFunctions();
          Signature signature = parameters.create(scope);
          Constraint require = constraint.getConstraint(scope, modifiers);
-         FunctionHandle handle = builder.create(signature, module, require, name);
-         Function function = handle.create(scope);
+         FunctionBody body = builder.create(signature, module, require, name);
+         Function function = body.create(scope);
          Constraint constraint = function.getConstraint();         
 
          annotations.apply(scope, function);
          functions.add(function);
-         handle.define(scope); // count stack
+         body.define(scope); // count stack
          constraint.getType(scope);
-         cache.set(handle);
+         cache.set(body);
          
          return false;
       }      
       
       @Override
       public Execution compile(Scope scope) throws Exception {
-         FunctionHandle handle = cache.get();
+         FunctionBody body = cache.get();
          Module module = scope.getModule();
          Type type = module.getType(); // ???
-         Function function = handle.create(scope);
+         Function function = body.create(scope);
          Scope outer = compiler.compile(scope, type, function);
 
-         handle.compile(outer);
+         body.compile(outer);
          
          return execution;
       }

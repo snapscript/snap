@@ -59,8 +59,8 @@ import org.snapscript.tree.define.TraitFunction;
 import org.snapscript.tree.define.TraitName;
 import org.snapscript.tree.define.TypeHierarchy;
 import org.snapscript.tree.define.TypeName;
+import org.snapscript.tree.function.FunctionHandle;
 import org.snapscript.tree.function.FunctionInvocation;
-import org.snapscript.tree.function.FunctionReference;
 import org.snapscript.tree.function.ParameterDeclaration;
 import org.snapscript.tree.function.ParameterList;
 import org.snapscript.tree.literal.BooleanLiteral;
@@ -78,9 +78,10 @@ import org.snapscript.tree.operation.PrefixDecrement;
 import org.snapscript.tree.operation.PrefixIncrement;
 import org.snapscript.tree.operation.PrefixOperation;
 import org.snapscript.tree.operation.SignedNumber;
-import org.snapscript.tree.reference.ReferenceConstraint;
-import org.snapscript.tree.reference.ReferenceCurry;
-import org.snapscript.tree.reference.ReferenceIndex;
+import org.snapscript.tree.reference.ApplyHandle;
+import org.snapscript.tree.reference.ApplyIndex;
+import org.snapscript.tree.reference.ApplyInvocation;
+import org.snapscript.tree.reference.ConstraintVariable;
 import org.snapscript.tree.reference.ReferenceInvocation;
 import org.snapscript.tree.reference.ReferenceNavigation;
 import org.snapscript.tree.reference.ReferencePart;
@@ -117,17 +118,17 @@ public enum Instruction {
    COLLECTION_INDEX(CollectionIndex.class, "collection-index"),     
    FUNCTION_ARGUMENT_LIST(ArgumentList.class, "function-argument-list"),
    FUNCTION_INVOCATION(FunctionInvocation.class, "function-invocation"),       
-   FUNCTION_REFERENCE(FunctionReference.class, "function-reference"),  
+   FUNCTION_REFERENCE(FunctionHandle.class, "function-reference"),  
    ARGUMENT_LIST(ArgumentList.class, "argument-list"),     
    REFERENCE(ReferenceNavigation.class, "reference"),   
-   REFERENCE_INDEX(ReferenceIndex.class, "reference-index"),
-   REFERENCE_CONSTRAINT(ReferenceConstraint.class, "reference-constraint"), // array
-   REFERENCE_CURRY(ReferenceCurry.class, "reference-curry"),  
    REFERENCE_INVOCATION(ReferenceInvocation.class, "reference-invocation"),   
    REFERENCE_NAVIGATION(ReferenceNavigation.class, "reference-navigation"),
    REFERENCE_PART(ReferencePart.class, "reference-part"),
    REFERENCE_VARIABLE(ReferencePart.class, "reference-variable"),
    REFERENCE_PROPERTY(ReferenceProperty.class, "reference-property"),
+   APPLY_INDEX(ApplyIndex.class, "apply-index"),
+   APPLY_CURRY(ApplyInvocation.class, "apply-invocation"),  
+   APPLY_HANDLE(ApplyHandle.class, "apply-handle"),  
    CALCULATION_LIST(CalculationList.class, "calculation-list"),
    CALCULATION_OPERATOR(CalculationOperator.class, "calculation-operator"),
    CALCULATION_OPERAND(CalculationOperand.class, "calculation-operand"),   
@@ -190,6 +191,7 @@ public enum Instruction {
    LIST_CONSTRAINT(ListConstraint.class, "list-constraint"),   
    SET_CONSTRAINT(SetConstraint.class, "set-constraint"),   
    MAP_CONSTRAINT(MapConstraint.class, "map-constraint"),      
+   CONSTRAINT_VARIABLE(ConstraintVariable.class, "constraint-variable"), // array
    VARIABLE_ARGUMENT(Modifier.class, "variable-argument"),
    PARAMETER_MODIFIER(Modifier.class, "parameter-modifier"),
    PARAMETER_MODIFIER_LIST(ModifierList.class, "parameter-modifier-list"),

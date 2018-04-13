@@ -7,7 +7,7 @@ import junit.framework.TestCase;
 
 public class MapTest extends TestCase {
    
-   private static final String SOURCE =
+   private static final String SOURCE_1 =
    "var id = 123;\n"+
    "var date = new Date();\n"+
    "var map1 = {'id': id, 'date': date};\n"+
@@ -19,11 +19,28 @@ public class MapTest extends TestCase {
    "println(map2+' quoted values and keys');\n"+
    "println(map3+' quoted values');\n"+
    "println(map4+' nothing quoted');\n";
-         
+   
+   private static final String SOURCE_2 =
+   "var id = 123;\n"+
+   "var date = new Date();\n"+
+   "var map1 = {'id': id, 'date': date};\n"+
+   "var map2 = {'id': 'id', 'date': 'date'};\n"+
+   "var map3 = {'id': [1, 2, 3], 'date': date};\n"+
+   "\n"+
+   "println(map1.id);\n"+
+   "println(map2.id);\n"+
+   "println(map3.id);\n"+
+   "println(map3.id[0]);\n";
 
    public void testMap() throws Exception {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
-      Executable executable = compiler.compile(SOURCE);
+      Executable executable = compiler.compile(SOURCE_1);
+      executable.execute();
+   }
+   
+   public void testMapVariables() throws Exception {
+      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
+      Executable executable = compiler.compile(SOURCE_2);
       executable.execute();
    }
 }

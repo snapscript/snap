@@ -10,11 +10,11 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.Value;
 import org.snapscript.tree.ArgumentList;
 
-public class ReferenceCurry extends Evaluation {
+public class ApplyInvocation extends Evaluation {
    
    private final ArgumentList arguments;
    
-   public ReferenceCurry(ArgumentList arguments) {
+   public ApplyInvocation(ArgumentList arguments) {
       this.arguments = arguments;
    }
       

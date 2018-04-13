@@ -11,7 +11,7 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
-import org.snapscript.core.function.FunctionHandle;
+import org.snapscript.core.function.FunctionBody;
 import org.snapscript.core.type.Allocation;
 import org.snapscript.core.type.TypeBody;
 import org.snapscript.core.type.TypePart;
@@ -22,7 +22,7 @@ import org.snapscript.tree.function.ParameterList;
 
 public class MemberFunction extends TypePart {
    
-   protected final AtomicReference<FunctionHandle> reference;
+   protected final AtomicReference<FunctionBody> reference;
    protected final MemberFunctionAssembler assembler;
    protected final TypeScopeCompiler compiler;
    protected final AnnotationList annotations;
@@ -42,30 +42,30 @@ public class MemberFunction extends TypePart {
    
    public MemberFunction(AnnotationList annotations, ModifierList modifiers, Evaluation identifier, ParameterList parameters, Constraint constraint, Statement statement){  
       this.assembler = new MemberFunctionAssembler(modifiers, identifier, parameters, constraint, statement);
-      this.reference = new AtomicReference<FunctionHandle>();
+      this.reference = new AtomicReference<FunctionBody>();
       this.compiler = new TypeScopeCompiler();
       this.annotations = annotations;
       this.statement = statement;
    } 
 
    @Override
-   public Allocation define(TypeBody factory, Type type, Scope scope) throws Exception {
-      return assemble(factory, type, scope, 0);
+   public Allocation define(TypeBody parent, Type type, Scope scope) throws Exception {
+      return assemble(parent, type, scope, 0);
    }
    
    @Override
-   public void compile(TypeBody body, Type type, Scope scope) throws Exception {
-      FunctionHandle handle = reference.get();
+   public void compile(TypeBody parent, Type type, Scope scope) throws Exception {
+      FunctionBody handle = reference.get();
       Function function = handle.create(scope);
       Scope outer = compiler.compile(scope, type, function);
 
       handle.compile(outer);
    }
    
-   protected Allocation assemble(TypeBody body, Type type, Scope scope, int mask) throws Exception {
+   protected Allocation assemble(TypeBody parent, Type type, Scope scope, int mask) throws Exception {
       MemberFunctionBuilder builder = assembler.assemble(type, mask);
-      FunctionHandle handle = builder.create(body, scope, type);
-      Function function = handle.create(scope);
+      FunctionBody body = builder.create(parent, scope, type);
+      Function function = body.create(scope);
       Constraint constraint = function.getConstraint();
       List<Function> functions = type.getFunctions();
       int modifiers = function.getModifiers();
@@ -78,9 +78,9 @@ public class MemberFunction extends TypePart {
       }      
       annotations.apply(scope, function);
       functions.add(function);
-      handle.define(scope); // count stacks
+      body.define(scope); // count stacks
       constraint.getType(scope);
-      reference.set(handle);
+      reference.set(body);
       
       return null; 
    }

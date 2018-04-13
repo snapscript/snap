@@ -7,11 +7,11 @@ import org.snapscript.core.scope.Value;
 import org.snapscript.tree.Argument;
 import org.snapscript.tree.collection.CollectionIndex;
 
-public class ReferenceIndex extends Evaluation {
+public class ApplyIndex extends Evaluation {
    
    private final Argument argument;
   
-   public ReferenceIndex(Argument argument) {     
+   public ApplyIndex(Argument argument) {     
       this.argument = argument;
    }
    

@@ -8,11 +8,11 @@ import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.tree.literal.Literal;
 
-public class ReferenceConstraint extends Literal {
+public class ConstraintVariable extends Literal {
 
    private final Constraint constraint;
 
-   public ReferenceConstraint(Constraint constraint) {
+   public ConstraintVariable(Constraint constraint) {
       this.constraint = constraint;
    }
 

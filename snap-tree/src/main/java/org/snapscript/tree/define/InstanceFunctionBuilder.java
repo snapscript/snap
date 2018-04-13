@@ -7,7 +7,7 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
-import org.snapscript.core.function.FunctionHandle;
+import org.snapscript.core.function.FunctionBody;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationBuilder;
 import org.snapscript.core.function.InvocationFunction;
@@ -32,7 +32,7 @@ public class InstanceFunctionBuilder implements MemberFunctionBuilder {
    }
    
    @Override
-   public FunctionHandle create(TypeBody body, Scope scope, Type type){
+   public FunctionBody create(TypeBody body, Scope scope, Type type){
       InvocationBuilder builder = new StatementInvocationBuilder(signature, statement, constraint);
       Invocation invocation = new InstanceInvocation(builder, name, statement == null);
       Function function = new InvocationFunction(signature, invocation, type, constraint, name, modifiers);
@@ -42,6 +42,6 @@ public class InstanceFunctionBuilder implements MemberFunctionBuilder {
             throw new InternalStateException("Function '" + function + "' is not abstract");
          }
       }
-      return new FunctionHandle(builder, null, function);
+      return new FunctionBody(builder, null, function);
    }
 }

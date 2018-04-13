@@ -81,7 +81,7 @@ public class ReferenceInvocation implements Compilation {
          }
          for(Evaluation evaluation : evaluations) {
             if(result == null) {
-               throw new InternalStateException("Result of '" + name + "' null"); 
+               throw new InternalStateException("Result of '" + name + "' is null"); 
             }
             result = evaluation.compile(scope, result);
          }
@@ -99,7 +99,7 @@ public class ReferenceInvocation implements Compilation {
             Object result = value.getValue();
             
             if(result == null) {
-               throw new InternalStateException("Result of '" + name + "' null"); 
+               throw new InternalStateException("Result of '" + name + "' is null"); 
             }
             value = evaluation.evaluate(scope, result);
          }

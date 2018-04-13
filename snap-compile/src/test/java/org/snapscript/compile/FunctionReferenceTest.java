@@ -98,6 +98,10 @@ public class FunctionReferenceTest extends TestCase {
    "   }\n"+
    "}\n";   
          
+   private static final String SOURCE_7 =
+   "var p = System.err::println;\n"+
+   "assert p(`hello`) == null;\n";
+   
    public void testFunctionReference() throws Exception {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
       System.err.println(SOURCE_1);
@@ -132,5 +136,11 @@ public class FunctionReferenceTest extends TestCase {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
       System.err.println(SOURCE_6);
       compiler.compile(SOURCE_6).execute(new EmptyModel());
+   }  
+   
+   public void testFunctionReferenceForStaticVariable() throws Exception {
+      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
+      System.err.println(SOURCE_7);
+      compiler.compile(SOURCE_7).execute(new EmptyModel());
    }   
 }

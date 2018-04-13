@@ -10,6 +10,13 @@ public class ExpressionParseTest extends TestCase {
       SyntaxParser tree = LexerBuilder.create(GRAMMAR_FILE);
 
       assertNotNull(tree);
+      analyze(tree, "err", "reference-property");
+      analyze(tree, "err::println", "reference-property");
+      analyze(tree, "err[0]", "reference-property");
+      analyze(tree, "err[0][0]", "reference-property");
+      analyze(tree, "err::println", "reference");
+      analyze(tree, "in.x", "reference");
+      analyze(tree, "in.x", "expression");
       analyze(tree, "0..10", "range");
       analyze(tree, "i", "for-in-declaration");
       analyze(tree, "var i", "for-in-declaration");
@@ -24,7 +31,6 @@ public class ExpressionParseTest extends TestCase {
       analyze(tree, "util.function.Function", "full-qualifier");
       analyze(tree, "import util.function.Function;", "import");
       analyze(tree, "return i;", "statement");
-      analyze(tree, "in.x", "expression");
       analyze(tree, "try{}catch(e){}finally{}", "try-statement");
       analyze(tree, "try{println(1);}catch(e){println(2);}finally{println(3);}", "try-statement");      
       analyze(tree, "try{println(1);}catch(e){println(2);println(3);}finally{println(3);}", "try-statement");  
