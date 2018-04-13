@@ -31,7 +31,29 @@ public class PrivateAccessCompileTest extends CompileTestCase {
    "      this.x=10;\n"+
    "   }\n"+
    "}";
-
+   
+   private static final String SUCCESS_4 =
+   "class Outer{\n"+
+   "   private var x;\n"+
+   "   class Inner {\n"+
+   "      private var o: Outer;\n"+
+   "      func(){\n"+
+   "         return o.x;\n"+
+   "      }\n"+
+   "   }\n"+
+   "}\n";
+   
+   private static final String SUCCESS_5 =
+   "class Outer{\n"+
+   "   private var x: Inner;\n"+
+   "   class Inner {\n"+
+   "      private var n;\n"+
+   "   }\n"+
+   "   func(){\n"+
+   "      return x.n;\n"+
+   "   }\n"+   
+   "}\n";
+         
    private static final String FAILURE_1 =
    "class Typ {\n"+
    "   private func(){}\n"+
@@ -78,9 +100,11 @@ public class PrivateAccessCompileTest extends CompileTestCase {
       assertCompileSuccess(SUCCESS_1); 
       assertCompileSuccess(SUCCESS_2);
       assertCompileSuccess(SUCCESS_3);
-      assertCompileError(FAILURE_1, "Function 'func' is private in /default.snap at line 3"); 
-      assertCompileError(FAILURE_2, "Function 'func' is private in /default.snap at line 3"); 
-      assertCompileError(FAILURE_3, "Function 'func' is private in /default.snap at line 3"); 
+      assertCompileSuccess(SUCCESS_4);
+      assertCompileSuccess(SUCCESS_5);
+      assertCompileError(FAILURE_1, "Function 'func()' for 'default.Typ' is not accessible in /default.snap at line 3"); 
+      assertCompileError(FAILURE_2, "Function 'func()' for 'default.Typ' is not accessible in /default.snap at line 3"); 
+      assertCompileError(FAILURE_3, "Function 'func()' for 'default.Mod' is not accessible in /default.snap at line 3"); 
       assertCompileError(FAILURE_4, "Property 'x' for 'default.Typ' is not accessible in /default.snap at line 3"); 
       assertCompileError(FAILURE_5, "Property 'x' for 'default.Typ' is not accessible in /default.snap at line 3"); 
       assertCompileError(FAILURE_6, "Property 'x' for 'default.Mod' is not accessible in /default.snap at line 3"); 

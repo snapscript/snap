@@ -2,8 +2,6 @@ package org.snapscript.tree.reference;
 
 import static org.snapscript.core.error.Reason.ACCESS;
 
-import java.util.Set;
-
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
@@ -16,7 +14,7 @@ import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.Value;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.type.TypeExtractor;
+import org.snapscript.tree.AccessChecker;
 import org.snapscript.tree.NameReference;
 import org.snapscript.tree.variable.VariableBinder;
 
@@ -36,24 +34,23 @@ public class ReferenceProperty implements Compilation {
       Context context = module.getContext();
       ErrorHandler handler = context.getHandler();
       ProxyWrapper wrapper = context.getWrapper();
-      TypeExtractor extractor = context.getExtractor();
       String name = reference.getName(scope);
       
-      return new CompileResult(extractor, handler, wrapper, evaluations, name);
+      return new CompileResult(handler, wrapper, evaluations, name);
    }
    
    private static class CompileResult extends Evaluation {
    
       private final Evaluation[] evaluations;
-      private final TypeExtractor extractor;
       private final VariableBinder binder;
+      private final AccessChecker checker;
       private final ErrorHandler handler;
       private final String name;
       
-      public CompileResult(TypeExtractor extractor, ErrorHandler handler, ProxyWrapper wrapper, Evaluation[] evaluations, String name) {
+      public CompileResult(ErrorHandler handler, ProxyWrapper wrapper, Evaluation[] evaluations, String name) {
          this.binder = new VariableBinder(handler, wrapper, name);
+         this.checker = new AccessChecker();
          this.evaluations = evaluations;
-         this.extractor = extractor;
          this.handler = handler;
          this.name = name;
       }
@@ -63,12 +60,10 @@ public class ReferenceProperty implements Compilation {
          Constraint result = binder.compile(scope, left);
          
          if(result.isPrivate()) {
-            Type type = scope.getType();
-            Type origin = left.getType(scope); // what is the callers type
-            Set<Type> types = extractor.getTypes(type); // what is this scope
-            
-            if(!types.contains(origin)) {
-               handler.handleCompileError(ACCESS, scope, origin, name);
+            Type type = left.getType(scope); // what is the callers type
+
+            if(!checker.isAccessible(scope, type)) {
+               handler.handleCompileError(ACCESS, scope, type, name);
             }
          }
          for(Evaluation evaluation : evaluations) {

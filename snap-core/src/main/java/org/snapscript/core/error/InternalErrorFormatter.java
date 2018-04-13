@@ -2,14 +2,11 @@ package org.snapscript.core.error;
 
 import org.snapscript.core.module.Path;
 import org.snapscript.core.trace.Trace;
-import org.snapscript.core.type.TypeExtractor;
 
 public class InternalErrorFormatter {
    
-   private final TypeExtractor extractor;
-   
-   public InternalErrorFormatter(TypeExtractor extractor) {
-      this.extractor = extractor;
+   public InternalErrorFormatter() {
+      super();
    }
 
    public String formatInternalError(Throwable cause, Trace trace) {

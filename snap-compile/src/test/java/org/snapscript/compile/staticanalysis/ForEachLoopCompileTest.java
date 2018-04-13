@@ -1,10 +1,5 @@
 package org.snapscript.compile.staticanalysis;
 
-import org.snapscript.compile.ClassPathCompilerBuilder;
-import org.snapscript.compile.Compiler;
-
-import junit.framework.TestCase;
-
 public class ForEachLoopCompileTest extends CompileTestCase {
 
    private static final String SUCCESS_1 =
@@ -116,7 +111,7 @@ public class ForEachLoopCompileTest extends CompileTestCase {
       assertCompileSuccess(SUCCESS_9);
       assertCompileSuccess(SUCCESS_10);
       assertCompileSuccess(SUCCESS_11);      
-      assertCompileError(FAILURE_1, "Method 'toUpperCase()' not found for 'lang.Integer' in /default.snap at line 3");
-      assertCompileError(FAILURE_2, "Method 'intValue()' not found for 'lang.String' in /default.snap at line 3");       
+      assertCompileError(FAILURE_1, "Function 'toUpperCase()' not found for 'lang.Integer' in /default.snap at line 3");
+      assertCompileError(FAILURE_2, "Function 'intValue()' not found for 'lang.String' in /default.snap at line 3");       
    }       
 }

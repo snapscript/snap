@@ -51,7 +51,7 @@ public class RuntimeErrorFormatter {
    public String formatInvokeError(String name, Object[] list) {
       StringBuilder builder = new StringBuilder();
       
-      builder.append("Method '");
+      builder.append("Function '");
       builder.append(name);
       
       String signature = formatSignature(list);
@@ -65,7 +65,7 @@ public class RuntimeErrorFormatter {
    public String formatInvokeError(Object object, String name, Object[] list) {
       StringBuilder builder = new StringBuilder();
       
-      builder.append("Method '");
+      builder.append("Function '");
       builder.append(name);
       
       String signature = formatSignature(list);
@@ -93,7 +93,7 @@ public class RuntimeErrorFormatter {
    public String formatInvokeError(Type type, String name, Object[] list) {
       StringBuilder builder = new StringBuilder();
       
-      builder.append("Method '");
+      builder.append("Function '");
       builder.append(name);
       
       String signature = formatSignature(list);

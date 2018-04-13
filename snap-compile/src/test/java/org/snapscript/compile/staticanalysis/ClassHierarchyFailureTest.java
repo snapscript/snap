@@ -42,7 +42,7 @@ public class ClassHierarchyFailureTest extends TestCase {
       } catch(Exception e) {
          String message = e.getMessage();
          e.printStackTrace();
-         assertEquals("Method 'new(default.X)' not found for 'default.X'", message);
+         assertEquals("Function 'new(default.X)' not found for 'default.X'", message);
          failure = true;
       }
       assertTrue("Should be a compile error", failure);
@@ -59,7 +59,7 @@ public class ClassHierarchyFailureTest extends TestCase {
       } catch(Exception e) {
          String message = e.getMessage();
          e.printStackTrace();
-         assertEquals("Method 'new(default.X, default.Any)' not found for 'default.X'", message);
+         assertEquals("Function 'new(default.X, default.Any)' not found for 'default.X'", message);
          failure = true;
       }
       assertTrue("Should be a compile error", failure);
@@ -76,7 +76,7 @@ public class ClassHierarchyFailureTest extends TestCase {
       } catch(Exception e) {
          String message = e.getMessage();
          e.printStackTrace();
-         assertEquals("Method 'new(default.X, lang.String, lang.Integer)' not found for 'default.X'", message);
+         assertEquals("Function 'new(default.X, lang.String, lang.Integer)' not found for 'default.X'", message);
          failure = true;
       }
       assertTrue("Should be a compile error", failure);

@@ -17,7 +17,7 @@ public class InternalErrorHandler {
    
    public InternalErrorHandler(TypeExtractor extractor, ThreadStack stack, boolean replace) {
       this.builder = new InternalErrorBuilder(stack, replace);
-      this.formatter = new InternalErrorFormatter(extractor);
+      this.formatter = new InternalErrorFormatter();
    }
    
    public Result handleError(Scope scope, Object value) {

@@ -71,10 +71,48 @@ public class CompileErrorFormatter {
       return builder.toString();
    }
    
+   public String formatAccessError(String name, Type[] list) {
+      StringBuilder builder = new StringBuilder();
+      
+      builder.append("Function '");
+      builder.append(name);
+      
+      String signature = formatSignature(list);
+      
+      builder.append(signature);
+      builder.append("' is not accessible");
+      
+      return builder.toString();
+   }
+   
+   public String formatAccessError(Type type, String name, Type[] list) {
+      StringBuilder builder = new StringBuilder();
+      
+      builder.append("Function '");
+      builder.append(name);
+      
+      String signature = formatSignature(list);
+      
+      builder.append(signature);
+      builder.append("' for '");
+      
+      Type entry = type.getEntry();
+         
+      if(entry == null) {
+         builder.append(type);
+      } else {
+         builder.append(type);
+         builder.append("[]");
+      }
+      builder.append("' is not accessible");
+      
+      return builder.toString();
+   }
+   
    public String formatInvokeError(String name, Type[] list) {
       StringBuilder builder = new StringBuilder();
       
-      builder.append("Method '");
+      builder.append("Function '");
       builder.append(name);
       
       String signature = formatSignature(list);
@@ -88,7 +126,7 @@ public class CompileErrorFormatter {
    public String formatInvokeError(Type type, String name, Type[] list) {
       StringBuilder builder = new StringBuilder();
       
-      builder.append("Method '");
+      builder.append("Function '");
       builder.append(name);
       
       String signature = formatSignature(list);
