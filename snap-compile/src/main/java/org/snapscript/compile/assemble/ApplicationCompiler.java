@@ -29,7 +29,7 @@ public class ApplicationCompiler {
          ApplicationValidator validator = context.getValidator();
          PackageDefinition definition = library.create(scope); // create all types
          Statement statement = definition.define(scope, null); // define tree
-         Execution result = statement.compile(scope);
+         Execution result = statement.compile(scope, null);
          
          validator.validate(context); // validate program
          cache.set(result);

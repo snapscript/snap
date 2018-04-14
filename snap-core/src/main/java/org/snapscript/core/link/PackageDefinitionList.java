@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.snapscript.core.Execution;
 import org.snapscript.core.Statement;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.result.Result;
 import org.snapscript.core.scope.Scope;
@@ -57,11 +58,11 @@ public class PackageDefinitionList implements PackageDefinition {
       }
       
       @Override
-      public Execution compile(Scope scope) throws Exception {
+      public Execution compile(Scope scope, Constraint returns) throws Exception {
          List<Execution> executions = new ArrayList<Execution>();
          
          for(Statement statement : statements){
-            Execution next = statement.compile(scope);
+            Execution next = statement.compile(scope, null);
             executions.add(next);
          }
          return new ExecutionList(executions);

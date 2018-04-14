@@ -7,6 +7,7 @@ import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Execution;
 import org.snapscript.core.Statement;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
@@ -77,13 +78,13 @@ public class ForStatement implements Compilation {
       }
 
       @Override
-      public Execution compile(Scope scope) throws Exception {
+      public Execution compile(Scope scope, Constraint returns) throws Exception {
          Index index = scope.getIndex();
          int size = index.size();
          
          try {            
-            Execution variable = declaration.compile(scope);
-            Execution execution = body.compile(scope);
+            Execution variable = declaration.compile(scope, null);
+            Execution execution = body.compile(scope, returns);
             
             condition.compile(scope, null);
             

@@ -7,6 +7,7 @@ import static org.snapscript.core.type.Phase.EXECUTE;
 import org.snapscript.core.Execution;
 import org.snapscript.core.NoExecution;
 import org.snapscript.core.Statement;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.Reason;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.result.Result;
@@ -40,9 +41,9 @@ public class TraceStatement extends Statement {
    }
    
    @Override
-   public Execution compile(Scope scope) throws Exception {
+   public Execution compile(Scope scope, Constraint returns) throws Exception {
       try {
-         Execution execution = statement.compile(scope);
+         Execution execution = statement.compile(scope, returns);
          return new TraceExecution(interceptor, handler, execution, trace);
       }catch(Exception cause) {
          interceptor.traceCompileError(scope, trace, cause);

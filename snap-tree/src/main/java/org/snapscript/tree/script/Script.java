@@ -5,6 +5,7 @@ import static org.snapscript.core.result.Result.NORMAL;
 import org.snapscript.core.Execution;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Statement;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.result.Result;
 import org.snapscript.core.scope.Scope;
 
@@ -39,21 +40,21 @@ public class Script extends Statement {
    }
    
    @Override
-   public Execution compile(Scope scope) throws Exception {
+   public Execution compile(Scope scope, Constraint returns) throws Exception {
       Execution[] executions = new Execution[statements.length];
       
       for(int i = 0; i < executable.length; i++) {
          Statement statement = executable[i];
          
          if(statement != null) {
-            executions[i]  = statement.compile(scope);
+            executions[i]  = statement.compile(scope, null);
          }
       }
       for(int i = 0; i < statements.length; i++) {
          Statement statement = statements[i];
          
          if(statement != null) {
-            executions[i]  = statement.compile(scope);
+            executions[i]  = statement.compile(scope, null);
          }
       }
       return new ScriptExecution(executions);

@@ -26,19 +26,19 @@ public class FunctionCurry implements Compilation {
    @Override
    public Object compile(Module module, Path path, int line) throws Exception {
       Context context = module.getContext();
-      FunctionResolver searcher = context.getSearcher();
+      FunctionResolver resolver = context.getSearcher();
       
-      return new CompileResult(searcher, arguments);
+      return new CompileResult(resolver, arguments);
    }
 
    private static class CompileResult extends Evaluation {
    
-      private final FunctionResolver searcher;
+      private final FunctionResolver resolver;
       private final ArgumentList arguments;
       
-      public CompileResult(FunctionResolver searcher, ArgumentList arguments) {
+      public CompileResult(FunctionResolver resolver, ArgumentList arguments) {
          this.arguments = arguments;
-         this.searcher = searcher;
+         this.resolver = resolver;
       }
       
       @Override
@@ -51,7 +51,7 @@ public class FunctionCurry implements Compilation {
       public Value evaluate(Scope scope, Object left) throws Exception { 
          Value value = Value.getTransient(left);        
          Object[] array = arguments.create(scope); 
-         FunctionCall call = searcher.resolveValue(value, array);
+         FunctionCall call = resolver.resolveValue(value, array);
          int width = array.length;
          
          if(call == null) {

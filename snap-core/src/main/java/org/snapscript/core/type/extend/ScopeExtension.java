@@ -51,7 +51,7 @@ public class ScopeExtension {
       Package module = loader.importPackage(name);
       PackageDefinition definition = module.create(scope);
       Statement statement = definition.define(scope, null);
-      Execution execution = statement.compile(scope);
+      Execution execution = statement.compile(scope, null);
       
       execution.execute(scope);
       

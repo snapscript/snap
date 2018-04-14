@@ -7,6 +7,7 @@ import org.snapscript.core.Execution;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.NoStatement;
 import org.snapscript.core.Statement;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.link.ImportManager;
 import org.snapscript.core.link.Package;
 import org.snapscript.core.link.PackageDefinition;
@@ -104,11 +105,11 @@ public class Import implements Compilation {
       }
       
       @Override
-      public Execution compile(Scope scope) throws Exception {
+      public Execution compile(Scope scope, Constraint returns) throws Exception {
          if(statement == null) {
             throw new InternalStateException("Import '" + location + "' was not compiled");
          }
-         return statement.compile(scope); // execute many times
+         return statement.compile(scope, returns); // execute many times
       }
       
       private PackageDefinition process(Scope scope) throws Exception {

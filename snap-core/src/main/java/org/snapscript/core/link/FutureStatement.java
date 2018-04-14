@@ -5,6 +5,7 @@ import java.util.concurrent.FutureTask;
 import org.snapscript.core.Execution;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Statement;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.Scope;
 
@@ -39,12 +40,12 @@ public class FutureStatement extends Statement {
    }
    
    @Override
-   public Execution compile(Scope scope) throws Exception {
+   public Execution compile(Scope scope, Constraint returns) throws Exception {
       Statement definition = result.get();
       
       if(definition == null) {
          throw new InternalStateException("Could not validate '" + path + "'");
       }
-      return definition.compile(scope);
+      return definition.compile(scope, returns);
    }
 }

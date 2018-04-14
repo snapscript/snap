@@ -3,6 +3,7 @@ package org.snapscript.core.link;
 import org.snapscript.core.Execution;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Statement;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
 
 public class ExceptionStatement extends Statement {
@@ -26,7 +27,7 @@ public class ExceptionStatement extends Statement {
    }
 
    @Override
-   public Execution compile(Scope scope) throws Exception {
+   public Execution compile(Scope scope, Constraint returns) throws Exception {
       throw new InternalStateException(message, cause);
    }
 }

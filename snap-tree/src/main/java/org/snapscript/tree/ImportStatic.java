@@ -13,6 +13,7 @@ import org.snapscript.core.Statement;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.NameBuilder;
 import org.snapscript.core.type.Type;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
@@ -79,7 +80,7 @@ public class ImportStatic implements Compilation {
       }
       
       @Override
-      public Execution compile(Scope scope) throws Exception {
+      public Execution compile(Scope scope, Constraint returns) throws Exception {
          return execution;
       }
       

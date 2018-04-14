@@ -33,16 +33,9 @@ public class RuntimeErrorFormatter {
       
       if(object != null) {
          Type type = extractor.getType(object);
-         Type entry = type.getEntry();
          
          builder.append(" for '");
-         
-         if(entry == null) {
-            builder.append(type);
-         } else {
-            builder.append(type);
-            builder.append("[]");
-         }
+         builder.append(type);
          builder.append("'");
       }
       return builder.toString();
@@ -75,16 +68,9 @@ public class RuntimeErrorFormatter {
       
       if(object != null) {
          Type type = extractor.getType(object);
-         Type entry = type.getEntry();
          
          builder.append(" for '");
-         
-         if(entry == null) {
-            builder.append(type);
-         } else {
-            builder.append(type);
-            builder.append("[]");
-         }
+         builder.append(type);
          builder.append("'");
       }
       return builder.toString();
@@ -100,15 +86,7 @@ public class RuntimeErrorFormatter {
       
       builder.append(signature);
       builder.append("' not found for '");
-      
-      Type entry = type.getEntry();
-         
-      if(entry == null) {
-         builder.append(type);
-      } else {
-         builder.append(type);
-         builder.append("[]");
-      }
+      builder.append(type);
       builder.append("'");
       
       return builder.toString();

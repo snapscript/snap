@@ -1,5 +1,6 @@
 package org.snapscript.core.function;
 
+import org.snapscript.core.Execution;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Statement;
 import org.snapscript.core.module.Module;
@@ -30,7 +31,8 @@ public class ModuleAccessor implements Accessor {
          Value field = state.get(name);
          
          if(field == null) {
-            body.compile(scope).execute(scope);
+            Execution execution = body.compile(scope, null);
+            execution.execute(scope);
          }
       }catch(Exception e){
          throw new InternalStateException("Reference to '" + name + "' in '" + module + "' failed", e);
@@ -45,7 +47,8 @@ public class ModuleAccessor implements Accessor {
          Value field = state.get(name);
          
          if(field == null) {
-            body.compile(scope).execute(scope);
+            Execution execution = body.compile(scope, null);
+            execution.execute(scope);
          }
       }catch(Exception e){
          throw new InternalStateException("Reference to '" + name + "' in '" + module + "' failed", e);

@@ -5,6 +5,7 @@ import static org.snapscript.core.result.Result.NORMAL;
 import org.snapscript.core.Execution;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Statement;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.result.Result;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.index.Index;
@@ -29,11 +30,11 @@ public class StatementBlock extends Statement {
    }
    
    @Override
-   public Execution compile(Scope scope) throws Exception {
+   public Execution compile(Scope scope, Constraint returns) throws Exception {
       if(compiler == null) {
          throw new InternalStateException("Statement was not created");
       }
-      return compiler.compile(scope);
+      return compiler.compile(scope, returns);
    }
    
    private static class StatementBuilder {
@@ -78,19 +79,19 @@ public class StatementBlock extends Statement {
          this.statements = statements;
       }
       
-      public Execution compile(Scope scope) throws Exception {
+      public Execution compile(Scope scope, Constraint returns) throws Exception {
          for(int i = 0; i < executable.length; i++) {
             Statement statement = executable[i];
             
             if(statement != null) {
-               executions[i]  = statement.compile(scope);
+               executions[i]  = statement.compile(scope, returns);
             }
          }
          for(int i = 0; i < statements.length; i++) {
             Statement statement = statements[i];
             
             if(statement != null) {
-               executions[i]  = statement.compile(scope);
+               executions[i]  = statement.compile(scope, returns);
             }
          }
          return new StatementExecutor(executions);

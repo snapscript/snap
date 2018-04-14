@@ -92,7 +92,7 @@ public class ModuleFunction implements ModulePart {
       }      
       
       @Override
-      public Execution compile(Scope scope) throws Exception {
+      public Execution compile(Scope scope, Constraint returns) throws Exception {
          FunctionBody body = cache.get();
          Module module = scope.getModule();
          Type type = module.getType(); // ???

@@ -59,4 +59,9 @@ public class CompileErrorHandler {
       String message = formatter.formatInvokeError(type, name, list);
       throw builder.createInternalException(message);
    }
+   
+   public Result handleCastError(Scope scope, Type require, Type actual) {
+      String message = formatter.formatCastError(require, actual);
+      throw builder.createInternalException(message);
+   }
 }

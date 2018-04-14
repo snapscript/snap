@@ -7,6 +7,7 @@ import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Execution;
 import org.snapscript.core.Statement;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
@@ -56,10 +57,11 @@ public class WhileStatement implements Compilation {
       }
    
       @Override
-      public Execution compile(Scope scope) throws Exception {
-         condition.compile(scope, null);
-         Execution e = body.compile(scope);
-         return new CompileExecution(condition,e);   
+      public Execution compile(Scope scope, Constraint returns) throws Exception {
+         Constraint constraint = condition.compile(scope, null);
+         Execution execution = body.compile(scope, returns);
+         
+         return new CompileExecution(condition, execution);   
       }
    }
    

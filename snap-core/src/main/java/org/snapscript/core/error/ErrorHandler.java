@@ -40,6 +40,10 @@ public class ErrorHandler {
       return compile.handleReferenceError(scope, type, name); 
    }
    
+   public Result handleCompileError(Reason reason, Scope scope, Type require, Type actual) {
+      return compile.handleCastError(scope, require, actual); 
+   }
+   
    public Result handleCompileError(Reason reason, Scope scope, String name, Type[] list) {
       if(reason.isAccess()) {
          return compile.handleAccessError(scope, name, list);          

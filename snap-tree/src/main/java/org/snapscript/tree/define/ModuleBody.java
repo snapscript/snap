@@ -9,6 +9,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.Execution;
 import org.snapscript.core.Statement;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.link.FutureExecution;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.result.Result;
@@ -64,7 +65,7 @@ public class ModuleBody extends Statement {
    }
    
    @Override
-   public Execution compile(Scope scope) throws Exception {
+   public Execution compile(Scope scope, Constraint returns) throws Exception {
       Execution result = reference.get();
       
       if(result == null) {
@@ -102,14 +103,14 @@ public class ModuleBody extends Statement {
             Statement statement = executable[i];
             
             if(statement != null) {
-               executions[i]  = statement.compile(module);
+               executions[i]  = statement.compile(module, null);
             }
          }
          for(int i = 0; i < statements.length; i++) {
             Statement statement = statements[i];
             
             if(statement != null) {
-               executions[i]  = statement.compile(module);
+               executions[i]  = statement.compile(module, null);
             }
          }
          reference.set(execution);

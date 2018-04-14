@@ -66,7 +66,7 @@ public class ScriptFunction extends Statement {
    }
    
    @Override
-   public Execution compile(Scope scope) throws Exception {
+   public Execution compile(Scope scope, Constraint returns) throws Exception {
       FunctionBody body = reference.get();
       String name = identifier.getName(scope);      
       

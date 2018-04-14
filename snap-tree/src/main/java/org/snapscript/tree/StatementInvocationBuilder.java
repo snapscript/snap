@@ -53,7 +53,7 @@ public class StatementInvocationBuilder implements InvocationBuilder {
          throw new InternalStateException("Function has already been compiled");
       }
       if(execution == null && statement != null) {
-         execution = statement.compile(scope);
+         execution = statement.compile(scope, constraint);
       }
    }
    

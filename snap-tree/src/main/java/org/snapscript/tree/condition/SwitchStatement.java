@@ -8,6 +8,7 @@ import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Execution;
 import org.snapscript.core.Statement;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
@@ -79,7 +80,7 @@ public class SwitchStatement implements Compilation {
       }
 
       @Override
-      public Execution compile(Scope scope) throws Exception {
+      public Execution compile(Scope scope, Constraint returns) throws Exception {
          CompileCase[] list = new CompileCase[cases.length];
          
          for(int i = 0; i < cases.length; i++){
@@ -89,7 +90,7 @@ public class SwitchStatement implements Compilation {
             if(evaluation != null) {
                evaluation.compile(scope, null);
             }
-            Execution execution = statement.compile(scope);
+            Execution execution = statement.compile(scope, returns);
             
             list[i] = new CompileCase(evaluation, execution);            
          }

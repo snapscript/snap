@@ -76,7 +76,7 @@ public class CatchBlockList {
             
             table.add(index, local);
    
-            list[i] = statement.compile(scope);
+            list[i] = statement.compile(scope, null);
          }
       }
       return NORMAL;

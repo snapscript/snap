@@ -1,5 +1,6 @@
 package org.snapscript.core;
 
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
 
 public abstract class Statement {
@@ -10,5 +11,5 @@ public abstract class Statement {
       return true; // executable?
    }
    
-   public abstract Execution compile(Scope scope) throws Exception;
+   public abstract Execution compile(Scope scope, Constraint returns) throws Exception;
 }

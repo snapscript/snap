@@ -55,9 +55,9 @@ public class SynchronizedStatement implements Compilation {
       }
 
       @Override
-      public Execution compile(Scope scope) throws Exception {
+      public Execution compile(Scope scope, Constraint returns) throws Exception {
          Constraint constraint = reference.compile(scope, null);
-         Execution execution = statement.compile(scope);
+         Execution execution = statement.compile(scope, returns);
          
          return new CompileExecution(reference, execution);
       }

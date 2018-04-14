@@ -4,6 +4,7 @@ public enum Reason {
    ACCESS,
    REFERENCE,
    INVOKE,
+   CAST,
    THROW;
    
    public boolean isAccess() {
@@ -17,6 +18,10 @@ public enum Reason {
    public boolean isInvoke() {
       return this == INVOKE;
    }   
+   
+   public boolean isCast() {
+      return this == CAST;
+   }
    
    public boolean isThrow() {
       return this == THROW;

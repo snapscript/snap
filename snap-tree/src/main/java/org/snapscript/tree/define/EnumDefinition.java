@@ -11,6 +11,7 @@ import org.snapscript.common.Progress;
 import org.snapscript.core.Execution;
 import org.snapscript.core.NoExecution;
 import org.snapscript.core.Statement;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Allocation;
 import org.snapscript.core.type.Phase;
@@ -77,7 +78,7 @@ public class EnumDefinition extends Statement {
    }
    
    @Override
-   public Execution compile(Scope outer) throws Exception {
+   public Execution compile(Scope outer, Constraint returns) throws Exception {
       if(!compile.compareAndSet(false, true)) {
          Type type = builder.compile(collector, outer);
          Progress<Phase> progress = type.getProgress();

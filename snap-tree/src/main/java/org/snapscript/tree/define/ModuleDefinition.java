@@ -1,11 +1,13 @@
 package org.snapscript.tree.define;
 
 import static org.snapscript.core.Reserved.TYPE_THIS;
+import static org.snapscript.core.constraint.Constraint.NONE;
 
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.Execution;
 import org.snapscript.core.Statement;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
@@ -47,11 +49,11 @@ public class ModuleDefinition extends Statement {
    }
    
    @Override
-   public Execution compile(Scope scope) throws Exception {
+   public Execution compile(Scope scope, Constraint returns) throws Exception {
       Module module = reference.get();
       Scope inner = module.getScope();
       Scope local = inner.getStack();
       
-      return body.compile(local); // must be module scope
+      return body.compile(local, null); // must be module scope
    }
 }

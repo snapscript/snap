@@ -2,6 +2,7 @@ package org.snapscript.core;
 
 import static org.snapscript.core.result.Result.NORMAL;
 
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
 
 public class NoStatement extends Statement {
@@ -13,7 +14,7 @@ public class NoStatement extends Statement {
    }
 
    @Override
-   public Execution compile(Scope scope) throws Exception {
+   public Execution compile(Scope scope, Constraint returns) throws Exception {
       return execution;
    }
    

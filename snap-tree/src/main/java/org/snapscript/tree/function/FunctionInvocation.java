@@ -40,17 +40,18 @@ public class FunctionInvocation implements Compilation {
    
    @Override
    public Evaluation compile(Module module, Path path, int line) throws Exception {
-      Scope scope = module.getScope();
       Context context = module.getContext();
-      TraceInterceptor interceptor = context.getInterceptor();
-      String name = reference.getName(scope);      
-      Evaluation invocation = create(context, name);
+      TraceInterceptor interceptor = context.getInterceptor();     
       Trace trace = Trace.getInvoke(module, path, line);
+      Evaluation invocation = create(module, path, line);
       
       return new TraceEvaluation(interceptor, invocation, trace);
    }
    
-   private Evaluation create(Context context, String name) throws Exception {
+   private Evaluation create(Module module, Path path, int line) throws Exception {
+      Scope scope = module.getScope();
+      Context context = module.getContext();
+      String name = reference.getName(scope); 
       FunctionBinder binder = context.getBinder();   
       FunctionMatcher matcher = binder.bind(name);
       

@@ -50,7 +50,7 @@ public class StaticInvocationBuilder implements InvocationBuilder {
       if(execution != null) {
          throw new InternalStateException("Function has already been compiled");
       }
-      execution = statement.compile(scope); // who is going to execute this????
+      execution = statement.compile(scope, constraint);
    }
    
    @Override

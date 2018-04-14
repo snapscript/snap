@@ -73,7 +73,7 @@ public class ImportTaskBuilder {
                Scope scope = parent.getScope();
                PackageDefinition definition = module.create(scope); 
                Statement statement = definition.define(scope, from);
-               Execution execution = statement.compile(scope);
+               Execution execution = statement.compile(scope, null);
                
                execution.execute(scope); 
                imports.add(path);
@@ -106,7 +106,7 @@ public class ImportTaskBuilder {
                Scope scope = parent.getScope();
                PackageDefinition definition = module.create(scope);
                Statement statement = definition.define(scope, from);
-               Execution execution = statement.compile(scope);
+               Execution execution = statement.compile(scope, null);
                
                execution.execute(scope); 
                imports.add(path);

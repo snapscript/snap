@@ -27,15 +27,7 @@ public class CompileErrorFormatter {
       builder.append("Property '");
       builder.append(name);
       builder.append("' for '");
-      
-      Type entry = type.getEntry();
-         
-      if(entry == null) {
-         builder.append(type);
-      } else {
-         builder.append(type);
-         builder.append("[]");
-      }
+      builder.append(type);
       builder.append("' is not accessible");
       
       return builder.toString();
@@ -57,15 +49,7 @@ public class CompileErrorFormatter {
       builder.append("Property '");
       builder.append(name);
       builder.append("' not found for '");
-      
-      Type entry = type.getEntry();
-         
-      if(entry == null) {
-         builder.append(type);
-      } else {
-         builder.append(type);
-         builder.append("[]");
-      }
+      builder.append(type);
       builder.append("'");
       
       return builder.toString();
@@ -95,15 +79,7 @@ public class CompileErrorFormatter {
       
       builder.append(signature);
       builder.append("' for '");
-      
-      Type entry = type.getEntry();
-         
-      if(entry == null) {
-         builder.append(type);
-      } else {
-         builder.append(type);
-         builder.append("[]");
-      }
+      builder.append(type);
       builder.append("' is not accessible");
       
       return builder.toString();
@@ -133,16 +109,20 @@ public class CompileErrorFormatter {
       
       builder.append(signature);
       builder.append("' not found for '");
-      
-      Type entry = type.getEntry();
-         
-      if(entry == null) {
-         builder.append(type);
-      } else {
-         builder.append(type);
-         builder.append("[]");
-      }
+      builder.append(type);
       builder.append("'");
+      
+      return builder.toString();
+   }
+   
+   public String formatCastError(Type require, Type actual) {
+      StringBuilder builder = new StringBuilder();
+      
+      builder.append("Cast from '");
+      builder.append(actual);
+      builder.append("' to '");
+      builder.append(require);
+      builder.append("' is not possible");
       
       return builder.toString();
    }

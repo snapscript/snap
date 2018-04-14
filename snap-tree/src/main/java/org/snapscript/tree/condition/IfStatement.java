@@ -64,13 +64,13 @@ public class IfStatement implements Compilation {
       }
       
       @Override
-      public Execution compile(Scope scope) throws Exception {
+      public Execution compile(Scope scope, Constraint returns) throws Exception {
          Constraint result = condition.compile(scope, null);
-         Execution success = positive.compile(scope);         
+         Execution success = positive.compile(scope, returns);         
          Execution failure = null;
          
          if(negative != null){
-            failure = negative.compile(scope);
+            failure = negative.compile(scope, returns);
          }         
          return new CompileExecution(condition, success, failure);
       }

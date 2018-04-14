@@ -1,19 +1,17 @@
 package org.snapscript.tree;
 
 import static org.snapscript.core.error.Reason.THROW;
-import static org.snapscript.core.type.Phase.EXECUTE;
 
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Execution;
 import org.snapscript.core.Statement;
-import org.snapscript.core.error.Reason;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.result.Result;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Phase;
 import org.snapscript.core.yield.Resume;
 import org.snapscript.core.yield.Yield;
 
@@ -48,9 +46,9 @@ public class TryStatement implements Compilation {
    private static class CompileResult extends Statement {
    
       private final ErrorHandler handler;
+      private final CatchBlockList list;
       private final Statement statement;
       private final Statement finish;
-      private final CatchBlockList list;
       
       public CompileResult(ErrorHandler handler, Statement statement, CatchBlockList list, Statement finish) {
          this.statement = statement;
@@ -61,28 +59,29 @@ public class TryStatement implements Compilation {
       
       @Override
       public boolean define(Scope scope) throws Exception {  
+         statement.define(scope);
+         
          if(list != null) {
             list.define(scope);
          }
          if(finish != null) {
             finish.define(scope);
          }
-         statement.define(scope);
          return true;
       }
       
       @Override
-      public Execution compile(Scope scope) throws Exception {
+      public Execution compile(Scope scope, Constraint returns) throws Exception {
+         Execution body = statement.compile(scope, returns);
+         Execution after = null;
+         
          if(list != null) {
             list.compile(scope);
          }
-         Execution a = null;
-         Execution b = null;
          if(finish != null) {
-            a =finish.compile(scope);
-         }
-         b=statement.compile(scope);
-         return new CompileExecution(handler, b, list, a);
+            after = finish.compile(scope, returns); // should not return
+         }         
+         return new CompileExecution(handler, body, list, after);
       }
    }
    

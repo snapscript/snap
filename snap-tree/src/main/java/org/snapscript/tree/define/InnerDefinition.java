@@ -28,6 +28,6 @@ public class InnerDefinition extends TypePart {
 
    @Override
    public void compile(TypeBody body, Type outer, Scope scope) throws Exception {
-      statement.compile(scope);
+      statement.compile(scope,  null);
    }
 }

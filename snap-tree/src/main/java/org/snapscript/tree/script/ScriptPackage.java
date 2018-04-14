@@ -10,6 +10,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.snapscript.core.Execution;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Statement;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.link.FutureExecution;
 import org.snapscript.core.result.Result;
 import org.snapscript.core.scope.Scope;
@@ -48,7 +49,7 @@ public class ScriptPackage extends Statement {
    }
    
    @Override
-   public Execution compile(Scope scope) throws Exception {
+   public Execution compile(Scope scope, Constraint returns) throws Exception {
       Execution result = reference.get();
       
       if(result == null) {
@@ -79,21 +80,16 @@ public class ScriptPackage extends Statement {
       }
       
       @Override
-      public Execution call() throws Exception {
-         try {
-            Execution[] executions = new Execution[statements.length];
-            Execution execution = new ScriptPackageExecution(executions);
-            
-            for(int i = 0; i < statements.length; i++) {
-               executions[i] = statements[i].compile(scope);
-               statements[i] = null;
-            }
-            reference.set(execution);
-            return execution;
-         }catch(Exception e){
-            e.printStackTrace();
-            throw e;
+      public Execution call() throws Exception {         
+         Execution[] executions = new Execution[statements.length];
+         Execution execution = new ScriptPackageExecution(executions);
+         
+         for(int i = 0; i < statements.length; i++) {
+            executions[i] = statements[i].compile(scope, null);
+            statements[i] = null;
          }
+         reference.set(execution);
+         return execution;
       }
    }
    
