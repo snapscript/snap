@@ -10,7 +10,7 @@ import org.snapscript.core.module.Module;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
-import org.snapscript.core.scope.Value;
+import org.snapscript.core.variable.Value;
 import org.snapscript.tree.DeclarationAllocator;
 import org.snapscript.tree.NameReference;
 import org.snapscript.tree.constraint.DeclarationConstraint;

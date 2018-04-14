@@ -12,33 +12,33 @@ import org.snapscript.core.type.TypeExtractor;
 
 public class ModuleIndexer {
    
-   private final SparseArray<FunctionIndex> cache;
+   private final SparseArray<FunctionIndex> indexes;
+   private final FunctionPointerConverter converter;
    private final FunctionIndexBuilder builder;
-   private final FunctionWrapper wrapper;
    
    public ModuleIndexer(TypeExtractor extractor, ThreadStack stack) {
       this(extractor, stack, 10000);
    }
    
    public ModuleIndexer(TypeExtractor extractor, ThreadStack stack, int capacity) {
-      this.cache = new CopyOnWriteSparseArray<FunctionIndex>(capacity);
+      this.indexes = new CopyOnWriteSparseArray<FunctionIndex>(capacity);
       this.builder = new FunctionIndexBuilder(extractor, stack);
-      this.wrapper = new FunctionWrapper(stack);
+      this.converter = new FunctionPointerConverter(stack);
    }
 
    public FunctionPointer index(Module module, String name, Type... types) throws Exception { 
       int index = module.getOrder();
-      FunctionIndex match = cache.get(index);
+      FunctionIndex match = indexes.get(index);
       
       if(match == null) {
          List<Function> functions = module.getFunctions();
          FunctionIndex table = builder.create(module);
          
          for(Function function : functions){
-            FunctionPointer call = wrapper.toCall(function);
-            table.index(call);
+            FunctionPointer pointer = converter.convert(function);
+            table.index(pointer);
          }
-         cache.set(index, table);
+         indexes.set(index, table);
          return table.resolve(name, types);
       }
       return match.resolve(name, types);
@@ -46,17 +46,17 @@ public class ModuleIndexer {
    
    public FunctionPointer index(Module module, String name, Object... values) throws Exception { 
       int index = module.getOrder();
-      FunctionIndex match = cache.get(index);
+      FunctionIndex match = indexes.get(index);
       
       if(match == null) {
          List<Function> functions = module.getFunctions();
          FunctionIndex table = builder.create(module);
          
          for(Function function : functions){
-            FunctionPointer call = wrapper.toCall(function);
-            table.index(call);
+            FunctionPointer pointer = converter.convert(function);
+            table.index(pointer);
          }
-         cache.set(index, table);
+         indexes.set(index, table);
          return table.resolve(name, values);
       }
       return match.resolve(name, values);

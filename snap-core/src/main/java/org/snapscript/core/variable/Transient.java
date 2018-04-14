@@ -1,6 +1,7 @@
-package org.snapscript.core.scope;
+package org.snapscript.core.variable;
 
 import org.snapscript.core.InternalStateException;
+import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 
 public class Transient extends Value {

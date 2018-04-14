@@ -7,6 +7,7 @@ import org.snapscript.common.Cache;
 import org.snapscript.common.CompoundIterator;
 import org.snapscript.common.HashCache;
 import org.snapscript.core.InternalStateException;
+import org.snapscript.core.variable.Value;
 
 public class ModelState implements State {
    

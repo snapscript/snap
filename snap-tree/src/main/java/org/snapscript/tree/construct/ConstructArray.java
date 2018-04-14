@@ -9,7 +9,6 @@ import org.snapscript.core.InternalArgumentException;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.Value;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.array.ArrayBuilder;
 import org.snapscript.core.constraint.Constraint;
@@ -17,6 +16,7 @@ import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceEvaluation;
 import org.snapscript.core.trace.TraceInterceptor;
+import org.snapscript.core.variable.Value;
 import org.snapscript.tree.Argument;
 
 public class ConstructArray implements Compilation {

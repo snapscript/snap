@@ -7,7 +7,7 @@ import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.index.FunctionPointer;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.Value;
+import org.snapscript.core.variable.Value;
 
 public class FunctionCall implements Callable<Value> {
    

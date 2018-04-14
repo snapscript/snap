@@ -12,10 +12,10 @@ import org.snapscript.core.function.Function;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
-import org.snapscript.core.scope.Value;
 import org.snapscript.core.scope.instance.Instance;
 import org.snapscript.core.stack.ThreadStack;
 import org.snapscript.core.type.Type;
+import org.snapscript.core.variable.Value;
 import org.snapscript.parse.StringToken;
 
 public class Super extends Evaluation {

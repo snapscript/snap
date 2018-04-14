@@ -3,7 +3,7 @@ package org.snapscript.tree.operation;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.Value;
+import org.snapscript.core.variable.Value;
 import org.snapscript.parse.StringToken;
 
 public class PrefixOperation extends Evaluation {

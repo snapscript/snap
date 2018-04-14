@@ -1,6 +1,6 @@
 package org.snapscript.tree.math;
 
-import org.snapscript.core.scope.Value;
+import org.snapscript.core.variable.Value;
 
 public interface NumericCalculator {
    Value power(Number left, Number right);

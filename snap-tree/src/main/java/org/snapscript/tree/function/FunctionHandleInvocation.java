@@ -5,7 +5,7 @@ import org.snapscript.core.function.bind.FunctionMatcher;
 import org.snapscript.core.function.dispatch.FunctionDispatcher;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.Value;
+import org.snapscript.core.variable.Value;
 
 public class FunctionHandleInvocation implements Invocation {
 

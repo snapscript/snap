@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.Value;
 import org.snapscript.core.type.Type;
+import org.snapscript.core.variable.Value;
 import org.snapscript.tree.reference.TraitReference;
 import org.snapscript.tree.reference.TypeReference;
 

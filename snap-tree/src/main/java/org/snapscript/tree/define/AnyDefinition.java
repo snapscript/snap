@@ -22,7 +22,6 @@ import org.snapscript.common.Progress;
 import org.snapscript.core.Context;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
-import org.snapscript.core.scope.Value;
 import org.snapscript.core.scope.instance.Instance;
 import org.snapscript.core.type.Phase;
 import org.snapscript.core.type.Type;
@@ -31,6 +30,7 @@ import org.snapscript.core.function.Invocation;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.result.Result;
 import org.snapscript.core.type.TypeLoader;
+import org.snapscript.core.variable.Value;
 
 public class AnyDefinition{
    

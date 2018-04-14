@@ -1,13 +1,12 @@
-package org.snapscript.tree.variable.index;
+package org.snapscript.core.variable.index;
 
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.common.Cache;
 import org.snapscript.common.CopyOnWriteCache;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.constraint.Constraint;
-import org.snapscript.tree.variable.VariableIndexResolver;
 
 public class VariableIndexer {
    

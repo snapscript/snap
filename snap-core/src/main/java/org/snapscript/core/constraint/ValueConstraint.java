@@ -2,8 +2,8 @@ package org.snapscript.core.constraint;
 
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.Value;
 import org.snapscript.core.type.Type;
+import org.snapscript.core.variable.Value;
 
 public class ValueConstraint extends Constraint {
 

@@ -11,10 +11,10 @@ import org.snapscript.core.function.index.TypeStaticIndexer;
 import org.snapscript.core.function.index.ValueIndexer;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.Value;
 import org.snapscript.core.stack.ThreadStack;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeExtractor;
+import org.snapscript.core.variable.Value;
 
 public class FunctionResolver {   
    

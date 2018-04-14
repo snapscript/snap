@@ -8,7 +8,7 @@ import org.snapscript.common.CompoundIterator;
 import org.snapscript.common.HashCache;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.scope.State;
-import org.snapscript.core.scope.Value;
+import org.snapscript.core.variable.Value;
 
 public class InstanceState implements State {
    

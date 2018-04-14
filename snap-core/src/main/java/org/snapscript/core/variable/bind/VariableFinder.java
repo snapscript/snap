@@ -1,4 +1,4 @@
-package org.snapscript.tree.variable;
+package org.snapscript.core.variable.bind;
 
 import static org.snapscript.core.ModifierType.CONSTANT;
 import static org.snapscript.core.ModifierType.PUBLIC;

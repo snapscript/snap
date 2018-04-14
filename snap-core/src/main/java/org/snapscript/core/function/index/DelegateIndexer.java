@@ -12,24 +12,24 @@ import org.snapscript.core.type.TypeExtractor;
 
 public class DelegateIndexer {
    
-   private final TypeCache<FunctionIndex> cache;
+   private final TypeCache<FunctionIndex> indexes;
+   private final FunctionPointerConverter converter;
    private final FunctionIndexBuilder builder;
    private final FunctionPathFinder finder;
-   private final FunctionWrapper wrapper;
    private final TypeExtractor extractor;
    private final TypeInspector checker;
    
    public DelegateIndexer(TypeExtractor extractor, ThreadStack stack) {
       this.builder = new FunctionIndexBuilder(extractor, stack);
-      this.wrapper = new FunctionWrapper(stack);
-      this.cache = new TypeCache<FunctionIndex>();
+      this.converter = new FunctionPointerConverter(stack);
+      this.indexes = new TypeCache<FunctionIndex>();
       this.finder = new FunctionPathFinder();
       this.checker = new TypeInspector();
       this.extractor = extractor;
    }
    
    public FunctionPointer match(Type type, String name, Type... values) throws Exception { 
-      FunctionIndex match = cache.fetch(type);
+      FunctionIndex match = indexes.fetch(type);
       
       if(match == null) {
          List<Type> path = finder.findPath(type, name); 
@@ -44,13 +44,13 @@ public class DelegateIndexer {
    
                for(Function function : functions){
                   if(!checker.isSuperConstructor(type, function)) {
-                     FunctionPointer call = wrapper.toCall(function);
-                     table.index(call);
+                     FunctionPointer pointer = converter.convert(function);
+                     table.index(pointer);
                   }
                }
             }
          }
-         cache.cache(type, table);
+         indexes.cache(type, table);
          return table.resolve(name, values);
       }
       return match.resolve(name, values);
@@ -58,7 +58,7 @@ public class DelegateIndexer {
    
    public FunctionPointer match(Delegate value, String name, Object... values) throws Exception { 
       Type type = extractor.getType(value);
-      FunctionIndex match = cache.fetch(type);
+      FunctionIndex match = indexes.fetch(type);
       
       if(match == null) {
          List<Type> path = finder.findPath(type, name); 
@@ -73,13 +73,13 @@ public class DelegateIndexer {
    
                for(Function function : functions){
                   if(!checker.isSuperConstructor(type, function)) {
-                     FunctionPointer call = wrapper.toCall(function);
-                     table.index(call);
+                     FunctionPointer pointer = converter.convert(function);
+                     table.index(pointer);
                   }
                }
             }
          }
-         cache.cache(type, table);
+         indexes.cache(type, table);
          return table.resolve(name, values);
       }
       return match.resolve(name, values);

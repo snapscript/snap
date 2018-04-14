@@ -6,8 +6,8 @@ import org.snapscript.core.InternalStateException;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.Value;
 import org.snapscript.core.type.Type;
+import org.snapscript.core.variable.Value;
 import org.snapscript.core.constraint.Constraint;
 
 public class TypeConstraint implements Compilation {

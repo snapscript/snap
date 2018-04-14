@@ -1,9 +1,9 @@
 package org.snapscript.tree.operation;
 
-import static org.snapscript.core.scope.BooleanValue.FALSE;
-import static org.snapscript.core.scope.BooleanValue.TRUE;
+import static org.snapscript.core.variable.BooleanValue.FALSE;
+import static org.snapscript.core.variable.BooleanValue.TRUE;
 
-import org.snapscript.core.scope.Value;
+import org.snapscript.core.variable.Value;
 import org.snapscript.parse.StringToken;
 import org.snapscript.tree.math.NumericConverter;
 

@@ -1,16 +1,16 @@
-package org.snapscript.tree.variable.index;
+package org.snapscript.core.variable.index;
 
 import static org.snapscript.core.constraint.Constraint.NONE;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.Value;
-import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.property.PropertyValue;
-import org.snapscript.tree.variable.VariableFinder;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Type;
+import org.snapscript.core.variable.Value;
+import org.snapscript.core.variable.bind.VariableFinder;
 
 public class TypeStaticPointer implements VariablePointer<Type> {
    

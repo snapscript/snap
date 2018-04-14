@@ -1,4 +1,4 @@
-package org.snapscript.tree.variable.index;
+package org.snapscript.core.variable.index;
 
 import java.util.Collection;
 import java.util.Map;
@@ -10,7 +10,7 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.instance.Instance;
 import org.snapscript.core.type.Category;
 import org.snapscript.core.type.Type;
-import org.snapscript.tree.variable.VariableFinder;
+import org.snapscript.core.variable.bind.VariableFinder;
 
 public class VariablePointerBuilder {
 

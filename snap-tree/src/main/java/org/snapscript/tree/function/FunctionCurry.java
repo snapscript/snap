@@ -12,7 +12,7 @@ import org.snapscript.core.function.resolve.FunctionResolver;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.Value;
+import org.snapscript.core.variable.Value;
 import org.snapscript.tree.ArgumentList;
 
 public class FunctionCurry implements Compilation {

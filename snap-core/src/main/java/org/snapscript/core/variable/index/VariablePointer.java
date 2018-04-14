@@ -1,8 +1,8 @@
-package org.snapscript.tree.variable.index;
+package org.snapscript.core.variable.index;
 
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.Value;
+import org.snapscript.core.variable.Value;
 
 public interface VariablePointer<T> {
    Constraint compile(Scope scope, Constraint left);

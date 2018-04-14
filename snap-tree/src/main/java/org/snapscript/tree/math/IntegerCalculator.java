@@ -1,7 +1,7 @@
 package org.snapscript.tree.math;
 
-import org.snapscript.core.scope.Value;
-import org.snapscript.core.scope.ValueCache;
+import org.snapscript.core.variable.Value;
+import org.snapscript.core.variable.ValueCache;
 
 public class IntegerCalculator extends ValueCalculator {
 

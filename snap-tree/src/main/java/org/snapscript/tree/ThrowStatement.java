@@ -14,11 +14,11 @@ import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.result.Result;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.Value;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.trace.TraceStatement;
 import org.snapscript.core.type.Phase;
+import org.snapscript.core.variable.Value;
 
 public class ThrowStatement implements Compilation {
    

@@ -12,39 +12,39 @@ import org.snapscript.core.type.TypeExtractor;
 
 public class FunctionIndexer {
    
-   private final TypeCache<TypeIndex> cache;
+   private final TypeCache<TypeIndex> indexes;
+   private final FunctionPointerConverter converter;
    private final FunctionIndexBuilder builder;
    private final FunctionPathFinder finder;
-   private final FunctionWrapper wrapper;
    private final TypeInspector inspector;
    
    public FunctionIndexer(TypeExtractor extractor, ThreadStack stack) {
       this.builder = new FunctionIndexBuilder(extractor, stack);
-      this.cache = new TypeCache<TypeIndex>();
-      this.wrapper = new FunctionWrapper(stack);
+      this.converter = new FunctionPointerConverter(stack);
+      this.indexes = new TypeCache<TypeIndex>();
       this.finder = new FunctionPathFinder();
       this.inspector = new TypeInspector();
    }
    
    public FunctionPointer index(Type type, String name, Type... types) throws Exception { 
-      TypeIndex match = cache.fetch(type);
+      TypeIndex match = indexes.fetch(type);
 
       if(match == null) {
          TypeIndex structure = build(type, name);
          
-         cache.cache(type, structure);
+         indexes.cache(type, structure);
          return structure.get(name, types);
       }
       return match.get(name, types);
    }
 
    public FunctionPointer index(Type type, String name, Object... values) throws Exception { 
-      TypeIndex match = cache.fetch(type);
+      TypeIndex match = indexes.fetch(type);
 
       if(match == null) {
          TypeIndex structure = build(type, name);
          
-         cache.cache(type, structure);
+         indexes.cache(type, structure);
          return structure.get(name, values);
       }
       return match.get(name, values);
@@ -64,7 +64,7 @@ public class FunctionIndexer {
             int modifiers = function.getModifiers();
             
             if(!inspector.isSuperConstructor(type, function)) {
-               FunctionPointer call = wrapper.toCall(function);
+               FunctionPointer call = converter.convert(function);
                
                if(!ModifierType.isAbstract(modifiers)) {  
                   implemented.index(call);

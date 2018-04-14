@@ -4,10 +4,10 @@ import static org.snapscript.core.Reserved.ENUM_NAME;
 import static org.snapscript.core.Reserved.ENUM_ORDINAL;
 
 import org.snapscript.core.scope.State;
-import org.snapscript.core.scope.Value;
 import org.snapscript.core.scope.instance.Instance;
 import org.snapscript.core.type.Allocation;
 import org.snapscript.core.type.Type;
+import org.snapscript.core.variable.Value;
 
 public class EnumConstantGenerator extends Allocation {
    

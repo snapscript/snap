@@ -6,10 +6,10 @@ import org.snapscript.core.Evaluation;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.result.Result;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.Value;
 import org.snapscript.core.type.Allocation;
 import org.snapscript.core.type.Order;
 import org.snapscript.core.type.Type;
+import org.snapscript.core.variable.Value;
 
 public class SuperState extends Allocation {
    

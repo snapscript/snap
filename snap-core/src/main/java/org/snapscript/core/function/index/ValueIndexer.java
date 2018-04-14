@@ -4,8 +4,8 @@ import org.snapscript.core.convert.Score;
 import org.snapscript.core.function.ArgumentConverter;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Signature;
-import org.snapscript.core.scope.Value;
 import org.snapscript.core.stack.ThreadStack;
+import org.snapscript.core.variable.Value;
 
 public class ValueIndexer {
    
@@ -25,7 +25,7 @@ public class ValueIndexer {
          Score score = match.score(values);
          
          if(score.isValid()) {
-            return new FunctionPointer(function, stack); 
+            return new TracePointer(function, stack); 
          }
       }
       return null;

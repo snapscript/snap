@@ -12,22 +12,22 @@ import org.snapscript.core.type.TypeExtractor;
 
 public class TypeStaticIndexer {
    
-   private final TypeCache<FunctionIndex> cache;
+   private final TypeCache<FunctionIndex> indexes;
+   private final FunctionPointerConverter converter;
    private final FunctionIndexBuilder builder;
    private final FunctionPathFinder finder;
-   private final FunctionWrapper wrapper;
    private final TypeInspector inspector;
    
    public TypeStaticIndexer(TypeExtractor extractor, ThreadStack stack) {
       this.builder = new FunctionIndexBuilder(extractor, stack);
-      this.cache = new TypeCache<FunctionIndex>();
-      this.wrapper = new FunctionWrapper(stack);
+      this.indexes = new TypeCache<FunctionIndex>();
+      this.converter = new FunctionPointerConverter(stack);
       this.finder = new FunctionPathFinder();
       this.inspector = new TypeInspector();
    }
 
    public FunctionPointer index(Type type, String name, Type... values) throws Exception { 
-      FunctionIndex match = cache.fetch(type);
+      FunctionIndex match = indexes.fetch(type);
       
       if(match == null) {
          List<Type> path = finder.findPath(type, name); 
@@ -43,20 +43,20 @@ public class TypeStaticIndexer {
                
                if(ModifierType.isStatic(modifiers)) {
                   if(!inspector.isSuperConstructor(type, function)) {
-                     FunctionPointer call = wrapper.toCall(function);
-                     table.index(call);
+                     FunctionPointer pointer = converter.convert(function);
+                     table.index(pointer);
                   }
                }
             }
          }
-         cache.cache(type, table);
+         indexes.cache(type, table);
          return table.resolve(name, values);
       }
       return match.resolve(name, values);
    }
    
    public FunctionPointer index(Type type, String name, Object... values) throws Exception { 
-      FunctionIndex match = cache.fetch(type);
+      FunctionIndex match = indexes.fetch(type);
       
       if(match == null) {
          List<Type> path = finder.findPath(type, name); 
@@ -72,13 +72,13 @@ public class TypeStaticIndexer {
                
                if(ModifierType.isStatic(modifiers)) {
                   if(!inspector.isSuperConstructor(type, function)) {
-                     FunctionPointer call = wrapper.toCall(function);
-                     table.index(call);
+                     FunctionPointer pointer = converter.convert(function);
+                     table.index(pointer);
                   }
                }
             }
          }
-         cache.cache(type, table);
+         indexes.cache(type, table);
          return table.resolve(name, values);
       }
       return match.resolve(name, values);

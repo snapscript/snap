@@ -1,34 +1,41 @@
-package org.snapscript.core.scope;
-
-import java.util.concurrent.atomic.AtomicReference;
+package org.snapscript.core.variable;
 
 import org.snapscript.core.InternalStateException;
+import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 
-public class Blank extends Value {
+public class Constant extends Value {
    
-   private final AtomicReference<Object> reference;
+   private final Object value;
    private final Type type;
    private final int modifiers;
    
-   public Blank(Object value, Type type, int modifiers) {
-      this.reference = new AtomicReference<Object>(value);
+   public Constant(Object value) {
+      this(value, null);
+   }
+
+   public Constant(Object value, Type type) {
+      this(value, type, 0);
+   }
+   
+   public Constant(Object value, Type type, int modifiers) {
       this.modifiers = modifiers;
+      this.value = value;
       this.type = type;
    }
    
    @Override
    public boolean isConstant() {
-      return reference.get() != null;
+      return true;
    }
    
    @Override
-   public boolean isProperty() {
+   public boolean isProperty(){
       return modifiers != -1;
    }
    
    @Override
-   public int getModifiers() {
+   public int getModifiers(){
       return modifiers;
    }
    
@@ -39,18 +46,16 @@ public class Blank extends Value {
    
    @Override
    public <T> T getValue() {
-      return (T)reference.get();
+      return (T)value;
    }
    
    @Override
    public void setValue(Object value){
-      if(!reference.compareAndSet(null, value)) {
-         throw new InternalStateException("Illegal modification of constant");
-      }
+      throw new InternalStateException("Illegal modification of constant");
    } 
    
    @Override
    public String toString() {
-      return String.valueOf(reference);
+      return String.valueOf(value);
    }
 }

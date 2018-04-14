@@ -5,22 +5,23 @@ import org.snapscript.core.function.Accessor;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.index.FunctionPointer;
+import org.snapscript.core.function.index.TracePointer;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.stack.ThreadStack;
 
 public class FunctionAccessor implements Accessor<Scope> {
 
-   private final FunctionPointer call;
+   private final FunctionPointer pointer;
    private final Function function;
    
    public FunctionAccessor(Function function, ThreadStack stack) {
-      this.call = new FunctionPointer(function, stack);
+      this.pointer = new TracePointer(function, stack);
       this.function = function;
    }
    
    @Override
    public Object getValue(Scope source) {
-      Invocation invocation = call.getInvocation();
+      Invocation invocation = pointer.getInvocation();
       
       try {
          return invocation.invoke(source, source);

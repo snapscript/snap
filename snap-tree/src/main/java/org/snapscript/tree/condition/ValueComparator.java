@@ -1,6 +1,6 @@
 package org.snapscript.tree.condition;
 
-import org.snapscript.core.scope.Value;
+import org.snapscript.core.variable.Value;
 
 public enum ValueComparator {
    NUMERIC_NUMERIC {

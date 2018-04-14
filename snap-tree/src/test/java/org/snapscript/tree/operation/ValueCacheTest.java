@@ -2,8 +2,8 @@ package org.snapscript.tree.operation;
 
 import junit.framework.TestCase;
 
-import org.snapscript.core.scope.Value;
-import org.snapscript.core.scope.ValueCache;
+import org.snapscript.core.variable.Value;
+import org.snapscript.core.variable.ValueCache;
 
 public class ValueCacheTest extends TestCase {
    

@@ -1,8 +1,8 @@
 package org.snapscript.tree.condition;
 
-import org.snapscript.core.scope.BooleanValue;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.Value;
+import org.snapscript.core.variable.BooleanValue;
+import org.snapscript.core.variable.Value;
 import org.snapscript.parse.StringToken;
 
 public enum RelationalOperator {

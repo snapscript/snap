@@ -1,4 +1,4 @@
-package org.snapscript.tree.variable;
+package org.snapscript.core.variable.index;
 
 import org.snapscript.core.Context;
 import org.snapscript.core.module.Module;

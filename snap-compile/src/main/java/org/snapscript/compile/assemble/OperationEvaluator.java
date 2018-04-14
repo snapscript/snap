@@ -12,8 +12,8 @@ import org.snapscript.core.InternalStateException;
 import org.snapscript.core.ScopeMerger;
 import org.snapscript.core.scope.Model;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.Value;
 import org.snapscript.core.scope.index.LocalScopeExtractor;
+import org.snapscript.core.variable.Value;
 
 public class OperationEvaluator implements ExpressionEvaluator {
    

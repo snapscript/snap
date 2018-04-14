@@ -1,4 +1,5 @@
-package org.snapscript.core.scope;
+package org.snapscript.core.variable;
+
 
 
 public class ValueCache {

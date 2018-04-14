@@ -1,6 +1,6 @@
 package org.snapscript.tree.collection;
 
-import org.snapscript.core.scope.Value;
+import org.snapscript.core.variable.Value;
 
 import java.lang.reflect.Array;
 

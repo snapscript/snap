@@ -4,7 +4,6 @@ import static org.snapscript.core.convert.Score.INVALID;
 
 import java.util.List;
 
-import org.snapscript.core.type.Type;
 import org.snapscript.core.convert.Score;
 import org.snapscript.core.function.ArgumentConverter;
 import org.snapscript.core.function.EmptyFunction;
@@ -12,17 +11,14 @@ import org.snapscript.core.function.EmptySignature;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Signature;
 import org.snapscript.core.stack.ThreadStack;
+import org.snapscript.core.type.Type;
 
 public class FunctionReducer {
    
    private final FunctionPointer invalid;
-   private final Signature signature;
-   private final Function empty;
    
    public FunctionReducer(ThreadStack stack) {
-      this.signature = new EmptySignature();
-      this.empty = new EmptyFunction(signature);
-      this.invalid = new FunctionPointer(empty, stack);
+      this.invalid = new EmptyPointer();
    }
 
    public FunctionPointer reduce(List<FunctionPointer> pointers, String name, Type... types) throws Exception { 

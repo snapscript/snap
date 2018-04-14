@@ -12,11 +12,11 @@ import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.Value;
 import org.snapscript.core.type.Type;
+import org.snapscript.core.variable.Value;
+import org.snapscript.core.variable.bind.VariableBinder;
 import org.snapscript.tree.ModifierAccessVerifier;
 import org.snapscript.tree.NameReference;
-import org.snapscript.tree.variable.VariableBinder;
 
 public class ReferenceProperty implements Compilation {
    

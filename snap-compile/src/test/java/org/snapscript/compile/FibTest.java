@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 import junit.framework.TestCase;
 
-import org.snapscript.core.scope.Value;
+import org.snapscript.core.variable.Value;
 import org.snapscript.tree.math.NumericOperator;
 
 public class FibTest extends TestCase {

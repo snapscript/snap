@@ -7,9 +7,9 @@ import static org.snapscript.core.constraint.Constraint.TYPE;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
-import org.snapscript.core.scope.Value;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeBody;
+import org.snapscript.core.variable.Value;
 
 public class ClassPropertyGenerator {
    

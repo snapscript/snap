@@ -11,8 +11,8 @@ import org.snapscript.core.module.Module;
 import org.snapscript.core.platform.Platform;
 import org.snapscript.core.platform.PlatformProvider;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.Value;
 import org.snapscript.core.type.Type;
+import org.snapscript.core.variable.Value;
 
 public class SuperDispatcher implements FunctionDispatcher<Object> {
 

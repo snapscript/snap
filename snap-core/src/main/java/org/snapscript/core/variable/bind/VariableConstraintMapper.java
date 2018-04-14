@@ -1,11 +1,11 @@
-package org.snapscript.tree.variable;
+package org.snapscript.core.variable.bind;
 
 import static org.snapscript.core.ModifierType.CLASS;
 
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.module.Module;
-import org.snapscript.core.scope.Value;
 import org.snapscript.core.type.Type;
+import org.snapscript.core.variable.Value;
 
 public class VariableConstraintMapper {
    

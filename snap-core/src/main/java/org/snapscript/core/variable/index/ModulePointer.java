@@ -1,19 +1,18 @@
-package org.snapscript.tree.variable.index;
+package org.snapscript.core.variable.index;
 
 import static org.snapscript.core.ModifierType.CONSTANT;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.snapscript.core.ModifierType;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.property.PropertyValue;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
-import org.snapscript.core.scope.Value;
 import org.snapscript.core.type.Type;
-import org.snapscript.tree.variable.VariableFinder;
+import org.snapscript.core.variable.Value;
+import org.snapscript.core.variable.bind.VariableFinder;
 
 public class ModulePointer implements VariablePointer<Module> {
    

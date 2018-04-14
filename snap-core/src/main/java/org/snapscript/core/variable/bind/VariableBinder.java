@@ -1,4 +1,4 @@
-package org.snapscript.tree.variable;
+package org.snapscript.core.variable.bind;
 
 import static org.snapscript.core.error.Reason.REFERENCE;
 
@@ -6,10 +6,10 @@ import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.proxy.ProxyWrapper;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.Value;
 import org.snapscript.core.type.Type;
-import org.snapscript.tree.variable.index.VariableIndexer;
-import org.snapscript.tree.variable.index.VariablePointer;
+import org.snapscript.core.variable.Value;
+import org.snapscript.core.variable.index.VariableIndexer;
+import org.snapscript.core.variable.index.VariablePointer;
 
 public class VariableBinder {
 

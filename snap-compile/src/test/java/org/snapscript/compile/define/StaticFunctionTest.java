@@ -9,7 +9,7 @@ import org.snapscript.compile.ClassPathCompilerBuilder;
 import org.snapscript.compile.Compiler;
 import org.snapscript.core.scope.MapModel;
 import org.snapscript.core.scope.Model;
-import org.snapscript.core.scope.Value;
+import org.snapscript.core.variable.Value;
 
 public class StaticFunctionTest extends TestCase{
    public static class Pet{
