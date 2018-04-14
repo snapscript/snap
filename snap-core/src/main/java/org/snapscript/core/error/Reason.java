@@ -13,4 +13,12 @@ public enum Reason {
    public boolean isReference() {
       return this == REFERENCE;
    }
+   
+   public boolean isInvoke() {
+      return this == INVOKE;
+   }   
+   
+   public boolean isThrow() {
+      return this == THROW;
+   }
 }

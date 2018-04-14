@@ -86,7 +86,7 @@ public class TextDecoder {
       }
    }
    
-   public int binary(char value) {
+   public long binary(char value) {
       if(value == '0') {
          return 0; 
       }
@@ -96,7 +96,7 @@ public class TextDecoder {
       throw new IllegalArgumentException("Character '" + value + "' is not binary");
    }
    
-   public int hexidecimal(char value) {
+   public long hexidecimal(char value) {
       if(value >= '0' && value <= '9') {
          return value - '0'; 
       }

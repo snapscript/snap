@@ -37,13 +37,20 @@ public class Application implements Executable{
    }
 
    @Override
-   public void execute(Model model) throws Exception{ 
+   public void execute(Model model) throws Exception{
+      execute(model, false);
+   }
+   
+   @Override
+   public void execute(Model model, boolean test) throws Exception{ 
       Scope scope = merger.merge(model, name, path);
       ErrorHandler handler = context.getHandler();
       Execution execution = compiler.compile(scope); // create all types
       
       try {
-         execution.execute(scope);
+         if(!test) {
+            execution.execute(scope);
+         }
       } catch(Throwable cause) {
          handler.handleExternalError(THROW, scope, cause);
       }

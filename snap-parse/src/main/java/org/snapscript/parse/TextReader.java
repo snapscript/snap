@@ -148,9 +148,9 @@ public class TextReader {
             return null;
          }
          NumberType type = INTEGER;
+         long value = 0;
          int pos = off + 2;
          int mark = off;
-         int value = 0;
          
          while(pos < count) {
             short mask = types[pos];
@@ -188,9 +188,9 @@ public class TextReader {
             return null;
          }
          NumberType type = INTEGER;
+         long value = 0;
          int pos = off + 2;
          int mark = off;
-         int value = 0;
          
          while(pos < count) {
             short mask = types[pos];

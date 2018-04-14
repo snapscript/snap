@@ -4,8 +4,16 @@ public enum NumberType {
    INTEGER {
       @Override
       public Number convert(Number number) {
-         return number.intValue();
-      }
+         long value = number.longValue();
+         
+         if(value > 0 && value <= Integer.MAX_VALUE) {
+            return number.intValue();
+         }
+         if(value < 0 && value >= Integer.MIN_VALUE) {
+            return number.intValue();
+         }
+         return value; // promote if too big
+      }         
    },
    DOUBLE {
       @Override
