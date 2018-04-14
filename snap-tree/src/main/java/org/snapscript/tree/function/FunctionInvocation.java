@@ -10,6 +10,8 @@ import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
+import org.snapscript.core.function.bind.FunctionBinder;
+import org.snapscript.core.function.bind.FunctionMatcher;
 import org.snapscript.core.function.dispatch.FunctionDispatcher;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
@@ -25,41 +27,54 @@ import org.snapscript.tree.ArgumentList;
 import org.snapscript.tree.NameReference;
 
 public class FunctionInvocation implements Compilation {
-   
-   private final Evaluation invocation;
+
+   private final Evaluation[] evaluations;
+   private final NameReference reference;
+   private final ArgumentList arguments;
    
    public FunctionInvocation(Evaluation function, ArgumentList arguments, Evaluation... evaluations) {
-      this.invocation = new CompileResult(function, arguments, evaluations);
+      this.reference = new NameReference(function);
+      this.evaluations = evaluations;
+      this.arguments = arguments;
    }
    
    @Override
    public Evaluation compile(Module module, Path path, int line) throws Exception {
+      Scope scope = module.getScope();
       Context context = module.getContext();
       TraceInterceptor interceptor = context.getInterceptor();
+      String name = reference.getName(scope);      
+      Evaluation invocation = create(context, name);
       Trace trace = Trace.getInvoke(module, path, line);
       
       return new TraceEvaluation(interceptor, invocation, trace);
    }
    
-   private static class CompileResult extends Evaluation {
-   
-      private final NameReference reference;
-      private final ArgumentList arguments;
-      private final Evaluation[] evaluations; // func()[1][x]
-      private final FunctionHolder holder;
-      private final AtomicInteger offset;
+   private Evaluation create(Context context, String name) throws Exception {
+      FunctionBinder binder = context.getBinder();   
+      FunctionMatcher matcher = binder.bind(name);
       
-      public CompileResult(Evaluation function, ArgumentList arguments, Evaluation... evaluations) {
-         this.reference = new NameReference(function);
-         this.holder = new FunctionHolder(reference);
+      return new CompileResult(matcher, arguments, evaluations, name);     
+   }
+   
+   private static class CompileResult extends Evaluation {   
+
+      private final Evaluation[] evaluations; // func()[1][x]
+      private final FunctionMatcher matcher;  
+      private final ArgumentList arguments;
+      private final AtomicInteger offset;    
+      private final String name;
+      
+      public CompileResult(FunctionMatcher matcher, ArgumentList arguments, Evaluation[] evaluations, String name) {
          this.offset = new AtomicInteger();
          this.evaluations = evaluations;
          this.arguments = arguments;
+         this.matcher = matcher;
+         this.name = name;
       }
       
       @Override
       public void define(Scope scope) throws Exception {
-         String name = reference.getName(scope); 
          Index index = scope.getIndex();
          int depth = index.get(name);
 
@@ -73,7 +88,6 @@ public class FunctionInvocation implements Compilation {
       
       @Override
       public Constraint compile(Scope scope, Constraint left) throws Exception {
-         String name = reference.getName(scope); 
          int depth = offset.get();
 
          if(depth != -1){
@@ -89,8 +103,8 @@ public class FunctionInvocation implements Compilation {
       
       private Constraint compile(Scope scope, String name) throws Exception {
          Type[] array = arguments.compile(scope); 
-         FunctionDispatcher handler = holder.get(scope);
-         Constraint result = handler.compile(scope, null, array);
+         FunctionDispatcher dispatcher = matcher.match(scope);
+         Constraint result = dispatcher.compile(scope, null, array);
          
          for(Evaluation evaluation : evaluations) {
             if(result == null) {
@@ -103,7 +117,6 @@ public class FunctionInvocation implements Compilation {
 
       @Override
       public Value evaluate(Scope scope, Object left) throws Exception {
-         String name = reference.getName(scope); 
          int depth = offset.get();
          
          if(depth != -1){
@@ -123,8 +136,8 @@ public class FunctionInvocation implements Compilation {
       
       private Value evaluate(Scope scope, String name) throws Exception {
          Object[] array = arguments.create(scope); 
-         FunctionDispatcher handler = holder.get(scope);
-         Value value = handler.evaluate(scope, null, array);
+         FunctionDispatcher dispatcher = matcher.match(scope);
+         Value value = dispatcher.evaluate(scope, null, array);
          
          for(Evaluation evaluation : evaluations) {
             Object result = value.getValue();
@@ -139,8 +152,8 @@ public class FunctionInvocation implements Compilation {
       
       private Value evaluate(Scope scope, String name, Object local) throws Exception {
          Object[] array = arguments.create(scope); 
-         FunctionDispatcher handler = holder.get(scope, local);
-         Value value = handler.evaluate(scope, local, array);
+         FunctionDispatcher dispatcher = matcher.match(scope, local);
+         Value value = dispatcher.evaluate(scope, local, array);
          
          for(Evaluation evaluation : evaluations) {
             Object result = value.getValue();

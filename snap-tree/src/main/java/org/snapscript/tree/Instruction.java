@@ -59,6 +59,7 @@ import org.snapscript.tree.define.TraitFunction;
 import org.snapscript.tree.define.TraitName;
 import org.snapscript.tree.define.TypeHierarchy;
 import org.snapscript.tree.define.TypeName;
+import org.snapscript.tree.function.FunctionCurry;
 import org.snapscript.tree.function.FunctionHandle;
 import org.snapscript.tree.function.FunctionInvocation;
 import org.snapscript.tree.function.ParameterDeclaration;
@@ -78,9 +79,6 @@ import org.snapscript.tree.operation.PrefixDecrement;
 import org.snapscript.tree.operation.PrefixIncrement;
 import org.snapscript.tree.operation.PrefixOperation;
 import org.snapscript.tree.operation.SignedNumber;
-import org.snapscript.tree.reference.ApplyHandle;
-import org.snapscript.tree.reference.ApplyIndex;
-import org.snapscript.tree.reference.ApplyInvocation;
 import org.snapscript.tree.reference.ConstraintVariable;
 import org.snapscript.tree.reference.ReferenceInvocation;
 import org.snapscript.tree.reference.ReferenceNavigation;
@@ -94,6 +92,7 @@ import org.snapscript.tree.script.ScriptFunction;
 import org.snapscript.tree.script.ScriptPackage;
 import org.snapscript.tree.template.TextTemplate;
 import org.snapscript.tree.variable.Variable;
+import org.snapscript.tree.variable.VariableReference;
 
 public enum Instruction {
    DECIMAL(NumberLiteral.class, "decimal"),
@@ -109,26 +108,24 @@ public enum Instruction {
    TEXT(TextLiteral.class, "text"),
    NULL(NullLiteral.class, "null"),
    NUMBER(SignedNumber.class, "number"), 
-   VARIABLE(Variable.class, "variable"), 
    THIS(This.class, "this"), 
    SUPER(Super.class, "super"), 
    ARGUMENT(Argument.class, "argument"),
    RANGE(Range.class, "range"),     
    CAST(Cast.class, "cast"),     
-   COLLECTION_INDEX(CollectionIndex.class, "collection-index"),     
+   VARIABLE(Variable.class, "variable"), 
+   VARIABLE_REFERENCE(VariableReference.class, "variable-reference"),
    FUNCTION_ARGUMENT_LIST(ArgumentList.class, "function-argument-list"),
-   FUNCTION_INVOCATION(FunctionInvocation.class, "function-invocation"),       
-   FUNCTION_REFERENCE(FunctionHandle.class, "function-reference"),  
+   FUNCTION_INVOCATION(FunctionInvocation.class, "function-invocation"),
+   FUNCTION_CURRY(FunctionCurry.class, "function-curry"),  
+   FUNCTION_HANDLE(FunctionHandle.class, "function-handle"),
    ARGUMENT_LIST(ArgumentList.class, "argument-list"),     
    REFERENCE(ReferenceNavigation.class, "reference"),   
    REFERENCE_INVOCATION(ReferenceInvocation.class, "reference-invocation"),   
    REFERENCE_NAVIGATION(ReferenceNavigation.class, "reference-navigation"),
    REFERENCE_PART(ReferencePart.class, "reference-part"),
    REFERENCE_VARIABLE(ReferencePart.class, "reference-variable"),
-   REFERENCE_PROPERTY(ReferenceProperty.class, "reference-property"),
-   APPLY_INDEX(ApplyIndex.class, "apply-index"),
-   APPLY_CURRY(ApplyInvocation.class, "apply-invocation"),  
-   APPLY_HANDLE(ApplyHandle.class, "apply-handle"),  
+   REFERENCE_PROPERTY(ReferenceProperty.class, "reference-property"), 
    CALCULATION_LIST(CalculationList.class, "calculation-list"),
    CALCULATION_OPERATOR(CalculationOperator.class, "calculation-operator"),
    CALCULATION_OPERAND(CalculationOperand.class, "calculation-operand"),   
@@ -158,6 +155,7 @@ public enum Instruction {
    MAP_ENRTY_LIST(MapEntryList.class, "map-entry-list"),
    MAP_ENTRY(MapEntry.class, "map-entry"),
    MAP_KEY(MapKey.class, "map-key"),
+   COLLECTION_INDEX(CollectionIndex.class, "collection-index"), 
    DECLARATION(Declaration.class, "declaration"),
    DECLARATION_MODIFIER(Modifier.class, "declaration-modifier"),      
    DECLARATION_STATEMENT(DeclarationStatement.class, "declaration-statement"),

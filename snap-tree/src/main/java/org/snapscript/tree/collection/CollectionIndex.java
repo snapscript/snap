@@ -8,77 +8,55 @@ import java.util.Map;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalArgumentException;
-import org.snapscript.core.InternalStateException;
+import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.convert.proxy.ProxyWrapper;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.Value;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.convert.proxy.ProxyWrapper;
 import org.snapscript.tree.Argument;
 
 public class CollectionIndex extends Evaluation {
    
-   private final CollectionConverter converter;
-   private final Evaluation[] evaluations; // func()[1][3]
-   private final Evaluation variable;
+   private final CollectionConverter converter;    
    private final Argument argument;
   
-   public CollectionIndex(Evaluation variable, Argument argument, Evaluation... evaluations) {
+   public CollectionIndex(Argument argument) {
       this.converter = new CollectionConverter();
-      this.evaluations = evaluations;
       this.argument = argument;
-      this.variable = variable;  
    }
 
    @Override
    public void define(Scope scope) throws Exception {
-      variable.define(scope);
       argument.define(scope);
-      
-      for(Evaluation evaluation : evaluations) {
-         evaluation.define(scope);
-      }
    }
    
    @Override
    public Constraint compile(Scope scope, Constraint left) throws Exception {
-      Constraint constraint = variable.compile(scope, left);
       Constraint index = argument.compile(scope, null);
-      Type type = constraint.getType(scope);
+      Type type = left.getType(scope);
       
       if(type != null) {
          Type entry = type.getEntry();
-         Constraint next = Constraint.getConstraint(entry);
-               
-         for(Evaluation evaluation : evaluations) {
-            next = evaluation.compile(scope, next);
-         }
-         return next;
+         
+         if(entry != null) { // is this a compile error?
+            return Constraint.getConstraint(entry);
+         }         
       }
       return NONE;
    }
    
    @Override
    public Value evaluate(Scope scope, Object left) throws Exception {
-      Value value = variable.evaluate(scope, left);
       Value index = argument.evaluate(scope, null);
-      Object source = value.getValue();
-      
-      if(source == null) {
+
+      if(index == null) {
+         throw new InternalArgumentException("Illegal index with null");
+      }
+      if(left == null) {
          throw new InternalArgumentException("Illegal index of null");
       }
-      Value result = index(scope, source, index);
-
-      for(Evaluation evaluation : evaluations) {
-         Object object = result.getValue();
-         
-         if(object == null) {
-            throw new InternalStateException("Result was null"); 
-         }
-         result = evaluation.evaluate(scope, object);
-      }
-      return result;
+      return index(scope, left, index);
    }
    
    private Value index(Scope scope, Object left, Value index) throws Exception {

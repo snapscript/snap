@@ -1,21 +1,19 @@
 package org.snapscript.tree.function;
 
-import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
-
 import org.snapscript.core.type.index.ScopeType;
 
 public class FunctionHandleAligner {
    
-   private final String method;
    private final Object value;
+   private final boolean constructor;
 
-   public FunctionHandleAligner(Object value, String method){
-      this.method = method;
+   public FunctionHandleAligner(Object value, boolean constructor){
+      this.constructor = constructor;
       this.value = value;
    }
    
    public Object[] align(Object... list) throws Exception {      
-      if(method.equals(TYPE_CONSTRUCTOR)) {
+      if(constructor) {
          if(ScopeType.class.isInstance(value)) { // inject type parameter
             Object[] arguments = new Object[list.length +1];
          

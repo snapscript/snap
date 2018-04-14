@@ -7,21 +7,21 @@ import org.snapscript.core.function.search.FunctionSearcher;
 
 public class FunctionBinder {
 
-   private final Cache<String, FunctionGroup> cache;
+   private final Cache<String, FunctionMatcher> cache;
    private final FunctionSearcher binder;
    private final ErrorHandler handler;
    
    public FunctionBinder(FunctionSearcher binder, ErrorHandler handler) {
-      this.cache = new CopyOnWriteCache<String, FunctionGroup>();
+      this.cache = new CopyOnWriteCache<String, FunctionMatcher>();
       this.handler = handler;
       this.binder = binder;
    }
    
-   public FunctionGroup bind(String name){
-      FunctionGroup index = cache.fetch(name);
+   public FunctionMatcher bind(String name){
+      FunctionMatcher index = cache.fetch(name);
       
       if(index == null) {
-         index = new FunctionGroup(binder, handler, name);
+         index = new FunctionMatcher(binder, handler, name);
          cache.cache(name, index);
       }
       return index;

@@ -15,19 +15,24 @@ import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationFunction;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.Signature;
+import org.snapscript.core.function.bind.FunctionMatcher;
 
 public class FunctionHandleBuilder {
    
+   private final FunctionMatcher matcher;
    private final Parameter parameter;
+   private final boolean constructor;
    
-   public FunctionHandleBuilder() {
+   public FunctionHandleBuilder(FunctionMatcher matcher, boolean constructor) {
       this.parameter = new Parameter(DEFAULT_PARAMETER, null, false, true);
+      this.constructor = constructor;
+      this.matcher = matcher;
    }
    
    public Function create(Module module, Object value, String method) throws Exception {
       List<Parameter> parameters = new ArrayList<Parameter>();
       Signature signature = new FunctionSignature(parameters, module, null, true, true);
-      Invocation invocation = new FunctionHandleInvocation(module, value, method);
+      Invocation invocation = new FunctionHandleInvocation(matcher, module, value, constructor);
       Type type = new FunctionType(signature, module, null);
       
       parameters.add(parameter);

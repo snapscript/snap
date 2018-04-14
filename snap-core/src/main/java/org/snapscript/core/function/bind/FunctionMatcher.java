@@ -13,7 +13,7 @@ import org.snapscript.core.function.dispatch.LocalDispatcher;
 import org.snapscript.core.function.dispatch.TypeLocalDispatcher;
 import org.snapscript.core.function.search.FunctionSearcher;
 
-public class FunctionGroup {
+public class FunctionMatcher {
    
    private final Cache<Class, FunctionDispatcher> cache;
    private final FunctionDispatcherBuilder builder;
@@ -21,7 +21,7 @@ public class FunctionGroup {
    private final FunctionDispatcher local;
    private final FunctionDispatcher empty;
    
-   public FunctionGroup(FunctionSearcher binder, ErrorHandler handler, String name) {
+   public FunctionMatcher(FunctionSearcher binder, ErrorHandler handler, String name) {
       this.builder = new FunctionDispatcherBuilder(binder, handler, name);
       this.cache = new CopyOnWriteCache<Class, FunctionDispatcher>();
       this.instance = new TypeLocalDispatcher(binder, handler, name);
@@ -29,7 +29,7 @@ public class FunctionGroup {
       this.empty = new EmptyDispatcher();
    }
    
-   public FunctionDispatcher get(Scope scope) throws Exception {
+   public FunctionDispatcher match(Scope scope) throws Exception {
       Type type = scope.getType();
       
       if(type != null) {
@@ -38,7 +38,7 @@ public class FunctionGroup {
       return local;
    }
    
-   public FunctionDispatcher get(Scope scope, Constraint left) throws Exception {
+   public FunctionDispatcher match(Scope scope, Constraint left) throws Exception {
       Type type = left.getType(scope);
       
       if(type != null) {
@@ -47,7 +47,7 @@ public class FunctionGroup {
       return empty;
    }
    
-   public FunctionDispatcher get(Scope scope, Object left) throws Exception {
+   public FunctionDispatcher match(Scope scope, Object left) throws Exception {
       Type type = scope.getType();
       
       if(left != null) {

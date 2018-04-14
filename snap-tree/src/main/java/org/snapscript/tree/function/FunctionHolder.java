@@ -3,7 +3,7 @@ package org.snapscript.tree.function;
 import org.snapscript.core.Context;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.bind.FunctionBinder;
-import org.snapscript.core.function.bind.FunctionGroup;
+import org.snapscript.core.function.bind.FunctionMatcher;
 import org.snapscript.core.function.dispatch.FunctionDispatcher;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
@@ -12,7 +12,7 @@ import org.snapscript.tree.NameReference;
 public class FunctionHolder {
 
    private NameReference reference;
-   private FunctionGroup group; // this referenced avoids a hash lookup
+   private FunctionMatcher group; // this referenced avoids a hash lookup
    
    public FunctionHolder(NameReference reference) {
       this.reference = reference;
@@ -27,7 +27,7 @@ public class FunctionHolder {
          
          group = binder.bind(name);
       }
-      return group.get(scope);
+      return group.match(scope);
    }
 
    public FunctionDispatcher get(Scope scope, Constraint left) throws Exception {
@@ -39,7 +39,7 @@ public class FunctionHolder {
          
          group = binder.bind(name);
       }
-      return group.get(scope, left);
+      return group.match(scope, left);
    }
    
    public FunctionDispatcher get(Scope scope, Object left) throws Exception {
@@ -51,6 +51,6 @@ public class FunctionHolder {
          
          group = binder.bind(name);
       }
-      return group.get(scope, left);
+      return group.match(scope, left);
    }
 }

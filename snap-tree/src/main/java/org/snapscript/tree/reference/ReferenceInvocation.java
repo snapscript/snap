@@ -10,7 +10,8 @@ import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
-import org.snapscript.core.error.Reason;
+import org.snapscript.core.function.bind.FunctionBinder;
+import org.snapscript.core.function.bind.FunctionMatcher;
 import org.snapscript.core.function.dispatch.FunctionDispatcher;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
@@ -24,46 +25,58 @@ import org.snapscript.core.type.Type;
 import org.snapscript.tree.AccessChecker;
 import org.snapscript.tree.ArgumentList;
 import org.snapscript.tree.NameReference;
-import org.snapscript.tree.function.FunctionHolder;
 
 public class ReferenceInvocation implements Compilation {
-   
-   private final Evaluation invocation;
+
+   private final Evaluation[] evaluations;
+   private final NameReference reference;
+   private final ArgumentList arguments;
    
    public ReferenceInvocation(Evaluation function, ArgumentList arguments, Evaluation... evaluations) {
-      this.invocation = new CompileResult(function, arguments, evaluations);
+      this.reference = new NameReference(function);
+      this.evaluations = evaluations;
+      this.arguments = arguments;
    }
    
    @Override
    public Evaluation compile(Module module, Path path, int line) throws Exception {
+      Scope scope = module.getScope();
       Context context = module.getContext();
       TraceInterceptor interceptor = context.getInterceptor();
+      String name = reference.getName(scope);      
+      Evaluation invocation = create(context, name);
       Trace trace = Trace.getInvoke(module, path, line);
       
       return new TraceEvaluation(interceptor, invocation, trace);
    }
    
+   private Evaluation create(Context context, String name) throws Exception {
+      FunctionBinder binder = context.getBinder();   
+      FunctionMatcher matcher = binder.bind(name);
+      
+      return new CompileResult(matcher, arguments, evaluations, name);     
+   }
+   
    private static class CompileResult extends Evaluation {
    
       private final Evaluation[] evaluations; // func()[1][x]
-      private final NameReference reference;
+      private final FunctionMatcher matcher;
       private final ArgumentList arguments;
-      private final FunctionHolder holder;
       private final AccessChecker checker;
       private final AtomicInteger offset;
+      private final String name;
       
-      public CompileResult(Evaluation function, ArgumentList arguments, Evaluation... evaluations) {
-         this.reference = new NameReference(function);
-         this.holder = new FunctionHolder(reference);
+      public CompileResult(FunctionMatcher matcher, ArgumentList arguments, Evaluation[] evaluations, String name) {
          this.checker = new AccessChecker();
          this.offset = new AtomicInteger();
          this.evaluations = evaluations;
          this.arguments = arguments;
+         this.matcher = matcher;
+         this.name = name;
       }
       
       @Override
-      public void define(Scope scope) throws Exception {
-         String name = reference.getName(scope); 
+      public void define(Scope scope) throws Exception { 
          Index index = scope.getIndex();
          int depth = index.get(name);
 
@@ -77,10 +90,9 @@ public class ReferenceInvocation implements Compilation {
       
       @Override
       public Constraint compile(Scope scope, Constraint left) throws Exception {
-         String name = reference.getName(scope); 
          Type type = left.getType(scope);         
          Type[] array = arguments.compile(scope); 
-         FunctionDispatcher dispatcher = holder.get(scope, left);
+         FunctionDispatcher dispatcher = matcher.match(scope, left);
          Constraint result = dispatcher.compile(scope, type, array);
          
          if(result.isPrivate()) {
@@ -103,10 +115,9 @@ public class ReferenceInvocation implements Compilation {
 
       @Override
       public Value evaluate(Scope scope, Object left) throws Exception {
-         String name = reference.getName(scope); 
          Object[] array = arguments.create(scope); 
-         FunctionDispatcher handler = holder.get(scope, left);
-         Value value = handler.evaluate(scope, left, array);
+         FunctionDispatcher dispatcher = matcher.match(scope, left);
+         Value value = dispatcher.evaluate(scope, left, array);
          
          for(Evaluation evaluation : evaluations) {
             Object result = value.getValue();
