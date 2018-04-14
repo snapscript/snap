@@ -10,6 +10,14 @@ public class ExpressionParseTest extends TestCase {
       SyntaxParser tree = LexerBuilder.create(GRAMMAR_FILE);
 
       assertNotNull(tree);
+      analyze(tree, "yield;", "yield-statement");
+      analyze(tree, "yield x;", "yield-statement");
+      analyze(tree, "yield x as String;", "yield-statement");
+      analyze(tree, "yield x -> true;", "yield-statement");
+      analyze(tree, "return;", "return-statement");
+      analyze(tree, "return x;", "return-statement");
+      analyze(tree, "return x as String;", "return-statement");
+      analyze(tree, "return x -> true;", "return-statement");
       analyze(tree, "err", "reference-property");
       analyze(tree, "err::println", "reference-property");
       analyze(tree, "err[0]", "reference-property");
