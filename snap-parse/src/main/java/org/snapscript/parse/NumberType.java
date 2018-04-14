@@ -1,18 +1,21 @@
 package org.snapscript.parse;
 
+import static java.lang.Integer.MAX_VALUE;
+import static java.lang.Integer.MIN_VALUE;
+
 public enum NumberType {
    INTEGER {
       @Override
       public Number convert(Number number) {
          long value = number.longValue();
          
-         if(value > 0 && value <= Integer.MAX_VALUE) {
+         if(value >= 0 && value <= MAX_VALUE) {
             return number.intValue();
          }
-         if(value < 0 && value >= Integer.MIN_VALUE) {
+         if(value <= 0 && value >= MIN_VALUE) {
             return number.intValue();
          }
-         return value; // promote if too big
+         return value; // integer as a default may need promotion
       }         
    },
    DOUBLE {

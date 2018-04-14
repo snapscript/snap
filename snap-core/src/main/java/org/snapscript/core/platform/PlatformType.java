@@ -1,8 +1,8 @@
 package org.snapscript.core.platform;
 
 public enum PlatformType {
-   ANDROID("android.os.Build"),
-   STANDARD("java.awt.Graphics");
+   STANDARD("java.awt.Graphics"),
+   ANDROID("android.os.Build");
    
    private final String type;
    
