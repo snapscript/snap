@@ -34,7 +34,7 @@ public class LocalDispatcher implements FunctionDispatcher<Object> {
    }
    
    @Override
-   public Value evaluate(Scope scope, Object object, Object... arguments) throws Exception {
+   public Value dispatch(Scope scope, Object object, Object... arguments) throws Exception {
       FunctionCall call = bind(scope, object, arguments);
       
       if(call == null) {

@@ -1,4 +1,4 @@
-package org.snapscript.tree.variable.pointer;
+package org.snapscript.tree.variable.index;
 
 import static org.snapscript.core.ModifierType.CONSTANT;
 

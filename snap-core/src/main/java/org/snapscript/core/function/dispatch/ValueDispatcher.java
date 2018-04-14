@@ -29,7 +29,7 @@ public class ValueDispatcher implements FunctionDispatcher<Value> {
    }
 
    @Override
-   public Value evaluate(Scope scope, Value value, Object... list) throws Exception {
+   public Value dispatch(Scope scope, Value value, Object... list) throws Exception {
       FunctionCall closure = binder.resolveValue(value, list); // function variable
       
       if(closure == null) {

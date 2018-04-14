@@ -96,6 +96,29 @@ public class PrivateAccessCompileTest extends CompileTestCase {
    "}"+
    "Mod.x;\n"; 
    
+   private static final String FAILURE_8 =
+   "class Typ {\n"+
+   "   private static func(){}\n"+
+   "}"+
+   "class Typ2 {\n"+
+   "   static func(){\n"+
+   "      Typ.func();\n"+
+   "   }\n"+
+   "}"+   
+   "Typ2.func();\n";   
+   
+   private static final String FAILURE_9 =
+   "class Typ {\n"+
+   "   private func(){}\n"+
+   "}"+
+   "class Typ2 {\n"+
+   "   var f: Typ;\n"+
+   "   func(){\n"+
+   "      f.func();\n"+
+   "   }\n"+
+   "}"+   
+   "new Typ2().func();\n";   
+   
    public void testModificationOfConstants() throws Exception {
       assertCompileSuccess(SUCCESS_1); 
       assertCompileSuccess(SUCCESS_2);
@@ -108,7 +131,9 @@ public class PrivateAccessCompileTest extends CompileTestCase {
       assertCompileError(FAILURE_4, "Property 'x' for 'default.Typ' is not accessible in /default.snap at line 3"); 
       assertCompileError(FAILURE_5, "Property 'x' for 'default.Typ' is not accessible in /default.snap at line 3"); 
       assertCompileError(FAILURE_6, "Property 'x' for 'default.Mod' is not accessible in /default.snap at line 3"); 
-      assertCompileError(FAILURE_7, "Property 'x' for 'default.Mod' is not accessible in /default.snap at line 3"); 
+      assertCompileError(FAILURE_7, "Property 'x' for 'default.Mod' is not accessible in /default.snap at line 3");
+      assertCompileError(FAILURE_8, "Function 'func()' for 'default.Typ' is not accessible in /default.snap at line 5");
+      assertCompileError(FAILURE_9, "Function 'func()' for 'default.Typ' is not accessible in /default.snap at line 6"); 
    }
 
 }

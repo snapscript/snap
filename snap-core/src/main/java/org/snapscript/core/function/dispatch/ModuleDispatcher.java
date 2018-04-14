@@ -35,7 +35,7 @@ public class ModuleDispatcher implements FunctionDispatcher<Module> {
    }
 
    @Override
-   public Value evaluate(Scope scope, Module module, Object... arguments) throws Exception {   
+   public Value dispatch(Scope scope, Module module, Object... arguments) throws Exception {   
       FunctionCall call = bind(scope, module, arguments);
       
       if(call == null) {

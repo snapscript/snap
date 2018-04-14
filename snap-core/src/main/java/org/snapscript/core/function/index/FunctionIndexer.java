@@ -3,10 +3,10 @@ package org.snapscript.core.function.index;
 import java.util.List;
 
 import org.snapscript.core.ModifierType;
-import org.snapscript.core.type.Type;
 import org.snapscript.core.convert.TypeInspector;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.stack.ThreadStack;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeCache;
 import org.snapscript.core.type.TypeExtractor;
 

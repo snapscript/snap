@@ -34,7 +34,7 @@ public class DelegateDispatcher implements FunctionDispatcher<Delegate> {
    }
    
    @Override
-   public Value evaluate(Scope scope, Delegate object, Object... arguments) throws Exception {
+   public Value dispatch(Scope scope, Delegate object, Object... arguments) throws Exception {
       FunctionCall call = binder.resolveFunction(scope, object, name, arguments);
       
       if(call == null) {

@@ -36,7 +36,7 @@ public class ClosureDispatcher implements FunctionDispatcher<Function> {
    }
 
    @Override
-   public Value evaluate(Scope scope, Function function, Object... arguments) throws Exception {
+   public Value dispatch(Scope scope, Function function, Object... arguments) throws Exception {
       FunctionCall call = bind(scope, function, arguments); // this is not used often
       
       if(call == null) {

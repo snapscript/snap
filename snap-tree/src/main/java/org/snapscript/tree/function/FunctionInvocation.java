@@ -137,7 +137,7 @@ public class FunctionInvocation implements Compilation {
       private Value evaluate(Scope scope, String name) throws Exception {
          Object[] array = arguments.create(scope); 
          FunctionDispatcher dispatcher = matcher.match(scope);
-         Value value = dispatcher.evaluate(scope, null, array);
+         Value value = dispatcher.dispatch(scope, null, array);
          
          for(Evaluation evaluation : evaluations) {
             Object result = value.getValue();
@@ -153,7 +153,7 @@ public class FunctionInvocation implements Compilation {
       private Value evaluate(Scope scope, String name, Object local) throws Exception {
          Object[] array = arguments.create(scope); 
          FunctionDispatcher dispatcher = matcher.match(scope, local);
-         Value value = dispatcher.evaluate(scope, local, array);
+         Value value = dispatcher.dispatch(scope, local, array);
          
          for(Evaluation evaluation : evaluations) {
             Object result = value.getValue();

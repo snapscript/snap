@@ -40,7 +40,7 @@ public class MapDispatcher implements FunctionDispatcher<Map> {
    }
    
    @Override
-   public Value evaluate(Scope scope, Map map, Object... arguments) throws Exception {
+   public Value dispatch(Scope scope, Map map, Object... arguments) throws Exception {
       FunctionCall call = bind(scope, map, arguments);
       
       if(call == null) {

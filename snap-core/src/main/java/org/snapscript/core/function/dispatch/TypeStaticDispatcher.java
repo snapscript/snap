@@ -36,7 +36,7 @@ public class TypeStaticDispatcher implements FunctionDispatcher<Type> {
    } 
 
    @Override
-   public Value evaluate(Scope scope, Type type, Object... arguments) throws Exception {   
+   public Value dispatch(Scope scope, Type type, Object... arguments) throws Exception {   
       FunctionCall call = binder.resolveStatic(scope, type, name, arguments);
 
       if(call == null) {

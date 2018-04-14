@@ -1,4 +1,4 @@
-package org.snapscript.tree.variable.pointer;
+package org.snapscript.tree.variable.index;
 
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -9,7 +9,7 @@ import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.tree.variable.VariableIndexResolver;
 
-public class VariablePointerResolver {
+public class VariableIndexer {
    
    private final AtomicReference<VariablePointer> reference;
    private final Cache<Integer, VariablePointer> cache;
@@ -17,7 +17,7 @@ public class VariablePointerResolver {
    private final VariableIndexResolver resolver;
    private final VariablePointer empty;
    
-   public VariablePointerResolver(String name) {
+   public VariableIndexer(String name) {
       this.cache = new CopyOnWriteCache<Integer, VariablePointer>();
       this.reference = new AtomicReference<VariablePointer>();
       this.builder = new VariablePointerBuilder(name);
@@ -25,7 +25,7 @@ public class VariablePointerResolver {
       this.empty = new EmptyPointer();
    }
    
-   public VariablePointer resolve(Scope scope) throws Exception {
+   public VariablePointer index(Scope scope) throws Exception {
       VariablePointer pointer = reference.get();
 
       if(pointer == null) { 
@@ -35,7 +35,7 @@ public class VariablePointerResolver {
       return pointer;
    }
 
-   public VariablePointer resolve(Scope scope, Object left) throws Exception {
+   public VariablePointer index(Scope scope, Object left) throws Exception {
       int index = resolver.resolve(scope, left);
       VariablePointer pointer = cache.fetch(index);
 
@@ -46,7 +46,7 @@ public class VariablePointerResolver {
       return pointer;
    }
    
-   public VariablePointer resolve(Scope scope, Constraint left) throws Exception {
+   public VariablePointer index(Scope scope, Constraint left) throws Exception {
       Type type = left.getType(scope);
       
       if(type != null) {

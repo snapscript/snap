@@ -1,25 +1,26 @@
-package org.snapscript.tree.variable.pointer;
+package org.snapscript.tree.variable.index;
 
-import static org.snapscript.core.constraint.Constraint.NONE;
-
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.snapscript.core.Context;
+import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.function.Function;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.property.Property;
+import org.snapscript.core.property.PropertyValue;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.Value;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.property.Property;
-import org.snapscript.core.property.PropertyValue;
+import org.snapscript.core.type.TypeExtractor;
 import org.snapscript.tree.variable.VariableFinder;
 
-public class MapPointer implements VariablePointer<Map> {
-   
+public class ClosurePointer implements VariablePointer<Function> {
+
    private final AtomicReference<Property> reference;
    private final VariableFinder finder;
    private final String name;
    
-   public MapPointer(VariableFinder finder, String name) {
+   public ClosurePointer(VariableFinder finder, String name) {
       this.reference = new AtomicReference<Property>();
       this.finder = finder;
       this.name = name;
@@ -30,24 +31,31 @@ public class MapPointer implements VariablePointer<Map> {
       Property accessor = reference.get();
       
       if(accessor == null) {
-         Type type = left.getType(scope);
-         Property match = finder.findPropertyFromMap(scope, type, name);
+         Module module = scope.getModule();
+         Context context = module.getContext();
+         TypeExtractor extractor = context.getExtractor();
+         Type type = extractor.getType(Function.class);
+         Property match = finder.findAnyFromType(scope, type, name);
          
          if(match != null) {
             reference.set(match);
             return match.getConstraint();
          }
-         return NONE;
+         return null;
       }
       return accessor.getConstraint();
    }
    
    @Override
-   public Value get(Scope scope, Map left) {
+   public Value get(Scope scope, Function left) {
       Property accessor = reference.get();
       
       if(accessor == null) {
-         Property match = finder.findPropertyFromMap(scope, left, name);
+         Module module = scope.getModule();
+         Context context = module.getContext();
+         TypeExtractor extractor = context.getExtractor();
+         Type type = extractor.getType(Function.class);
+         Property match = finder.findAnyFromType(scope, type, name);
          
          if(match != null) {
             reference.set(match);

@@ -14,7 +14,7 @@ import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.Value;
 import org.snapscript.core.type.Type;
-import org.snapscript.tree.AccessChecker;
+import org.snapscript.tree.ModifierAccessVerifier;
 import org.snapscript.tree.NameReference;
 import org.snapscript.tree.variable.VariableBinder;
 
@@ -41,15 +41,15 @@ public class ReferenceProperty implements Compilation {
    
    private static class CompileResult extends Evaluation {
    
+      private final ModifierAccessVerifier verifier;
       private final Evaluation[] evaluations;
       private final VariableBinder binder;
-      private final AccessChecker checker;
       private final ErrorHandler handler;
       private final String name;
       
       public CompileResult(ErrorHandler handler, ProxyWrapper wrapper, Evaluation[] evaluations, String name) {
          this.binder = new VariableBinder(handler, wrapper, name);
-         this.checker = new AccessChecker();
+         this.verifier = new ModifierAccessVerifier();
          this.evaluations = evaluations;
          this.handler = handler;
          this.name = name;
@@ -62,7 +62,7 @@ public class ReferenceProperty implements Compilation {
          if(result.isPrivate()) {
             Type type = left.getType(scope); // what is the callers type
 
-            if(!checker.isAccessible(scope, type)) {
+            if(!verifier.isAccessible(scope, type)) {
                handler.handleCompileError(ACCESS, scope, type, name);
             }
          }

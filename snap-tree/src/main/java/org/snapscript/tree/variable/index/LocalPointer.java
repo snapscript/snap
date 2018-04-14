@@ -1,4 +1,4 @@
-package org.snapscript.tree.variable.pointer;
+package org.snapscript.tree.variable.index;
 
 import java.util.concurrent.atomic.AtomicReference;
 

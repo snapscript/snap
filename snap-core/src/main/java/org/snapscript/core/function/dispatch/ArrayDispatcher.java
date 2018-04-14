@@ -39,7 +39,7 @@ public class ArrayDispatcher implements FunctionDispatcher<Object> {
    }
 
    @Override
-   public Value evaluate(Scope scope, Object object, Object... arguments) throws Exception {
+   public Value dispatch(Scope scope, Object object, Object... arguments) throws Exception {
       List list = builder.convert(object);
       FunctionCall call = binder.resolveInstance(scope, list, name, arguments);
       

@@ -30,7 +30,7 @@ public class FunctionHandleInvocation implements Invocation {
       Scope actual = module.getScope();
       Object[] arguments = aligner.align(list); // align constructor arguments
       FunctionDispatcher dispatcher = matcher.match(actual, value);
-      Value result = dispatcher.evaluate(actual, value, arguments);
+      Value result = dispatcher.dispatch(actual, value, arguments);
       
       return result.getValue();
    }

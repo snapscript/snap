@@ -22,7 +22,7 @@ import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceEvaluation;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.type.Type;
-import org.snapscript.tree.AccessChecker;
+import org.snapscript.tree.ModifierAccessVerifier;
 import org.snapscript.tree.ArgumentList;
 import org.snapscript.tree.NameReference;
 
@@ -59,15 +59,15 @@ public class ReferenceInvocation implements Compilation {
    
    private static class CompileResult extends Evaluation {
    
+      private final ModifierAccessVerifier verifier;
       private final Evaluation[] evaluations; // func()[1][x]
       private final FunctionMatcher matcher;
       private final ArgumentList arguments;
-      private final AccessChecker checker;
       private final AtomicInteger offset;
       private final String name;
       
       public CompileResult(FunctionMatcher matcher, ArgumentList arguments, Evaluation[] evaluations, String name) {
-         this.checker = new AccessChecker();
+         this.verifier = new ModifierAccessVerifier();
          this.offset = new AtomicInteger();
          this.evaluations = evaluations;
          this.arguments = arguments;
@@ -100,7 +100,7 @@ public class ReferenceInvocation implements Compilation {
             Context context = module.getContext();
             ErrorHandler handler = context.getHandler();
             
-            if(!checker.isAccessible(scope, type)) {
+            if(!verifier.isAccessible(scope, type)) {
                handler.handleCompileError(ACCESS, scope, type, name, array);
             }
          }
@@ -117,7 +117,7 @@ public class ReferenceInvocation implements Compilation {
       public Value evaluate(Scope scope, Object left) throws Exception {
          Object[] array = arguments.create(scope); 
          FunctionDispatcher dispatcher = matcher.match(scope, left);
-         Value value = dispatcher.evaluate(scope, left, array);
+         Value value = dispatcher.dispatch(scope, left, array);
          
          for(Evaluation evaluation : evaluations) {
             Object result = value.getValue();

@@ -33,7 +33,7 @@ public class TypeInstanceDispatcher implements FunctionDispatcher<Object> {
    }
    
    @Override
-   public Value evaluate(Scope scope, Object object, Object... arguments) throws Exception {
+   public Value dispatch(Scope scope, Object object, Object... arguments) throws Exception {
       FunctionCall call = binder.resolveInstance(scope, object, name, arguments);
       
       if(call == null) {
