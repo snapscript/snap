@@ -11,7 +11,7 @@ import org.snapscript.core.Context;
 import org.snapscript.core.InternalArgumentException;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.type.NameBuilder;
-import org.snapscript.core.type.TypeNameBuilder;
+import org.snapscript.core.type.CanonicalNameBuilder;
 import org.snapscript.core.type.extend.ModuleExtender;
 
 public class ModuleRegistry {
@@ -35,7 +35,7 @@ public class ModuleRegistry {
       this.references = new CopyOnWriteArrayList<Module>();
       this.extender = new ModuleExtender(context);
       this.converter = new FilePathConverter();
-      this.builder = new TypeNameBuilder();
+      this.builder = new CanonicalNameBuilder();
       this.counter = new AtomicInteger(1);
       this.executor = executor;
       this.context = context;

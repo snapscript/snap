@@ -16,7 +16,7 @@ import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.NameBuilder;
 import org.snapscript.core.type.TypeLoader;
-import org.snapscript.core.type.TypeNameBuilder;
+import org.snapscript.core.type.CanonicalNameBuilder;
 import org.snapscript.core.variable.Value;
 
 public class Import implements Compilation {
@@ -75,7 +75,7 @@ public class Import implements Compilation {
       private String[] alias;
 
       public CompileResult(Package library, Path path, String location, String target, String... alias) {
-         this.builder = new TypeNameBuilder();
+         this.builder = new CanonicalNameBuilder();
          this.location = location;
          this.library = library;
          this.target = target;

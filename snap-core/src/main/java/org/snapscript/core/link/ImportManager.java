@@ -11,10 +11,10 @@ import org.snapscript.core.InternalStateException;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.ModuleRegistry;
 import org.snapscript.core.module.Path;
+import org.snapscript.core.type.CanonicalNameBuilder;
 import org.snapscript.core.type.NameBuilder;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeLoader;
-import org.snapscript.core.type.TypeNameBuilder;
 
 public class ImportManager {
 
@@ -30,7 +30,7 @@ public class ImportManager {
       this.aliases = new ConcurrentHashMap<String, String>();
       this.imports = new CopyOnWriteArraySet<String>();
       this.matcher = new ImportMatcher(parent, executor, path, from);
-      this.builder = new TypeNameBuilder();
+      this.builder = new CanonicalNameBuilder();
       this.parent = parent;
       this.local = local;
       this.from = from;

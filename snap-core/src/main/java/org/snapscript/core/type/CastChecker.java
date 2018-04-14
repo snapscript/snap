@@ -15,13 +15,13 @@ import org.snapscript.core.convert.Score;
 import org.snapscript.core.function.ClosureFunctionFinder;
 import org.snapscript.core.function.Function;
 
-public class TypeCastChecker {
+public class CastChecker {
 
    private final FunctionComparator comparator;
    private final ClosureFunctionFinder finder;
    private final TypeExtractor extractor;
    
-   public TypeCastChecker(ConstraintMatcher matcher, TypeExtractor extractor, TypeLoader loader) {
+   public CastChecker(ConstraintMatcher matcher, TypeExtractor extractor, TypeLoader loader) {
       this.comparator = new FunctionComparator(matcher);
       this.finder = new ClosureFunctionFinder(comparator, extractor, loader);
       this.extractor = extractor;

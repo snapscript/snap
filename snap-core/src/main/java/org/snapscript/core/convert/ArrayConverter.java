@@ -12,7 +12,7 @@ import java.util.List;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.convert.proxy.ProxyWrapper;
-import org.snapscript.core.type.TypeCastChecker;
+import org.snapscript.core.type.CastChecker;
 
 public class ArrayConverter extends ConstraintConverter {
 
@@ -21,7 +21,7 @@ public class ArrayConverter extends ConstraintConverter {
    private final ProxyWrapper wrapper;
    private final Type type;
    
-   public ArrayConverter(ConstraintMatcher matcher, TypeCastChecker checker, ProxyWrapper wrapper, Type type) {
+   public ArrayConverter(ConstraintMatcher matcher, CastChecker checker, ProxyWrapper wrapper, Type type) {
       this.comparator = new ArrayTypeComparator(checker);
       this.wrapper = wrapper;
       this.matcher = matcher;

@@ -2,6 +2,7 @@ package org.snapscript.core.function;
 
 import static org.snapscript.core.ModifierType.ABSTRACT;
 import static org.snapscript.core.Reserved.METHOD_CLOSURE;
+import static org.snapscript.core.constraint.Constraint.NONE;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ public class EmptyFunction implements Function {
    public EmptyFunction(Signature signature, String name){
       this(signature, name, ABSTRACT.mask);
    }
-   
+
    public EmptyFunction(Signature signature, String name, int modifiers){
       this.description = new FunctionDescription(signature, null, name);
       this.annotations = new ArrayList<Annotation>();
@@ -46,7 +47,7 @@ public class EmptyFunction implements Function {
    
    @Override
    public Constraint getConstraint() {
-      return null;
+      return NONE;
    }
    
    @Override

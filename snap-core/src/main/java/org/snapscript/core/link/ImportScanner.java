@@ -12,7 +12,7 @@ import org.snapscript.common.Cache;
 import org.snapscript.common.CopyOnWriteCache;
 import org.snapscript.core.ResourceManager;
 import org.snapscript.core.type.NameBuilder;
-import org.snapscript.core.type.TypeNameBuilder;
+import org.snapscript.core.type.CanonicalNameBuilder;
 
 public class ImportScanner {
 
@@ -34,7 +34,7 @@ public class ImportScanner {
       this.types = new CopyOnWriteCache<String, Class>();
       this.failures = new CopyOnWriteArraySet<String>();
       this.selector = new ImportPathResolver(file);
-      this.builder = new TypeNameBuilder();
+      this.builder = new CanonicalNameBuilder();
       this.loader = new ImportLoader();
    }
    

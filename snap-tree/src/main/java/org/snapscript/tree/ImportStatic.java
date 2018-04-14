@@ -18,7 +18,7 @@ import org.snapscript.core.function.Function;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.result.Result;
-import org.snapscript.core.type.TypeNameBuilder;
+import org.snapscript.core.type.CanonicalNameBuilder;
 
 public class ImportStatic implements Compilation {   
    
@@ -47,7 +47,7 @@ public class ImportStatic implements Compilation {
       
       public CompileResult(String location, String target, String prefix) {
          this.execution = new NoExecution(NORMAL);
-         this.builder = new TypeNameBuilder();        
+         this.builder = new CanonicalNameBuilder();        
          this.location = location;
          this.target = target;
          this.prefix = prefix;

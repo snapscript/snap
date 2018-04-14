@@ -2,12 +2,12 @@ package org.snapscript.core.type;
 
 import org.snapscript.core.InternalArgumentException;
 
-public class TypeNameBuilder implements NameBuilder {
+public class CanonicalNameBuilder implements NameBuilder {
    
    private static final String[] DIMENSIONS = {"", "[]", "[][]", "[][][]" };     
    private static final String DIMENSION = "[]";
    
-   public TypeNameBuilder(){
+   public CanonicalNameBuilder(){
       super();
    }
    

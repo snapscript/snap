@@ -6,19 +6,20 @@ import org.snapscript.core.module.Module;
 import org.snapscript.core.module.ModuleRegistry;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.TypeNameBuilder;
+import org.snapscript.core.type.CanonicalNameBuilder;
+import org.snapscript.core.type.NameBuilder;
 import org.snapscript.tree.NameReference;
 import org.snapscript.tree.annotation.AnnotationList;
 
 public class ModuleBuilder {
 
    private final AnnotationList annotations;
-   private final TypeNameBuilder builder;
    private final NameReference reference;
+   private final NameBuilder builder;
    
    public ModuleBuilder(AnnotationList annotations, ModuleName module) {
       this.reference = new NameReference(module);
-      this.builder = new TypeNameBuilder();
+      this.builder = new CanonicalNameBuilder();
       this.annotations = annotations;
    }
 

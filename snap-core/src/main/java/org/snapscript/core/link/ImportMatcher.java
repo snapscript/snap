@@ -11,7 +11,7 @@ import org.snapscript.core.module.ModuleRegistry;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.type.NameBuilder;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.type.TypeNameBuilder;
+import org.snapscript.core.type.CanonicalNameBuilder;
 
 public class ImportMatcher {
 
@@ -22,7 +22,7 @@ public class ImportMatcher {
    
    public ImportMatcher(Module parent, Executor executor, Path path, String from) {
       this.resolver = new ImportTaskResolver(parent, executor, path);
-      this.builder = new TypeNameBuilder();
+      this.builder = new CanonicalNameBuilder();
       this.parent = parent;
       this.from = from;
    }

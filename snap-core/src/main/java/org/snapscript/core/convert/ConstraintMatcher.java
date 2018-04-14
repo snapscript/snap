@@ -9,25 +9,24 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.convert.proxy.ProxyWrapper;
 import org.snapscript.core.type.TypeCache;
-import org.snapscript.core.type.TypeCastChecker;
+import org.snapscript.core.type.CastChecker;
 import org.snapscript.core.type.TypeExtractor;
 import org.snapscript.core.type.TypeLoader;
-import org.snapscript.core.type.TypeVerifier;
 
 public class ConstraintMatcher {
    
    private final TypeCache<ConstraintConverter> converters;
-   private final ConstraintConverter converter;
+   private final ConstraintComparator comparator;
+   private final ConstraintConverter converter;   
    private final TypeExtractor extractor;
-   private final TypeVerifier comparator;
-   private final TypeCastChecker checker;
+   private final CastChecker checker;
    private final ProxyWrapper wrapper;
    
    public ConstraintMatcher(TypeLoader loader, ProxyWrapper wrapper) {
       this.converters = new TypeCache<ConstraintConverter>();
       this.extractor = new TypeExtractor(loader);
-      this.checker = new TypeCastChecker(this, extractor, loader);
-      this.comparator = new TypeVerifier(loader, checker);
+      this.checker = new CastChecker(this, extractor, loader);
+      this.comparator = new ConstraintComparator(loader, checker);
       this.converter = new NullConverter();
       this.wrapper = wrapper;
    }

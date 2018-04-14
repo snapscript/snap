@@ -1,14 +1,16 @@
-package org.snapscript.core.type;
+package org.snapscript.core.convert;
 
+import org.snapscript.core.type.CastChecker;
+import org.snapscript.core.type.Category;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.convert.Score;
+import org.snapscript.core.type.TypeLoader;
 
-public class TypeVerifier {
+public class ConstraintComparator {
    
-   private final TypeCastChecker checker;
+   private final CastChecker checker;
    private final TypeLoader loader;
    
-   public TypeVerifier(TypeLoader loader, TypeCastChecker checker) {
+   public ConstraintComparator(TypeLoader loader, CastChecker checker) {
       this.checker = checker;
       this.loader = loader;
    }

@@ -5,13 +5,13 @@ import org.snapscript.core.module.Path;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.trace.Trace;
-import org.snapscript.core.type.TypeNameBuilder;
+import org.snapscript.core.type.CanonicalNameBuilder;
 
 public class StackElement {
    
    private static final String MAIN_FUNCTION = "main";
    
-   private final TypeNameBuilder builder;
+   private final CanonicalNameBuilder builder;
    private final Function function;
    private final Trace trace;
    
@@ -20,7 +20,7 @@ public class StackElement {
    }
    
    public StackElement(Trace trace, Function function) {
-      this.builder = new TypeNameBuilder();
+      this.builder = new CanonicalNameBuilder();
       this.function = function;
       this.trace = trace;
    }

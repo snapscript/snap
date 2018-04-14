@@ -5,7 +5,7 @@ import static org.snapscript.core.link.ImportType.IMPLICIT;
 
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.type.NameBuilder;
-import org.snapscript.core.type.TypeNameBuilder;
+import org.snapscript.core.type.CanonicalNameBuilder;
   
 public class PackageManager {
    
@@ -14,7 +14,7 @@ public class PackageManager {
    private final NameBuilder builder;
    
    public PackageManager(PackageLoader loader, ImportScanner scanner) {
-      this.builder = new TypeNameBuilder();;
+      this.builder = new CanonicalNameBuilder();;
       this.scanner = scanner;
       this.loader = loader;
    }
