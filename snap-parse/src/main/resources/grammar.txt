@@ -179,8 +179,8 @@ map-constraint = '{:}';
 constraint = {<array-constraint> | <type-constraint> | <function-constraint> | <list-constraint> | <set-constraint> | <map-constraint>};
 constraint-variable = <array-constraint>;
 
-return-statement = 'return'*(?_{<cast> | <expression> | <closure>})';';
-yield-statement = 'yield'*(?_{<cast> | <expression> | <closure>})';';
+return-statement = 'return' *(? _ {<cast> | <expression> | <closure>}) ';';
+yield-statement = 'yield' *(? _ {<cast> | <expression> | <closure>}) ';';
 break-statement = 'break;';
 continue-statement = 'continue;';
 throw-statement = 'throw'?_(<reference> | <literal>)';';

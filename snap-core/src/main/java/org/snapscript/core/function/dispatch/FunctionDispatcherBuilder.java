@@ -15,39 +15,39 @@ import org.snapscript.core.function.resolve.FunctionResolver;
 
 public class FunctionDispatcherBuilder {
 
-   private final FunctionResolver binder;
+   private final FunctionResolver resolver;
    private final ErrorHandler handler;
    private final String name;
    
-   public FunctionDispatcherBuilder(FunctionResolver binder, ErrorHandler handler, String name) {
+   public FunctionDispatcherBuilder(FunctionResolver resolver, ErrorHandler handler, String name) {
       this.handler = handler;
-      this.binder = binder;
+      this.resolver = resolver;
       this.name = name;
    }
    
    public FunctionDispatcher create(Scope scope, Class type) throws Exception  {
       if(Module.class.isAssignableFrom(type)) {
-         return new ModuleDispatcher(binder, handler, name);
+         return new ModuleDispatcher(resolver, handler, name);
       }  
       if(Type.class.isAssignableFrom(type)) {
-         return new TypeStaticDispatcher(binder, handler, name);
+         return new TypeStaticDispatcher(resolver, handler, name);
       }  
       if(Map.class.isAssignableFrom(type)) {
-         return new MapDispatcher(binder, handler, name);
+         return new MapDispatcher(resolver, handler, name);
       }
       if(Function.class.isAssignableFrom(type)) {
-         return new ClosureDispatcher(binder, handler, name);
+         return new ClosureDispatcher(resolver, handler, name);
       }
       if(Delegate.class.isAssignableFrom(type)) { 
-         return new DelegateDispatcher(binder, handler, name);
+         return new DelegateDispatcher(resolver, handler, name);
       }     
       if(Value.class.isAssignableFrom(type)) {
-         return new ValueDispatcher(binder, handler, name);
+         return new ValueDispatcher(resolver, handler, name);
       }
       if(type.isArray()) {
-         return new ArrayDispatcher(binder, handler, name);
+         return new ArrayDispatcher(resolver, handler, name);
       }
-      return new TypeInstanceDispatcher(binder, handler, name);     
+      return new TypeInstanceDispatcher(resolver, handler, name);     
    }
    
    public FunctionDispatcher create(Scope scope, Constraint left) throws Exception {
@@ -56,25 +56,25 @@ public class FunctionDispatcherBuilder {
       Class real = type.getType();
       
       if(left.isModule()) {
-         return new ModuleDispatcher(binder, handler, name);
+         return new ModuleDispatcher(resolver, handler, name);
       }
       if(left.isClass()) {
-         return new TypeStaticDispatcher(binder, handler, name);
+         return new TypeStaticDispatcher(resolver, handler, name);
       }
       if(category.isFunction()) {
-         return new ClosureDispatcher(binder, handler, name);
+         return new ClosureDispatcher(resolver, handler, name);
       }
       if(category.isProxy()) { 
-         return new DelegateDispatcher(binder, handler, name);
+         return new DelegateDispatcher(resolver, handler, name);
       } 
       if(category.isArray()) {
-         return new ArrayDispatcher(binder, handler, name);
+         return new ArrayDispatcher(resolver, handler, name);
       }
       if(real != null) {
          if(Map.class.isAssignableFrom(real)) {
-            return new MapDispatcher(binder, handler, name);
+            return new MapDispatcher(resolver, handler, name);
          }
       }
-      return new TypeInstanceDispatcher(binder, handler, name);      
+      return new TypeInstanceDispatcher(resolver, handler, name);      
    }
 }

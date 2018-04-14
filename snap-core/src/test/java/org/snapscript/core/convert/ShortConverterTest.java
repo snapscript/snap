@@ -6,7 +6,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import junit.framework.TestCase;
 
-import org.snapscript.core.TestType;
+import org.snapscript.core.MockType;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.convert.Score;
 import org.snapscript.core.convert.ShortConverter;
@@ -14,7 +14,7 @@ import org.snapscript.core.convert.ShortConverter;
 public class ShortConverterTest extends TestCase {
 
    public void testByte() throws Exception {
-      Type type = new TestType(null, null, null, Short.class);
+      Type type = new MockType(null, null, null, Short.class);
       ShortConverter converter = new ShortConverter(type);
       
       assertEquals(converter.score((short)11), Score.EXACT);
@@ -37,7 +37,7 @@ public class ShortConverterTest extends TestCase {
    }
    
    public void testPrimitiveDouble() throws Exception {
-      Type type = new TestType(null, null, null, short.class);
+      Type type = new MockType(null, null, null, short.class);
       ShortConverter converter = new ShortConverter(type);
       
       assertEquals(converter.score((short)11), Score.EXACT);

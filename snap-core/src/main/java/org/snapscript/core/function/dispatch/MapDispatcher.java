@@ -8,7 +8,6 @@ import java.util.Map;
 import org.snapscript.core.Context;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.proxy.ProxyWrapper;
-import org.snapscript.core.error.Reason;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.function.resolve.FunctionCall;
 import org.snapscript.core.function.resolve.FunctionResolver;
@@ -19,19 +18,19 @@ import org.snapscript.core.variable.Value;
 
 public class MapDispatcher implements FunctionDispatcher<Map> {
    
-   private final FunctionResolver binder;
+   private final FunctionResolver resolver;
    private final ErrorHandler handler;
    private final String name;      
    
-   public MapDispatcher(FunctionResolver binder, ErrorHandler handler, String name) {
+   public MapDispatcher(FunctionResolver resolver, ErrorHandler handler, String name) {
+      this.resolver = resolver;
       this.handler = handler;
-      this.binder = binder;
       this.name = name;
    }
    
    @Override
    public Constraint compile(Scope scope, Type map, Type... arguments) throws Exception {
-      FunctionCall local = binder.resolveInstance(scope, map, name, arguments);
+      FunctionCall local = resolver.resolveInstance(scope, map, name, arguments);
       
       if(local != null) {
          return local.check();
@@ -51,7 +50,7 @@ public class MapDispatcher implements FunctionDispatcher<Map> {
    
    private FunctionCall bind(Scope scope, Map map, Object... arguments) throws Exception {
       Module module = scope.getModule();
-      FunctionCall local = binder.resolveInstance(scope, map, name, arguments);
+      FunctionCall local = resolver.resolveInstance(scope, map, name, arguments);
       
       if(local == null) {
          Object value = map.get(name);
@@ -62,7 +61,7 @@ public class MapDispatcher implements FunctionDispatcher<Map> {
             Object function = wrapper.fromProxy(value);
             Value reference = Value.getTransient(function);
             
-            return binder.resolveValue(reference, arguments);
+            return resolver.resolveValue(reference, arguments);
          }
       }
       return local;

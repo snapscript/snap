@@ -2,7 +2,7 @@ package org.snapscript.core.convert;
 
 import junit.framework.TestCase;
 
-import org.snapscript.core.TestType;
+import org.snapscript.core.MockType;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.convert.CharacterConverter;
 import org.snapscript.core.convert.Score;
@@ -10,7 +10,7 @@ import org.snapscript.core.convert.Score;
 public class CharacterConverterTest extends TestCase {
 
    public void testCharacter() throws Exception {
-      Type type = new TestType(null, null, null, Character.class);
+      Type type = new MockType(null, null, null, Character.class);
       CharacterConverter converter = new CharacterConverter(type);
       
       assertEquals(converter.score('s'), Score.EXACT);
@@ -24,7 +24,7 @@ public class CharacterConverterTest extends TestCase {
    }
    
    public void testPrimitiveCharacter() throws Exception {
-      Type type = new TestType(null, null, null, char.class);
+      Type type = new MockType(null, null, null, char.class);
       CharacterConverter converter = new CharacterConverter(type);
       
       assertEquals(converter.score('s'), Score.EXACT);

@@ -1,23 +1,27 @@
 package org.snapscript.core.type.index;
 
+import static org.snapscript.core.Reserved.ANY_TYPE;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.snapscript.core.InternalStateException;
-import org.snapscript.core.type.Category;
-import org.snapscript.core.type.NameBuilder;
-import org.snapscript.core.type.Type;
+import org.snapscript.core.Reserved;
 import org.snapscript.core.link.ImportScanner;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.ModuleRegistry;
 import org.snapscript.core.platform.PlatformProvider;
 import org.snapscript.core.type.CanonicalNameBuilder;
+import org.snapscript.core.type.Category;
+import org.snapscript.core.type.NameBuilder;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.type.extend.ClassExtender;
 
 public class TypeIndexer {
 
    private final Map<Object, Type> types;
+   private final PrimitiveLoader loader;
    private final ModuleRegistry registry;
    private final ImportScanner scanner;
    private final ClassIndexer indexer;
@@ -33,6 +37,7 @@ public class TypeIndexer {
       this.indexer = new ClassIndexer(this, registry, scanner, extender, provider);
       this.types = new LinkedHashMap<Object, Type>();
       this.builder = new CanonicalNameBuilder();
+      this.loader = new PrimitiveLoader(this, builder);     
       this.counter = new AtomicInteger(1); // consider function types which own 0
       this.registry = registry;
       this.scanner = scanner;
@@ -46,7 +51,7 @@ public class TypeIndexer {
          Class match = scanner.importType(type);
          
          if (match == null) {
-            return null;
+            return loader.loadType(type);
          }
          return loadType(match);
       }
@@ -61,7 +66,7 @@ public class TypeIndexer {
          Class match = scanner.importType(alias);
          
          if (match == null) {
-            return null;
+            return loader.loadType(alias);            
          }
          return loadType(match);
       }

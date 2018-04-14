@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.AnyLoader;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 import org.snapscript.tree.reference.TraitReference;
@@ -11,16 +12,16 @@ import org.snapscript.tree.reference.TypeReference;
 
 public class TypeHierarchy {
    
-   private final AnyDefinition definition;
    private final TraitReference[] traits; 
    private final TypeReference name;
+   private final AnyLoader loader;
 
    public TypeHierarchy(TraitReference... traits) {
       this(null, traits);     
    }
    
    public TypeHierarchy(TypeReference name, TraitReference... traits) {
-      this.definition = new AnyDefinition();
+      this.loader = new AnyLoader();
       this.traits = traits;
       this.name = name;
    }
@@ -37,7 +38,7 @@ public class TypeHierarchy {
          }
          types.add(base);  
       }else {
-         Type base = definition.create(scope);
+         Type base = loader.loadType(scope);
          
          if(base == null) {
             throw new InternalStateException("Type '" + type + "' could not be defined");

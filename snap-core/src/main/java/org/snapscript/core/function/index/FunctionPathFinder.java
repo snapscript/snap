@@ -4,18 +4,22 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.snapscript.core.type.Type;
 import org.snapscript.core.convert.TypeInspector;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.AnyLoader;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeCache;
 
 public class FunctionPathFinder {
    
-   private final TypeCache<List<Type>> paths;
-   private final TypeInspector filter;
+   private final TypeCache<List<Type>> paths;  
+   private final TypeInspector inspector;  
+   private final AnyLoader loader;
    
    public FunctionPathFinder() {
       this.paths = new TypeCache<List<Type>>();
-      this.filter = new TypeInspector();
+      this.inspector = new TypeInspector();
+      this.loader = new AnyLoader();
    }
 
    public List<Type> findPath(Type type, String name) {
@@ -30,6 +34,10 @@ public class FunctionPathFinder {
          if(real == null) {
             findTraits(type, result);
          }
+         Scope scope = type.getScope();
+         Type base = loader.loadType(scope);
+         
+         result.add(base); // any is very last
          paths.cache(type, result);
          return result;
       }
@@ -56,7 +64,7 @@ public class FunctionPathFinder {
       List<Type> types = type.getTypes();
       Iterator<Type> iterator = types.iterator();
       
-      if(!filter.isProxy(type)) {
+      if(!inspector.isProxy(type) && !inspector.isAny(type)) {
          done.add(type);
       }
       while(iterator.hasNext()) {

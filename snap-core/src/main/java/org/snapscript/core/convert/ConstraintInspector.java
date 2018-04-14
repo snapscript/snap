@@ -5,12 +5,12 @@ import org.snapscript.core.type.Category;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeLoader;
 
-public class ConstraintComparator {
+public class ConstraintInspector {
    
    private final CastChecker checker;
    private final TypeLoader loader;
    
-   public ConstraintComparator(TypeLoader loader, CastChecker checker) {
+   public ConstraintInspector(TypeLoader loader, CastChecker checker) {
       this.checker = checker;
       this.loader = loader;
    }

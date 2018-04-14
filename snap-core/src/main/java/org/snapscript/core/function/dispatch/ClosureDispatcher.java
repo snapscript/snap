@@ -20,13 +20,13 @@ import org.snapscript.core.variable.Value;
 
 public class ClosureDispatcher implements FunctionDispatcher<Function> {
 
-   private final FunctionResolver binder;
+   private final FunctionResolver resolver;
    private final ErrorHandler handler;
    private final String name;      
    
-   public ClosureDispatcher(FunctionResolver binder, ErrorHandler handler, String name) {
+   public ClosureDispatcher(FunctionResolver resolver, ErrorHandler handler, String name) {
       this.handler = handler;
-      this.binder = binder;
+      this.resolver = resolver;
       this.name = name;
    }
    
@@ -46,12 +46,12 @@ public class ClosureDispatcher implements FunctionDispatcher<Function> {
    }
    
    private FunctionCall bind(Scope scope, Function function, Object... arguments) throws Exception {
-      FunctionCall call = binder.resolveInstance(scope, function, name, arguments); // this is not used often
+      FunctionCall call = resolver.resolveInstance(scope, function, name, arguments); // this is not used often
       
       if(call == null) {
          Object adapter = new FunctionAdapter(function);
          
-         return binder.resolveInstance(scope, adapter, name, arguments);
+         return resolver.resolveInstance(scope, adapter, name, arguments);
       }
       return call;
    }

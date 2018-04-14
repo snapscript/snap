@@ -13,13 +13,13 @@ import org.snapscript.core.variable.Value;
 
 public class ValueDispatcher implements FunctionDispatcher<Value> {
    
-   private final FunctionResolver binder;
+   private final FunctionResolver resolver;
    private final ErrorHandler handler;
    private final String name;
    
-   public ValueDispatcher(FunctionResolver binder, ErrorHandler handler, String name) {
+   public ValueDispatcher(FunctionResolver resolver, ErrorHandler handler, String name) {
+      this.resolver = resolver;
       this.handler = handler;
-      this.binder = binder;
       this.name = name;
    }
    
@@ -30,7 +30,7 @@ public class ValueDispatcher implements FunctionDispatcher<Value> {
 
    @Override
    public Value dispatch(Scope scope, Value value, Object... list) throws Exception {
-      FunctionCall closure = binder.resolveValue(value, list); // function variable
+      FunctionCall closure = resolver.resolveValue(value, list); // function variable
       
       if(closure == null) {
          handler.handleRuntimeError(INVOKE, scope, name, list);

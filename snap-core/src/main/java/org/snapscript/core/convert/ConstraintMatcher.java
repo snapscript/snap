@@ -16,7 +16,7 @@ import org.snapscript.core.type.TypeLoader;
 public class ConstraintMatcher {
    
    private final TypeCache<ConstraintConverter> converters;
-   private final ConstraintComparator comparator;
+   private final ConstraintInspector inspector;
    private final ConstraintConverter converter;   
    private final TypeExtractor extractor;
    private final CastChecker checker;
@@ -26,7 +26,7 @@ public class ConstraintMatcher {
       this.converters = new TypeCache<ConstraintConverter>();
       this.extractor = new TypeExtractor(loader);
       this.checker = new CastChecker(this, extractor, loader);
-      this.comparator = new ConstraintComparator(loader, checker);
+      this.inspector = new ConstraintInspector(loader, checker);
       this.converter = new NullConverter();
       this.wrapper = wrapper;
    }
@@ -45,88 +45,88 @@ public class ConstraintMatcher {
    }
    
    private ConstraintConverter resolve(Type type) throws Exception {
-      if(comparator.isSame(type, Object.class)) {
+      if(inspector.isSame(type, Object.class)) {
          return new AnyConverter(wrapper);
       }
-      if(comparator.isSame(type, double.class)) {
+      if(inspector.isSame(type, double.class)) {
          return new DoubleConverter(type);
       }
-      if(comparator.isSame(type, float.class)) {
+      if(inspector.isSame(type, float.class)) {
          return new FloatConverter(type);
       }
-      if(comparator.isSame(type, int.class)) {
+      if(inspector.isSame(type, int.class)) {
          return new IntegerConverter(type);
       }
-      if(comparator.isSame(type, long.class)) {
+      if(inspector.isSame(type, long.class)) {
          return new LongConverter(type);
       }
-      if(comparator.isSame(type, short.class)) {
+      if(inspector.isSame(type, short.class)) {
          return new ShortConverter(type);
       }
-      if(comparator.isSame(type, byte.class)) {
+      if(inspector.isSame(type, byte.class)) {
          return new ByteConverter(type);
       }
-      if(comparator.isSame(type, char.class)) {
+      if(inspector.isSame(type, char.class)) {
          return new CharacterConverter(type);
       }
-      if(comparator.isSame(type, boolean.class)) {
+      if(inspector.isSame(type, boolean.class)) {
          return new BooleanConverter(type);
       }
-      if(comparator.isSame(type, Number.class)) {
+      if(inspector.isSame(type, Number.class)) {
          return new NumberConverter(type);
       }
-      if(comparator.isSame(type, Double.class)) {
+      if(inspector.isSame(type, Double.class)) {
          return new DoubleConverter(type);
       }
-      if(comparator.isSame(type, Float.class)) {
+      if(inspector.isSame(type, Float.class)) {
          return new FloatConverter(type);
       }
-      if(comparator.isSame(type, Integer.class)) {
+      if(inspector.isSame(type, Integer.class)) {
          return new IntegerConverter(type);
       }
-      if(comparator.isSame(type, Long.class)) {
+      if(inspector.isSame(type, Long.class)) {
          return new LongConverter(type);
       }
-      if(comparator.isSame(type, Short.class)) {
+      if(inspector.isSame(type, Short.class)) {
          return new ShortConverter(type);
       }
-      if(comparator.isSame(type, Byte.class)) {
+      if(inspector.isSame(type, Byte.class)) {
          return new ByteConverter(type);
       }
-      if(comparator.isSame(type, Character.class)) {
+      if(inspector.isSame(type, Character.class)) {
          return new CharacterConverter(type);
       }
-      if(comparator.isSame(type, Boolean.class)) {
+      if(inspector.isSame(type, Boolean.class)) {
          return new BooleanConverter(type);
       }
-      if(comparator.isSame(type, BigDecimal.class)) {
+      if(inspector.isSame(type, BigDecimal.class)) {
          return new BigDecimalConverter(type);
       }
-      if(comparator.isSame(type, BigInteger.class)) {
+      if(inspector.isSame(type, BigInteger.class)) {
          return new BigIntegerConverter(type);
       }
-      if(comparator.isSame(type, AtomicLong.class)) {
+      if(inspector.isSame(type, AtomicLong.class)) {
          return new AtomicLongConverter(type);
       }
-      if(comparator.isSame(type, AtomicInteger.class)) {
+      if(inspector.isSame(type, AtomicInteger.class)) {
          return new AtomicIntegerConverter(type);
       }
-      if(comparator.isSame(type, String.class)) {
+      if(inspector.isSame(type, String.class)) {
          return new StringConverter();
       }
-      if(comparator.isFunction(type)) {
+      if(inspector.isFunction(type)) {
          return new FunctionConverter(extractor, checker, wrapper, type);
       }
-      if(comparator.isLike(type, Scope.class)) {
+      if(inspector.isLike(type, Scope.class)) {
          return new ScopeConverter();
       }
-      if(comparator.isLike(type, Enum.class)) {
+      if(inspector.isLike(type, Enum.class)) {
          return new EnumConverter(type);
       }      
-      if(comparator.isSame(type, Class.class)) {
+      if(inspector.isSame(type, Class.class)) {
          return new ClassConverter(type);
       }  
-      if(comparator.isArray(type)) {
+      if(inspector.isArray(type)) {
          return new ArrayConverter(this, checker, wrapper, type);
       }
       return new ObjectConverter(extractor, checker, wrapper, type);

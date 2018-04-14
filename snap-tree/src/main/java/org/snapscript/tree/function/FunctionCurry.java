@@ -26,7 +26,7 @@ public class FunctionCurry implements Compilation {
    @Override
    public Object compile(Module module, Path path, int line) throws Exception {
       Context context = module.getContext();
-      FunctionResolver resolver = context.getSearcher();
+      FunctionResolver resolver = context.getResolver();
       
       return new CompileResult(resolver, arguments);
    }

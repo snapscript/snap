@@ -78,17 +78,17 @@ public class FunctionProxyHandler implements ProxyHandler {
    
    private FunctionCall resolve(Object proxy, String name, Object[] convert, Object[] arguments) throws Throwable {
       Type type = function.getType();
-      FunctionResolver binder = context.getSearcher();  
+      FunctionResolver resolver = context.getResolver();  
 
       if(type != null) {
          Scope scope = type.getScope();
-         FunctionCall call = binder.resolveInstance(scope, proxy, name, arguments); 
+         FunctionCall call = resolver.resolveInstance(scope, proxy, name, arguments); 
          
          if(call != null) {
             return call;
          }
       }
-      return binder.resolveValue(value, convert); // here arguments can be null!!! 
+      return resolver.resolveValue(value, convert); // here arguments can be null!!! 
    }
    
    @Override

@@ -1,4 +1,4 @@
-package org.snapscript.tree;
+package org.snapscript.core;
 
 import org.snapscript.common.store.ClassPathStore;
 import org.snapscript.common.store.Store;

@@ -24,9 +24,9 @@ public class ScopeProxyHandler implements ProxyHandler {
    @Override
    public Object invoke(Object proxy, Method method, Object[] arguments) throws Throwable {
       String name = method.getName();
-      FunctionResolver binder = context.getSearcher();  
+      FunctionResolver resolver = context.getResolver();  
       Object[] convert = extractor.extract(arguments);
-      FunctionCall call = binder.resolveInstance(scope, scope, name, convert); // here arguments can be null!!!
+      FunctionCall call = resolver.resolveInstance(scope, scope, name, convert); // here arguments can be null!!!
       
       if(call == null) {
          throw new InternalStateException("Method '" + name + "' not found");

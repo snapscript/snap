@@ -53,7 +53,7 @@ public class ThreadStackTest extends TestCase {
    public static void createTypeFunction(ThreadStack stack, String functionName, String typeName, String moduleName){
       FilePathConverter converter = new FilePathConverter();
       Module module = new ContextModule(null, null, converter.createPath(moduleName), moduleName,"", -1);
-      TestType type = new TestType(module, typeName, null, null);
+      MockType type = new MockType(module, typeName, null, null);
       List<Parameter> parameters = new ArrayList<Parameter>();
       Signature signature = new FunctionSignature(parameters, module, null, true);
       

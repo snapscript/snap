@@ -2,7 +2,6 @@ package org.snapscript.core.type.index;
 
 import static org.snapscript.core.Reserved.ANY_TYPE;
 import static org.snapscript.core.Reserved.DEFAULT_PACKAGE;
-import static org.snapscript.core.type.Category.CLASS;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +20,7 @@ public class ClassHierarchyIndexer {
       List<Type> hierarchy = new ArrayList<Type>();
       
       if(source == Object.class) {
-         Type base = indexer.defineType(DEFAULT_PACKAGE, ANY_TYPE, CLASS);
+         Type base = indexer.loadType(DEFAULT_PACKAGE, ANY_TYPE);
          
          if(base != null) {
             hierarchy.add(base);

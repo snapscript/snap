@@ -1,4 +1,4 @@
-package org.snapscript.tree.define;
+package org.snapscript.core.type.index;
 
 import static org.snapscript.core.ModifierType.CONSTANT;
 import static org.snapscript.core.ModifierType.PUBLIC;
@@ -12,51 +12,50 @@ import static org.snapscript.core.Reserved.METHOD_TO_STRING;
 import static org.snapscript.core.Reserved.METHOD_WAIT;
 import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
 import static org.snapscript.core.Reserved.TYPE_THIS;
+import static org.snapscript.core.constraint.Constraint.BOOLEAN;
+import static org.snapscript.core.constraint.Constraint.INTEGER;
+import static org.snapscript.core.constraint.Constraint.NONE;
+import static org.snapscript.core.constraint.Constraint.STRING;
 import static org.snapscript.core.type.Category.CLASS;
-import static org.snapscript.core.type.Phase.CREATE;
-import static org.snapscript.core.type.Phase.DEFINE;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
-import org.snapscript.common.Progress;
-import org.snapscript.core.Context;
+import org.snapscript.core.function.Function;
+import org.snapscript.core.function.Invocation;
+import org.snapscript.core.result.Result;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
 import org.snapscript.core.scope.instance.Instance;
-import org.snapscript.core.type.Phase;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.function.Function;
-import org.snapscript.core.function.Invocation;
-import org.snapscript.core.module.Module;
-import org.snapscript.core.result.Result;
-import org.snapscript.core.type.TypeLoader;
 import org.snapscript.core.variable.Value;
 
-public class AnyDefinition{
+public class PrimitiveIndexer{
    
-   private final AnyFunctionBuilder builder;
+   private final AtomicReference<Type> reference;
+   private final PrimitiveFunctionGenerator generator;
+   private final TypeIndexer indexer;
    
-   public AnyDefinition(){
-      this.builder = new AnyFunctionBuilder();
+   public PrimitiveIndexer(TypeIndexer indexer){
+      this.reference = new AtomicReference<Type>();
+      this.generator = new PrimitiveFunctionGenerator(indexer);
+      this.indexer = indexer;
    }
 
-   public Type create(Scope scope) throws Exception {
-      Module module = scope.getModule();
-      Context context = module.getContext();
-      TypeLoader loader = context.getLoader();
-      Type result = loader.defineType(DEFAULT_PACKAGE, ANY_TYPE, CLASS);
-      Progress<Phase> progress = result.getProgress();
-      List<Function> functions = result.getFunctions();
+   public Type indexAny() {
+      Type type  = reference.get();
       
-      if(progress.done(CREATE)) {
-         Function constructor = builder.create(result, TYPE_CONSTRUCTOR, NewInvocation.class, Object.class);
-         Function hashCode = builder.create(result, METHOD_HASH_CODE, HashCodeInvocation.class);
-         Function toString = builder.create(result, METHOD_TO_STRING, ToStringInvocation.class);
-         Function equals = builder.create(result, METHOD_EQUALS, EqualsInvocation.class, Object.class);
-         Function wait = builder.create(result, METHOD_WAIT, WaitInvocation.class);
-         Function waitFor = builder.create(result, METHOD_WAIT, WaitForInvocation.class, Long.class);
-         Function notify = builder.create(result, METHOD_NOTIFY, NotifyInvocation.class);
-         Function notifyAll = builder.create(result, METHOD_NOTIFY_ALL, NotifyAllInvocation.class);
+      if(type == null) {
+         Type result = indexer.defineType(DEFAULT_PACKAGE, ANY_TYPE, CLASS);
+         List<Function> functions = result.getFunctions();
+         Function constructor = generator.generate(result, NONE, TYPE_CONSTRUCTOR, NewInvocation.class, Object.class);
+         Function hashCode = generator.generate(result, INTEGER, METHOD_HASH_CODE, HashCodeInvocation.class);
+         Function toString = generator.generate(result, STRING, METHOD_TO_STRING, ToStringInvocation.class);
+         Function equals = generator.generate(result, BOOLEAN, METHOD_EQUALS, EqualsInvocation.class, Object.class);
+         Function wait = generator.generate(result, NONE, METHOD_WAIT, WaitInvocation.class);
+         Function waitFor = generator.generate(result, NONE, METHOD_WAIT, WaitForInvocation.class, Long.class);
+         Function notify = generator.generate(result, NONE, METHOD_NOTIFY, NotifyInvocation.class);
+         Function notifyAll = generator.generate(result, NONE, METHOD_NOTIFY_ALL, NotifyAllInvocation.class);
          
          functions.add(constructor);
          functions.add(wait);
@@ -66,24 +65,25 @@ public class AnyDefinition{
          functions.add(hashCode);
          functions.add(equals);
          functions.add(toString);
-         progress.done(DEFINE);
+         reference.set(type);
+         
+         return result;
       }
-      progress.wait(DEFINE);
-      return result;
+      return type;
    }
    
    private static class NewInvocation implements Invocation<Object> {
       
-      private final AnyInstanceBuilder builder;
+      private final PrimitiveInstanceBuilder constructor;
       
       public NewInvocation() {
-         this.builder = new AnyInstanceBuilder();
+         this.constructor = new PrimitiveInstanceBuilder();
       }
       
       @Override
       public Object invoke(Scope scope, Object object, Object... list) throws Exception {
          Type real = (Type)list[0];
-         Instance instance = builder.create(scope, real);
+         Instance instance = constructor.create(scope, real);
          State state = instance.getState();
          Value value = Value.getProperty(object, real, PUBLIC.mask | CONSTANT.mask); // this needs to be a blank
          

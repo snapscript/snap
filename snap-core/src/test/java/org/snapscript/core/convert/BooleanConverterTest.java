@@ -2,7 +2,7 @@ package org.snapscript.core.convert;
 
 import junit.framework.TestCase;
 
-import org.snapscript.core.TestType;
+import org.snapscript.core.MockType;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.convert.BooleanConverter;
 import org.snapscript.core.convert.Score;
@@ -10,7 +10,7 @@ import org.snapscript.core.convert.Score;
 public class BooleanConverterTest extends TestCase {
 
    public void testBoolean() throws Exception {
-      Type type = new TestType(null, null, null, Boolean.class);
+      Type type = new MockType(null, null, null, Boolean.class);
       BooleanConverter converter = new BooleanConverter(type);
       
       assertEquals(converter.score(true), Score.EXACT);
@@ -33,7 +33,7 @@ public class BooleanConverterTest extends TestCase {
    }
    
    public void testPrimitiveBoolean() throws Exception {
-      Type type = new TestType(null, null, null, boolean.class);
+      Type type = new MockType(null, null, null, boolean.class);
       BooleanConverter converter = new BooleanConverter(type);
       
       assertEquals(converter.score(true), Score.EXACT);

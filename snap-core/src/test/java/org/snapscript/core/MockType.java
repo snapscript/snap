@@ -1,9 +1,8 @@
-package org.snapscript.core.type;
+package org.snapscript.core;
 
-import static org.snapscript.core.Reserved.ANY_TYPE;
 import static org.snapscript.core.type.Category.CLASS;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.snapscript.common.CompleteProgress;
@@ -13,22 +12,37 @@ import org.snapscript.core.function.Function;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Category;
+import org.snapscript.core.type.Phase;
+import org.snapscript.core.type.Type;
+import org.snapscript.core.type.TypeDescription;
+import org.snapscript.core.type.TypeScope;
 
-public class AnyType implements Type {
+public class MockType implements Type {
 
    private final TypeDescription description;
+   private final List<Annotation> annotations;
+   private final List<Property> properties;
+   private final List<Function> functions;
    private final Progress<Phase> progress;
+   private final List<Type> types;
+   private final Module module;
    private final Scope scope;
+   private final Class type;
+   private final Type entry;
    private final String name;
 
-   private AnyType(Scope scope) {
-      this(scope, ANY_TYPE);
-   }
-   
-   private AnyType(Scope scope, String name) {
+   public MockType(Module module, String name, Type entry, Class type){
       this.progress = new CompleteProgress<Phase>();
       this.description = new TypeDescription(this);
+      this.annotations = new ArrayList<Annotation>();
+      this.properties = new ArrayList<Property>();
+      this.functions = new ArrayList<Function>();
+      this.types = new ArrayList<Type>();
       this.scope = new TypeScope(this);
+      this.module = module;
+      this.entry = entry;
+      this.type = type;
       this.name = name;
    }
    
@@ -39,61 +53,61 @@ public class AnyType implements Type {
    
    @Override
    public List<Annotation> getAnnotations() {
-      return Collections.emptyList();
+      return annotations;
    }
-
+   
    @Override
    public List<Property> getProperties() {
-      return Collections.emptyList();
+      return properties;
    }
-
+   
    @Override
-   public List<Function> getFunctions() {
-      return Collections.emptyList();
+   public List<Function> getFunctions(){
+      return functions;
    }
-
+   
    @Override
-   public List<Type> getTypes() {
-      return Collections.emptyList();
+   public List<Type> getTypes(){
+      return types;
    }
    
    @Override
    public Category getCategory(){
       return CLASS;
    }
-
+   
    @Override
-   public Module getModule() {
-      return null;
+   public Module getModule(){
+      return module;
    }
    
    @Override
    public Scope getScope(){
       return scope;
    }
-
+   
    @Override
    public Class getType() {
-      return null;
+      return type;
    }
    
    @Override
    public Type getOuter(){
       return null;
    }
-
+   
    @Override
-   public Type getEntry() {
-      return null;
-   }
-
-   @Override
-   public String getName() {
-      return name; 
+   public Type getEntry(){
+      return entry;
    }
    
    @Override
-   public int getOrder() {
+   public String getName(){
+      return name;
+   }
+   
+   @Override
+   public int getOrder(){
       return 0;
    }
    

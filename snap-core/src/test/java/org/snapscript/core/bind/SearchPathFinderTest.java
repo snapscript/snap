@@ -4,9 +4,13 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.snapscript.core.TestType;
-import org.snapscript.core.type.Type;
+import org.snapscript.core.Context;
+import org.snapscript.core.MockContext;
+import org.snapscript.core.MockType;
 import org.snapscript.core.function.index.FunctionPathFinder;
+import org.snapscript.core.module.EmptyModule;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.type.Type;
 
 public class SearchPathFinderTest extends TestCase {
    
@@ -27,16 +31,18 @@ public class SearchPathFinderTest extends TestCase {
     */
    public void testSearchPath() throws Exception {
       FunctionPathFinder finder = new FunctionPathFinder();
-      Type a = new TestType(null, "A", null, null);
-      Type b = new TestType(null, "B", null, null);
-      Type c = new TestType(null, "C", null, null);
-      Type d = new TestType(null, "D", null, null);
-      Type x = new TestType(null, "X", null, null);
-      Type y = new TestType(null, "Y", null, null);
-      Type z = new TestType(null, "Z", null, null);
-      Type i = new TestType(null, "I", null, null);
-      Type j = new TestType(null, "J", null, null);
-      Type k = new TestType(null, "K", null, null);
+      Context context = new MockContext();
+      Module module = new EmptyModule(context);
+      Type a = new MockType(module, "A", null, null);
+      Type b = new MockType(module, "B", null, null);
+      Type c = new MockType(module, "C", null, null);
+      Type d = new MockType(module, "D", null, null);
+      Type x = new MockType(module, "X", null, null);
+      Type y = new MockType(module, "Y", null, null);
+      Type z = new MockType(module, "Z", null, null);
+      Type i = new MockType(module, "I", null, null);
+      Type j = new MockType(module, "J", null, null);
+      Type k = new MockType(module, "K", null, null);
       
       List<Type> typesA = a.getTypes();
       List<Type> typesB = b.getTypes();

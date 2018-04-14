@@ -13,19 +13,19 @@ import org.snapscript.core.variable.Value;
 
 public class DelegateDispatcher implements FunctionDispatcher<Delegate> {
    
-   private final FunctionResolver binder;
+   private final FunctionResolver resolver;
    private final ErrorHandler handler;
    private final String name;      
    
-   public DelegateDispatcher(FunctionResolver binder, ErrorHandler handler, String name) {
+   public DelegateDispatcher(FunctionResolver resolver, ErrorHandler handler, String name) {
+      this.resolver = resolver;
       this.handler = handler;
-      this.binder = binder;
       this.name = name;
    }
    
    @Override
    public Constraint compile(Scope scope, Type object, Type... arguments) throws Exception {
-      FunctionCall call = binder.resolveFunction(scope, object, name, arguments);
+      FunctionCall call = resolver.resolveFunction(scope, object, name, arguments);
       
       if(call == null) {
          handler.handleCompileError(INVOKE, scope, object, name, arguments);
@@ -35,7 +35,7 @@ public class DelegateDispatcher implements FunctionDispatcher<Delegate> {
    
    @Override
    public Value dispatch(Scope scope, Delegate object, Object... arguments) throws Exception {
-      FunctionCall call = binder.resolveFunction(scope, object, name, arguments);
+      FunctionCall call = resolver.resolveFunction(scope, object, name, arguments);
       
       if(call == null) {
          handler.handleRuntimeError(INVOKE, scope, object, name, arguments);

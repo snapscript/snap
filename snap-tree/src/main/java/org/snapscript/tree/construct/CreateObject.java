@@ -60,20 +60,20 @@ public class CreateObject extends Evaluation {
    private FunctionCall bind(Scope scope, Type type) throws Exception {
       Module module = scope.getModule();
       Context context = module.getContext();
-      FunctionResolver binder = context.getSearcher();
+      FunctionResolver resolver = context.getResolver();
       Class real = type.getType();
       
       if(arguments != null) {
          if(real == null) {
             Object[] array = arguments.create(scope, type); 
-            return binder.resolveStatic(scope, type, TYPE_CONSTRUCTOR, array);
+            return resolver.resolveStatic(scope, type, TYPE_CONSTRUCTOR, array);
          }
          Object[] array = arguments.create(scope); 
-         return binder.resolveStatic(scope, type, TYPE_CONSTRUCTOR, array);
+         return resolver.resolveStatic(scope, type, TYPE_CONSTRUCTOR, array);
       }
       if(real == null) {
-         return binder.resolveStatic(scope, type, TYPE_CONSTRUCTOR, type);
+         return resolver.resolveStatic(scope, type, TYPE_CONSTRUCTOR, type);
       }
-      return binder.resolveStatic(scope, type, TYPE_CONSTRUCTOR);
+      return resolver.resolveStatic(scope, type, TYPE_CONSTRUCTOR);
    }
 }

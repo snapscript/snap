@@ -1,4 +1,4 @@
-package org.snapscript.tree.define;
+package org.snapscript.core.type.index;
 
 import static org.snapscript.core.ModifierType.PUBLIC;
 import static org.snapscript.core.ModifierType.STATIC;
@@ -7,11 +7,8 @@ import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Reserved;
-import org.snapscript.core.module.Module;
-import org.snapscript.core.type.Type;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionSignature;
 import org.snapscript.core.function.Invocation;
@@ -19,23 +16,24 @@ import org.snapscript.core.function.InvocationFunction;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.ParameterBuilder;
 import org.snapscript.core.function.Signature;
-import org.snapscript.core.type.TypeLoader;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.type.Type;
 
-public class AnyFunctionBuilder {
+public class PrimitiveFunctionGenerator {
    
-   private final AnyInvocationGenerator generator;
+   private final PrimitiveFunctionAccessor accessor;
    private final ParameterBuilder builder;
+   private final TypeIndexer indexer;
    
-   public AnyFunctionBuilder() {
-      this.generator = new AnyInvocationGenerator();
+   public PrimitiveFunctionGenerator(TypeIndexer indexer) {
+      this.accessor = new PrimitiveFunctionAccessor();
       this.builder = new ParameterBuilder();
+      this.indexer = indexer;
    }
 
-   public Function create(Type type, String name, Class invoke, Class... types) throws Exception {
+   public Function generate(Type type, Constraint returns, String name, Class invoke, Class... types) {
       Module module = type.getModule();
-      Context context = module.getContext();
-      TypeLoader loader = context.getLoader();
-      Invocation invocation = generator.create(invoke);
+      Invocation invocation = accessor.create(invoke);
       
       if(invocation == null) {
          throw new InternalStateException("Could not create invocation for " + invoke);
@@ -45,7 +43,7 @@ public class AnyFunctionBuilder {
       
       for(int i = 0; i < types.length; i++){
          Class require = types[i];
-         Type constraint = loader.loadType(require);
+         Type constraint = indexer.loadType(require);
          Parameter parameter = null;
          
          if(require == Object.class) { // avoid proxy wrapping
@@ -54,10 +52,10 @@ public class AnyFunctionBuilder {
             parameter = builder.create(constraint, i);
          }
          parameters.add(parameter);
-      }
+      }            
       if(name.equals(TYPE_CONSTRUCTOR)) {
-         return new InvocationFunction(signature, invocation, type, null, name, STATIC.mask | PUBLIC.mask);
+         return new InvocationFunction(signature, invocation, type, returns, name, STATIC.mask | PUBLIC.mask);
       }
-      return new InvocationFunction(signature, invocation, type, null, name, PUBLIC.mask);
+      return new InvocationFunction(signature, invocation, type, returns, name, PUBLIC.mask);
    }
 }

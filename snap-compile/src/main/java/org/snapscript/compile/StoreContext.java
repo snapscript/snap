@@ -126,7 +126,7 @@ public class StoreContext implements Context {
    }
    
    @Override
-   public FunctionResolver getSearcher() {
+   public FunctionResolver getResolver() {
       return resolver;
    }
 

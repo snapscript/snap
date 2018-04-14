@@ -12,22 +12,22 @@ import org.snapscript.core.variable.Value;
 
 public class TypeStaticDispatcher implements FunctionDispatcher<Type> {
    
-   private final FunctionResolver binder;
+   private final FunctionResolver resolver;
    private final ErrorHandler handler;
    private final String name;
    
-   public TypeStaticDispatcher(FunctionResolver binder, ErrorHandler handler, String name) {
+   public TypeStaticDispatcher(FunctionResolver resolver, ErrorHandler handler, String name) {
+      this.resolver = resolver;
       this.handler = handler;
-      this.binder = binder;
       this.name = name;
    }
    
    @Override
    public Constraint compile(Scope scope, Type type, Type... arguments) throws Exception {   
-      FunctionCall call = binder.resolveStatic(scope, type, name, arguments);
+      FunctionCall call = resolver.resolveStatic(scope, type, name, arguments);
 
       if(call == null) {
-         call = binder.resolveInstance(scope, type, name, arguments);
+         call = resolver.resolveInstance(scope, type, name, arguments);
       }
       if(call == null) {
          handler.handleCompileError(INVOKE, scope, type, name, arguments);
@@ -37,10 +37,10 @@ public class TypeStaticDispatcher implements FunctionDispatcher<Type> {
 
    @Override
    public Value dispatch(Scope scope, Type type, Object... arguments) throws Exception {   
-      FunctionCall call = binder.resolveStatic(scope, type, name, arguments);
+      FunctionCall call = resolver.resolveStatic(scope, type, name, arguments);
 
       if(call == null) {
-         call = binder.resolveInstance(scope, type, name, arguments);
+         call = resolver.resolveInstance(scope, type, name, arguments);
       }
       if(call == null) {
          handler.handleRuntimeError(INVOKE, scope, type, name, arguments);

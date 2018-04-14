@@ -1,4 +1,4 @@
-package org.snapscript.tree.define;
+package org.snapscript.core.type.index;
 
 import static org.snapscript.core.Reserved.DEFAULT_PACKAGE;
 
@@ -10,11 +10,11 @@ import org.snapscript.core.scope.instance.Instance;
 import org.snapscript.core.scope.instance.PrimitiveInstance;
 import org.snapscript.core.type.Type;
 
-public class AnyInstanceBuilder {
+public class PrimitiveInstanceBuilder {
    
    private Module module;
    
-   public AnyInstanceBuilder() {
+   public PrimitiveInstanceBuilder() {
       super();
    }
 

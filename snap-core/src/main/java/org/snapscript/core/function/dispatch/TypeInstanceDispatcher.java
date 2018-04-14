@@ -12,19 +12,19 @@ import org.snapscript.core.variable.Value;
 
 public class TypeInstanceDispatcher implements FunctionDispatcher<Object> {
    
-   private final FunctionResolver binder;
+   private final FunctionResolver resolver;
    private final ErrorHandler handler;
    private final String name;    
    
-   public TypeInstanceDispatcher(FunctionResolver binder, ErrorHandler handler, String name) {
+   public TypeInstanceDispatcher(FunctionResolver resolver, ErrorHandler handler, String name) {
+      this.resolver = resolver;
       this.handler = handler;
-      this.binder = binder;
       this.name = name;
    }
    
    @Override
    public Constraint compile(Scope scope, Type object, Type... arguments) throws Exception {
-      FunctionCall call = binder.resolveInstance(scope, object, name, arguments);
+      FunctionCall call = resolver.resolveInstance(scope, object, name, arguments);
       
       if(call == null) {
          handler.handleCompileError(INVOKE, scope, object, name, arguments);
@@ -34,7 +34,7 @@ public class TypeInstanceDispatcher implements FunctionDispatcher<Object> {
    
    @Override
    public Value dispatch(Scope scope, Object object, Object... arguments) throws Exception {
-      FunctionCall call = binder.resolveInstance(scope, object, name, arguments);
+      FunctionCall call = resolver.resolveInstance(scope, object, name, arguments);
       
       if(call == null) {
          handler.handleRuntimeError(INVOKE, scope, object, name, arguments);

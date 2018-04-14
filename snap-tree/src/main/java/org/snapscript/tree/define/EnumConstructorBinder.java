@@ -21,12 +21,12 @@ public class EnumConstructorBinder {
    public FunctionCall bind(Scope scope, Type type) throws Exception {
       Module module = scope.getModule();
       Context context = module.getContext();
-      FunctionResolver binder = context.getSearcher();
+      FunctionResolver resolver = context.getResolver();
       
       if(arguments != null) {
          Object[] array = arguments.create(scope, type); // arguments have no left hand side
-         return binder.resolveStatic(scope, type, TYPE_CONSTRUCTOR, array);
+         return resolver.resolveStatic(scope, type, TYPE_CONSTRUCTOR, array);
       }
-      return binder.resolveStatic(scope, type, TYPE_CONSTRUCTOR, type);
+      return resolver.resolveStatic(scope, type, TYPE_CONSTRUCTOR, type);
    }
 }

@@ -17,18 +17,13 @@ public class TypeDescription {
       if(type != null) {
          String name = type.getName();
          Module module = type.getModule();
-         Type entry = type.getEntry();
          
          builder.append(module);
          
          if(name != null) {
             builder.append(".");
             builder.append(name);
-         }         
-         while(entry != null) {            
-            entry = entry.getEntry();
-            builder.append("[]");            
-         }         
+         }               
       }
       return builder.toString();
    }

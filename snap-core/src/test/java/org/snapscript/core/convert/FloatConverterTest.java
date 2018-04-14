@@ -6,7 +6,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import junit.framework.TestCase;
 
-import org.snapscript.core.TestType;
+import org.snapscript.core.MockType;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.convert.FloatConverter;
 import org.snapscript.core.convert.Score;
@@ -14,7 +14,7 @@ import org.snapscript.core.convert.Score;
 public class FloatConverterTest extends TestCase {
    
    public void testFloat() throws Exception {
-      Type type = new TestType(null, null, null, Float.class);
+      Type type = new MockType(null, null, null, Float.class);
       FloatConverter converter = new FloatConverter(type);
       
       assertEquals(converter.score(11.2f), Score.EXACT);
@@ -39,7 +39,7 @@ public class FloatConverterTest extends TestCase {
    }
    
    public void testPrimitiveFloat() throws Exception {
-      Type type = new TestType(null, null, null, float.class);
+      Type type = new MockType(null, null, null, float.class);
       FloatConverter converter = new FloatConverter(type);
       
       assertEquals(converter.score(11.2f), Score.EXACT);

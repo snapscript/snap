@@ -33,13 +33,13 @@ public class OperationBuilder {
    public Object create(Type type, Object[] arguments, Line line) throws Exception {
       Scope scope = module.getScope();
       Context context = module.getContext();
-      FunctionResolver binder = context.getSearcher();
-      FunctionCall callable = binder.resolveStatic(scope, type, TYPE_CONSTRUCTOR, arguments);
+      FunctionResolver resolver = context.getResolver();
+      FunctionCall call = resolver.resolveStatic(scope, type, TYPE_CONSTRUCTOR, arguments);
       
-      if(callable == null) {
+      if(call == null) {
          throw new InternalStateException("No constructor for '" + type + "' at line " + line);
       }
-      Value value = callable.call();
+      Value value = call.call();
       Object result = value.getValue();
       
       return processor.process(result, line);

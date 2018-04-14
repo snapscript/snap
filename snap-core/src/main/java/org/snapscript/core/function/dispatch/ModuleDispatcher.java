@@ -13,13 +13,13 @@ import org.snapscript.core.variable.Value;
 
 public class ModuleDispatcher implements FunctionDispatcher<Module> {
    
-   private final FunctionResolver binder;
+   private final FunctionResolver resolver;
    private final ErrorHandler handler;
    private final String name;
    
-   public ModuleDispatcher(FunctionResolver binder, ErrorHandler handler, String name) {
+   public ModuleDispatcher(FunctionResolver resolver, ErrorHandler handler, String name) {
+      this.resolver = resolver;
       this.handler = handler;
-      this.binder = binder;
       this.name = name;
    }
    
@@ -46,20 +46,20 @@ public class ModuleDispatcher implements FunctionDispatcher<Module> {
    
    private FunctionCall bind(Scope scope, Module module, Type... arguments) throws Exception {
       Scope inner = module.getScope();
-      FunctionCall call = binder.resolveModule(inner, module, name, arguments);
+      FunctionCall call = resolver.resolveModule(inner, module, name, arguments);
       
       if(call == null) {
-         return binder.resolveInstance(inner, (Object)module, name, arguments);
+         return resolver.resolveInstance(inner, (Object)module, name, arguments);
       }
       return call;
    }
    
    private FunctionCall bind(Scope scope, Module module, Object... arguments) throws Exception {
       Scope inner = module.getScope();
-      FunctionCall call = binder.resolveModule(inner, module, name, arguments);
+      FunctionCall call = resolver.resolveModule(inner, module, name, arguments);
       
       if(call == null) {
-         return binder.resolveInstance(inner, (Object)module, name, arguments);
+         return resolver.resolveInstance(inner, (Object)module, name, arguments);
       }
       return call;
    }

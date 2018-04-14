@@ -21,11 +21,11 @@ public class FunctionMatcher {
    private final FunctionDispatcher local;
    private final FunctionDispatcher empty;
    
-   public FunctionMatcher(FunctionResolver binder, ErrorHandler handler, String name) {
-      this.builder = new FunctionDispatcherBuilder(binder, handler, name);
+   public FunctionMatcher(FunctionResolver resolver, ErrorHandler handler, String name) {
+      this.builder = new FunctionDispatcherBuilder(resolver, handler, name);
       this.cache = new CopyOnWriteCache<Class, FunctionDispatcher>();
-      this.instance = new TypeLocalDispatcher(binder, handler, name);
-      this.local = new LocalDispatcher(binder, handler, name);
+      this.instance = new TypeLocalDispatcher(resolver, handler, name);
+      this.local = new LocalDispatcher(resolver, handler, name);
       this.empty = new EmptyDispatcher();
    }
    

@@ -24,7 +24,7 @@ public interface Context extends Any {
    ApplicationValidator getValidator();
    TraceInterceptor getInterceptor();
    ExpressionEvaluator getEvaluator();
-   FunctionResolver getSearcher();
+   FunctionResolver getResolver();
    PlatformProvider getProvider();
    PackageLinker getLinker();
    ProxyWrapper getWrapper();
