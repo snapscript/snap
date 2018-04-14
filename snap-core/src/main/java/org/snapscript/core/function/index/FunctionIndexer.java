@@ -1,4 +1,4 @@
-package org.snapscript.core.function.search;
+package org.snapscript.core.function.index;
 
 import java.util.List;
 
@@ -6,33 +6,31 @@ import org.snapscript.core.ModifierType;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.convert.TypeInspector;
 import org.snapscript.core.function.Function;
-import org.snapscript.core.function.index.FunctionIndex;
-import org.snapscript.core.function.index.FunctionIndexBuilder;
 import org.snapscript.core.stack.ThreadStack;
 import org.snapscript.core.type.TypeCache;
 import org.snapscript.core.type.TypeExtractor;
 
-public class FunctionResolver {
+public class FunctionIndexer {
    
-   private final TypeCache<TypeStructure> cache;
+   private final TypeCache<TypeIndex> cache;
    private final FunctionIndexBuilder builder;
    private final FunctionPathFinder finder;
    private final FunctionWrapper wrapper;
    private final TypeInspector inspector;
    
-   public FunctionResolver(TypeExtractor extractor, ThreadStack stack) {
+   public FunctionIndexer(TypeExtractor extractor, ThreadStack stack) {
       this.builder = new FunctionIndexBuilder(extractor, stack);
-      this.cache = new TypeCache<TypeStructure>();
+      this.cache = new TypeCache<TypeIndex>();
       this.wrapper = new FunctionWrapper(stack);
       this.finder = new FunctionPathFinder();
       this.inspector = new TypeInspector();
    }
    
-   public FunctionPointer resolve(Type type, String name, Type... types) throws Exception { 
-      TypeStructure match = cache.fetch(type);
+   public FunctionPointer index(Type type, String name, Type... types) throws Exception { 
+      TypeIndex match = cache.fetch(type);
 
       if(match == null) {
-         TypeStructure structure = build(type, name);
+         TypeIndex structure = build(type, name);
          
          cache.cache(type, structure);
          return structure.get(name, types);
@@ -40,11 +38,11 @@ public class FunctionResolver {
       return match.get(name, types);
    }
 
-   public FunctionPointer resolve(Type type, String name, Object... values) throws Exception { 
-      TypeStructure match = cache.fetch(type);
+   public FunctionPointer index(Type type, String name, Object... values) throws Exception { 
+      TypeIndex match = cache.fetch(type);
 
       if(match == null) {
-         TypeStructure structure = build(type, name);
+         TypeIndex structure = build(type, name);
          
          cache.cache(type, structure);
          return structure.get(name, values);
@@ -52,7 +50,7 @@ public class FunctionResolver {
       return match.get(name, values);
    }
    
-   private TypeStructure build(Type type, String name) throws Exception { 
+   private TypeIndex build(Type type, String name) throws Exception { 
       List<Type> path = finder.findPath(type, name); 
       FunctionIndex implemented = builder.create(type);
       FunctionIndex abstracts = builder.create(type);
@@ -76,15 +74,15 @@ public class FunctionResolver {
             }
          }
       }
-      return new TypeStructure(implemented, abstracts);
+      return new TypeIndex(implemented, abstracts);
    }
    
-   private static class TypeStructure {
+   private static class TypeIndex {
       
       private final FunctionIndex implemented;
       private final FunctionIndex abstracts;
       
-      public TypeStructure(FunctionIndex implemented, FunctionIndex abstracts) {
+      public TypeIndex(FunctionIndex implemented, FunctionIndex abstracts) {
          this.implemented = implemented;
          this.abstracts = abstracts;
       }

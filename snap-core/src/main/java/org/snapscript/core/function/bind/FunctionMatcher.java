@@ -11,7 +11,7 @@ import org.snapscript.core.function.dispatch.FunctionDispatcher;
 import org.snapscript.core.function.dispatch.FunctionDispatcherBuilder;
 import org.snapscript.core.function.dispatch.LocalDispatcher;
 import org.snapscript.core.function.dispatch.TypeLocalDispatcher;
-import org.snapscript.core.function.search.FunctionSearcher;
+import org.snapscript.core.function.resolve.FunctionResolver;
 
 public class FunctionMatcher {
    
@@ -21,7 +21,7 @@ public class FunctionMatcher {
    private final FunctionDispatcher local;
    private final FunctionDispatcher empty;
    
-   public FunctionMatcher(FunctionSearcher binder, ErrorHandler handler, String name) {
+   public FunctionMatcher(FunctionResolver binder, ErrorHandler handler, String name) {
       this.builder = new FunctionDispatcherBuilder(binder, handler, name);
       this.cache = new CopyOnWriteCache<Class, FunctionDispatcher>();
       this.instance = new TypeLocalDispatcher(binder, handler, name);

@@ -1,4 +1,4 @@
-package org.snapscript.core.function.search;
+package org.snapscript.core.function.index;
 
 import org.snapscript.core.type.Type;
 import org.snapscript.core.function.ArgumentConverter;

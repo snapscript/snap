@@ -5,16 +5,14 @@ import java.util.Map;
 
 import org.snapscript.core.type.Type;
 import org.snapscript.core.function.Function;
-import org.snapscript.core.function.search.FunctionPointer;
-import org.snapscript.core.function.search.FunctionScanner;
 
 public class FunctionIndexPartition {
 
    private final Map<String, FunctionIndexGroup> groups;
    private final FunctionKeyBuilder builder;
-   private final FunctionScanner matcher;
+   private final FunctionReducer matcher;
    
-   public FunctionIndexPartition(FunctionScanner matcher, FunctionKeyBuilder builder) {
+   public FunctionIndexPartition(FunctionReducer matcher, FunctionKeyBuilder builder) {
       this.groups = new HashMap<String, FunctionIndexGroup>();
       this.matcher = matcher;
       this.builder = builder;

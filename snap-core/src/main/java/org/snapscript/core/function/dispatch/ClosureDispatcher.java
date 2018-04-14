@@ -11,8 +11,8 @@ import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.Signature;
-import org.snapscript.core.function.search.FunctionCall;
-import org.snapscript.core.function.search.FunctionSearcher;
+import org.snapscript.core.function.resolve.FunctionCall;
+import org.snapscript.core.function.resolve.FunctionResolver;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.Value;
 import org.snapscript.core.type.Any;
@@ -20,11 +20,11 @@ import org.snapscript.core.type.Type;
 
 public class ClosureDispatcher implements FunctionDispatcher<Function> {
 
-   private final FunctionSearcher binder;
+   private final FunctionResolver binder;
    private final ErrorHandler handler;
    private final String name;      
    
-   public ClosureDispatcher(FunctionSearcher binder, ErrorHandler handler, String name) {
+   public ClosureDispatcher(FunctionResolver binder, ErrorHandler handler, String name) {
       this.handler = handler;
       this.binder = binder;
       this.name = name;
@@ -46,12 +46,12 @@ public class ClosureDispatcher implements FunctionDispatcher<Function> {
    }
    
    private FunctionCall bind(Scope scope, Function function, Object... arguments) throws Exception {
-      FunctionCall call = binder.searchInstance(scope, function, name, arguments); // this is not used often
+      FunctionCall call = binder.resolveInstance(scope, function, name, arguments); // this is not used often
       
       if(call == null) {
          Object adapter = new FunctionAdapter(function);
          
-         return binder.searchInstance(scope, adapter, name, arguments);
+         return binder.resolveInstance(scope, adapter, name, arguments);
       }
       return call;
    }

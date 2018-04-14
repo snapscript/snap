@@ -6,23 +6,21 @@ import org.snapscript.core.type.Type;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.Signature;
-import org.snapscript.core.function.search.FunctionPointer;
-import org.snapscript.core.function.search.FunctionScanner;
 
 public class ScopeFunctionIndex implements FunctionIndex {
 
-   private FunctionKeyBuilder builder;
-   private FunctionScanner matcher;
    private FunctionIndexPartition[] caches;
+   private FunctionKeyBuilder builder;
+   private FunctionReducer reducer;
    private int limit; 
    
-   public ScopeFunctionIndex(FunctionScanner matcher, FunctionKeyBuilder builder) {
-      this(matcher, builder, 20);
+   public ScopeFunctionIndex(FunctionReducer reducer, FunctionKeyBuilder builder) {
+      this(reducer, builder, 20);
    }
    
-   public ScopeFunctionIndex(FunctionScanner matcher, FunctionKeyBuilder builder, int limit) {
+   public ScopeFunctionIndex(FunctionReducer reducer, FunctionKeyBuilder builder, int limit) {
       this.caches = new FunctionIndexPartition[2];
-      this.matcher = matcher;
+      this.reducer = reducer;
       this.builder = builder;
       this.limit = limit;
    }
@@ -86,7 +84,7 @@ public class ScopeFunctionIndex implements FunctionIndex {
       FunctionIndexPartition cache = caches[size];
       
       if(cache == null) {
-         cache = caches[size] = new FunctionIndexPartition(matcher, builder);
+         cache = caches[size] = new FunctionIndexPartition(reducer, builder);
       }
       cache.index(call);
    }

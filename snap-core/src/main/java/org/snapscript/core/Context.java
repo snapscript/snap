@@ -4,7 +4,7 @@ import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.proxy.ProxyWrapper;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.function.bind.FunctionBinder;
-import org.snapscript.core.function.search.FunctionSearcher;
+import org.snapscript.core.function.resolve.FunctionResolver;
 import org.snapscript.core.link.PackageLinker;
 import org.snapscript.core.module.ModuleRegistry;
 import org.snapscript.core.platform.PlatformProvider;
@@ -24,7 +24,7 @@ public interface Context extends Any {
    ApplicationValidator getValidator();
    TraceInterceptor getInterceptor();
    ExpressionEvaluator getEvaluator();
-   FunctionSearcher getSearcher();
+   FunctionResolver getSearcher();
    PlatformProvider getProvider();
    PackageLinker getLinker();
    ProxyWrapper getWrapper();

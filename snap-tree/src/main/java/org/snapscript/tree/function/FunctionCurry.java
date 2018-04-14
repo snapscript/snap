@@ -7,8 +7,8 @@ import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.function.search.FunctionCall;
-import org.snapscript.core.function.search.FunctionSearcher;
+import org.snapscript.core.function.resolve.FunctionCall;
+import org.snapscript.core.function.resolve.FunctionResolver;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.Scope;
@@ -26,17 +26,17 @@ public class FunctionCurry implements Compilation {
    @Override
    public Object compile(Module module, Path path, int line) throws Exception {
       Context context = module.getContext();
-      FunctionSearcher searcher = context.getSearcher();
+      FunctionResolver searcher = context.getSearcher();
       
       return new CompileResult(searcher, arguments);
    }
 
    private static class CompileResult extends Evaluation {
    
-      private final FunctionSearcher searcher;
+      private final FunctionResolver searcher;
       private final ArgumentList arguments;
       
-      public CompileResult(FunctionSearcher searcher, ArgumentList arguments) {
+      public CompileResult(FunctionResolver searcher, ArgumentList arguments) {
          this.arguments = arguments;
          this.searcher = searcher;
       }
@@ -51,7 +51,7 @@ public class FunctionCurry implements Compilation {
       public Value evaluate(Scope scope, Object left) throws Exception { 
          Value value = Value.getTransient(left);        
          Object[] array = arguments.create(scope); 
-         FunctionCall call = searcher.searchValue(value, array);
+         FunctionCall call = searcher.resolveValue(value, array);
          int width = array.length;
          
          if(call == null) {

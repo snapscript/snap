@@ -8,20 +8,18 @@ import org.snapscript.common.CopyOnWriteCache;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Signature;
-import org.snapscript.core.function.search.FunctionPointer;
-import org.snapscript.core.function.search.FunctionScanner;
 
 public class ClassFunctionIndex implements FunctionIndex {
    
    private final Cache<Object, FunctionPointer> cache;
    private final List<FunctionPointer> pointers;
    private final FunctionKeyBuilder builder;
-   private final FunctionScanner searcher;
+   private final FunctionReducer reducer;
    
-   public ClassFunctionIndex(FunctionScanner searcher, FunctionKeyBuilder builder) {
+   public ClassFunctionIndex(FunctionReducer reducer, FunctionKeyBuilder builder) {
       this.cache = new CopyOnWriteCache<Object, FunctionPointer>();
       this.pointers = new ArrayList<FunctionPointer>();
-      this.searcher = searcher;
+      this.reducer = reducer;
       this.builder = builder;
    }
 
@@ -31,7 +29,7 @@ public class ClassFunctionIndex implements FunctionIndex {
       FunctionPointer pointer = cache.fetch(key);
       
       if(pointer == null) {
-         FunctionPointer match = searcher.scan(pointers, name, types);
+         FunctionPointer match = reducer.reduce(pointers, name, types);
          Function function = match.getFunction();
          Signature signature = function.getSignature();
 
@@ -49,7 +47,7 @@ public class ClassFunctionIndex implements FunctionIndex {
       FunctionPointer pointer = cache.fetch(key);
       
       if(pointer == null) {
-         FunctionPointer match = searcher.scan(pointers, name, list);
+         FunctionPointer match = reducer.reduce(pointers, name, list);
          Function function = match.getFunction();
          Signature signature = function.getSignature();
          

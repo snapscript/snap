@@ -10,8 +10,8 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.Value;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.function.search.FunctionCall;
-import org.snapscript.core.function.search.FunctionSearcher;
+import org.snapscript.core.function.resolve.FunctionCall;
+import org.snapscript.core.function.resolve.FunctionResolver;
 import org.snapscript.tree.ArgumentList;
 import org.snapscript.tree.reference.CompiledReference;
 
@@ -60,20 +60,20 @@ public class CreateObject extends Evaluation {
    private FunctionCall bind(Scope scope, Type type) throws Exception {
       Module module = scope.getModule();
       Context context = module.getContext();
-      FunctionSearcher binder = context.getSearcher();
+      FunctionResolver binder = context.getSearcher();
       Class real = type.getType();
       
       if(arguments != null) {
          if(real == null) {
             Object[] array = arguments.create(scope, type); 
-            return binder.searchStatic(scope, type, TYPE_CONSTRUCTOR, array);
+            return binder.resolveStatic(scope, type, TYPE_CONSTRUCTOR, array);
          }
          Object[] array = arguments.create(scope); 
-         return binder.searchStatic(scope, type, TYPE_CONSTRUCTOR, array);
+         return binder.resolveStatic(scope, type, TYPE_CONSTRUCTOR, array);
       }
       if(real == null) {
-         return binder.searchStatic(scope, type, TYPE_CONSTRUCTOR, type);
+         return binder.resolveStatic(scope, type, TYPE_CONSTRUCTOR, type);
       }
-      return binder.searchStatic(scope, type, TYPE_CONSTRUCTOR);
+      return binder.resolveStatic(scope, type, TYPE_CONSTRUCTOR);
    }
 }

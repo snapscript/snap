@@ -1,4 +1,4 @@
-package org.snapscript.core.function.search;
+package org.snapscript.core.function.index;
 
 import static org.snapscript.core.convert.Score.INVALID;
 
@@ -13,19 +13,19 @@ import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Signature;
 import org.snapscript.core.stack.ThreadStack;
 
-public class FunctionScanner {
+public class FunctionReducer {
    
    private final FunctionPointer invalid;
    private final Signature signature;
    private final Function empty;
    
-   public FunctionScanner(ThreadStack stack) {
+   public FunctionReducer(ThreadStack stack) {
       this.signature = new EmptySignature();
       this.empty = new EmptyFunction(signature);
       this.invalid = new FunctionPointer(empty, stack);
    }
 
-   public FunctionPointer scan(List<FunctionPointer> pointers, String name, Type... types) throws Exception { 
+   public FunctionPointer reduce(List<FunctionPointer> pointers, String name, Type... types) throws Exception { 
       int size = pointers.size();
       
       if(size > 0) {
@@ -53,7 +53,7 @@ public class FunctionScanner {
       return invalid;
    }
 
-   public FunctionPointer scan(List<FunctionPointer> pointers, String name, Object... values) throws Exception { 
+   public FunctionPointer reduce(List<FunctionPointer> pointers, String name, Object... values) throws Exception { 
       int size = pointers.size();
       
       if(size > 0) {

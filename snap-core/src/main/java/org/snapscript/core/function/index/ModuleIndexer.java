@@ -1,4 +1,4 @@
-package org.snapscript.core.function.match;
+package org.snapscript.core.function.index;
 
 import java.util.List;
 
@@ -6,31 +6,27 @@ import org.snapscript.common.CopyOnWriteSparseArray;
 import org.snapscript.common.SparseArray;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.function.Function;
-import org.snapscript.core.function.index.FunctionIndex;
-import org.snapscript.core.function.index.FunctionIndexBuilder;
-import org.snapscript.core.function.search.FunctionPointer;
-import org.snapscript.core.function.search.FunctionWrapper;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.stack.ThreadStack;
 import org.snapscript.core.type.TypeExtractor;
 
-public class ModuleMatcher {
+public class ModuleIndexer {
    
    private final SparseArray<FunctionIndex> cache;
    private final FunctionIndexBuilder builder;
    private final FunctionWrapper wrapper;
    
-   public ModuleMatcher(TypeExtractor extractor, ThreadStack stack) {
+   public ModuleIndexer(TypeExtractor extractor, ThreadStack stack) {
       this(extractor, stack, 10000);
    }
    
-   public ModuleMatcher(TypeExtractor extractor, ThreadStack stack, int capacity) {
+   public ModuleIndexer(TypeExtractor extractor, ThreadStack stack, int capacity) {
       this.cache = new CopyOnWriteSparseArray<FunctionIndex>(capacity);
       this.builder = new FunctionIndexBuilder(extractor, stack);
       this.wrapper = new FunctionWrapper(stack);
    }
 
-   public FunctionPointer match(Module module, String name, Type... types) throws Exception { 
+   public FunctionPointer index(Module module, String name, Type... types) throws Exception { 
       int index = module.getOrder();
       FunctionIndex match = cache.get(index);
       
@@ -48,7 +44,7 @@ public class ModuleMatcher {
       return match.resolve(name, types);
    }
    
-   public FunctionPointer match(Module module, String name, Object... values) throws Exception { 
+   public FunctionPointer index(Module module, String name, Object... values) throws Exception { 
       int index = module.getOrder();
       FunctionIndex match = cache.get(index);
       

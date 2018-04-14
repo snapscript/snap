@@ -12,7 +12,7 @@ import org.snapscript.core.function.Function;
 import org.snapscript.core.platform.PlatformProvider;
 import org.snapscript.core.type.extend.ClassExtender;
 
-public class FunctionIndexer {
+public class MethodIndexer {
    
    private final AnnotationExtractor extractor;
    private final FunctionGenerator generator;
@@ -20,7 +20,7 @@ public class FunctionIndexer {
    private final ModifierConverter converter;
    private final ClassExtender extender;
    
-   public FunctionIndexer(TypeIndexer indexer, ClassExtender extender, PlatformProvider provider){
+   public MethodIndexer(TypeIndexer indexer, ClassExtender extender, PlatformProvider provider){
       this.generator = new FunctionGenerator(indexer, provider);
       this.indexer = new ConstructorIndexer(indexer, provider);
       this.extractor = new AnnotationExtractor();

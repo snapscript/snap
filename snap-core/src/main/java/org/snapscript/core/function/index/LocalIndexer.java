@@ -1,4 +1,4 @@
-package org.snapscript.core.function.match;
+package org.snapscript.core.function.index;
 
 import java.util.List;
 
@@ -8,21 +8,20 @@ import org.snapscript.core.convert.Score;
 import org.snapscript.core.function.ArgumentConverter;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Signature;
-import org.snapscript.core.function.search.FunctionPointer;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
 import org.snapscript.core.scope.Value;
 import org.snapscript.core.stack.ThreadStack;
 
-public class LocalMatcher {
+public class LocalIndexer {
    
    private final ThreadStack stack;
    
-   public LocalMatcher(ThreadStack stack) {
+   public LocalIndexer(ThreadStack stack) {
       this.stack = stack;
    }
    
-   public FunctionPointer match(Scope scope, String name, Type... values) throws Exception { // match function variable
+   public FunctionPointer index(Scope scope, String name, Type... values) throws Exception { // match function variable
       State state = scope.getState();
       Value value = state.get(name);
       
@@ -48,7 +47,7 @@ public class LocalMatcher {
       return null;
    }
    
-   public FunctionPointer match(Scope scope, String name, Object... values) throws Exception { // match function variable
+   public FunctionPointer index(Scope scope, String name, Object... values) throws Exception { // match function variable
       State state = scope.getState();
       Value value = state.get(name);
       

@@ -1,4 +1,4 @@
-package org.snapscript.core.function.search;
+package org.snapscript.core.function.index;
 
 import java.util.ArrayList;
 import java.util.Iterator;

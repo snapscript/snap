@@ -4,7 +4,7 @@ import org.snapscript.core.InternalStateException;
 import org.snapscript.core.function.Accessor;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
-import org.snapscript.core.function.search.FunctionPointer;
+import org.snapscript.core.function.index.FunctionPointer;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.stack.ThreadStack;
 

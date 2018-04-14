@@ -1,10 +1,11 @@
-package org.snapscript.core.function.search;
+package org.snapscript.core.function.resolve;
 
 import java.util.concurrent.Callable;
 
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
+import org.snapscript.core.function.index.FunctionPointer;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.Value;
 
@@ -21,7 +22,7 @@ public class FunctionCall implements Callable<Value> {
       this.scope = scope;
       this.list = list;
    }
-   
+
    public Constraint check() throws Exception {
       Function function = pointer.getFunction();      
       return function.getConstraint();

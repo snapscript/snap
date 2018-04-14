@@ -4,8 +4,8 @@ import static org.snapscript.core.error.Reason.INVOKE;
 
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
-import org.snapscript.core.function.search.FunctionCall;
-import org.snapscript.core.function.search.FunctionSearcher;
+import org.snapscript.core.function.resolve.FunctionCall;
+import org.snapscript.core.function.resolve.FunctionResolver;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.Value;
@@ -13,11 +13,11 @@ import org.snapscript.core.type.Type;
 
 public class ModuleDispatcher implements FunctionDispatcher<Module> {
    
-   private final FunctionSearcher binder;
+   private final FunctionResolver binder;
    private final ErrorHandler handler;
    private final String name;
    
-   public ModuleDispatcher(FunctionSearcher binder, ErrorHandler handler, String name) {
+   public ModuleDispatcher(FunctionResolver binder, ErrorHandler handler, String name) {
       this.handler = handler;
       this.binder = binder;
       this.name = name;
@@ -46,20 +46,20 @@ public class ModuleDispatcher implements FunctionDispatcher<Module> {
    
    private FunctionCall bind(Scope scope, Module module, Type... arguments) throws Exception {
       Scope inner = module.getScope();
-      FunctionCall call = binder.searchModule(inner, module, name, arguments);
+      FunctionCall call = binder.resolveModule(inner, module, name, arguments);
       
       if(call == null) {
-         return binder.searchInstance(inner, (Object)module, name, arguments);
+         return binder.resolveInstance(inner, (Object)module, name, arguments);
       }
       return call;
    }
    
    private FunctionCall bind(Scope scope, Module module, Object... arguments) throws Exception {
       Scope inner = module.getScope();
-      FunctionCall call = binder.searchModule(inner, module, name, arguments);
+      FunctionCall call = binder.resolveModule(inner, module, name, arguments);
       
       if(call == null) {
-         return binder.searchInstance(inner, (Object)module, name, arguments);
+         return binder.resolveInstance(inner, (Object)module, name, arguments);
       }
       return call;
    }

@@ -10,8 +10,8 @@ import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.proxy.ProxyWrapper;
 import org.snapscript.core.error.Reason;
 import org.snapscript.core.error.ErrorHandler;
-import org.snapscript.core.function.search.FunctionCall;
-import org.snapscript.core.function.search.FunctionSearcher;
+import org.snapscript.core.function.resolve.FunctionCall;
+import org.snapscript.core.function.resolve.FunctionResolver;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.Value;
@@ -19,11 +19,11 @@ import org.snapscript.core.type.Type;
 
 public class MapDispatcher implements FunctionDispatcher<Map> {
    
-   private final FunctionSearcher binder;
+   private final FunctionResolver binder;
    private final ErrorHandler handler;
    private final String name;      
    
-   public MapDispatcher(FunctionSearcher binder, ErrorHandler handler, String name) {
+   public MapDispatcher(FunctionResolver binder, ErrorHandler handler, String name) {
       this.handler = handler;
       this.binder = binder;
       this.name = name;
@@ -31,7 +31,7 @@ public class MapDispatcher implements FunctionDispatcher<Map> {
    
    @Override
    public Constraint compile(Scope scope, Type map, Type... arguments) throws Exception {
-      FunctionCall local = binder.searchInstance(scope, map, name, arguments);
+      FunctionCall local = binder.resolveInstance(scope, map, name, arguments);
       
       if(local != null) {
          return local.check();
@@ -51,7 +51,7 @@ public class MapDispatcher implements FunctionDispatcher<Map> {
    
    private FunctionCall bind(Scope scope, Map map, Object... arguments) throws Exception {
       Module module = scope.getModule();
-      FunctionCall local = binder.searchInstance(scope, map, name, arguments);
+      FunctionCall local = binder.resolveInstance(scope, map, name, arguments);
       
       if(local == null) {
          Object value = map.get(name);
@@ -62,7 +62,7 @@ public class MapDispatcher implements FunctionDispatcher<Map> {
             Object function = wrapper.fromProxy(value);
             Value reference = Value.getTransient(function);
             
-            return binder.searchValue(reference, arguments);
+            return binder.resolveValue(reference, arguments);
          }
       }
       return local;

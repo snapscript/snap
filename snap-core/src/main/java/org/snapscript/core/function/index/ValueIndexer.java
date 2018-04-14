@@ -1,22 +1,21 @@
-package org.snapscript.core.function.match;
+package org.snapscript.core.function.index;
 
 import org.snapscript.core.convert.Score;
 import org.snapscript.core.function.ArgumentConverter;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Signature;
-import org.snapscript.core.function.search.FunctionPointer;
 import org.snapscript.core.scope.Value;
 import org.snapscript.core.stack.ThreadStack;
 
-public class ValueMatcher {
+public class ValueIndexer {
    
    private final ThreadStack stack;
    
-   public ValueMatcher(ThreadStack stack) {
+   public ValueIndexer(ThreadStack stack) {
       this.stack = stack;
    }
    
-   public FunctionPointer match(Value value, Object... values) throws Exception { // match function variable
+   public FunctionPointer index(Value value, Object... values) throws Exception { // match function variable
       Object object = value.getValue();
       
       if(Function.class.isInstance(object)) {

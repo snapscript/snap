@@ -7,17 +7,17 @@ import org.snapscript.compile.assemble.ExecutorLinker;
 import org.snapscript.compile.assemble.OperationEvaluator;
 import org.snapscript.compile.validate.ContextValidator;
 import org.snapscript.compile.verify.ExecutableVerifier;
+import org.snapscript.core.ApplicationValidator;
 import org.snapscript.core.Context;
 import org.snapscript.core.ExpressionEvaluator;
-import org.snapscript.core.ApplicationValidator;
 import org.snapscript.core.ResourceManager;
 import org.snapscript.core.StoreManager;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.proxy.ProxyWrapper;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.function.bind.FunctionBinder;
-import org.snapscript.core.function.search.FunctionResolver;
-import org.snapscript.core.function.search.FunctionSearcher;
+import org.snapscript.core.function.index.FunctionIndexer;
+import org.snapscript.core.function.resolve.FunctionResolver;
 import org.snapscript.core.link.PackageLinker;
 import org.snapscript.core.module.ModuleRegistry;
 import org.snapscript.core.platform.PlatformProvider;
@@ -35,8 +35,8 @@ public class StoreContext implements Context {
    private final ExecutableVerifier verifier;
    private final ConstraintMatcher matcher;
    private final ResourceManager manager;
+   private final FunctionIndexer indexer;
    private final FunctionResolver resolver;
-   private final FunctionSearcher searcher;
    private final TypeExtractor extractor;
    private final ModuleRegistry registry;
    private final FunctionBinder binder;
@@ -62,12 +62,12 @@ public class StoreContext implements Context {
       this.matcher = new ConstraintMatcher(loader, wrapper);
       this.extractor = new TypeExtractor(loader);
       this.handler = new ErrorHandler(extractor, stack);
-      this.resolver = new FunctionResolver(extractor, stack);
-      this.validator = new ContextValidator(matcher, extractor, resolver, verifier);
-      this.searcher = new FunctionSearcher(extractor, stack, resolver);
+      this.indexer = new FunctionIndexer(extractor, stack);
+      this.validator = new ContextValidator(matcher, extractor, indexer, verifier);
+      this.resolver = new FunctionResolver(extractor, stack, indexer);
       this.evaluator = new OperationEvaluator(this, verifier, executor);
       this.provider = new PlatformProvider(extractor, wrapper, stack);
-      this.binder = new FunctionBinder(searcher, handler);
+      this.binder = new FunctionBinder(resolver, handler);
    }
    
    @Override
@@ -126,8 +126,8 @@ public class StoreContext implements Context {
    }
    
    @Override
-   public FunctionSearcher getSearcher() {
-      return searcher;
+   public FunctionResolver getSearcher() {
+      return resolver;
    }
 
    @Override

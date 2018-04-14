@@ -4,7 +4,7 @@ import java.lang.reflect.Constructor;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.convert.proxy.ProxyWrapper;
-import org.snapscript.core.function.search.FunctionResolver;
+import org.snapscript.core.function.index.FunctionIndexer;
 import org.snapscript.core.stack.ThreadStack;
 import org.snapscript.core.type.TypeExtractor;
 
@@ -12,12 +12,12 @@ public class PlatformBuilder {
    
    private final AtomicReference<Platform> reference;
    private final PlatformClassLoader loader;
-   private final FunctionResolver resolver;
+   private final FunctionIndexer resolver;
    private final ProxyWrapper wrapper;
    private final Platform partial;
    
    public PlatformBuilder(TypeExtractor extractor, ProxyWrapper wrapper, ThreadStack stack) {
-      this.resolver = new FunctionResolver(extractor, stack);
+      this.resolver = new FunctionIndexer(extractor, stack);
       this.loader = new PlatformClassLoader();
       this.partial = new PartialPlatform();
       this.reference = new AtomicReference<Platform>();

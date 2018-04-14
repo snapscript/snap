@@ -11,8 +11,8 @@ import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.proxy.ProxyWrapper;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.function.bind.FunctionBinder;
-import org.snapscript.core.function.search.FunctionResolver;
-import org.snapscript.core.function.search.FunctionSearcher;
+import org.snapscript.core.function.index.FunctionIndexer;
+import org.snapscript.core.function.resolve.FunctionResolver;
 import org.snapscript.core.link.NoPackage;
 import org.snapscript.core.link.Package;
 import org.snapscript.core.link.PackageLinker;
@@ -42,30 +42,30 @@ public class FunctionBinderTest extends TestCase {
       Module module = new ContextModule(context, null, path, Reserved.DEFAULT_PACKAGE, "");
       Scope scope = new ModelScope(model, module);
       
-      context.getSearcher().searchInstance(scope, map, "put", "x", 11).call();
-      context.getSearcher().searchInstance(scope, map, "put", "y", 21).call();
-      context.getSearcher().searchInstance(scope, map, "put", "z", 441).call();
+      context.getSearcher().resolveInstance(scope, map, "put", "x", 11).call();
+      context.getSearcher().resolveInstance(scope, map, "put", "y", 21).call();
+      context.getSearcher().resolveInstance(scope, map, "put", "z", 441).call();
       
       assertEquals(map.get("x"), 11);
       assertEquals(map.get("y"), 21);
       assertEquals(map.get("z"), 441);
       
-      context.getSearcher().searchInstance(scope, map, "put", "x", 22).call();
-      context.getSearcher().searchInstance(scope, map, "remove", "y").call();
-      context.getSearcher().searchInstance(scope, map, "put", "z", "x").call();
+      context.getSearcher().resolveInstance(scope, map, "put", "x", 22).call();
+      context.getSearcher().resolveInstance(scope, map, "remove", "y").call();
+      context.getSearcher().resolveInstance(scope, map, "put", "z", "x").call();
       
       assertEquals(map.get("x"), 22);
       assertEquals(map.get("y"), null);
       assertEquals(map.get("z"), "x");
       
-      assertEquals(context.getSearcher().searchInstance(scope, map, "put", "x", 44).call().getValue(), 22);
-      assertEquals(context.getSearcher().searchInstance(scope, map, "put", "y", true).call().getValue(), null);
-      assertEquals(context.getSearcher().searchInstance(scope, map, "put", "z", "x").call().getValue(), "x");
+      assertEquals(context.getSearcher().resolveInstance(scope, map, "put", "x", 44).call().getValue(), 22);
+      assertEquals(context.getSearcher().resolveInstance(scope, map, "put", "y", true).call().getValue(), null);
+      assertEquals(context.getSearcher().resolveInstance(scope, map, "put", "z", "x").call().getValue(), "x");
       
       long start = System.currentTimeMillis();
       
       for(int i = 0; i < ITERATIONS; i++) {
-         context.getSearcher().searchInstance(scope, map, "put", "x", 44);
+         context.getSearcher().resolveInstance(scope, map, "put", "x", 44);
       }
       long finish = System.currentTimeMillis();
       double milliseconds = finish - start;
@@ -138,8 +138,8 @@ public class FunctionBinderTest extends TestCase {
       private final TypeExtractor extractor;
       private final ThreadStack stack;
       private final ProxyWrapper wrapper;
-      private final FunctionSearcher binder;
       private final FunctionResolver resolver;
+      private final FunctionIndexer indexer;
       private final PackageLinker linker;
       private final ErrorHandler handler;
       private final FunctionBinder table;
@@ -154,11 +154,11 @@ public class FunctionBinderTest extends TestCase {
          this.registry = new ModuleRegistry(this, null);
          this.loader = new TypeLoader(linker, registry, manager, wrapper, stack);
          this.extractor = new TypeExtractor(loader);
-         this.resolver = new FunctionResolver(extractor, stack);
-         this.binder = new FunctionSearcher(extractor, stack, resolver);
+         this.indexer = new FunctionIndexer(extractor, stack);
+         this.resolver = new FunctionResolver(extractor, stack, indexer);
          this.matcher = new ConstraintMatcher(loader, wrapper);
          this.handler = new ErrorHandler(extractor, stack);
-         this.table = new FunctionBinder(binder, handler);
+         this.table = new FunctionBinder(resolver, handler);
       }
 
       @Override
@@ -217,8 +217,8 @@ public class FunctionBinderTest extends TestCase {
       }
 
       @Override
-      public FunctionSearcher getSearcher() {
-         return binder;
+      public FunctionResolver getSearcher() {
+         return resolver;
       }
 
       @Override

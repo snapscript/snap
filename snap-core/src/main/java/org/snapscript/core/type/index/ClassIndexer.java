@@ -28,7 +28,7 @@ public class ClassIndexer {
 
    private final ClassHierarchyIndexer hierarchy;
    private final AnnotationExtractor extractor;
-   private final FunctionIndexer functions;
+   private final MethodIndexer functions;
    private final PropertyIndexer properties;
    private final PrimitivePromoter promoter;
    private final ModuleRegistry registry;
@@ -38,7 +38,7 @@ public class ClassIndexer {
    public ClassIndexer(TypeIndexer indexer, ModuleRegistry registry, ImportScanner scanner, ClassExtender extender, PlatformProvider provider) {
       this.hierarchy = new ClassHierarchyIndexer(indexer);
       this.properties = new PropertyIndexer(indexer);
-      this.functions = new FunctionIndexer(indexer, extender, provider);
+      this.functions = new MethodIndexer(indexer, extender, provider);
       this.extractor = new AnnotationExtractor();
       this.promoter = new PrimitivePromoter();
       this.scanner = scanner;

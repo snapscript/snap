@@ -4,8 +4,8 @@ import java.lang.reflect.Method;
 
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
-import org.snapscript.core.function.search.FunctionCall;
-import org.snapscript.core.function.search.FunctionSearcher;
+import org.snapscript.core.function.resolve.FunctionCall;
+import org.snapscript.core.function.resolve.FunctionResolver;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.Value;
 
@@ -24,9 +24,9 @@ public class ScopeProxyHandler implements ProxyHandler {
    @Override
    public Object invoke(Object proxy, Method method, Object[] arguments) throws Throwable {
       String name = method.getName();
-      FunctionSearcher binder = context.getSearcher();  
+      FunctionResolver binder = context.getSearcher();  
       Object[] convert = extractor.extract(arguments);
-      FunctionCall call = binder.searchInstance(scope, scope, name, convert); // here arguments can be null!!!
+      FunctionCall call = binder.resolveInstance(scope, scope, name, convert); // here arguments can be null!!!
       
       if(call == null) {
          throw new InternalStateException("Method '" + name + "' not found");

@@ -1,7 +1,6 @@
 package org.snapscript.core.function.index;
 
 import org.snapscript.core.type.Type;
-import org.snapscript.core.function.search.FunctionPointer;
 
 public interface FunctionIndex {
    FunctionPointer resolve(String name, Type... arguments) throws Exception;

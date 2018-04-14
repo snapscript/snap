@@ -1,4 +1,4 @@
-package org.snapscript.core.function.search;
+package org.snapscript.core.function.index;
 
 import org.snapscript.core.function.Function;
 import org.snapscript.core.stack.ThreadStack;
