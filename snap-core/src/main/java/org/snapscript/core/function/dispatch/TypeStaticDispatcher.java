@@ -27,9 +27,6 @@ public class TypeStaticDispatcher implements FunctionDispatcher<Type> {
       FunctionCall call = resolver.resolveStatic(scope, type, name, arguments);
 
       if(call == null) {
-         call = resolver.resolveInstance(scope, type, name, arguments);
-      }
-      if(call == null) {
          handler.handleCompileError(INVOKE, scope, type, name, arguments);
       }
       return call.check();
@@ -40,7 +37,7 @@ public class TypeStaticDispatcher implements FunctionDispatcher<Type> {
       FunctionCall call = resolver.resolveStatic(scope, type, name, arguments);
 
       if(call == null) {
-         call = resolver.resolveInstance(scope, type, name, arguments);
+         call = resolver.resolveInstance(scope, (Object)type, name, arguments); // find on the type
       }
       if(call == null) {
          handler.handleRuntimeError(INVOKE, scope, type, name, arguments);

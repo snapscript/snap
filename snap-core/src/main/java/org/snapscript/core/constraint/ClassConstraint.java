@@ -40,6 +40,6 @@ public class ClassConstraint extends Constraint {
    
    @Override
    public boolean isClass(){
-      return ModifierType.isConstant(modifiers);
+      return ModifierType.isClass(modifiers);
    }
 }
