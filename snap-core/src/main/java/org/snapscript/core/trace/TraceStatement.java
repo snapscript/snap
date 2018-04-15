@@ -2,17 +2,14 @@ package org.snapscript.core.trace;
 
 import static org.snapscript.core.error.Reason.THROW;
 import static org.snapscript.core.result.Result.NORMAL;
-import static org.snapscript.core.type.Phase.EXECUTE;
 
 import org.snapscript.core.Execution;
 import org.snapscript.core.NoExecution;
 import org.snapscript.core.Statement;
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.error.Reason;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.result.Result;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Phase;
 
 public class TraceStatement extends Statement {
    

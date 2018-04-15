@@ -179,12 +179,13 @@ map-constraint = '{:}';
 constraint = {<array-constraint> | <type-constraint> | <function-constraint> | <list-constraint> | <set-constraint> | <map-constraint>};
 constraint-variable = <array-constraint>;
 
-return-statement = 'return' *(? _ {<cast> | <expression> | <closure>}) ';';
-yield-statement = 'yield' *(? _ {<cast> | <expression> | <closure>}) ';';
+return-statement = 'return' ?(? _ {<cast> | <expression> | <closure>}) ';';
+yield-statement = 'yield' ?(? _ {<cast> | <expression> | <closure>}) ';';
 break-statement = 'break;';
 continue-statement = 'continue;';
-throw-statement = 'throw'?_(<reference> | <literal>)';';
-assert-statement = 'assert'?_<conditional>';';
+throw-statement = 'throw' ? _ (<reference> | <literal>) ';';
+debug-statement = 'debug' ?(? _ <conditional>) ';';
+assert-statement = 'assert' ? _ <conditional> ';';
 expression-statement = (<reference> | <assignment> | <increment-decrement>)';';
 compound-statement = '{'+<statement>'}';
 terminal-statement = ';';
@@ -194,7 +195,8 @@ control-statement = {<return-statement> | <yield-statement> | <throw-statement> 
 statement = { <control-statement> | 
 			  <try-statement> | 
 			  <synchronized-statement> | 
-			  <assert-statement> | 
+			  <assert-statement> |
+			  <debug-statement> | 
 			  <assignment-statement> | 
 			  <expression-statement> | 
 			  <conditional-statement> | 
@@ -325,7 +327,8 @@ script-function = 'function'_<function>'('<parameter-list>')'?(':'<constraint>)<
 script-statement = { <try-statement> | 
 				     <synchronized-statement> |
 				     <declaration-statement> |
-				     <assert-statement> | 
+				     <assert-statement> |
+				     <debug-statement> | 
 				     <conditional-statement> | 
 				     <type-definition> | 
 				     <module-definition> | 

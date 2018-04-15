@@ -6,5 +6,6 @@ public enum TraceType {
    REFERENCE,
    INVOKE,
    NORMAL,
+   DEBUG,
    NATIVE;
 }
