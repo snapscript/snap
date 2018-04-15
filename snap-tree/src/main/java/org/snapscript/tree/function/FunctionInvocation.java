@@ -97,10 +97,11 @@ public class FunctionInvocation implements Compilation {
          if(value != null) { 
             Type type = value.getType(scope);
             
-            if(type != null) {
-               return compile(scope, name, value);
+            if(type == null) {
+               arguments.compile(scope);
+               return NONE;
             }
-            return NONE;
+            return compile(scope, name, value);            
          }
          return compile(scope, name);         
       }
