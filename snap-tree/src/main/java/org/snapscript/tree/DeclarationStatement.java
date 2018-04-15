@@ -62,26 +62,24 @@ public class DeclarationStatement implements Compilation {
          for(Declaration declaration : declarations) {
             declaration.compile(scope, type.mask); 
          }
-         return new CompileExecution(modifier, declarations);
+         return new CompileExecution(type, declarations);
       }
    }
    
    private static class CompileExecution extends Execution {
 
       private final Declaration[] declarations;
-      private final Modifier modifier;
+      private final ModifierType modifier;
       
-      public CompileExecution(Modifier modifier, Declaration... declarations) {
+      public CompileExecution(ModifierType modifier, Declaration... declarations) {
          this.declarations = declarations;
          this.modifier = modifier;
       }  
       
       @Override
       public Result execute(Scope scope) throws Exception {
-         ModifierType type = modifier.getType();
-         
          for(Declaration declaration : declarations) {
-            declaration.declare(scope, type.mask); 
+            declaration.declare(scope, modifier.mask); 
          }
          return NORMAL;
       }
