@@ -16,7 +16,7 @@ public class AnyLoader {
    
    public AnyLoader(){
       this.reference = new AtomicReference<Type>();
-      this.builder = new CanonicalNameBuilder();
+      this.builder = new NameBuilder();
    }
 
    public Type loadType(Scope scope) {

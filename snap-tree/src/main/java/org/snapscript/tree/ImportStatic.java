@@ -10,15 +10,13 @@ import org.snapscript.core.InternalStateException;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.NoExecution;
 import org.snapscript.core.Statement;
-import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.NameBuilder;
-import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
-import org.snapscript.core.result.Result;
-import org.snapscript.core.type.CanonicalNameBuilder;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.NameBuilder;
+import org.snapscript.core.type.Type;
 
 public class ImportStatic implements Compilation {   
    
@@ -47,7 +45,7 @@ public class ImportStatic implements Compilation {
       
       public CompileResult(String location, String target, String prefix) {
          this.execution = new NoExecution(NORMAL);
-         this.builder = new CanonicalNameBuilder();        
+         this.builder = new NameBuilder();        
          this.location = location;
          this.target = target;
          this.prefix = prefix;

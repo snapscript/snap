@@ -36,7 +36,7 @@ public class TraceTypePart extends TypePart {
          TypeState statement = part.define(body, type, scope);
          
          if(statement != null) {
-            return new TraceAllocation(interceptor, handler, statement, trace);
+            return new TraceTypeState(interceptor, handler, statement, trace);
          }
       }catch(Exception cause) {
          interceptor.traceCompileError(scope, trace, cause);

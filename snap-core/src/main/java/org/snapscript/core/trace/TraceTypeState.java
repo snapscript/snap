@@ -10,14 +10,14 @@ import org.snapscript.core.type.Order;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeState;
 
-public class TraceAllocation extends TypeState {
+public class TraceTypeState extends TypeState {
 
    private final TraceInterceptor interceptor;
    private final ErrorHandler handler;
    private final TypeState state;
    private final Trace trace;
    
-   public TraceAllocation(TraceInterceptor interceptor, ErrorHandler handler, TypeState state, Trace trace) {
+   public TraceTypeState(TraceInterceptor interceptor, ErrorHandler handler, TypeState state, Trace trace) {
       this.interceptor = interceptor;
       this.handler = handler;
       this.state = state;

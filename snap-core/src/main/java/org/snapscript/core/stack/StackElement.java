@@ -1,17 +1,17 @@
 package org.snapscript.core.stack;
 
+import org.snapscript.core.function.Function;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
-import org.snapscript.core.type.Type;
-import org.snapscript.core.function.Function;
 import org.snapscript.core.trace.Trace;
-import org.snapscript.core.type.CanonicalNameBuilder;
+import org.snapscript.core.type.NameBuilder;
+import org.snapscript.core.type.Type;
 
 public class StackElement {
    
    private static final String MAIN_FUNCTION = "main";
    
-   private final CanonicalNameBuilder builder;
+   private final NameBuilder builder;
    private final Function function;
    private final Trace trace;
    
@@ -20,7 +20,7 @@ public class StackElement {
    }
    
    public StackElement(Trace trace, Function function) {
-      this.builder = new CanonicalNameBuilder();
+      this.builder = new NameBuilder();
       this.function = function;
       this.trace = trace;
    }

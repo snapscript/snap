@@ -1,18 +1,14 @@
 package org.snapscript.core.type.index;
 
-import static org.snapscript.core.Reserved.ANY_TYPE;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.snapscript.core.InternalStateException;
-import org.snapscript.core.Reserved;
 import org.snapscript.core.link.ImportScanner;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.ModuleRegistry;
 import org.snapscript.core.platform.PlatformProvider;
-import org.snapscript.core.type.CanonicalNameBuilder;
 import org.snapscript.core.type.Category;
 import org.snapscript.core.type.NameBuilder;
 import org.snapscript.core.type.Type;
@@ -36,7 +32,7 @@ public class TypeIndexer {
    public TypeIndexer(ModuleRegistry registry, ImportScanner scanner, ClassExtender extender, PlatformProvider provider, int limit) {
       this.indexer = new ClassIndexer(this, registry, scanner, extender, provider);
       this.types = new LinkedHashMap<Object, Type>();
-      this.builder = new CanonicalNameBuilder();
+      this.builder = new NameBuilder();
       this.loader = new PrimitiveLoader(this, builder);     
       this.counter = new AtomicInteger(1); // consider function types which own 0
       this.registry = registry;
