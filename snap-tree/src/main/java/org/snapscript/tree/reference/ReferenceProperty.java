@@ -77,7 +77,7 @@ public class ReferenceProperty implements Compilation {
       
       @Override
       public Value evaluate(Scope scope, Object left) throws Exception{
-         Value value = binder.evaluate(scope, left);
+         Value value = binder.bind(scope, left);
          
          for(Evaluation evaluation : evaluations) {
             Object result = value.getValue();

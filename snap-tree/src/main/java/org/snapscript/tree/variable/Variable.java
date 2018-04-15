@@ -75,7 +75,7 @@ public class Variable implements Compilation {
          Value value = finder.find(scope, name, depth);
          
          if(value == null) {
-            return binder.evaluate(scope);
+            return binder.bind(scope);
          }
          return value;
       } 
