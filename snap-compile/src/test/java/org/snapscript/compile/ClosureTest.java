@@ -30,6 +30,11 @@ public class ClosureTest extends TestCase {
    "   println(x);\n"+
    "}\n";
 
+   private static final String SOURCE_4=
+   "var expression = x->x>0;\n"+
+   "var func = -> {\n"+
+   "   expression(10);\n"+
+   "};\n";
 
    public void testClosure() throws Exception {
       DecimalFormat format = new DecimalFormat("###,###,###,###,###");
@@ -90,10 +95,11 @@ public class ClosureTest extends TestCase {
       System.out.println();
       System.out.println("time=" + (finish - start) + " memory=" + format.format(after - before));
    }
-
-   public static void main(String[] list) throws Exception {
-      new ClosureTest().testClosure();
-      new ClosureTest().testClosureAsParameter();
-      new ClosureTest().testClosureEvaluationAsParameter();
+   
+   public void testClosureInClosure() throws Exception {
+      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
+      Executable executable = compiler.compile(SOURCE_4);
+      System.err.println(SOURCE_4);
+      executable.execute();
    }
 }

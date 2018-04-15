@@ -17,7 +17,7 @@ import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.index.Index;
-import org.snapscript.core.scope.index.Table;
+import org.snapscript.core.scope.index.LocalScopeFinder;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceEvaluation;
 import org.snapscript.core.trace.TraceInterceptor;
@@ -61,12 +61,14 @@ public class FunctionInvocation implements Compilation {
    private static class CompileResult extends Evaluation {   
 
       private final Evaluation[] evaluations; // func()[1][x]
-      private final FunctionMatcher matcher;  
+      private final LocalScopeFinder finder;
+      private final FunctionMatcher matcher;
       private final ArgumentList arguments;
       private final AtomicInteger offset;    
       private final String name;
       
       public CompileResult(FunctionMatcher matcher, ArgumentList arguments, Evaluation[] evaluations, String name) {
+         this.finder = new LocalScopeFinder();
          this.offset = new AtomicInteger();
          this.evaluations = evaluations;
          this.arguments = arguments;
@@ -90,14 +92,15 @@ public class FunctionInvocation implements Compilation {
       @Override
       public Constraint compile(Scope scope, Constraint left) throws Exception {
          int depth = offset.get();
-
-         if(depth != -1){
-            Table table = scope.getTable();
-            Value value = table.get(depth);
+         Value value = finder.find(scope, name, depth);
+ 
+         if(value != null) { 
+            Type type = value.getType(scope);
             
-            if(value != null) {
-               return NONE; // this is because we don't know that its not a function
+            if(type != null) {
+               return compile(scope, name, value);
             }
+            return NONE;
          }
          return compile(scope, name);         
       }
@@ -115,21 +118,32 @@ public class FunctionInvocation implements Compilation {
          }
          return result; 
       }
-
+      
+      private Constraint compile(Scope scope, String name, Constraint local) throws Exception {
+         Type type = local.getType(scope);
+         Type[] array = arguments.compile(scope); 
+         FunctionDispatcher dispatcher = matcher.match(scope);
+         Constraint result = dispatcher.compile(scope, type, array);
+         
+         for(Evaluation evaluation : evaluations) {
+            if(result == null) {
+               throw new InternalStateException("Result of '" + name + "' null"); 
+            }
+            result = evaluation.compile(scope, result);
+         }
+         return result; 
+      }
+      
       @Override
       public Value evaluate(Scope scope, Object left) throws Exception {
          int depth = offset.get();
-         
-         if(depth != -1){
-            Table table = scope.getTable();
-            Value value = table.get(depth);
+         Value value = finder.find(scope, name, depth);
             
-            if(value != null) {
-               Object object = value.getValue();
+         if(value != null) { 
+            Object object = value.getValue();
             
-               if(Function.class.isInstance(object)) {
-                  return evaluate(scope, name, value);
-               }
+            if(Function.class.isInstance(object)) {
+               return evaluate(scope, name, value);
             }
          }
          return evaluate(scope, name);
