@@ -46,12 +46,9 @@ public class TypeStaticPointer implements VariablePointer<Type> {
       if(property == null) {
          Property match = finder.findAll(scope, left, name);
          
-         if(match != null) {
-            reference.set(match);
-            return new PropertyValue(match, left, name);
-         }
-         match = finder.findAll(scope, (Object)left, name); // find on the type
-         
+         if(match == null) {
+            match = finder.findAll(scope, (Object)left, name); // find on the type
+         }         
          if(match != null) {
             reference.set(match);
             return new PropertyValue(match, left, name);
