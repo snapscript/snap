@@ -6,7 +6,7 @@ import static org.snapscript.core.type.Order.OTHER;
 import org.snapscript.core.result.Result;
 import org.snapscript.core.scope.Scope;
 
-public abstract class Allocation {
+public abstract class TypeState {
 
    public Order define(Scope scope, Type type) throws Exception {
       return OTHER;

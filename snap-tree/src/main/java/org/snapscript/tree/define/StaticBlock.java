@@ -7,11 +7,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.snapscript.core.Context;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Allocation;
+import org.snapscript.core.type.TypeState;
 import org.snapscript.core.type.Order;
 import org.snapscript.core.type.Type;
 
-public abstract class StaticBlock extends Allocation {
+public abstract class StaticBlock extends TypeState {
 
    private final AtomicBoolean allocate;
    private final AtomicBoolean compile;

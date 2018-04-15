@@ -14,7 +14,7 @@ import org.snapscript.core.NoExecution;
 import org.snapscript.core.Statement;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Allocation;
+import org.snapscript.core.type.TypeState;
 import org.snapscript.core.type.Phase;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypePart;
@@ -23,8 +23,8 @@ import org.snapscript.tree.annotation.AnnotationList;
 public class TraitDefinition extends Statement {   
    
    private final FunctionPropertyGenerator generator;
-   private final AllocationCollector collector;
-   private final Allocation constants;
+   private final TypeStateCollector collector;
+   private final TypeState constants;
    private final AtomicBoolean compile;
    private final AtomicBoolean define;
    private final AtomicBoolean create;
@@ -36,7 +36,7 @@ public class TraitDefinition extends Statement {
       this.builder = new ClassBuilder(annotations, name, hierarchy, TRAIT);
       this.generator = new FunctionPropertyGenerator(); 
       this.constants = new StaticState();
-      this.collector = new AllocationCollector();
+      this.collector = new TypeStateCollector();
       this.execution = new NoExecution(NORMAL);
       this.compile = new AtomicBoolean(true);
       this.define = new AtomicBoolean(true);
@@ -72,8 +72,8 @@ public class TraitDefinition extends Statement {
             collector.update(constants); // collect static constants first
             
             for(TypePart part : parts) {
-               Allocation factory = part.define(collector, type, scope);
-               collector.update(factory);
+               TypeState state = part.define(collector, type, scope);
+               collector.update(state);
             } 
             collector.define(scope, type);
             generator.generate(type);
@@ -93,9 +93,6 @@ public class TraitDefinition extends Statement {
          Scope local = scope.getStack(); // make it temporary
          
          try {
-            for(TypePart part : parts) {
-               part.compile(collector, type, local);
-            } 
             collector.compile(local, type);
          } finally {
             progress.done(COMPILE); 

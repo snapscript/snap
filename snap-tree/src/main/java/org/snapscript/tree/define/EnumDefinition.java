@@ -13,7 +13,7 @@ import org.snapscript.core.NoExecution;
 import org.snapscript.core.Statement;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Allocation;
+import org.snapscript.core.type.TypeState;
 import org.snapscript.core.type.Phase;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypePart;
@@ -22,7 +22,7 @@ import org.snapscript.tree.annotation.AnnotationList;
 public class EnumDefinition extends Statement {
 
    private final DefaultConstructor constructor;
-   private final AllocationCollector collector;
+   private final TypeStateCollector collector;
    private final AtomicBoolean compile;
    private final AtomicBoolean define;
    private final AtomicBoolean create;
@@ -33,8 +33,8 @@ public class EnumDefinition extends Statement {
    
    public EnumDefinition(AnnotationList annotations, TypeName name, TypeHierarchy hierarchy, EnumList list, TypePart... parts) {
       this.builder = new EnumBuilder(name, hierarchy);
-      this.constructor = new DefaultConstructor(true);
-      this.collector = new AllocationCollector();
+      this.collector = new TypeStateCollector();
+      this.constructor = new DefaultConstructor(collector, true);
       this.execution = new NoExecution(NORMAL);
       this.compile = new AtomicBoolean(true);
       this.define = new AtomicBoolean(true);
@@ -58,18 +58,18 @@ public class EnumDefinition extends Statement {
       if(!define.compareAndSet(false, true)) {
          Type type = builder.define(collector, outer);
          Scope scope = type.getScope();
-         Allocation keys = list.define(collector, type, scope);
+         TypeState keys = list.define(collector, type, scope);
          Progress<Phase> progress = type.getProgress();
          
          try {
             collector.update(keys); // collect enum constants first
             
             for(TypePart part : parts) {
-               Allocation factory = part.define(collector, type, scope);
-               collector.update(factory);
-            }  
-            constructor.define(collector, type, scope); 
-            collector.define(scope, type); 
+               TypeState state = part.define(collector, type, scope);
+               collector.update(state);
+            } 
+            collector.update(constructor);
+            collector.define(scope, type);
          } finally {
             progress.done(DEFINE);
          }
@@ -86,10 +86,6 @@ public class EnumDefinition extends Statement {
          Scope local = scope.getStack(); // make it temporary
          
          try {
-            for(TypePart part : parts) {
-               part.compile(collector, type, local);
-            }  
-            constructor.compile(collector, type, local); 
             collector.compile(local, type);
          } finally {
             progress.done(COMPILE);

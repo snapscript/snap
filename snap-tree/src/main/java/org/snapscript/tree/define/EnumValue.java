@@ -12,7 +12,7 @@ import org.snapscript.core.function.AccessorProperty;
 import org.snapscript.core.function.StaticAccessor;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Allocation;
+import org.snapscript.core.type.TypeState;
 import org.snapscript.core.type.Category;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeBody;
@@ -33,7 +33,7 @@ public class EnumValue {
       this.arguments = arguments;
    }
 
-   public Allocation define(TypeBody body, Type type, int index) throws Exception { 
+   public TypeState define(TypeBody body, Type type, int index) throws Exception { 
       Scope scope = type.getScope();
       String name = reference.getName(scope);
       Constraint constraint = Constraint.getConstraint(type, CONSTANT.mask);

@@ -5,7 +5,7 @@ import org.snapscript.core.Execution;
 import org.snapscript.core.Identity;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.type.Allocation;
+import org.snapscript.core.type.TypeState;
 import org.snapscript.core.type.TypeBody;
 import org.snapscript.core.type.TypePart;
 import org.snapscript.parse.StringToken;
@@ -29,7 +29,7 @@ public class ThisConstructor extends TypePart {
    }
    
    @Override
-   public Allocation define(TypeBody body, Type type, Scope scope) throws Exception {  
+   public TypeState define(TypeBody body, Type type, Scope scope) throws Exception {  
       Execution execution = new StaticBody(body, type);
       Evaluation reference = new Identity(type, type);
       CreateObject evaluation = new CreateObject(reference, arguments);

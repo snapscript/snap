@@ -18,7 +18,7 @@ import org.snapscript.core.property.Property;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.trace.TraceTypePart;
-import org.snapscript.core.type.Allocation;
+import org.snapscript.core.type.TypeState;
 import org.snapscript.core.type.TypeBody;
 import org.snapscript.core.type.TypePart;
 import org.snapscript.tree.ModifierChecker;
@@ -46,7 +46,7 @@ public class MemberField implements Compilation {
    private static class CompileResult extends TypePart {
    
       private final MemberFieldDeclaration[] declarations;
-      private final AllocationCollector collector;
+      private final TypeStateCollector collector;
       private final MemberFieldAssembler assembler;
       private final AnnotationList annotations;
       private final ModifierChecker checker;
@@ -54,13 +54,13 @@ public class MemberField implements Compilation {
       public CompileResult(AnnotationList annotations, ModifierList modifiers, MemberFieldDeclaration... declarations) {
          this.assembler = new MemberFieldAssembler(modifiers);
          this.checker = new ModifierChecker(modifiers);
-         this.collector = new AllocationCollector();
+         this.collector = new TypeStateCollector();
          this.declarations = declarations;
          this.annotations = annotations;
       }
    
       @Override
-      public Allocation define(TypeBody body, Type type, Scope scope) throws Exception {
+      public TypeState define(TypeBody body, Type type, Scope scope) throws Exception {
          List<Property> properties = type.getProperties();
          int mask = checker.getModifiers();
          
@@ -68,7 +68,7 @@ public class MemberField implements Compilation {
             MemberFieldData data = declaration.create(scope, mask);
             String name = data.getName();
             Constraint constraint = data.getConstraint();
-            Allocation declare = assembler.assemble(data);
+            TypeState declare = assembler.assemble(data);
             
             if (checker.isStatic()) {
                Accessor accessor = new StaticAccessor(body, type, name);

@@ -20,7 +20,7 @@ import org.snapscript.core.property.Property;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.trace.TraceTypePart;
-import org.snapscript.core.type.Allocation;
+import org.snapscript.core.type.TypeState;
 import org.snapscript.core.type.TypeBody;
 import org.snapscript.core.type.TypePart;
 import org.snapscript.core.variable.Value;
@@ -69,8 +69,8 @@ public class TraitConstant implements Compilation {
       }
    
       @Override
-      public Allocation define(TypeBody body, Type type, Scope scope) throws Exception {
-         Allocation declare = declaration.declare(body, type);
+      public TypeState define(TypeBody body, Type type, Scope scope) throws Exception {
+         TypeState declare = declaration.declare(body, type);
          List<Property> properties = type.getProperties();
          Value value = identifier.evaluate(scope, null);
          String name = value.getString();

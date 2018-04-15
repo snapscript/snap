@@ -5,7 +5,7 @@ import org.snapscript.core.InternalStateException;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
-import org.snapscript.core.type.Allocation;
+import org.snapscript.core.type.TypeState;
 import org.snapscript.core.variable.Value;
 import org.snapscript.tree.DeclarationAllocator;
 import org.snapscript.tree.ModifierChecker;
@@ -19,7 +19,7 @@ public class MemberFieldAssembler {
       this.checker = new ModifierChecker(modifiers);
    }
    
-   public Allocation assemble(MemberFieldData data) throws Exception {
+   public TypeState assemble(MemberFieldData data) throws Exception {
       Evaluation declaration = create(data);
       
       if (checker.isStatic()) {

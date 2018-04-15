@@ -4,7 +4,7 @@ import org.snapscript.core.Evaluation;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.Statement;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Allocation;
+import org.snapscript.core.type.TypeState;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.type.TypeBody;
@@ -31,7 +31,7 @@ public class TraitFunction extends MemberFunction {
    } 
    
    @Override
-   protected Allocation assemble(TypeBody body, Type type, Scope scope, int mask) throws Exception {
+   protected TypeState assemble(TypeBody body, Type type, Scope scope, int mask) throws Exception {
       if(statement == null) {
          return super.assemble(body, type, scope, ModifierType.ABSTRACT.mask);
       }  

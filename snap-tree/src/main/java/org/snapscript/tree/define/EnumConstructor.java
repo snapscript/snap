@@ -2,7 +2,7 @@ package org.snapscript.tree.define;
 
 import org.snapscript.core.Statement;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Allocation;
+import org.snapscript.core.type.TypeState;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeBody;
 import org.snapscript.tree.ModifierList;
@@ -16,7 +16,7 @@ public class EnumConstructor extends ClassConstructor {
    }
 
    @Override
-   public Allocation define(TypeBody body, Type type, Scope scope) throws Exception {
+   public TypeState define(TypeBody body, Type type, Scope scope) throws Exception {
       return assemble(body, type, scope, false);
    }
 }

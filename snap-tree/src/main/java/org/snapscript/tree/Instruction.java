@@ -41,7 +41,7 @@ import org.snapscript.tree.define.EnumDefinition;
 import org.snapscript.tree.define.EnumKey;
 import org.snapscript.tree.define.EnumList;
 import org.snapscript.tree.define.EnumValue;
-import org.snapscript.tree.define.InnerDefinition;
+import org.snapscript.tree.define.InnerTypeDefinition;
 import org.snapscript.tree.define.MemberField;
 import org.snapscript.tree.define.MemberFieldDeclaration;
 import org.snapscript.tree.define.MemberFunction;
@@ -222,9 +222,9 @@ public enum Instruction {
    CLASS_FIELD(MemberField.class, "class-field"),
    CLASS_FUNCTION(MemberFunction.class, "class-function"),   
    CLASS_CONSTRUCTOR(ClassConstructor.class, "class-constructor"), 
-   INNER_CLASS_DEFINITION(InnerDefinition.class, "inner-class-definition"),
-   INNER_ENUM_DEFINITION(InnerDefinition.class, "inner-enum-definition"),
-   INNER_TRAIT_DEFINITION(InnerDefinition.class, "inner-trait-definition"),
+   INNER_CLASS_DEFINITION(InnerTypeDefinition.class, "inner-class-definition"),
+   INNER_ENUM_DEFINITION(InnerTypeDefinition.class, "inner-enum-definition"),
+   INNER_TRAIT_DEFINITION(InnerTypeDefinition.class, "inner-trait-definition"),
    ANNOTATION_NAME(AnnotationName.class, "annotation-name"),
    ANNOTATION_LIST(AnnotationList.class, "annotation-list"),
    ANNOTATION_DECLARATION(AnnotationDeclaration.class, "annotation-declaration"),

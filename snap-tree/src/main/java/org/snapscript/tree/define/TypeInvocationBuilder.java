@@ -2,7 +2,7 @@ package org.snapscript.tree.define;
 
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.instance.Instance;
-import org.snapscript.core.type.Allocation;
+import org.snapscript.core.type.TypeState;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationBuilder;
@@ -16,13 +16,13 @@ public class TypeInvocationBuilder implements InvocationBuilder {
    private ParameterExtractor extractor;
    private SignatureAligner aligner;
    private Invocation invocation;
-   private Allocation factory;
+   private TypeState state;
    private Type type;
 
-   public TypeInvocationBuilder(Allocation factory, Signature signature, Type type) {
+   public TypeInvocationBuilder(TypeState state, Signature signature, Type type) {
       this.extractor = new ParameterExtractor(signature); // this seems wrong!
       this.aligner = new SignatureAligner(signature);
-      this.factory = factory;
+      this.state = state;
       this.type = type;
    }
    
@@ -31,30 +31,29 @@ public class TypeInvocationBuilder implements InvocationBuilder {
       Scope inner = scope.getStack();
       
       extractor.define(inner); // count parameters
-      factory.define(inner, type); // start counting from here 
+      state.define(inner, type); // start counting from here 
    }
-   
    
    @Override
    public void compile(Scope scope) throws Exception {
-      factory.compile(scope, type);
+      state.compile(scope, type);
    }
    
    @Override
    public Invocation create(Scope scope) throws Exception {
       if(invocation == null) {
-         factory.allocate(scope, type);
-         invocation = new ResultConverter(factory);
+         state.allocate(scope, type);
+         invocation = new ResultConverter(state);
       }
       return invocation;
    }
 
    private class ResultConverter implements Invocation<Instance> {
       
-      private final Allocation factory;
+      private final TypeState state;
       
-      public ResultConverter(Allocation factory) {
-         this.factory = factory;
+      public ResultConverter(TypeState state) {
+         this.state = state;
       }
       
       @Override
@@ -62,7 +61,7 @@ public class TypeInvocationBuilder implements InvocationBuilder {
          Type real = (Type)list[0];
          Object[] arguments = aligner.align(list);
          Scope inner = extractor.extract(object, arguments);
-         Result result = factory.execute(inner, real);
+         Result result = state.execute(inner, real);
          
          return result.getValue();
       }

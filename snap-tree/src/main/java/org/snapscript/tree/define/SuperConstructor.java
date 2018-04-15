@@ -7,7 +7,7 @@ import org.snapscript.core.InternalStateException;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.instance.SuperExtractor;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.type.Allocation;
+import org.snapscript.core.type.TypeState;
 import org.snapscript.core.type.TypeBody;
 import org.snapscript.core.type.TypePart;
 import org.snapscript.parse.StringToken;
@@ -37,7 +37,7 @@ public class SuperConstructor extends TypePart {
    }
 
    @Override
-   public Allocation define(TypeBody body, Type type, Scope scope) throws Exception {
+   public TypeState define(TypeBody body, Type type, Scope scope) throws Exception {
       Type base = extractor.extractor(type);
       
       if(base == null) {
@@ -46,7 +46,7 @@ public class SuperConstructor extends TypePart {
       return assemble(body, base, scope);
    }
 
-   protected Allocation assemble(TypeBody body, Type type, Scope scope) throws Exception {
+   protected TypeState assemble(TypeBody body, Type type, Scope scope) throws Exception {
       StringToken name = new StringToken(TYPE_CONSTRUCTOR);
       Evaluation literal = new TextLiteral(name);
       Evaluation evaluation = new SuperInvocation(literal, arguments, type);

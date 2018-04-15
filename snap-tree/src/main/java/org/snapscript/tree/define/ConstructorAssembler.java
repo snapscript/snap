@@ -6,7 +6,7 @@ import org.snapscript.core.Statement;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.function.Signature;
-import org.snapscript.core.type.Allocation;
+import org.snapscript.core.type.TypeState;
 import org.snapscript.core.type.TypeBody;
 import org.snapscript.core.type.TypePart;
 import org.snapscript.tree.function.ParameterList;
@@ -24,7 +24,7 @@ public class ConstructorAssembler {
    } 
    
    public ConstructorBuilder assemble(TypeBody body, Type type, Scope scope) throws Exception {
-      Allocation internal = delegate.define(body, type, scope);
+      TypeState internal = delegate.define(body, type, scope);
       Signature signature = parameters.create(scope, TYPE_CLASS);
       
       return new ConstructorBuilder(internal, signature, statement);

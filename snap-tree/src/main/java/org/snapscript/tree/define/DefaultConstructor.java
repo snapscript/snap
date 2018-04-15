@@ -1,71 +1,74 @@
 package org.snapscript.tree.define;
 
 import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
+import static org.snapscript.core.type.Order.OTHER;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.NoStatement;
 import org.snapscript.core.Statement;
-import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Type;
 import org.snapscript.core.function.Function;
-import org.snapscript.core.type.Allocation;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Order;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeBody;
-import org.snapscript.core.type.TypePart;
+import org.snapscript.core.type.TypeState;
 import org.snapscript.tree.ModifierList;
 import org.snapscript.tree.annotation.AnnotationList;
 import org.snapscript.tree.function.ParameterList;
 
-public class DefaultConstructor extends TypePart {
+public class DefaultConstructor extends TypeState {
    
-   private final AtomicReference<ClassConstructor> reference;
+   private final AtomicReference<TypeState> reference;
+   private final MemberConstructor constructor;
    private final AnnotationList annotations;
    private final ParameterList parameters;
    private final ModifierList modifiers;
+   private final Statement statement;
+   private final TypeBody body;
    private final boolean compile;
 
-   public DefaultConstructor(){
-      this(true);
+   public DefaultConstructor(TypeBody body){
+      this(body, true);
    }
    
-   public DefaultConstructor(boolean compile) {
-      this.reference = new AtomicReference<ClassConstructor>();
+   public DefaultConstructor(TypeBody body, boolean compile) {
+      this.reference = new AtomicReference<TypeState>();
       this.annotations = new AnnotationList();
       this.parameters = new ParameterList();
       this.modifiers = new ModifierList();
+      this.statement = new NoStatement();
+      this.constructor = new ClassConstructor(annotations, modifiers, parameters, statement);
       this.compile = compile;
+      this.body = body;
    } 
 
    @Override
-   public Allocation define(TypeBody body, Type type, Scope scope) throws Exception {
+   public Order define(Scope scope, Type type) throws Exception {
       List<Function> functions = type.getFunctions();
       
       for(Function function : functions) {
          String name = function.getName();
          
          if(name.equals(TYPE_CONSTRUCTOR)) {
-            return null;
+            return OTHER;
          }
       }
-      return assemble(body, type, scope, compile);
+      TypeState allocation = constructor.assemble(body, type, scope, compile);
+      
+      if(allocation != null) {
+         reference.set(allocation);
+      }
+      return OTHER;
    }
    
    @Override
-   public void compile(TypeBody body, Type type, Scope scope) throws Exception {
-      ClassConstructor constructor = reference.get();
+   public void compile(Scope scope, Type type) throws Exception {
+      TypeState state = reference.get();
       
-      if(constructor != null) {
-         constructor.compile(body, type, scope);
+      if(state != null) {
+         state.compile(scope, type);
       }
-   }
-
-   protected Allocation assemble(TypeBody body, Type type, Scope scope, boolean compile) throws Exception {
-      Statement statement = new NoStatement();
-      ClassConstructor constructor = new ClassConstructor(annotations, modifiers, parameters, statement);
-      
-      reference.set(constructor);
-      
-      return constructor.assemble(body, type, scope, compile);
    }
 }

@@ -4,7 +4,7 @@ import static org.snapscript.core.ModifierType.STATIC;
 import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
 
 import org.snapscript.core.Statement;
-import org.snapscript.core.type.Allocation;
+import org.snapscript.core.type.TypeState;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.constraint.IdentityConstraint;
@@ -20,11 +20,11 @@ import org.snapscript.tree.function.StatementInvocation;
 
 public class ConstructorBuilder {
    
-   private final Allocation delegate;
+   private final TypeState delegate;
    private final Statement statement;
    private final Signature signature;
 
-   public ConstructorBuilder(Allocation delegate, Signature signature, Statement statement) {
+   public ConstructorBuilder(TypeState delegate, Signature signature, Statement statement) {
       this.signature = signature;
       this.statement = statement;
       this.delegate = delegate;

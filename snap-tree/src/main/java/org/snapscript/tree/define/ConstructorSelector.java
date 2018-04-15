@@ -3,7 +3,7 @@ package org.snapscript.tree.define;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.instance.SuperExtractor;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.type.Allocation;
+import org.snapscript.core.type.TypeState;
 import org.snapscript.core.type.TypeBody;
 import org.snapscript.core.type.TypePart;
 
@@ -19,7 +19,7 @@ public class ConstructorSelector {
       this.part = part;
    } 
 
-   public Allocation define(TypeBody body, Type type, Scope scope) throws Exception {
+   public TypeState define(TypeBody body, Type type, Scope scope) throws Exception {
       Type base = extractor.extractor(type);
       
       if(part != null){
