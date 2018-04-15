@@ -11,6 +11,7 @@ import org.snapscript.common.Cache;
 import org.snapscript.common.CopyOnWriteCache;
 import org.snapscript.core.ResourceManager;
 import org.snapscript.core.type.NameBuilder;
+import java.lang.Package;
 
 public class ImportScanner {
 
