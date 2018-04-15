@@ -1,7 +1,5 @@
 package org.snapscript.core.variable.index;
 
-import static org.snapscript.core.constraint.Constraint.NONE;
-
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.constraint.Constraint;
@@ -36,13 +34,7 @@ public class TypeStaticPointer implements VariablePointer<Type> {
             reference.set(match);
             return match.getConstraint();
          }
-         match = finder.findAll(scope, (Object)type, name);
-         
-         if(match != null) {
-            reference.set(match);
-            return match.getConstraint();
-         }
-         return NONE;
+         return null;
       } 
       return property.getConstraint();
    }
@@ -58,7 +50,7 @@ public class TypeStaticPointer implements VariablePointer<Type> {
             reference.set(match);
             return new PropertyValue(match, left, name);
          }
-         match = finder.findAll(scope, (Object)left, name);
+         match = finder.findAll(scope, (Object)left, name); // find on the type
          
          if(match != null) {
             reference.set(match);
@@ -67,5 +59,5 @@ public class TypeStaticPointer implements VariablePointer<Type> {
          return null;
       } 
       return new PropertyValue(property, left, name);
-   }
+   }   
 }

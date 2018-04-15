@@ -39,15 +39,16 @@ public class ModulePointer implements VariablePointer<Module> {
          if(value == null) {
             Type type = module.getType(name);
             
-            if(type != null) {
-               return Constraint.getConstraint(type, CONSTANT.mask);
+            if(type == null) {
+               Property match = finder.findAll(scope, module, name);
+               
+               if(match != null) {
+                  reference.set(match);
+                  return match.getConstraint();
+               }
+               return null;
             }
-            Property match = finder.findAll(scope, module, name);
-            
-            if(match != null) {
-               reference.set(match);
-               return match.getConstraint();
-            }
+            return Constraint.getConstraint(type, CONSTANT.mask);
          }
          return value;
       } 
@@ -66,15 +67,16 @@ public class ModulePointer implements VariablePointer<Module> {
          if(value == null) {
             Type type = left.getType(name);
             
-            if(type != null) {
-               return Value.getTransient(type);
+            if(type == null) {            
+               Property match = finder.findAll(scope, left, name);
+               
+               if(match != null) {
+                  reference.set(match);
+                  return new PropertyValue(match, left, name);
+               }
+               return null;
             }
-            Property match = finder.findAll(scope, left, name);
-            
-            if(match != null) {
-               reference.set(match);
-               return new PropertyValue(match, left, name);
-            }
+            return Value.getTransient(type);
          }
          return value;
       } 

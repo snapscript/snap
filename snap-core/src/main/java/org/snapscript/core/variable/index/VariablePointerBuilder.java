@@ -39,7 +39,7 @@ public class VariablePointerBuilder {
          return new MapPointer(finder, name);
       }         
       if(Type.class.isInstance(left)) {
-         return new TypeStaticPointer(finder, name);
+         return new TypeStaticPointer(finder, name); // could be either static or instance
       }
       if(Collection.class.isInstance(left)) {
          return new CollectionPointer(finder, name);

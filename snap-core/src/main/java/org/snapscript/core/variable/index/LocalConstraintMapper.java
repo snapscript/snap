@@ -1,4 +1,4 @@
-package org.snapscript.core.variable.bind;
+package org.snapscript.core.variable.index;
 
 import static org.snapscript.core.ModifierType.CLASS;
 
@@ -7,9 +7,9 @@ import org.snapscript.core.module.Module;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 
-public class VariableConstraintMapper {
+public class LocalConstraintMapper {
    
-   public VariableConstraintMapper() {
+   public LocalConstraintMapper() {
       super();
    }
 
