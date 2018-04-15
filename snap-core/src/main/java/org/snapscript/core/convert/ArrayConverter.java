@@ -10,19 +10,18 @@ import java.lang.reflect.Array;
 import java.util.List;
 
 import org.snapscript.core.InternalStateException;
-import org.snapscript.core.type.Type;
 import org.snapscript.core.convert.proxy.ProxyWrapper;
-import org.snapscript.core.type.CastChecker;
+import org.snapscript.core.type.Type;
 
 public class ArrayConverter extends ConstraintConverter {
 
-   private final ArrayTypeComparator comparator;
    private final ConstraintMatcher matcher;
+   private final ArrayCastChecker checker;
    private final ProxyWrapper wrapper;
    private final Type type;
    
    public ArrayConverter(ConstraintMatcher matcher, CastChecker checker, ProxyWrapper wrapper, Type type) {
-      this.comparator = new ArrayTypeComparator(checker);
+      this.checker = new ArrayCastChecker(checker);
       this.wrapper = wrapper;
       this.matcher = matcher;
       this.type = type;
@@ -40,7 +39,7 @@ public class ArrayConverter extends ConstraintConverter {
             }
          }
          if(require != real) {
-            return comparator.toArray(actual, type);
+            return checker.toArray(actual, type);
          }
       }
       return EXACT;
@@ -57,7 +56,7 @@ public class ArrayConverter extends ConstraintConverter {
          }
          if(actual.isArray()) {
             if(require != actual) {
-               Score score = comparator.toArray(actual, require);
+               Score score = checker.toArray(actual, require);
                
                if(score.isInvalid()) {               
                   return score(object, type);
@@ -120,7 +119,7 @@ public class ArrayConverter extends ConstraintConverter {
             }
             return total;
          }
-         return SIMILAR; 
+         return POSSIBLE; 
       }
       return INVALID;
    }
@@ -132,7 +131,7 @@ public class ArrayConverter extends ConstraintConverter {
          Class actual = object.getClass();
          
          if(actual.isArray()) {
-            Score score = comparator.toArray(actual, require);
+            Score score = checker.toArray(actual, require);
              
             if(!score.isExact()) {   
                return convert(object, type);

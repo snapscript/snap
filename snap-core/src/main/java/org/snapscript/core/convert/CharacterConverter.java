@@ -43,11 +43,11 @@ public class CharacterConverter extends ConstraintConverter {
    };   
    
    private final CharacterMatcher matcher;
-   private final ScoreChecker checker;
+   private final ScoreMapper mapper;
    private final Type type;
    
    public CharacterConverter(Type type) {
-      this.checker = new ScoreChecker(CHARACTER_TYPES, CHARACTER_SCORES);
+      this.mapper = new ScoreMapper(CHARACTER_TYPES, CHARACTER_SCORES);
       this.matcher = new CharacterMatcher();
       this.type = type;
    }
@@ -59,7 +59,7 @@ public class CharacterConverter extends ConstraintConverter {
          
          if(real != null) {
             Class promote = promoter.promote(real);
-            Score score = checker.score(promote);
+            Score score = mapper.map(promote);
             
             if(score != null) {
                return score;
@@ -79,7 +79,7 @@ public class CharacterConverter extends ConstraintConverter {
       
       if(value != null) {
          Class actual = value.getClass();
-         Score score = checker.score(actual);
+         Score score = mapper.map(actual);
          
          if(score == null) {
             if(actual == String.class) {

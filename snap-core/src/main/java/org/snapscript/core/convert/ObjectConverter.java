@@ -6,7 +6,6 @@ import org.snapscript.core.InternalArgumentException;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.convert.proxy.ProxyWrapper;
 import org.snapscript.core.type.Category;
-import org.snapscript.core.type.CastChecker;
 import org.snapscript.core.type.TypeExtractor;
 
 public class ObjectConverter extends ConstraintConverter {
@@ -29,10 +28,9 @@ public class ObjectConverter extends ConstraintConverter {
          Class real = actual.getType();
          Class require = constraint.getType();
          
-         if(require == real) {
-            return EXACT;
+         if(require != real) {
+            return checker.toType(actual, constraint);            
          }
-         return checker.toType(actual, constraint);
       }
       return EXACT;
    }
@@ -42,10 +40,9 @@ public class ObjectConverter extends ConstraintConverter {
       if(object != null) {
          Type match = extractor.getType(object);
       
-         if(match.equals(constraint)) {
-            return EXACT;
+         if(!match.equals(constraint)) {
+            return checker.toType(match, constraint, object);           
          }
-         return checker.toType(match, constraint, object);
       }
       return EXACT;
    }

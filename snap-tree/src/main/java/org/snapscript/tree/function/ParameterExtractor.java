@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.convert.CompatibilityChecker;
+import org.snapscript.core.convert.TypeInspector;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.Signature;
 import org.snapscript.core.scope.Scope;
@@ -16,7 +16,7 @@ import org.snapscript.core.type.Type;
 
 public class ParameterExtractor {
    
-   private final CompatibilityChecker checker;
+   private final TypeInspector inspector;
    private final Signature signature;
    private final boolean closure;
    
@@ -25,7 +25,7 @@ public class ParameterExtractor {
    }
    
    public ParameterExtractor(Signature signature, boolean closure) {
-      this.checker = new CompatibilityChecker();
+      this.inspector = new TypeInspector();
       this.signature = signature;
       this.closure = closure;
    }
@@ -86,7 +86,7 @@ public class ParameterExtractor {
             for(int i = 0; i < list.length; i++) {
                Object entry = list[i];
                
-               if(!checker.compatible(scope, entry, type)) {
+               if(!inspector.isCompatible(type,  entry)) {
                   throw new InternalStateException("Parameter '" + name + "...' does not match constraint '" + type + "'");
                }
             }

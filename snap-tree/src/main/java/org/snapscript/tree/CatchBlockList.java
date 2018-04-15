@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.snapscript.core.Execution;
 import org.snapscript.core.Statement;
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.convert.CompatibilityChecker;
+import org.snapscript.core.convert.TypeInspector;
 import org.snapscript.core.error.ErrorCauseExtractor;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.result.Result;
@@ -21,14 +21,14 @@ import org.snapscript.tree.function.ParameterDeclaration;
 public class CatchBlockList {
    
    private final ErrorCauseExtractor extractor;
-   private final CompatibilityChecker checker;
+   private final TypeInspector inspector;
    private final AtomicInteger offset;
    private final CatchBlock[] blocks;
    private final Execution[] list;
    
    public CatchBlockList(CatchBlock... blocks) {
       this.extractor = new ErrorCauseExtractor();
-      this.checker = new CompatibilityChecker();
+      this.inspector = new TypeInspector();
       this.offset = new AtomicInteger(-1);
       this.list = new Execution[blocks.length];
       this.blocks = blocks;
@@ -96,7 +96,7 @@ public class CatchBlockList {
          if(data != null) {
             Object cause = extractor.extract(scope, data);
             
-            if(checker.compatible(scope, cause, type)) {
+            if(inspector.isCompatible(type, cause)) {
                Table table = scope.getTable();
                Local local = Local.getConstant(cause, name);
                int index = offset.get();

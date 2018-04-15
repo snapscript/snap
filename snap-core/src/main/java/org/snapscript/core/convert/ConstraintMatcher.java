@@ -2,14 +2,14 @@ package org.snapscript.core.convert;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.snapscript.core.convert.proxy.ProxyWrapper;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.convert.proxy.ProxyWrapper;
 import org.snapscript.core.type.TypeCache;
-import org.snapscript.core.type.CastChecker;
 import org.snapscript.core.type.TypeExtractor;
 import org.snapscript.core.type.TypeLoader;
 
@@ -125,7 +125,10 @@ public class ConstraintMatcher {
       }      
       if(inspector.isSame(type, Class.class)) {
          return new ClassConverter(type);
-      }  
+      }
+      if(inspector.isSame(type, List.class)) {
+         return new ListConverter(extractor, checker, wrapper, type);
+      }
       if(inspector.isArray(type)) {
          return new ArrayConverter(this, checker, wrapper, type);
       }

@@ -27,7 +27,6 @@ public class InstanceOfTest extends TestCase {
    "assert a instanceof Task[];\n"+
    "assert b instanceof Integer[];\n"+
    "assert c instanceof String[][];\n"+
-   "assert a instanceof Task[].class;\n"+
    "assert a !instanceof null;\n"+
    "assert null!instanceof Integer.class;\n";         
 
@@ -38,10 +37,10 @@ public class InstanceOfTest extends TestCase {
       executable.execute();
    }
    
-//   public void testInstanceOfArray() throws Exception {
-//      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
-//      Executable executable = compiler.compile(SOURCE_2);
-//      System.err.println(SOURCE_2);
-//      executable.execute();
-//   }
+   public void testInstanceOfArray() throws Exception {
+      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
+      Executable executable = compiler.compile(SOURCE_2);
+      System.err.println(SOURCE_2);
+      executable.execute();
+   }
 }

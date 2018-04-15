@@ -6,7 +6,6 @@ import org.snapscript.core.InternalArgumentException;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.convert.proxy.ProxyWrapper;
 import org.snapscript.core.type.Category;
-import org.snapscript.core.type.CastChecker;
 import org.snapscript.core.type.TypeExtractor;
 
 public class FunctionConverter extends ConstraintConverter {

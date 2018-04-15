@@ -6,14 +6,13 @@ import static org.snapscript.core.convert.Score.SIMILAR;
 
 import org.snapscript.core.PrimitivePromoter;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.type.CastChecker;
 
-public class ArrayTypeComparator {
+public class ArrayCastChecker {
    
    private final PrimitivePromoter promoter;
    private final CastChecker checker;
    
-   public ArrayTypeComparator(CastChecker checker){
+   public ArrayCastChecker(CastChecker checker){
       this.promoter = new PrimitivePromoter();
       this.checker = checker;
    }

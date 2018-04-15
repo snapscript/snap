@@ -1,4 +1,4 @@
-package org.snapscript.core.type;
+package org.snapscript.core.convert;
 
 import static org.snapscript.core.convert.Score.EXACT;
 import static org.snapscript.core.convert.Score.INVALID;
@@ -8,12 +8,12 @@ import java.util.List;
 import java.util.Set;
 
 import org.snapscript.core.InternalStateException;
-import org.snapscript.core.type.Type;
-import org.snapscript.core.convert.ConstraintMatcher;
-import org.snapscript.core.convert.FunctionComparator;
-import org.snapscript.core.convert.Score;
 import org.snapscript.core.function.ClosureFunctionFinder;
 import org.snapscript.core.function.Function;
+import org.snapscript.core.type.Category;
+import org.snapscript.core.type.Type;
+import org.snapscript.core.type.TypeExtractor;
+import org.snapscript.core.type.TypeLoader;
 
 public class CastChecker {
 

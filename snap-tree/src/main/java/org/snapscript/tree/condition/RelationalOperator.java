@@ -96,37 +96,13 @@ public enum RelationalOperator {
          return BooleanValue.FALSE;
       }      
    },
-   MATCH("=~"){
-      @Override
-      public Value operate(Scope scope, Value left, Value right) {
-         Object first = left.getValue();
-         Object second = right.getValue();
-         
-         if(checker.isMatch(scope, first, second)){
-            return BooleanValue.TRUE;
-         }
-         return BooleanValue.FALSE;
-      }      
-   },
-   NOT_MATCH("!=~"){
-      @Override
-      public Value operate(Scope scope, Value left, Value right) {
-         Object first = left.getValue();
-         Object second = right.getValue();
-         
-         if(!checker.isMatch(scope, first, second)){
-            return BooleanValue.TRUE;
-         }
-         return BooleanValue.FALSE;
-      }      
-   },
    INSTANCE_OF("instanceof"){
       @Override
       public Value operate(Scope scope, Value left, Value right) {
          Object first = left.getValue();
          Object second = right.getValue();
          
-         if(checker.isInstance(scope, first, second)){
+         if(checker.isInstanceOf(scope, first, second)){
             return BooleanValue.TRUE;
          }
          return BooleanValue.FALSE;
@@ -138,18 +114,18 @@ public enum RelationalOperator {
          Object first = left.getValue();
          Object second = right.getValue();
          
-         if(!checker.isInstance(scope, first, second)){
+         if(!checker.isInstanceOf(scope, first, second)){
             return BooleanValue.TRUE;
          }
          return BooleanValue.FALSE;
       }      
    };
    
-   public final RelationalChecker checker;
+   public final InstanceOfChecker checker;
    public final String operator;
    
    private RelationalOperator(String operator) {
-      this.checker = new RelationalChecker();
+      this.checker = new InstanceOfChecker();
       this.operator = operator;
    }
    
@@ -178,8 +154,6 @@ public enum RelationalOperator {
       INSTANCE_OF,
       NOT_INSTANCE_OF,
       SAME,
-      NOT_SAME,
-      MATCH,
-      NOT_MATCH
+      NOT_SAME
    };
 }

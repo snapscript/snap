@@ -16,15 +16,15 @@ public class DelegateIndexer {
    private final FunctionPointerConverter converter;
    private final FunctionIndexBuilder builder;
    private final FunctionPathFinder finder;
+   private final TypeInspector inspector;
    private final TypeExtractor extractor;
-   private final TypeInspector checker;
    
    public DelegateIndexer(TypeExtractor extractor, ThreadStack stack) {
       this.builder = new FunctionIndexBuilder(extractor, stack);
       this.converter = new FunctionPointerConverter(stack);
       this.indexes = new TypeCache<FunctionIndex>();
       this.finder = new FunctionPathFinder();
-      this.checker = new TypeInspector();
+      this.inspector = new TypeInspector();
       this.extractor = extractor;
    }
    
@@ -39,11 +39,11 @@ public class DelegateIndexer {
          for(int i = size - 1; i >= 0; i--) {
             Type entry = path.get(i);
             
-            if(!checker.isProxy(entry)) {
+            if(!inspector.isProxy(entry)) {
                List<Function> functions = entry.getFunctions();
    
                for(Function function : functions){
-                  if(!checker.isSuperConstructor(type, function)) {
+                  if(!inspector.isSuperConstructor(type, function)) {
                      FunctionPointer pointer = converter.convert(function);
                      table.index(pointer);
                   }
@@ -68,11 +68,11 @@ public class DelegateIndexer {
          for(int i = size - 1; i >= 0; i--) {
             Type entry = path.get(i);
             
-            if(!checker.isProxy(entry)) {
+            if(!inspector.isProxy(entry)) {
                List<Function> functions = entry.getFunctions();
    
                for(Function function : functions){
-                  if(!checker.isSuperConstructor(type, function)) {
+                  if(!inspector.isSuperConstructor(type, function)) {
                      FunctionPointer pointer = converter.convert(function);
                      table.index(pointer);
                   }

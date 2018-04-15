@@ -44,7 +44,7 @@ public class NumberConverter extends ConstraintConverter {
    };
    
    protected final NumberMatcher matcher;
-   protected final ScoreChecker checker;
+   protected final ScoreMapper mapper;
    protected final Type type;
    
    public NumberConverter(Type type) {
@@ -52,7 +52,7 @@ public class NumberConverter extends ConstraintConverter {
    }
    
    public NumberConverter(Type type, Class[] types, Score[] scores) {
-      this.checker = new ScoreChecker(types, scores);
+      this.mapper = new ScoreMapper(types, scores);
       this.matcher = new NumberMatcher();
       this.type = type;
    }
@@ -64,7 +64,7 @@ public class NumberConverter extends ConstraintConverter {
          
          if(real != null) {
             Class promote = promoter.promote(real);
-            Score score = checker.score(promote);
+            Score score = mapper.map(promote);
             
             if(score != null) {
                return score;
@@ -84,7 +84,7 @@ public class NumberConverter extends ConstraintConverter {
       
       if(value != null) {
          Class actual = value.getClass();
-         Score score = checker.score(actual);
+         Score score = mapper.map(actual);
          
          if(score == null) {
             if(actual == String.class) {
