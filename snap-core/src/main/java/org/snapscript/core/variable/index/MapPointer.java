@@ -31,7 +31,7 @@ public class MapPointer implements VariablePointer<Map> {
       
       if(accessor == null) {
          Type type = left.getType(scope);
-         Property match = finder.findPropertyFromMap(scope, type, name);
+         Property match = finder.findProperty(scope, type, name);
          
          if(match != null) {
             reference.set(match);
@@ -47,7 +47,7 @@ public class MapPointer implements VariablePointer<Map> {
       Property accessor = reference.get();
       
       if(accessor == null) {
-         Property match = finder.findPropertyFromMap(scope, left, name);
+         Property match = finder.findProperty(scope, left, name);
          
          if(match != null) {
             reference.set(match);

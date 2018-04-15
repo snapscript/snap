@@ -34,7 +34,7 @@ public class TypeLocalPointer implements VariablePointer<Scope> {
       
       if(value == null) {
          Type type = instance.getType();
-         Property property = finder.findAnyFromType(scope, type, name);
+         Property property = finder.findAll(scope, type, name);
          
          if(property != null) {
             reference.set(property);
@@ -53,7 +53,7 @@ public class TypeLocalPointer implements VariablePointer<Scope> {
       
       if(value == null) {
          Type type = instance.getType();
-         Property property = finder.findAnyFromType(scope, type, name);
+         Property property = finder.findAll(scope, type, name);
          
          if(property != null) {
             reference.set(property);

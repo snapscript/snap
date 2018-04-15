@@ -42,7 +42,7 @@ public class ModulePointer implements VariablePointer<Module> {
             if(type != null) {
                return Constraint.getConstraint(type, CONSTANT.mask);
             }
-            Property match = finder.findAnyFromModule(scope, module, name);
+            Property match = finder.findAll(scope, module, name);
             
             if(match != null) {
                reference.set(match);
@@ -69,7 +69,7 @@ public class ModulePointer implements VariablePointer<Module> {
             if(type != null) {
                return Value.getTransient(type);
             }
-            Property match = finder.findAnyFromModule(scope, left, name);
+            Property match = finder.findAll(scope, left, name);
             
             if(match != null) {
                reference.set(match);

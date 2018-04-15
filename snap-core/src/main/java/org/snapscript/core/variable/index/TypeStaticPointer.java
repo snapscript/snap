@@ -30,13 +30,13 @@ public class TypeStaticPointer implements VariablePointer<Type> {
       
       if(property == null) {
          Type type = left.getType(scope);
-         Property match = finder.findAnyFromType(scope, type, name);
+         Property match = finder.findAll(scope, type, name);
          
          if(match != null) {
             reference.set(match);
             return match.getConstraint();
          }
-         match = finder.findAnyFromObject(scope, type, name);
+         match = finder.findAll(scope, (Object)type, name);
          
          if(match != null) {
             reference.set(match);
@@ -52,13 +52,13 @@ public class TypeStaticPointer implements VariablePointer<Type> {
       Property property = reference.get();
       
       if(property == null) {
-         Property match = finder.findAnyFromType(scope, left, name);
+         Property match = finder.findAll(scope, left, name);
          
          if(match != null) {
             reference.set(match);
             return new PropertyValue(match, left, name);
          }
-         match = finder.findAnyFromObject(scope, left, name);
+         match = finder.findAll(scope, (Object)left, name);
          
          if(match != null) {
             reference.set(match);

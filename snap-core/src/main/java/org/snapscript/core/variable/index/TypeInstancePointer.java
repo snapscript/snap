@@ -33,7 +33,7 @@ public class TypeInstancePointer implements VariablePointer<Object> {
          Type type = left.getType(scope);
          
          if(type != null) {
-            Property match = finder.findAnyFromType(scope, type, name);
+            Property match = finder.findAll(scope, type, name);
             
             if(match != null) {
                reference.set(match);
@@ -54,7 +54,7 @@ public class TypeInstancePointer implements VariablePointer<Object> {
          Context context = module.getContext();
          TypeExtractor extractor = context.getExtractor();
          Type type = extractor.getType(left);
-         Property match = finder.findAnyFromType(scope, type, name);
+         Property match = finder.findAll(scope, type, name);
          
          if(match != null) {
             reference.set(match);

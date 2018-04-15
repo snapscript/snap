@@ -15,17 +15,21 @@ public class PropertyValue extends Value {
       this.property = property;
       this.object = object;
       this.name = name;
-   }   
-   
-   @Override
-   public Type getType(Scope scope) {
-      Constraint constraint = property.getConstraint();
-      return constraint.getType(scope);
    }
    
    @Override
    public boolean isProperty() {
       return true;
+   }
+   
+   @Override
+   public Type getType(Scope scope) {
+      Constraint constraint = property.getConstraint();      
+      
+      if(constraint != null) {
+         return constraint.getType(scope);
+      }
+      return null;
    }
    
    @Override

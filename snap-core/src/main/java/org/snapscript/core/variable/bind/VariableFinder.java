@@ -26,33 +26,13 @@ public class VariableFinder {
       this.binder = new ModuleScopeBinder();
    }
    
-   public Object findTypes(Scope scope, String name) {
-      Scope current = binder.bind(scope); // this could be slow
-      Module module = current.getModule();
-      Type type = module.getType(name); // this is super slow if a variable is referenced
-      Type parent = current.getType();
-      
-      if(type == null) {
-         Object result = module.getModule(name);
-         
-         if(result == null && parent != null) {
-            Context context = module.getContext();
-            TypeExtractor extractor = context.getExtractor();
-            
-            return extractor.getType(parent, name);
-         }
-         return result;
-      }
-      return type;
-   }
-   
-   public Property findAnyFromObject(Scope scope, Object left, String name) {
+   public Property findAll(Scope scope, Object left, String name) {
       Class type = left.getClass();
       Module module = scope.getModule();
       Type source = module.getType(type);
       
       if(source != null) {
-         Property match = findAnyFromType(scope, source, name);
+         Property match = findAll(scope, source, name);
          
          if(match != null) {
             return match;
@@ -61,31 +41,44 @@ public class VariableFinder {
       return null;
    }
    
-   public Property findPropertyFromObject(Scope scope, Object left, String name) {
-      Class type = left.getClass();
-      Module module = scope.getModule();
-      Type source = module.getType(type);
-      
-      if(source != null) {
-         Property match = findPropertyFromType(scope, source, name);
-         
-         if(match != null) {
-            return match;
-         }
-      }
-      return null;
-   }
-   
-   public Property findAnyFromType(Scope scope, Type type, String name) {
-      Property match = findPropertyFromType(scope, type, name);
+   public Property findAll(Scope scope, Type type, String name) {
+      Property match = findProperty(scope, type, name);
       
       if(match == null) {
-         return findConstantFromType(scope, type, name);
+         return findConstant(scope, type, name);
       }
       return match;
    }
    
-   public Property findPropertyFromType(Scope scope, Type type, String name) {
+   public Property findAll(Scope scope, Module left, String name) {
+      List<Property> properties = left.getProperties();
+      
+      for(Property property : properties){
+         String field = property.getName();
+         
+         if(field.equals(name)) {
+            return property;
+         }
+      }
+      return findAll(scope, (Object)left, name);
+   }
+   
+   public Property findProperty(Scope scope, Object left, String name) {
+      Class type = left.getClass();
+      Module module = scope.getModule();
+      Type source = module.getType(type);
+      
+      if(source != null) {
+         Property match = findProperty(scope, source, name);
+         
+         if(match != null) {
+            return match;
+         }
+      }
+      return null;
+   }
+   
+   public Property findProperty(Scope scope, Type type, String name) {
       Module module = scope.getModule();
       Context context = module.getContext();
       TypeExtractor extractor = context.getExtractor();
@@ -105,7 +98,21 @@ public class VariableFinder {
       return null;
    }
    
-   public Property findConstantFromType(Scope scope, Type type, String name) {
+   public Property findProperty(Scope scope, Map left, String name) {
+      Property property = findProperty(scope, (Object)left, name);
+   
+      if(property == null) {
+         Module module = scope.getModule();
+         Class type = left.getClass();
+         String alias = type.getName();
+         Type source = module.getType(alias);
+         
+         return new MapProperty(name, source, PUBLIC.mask);
+      }
+      return property;
+   }
+   
+   public Property findConstant(Scope scope, Type type, String name) {
       Module module = scope.getModule();
       Context context = module.getContext();
       TypeExtractor extractor = context.getExtractor();
@@ -120,41 +127,25 @@ public class VariableFinder {
          }
       }
       return null;
-   }
-   
-   public Property findAnyFromModule(Scope scope, Module left, String name) {
-      List<Property> properties = left.getProperties();
-      
-      for(Property property : properties){
-         String field = property.getName();
-         
-         if(field.equals(name)) {
-            return property;
-         }
-      }
-      return findAnyFromObject(scope, left, name);
    }   
-
-   public Property findPropertyFromMap(Scope scope, Type left, String name) {
-      Property property = findPropertyFromType(scope, left, name);
    
-      if(property == null) {
-         return new MapProperty(name, left, PUBLIC.mask);
-      }
-      return property;
-   }
-   
-   public Property findPropertyFromMap(Scope scope, Map left, String name) {
-      Property property = findPropertyFromObject(scope, left, name);
-   
-      if(property == null) {
-         Module module = scope.getModule();
-         Class type = left.getClass();
-         String alias = type.getName();
-         Type source = module.getType(alias);
+   public Object findTypes(Scope scope, String name) {
+      Scope current = binder.bind(scope); // this could be slow
+      Module module = current.getModule();
+      Type type = module.getType(name); // this is super slow if a variable is referenced
+      Type parent = current.getType();
+      
+      if(type == null) {
+         Object result = module.getModule(name);
          
-         return new MapProperty(name, source, PUBLIC.mask);
+         if(result == null && parent != null) {
+            Context context = module.getContext();
+            TypeExtractor extractor = context.getExtractor();
+            
+            return extractor.getType(parent, name);
+         }
+         return result;
       }
-      return property;
+      return type;
    }
 }

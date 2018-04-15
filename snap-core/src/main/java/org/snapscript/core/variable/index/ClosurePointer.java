@@ -35,7 +35,7 @@ public class ClosurePointer implements VariablePointer<Function> {
          Context context = module.getContext();
          TypeExtractor extractor = context.getExtractor();
          Type type = extractor.getType(Function.class);
-         Property match = finder.findAnyFromType(scope, type, name);
+         Property match = finder.findAll(scope, type, name);
          
          if(match != null) {
             reference.set(match);
@@ -55,7 +55,7 @@ public class ClosurePointer implements VariablePointer<Function> {
          Context context = module.getContext();
          TypeExtractor extractor = context.getExtractor();
          Type type = extractor.getType(Function.class);
-         Property match = finder.findAnyFromType(scope, type, name);
+         Property match = finder.findAll(scope, type, name);
          
          if(match != null) {
             reference.set(match);
