@@ -170,7 +170,7 @@ expression = { <literal> |
 			   '('<expression>')';
 
 function-constraint = '('<parameter-list>')';
-type-constraint = <type-reference>;
+type-constraint = <type-reference> ?<constraint-list>;
 array-dimension = '[]';
 array-constraint = <type-reference>+<array-dimension>;
 list-constraint = '[]';
@@ -178,6 +178,7 @@ set-constraint = '{}';
 map-constraint = '{:}';
 constraint = {<array-constraint> | <type-constraint> | <function-constraint> | <list-constraint> | <set-constraint> | <map-constraint>};
 constraint-variable = <array-constraint>;
+constraint-list = '<' <constraint>*(','<constraint>) '>';
 
 return-statement = 'return' ?(? _ {<cast> | <expression> | <closure>}) ';';
 yield-statement = 'yield' ?(? _ {<cast> | <expression> | <closure>}) ';';
@@ -256,8 +257,8 @@ parameter-list = ?(<parameter-declaration>*(','<parameter-declaration>));
 closure-parameter-list = '('<parameter-list>')' | ?<parameter-declaration>;
 closure = <closure-parameter-list>?_'->'?_{<group-statement> | <expression>};
 
-type-name = [type];
-trait-name = [type];
+type-name = [type] ?<constraint-list>;
+trait-name = [type] ?<constraint-list>;
 
 annotation-name = [type];
 annotation-list = *<annotation-declaration>?_;

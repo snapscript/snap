@@ -16,7 +16,7 @@ public class ErrorHandler {
    private final CompileErrorHandler compile;
    
    public ErrorHandler(TypeExtractor extractor, ThreadStack stack) {
-      this(extractor, stack, true);
+      this(extractor, stack, false);
    }
    
    public ErrorHandler(TypeExtractor extractor, ThreadStack stack, boolean replace) {

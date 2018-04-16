@@ -15,14 +15,26 @@ public abstract class StaticBlock extends TypeState {
 
    private final AtomicBoolean allocate;
    private final AtomicBoolean compile;
+   private final AtomicBoolean define;
    
    protected StaticBlock() {
       this.allocate = new AtomicBoolean();
       this.compile = new AtomicBoolean();
+      this.define = new AtomicBoolean();
    }
    
    @Override
-   public Order define(Scope scope, Type type) throws Exception {
+   public Order define(Scope scope, Type type) throws Exception { 
+      if(!define.get()) {
+         Module module = type.getModule();
+         Context context = module.getContext();
+         
+         synchronized(context) { // static lock to force wait
+            if(define.compareAndSet(false, true)) { // only do it once
+               define(scope);
+            }
+         }
+      }
       return STATIC;
    }
    
@@ -34,7 +46,7 @@ public abstract class StaticBlock extends TypeState {
          
          synchronized(context) { // static lock to force wait
             if(compile.compareAndSet(false, true)) { // only do it once
-               compile(type);
+               compile(scope);
             }
          }
       }
@@ -45,15 +57,17 @@ public abstract class StaticBlock extends TypeState {
       if(!allocate.get()) {
          Module module = type.getModule();
          Context context = module.getContext();
+         Scope outer = type.getScope();
          
          synchronized(context) { // static lock to force wait
             if(allocate.compareAndSet(false, true)) { // only do it once
-               allocate(type);
+               allocate(outer);
             }
          }
       }
    }
 
-   protected void compile(Type type) throws Exception {}
-   protected void allocate(Type type) throws Exception {}
+   protected void define(Scope scope) throws Exception {}
+   protected void compile(Scope scope) throws Exception {}
+   protected void allocate(Scope scope) throws Exception {}
 }

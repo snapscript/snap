@@ -29,8 +29,8 @@ public class EnumInstance extends StaticBlock {
    }
 
    @Override
-   protected void allocate(Type type) throws Exception {
-      Scope scope = type.getScope();
+   protected void allocate(Scope scope) throws Exception {
+      Type type = scope.getType();
       State state = scope.getState();
       FunctionCall call = binder.bind(scope, type);
       Module module = scope.getModule();

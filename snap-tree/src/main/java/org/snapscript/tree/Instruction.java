@@ -79,6 +79,7 @@ import org.snapscript.tree.operation.PrefixDecrement;
 import org.snapscript.tree.operation.PrefixIncrement;
 import org.snapscript.tree.operation.PrefixOperation;
 import org.snapscript.tree.operation.SignedNumber;
+import org.snapscript.tree.reference.ConstraintList;
 import org.snapscript.tree.reference.ConstraintVariable;
 import org.snapscript.tree.reference.ReferenceInvocation;
 import org.snapscript.tree.reference.ReferenceNavigation;
@@ -191,6 +192,7 @@ public enum Instruction {
    SET_CONSTRAINT(SetConstraint.class, "set-constraint"),   
    MAP_CONSTRAINT(MapConstraint.class, "map-constraint"),      
    CONSTRAINT_VARIABLE(ConstraintVariable.class, "constraint-variable"), // array
+   CONSTRAINT_LIST(ConstraintList.class, "constraint-list"), 
    VARIABLE_ARGUMENT(Modifier.class, "variable-argument"),
    PARAMETER_MODIFIER(Modifier.class, "parameter-modifier"),
    PARAMETER_MODIFIER_LIST(ModifierList.class, "parameter-modifier-list"),

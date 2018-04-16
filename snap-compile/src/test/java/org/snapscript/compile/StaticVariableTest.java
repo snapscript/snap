@@ -3,8 +3,15 @@ package org.snapscript.compile;
 import junit.framework.TestCase;
 
 public class StaticVariableTest extends TestCase {
-  
-   private static final String SOURCE_1=
+
+   private static final String SOURCE_1= 
+   "class Math {\n"+
+   "   static const PI = 3.14;\n"+
+   "   const point = new Double(PI);\n"+      
+   "}\n"+
+   "new Math();";
+   
+   private static final String SOURCE_2=
    "class StaticVar {\n"+
    "   static const PI = 3.14;\n"+
    "   static const circle = new Circle(PI);\n"+
@@ -37,8 +44,8 @@ public class StaticVariableTest extends TestCase {
    "System.err.println(StaticVar.inc());\n"+   
    "System.err.println(StaticVar.inc());\n"+
    "System.err.println(StaticVar.inc());\n";
-         
-   public void testStaticVariable() throws Exception{
+
+   public void testSimpleStaticVariable() throws Exception{
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
       System.err.println(SOURCE_1);
       Executable executable = compiler.compile(SOURCE_1);
@@ -48,8 +55,13 @@ public class StaticVariableTest extends TestCase {
       System.err.println("time="+(System.currentTimeMillis()-start));
    }
    
-   public static void main(String[] list) throws Exception {
-      new StaticVariableTest().testStaticVariable();
+   public void testStaticVariable() throws Exception{
+      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
+      System.err.println(SOURCE_2);
+      Executable executable = compiler.compile(SOURCE_2);
+      long start = System.currentTimeMillis();
+      
+      executable.execute();
+      System.err.println("time="+(System.currentTimeMillis()-start));
    }
-
 }

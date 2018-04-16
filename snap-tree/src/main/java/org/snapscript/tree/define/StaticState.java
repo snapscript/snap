@@ -1,5 +1,6 @@
 package org.snapscript.tree.define;
 
+import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 
 public class StaticState extends StaticBlock {
@@ -11,7 +12,8 @@ public class StaticState extends StaticBlock {
    }
 
    @Override
-   protected void compile(Type type) throws Exception { 
+   protected void compile(Scope scope) throws Exception { 
+      Type type = scope.getType();
       collector.collect(type);
    }
 }

@@ -41,6 +41,7 @@ public class MemberFieldAssembler {
       
       private final DeclarationAllocator allocator;
       private final Constraint constraint;
+      private final Evaluation declare;
       private final String name;
       private final int modifiers;
       
@@ -48,8 +49,16 @@ public class MemberFieldAssembler {
          this.allocator = new MemberFieldAllocator(constraint, declare);
          this.constraint = constraint;
          this.modifiers = modifiers;
+         this.declare = declare;
          this.name = name;
       }  
+
+      @Override
+      public void define(Scope scope) throws Exception {
+         if(declare != null) {
+            declare.define(scope);
+         }
+      }
 
       @Override
       public Constraint compile(Scope scope, Constraint left) throws Exception {
@@ -59,7 +68,6 @@ public class MemberFieldAssembler {
          try { 
             state.add(name, value);
          }catch(Exception e) {
-            e.printStackTrace();
             throw new InternalStateException("Declaration of variable '" + name +"' failed", e);
          }  
          return constraint;
@@ -73,7 +81,6 @@ public class MemberFieldAssembler {
          try { 
             state.add(name, value);
          }catch(Exception e) {
-            e.printStackTrace();
             throw new InternalStateException("Declaration of variable '" + name +"' failed", e);
          }  
          return value;

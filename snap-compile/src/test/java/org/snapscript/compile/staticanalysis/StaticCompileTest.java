@@ -12,7 +12,7 @@ public class StaticCompileTest extends TestCase {
    "class Foo{\n"+
    "   static var x:Integer = init();\n"+
    "   static init(): Map {\n"+
-   "      return null;\n"+
+   "      return {a: 11};;\n"+
    "   }\n"+
    "}\n"+
    "println('x');";
@@ -63,6 +63,33 @@ public class StaticCompileTest extends TestCase {
    "   }\n"+
    "}\n";
    
+   private static final String SOURCE_5 =
+   "class X{\n"+
+   "   static var f = -> {\n"+
+   "      for(i in 3..100)\n"+
+   "         yield i;\n"+
+   "   };\n"+
+   "   static call(){\n"+
+   "      return f();\n"+
+   "   }\n"+
+   "   go(){\n"+
+   "      return f();\n"+
+   "   }\n"+   
+   "}\n"+
+   "println(X.f);\n"+
+   "var it = X.call().iterator();\n"+
+   "var it2 = X.call().iterator();\n"+
+   "\n"+
+   "assert it.next() == 3;\n"+
+   "assert it.next() == 4;\n"+
+   "assert it.next() == 5;\n"+
+   "assert it.next() == 6;\n"+
+   "\n"+
+   "assert it2.next() == 3;\n"+
+   "assert it2.next() == 4;\n"+
+   "assert it2.next() == 5;\n"+
+   "assert it2.next() == 6;\n";   
+   
    public void testStaticAssignmentCompileError() throws Exception {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
       boolean failure = false;
@@ -104,5 +131,11 @@ public class StaticCompileTest extends TestCase {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
       System.err.println(SOURCE_4);
       compiler.compile(SOURCE_4).execute();
+   }
+   
+   public void testStaticClosure() throws Exception {
+      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
+      System.err.println(SOURCE_5);
+      compiler.compile(SOURCE_5).execute();
    }
 }

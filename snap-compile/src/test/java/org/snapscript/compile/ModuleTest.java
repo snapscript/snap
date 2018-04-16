@@ -22,7 +22,7 @@ public class ModuleTest extends TestCase {
    "   var x = new X(11);\n"+
    "   var y = x.class.getModule();\n"+
    "\n"+
-   "   System.err.println(this);\n"+
+   "   //System.err.println(this);\n"+
    "   System.err.println(x);\n"+
    "}\n";
 
@@ -45,11 +45,11 @@ public class ModuleTest extends TestCase {
    "System.err.println(Mod.createTyp(55));\n";
 
 
-//   public void testModuleInnerClass() throws Exception {
-//      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
-//      System.err.println(SOURCE_1);
-//      compiler.compile(SOURCE_1).execute(new EmptyModel());
-//   }
+   public void testModuleInnerClass() throws Exception {
+      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
+      System.err.println(SOURCE_1);
+      compiler.compile(SOURCE_1).execute(new EmptyModel());
+   }
    
    public void testModuleOuterClass() throws Exception {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();

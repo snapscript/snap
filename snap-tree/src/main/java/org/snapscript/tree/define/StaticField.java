@@ -1,31 +1,28 @@
 package org.snapscript.tree.define;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Type;
 
 public class StaticField extends StaticBlock {
    
-   private final AtomicBoolean compile;
    private final Evaluation evaluation;
    
    public StaticField(Evaluation evaluation){
-      this.compile = new AtomicBoolean(false);
       this.evaluation = evaluation;
    }
    
    @Override
-   public void compile(Scope scope, Type type) throws Exception {
-      if(compile.compareAndSet(false, true)) {
-         evaluation.compile(scope, null);
-      }
+   protected void define(Scope scope) throws Exception {
+      evaluation.define(scope);
+   }
+   
+   @Override
+   protected void compile(Scope scope) throws Exception {
+      evaluation.compile(scope, null);
    }
 
    @Override
-   protected void allocate(Type type) throws Exception {
-      Scope scope = type.getScope();
+   protected void allocate(Scope scope) throws Exception {
       evaluation.evaluate(scope, null);
    }
 }

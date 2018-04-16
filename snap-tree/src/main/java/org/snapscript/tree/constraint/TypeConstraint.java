@@ -3,18 +3,23 @@ package org.snapscript.tree.constraint;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
-import org.snapscript.core.constraint.Constraint;
+import org.snapscript.tree.reference.ConstraintList;
 
 public class TypeConstraint implements Compilation {
    
    private final Evaluation evaluation;
    
    public TypeConstraint(Evaluation evaluation) {
+      this(evaluation, null);
+   }
+   
+   public TypeConstraint(Evaluation evaluation, ConstraintList generics) {
       this.evaluation = evaluation;
    }
 

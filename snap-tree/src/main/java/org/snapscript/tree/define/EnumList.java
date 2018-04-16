@@ -1,10 +1,12 @@
 package org.snapscript.tree.define;
 
+import static org.snapscript.core.type.Order.STATIC;
+
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.type.TypeState;
 import org.snapscript.core.type.TypeBody;
 import org.snapscript.core.type.TypePart;
+import org.snapscript.core.type.TypeState;
 
 public class EnumList extends TypePart {
    
@@ -16,7 +18,7 @@ public class EnumList extends TypePart {
 
    @Override
    public TypeState define(TypeBody body, Type type, Scope scope) throws Exception {
-      TypeStateCollector collector = new TypeStateCollector();
+      TypeStateCollector collector = new TypeStateCollector(STATIC);
       int index = 0;
       
       for(EnumValue value : values) {
