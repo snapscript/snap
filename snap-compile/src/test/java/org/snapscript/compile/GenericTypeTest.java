@@ -1,5 +1,7 @@
 package org.snapscript.compile;
 
+import java.lang.reflect.Type;
+
 import junit.framework.TestCase;
 
 public class GenericTypeTest extends TestCase {
@@ -112,6 +114,7 @@ public class GenericTypeTest extends TestCase {
    public void testGenericTypeWithExplicitImportConstraint() throws Exception {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
       Executable executable = compiler.compile(SOURCE_5);
+      System.err.println(SOURCE_5);
       executable.execute();
     }
 }

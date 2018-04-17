@@ -1,5 +1,7 @@
 package org.snapscript.core.constraint;
 
+import static java.util.Collections.EMPTY_LIST;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -53,6 +55,14 @@ public abstract class Constraint {
    
    public static Constraint getConstraint(Value value) {
       return new ValueConstraint(value);
+   }
+   
+   public List<Type> getGenerics(Scope scope) {
+      return EMPTY_LIST;
+   }
+   
+   public String getName() {
+      return null;
    }
    
    public boolean isVariable() {

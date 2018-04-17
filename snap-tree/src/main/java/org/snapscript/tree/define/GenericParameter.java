@@ -4,12 +4,12 @@ import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 
-public class Generic extends Constraint {
+public class GenericParameter extends Constraint {
 
    private final Constraint constraint;
    private final String name;
    
-   public Generic(String name, Constraint constraint) {
+   public GenericParameter(String name, Constraint constraint) {
       this.constraint = constraint;
       this.name = name;
    }
@@ -19,6 +19,7 @@ public class Generic extends Constraint {
       return constraint.getType(scope);
    }
    
+   @Override
    public String getName() {
       return name;
    }   

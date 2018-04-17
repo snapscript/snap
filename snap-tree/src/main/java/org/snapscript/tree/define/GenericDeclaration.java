@@ -21,12 +21,12 @@ public class GenericDeclaration {
       this.constraint = constraint;
    }
    
-   public Generic getGeneric(Scope scope) throws Exception {
+   public Constraint getGeneric(Scope scope) throws Exception {
       String name = reference.getName(scope);     
       
       if(constraint != null) {
-         return new Generic(name, constraint);
+         return new GenericParameter(name, constraint);
       }
-      return new Generic(name, OBJECT);
+      return new GenericParameter(name, OBJECT);
    }
 }

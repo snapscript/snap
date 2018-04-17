@@ -2,6 +2,7 @@ package org.snapscript.tree.define;
 
 import java.util.List;
 
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.link.ImportManager;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
@@ -33,17 +34,17 @@ public class TypeName {
       return name;
    }
    
-   public List<Generic> getGenerics(Scope scope) throws Exception {
-      List<Generic> list = generics.getGenerics(scope);
+   public List<Constraint> getGenerics(Scope scope) throws Exception {
+      List<Constraint> constraints = generics.getGenerics(scope);
       Module module = scope.getModule();
       ImportManager manager = module.getManager();
       
-      for(Generic generic : list) {
-         Type type = generic.getType(scope);         
-         String alias = generic.getName();
+      for(Constraint constraint : constraints) {
+         Type type = constraint.getType(scope);         
+         String alias = constraint.getName();
       
          manager.addImport(type, alias);         
       }
-      return list;
+      return constraints;
    }
 }

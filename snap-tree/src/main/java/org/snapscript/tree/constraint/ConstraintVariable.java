@@ -1,4 +1,4 @@
-package org.snapscript.tree.reference;
+package org.snapscript.tree.constraint;
 
 import static org.snapscript.core.constraint.Constraint.TYPE;
 
