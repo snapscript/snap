@@ -131,23 +131,21 @@ public class ImportManager {
          Type type = generics.get(name);
          
          if(type == null) {
-            type = loader.resolveType(from, name);
-         }
-         if(type == null) {
             String alias = aliases.get(name); // fully qualified "tetris.game.Block"
             
             if(alias != null) {
-               type = loader.resolveType(alias);
-               
-               if(type != null) {
-                  return type;
-               }
                Module module = registry.getModule(alias);
                
                if(module != null) {
                   return null; // its a module!!
                }
+               type = loader.resolveType(alias);
             }
+         }
+         if(type == null) {
+            type = loader.resolveType(from, name);
+         }
+         if(type == null) {
             for(String module : imports) {
                type = loader.resolveType(module, name); // this is "tetris.game.*"
                
@@ -155,13 +153,11 @@ public class ImportManager {
                   return type;
                }
             }
-            if(type == null) {
-               type = loader.resolveType(null, name); // null is "java.*"
-            }
-            if(type == null && load) {
-               type = matcher.importType(imports, name);
-            }
+            type = loader.resolveType(null, name); // null is "java.*"
          }
+         if(type == null && load) {
+            type = matcher.importType(imports, name);
+         }         
          return type;
       } catch(Exception e){
          throw new InternalStateException("Could not find '" + name + "' in '" + from + "'", e);
