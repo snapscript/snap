@@ -17,9 +17,9 @@ import org.snapscript.core.type.extend.ClassExtender;
 public class TypeIndexer {
 
    private final Map<Object, Type> types;
+   private final ImportScanner scanner;
    private final PrimitiveLoader loader;
    private final ModuleRegistry registry;
-   private final ImportScanner scanner;
    private final ClassIndexer indexer;
    private final AtomicInteger counter;
    private final NameBuilder builder;

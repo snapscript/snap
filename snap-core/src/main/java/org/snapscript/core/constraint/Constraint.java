@@ -25,6 +25,7 @@ public abstract class Constraint {
    public static final Constraint MAP = new ClassConstraint(Map.class);
    public static final Constraint ITERABLE = new ClassConstraint(Iterable.class);  
    public static final Constraint TYPE = new ClassConstraint(Type.class);
+   public static final Constraint OBJECT = new ClassConstraint(Object.class);
    
    public static Constraint getConstraint(Module module) {
       return new ModuleConstraint(module);

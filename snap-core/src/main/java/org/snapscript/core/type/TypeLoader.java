@@ -15,11 +15,11 @@ import org.snapscript.core.type.index.TypeIndexer;
 
 public class TypeLoader {
    
+   private final ImportScanner scanner;
    private final TypeExtractor extractor;
    private final PlatformProvider provider;
    private final PackageManager manager;
    private final PackageLoader loader;
-   private final ImportScanner scanner;
    private final TypeIndexer indexer;
    private final ClassExtender extender;
    

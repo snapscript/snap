@@ -61,6 +61,7 @@ public class ClassBuilder {
       annotations.apply(scope, type);
       generator.generate(body, scope, type);
       hierarchy.extend(scope, type); 
+      name.getGenerics(scope); // add generic import aliases
       
       return type;
    }

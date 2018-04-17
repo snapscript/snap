@@ -41,6 +41,8 @@ import org.snapscript.tree.define.EnumDefinition;
 import org.snapscript.tree.define.EnumKey;
 import org.snapscript.tree.define.EnumList;
 import org.snapscript.tree.define.EnumValue;
+import org.snapscript.tree.define.GenericDeclaration;
+import org.snapscript.tree.define.GenericList;
 import org.snapscript.tree.define.InnerTypeDefinition;
 import org.snapscript.tree.define.MemberField;
 import org.snapscript.tree.define.MemberFieldDeclaration;
@@ -203,7 +205,9 @@ public enum Instruction {
    THROW_STATEMENT(ThrowStatement.class, "throw-statement"),  
    CATCH_BLOCK(CatchBlock.class, "catch-block"),
    CATCH_BLOCK_LIST(CatchBlockList.class, "catch-block-list"),
-   TRY_STATEMENT(TryStatement.class, "try-statement"),    
+   TRY_STATEMENT(TryStatement.class, "try-statement"),
+   GENERIC_DECLARATION(GenericDeclaration.class, "generic-declaration"),
+   GENERIC_LIST(GenericList.class, "generic-list"),
    TYPE_NAME(TypeName.class, "type-name"),
    TRAIT_NAME(TraitName.class, "trait-name"),     
    TRAIT_HIERARCHY(TypeHierarchy.class, "trait-hierarchy"),

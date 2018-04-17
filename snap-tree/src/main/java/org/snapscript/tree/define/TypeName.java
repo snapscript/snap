@@ -1,21 +1,20 @@
 package org.snapscript.tree.define;
 
+import java.util.List;
+
+import org.snapscript.core.link.ImportManager;
+import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.tree.NameReference;
 import org.snapscript.tree.literal.TextLiteral;
-import org.snapscript.tree.reference.ConstraintList;
 
 public class TypeName {
    
    private final NameReference reference;
-   private final ConstraintList generics;
-   
-   public TypeName(TextLiteral literal) {
-      this(literal, null);
-   }
-   
-   public TypeName(TextLiteral literal, ConstraintList generics) {
+   private final GenericList generics;
+
+   public TypeName(TextLiteral literal, GenericList generics) {
       this.reference = new NameReference(literal);
       this.generics = generics;
    }
@@ -32,5 +31,19 @@ public class TypeName {
          }
       }
       return name;
+   }
+   
+   public List<Generic> getGenerics(Scope scope) throws Exception {
+      List<Generic> list = generics.getGenerics(scope);
+      Module module = scope.getModule();
+      ImportManager manager = module.getManager();
+      
+      for(Generic generic : list) {
+         Type type = generic.getType(scope);         
+         String alias = generic.getName();
+      
+         manager.addImport(type, alias);         
+      }
+      return list;
    }
 }

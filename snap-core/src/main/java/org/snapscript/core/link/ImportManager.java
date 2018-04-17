@@ -17,6 +17,7 @@ import org.snapscript.core.type.TypeLoader;
 
 public class ImportManager {
 
+   private final Map<String, Type> generics;
    private final Map<String, String> aliases;
    private final Set<String> imports;
    private final ImportMatcher matcher;
@@ -26,6 +27,7 @@ public class ImportManager {
    private final String local;
    
    public ImportManager(Module parent, Executor executor, Path path, String from, String local) {
+      this.generics = new ConcurrentHashMap<String, Type>();
       this.aliases = new ConcurrentHashMap<String, String>();
       this.imports = new CopyOnWriteArraySet<String>();
       this.matcher = new ImportMatcher(parent, executor, path, from);
@@ -41,6 +43,10 @@ public class ImportManager {
    
    public void addImport(String type, String alias) {
       aliases.put(alias, type);
+   }
+   
+   public void addImport(Type type, String alias) {
+      generics.put(alias, type);
    }
    
    public void addImports(Module module) {
@@ -122,8 +128,11 @@ public class ImportManager {
          Context context = parent.getContext();
          TypeLoader loader = context.getLoader();
          ModuleRegistry registry = context.getRegistry();
-         Type type = loader.resolveType(from, name);
-
+         Type type = generics.get(name);
+         
+         if(type == null) {
+            type = loader.resolveType(from, name);
+         }
          if(type == null) {
             String alias = aliases.get(name); // fully qualified "tetris.game.Block"
             
@@ -133,7 +142,9 @@ public class ImportManager {
                if(type != null) {
                   return type;
                }
-               if(registry.getModule(alias) != null) {
+               Module module = registry.getModule(alias);
+               
+               if(module != null) {
                   return null; // its a module!!
                }
             }

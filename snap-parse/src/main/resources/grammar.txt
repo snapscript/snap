@@ -257,8 +257,11 @@ parameter-list = ?(<parameter-declaration>*(','<parameter-declaration>));
 closure-parameter-list = '('<parameter-list>')' | ?<parameter-declaration>;
 closure = <closure-parameter-list>?_'->'?_{<group-statement> | <expression>};
 
-type-name = [type] ?<constraint-list>;
-trait-name = [type] ?<constraint-list>;
+generic-declaration = [type] ?(':' <constraint>);
+generic-list = ?('<' <generic-declaration> *(',' <generic-declaration>) '>');
+
+type-name = [type] <generic-list>;
+trait-name = [type] <generic-list>;
 
 annotation-name = [type];
 annotation-list = *<annotation-declaration>?_;
