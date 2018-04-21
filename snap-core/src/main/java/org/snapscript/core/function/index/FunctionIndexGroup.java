@@ -6,11 +6,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.snapscript.common.Cache;
 import org.snapscript.common.CopyOnWriteCache;
-import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.Signature;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Type;
 
 public class FunctionIndexGroup {
    
@@ -82,15 +83,20 @@ public class FunctionIndexGroup {
 
    public void index(FunctionPointer pointer) {
       Function function = pointer.getFunction();
+      Type parent = function.getType();
       Signature signature = function.getSignature();
       List<Parameter> parameters = signature.getParameters();
       
-      for(Parameter parameter : parameters) {
-         Constraint constraint = parameter.getType();
-         Type type = constraint.getType(null);
+      if(parent != null) {
+         Scope scope = parent.getScope();
          
-         if(type != null) {
-            constraints.set(true);
+         for(Parameter parameter : parameters) {
+            Constraint constraint = parameter.getConstraint();
+            Type type = constraint.getType(scope);
+            
+            if(type != null) {
+               constraints.set(true);
+            }
          }
       }
       group.add(pointer);

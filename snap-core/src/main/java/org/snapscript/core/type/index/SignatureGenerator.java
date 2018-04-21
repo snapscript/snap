@@ -6,40 +6,41 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.snapscript.core.InternalStateException;
-import org.snapscript.core.module.Module;
-import org.snapscript.core.type.Type;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.annotation.AnnotationConverter;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.FunctionSignature;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.ParameterBuilder;
 import org.snapscript.core.function.Signature;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.type.Type;
 
 public class SignatureGenerator {
    
+   private final GenericConstraintExtractor extractor;
    private final AnnotationConverter converter;
    private final ParameterBuilder builder;
-   private final TypeIndexer indexer;
    
    public SignatureGenerator(TypeIndexer indexer) {
+      this.extractor = new GenericConstraintExtractor(indexer);
       this.converter = new AnnotationConverter();
       this.builder = new ParameterBuilder();
-      this.indexer = indexer;
    }
 
    public Signature generate(Type type, Method method) {
-      Class[] types = method.getParameterTypes();
+      Constraint[] constraints = extractor.extractParameters(method);
       Object[][] annotations = method.getParameterAnnotations();
       Module module = type.getModule();
-      boolean variable = method.isVarArgs();
+      boolean variable = method.isVarArgs();      
       
       try {
          List<Parameter> parameters = new ArrayList<Parameter>();
    
-         for(int i = 0; i < types.length; i++){
-            boolean last = i + 1 == types.length;
-            Type match = indexer.loadType(types[i]);
-            Parameter parameter = builder.create(match, i, variable && last);
+         for(int i = 0; i < constraints.length; i++){
+            boolean last = i + 1 == constraints.length;
+            Constraint constraint = constraints[i];
+            Parameter parameter = builder.create(constraint, i, variable && last);
             Object[] list = annotations[i];
             
             if(list.length > 0) {
@@ -62,7 +63,7 @@ public class SignatureGenerator {
    }
    
    public Signature generate(Type type, Constructor constructor) {
-      Class[] types = constructor.getParameterTypes();
+      Constraint[] constraints = extractor.extractParameters(constructor);
       Object[][] annotations = constructor.getParameterAnnotations();
       Module module = type.getModule();
       boolean variable = constructor.isVarArgs();
@@ -70,10 +71,10 @@ public class SignatureGenerator {
       try {
          List<Parameter> parameters = new ArrayList<Parameter>();
    
-         for(int i = 0; i < types.length; i++){
-            boolean last = i + 1 == types.length;
-            Type match = indexer.loadType(types[i]);
-            Parameter parameter = builder.create(match, i, variable && last);
+         for(int i = 0; i < constraints.length; i++){
+            boolean last = i + 1 == constraints.length;
+            Constraint constraint = constraints[i];
+            Parameter parameter = builder.create(constraint, i, variable && last);
             Object[] list = annotations[i];
             
             if(list.length > 0) {

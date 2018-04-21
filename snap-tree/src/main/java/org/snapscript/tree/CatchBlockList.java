@@ -67,7 +67,7 @@ public class CatchBlockList {
          if(statement != null) {
             ParameterDeclaration declaration = block.getDeclaration();
             Parameter parameter = declaration.get(scope);
-            Constraint constraint = parameter.getType();
+            Constraint constraint = parameter.getConstraint();
             Type type = constraint.getType(scope);
             String name = parameter.getName();
             Table table = scope.getTable();
@@ -89,7 +89,7 @@ public class CatchBlockList {
          CatchBlock block = blocks[i];
          ParameterDeclaration declaration = block.getDeclaration();
          Parameter parameter = declaration.get(scope);
-         Constraint constraint = parameter.getType();
+         Constraint constraint = parameter.getConstraint();
          Type type = constraint.getType(scope);
          String name = parameter.getName();
 

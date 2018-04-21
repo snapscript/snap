@@ -34,11 +34,11 @@ public abstract class Constraint {
    }
 
    public static Constraint getConstraint(Type type) {
-      return new IdentityConstraint(type);
+      return new DeclarationConstraint(type);
    }
    
    public static Constraint getConstraint(Type type, int modifiers) {
-      return new IdentityConstraint(type, modifiers);
+      return new DeclarationConstraint(type, modifiers);
    }
 
    public static Constraint getConstraint(Class type) {
@@ -55,14 +55,6 @@ public abstract class Constraint {
    
    public static Constraint getConstraint(Value value) {
       return new ValueConstraint(value);
-   }
-   
-   public List<Type> getGenerics(Scope scope) {
-      return EMPTY_LIST;
-   }
-   
-   public String getName() {
-      return null;
    }
    
    public boolean isVariable() {
@@ -83,6 +75,14 @@ public abstract class Constraint {
    
    public boolean isConstant() {
       return false;
+   }   
+   
+   public List<Type> getGenerics(Scope scope) {
+      return EMPTY_LIST;
+   }
+   
+   public String getName(Scope  scope) {
+      return null;
    }
    
    public abstract Type getType(Scope scope);

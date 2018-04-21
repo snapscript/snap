@@ -21,7 +21,7 @@ public class ParameterMatchChecker {
          
          if(declaration != null) {
             Parameter parameter = declaration.get(scope);
-            Constraint constraint = parameter.getType();
+            Constraint constraint = parameter.getConstraint();
             Type type = constraint.getType(scope);
             
             if(type != null) {

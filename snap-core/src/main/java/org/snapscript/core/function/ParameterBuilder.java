@@ -1,6 +1,6 @@
 package org.snapscript.core.function;
 
-import org.snapscript.core.type.Type;
+import org.snapscript.core.constraint.Constraint;
 
 public class ParameterBuilder {
    
@@ -12,15 +12,15 @@ public class ParameterBuilder {
       super();
    }
    
-   public Parameter create(Type type, String name) {
+   public Parameter create(Constraint type, String name) {
       return new Parameter(name, type, false);
    }
 
-   public Parameter create(Type type, int index) {
+   public Parameter create(Constraint type, int index) {
       return create(type, index, false);
    }
    
-   public Parameter create(Type type, int index, boolean variable) {
+   public Parameter create(Constraint type, int index, boolean variable) {
       String prefix = PREFIX[index % PREFIX.length];
       
       if(index > PREFIX.length) {

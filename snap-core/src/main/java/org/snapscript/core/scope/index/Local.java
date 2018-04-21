@@ -20,6 +20,4 @@ public abstract class Local extends Value {
    public static Local getReference(Object value, String name, Type type) {
       return new LocalReference(value, name, type);
    }
-   
-   public abstract String getName();
 }

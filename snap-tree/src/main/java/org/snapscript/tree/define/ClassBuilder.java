@@ -2,8 +2,10 @@ package org.snapscript.tree.define;
 
 import static org.snapscript.core.constraint.Constraint.NONE;
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
@@ -47,6 +49,8 @@ public class ClassBuilder {
       Type type = reference.get();
       Type enclosing = outer.getType();
       Scope scope = type.getScope();
+      List<Constraint> generics = name.getGenerics(scope);
+      List<Constraint> constraints = type.getConstraints();
       
       if(enclosing != null) {
          String name = type.getName();
@@ -57,11 +61,11 @@ public class ClassBuilder {
          
          builder.createStaticProperty(body, key, enclosing, NONE);
          state.add(key, value);
-      }
+      }      
+      constraints.addAll(generics);
       annotations.apply(scope, type);
       generator.generate(body, scope, type);
       hierarchy.extend(scope, type); 
-      name.getGenerics(scope); // add generic import aliases
       
       return type;
    }

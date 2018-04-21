@@ -3,9 +3,7 @@ package org.snapscript.core.function;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.snapscript.core.type.Type;
 import org.snapscript.core.annotation.Annotation;
-import org.snapscript.core.constraint.IdentityConstraint;
 import org.snapscript.core.constraint.Constraint;
 
 public class Parameter {
@@ -16,13 +14,13 @@ public class Parameter {
    private final boolean constant;
    private final boolean variable;
    
-   public Parameter(String name, Type constraint, boolean constant){
+   public Parameter(String name, Constraint constraint, boolean constant){
       this(name, constraint, constant, false);
    }
    
-   public Parameter(String name, Type constraint, boolean constant, boolean variable){
-      this.constraint = new IdentityConstraint(constraint);
+   public Parameter(String name, Constraint constraint, boolean constant, boolean variable){
       this.annotations = new ArrayList<Annotation>();
+      this.constraint = constraint;
       this.variable = variable;
       this.constant = constant;
       this.name = name;
@@ -32,7 +30,7 @@ public class Parameter {
       return annotations;
    }
    
-   public Constraint getType() {
+   public Constraint getConstraint() {
       return constraint;
    }
    

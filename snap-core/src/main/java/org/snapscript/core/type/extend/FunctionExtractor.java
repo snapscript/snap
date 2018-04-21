@@ -47,7 +47,7 @@ public class FunctionExtractor {
             
             if(!parameters.isEmpty()) {
                Parameter parameter = parameters.get(0);
-               Constraint constraint = parameter.getType();
+               Constraint constraint = parameter.getConstraint();
                Type type = constraint.getType(scope);
                Class real = type.getType();
             
@@ -83,9 +83,8 @@ public class FunctionExtractor {
          
          for(int i = 1; i < length; i++) {
             Parameter parameter = parameters.get(i);
-            Constraint constraint = parameter.getType();
-            Type type = constraint.getType(scope);
-            Parameter duplicate = builder.create(type, i - 1);
+            Constraint constraint = parameter.getConstraint();
+            Parameter duplicate = builder.create(constraint, i - 1);
             
             copy.add(duplicate);
          }

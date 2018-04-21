@@ -21,7 +21,7 @@ public class ToStringTest extends TestCase {
    "builder.append(point);\n"+
    "\n"+
    "var text = builder.toString();\n"+
-   "\n"+
+   "println(text);\n"+
    "assert text == 'null,1';\n"+
    "\n"+
    "println(point);\n";

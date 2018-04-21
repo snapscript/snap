@@ -7,14 +7,15 @@ import java.util.List;
 
 import org.snapscript.common.CompleteProgress;
 import org.snapscript.common.Progress;
-import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Type;
 import org.snapscript.core.annotation.Annotation;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.property.Property;
+import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Category;
 import org.snapscript.core.type.Phase;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeDescription;
 import org.snapscript.core.type.TypeScope;
 
@@ -54,6 +55,11 @@ public class ScopeArrayType implements Type {
    
    @Override
    public List<Annotation> getAnnotations() {
+      return Collections.emptyList();
+   }
+   
+   @Override
+   public List<Constraint> getConstraints() {
       return Collections.emptyList();
    }
    

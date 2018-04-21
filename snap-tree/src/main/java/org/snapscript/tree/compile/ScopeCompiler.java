@@ -73,7 +73,7 @@ public abstract class ScopeCompiler {
    
    protected Local compileParameter(Scope scope, Parameter parameter) {
       String name = parameter.getName();
-      Constraint constraint = parameter.getType();
+      Constraint constraint = parameter.getConstraint();
       Type result = constraint.getType(scope);
       
       if(parameter.isVariable()) {

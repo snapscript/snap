@@ -32,7 +32,7 @@ public class LocalScopeExtractor {
          State inner = capture.getState();
          
          for(Local local : table){
-            String name = local.getName();
+            String name = local.getName(original);
             
             if(reference) {
                inner.add(name, local); // enable modification of local

@@ -1,35 +1,29 @@
 package org.snapscript.core.type.index;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-
 import org.snapscript.core.PrimitivePromoter;
-import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.type.Any;
+import org.snapscript.core.type.Type;
 
 public class ClassConstraintMapper {
    
    private final PrimitivePromoter promoter;
+   private final TypeIndexer indexer;
    
-   public ClassConstraintMapper() {
+   public ClassConstraintMapper(TypeIndexer indexer) {
       this.promoter = new PrimitivePromoter();
+      this.indexer = indexer;
    }
    
-   public Constraint map(Field field, int modifiers) {
-      Class type = field.getType();   
-      Class real = map(type);
+   public Type map(Class type) {
+      Class real = convert(type);
       
-      return Constraint.getConstraint(real, modifiers);
+      if(real != null) {
+         return indexer.loadType(real);
+      }
+      return null;
    }
    
-   public Constraint map(Method method, int modifiers) {
-      Class type = method.getReturnType();    
-      Class real = map(type);
-      
-      return Constraint.getConstraint(real);        
-   }
-   
-   private Class map(Class type) {
+   private Class convert(Class type) {
       if(type == Object.class) {
          return null;
       }

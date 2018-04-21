@@ -19,8 +19,8 @@ import org.snapscript.core.property.Property;
 
 public class PropertyIndexer {
    
+   private final GenericConstraintExtractor generics;
    private final AnnotationExtractor extractor;
-   private final ClassConstraintMapper mapper;
    private final ClassPropertyBuilder builder;
    private final ModifierConverter converter;
    private final PropertyGenerator generator;
@@ -28,8 +28,8 @@ public class PropertyIndexer {
    private final TypeIndexer indexer;
    
    public PropertyIndexer(TypeIndexer indexer){
+      this.generics = new GenericConstraintExtractor(indexer); 
       this.builder = new ClassPropertyBuilder(indexer);
-      this.mapper = new ClassConstraintMapper();
       this.extractor = new AnnotationExtractor();
       this.converter = new ModifierConverter();
       this.generator = new PropertyGenerator();
@@ -113,7 +113,7 @@ public class PropertyIndexer {
          
          if(ModifierType.isPublic(modifiers) || ModifierType.isProtected(modifiers)) {
             String name = field.getName();           
-            Constraint constraint = mapper.map(field, modifiers);
+            Constraint constraint = generics.extractField(field, modifiers);
             Property property = generator.generate(field, type, constraint, name, modifiers); 
             List<Annotation> extracted = extractor.extract(field);
             List<Annotation> actual = property.getAnnotations();
@@ -143,7 +143,7 @@ public class PropertyIndexer {
                if(write == null) {
                   modifiers |= CONSTANT.mask;
                }
-               Constraint constraint = mapper.map(method, modifiers);
+               Constraint constraint = generics.extractMethod(method, modifiers);
                Property property = generator.generate(method, write, type, constraint, name, modifiers);                
                List<Annotation> extracted = extractor.extract(method);
                List<Annotation> actual = property.getAnnotations();

@@ -3,16 +3,18 @@ package org.snapscript.core.type.index;
 import java.util.List;
 
 import org.snapscript.core.InternalStateException;
-import org.snapscript.core.type.Category;
-import org.snapscript.core.type.Type;
 import org.snapscript.core.annotation.Annotation;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.property.Property;
+import org.snapscript.core.type.Category;
+import org.snapscript.core.type.Type;
 
 public class ClassIndex {
    
    private List<Annotation> annotations;
+   private List<Constraint> constraints;
    private List<Property> properties;
    private List<Function> functions;
    private ClassIndexer indexer;
@@ -26,7 +28,7 @@ public class ClassIndex {
    public ClassIndex(ClassIndexer indexer, ClassType require) {      
       this.indexer = indexer;
       this.require = require;
-   }
+   }   
    
    public List<Annotation> getAnnotations() {
       if(annotations == null) {
@@ -37,6 +39,17 @@ public class ClassIndex {
          }
       }
       return annotations;
+   }
+   
+   public List<Constraint> getConstraints() {
+      if(constraints == null) {
+         try {
+            constraints = indexer.indexConstraints(require);
+         } catch(Exception e) {
+            throw new InternalStateException("Could not index " + require, e);
+         }
+      }
+      return constraints;
    }
 
    public List<Property> getProperties() {
@@ -84,14 +97,14 @@ public class ClassIndex {
    }
    
    public Type getOuter() {
-      if(entry == null) {
+      if(outer == null) {
          try {
-            entry = indexer.indexOuter(require);
+            outer = indexer.indexOuter(require);
          } catch(Exception e) {
             throw new InternalStateException("Could not index " + require, e);
          }
       }
-      return entry;
+      return outer;
    }
 
    public Type getEntry() {

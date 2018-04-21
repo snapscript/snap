@@ -8,6 +8,7 @@ import java.util.List;
 import org.snapscript.common.CompleteProgress;
 import org.snapscript.common.Progress;
 import org.snapscript.core.annotation.Annotation;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.property.Property;
@@ -22,6 +23,7 @@ public class MockType implements Type {
 
    private final TypeDescription description;
    private final List<Annotation> annotations;
+   private final List<Constraint> constraints;
    private final List<Property> properties;
    private final List<Function> functions;
    private final Progress<Phase> progress;
@@ -36,6 +38,7 @@ public class MockType implements Type {
       this.progress = new CompleteProgress<Phase>();
       this.description = new TypeDescription(this);
       this.annotations = new ArrayList<Annotation>();
+      this.constraints = new ArrayList<Constraint>();
       this.properties = new ArrayList<Property>();
       this.functions = new ArrayList<Function>();
       this.types = new ArrayList<Type>();
@@ -54,6 +57,11 @@ public class MockType implements Type {
    @Override
    public List<Annotation> getAnnotations() {
       return annotations;
+   }
+   
+   @Override
+   public List<Constraint> getConstraints() {
+      return constraints;
    }
    
    @Override

@@ -1,5 +1,7 @@
 package org.snapscript.tree.function;
 
+import static org.snapscript.core.constraint.Constraint.NONE;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +36,7 @@ public class ParameterList {
          List<Parameter> parameters = new ArrayList<Parameter>();
          
          if(prefix != null) {
-            Parameter parameter = builder.create(null, prefix); // this is constrained by type
+            Parameter parameter = builder.create(NONE, prefix); // this is constrained by type
             parameters.add(parameter);
          }
          boolean variable = checker.isVariable(scope);

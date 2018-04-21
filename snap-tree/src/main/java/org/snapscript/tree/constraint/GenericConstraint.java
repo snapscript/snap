@@ -6,12 +6,14 @@ import java.util.List;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.constraint.DeclarationConstraint;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.index.Local;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 
-public class GenericConstraint extends Constraint {
+public class GenericConstraint {
 
    private final ConstraintList list;
    private final Evaluation type;
@@ -25,7 +27,6 @@ public class GenericConstraint extends Constraint {
       this.line = line;
    }
    
-   @Override
    public List<Type> getGenerics(Scope scope) {
       try {
          if(list != null) {
@@ -41,14 +42,16 @@ public class GenericConstraint extends Constraint {
       return Collections.emptyList();
    }
    
-   @Override
-   public Type getType(Scope scope) {
+   public Constraint getType(Scope scope) {
       try {
          if(type != null) {
             Value value = type.evaluate(scope, null);
             
             if(value != null) {
-               return value.getValue();
+               String name = value.getName(scope);
+               Type result = value.getValue();
+               
+               return Local.getConstant(result, name, result);
             }
          }
       }catch(Exception e) {

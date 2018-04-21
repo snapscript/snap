@@ -30,7 +30,7 @@ public class SignatureDescription {
          
          for(int i = start; i < size; i++) {
             Parameter parameter = parameters.get(i);
-            Constraint constraint = parameter.getType();
+            Constraint constraint = parameter.getConstraint();
             Type type = constraint.getType(null);
             String name = parameter.getName();
             

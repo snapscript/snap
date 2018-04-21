@@ -27,6 +27,14 @@ public class DeclarationConstraint extends Constraint {
    }
    
    @Override
+   public String getName(Scope scope) {
+      if(constraint != null) {
+         return constraint.getName(scope);
+      }
+      return null;
+   }
+   
+   @Override
    public Type getType(Scope scope) {
       if(constraint != null) {
          return constraint.getType(scope);

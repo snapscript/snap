@@ -13,6 +13,7 @@ import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.Signature;
 import org.snapscript.core.function.index.FunctionIndexer;
 import org.snapscript.core.function.index.FunctionPointer;
+import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeExtractor;
 import org.snapscript.tree.ModifierValidator;
@@ -79,6 +80,7 @@ public class FunctionValidator {
       Signature signature = actual.getSignature();
       List<Parameter> parameters = signature.getParameters();
       Type parent = require.getType();
+      Scope scope = parent.getScope();
       String name = actual.getName();
       int length = parameters.size();
       
@@ -87,8 +89,8 @@ public class FunctionValidator {
          
          for(int i = 0; i < length; i++){
             Parameter parameter = parameters.get(i);
-            Constraint constraint = parameter.getType();
-            Type type = constraint.getType(null);
+            Constraint constraint = parameter.getConstraint();
+            Type type = constraint.getType(scope);
             
             types[i] = type;
          }
@@ -112,6 +114,7 @@ public class FunctionValidator {
       if(!ModifierType.isAbstract(modifiers)) {
          Signature signature = actual.getSignature();
          List<Parameter> parameters = signature.getParameters();
+         Scope scope = parent.getScope();
          String name = actual.getName();
          int length = parameters.size();
          
@@ -120,8 +123,8 @@ public class FunctionValidator {
             
             for(int i = 0; i < length; i++){
                Parameter parameter = parameters.get(i);
-               Constraint constraint = parameter.getType();
-               Type type = constraint.getType(null);
+               Constraint constraint = parameter.getConstraint();
+               Type type = constraint.getType(scope);
                
                types[i] = type;
             }

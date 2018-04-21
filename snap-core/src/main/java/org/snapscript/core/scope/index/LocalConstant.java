@@ -26,7 +26,7 @@ public class LocalConstant extends Local {
    }
    
    @Override
-   public String getName() {
+   public String getName(Scope scope) {
       return name;
    }
    

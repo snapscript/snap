@@ -41,9 +41,11 @@ public class TypeName {
       
       for(Constraint constraint : constraints) {
          Type type = constraint.getType(scope);         
-         String alias = constraint.getName();
+         String alias = constraint.getName(scope);
       
-         manager.addImport(type, alias);         
+         if(alias != null) {
+            manager.addImport(type, alias);            
+         }
       }
       return constraints;
    }

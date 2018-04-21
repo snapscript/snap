@@ -12,22 +12,24 @@ import java.util.List;
 
 import org.snapscript.core.InternalArgumentException;
 import org.snapscript.core.PrimitivePromoter;
-import org.snapscript.core.type.Category;
-import org.snapscript.core.type.Type;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.annotation.AnnotationExtractor;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.link.ImportScanner;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.ModuleRegistry;
 import org.snapscript.core.platform.PlatformProvider;
 import org.snapscript.core.property.Property;
+import org.snapscript.core.type.Category;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.type.extend.ClassExtender;
 
 public class ClassIndexer {
 
    private final ClassHierarchyIndexer hierarchy;
    private final AnnotationExtractor extractor;
+   private final GenericIndexer generics;
    private final MethodIndexer functions;
    private final PropertyIndexer properties;
    private final PrimitivePromoter promoter;
@@ -39,6 +41,7 @@ public class ClassIndexer {
       this.hierarchy = new ClassHierarchyIndexer(indexer);
       this.properties = new PropertyIndexer(indexer);
       this.functions = new MethodIndexer(indexer, extender, provider);
+      this.generics = new GenericIndexer(indexer);
       this.extractor = new AnnotationExtractor();
       this.promoter = new PrimitivePromoter();
       this.scanner = scanner;
@@ -64,6 +67,16 @@ public class ClassIndexer {
          throw new InternalArgumentException("Could not determine type for " + source);
       }
       return extractor.extract(actual);
+   }
+   
+   public List<Constraint> indexConstraints(ClassType type) throws Exception {
+      Class source = type.getType();
+      Class actual = promoter.promote(source);
+      
+      if(actual == null) {
+         throw new InternalArgumentException("Could not determine type for " + source);
+      }
+      return generics.index(actual);
    }
    
    public List<Property> indexProperties(ClassType type) throws Exception {

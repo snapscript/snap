@@ -35,13 +35,13 @@ public class ArgumentMatcher {
          
          for(int i = 0; i < size - 1; i++) {
             Parameter parameter = parameters.get(i);
-            Constraint constraint = parameter.getType();
+            Constraint constraint = parameter.getConstraint();
             Type type = constraint.getType(scope);
             
             converters[i] = matcher.match(type);
          }
          Parameter parameter = parameters.get(size - 1);
-         Constraint constraint = parameter.getType();
+         Constraint constraint = parameter.getConstraint();
          Type type = constraint.getType(scope);
          
          if(type != null) {

@@ -45,8 +45,7 @@ public class MethodIndexer {
             
             if(ModifierType.isPublic(modifiers) || ModifierType.isProtected(modifiers)) {
                String name = method.getName();
-               Class[] parameters = method.getParameterTypes();
-               Function function = generator.generate(type, method, parameters, name, modifiers);
+               Function function = generator.generate(type, method, name, modifiers);
                List<Annotation> extracted = extractor.extract(method);
                List<Annotation> actual = function.getAnnotations();
                

@@ -1,5 +1,7 @@
 package org.snapscript.tree.function;
 
+import static org.snapscript.core.constraint.Constraint.NONE;
+
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.scope.Scope;
@@ -63,8 +65,8 @@ public class ParameterDeclaration {
          if(type == null) {
             throw new InternalStateException("Constraint for '" +name + "' has not been imported");
          }
-         return new Parameter(name, type, constant, modifier != null);
+         return new Parameter(name, constraint, constant, modifier != null);
       }
-      return new Parameter(name, null, constant, modifier != null);
+      return new Parameter(name, NONE, constant, modifier != null);
    }
 }

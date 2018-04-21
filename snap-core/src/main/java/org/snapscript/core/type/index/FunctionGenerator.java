@@ -3,7 +3,6 @@ package org.snapscript.core.type.index;
 import java.lang.reflect.Method;
 
 import org.snapscript.core.InternalStateException;
-import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
@@ -11,22 +10,23 @@ import org.snapscript.core.function.InvocationFunction;
 import org.snapscript.core.function.Signature;
 import org.snapscript.core.platform.Platform;
 import org.snapscript.core.platform.PlatformProvider;
+import org.snapscript.core.type.Type;
 
 public class FunctionGenerator {
    
+   private final GenericConstraintExtractor extractor;
    private final SignatureGenerator generator;
    private final DefaultMethodChecker checker;
-   private final ClassConstraintMapper mapper;
    private final PlatformProvider provider;
    
    public FunctionGenerator(TypeIndexer indexer, PlatformProvider provider) {
-      this.generator = new SignatureGenerator(indexer);
-      this.mapper = new ClassConstraintMapper();
+      this.extractor = new GenericConstraintExtractor(indexer); 
+      this.generator = new SignatureGenerator(indexer);     
       this.checker = new DefaultMethodChecker();
       this.provider = provider;
    }
 
-   public Function generate(Type type, Method method, Class[] types, String name, int modifiers) {
+   public Function generate(Type type, Method method, String name, int modifiers) {
       Signature signature = generator.generate(type, method);
 
       try {
@@ -38,7 +38,7 @@ public class FunctionGenerator {
          } else {
             invocation = new MethodInvocation(invocation, method);
          }
-         Constraint constraint = mapper.map(method, modifiers);
+         Constraint constraint = extractor.extractMethod(method, modifiers);
          
          if(!method.isAccessible()) {
             method.setAccessible(true);

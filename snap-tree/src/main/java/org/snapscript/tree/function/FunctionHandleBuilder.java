@@ -2,12 +2,11 @@ package org.snapscript.tree.function;
 
 import static org.snapscript.core.ModifierType.PUBLIC;
 import static org.snapscript.core.Reserved.DEFAULT_PARAMETER;
+import static org.snapscript.core.constraint.Constraint.NONE;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.snapscript.core.module.Module;
-import org.snapscript.core.type.Type;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionSignature;
 import org.snapscript.core.function.FunctionType;
@@ -16,6 +15,8 @@ import org.snapscript.core.function.InvocationFunction;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.Signature;
 import org.snapscript.core.function.bind.FunctionMatcher;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.type.Type;
 
 public class FunctionHandleBuilder {
    
@@ -24,7 +25,7 @@ public class FunctionHandleBuilder {
    private final boolean constructor;
    
    public FunctionHandleBuilder(FunctionMatcher matcher, boolean constructor) {
-      this.parameter = new Parameter(DEFAULT_PARAMETER, null, false, true);
+      this.parameter = new Parameter(DEFAULT_PARAMETER, NONE, false, true);
       this.constructor = constructor;
       this.matcher = matcher;
    }

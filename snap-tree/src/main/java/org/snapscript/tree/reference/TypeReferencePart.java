@@ -7,8 +7,8 @@ import org.snapscript.core.InternalStateException;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.index.Local;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.type.TypeExtractor;
 import org.snapscript.core.variable.Value;
 import org.snapscript.tree.NameReference;
@@ -74,7 +74,7 @@ public class TypeReferencePart implements Compilation {
          if(result == null) {
             throw new InternalStateException("No type found for '" + name + "' in '" + module + "'"); // class not found
          }
-         return Value.getTransient(result);
+         return Local.getConstant(result, name);
       }
       
       private Value create(Scope scope, Type type) throws Exception {
@@ -85,7 +85,7 @@ public class TypeReferencePart implements Compilation {
          if(result == null) {
             throw new InternalStateException("No type found for '" + parent + "." + name + "' in '" + module + "'"); // class not found
          }
-         return Value.getTransient(result);
+         return Local.getConstant(result, parent + "$"+name);
       }
    }
 }

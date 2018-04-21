@@ -34,6 +34,7 @@ public class TypeConstraint implements Compilation {
    
       private GenericConstraint constraint;
       private List<Type> list;
+      private String name;
       private Type type;
       private Path path;
       private int line;
@@ -60,14 +61,29 @@ public class TypeConstraint implements Compilation {
       @Override
       public Type getType(Scope scope) {
          if(type == null) {
-            Type result = constraint.getType(scope);
+            Constraint result = constraint.getType(scope);
             
             if(result == null) {
                throw new InternalStateException("No constraint in " + path + " at line " + line);
             }
-            type = result;
+            name = result.getName(scope);
+            type = result.getType(scope);
          }
          return type;
+      }
+      
+      @Override
+      public String getName(Scope scope) {
+         if(type == null) {
+            Constraint result = constraint.getType(scope);
+            
+            if(result == null) {
+               throw new InternalStateException("No constraint in " + path + " at line " + line);
+            }
+            name = result.getName(scope);
+            type = result.getType(scope);
+         }
+         return name;
       }
    }
 }

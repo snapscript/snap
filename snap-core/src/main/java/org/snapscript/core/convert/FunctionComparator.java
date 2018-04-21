@@ -72,8 +72,8 @@ public class FunctionComparator {
    }
    
    private Score compare(Parameter actual, Parameter constraint) throws Exception{
-      Constraint actualConstraint  = actual.getType();
-      Constraint constraintConstraint = constraint.getType();
+      Constraint actualConstraint  = actual.getConstraint();
+      Constraint constraintConstraint = constraint.getConstraint();
       Type actualType  = actualConstraint.getType(null);
       Type constraintType = constraintConstraint.getType(null);
       ConstraintConverter converter = matcher.match(actualType);

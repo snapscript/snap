@@ -74,7 +74,7 @@ public class ParameterExtractor {
    private Local create(Scope scope, Object value, int index) throws Exception {
       List<Parameter> parameters = signature.getParameters();
       Parameter parameter = parameters.get(index);
-      Constraint constraint = parameter.getType();
+      Constraint constraint = parameter.getConstraint();
       Type type = constraint.getType(scope);
       String name = parameter.getName();
       int length = parameters.size();
@@ -97,7 +97,7 @@ public class ParameterExtractor {
    }
    
    private Local create(Scope scope, Object value, Parameter parameter) throws Exception {
-      Constraint constraint = parameter.getType();
+      Constraint constraint = parameter.getConstraint();
       Type type = constraint.getType(scope);
       String name = parameter.getName();
       
