@@ -1,7 +1,5 @@
 package org.snapscript.core.constraint;
 
-import java.util.List;
-
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
@@ -53,5 +51,10 @@ public class DeclarationConstraint extends Constraint {
    @Override
    public boolean isClass(){
       return ModifierType.isClass(modifiers);
+   }
+   
+   @Override
+   public String toString() {
+      return String.valueOf(type);
    }
 }

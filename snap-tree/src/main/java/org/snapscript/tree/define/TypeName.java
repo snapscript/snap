@@ -44,7 +44,10 @@ public class TypeName {
          String alias = constraint.getName(scope);
       
          if(alias != null) {
-            manager.addImport(type, alias);            
+            Type parent = scope.getType();
+            String prefix = parent.getName();
+            
+            manager.addImport(type, prefix +'$' +alias);            
          }
       }
       return constraints;

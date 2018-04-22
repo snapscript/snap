@@ -62,7 +62,7 @@ public class SearchPathFinderTest extends TestCase {
       typesD.add(Constraint.getConstraint(j));
       typesD.add(Constraint.getConstraint(k));
       
-      List<Type> types = finder.findPath(d, "x");
+      List<Type> types = finder.findPath(d);
       
       System.err.println(types);
       

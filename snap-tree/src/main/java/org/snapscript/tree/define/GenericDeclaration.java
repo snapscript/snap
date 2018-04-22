@@ -24,16 +24,14 @@ public class GenericDeclaration {
    
    public Constraint getGeneric(Scope scope) throws Exception {
       String parameter = reference.getName(scope);
-      Type type = scope.getType();
-      String name = type.getName();
       
       if(constraint != null) {
          Type bound = constraint.getType(scope);
          
          if(bound != null) {
-            return new GenericParameter(name +"$" +parameter, constraint);
+            return new GenericParameter(parameter, constraint);
          }
       }
-      return new GenericParameter(name +"$" +parameter, OBJECT);
+      return new GenericParameter(parameter, OBJECT);
    }
 }

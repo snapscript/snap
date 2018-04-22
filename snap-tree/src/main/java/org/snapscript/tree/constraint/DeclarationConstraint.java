@@ -87,4 +87,9 @@ public class DeclarationConstraint extends Constraint {
    public boolean isConstant() {
       return ModifierType.isConstant(modifiers);
    }
+   
+   @Override
+   public String toString() {
+      return String.valueOf(constraint);
+   }
 }

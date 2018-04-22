@@ -47,4 +47,8 @@ public class TypeConstraint extends Constraint {
       return name;
    }
 
+   @Override
+   public String toString() {
+      return String.valueOf(constraint);
+   }
 }

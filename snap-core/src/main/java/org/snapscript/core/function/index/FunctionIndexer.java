@@ -51,7 +51,7 @@ public class FunctionIndexer {
    }
    
    private TypeIndex build(Type type, String name) throws Exception { 
-      List<Type> path = finder.findPath(type, name); 
+      List<Type> path = finder.findPath(type); 
       FunctionIndex implemented = builder.create(type);
       FunctionIndex abstracts = builder.create(type);
       int size = path.size();

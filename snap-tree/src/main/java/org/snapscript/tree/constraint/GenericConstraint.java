@@ -27,11 +27,12 @@ public class GenericConstraint implements Compilation {
 
    @Override
    public Object compile(Module module, Path path, int line) throws Exception {
-      return new CompileResult(evaluation, list, path, line);
+      return new CompileResult(evaluation, list, module, path, line);
    }
    
    private static class CompileResult extends Constraint { 
    
+      private ConstraintDescription description;
       private ConstraintDeclaration constraint;
       private List<Constraint> list;
       private String name;
@@ -39,8 +40,9 @@ public class GenericConstraint implements Compilation {
       private Path path;
       private int line;
       
-      public CompileResult(Evaluation constraint, ConstraintList list, Path path, int line) {
+      public CompileResult(Evaluation constraint, ConstraintList list, Module module, Path path, int line) {
          this.constraint = new ConstraintDeclaration(constraint, list, path, line);
+         this.description = new ConstraintDescription(this, module);
          this.path = path;
          this.line = line;
       }
@@ -74,7 +76,7 @@ public class GenericConstraint implements Compilation {
       
       @Override
       public String getName(Scope scope) {
-         if(type == null) {
+         if(name == null) {
             Constraint result = constraint.getType(scope);
             
             if(result == null) {
@@ -84,6 +86,11 @@ public class GenericConstraint implements Compilation {
             type = result.getType(scope);
          }
          return name;
+      }
+      
+      @Override
+      public String toString() {
+         return description.toString();
       }
    }
 }

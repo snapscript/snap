@@ -23,26 +23,31 @@ public class FunctionPathFinder {
       this.loader = new AnyLoader();
    }
 
-   public List<Type> findPath(Type type, String name) {
+   public List<Type> findPath(Type type) {
       List<Type> path = paths.fetch(type);
-      Class real = type.getType();
       
       if(path == null) {
          List<Type> result = new ArrayList<Type>();
       
-         findClasses(type, result);
-      
-         if(real == null) {
-            findTraits(type, result);
-         }
-         Scope scope = type.getScope();
-         Type base = loader.loadType(scope);
-         
-         result.add(base); // any is very last
+         findTypes(type, result);
          paths.cache(type, result);
+         
          return result;
       }
       return path;
+   }
+
+   private void findTypes(Type type, List<Type> done) {
+      Scope scope = type.getScope();
+      Type base = loader.loadType(scope);
+      Class real = type.getType();
+      
+      findClasses(type, done);
+      
+      if(real == null) {
+         findTraits(type, done);
+      }
+      done.add(base); // any is very last
    }
    
    private void findTraits(Type type, List<Type> done) {
@@ -50,11 +55,12 @@ public class FunctionPathFinder {
       Iterator<Constraint> iterator = types.iterator();
       
       if(iterator.hasNext()) {
-         Constraint next = iterator.next(); // next in line, i.e base
          Scope scope = type.getScope();
+         Constraint next = iterator.next(); // next in line, i.e base
          
-         for(Constraint entry : types) {
-            Type match = entry.getType(scope);
+         while(iterator.hasNext()) {
+            Constraint trait = iterator.next();
+            Type match = trait.getType(scope);
             
             if(!done.contains(match)) {
                done.add(match);

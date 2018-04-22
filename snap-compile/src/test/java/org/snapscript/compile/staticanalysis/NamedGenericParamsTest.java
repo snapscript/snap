@@ -80,9 +80,9 @@ public class NamedGenericParamsTest extends TestCase {
       assertEquals(constraints.get(0).getType(scope).getName(), "String");
       assertEquals(constraints.get(1).getType(scope).getName(), "Object");
       assertEquals(constraints.get(2).getType(scope).getName(), "Integer");
-      assertEquals(constraints.get(0).getName(scope), "SomeType$A");
-      assertEquals(constraints.get(1).getName(scope), "SomeType$B");
-      assertEquals(constraints.get(2).getName(scope), "SomeType$C");
+      assertEquals(constraints.get(0).getName(scope), "A");
+      assertEquals(constraints.get(1).getName(scope), "B");
+      assertEquals(constraints.get(2).getName(scope), "C");
       
       Constraint returnA = context.getBinder().bind("getReturnA").match(scope, Constraint.getConstraint(type)).compile(scope, Constraint.getConstraint(type));
       Constraint returnB = context.getBinder().bind("getReturnB").match(scope, Constraint.getConstraint(type)).compile(scope, Constraint.getConstraint(type));

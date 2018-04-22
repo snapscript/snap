@@ -30,7 +30,7 @@ public class TypeStaticIndexer {
       FunctionIndex match = indexes.fetch(type);
       
       if(match == null) {
-         List<Type> path = finder.findPath(type, name); 
+         List<Type> path = finder.findPath(type); 
          FunctionIndex table = builder.create(type);
          int size = path.size();
 
@@ -59,7 +59,7 @@ public class TypeStaticIndexer {
       FunctionIndex match = indexes.fetch(type);
       
       if(match == null) {
-         List<Type> path = finder.findPath(type, name); 
+         List<Type> path = finder.findPath(type); 
          FunctionIndex table = builder.create(type);
          int size = path.size();
 
