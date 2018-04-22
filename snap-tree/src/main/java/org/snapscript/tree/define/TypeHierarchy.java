@@ -3,6 +3,7 @@ package org.snapscript.tree.define;
 import java.util.List;
 
 import org.snapscript.core.InternalStateException;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.AnyLoader;
 import org.snapscript.core.type.Type;
@@ -26,19 +27,20 @@ public class TypeHierarchy {
    }
 
    public void extend(Scope scope, Type type) throws Exception {
-      List<Type> types = type.getTypes();
+      List<Constraint> types = type.getTypes();
       
       if(base != null) {
-         Type constraint = base.getType(scope);
+         Type match = base.getType(scope);
          
-         if(constraint == null) {
+         if(match == null) {
             throw new InternalStateException("Type '" + type + "' could not resolve base");
          }
-         types.add(constraint);  
+         types.add(base);  
       }else {
-         Type constraint = loader.loadType(scope);
+         Type match = loader.loadType(scope);
+         Constraint constraint = Constraint.getConstraint(match);
          
-         if(constraint == null) {
+         if(match == null) {
             throw new InternalStateException("Type '" + type + "' could not be defined");
          }
          types.add(constraint);
@@ -47,10 +49,11 @@ public class TypeHierarchy {
    }
 
    private void with(Scope scope, Type type) throws Exception {
-      List<Type> types = type.getTypes();
+      List<Constraint> types = type.getTypes();
       
       for(int i = 0; i < traits.length; i++) {
-         Type trait = traits[i].getType(scope);
+         Constraint constraint = traits[i];
+         Type trait = constraint.getType(scope);
          
          if(trait != null) {
             Class base = trait.getType();
@@ -60,7 +63,7 @@ public class TypeHierarchy {
                   throw new InternalStateException("Type '" + trait + "' is not a trait for '" + type + "'");
                }
             }
-            types.add(trait);
+            types.add(constraint);
          }
       }
    }

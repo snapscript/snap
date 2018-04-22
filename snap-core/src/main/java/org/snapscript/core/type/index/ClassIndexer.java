@@ -49,7 +49,7 @@ public class ClassIndexer {
       this.indexer = indexer;
    }
    
-   public List<Type> indexTypes(ClassType type) throws Exception {
+   public List<Constraint> indexTypes(ClassType type) throws Exception {
       Class source = type.getType();
       Class actual = promoter.promote(source);
       

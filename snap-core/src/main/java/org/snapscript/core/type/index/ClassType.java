@@ -62,7 +62,7 @@ public class ClassType implements Type {
    }
 
    @Override
-   public List<Type> getTypes() {
+   public List<Constraint> getTypes() {
       return index.getTypes();
    }
    

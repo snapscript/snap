@@ -24,8 +24,8 @@ public class ScopeType implements Type {
    private final List<Constraint> constraints;
    private final List<Property> properties;
    private final List<Function> functions;
+   private final List<Constraint> types;
    private final Progress<Phase> progress;
-   private final List<Type> types;
    private final Category category;
    private final Module module;
    private final Scope scope;
@@ -39,8 +39,8 @@ public class ScopeType implements Type {
       this.constraints = new ArrayList<Constraint>();
       this.properties = new ArrayList<Property>();
       this.functions = new ArrayList<Function>();
+      this.types = new ArrayList<Constraint>();
       this.progress = new LockProgress<Phase>();
-      this.types = new ArrayList<Type>();
       this.scope = new TypeScope(this);
       this.category = category;
       this.module = module;
@@ -75,7 +75,7 @@ public class ScopeType implements Type {
    }
    
    @Override
-   public List<Type> getTypes(){
+   public List<Constraint> getTypes(){
       return types;
    }
    

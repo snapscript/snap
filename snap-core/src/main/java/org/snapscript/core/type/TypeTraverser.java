@@ -6,8 +6,9 @@ import java.util.List;
 import java.util.Set;
 
 import org.snapscript.core.InternalStateException;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.module.Module;
-import org.snapscript.core.type.Type;
+import org.snapscript.core.scope.Scope;
 
 public class TypeTraverser {
    
@@ -37,14 +38,17 @@ public class TypeTraverser {
    }
    
    private Set<Type> findHierarchy(Type root, Type type, Set<Type> list) {
-      List<Type> types = type.getTypes();
+      List<Constraint> types = type.getTypes();
+      Scope scope = type.getScope();
       
       if(list.add(type)) {
-         for(Type entry : types) {
-            if(entry == root) { 
+         for(Constraint entry : types) {
+            Type match = entry.getType(scope);
+            
+            if(match == root) { 
                throw new InternalStateException("Hierarchy for '" + type + "' contains a cycle");
             }
-            findHierarchy(root, entry, list);
+            findHierarchy(root, match, list);
          }
       }
       return list;
@@ -78,11 +82,14 @@ public class TypeTraverser {
    }
    
    private Type findHierarchy(Type type, String name, Set<Type> done) {
-      List<Type> types = type.getTypes(); // do not use extractor here
+      List<Constraint> types = type.getTypes(); // do not use extractor here
+      Scope scope = type.getScope();
       
-      for(Type base : types) {
-         if(done.add(base)) { // avoid loop
-            Type result = findEnclosing(base, name, done);
+      for(Constraint base : types) {
+         Type match = base.getType(scope);
+         
+         if(done.add(match)) { // avoid loop
+            Type result = findEnclosing(match, name, done);
             
             if(result != null) {
                return result;

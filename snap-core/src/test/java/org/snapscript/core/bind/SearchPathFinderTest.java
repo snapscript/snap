@@ -7,6 +7,7 @@ import junit.framework.TestCase;
 import org.snapscript.core.Context;
 import org.snapscript.core.MockContext;
 import org.snapscript.core.MockType;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.index.FunctionPathFinder;
 import org.snapscript.core.module.EmptyModule;
 import org.snapscript.core.module.Module;
@@ -44,22 +45,22 @@ public class SearchPathFinderTest extends TestCase {
       Type j = new MockType(module, "J", null, null);
       Type k = new MockType(module, "K", null, null);
       
-      List<Type> typesA = a.getTypes();
-      List<Type> typesB = b.getTypes();
-      List<Type> typesC = c.getTypes();
-      List<Type> typesD = d.getTypes();
+      List<Constraint> typesA = a.getTypes();
+      List<Constraint> typesB = b.getTypes();
+      List<Constraint> typesC = c.getTypes();
+      List<Constraint> typesD = d.getTypes();
       
-      typesB.add(a); // class B extends A with X,Y,Z
-      typesB.add(x);
-      typesB.add(y);
-      typesB.add(z);
+      typesB.add(Constraint.getConstraint(a)); // class B extends A with X,Y,Z
+      typesB.add(Constraint.getConstraint(x));
+      typesB.add(Constraint.getConstraint(y));
+      typesB.add(Constraint.getConstraint(z));
       
-      typesC.add(b); // class C extends B
+      typesC.add(Constraint.getConstraint(b)); // class C extends B
       
-      typesD.add(c); // class D extends C with I,J,K
-      typesD.add(i);
-      typesD.add(j);
-      typesD.add(k);
+      typesD.add(Constraint.getConstraint(c)); // class D extends C with I,J,K
+      typesD.add(Constraint.getConstraint(i));
+      typesD.add(Constraint.getConstraint(j));
+      typesD.add(Constraint.getConstraint(k));
       
       List<Type> types = finder.findPath(d, "x");
       

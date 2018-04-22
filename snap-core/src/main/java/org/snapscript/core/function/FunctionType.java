@@ -67,7 +67,7 @@ public class FunctionType implements Type {
    }
 
    @Override
-   public List<Type> getTypes() {
+   public List<Constraint> getTypes() {
       return Collections.emptyList();
    }
    

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.constraint.ConstraintVerifier;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
@@ -20,6 +21,7 @@ public class ClassBuilder {
    private final AtomicReference<Type> reference;
    private final ClassPropertyGenerator generator;
    private final ConstantPropertyBuilder builder;
+   private final ConstraintVerifier verifier;
    private final AnnotationList annotations;
    private final TypeHierarchy hierarchy;
    private final TypeName name;
@@ -29,6 +31,7 @@ public class ClassBuilder {
       this.reference = new AtomicReference<Type>();
       this.generator = new ClassPropertyGenerator();
       this.builder = new ConstantPropertyBuilder();
+      this.verifier = new ConstraintVerifier();
       this.annotations = annotations;
       this.hierarchy = hierarchy;
       this.category = category;
@@ -71,6 +74,12 @@ public class ClassBuilder {
    }
    
    public Type compile(TypeBody body, Scope outer) throws Exception {
-      return reference.get();
+      Type type = reference.get();
+      List<Constraint> types = type.getTypes();
+      
+      for(Constraint base : types) {
+         verifier.verify(outer, base);
+      }
+      return type;
    }
 }

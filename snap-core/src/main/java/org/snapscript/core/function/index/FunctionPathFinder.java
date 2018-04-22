@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.TypeInspector;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.AnyLoader;
@@ -45,33 +46,42 @@ public class FunctionPathFinder {
    }
    
    private void findTraits(Type type, List<Type> done) {
-      List<Type> types = type.getTypes();
-      Iterator<Type> iterator = types.iterator();
+      List<Constraint> types = type.getTypes();
+      Iterator<Constraint> iterator = types.iterator();
       
       if(iterator.hasNext()) {
-         Type next = iterator.next(); // next in line, i.e base
+         Constraint next = iterator.next(); // next in line, i.e base
+         Scope scope = type.getScope();
          
-         for(Type entry : types) {
-            if(!done.contains(entry)) {
-               done.add(entry);
+         for(Constraint entry : types) {
+            Type match = entry.getType(scope);
+            
+            if(!done.contains(match)) {
+               done.add(match);
             }
          }
-         findTraits(next, done);
+         Type match = next.getType(scope);
+         
+         if(!done.contains(match)) {
+            findTraits(match, done);
+         }
       }
    }
    
    private void findClasses(Type type, List<Type> done) {
-      List<Type> types = type.getTypes();
-      Iterator<Type> iterator = types.iterator();
+      List<Constraint> types = type.getTypes();
+      Iterator<Constraint> iterator = types.iterator();
+      Scope scope = type.getScope();
       
       if(!inspector.isProxy(type) && !inspector.isAny(type)) {
          done.add(type);
       }
       while(iterator.hasNext()) {
-         Type next = iterator.next();
+         Constraint next = iterator.next();
+         Type match = next.getType(scope);
          
-         if(!done.contains(next)) {
-            findClasses(next, done);
+         if(!done.contains(match)) {
+            findClasses(match, done);
          }
       }
    }

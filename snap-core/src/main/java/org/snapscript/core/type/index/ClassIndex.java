@@ -17,8 +17,8 @@ public class ClassIndex {
    private List<Constraint> constraints;
    private List<Property> properties;
    private List<Function> functions;
+   private List<Constraint> types;
    private ClassIndexer indexer;
-   private List<Type> types;
    private ClassType require;
    private Category category;
    private Module module;
@@ -74,7 +74,7 @@ public class ClassIndex {
       return functions;
    }
    
-   public List<Type> getTypes() {
+   public List<Constraint> getTypes() {
       if(types == null) {
          try {
             types = indexer.indexTypes(require);

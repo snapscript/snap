@@ -26,8 +26,8 @@ public class MockType implements Type {
    private final List<Constraint> constraints;
    private final List<Property> properties;
    private final List<Function> functions;
+   private final List<Constraint> types;
    private final Progress<Phase> progress;
-   private final List<Type> types;
    private final Module module;
    private final Scope scope;
    private final Class type;
@@ -41,7 +41,7 @@ public class MockType implements Type {
       this.constraints = new ArrayList<Constraint>();
       this.properties = new ArrayList<Property>();
       this.functions = new ArrayList<Function>();
-      this.types = new ArrayList<Type>();
+      this.types = new ArrayList<Constraint>();
       this.scope = new TypeScope(this);
       this.module = module;
       this.entry = entry;
@@ -75,7 +75,7 @@ public class MockType implements Type {
    }
    
    @Override
-   public List<Type> getTypes(){
+   public List<Constraint> getTypes(){
       return types;
    }
    

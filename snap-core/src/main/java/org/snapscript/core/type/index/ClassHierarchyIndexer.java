@@ -6,6 +6,7 @@ import static org.snapscript.core.Reserved.DEFAULT_PACKAGE;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.type.Type;
 
 public class ClassHierarchyIndexer {
@@ -16,32 +17,25 @@ public class ClassHierarchyIndexer {
       this.indexer = indexer;
    }
    
-   public List<Type> index(Class source) throws Exception {
-      List<Type> hierarchy = new ArrayList<Type>();
+   public List<Constraint> index(Class source) throws Exception {
+      List<Constraint> hierarchy = new ArrayList<Constraint>();
       
       if(source == Object.class) {
          Type base = indexer.loadType(DEFAULT_PACKAGE, ANY_TYPE);
-         
-         if(base != null) {
-            hierarchy.add(base);
-         }
+         Constraint constraint = Constraint.getConstraint(base);
+
+         hierarchy.add(constraint);
       } else {
          Class[] interfaces = source.getInterfaces();
          Class base = source.getSuperclass(); // the super class
          
          if(base != null) {
-            Type type = indexer.loadType(base); // the super type
-         
-            if(type != null) {
-               hierarchy.add(type);
-            }
+            Constraint constraint = Constraint.getConstraint(base);
+            hierarchy.add(constraint);
          }
          for (Class entry : interfaces) {
-            Type type = indexer.loadType(entry);
-            
-            if(type != null) {
-               hierarchy.add(type);
-            }
+            Constraint constraint = Constraint.getConstraint(entry);
+            hierarchy.add(constraint);
          }
       }
       return hierarchy;

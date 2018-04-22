@@ -1,5 +1,6 @@
 package org.snapscript.tree.condition;
 
+import org.snapscript.core.convert.InstanceOfChecker;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.variable.BooleanValue;
 import org.snapscript.core.variable.Value;

@@ -16,7 +16,7 @@ public interface Type extends Any {
    List<Annotation> getAnnotations();
    List<Property> getProperties();
    List<Function> getFunctions();
-   List<Type> getTypes();
+   List<Constraint> getTypes();
    Category getCategory();
    Module getModule();
    Scope getScope();

@@ -2,6 +2,8 @@ package org.snapscript.core.scope.instance;
 
 import java.util.List;
 
+import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 
 public class SuperExtractor {
@@ -11,10 +13,11 @@ public class SuperExtractor {
    }
    
    public Type extractor(Type type) {
-      List<Type> types = type.getTypes();
+      List<Constraint> types = type.getTypes();
+      Scope scope = type.getScope();
       
-      for(Type base : types) {
-         return base;
+      for(Constraint base : types) {
+         return base.getType(scope);
       }
       return null;
    }

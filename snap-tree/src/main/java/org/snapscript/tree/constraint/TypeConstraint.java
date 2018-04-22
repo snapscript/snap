@@ -12,7 +12,6 @@ public class TypeConstraint extends Constraint {
    private Constraint constraint;
    private String name;
    private Type type;
-
    
    public TypeConstraint(Constraint constraint) {
       this.constraint = constraint;

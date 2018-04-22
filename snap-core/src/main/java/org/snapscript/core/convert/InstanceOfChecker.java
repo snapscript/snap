@@ -1,4 +1,4 @@
-package org.snapscript.tree.condition;
+package org.snapscript.core.convert;
 
 import java.util.Set;
 
@@ -16,6 +16,28 @@ public class InstanceOfChecker {
    public InstanceOfChecker() {
       this.promoter = new PrimitivePromoter();
    }
+   
+   public boolean isInstanceOf(Scope scope, Type instance, Type constraint) {
+      if (constraint != null && instance != null) {
+         try {
+            Module module = scope.getModule();
+            Context context = module.getContext();
+            TypeExtractor extractor = context.getExtractor();
+            Set<Type> types = extractor.getTypes(instance);
+
+            if (!types.contains(constraint)) {
+               Class actualType = instance.getType();
+               Class requireType = constraint.getType();
+
+               return isInstanceOf(scope, actualType, requireType);
+            }
+            return true;
+         } catch (Exception e) {
+            return false;
+         }
+      }
+      return false;
+   }
 
    public boolean isInstanceOf(Scope scope, Object instance, Object constraint) {
       if (constraint != null && instance != null) {
@@ -24,16 +46,9 @@ public class InstanceOfChecker {
             Context context = module.getContext();
             TypeExtractor extractor = context.getExtractor();
             Type actual = extractor.getType(instance);
-            Set<Type> types = extractor.getTypes(actual);
             Type require = (Type) constraint;
 
-            if (!types.contains(require)) {
-               Class actualType = actual.getType();
-               Class requireType = require.getType();
-
-               return isInstanceOf(scope, actualType, requireType);
-            }
-            return true;
+            return isInstanceOf(scope, actual, require);
          } catch (Exception e) {
             return false;
          }
