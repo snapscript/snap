@@ -12,14 +12,14 @@ import org.snapscript.core.scope.index.Local;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 
-public class GenericConstraintDeclaration {
+public class ConstraintDeclaration {
 
    private final ConstraintList list;
    private final Evaluation type;
    private final Path path;
    private final int line;
    
-   public GenericConstraintDeclaration(Evaluation type, ConstraintList list, Path path, int line) {
+   public ConstraintDeclaration(Evaluation type, ConstraintList list, Path path, int line) {
       this.type = type;
       this.list = list;
       this.path = path;

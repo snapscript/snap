@@ -10,6 +10,9 @@ public class ExpressionParseTest extends TestCase {
       SyntaxParser tree = LexerBuilder.create(GRAMMAR_FILE);
 
       assertNotNull(tree);
+      analyze(tree, "class X<T> extends Y{}", "class-definition");
+      analyze(tree, "class X extends Y{}", "class-definition");
+      analyze(tree, "class X<T> extends Y<T>{}", "class-definition");
       analyze(tree, "x: Foo<X> = null", "declaration");
       analyze(tree, "Foo<X>", "constraint");
       analyze(tree, "var x = 1;", "declaration-statement");

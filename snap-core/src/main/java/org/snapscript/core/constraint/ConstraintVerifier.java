@@ -37,7 +37,7 @@ public class ConstraintVerifier {
                if(genericType != null && constraintType == null) {
                   throw new InternalStateException("Generic parameter '" + constraintType + "' does not match '" + genericType + "'");
                }
-               if(checker.isInstanceOf(scope, constraintType, genericType)) {
+               if(!checker.isInstanceOf(scope, constraintType, genericType)) {
                   throw new InternalStateException("Generic parameter '" + constraintType + "' does not match '" + genericType + "'");
                }
             }

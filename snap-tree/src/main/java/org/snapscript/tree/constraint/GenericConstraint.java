@@ -32,7 +32,7 @@ public class GenericConstraint implements Compilation {
    
    private static class CompileResult extends Constraint { 
    
-      private GenericConstraintDeclaration constraint;
+      private ConstraintDeclaration constraint;
       private List<Constraint> list;
       private String name;
       private Type type;
@@ -40,7 +40,7 @@ public class GenericConstraint implements Compilation {
       private int line;
       
       public CompileResult(Evaluation constraint, ConstraintList list, Path path, int line) {
-         this.constraint = new GenericConstraintDeclaration(constraint, list, path, line);
+         this.constraint = new ConstraintDeclaration(constraint, list, path, line);
          this.path = path;
          this.line = line;
       }

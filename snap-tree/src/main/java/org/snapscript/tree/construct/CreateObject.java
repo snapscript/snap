@@ -13,7 +13,7 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 import org.snapscript.tree.ArgumentList;
-import org.snapscript.tree.reference.CompiledConstraint;
+import org.snapscript.tree.constraint.CompiledConstraint;
 
 public class CreateObject extends Evaluation {
    

@@ -30,6 +30,22 @@ public class GenericCompileTest extends TestCase {
    "}\n"+
    "class Blah extends Foo<String, Integer>{\n"+
    "}\n";
+   
+   private static final String SOURCE_3 =
+   "class Boo{}\n"+
+   "class Foo<T: Boo>{\n"+
+   "   blah():T{\n"+
+   "      return new Boo();\n"+
+   "   }\n"+
+   "}\n"+
+   "class Blah<T:String> extends Foo<T>{\n"+
+   "   func():T{\n"+
+   "      return 11;\n"+
+   "   }\n"+
+   "}\n"+
+   "println(Foo$T.class);\n"+
+   "println(Blah$T.class);\n";
+
 
    public void testGenericCompile() throws Exception {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
@@ -43,6 +59,19 @@ public class GenericCompileTest extends TestCase {
       try{
          System.err.println(SOURCE_2);
          compiler.compile(SOURCE_2).execute();
+      }catch(Exception e){
+         failure = true;
+         e.printStackTrace();
+      }
+      assertTrue(failure);
+   }
+   
+   public void testGenericCompileBoundsMismatchError() throws Exception {
+      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
+      boolean failure = false;
+      try{
+         System.err.println(SOURCE_3);
+         compiler.compile(SOURCE_3).execute();
       }catch(Exception e){
          failure = true;
          e.printStackTrace();
