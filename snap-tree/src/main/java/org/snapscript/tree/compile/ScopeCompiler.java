@@ -49,9 +49,9 @@ public abstract class ScopeCompiler {
       Type result = constraint.getType(scope);
 
       if(constraint.isConstant()) {
-         return Value.getConstant(null, result);  
+         return Value.getConstant(null, constraint);  
       }
-      return Local.getReference(null, result);      
+      return Local.getReference(null, constraint);      
    }
    
    protected void compileParameters(Scope scope, Function function) {
@@ -74,28 +74,30 @@ public abstract class ScopeCompiler {
    protected Local compileParameter(Scope scope, Parameter parameter) {
       String name = parameter.getName();
       Constraint constraint = parameter.getConstraint();
-      Type result = constraint.getType(scope);
       
       if(parameter.isVariable()) {
-         result = compileArray(scope, result);
+         constraint = compileArray(scope, constraint);
       }
       if(parameter.isConstant()) {
-         return Local.getConstant(null, name, result);  
+         return Local.getConstant(null, name, constraint);  
       }
-      return Local.getReference(null, name, result);      
+      return Local.getReference(null, name, constraint);      
    }
    
-   protected Type compileArray(Scope scope, Type type) {
+   protected Constraint compileArray(Scope scope, Constraint constraint) {
+      Type type = constraint.getType(scope);
+      
       if(type != null) {
          Module module = type.getModule();
          Context context = module.getContext();
          TypeLoader loader = context.getLoader();
          String prefix = module.getName();
-         String name = type.getName();
+         String name = type.getName();         
+         Type array = loader.resolveArrayType(prefix, name, 1);
          
-         return loader.resolveArrayType(prefix, name, 1);
+         return Constraint.getConstraint(array);
       }
-      return null;
+      return constraint;
    }   
    
    public abstract Scope compile(Scope local, Type type, Function function) throws Exception; 

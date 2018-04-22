@@ -28,14 +28,15 @@ public class ArrayDispatcher implements FunctionDispatcher<Object> {
    }
    
    @Override
-   public Constraint compile(Scope scope, Type object, Type... arguments) throws Exception {
-      Type list = builder.convert(object);
+   public Constraint compile(Scope scope, Constraint object, Type... arguments) throws Exception {
+      Type actual = object.getType(scope);
+      Type list = builder.convert(actual);
       FunctionCall call = resolver.resolveInstance(scope, list, name, arguments);
       
       if(call == null) {
-         handler.handleCompileError(INVOKE, scope, object, name, arguments);
+         handler.handleCompileError(INVOKE, scope, actual, name, arguments);
       }
-      return call.check();
+      return call.check(object);
    }
 
    @Override

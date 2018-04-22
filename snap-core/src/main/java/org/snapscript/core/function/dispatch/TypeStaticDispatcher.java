@@ -23,13 +23,14 @@ public class TypeStaticDispatcher implements FunctionDispatcher<Type> {
    }
    
    @Override
-   public Constraint compile(Scope scope, Type type, Type... arguments) throws Exception {   
+   public Constraint compile(Scope scope, Constraint constraint, Type... arguments) throws Exception {
+      Type type = constraint.getType(scope);
       FunctionCall call = resolver.resolveStatic(scope, type, name, arguments);
 
       if(call == null) {
          handler.handleCompileError(INVOKE, scope, type, name, arguments);
       }
-      return call.check();
+      return call.check(constraint);
    } 
 
    @Override

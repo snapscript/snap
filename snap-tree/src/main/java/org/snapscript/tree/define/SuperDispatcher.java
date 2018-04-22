@@ -23,7 +23,7 @@ public class SuperDispatcher implements FunctionDispatcher<Object> {
    }
    
    @Override
-   public Constraint compile(Scope scope, Type object, Type... list) throws Exception {
+   public Constraint compile(Scope scope, Constraint object, Type... list) throws Exception {
       return Constraint.getConstraint(type, CONSTANT.mask);
    }
    
@@ -42,11 +42,12 @@ public class SuperDispatcher implements FunctionDispatcher<Object> {
       if(copy.length > 0) {
          System.arraycopy(list, 1, copy, 0, copy.length);
       }
+      Constraint constraint = Constraint.getConstraint(type);
       PlatformProvider provider = context.getProvider();
       Platform platform = provider.create();
       Invocation invocation = platform.createSuperConstructor(real, type);
       Object instance = invocation.invoke(scope, real, copy);
       
-      return Value.getTransient(instance, type);
+      return Value.getTransient(instance, constraint);
    }
 }

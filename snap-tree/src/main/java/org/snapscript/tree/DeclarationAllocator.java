@@ -29,11 +29,11 @@ public class DeclarationAllocator {
          Type real = object.getType(scope);
          
          if(real != null) {
-            type = converter.compile(scope, real, constraint, name);        
+            object = converter.compile(scope, real, constraint, name);        
          }
-         return assign(scope, name, object, type, modifiers);
+         return assign(scope, name, object, object, modifiers);
       }
-      return declare(scope, name, type, modifiers); // nothing assigned yet
+      return declare(scope, name, constraint, modifiers); // nothing assigned yet
    }
    
    
@@ -50,19 +50,19 @@ public class DeclarationAllocator {
          } else {
             object = original;
          }
-         return assign(scope, name, object, type, modifiers);
+         return assign(scope, name, object, constraint, modifiers);
       }
-      return declare(scope, name, type, modifiers);
+      return declare(scope, name, constraint, modifiers);
    }   
    
-   protected <T extends Value> T declare(Scope scope, String name, Type type, int modifiers) throws Exception {
+   protected <T extends Value> T declare(Scope scope, String name, Constraint type, int modifiers) throws Exception {
       if(ModifierType.isConstant(modifiers)) {
          return (T)Local.getConstant(null, name, type);
       }
       return (T)Local.getReference(null, name, type);
    }
    
-   protected <T extends Value> T assign(Scope scope, String name, Object value, Type type, int modifiers) throws Exception {
+   protected <T extends Value> T assign(Scope scope, String name, Object value, Constraint type, int modifiers) throws Exception {
       if(ModifierType.isConstant(modifiers)) {
          return (T)Local.getConstant(value, name, type);
       }

@@ -109,7 +109,7 @@ public class FunctionInvocation implements Compilation {
       private Constraint compile(Scope scope, String name) throws Exception {
          Type[] array = arguments.compile(scope); 
          FunctionDispatcher dispatcher = matcher.match(scope);
-         Constraint result = dispatcher.compile(scope, null, array);
+         Constraint result = dispatcher.compile(scope, NONE, array);
          
          for(Evaluation evaluation : evaluations) {
             if(result == null) {
@@ -121,10 +121,9 @@ public class FunctionInvocation implements Compilation {
       }
       
       private Constraint compile(Scope scope, String name, Constraint local) throws Exception {
-         Type type = local.getType(scope);
          Type[] array = arguments.compile(scope); 
          FunctionDispatcher dispatcher = matcher.match(scope);
-         Constraint result = dispatcher.compile(scope, type, array);
+         Constraint result = dispatcher.compile(scope, local, array);
          
          for(Evaluation evaluation : evaluations) {
             if(result == null) {

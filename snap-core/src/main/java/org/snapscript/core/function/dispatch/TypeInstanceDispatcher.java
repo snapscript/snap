@@ -23,13 +23,14 @@ public class TypeInstanceDispatcher implements FunctionDispatcher<Object> {
    }
    
    @Override
-   public Constraint compile(Scope scope, Type object, Type... arguments) throws Exception {
+   public Constraint compile(Scope scope, Constraint constraint, Type... arguments) throws Exception {
+      Type object = constraint.getType(scope);
       FunctionCall call = resolver.resolveInstance(scope, object, name, arguments);
       
       if(call == null) {
          handler.handleCompileError(INVOKE, scope, object, name, arguments);
       }
-      return call.check();
+      return call.check(constraint);
    }
    
    @Override

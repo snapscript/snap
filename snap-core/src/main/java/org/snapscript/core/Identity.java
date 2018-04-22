@@ -1,27 +1,28 @@
 package org.snapscript.core;
 
+import static org.snapscript.core.constraint.Constraint.NONE;
+
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 
 public class Identity extends Evaluation {
    
+   private final Constraint type;
    private final Object value;
-   private final Type type;
    
    public Identity(Object value) {
-      this(value, null);      
+      this(value, NONE);      
    }
    
-   public Identity(Object value, Type type) {
+   public Identity(Object value, Constraint type) {
       this.value = value;
       this.type = type;
    }
    
    @Override
    public Constraint compile(Scope scope, Constraint left) throws Exception {
-      return Constraint.getConstraint(type);
+      return type;
    }
 
    @Override

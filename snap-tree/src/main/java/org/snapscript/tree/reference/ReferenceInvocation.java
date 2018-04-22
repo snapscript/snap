@@ -94,7 +94,7 @@ public class ReferenceInvocation implements Compilation {
          Type type = left.getType(scope);         
          Type[] array = arguments.compile(scope); 
          FunctionDispatcher dispatcher = matcher.match(scope, left);
-         Constraint result = dispatcher.compile(scope, type, array);
+         Constraint result = dispatcher.compile(scope, left, array);
 
          if(result.isPrivate()) {
             Module module = scope.getModule();

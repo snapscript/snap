@@ -77,7 +77,7 @@ public abstract class Constraint {
       return false;
    }   
    
-   public List<Type> getGenerics(Scope scope) {
+   public List<Constraint> getGenerics(Scope scope) {
       return EMPTY_LIST;
    }
    

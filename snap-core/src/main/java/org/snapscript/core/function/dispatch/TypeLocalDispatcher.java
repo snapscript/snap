@@ -24,7 +24,8 @@ public class TypeLocalDispatcher implements FunctionDispatcher<Scope> {
    }
    
    @Override
-   public Constraint compile(Scope scope, Type object, Type... arguments) throws Exception {
+   public Constraint compile(Scope scope, Constraint constraint, Type... arguments) throws Exception {
+      Type object = constraint.getType(scope);
       FunctionCall match = bind(scope, object, arguments);
       
       if(match == null) {
@@ -36,7 +37,7 @@ public class TypeLocalDispatcher implements FunctionDispatcher<Scope> {
             handler.handleCompileError(INVOKE, scope, name, arguments);
          }
       }
-      return match.check();   
+      return match.check(constraint);   
    }
 
    @Override

@@ -3,16 +3,17 @@ package org.snapscript.core.variable;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.InternalStateException;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 
 public class Blank extends Value {
    
    private final AtomicReference<Object> reference;
-   private final Type type;
+   private final Constraint type;
    private final int modifiers;
    
-   public Blank(Object value, Type type, int modifiers) {
+   public Blank(Object value, Constraint type, int modifiers) {
       this.reference = new AtomicReference<Object>(value);
       this.modifiers = modifiers;
       this.type = type;
@@ -35,7 +36,7 @@ public class Blank extends Value {
    
    @Override
    public Type getType(Scope scope) {
-      return type;
+      return type.getType(scope);
    }
    
    @Override

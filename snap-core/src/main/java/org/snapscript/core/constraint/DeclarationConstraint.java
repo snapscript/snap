@@ -1,5 +1,7 @@
 package org.snapscript.core.constraint;
 
+import java.util.List;
+
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;

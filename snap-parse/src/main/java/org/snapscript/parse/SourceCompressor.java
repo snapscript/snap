@@ -56,6 +56,9 @@ public class SourceCompressor {
                } else if(operator(before) && operator(after)) {
                   lines[write] = line;
                   compress[write++] = space;
+               } else if(relational(before) && relational(after)) {
+                  lines[write] = line;
+                  compress[write++] = space;
                }
             }
             if(next == '\n') {
@@ -273,6 +276,14 @@ public class SourceCompressor {
       case '+': case '-':
       case '/': case '*':
       case '%':
+         return true;
+      }
+      return false;
+   }
+   
+   private boolean relational(char value) {
+      switch(value) {
+      case '>': case '=':
          return true;
       }
       return false;

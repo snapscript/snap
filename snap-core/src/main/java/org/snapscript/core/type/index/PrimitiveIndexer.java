@@ -21,6 +21,7 @@ import static org.snapscript.core.type.Category.CLASS;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.result.Result;
@@ -83,9 +84,10 @@ public class PrimitiveIndexer{
       @Override
       public Object invoke(Scope scope, Object object, Object... list) throws Exception {
          Type real = (Type)list[0];
+         Constraint constraint = Constraint.getConstraint(real);
          Instance instance = constructor.create(scope, real);
          State state = instance.getState();
-         Value value = Value.getProperty(object, real, PUBLIC.mask | CONSTANT.mask); // this needs to be a blank
+         Value value = Value.getProperty(object, constraint, PUBLIC.mask | CONSTANT.mask); // this needs to be a blank
          
          state.add(TYPE_THIS, value); // reference to 'this'
          

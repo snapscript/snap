@@ -15,7 +15,7 @@ public class MemberFieldAllocator extends DeclarationAllocator {
    }
    
    @Override
-   protected <T extends Value> T declare(Scope scope, String name, Type type, int modifiers) throws Exception {
+   protected <T extends Value> T declare(Scope scope, String name, Constraint type, int modifiers) throws Exception {
       if(ModifierType.isConstant(modifiers)) {
          return (T)Value.getBlank(null, type, modifiers);
       }
@@ -23,7 +23,7 @@ public class MemberFieldAllocator extends DeclarationAllocator {
    }
    
    @Override
-   protected <T extends Value> T assign(Scope scope, String name, Object value, Type type, int modifiers) throws Exception {
+   protected <T extends Value> T assign(Scope scope, String name, Object value, Constraint type, int modifiers) throws Exception {
       if(ModifierType.isConstant(modifiers)) {
          return (T)Value.getConstant(value, type, modifiers);
       }

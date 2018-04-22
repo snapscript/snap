@@ -22,7 +22,7 @@ public class ClassHierarchyExceptionTest extends TestCase {
          executable.execute();
       }catch(Exception e) {
          e.printStackTrace();
-         assertEquals(e.getCause().getMessage(), "No type found for 'NoSuchClass' in 'default'");
+         assertEquals(e.getCause().getMessage(), "Invalid constraint in /default.snap at line 1");
       }
    }
 

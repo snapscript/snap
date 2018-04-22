@@ -81,10 +81,7 @@ map-entry-list = <map-entry>*(','<map-entry>);
 type-reference = <type-reference-part>*('.'<type-reference>);
 type-reference-part = [type];
 
-trait-reference = <trait-reference-part>*('.'<trait-reference>);
-trait-reference-part = [type];
-
-construct-object = 'new'_<type-reference>'('?<argument-list>')';
+construct-object = 'new'_<type-constraint>'('?<argument-list>')';
 construct-list = '[]' | '['<list-entry-list>']';
 construct-array = 'new'_<type-reference>+('['<argument>']');
 construct-set = '{}' | ('{'<set-entry-list>'}');
@@ -170,7 +167,9 @@ expression = { <literal> |
 			   '('<expression>')';
 
 function-constraint = '('<parameter-list>')';
-type-constraint = <type-reference> ?<constraint-list>;
+generic-constraint = <type-reference> ?<constraint-list>;
+type-constraint = <generic-constraint>;
+trait-constraint = <generic-constraint>;
 array-dimension = '[]';
 array-constraint = <type-reference>+<array-dimension>;
 list-constraint = '[]';
@@ -210,7 +209,7 @@ assignment-expression = (<value-operand> | <reference> | <calculation> | <choice
 assignment-statement = <reference><assignment-operator><assignment-expression>';';
   
 declaration-modifier = {'var' | 'const'};
-declaration = <assignment-variable>?(':'<constraint>)?('='<assignment-expression>);
+declaration = <assignment-variable>?(':'<constraint>?_)?('='<assignment-expression>);
 declaration-statement = <declaration-modifier>_<declaration>*(','<declaration>)';';
    
 if-statement = 'if''('<conditional>')'<statement>?('else'?_<statement>);  
@@ -285,16 +284,16 @@ class-field = <annotation-list><field-modifier-list><class-field-declaration>*('
 class-function = <annotation-list><function-modifier-list><function>'('<parameter-list>')'?(':'<constraint>){';' | <group-statement>};
 class-constructor = <annotation-list><access-modifier-list>'new''('<parameter-list>')'?(':'{<this-constructor> | <super-constructor>})<group-statement>;
 class-part = {<class-field> | <class-constructor> | <class-function> | <inner-class-definition> | <inner-enum-definition> | <inner-trait-definition>};
-class-hierarchy = ?{_'extends'_<type-reference> | _'with'_<trait-reference>}*(_'with'_<trait-reference>);
+class-hierarchy = ?{_'extends'_<type-constraint> | _'with'_<trait-constraint>}*(_'with'_<trait-constraint>);
 class-definition = ?<annotation-list>'class'_<type-name>?<class-hierarchy>{'{}' | '{'*<class-part>'}'};
 
 trait-constant = <annotation-list><field-modifier-list><assignment-variable>?(':'<constraint>)'='<assignment-expression>';';
-trait-hierarchy = *(_'extends'_<trait-reference>);
+trait-hierarchy = *(_'extends'_<trait-constraint>);
 trait-function = ?<annotation-list><function-modifier-list><function>'('<parameter-list>')'?(':'<constraint>){';' | <group-statement>};
 trait-part = {<trait-constant> | <trait-function>};
 trait-definition = ?<annotation-list>'trait'_<trait-name>?<trait-hierarchy>{'{}' | '{'*<trait-part>'}'};
    
-enum-hierarchy = *(_'with'_<trait-reference>)};
+enum-hierarchy = *(_'with'_<trait-constraint>)};
 enum-key = [identifier];
 enum-value = <enum-key>?('('<argument-list>')');
 enum-list = <enum-value>*(','<enum-value>);

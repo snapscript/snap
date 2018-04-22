@@ -102,8 +102,8 @@ public class ParameterExtractor {
       String name = parameter.getName();
       
       if(parameter.isConstant()) {
-         return Local.getConstant(value, name, type);
+         return Local.getConstant(value, name, constraint);
       }
-      return Local.getReference(value, name, type);       
+      return Local.getReference(value, name, constraint);       
    }
 }

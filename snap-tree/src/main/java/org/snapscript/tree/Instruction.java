@@ -24,9 +24,11 @@ import org.snapscript.tree.constraint.ArrayConstraint;
 import org.snapscript.tree.constraint.ConstraintList;
 import org.snapscript.tree.constraint.ConstraintVariable;
 import org.snapscript.tree.constraint.FunctionConstraint;
+import org.snapscript.tree.constraint.GenericConstraint;
 import org.snapscript.tree.constraint.ListConstraint;
 import org.snapscript.tree.constraint.MapConstraint;
 import org.snapscript.tree.constraint.SetConstraint;
+import org.snapscript.tree.constraint.TraitConstraint;
 import org.snapscript.tree.constraint.TypeConstraint;
 import org.snapscript.tree.construct.ConstructArray;
 import org.snapscript.tree.construct.ConstructList;
@@ -87,7 +89,6 @@ import org.snapscript.tree.reference.ReferenceInvocation;
 import org.snapscript.tree.reference.ReferenceNavigation;
 import org.snapscript.tree.reference.ReferencePart;
 import org.snapscript.tree.reference.ReferenceProperty;
-import org.snapscript.tree.reference.TraitReference;
 import org.snapscript.tree.reference.TypeReference;
 import org.snapscript.tree.reference.TypeReferencePart;
 import org.snapscript.tree.script.Script;
@@ -143,9 +144,7 @@ public enum Instruction {
    NULL_COALESCE(NullCoalesce.class, "null-coalesce"),    
    ASSIGNMENT(Assignment.class, "assignment"),
    TYPE_REFERENCE(TypeReference.class, "type-reference"),
-   TYPE_REFERENCE_PART(TypeReferencePart.class, "type-reference-part"), 
-   TRAIT_REFERENCE(TraitReference.class, "trait-reference"),
-   TRAIT_REFERENCE_PART(TypeReferencePart.class, "trait-reference-part"),   
+   TYPE_REFERENCE_PART(TypeReferencePart.class, "type-reference-part"),    
    CONSTRUCT_LIST(ConstructList.class, "construct-list"),
    CONSTRUCT_ARRAY(ConstructArray.class, "construct-array"),
    CONSTRUCT_OBJECT(ConstructObject.class, "construct-object"),
@@ -188,7 +187,9 @@ public enum Instruction {
    MATCH_CASE(ValueCase.class, "match-case"),
    MATCH_DEFAULT(DefaultCase.class, "match-default"), 
    FUNCTION_CONSTRAINT(FunctionConstraint.class, "function-constraint"),
+   GENERIC_CONSTRAINT(GenericConstraint.class, "generic-constraint"),
    TYPE_CONSTRAINT(TypeConstraint.class, "type-constraint"),
+   TRAIT_CONSTRAINT(TraitConstraint.class, "trait-constraint"),
    ARRAY_CONSTRAINT(ArrayConstraint.class, "array-constraint"),
    LIST_CONSTRAINT(ListConstraint.class, "list-constraint"),   
    SET_CONSTRAINT(SetConstraint.class, "set-constraint"),   

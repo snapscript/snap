@@ -1,23 +1,24 @@
 package org.snapscript.core.variable;
 
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 
 public class Reference extends Value {
    
+   private Constraint type;
    private Object value;
-   private Type type;
    private int modifiers;
    
    public Reference(Object value) {
-      this(value, null);
+      this(value, NONE);
    }
    
-   public Reference(Object value, Type type) {
+   public Reference(Object value, Constraint type) {
       this(value, type, -1);
    }
    
-   public Reference(Object value, Type type, int modifiers) {
+   public Reference(Object value, Constraint type, int modifiers) {
       this.modifiers = modifiers;
       this.value = value;
       this.type = type; 
@@ -35,7 +36,7 @@ public class Reference extends Value {
    
    @Override
    public Type getType(Scope scope) {
-      return type;
+      return type.getType(scope);
    }
    
    @Override

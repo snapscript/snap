@@ -16,7 +16,7 @@ public class DeclarationConverter {
       super();
    }
 
-   public Type compile(Scope scope, Type value, Constraint constraint, String name) throws Exception {
+   public Constraint compile(Scope scope, Type value, Constraint constraint, String name) throws Exception {
       if(value != null) {
          Type type = constraint.getType(scope);
          Module module = scope.getModule();
@@ -28,7 +28,7 @@ public class DeclarationConverter {
          if(score.isInvalid()) {
             throw new InternalStateException("Variable '" + name + "' does not match constraint '" + type + "'");
          }
-         return type;
+         return constraint;
       }
       return null;
    }

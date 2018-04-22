@@ -16,11 +16,11 @@ public abstract class Value extends Constraint {
       return new Constant(value);
    }
    
-   public static Value getConstant(Object value, Type type) {
+   public static Value getConstant(Object value, Constraint type) {
       return new Constant(value, type);
    }
    
-   public static Value getConstant(Object value, Type type, int modifiers) {
+   public static Value getConstant(Object value, Constraint type, int modifiers) {
       return new Constant(value, type, modifiers);
    }
    
@@ -28,15 +28,15 @@ public abstract class Value extends Constraint {
       return new Reference(value);
    }
    
-   public static Value getReference(Object value, Type type) {
+   public static Value getReference(Object value, Constraint type) {
       return new Reference(value, type);
    }
    
-   public static Value getProperty(Object value, Type type, int modifiers) {
+   public static Value getProperty(Object value, Constraint type, int modifiers) {
       return new Reference(value, type, modifiers);
    }
    
-   public static Value getBlank(Object value, Type type, int modifiers) {
+   public static Value getBlank(Object value, Constraint type, int modifiers) {
       return new Blank(value, type, modifiers);
    }
    
@@ -44,7 +44,7 @@ public abstract class Value extends Constraint {
       return new Transient(value);
    }
    
-   public static Value getTransient(Object value, Type type) {
+   public static Value getTransient(Object value, Constraint type) {
       return new Transient(value, type);
    }
    

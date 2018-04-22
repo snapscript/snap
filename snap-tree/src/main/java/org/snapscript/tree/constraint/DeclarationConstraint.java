@@ -1,5 +1,7 @@
 package org.snapscript.tree.constraint;
 
+import java.util.List;
+
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
@@ -27,17 +29,27 @@ public class DeclarationConstraint extends Constraint {
    }
    
    @Override
-   public String getName(Scope scope) {
+   public List<Constraint> getGenerics(Scope scope) {
       if(constraint != null) {
-         return constraint.getName(scope);
+         return constraint.getGenerics(scope);
       }
       return null;
    }
+   
    
    @Override
    public Type getType(Scope scope) {
       if(constraint != null) {
          return constraint.getType(scope);
+      }
+      return null;
+   }
+   
+   
+   @Override
+   public String getName(Scope scope) {
+      if(constraint != null) {
+         return constraint.getName(scope);
       }
       return null;
    }

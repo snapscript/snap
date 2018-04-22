@@ -30,7 +30,8 @@ public class This extends Evaluation {
    public Value evaluate(Scope scope, Object left) throws Exception {
       Scope instance = binder.bind(scope, scope);
       Type type = instance.getType();
+      Constraint constraint = Constraint.getConstraint(type);
       
-      return Value.getConstant(instance, type);
+      return Value.getConstant(instance, constraint);
    }  
 }

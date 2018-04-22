@@ -24,7 +24,7 @@ public class ValueDispatcher implements FunctionDispatcher<Value> {
    }
    
    @Override
-   public Constraint compile(Scope scope, Type value, Type... list) throws Exception {
+   public Constraint compile(Scope scope, Constraint value, Type... list) throws Exception {
       return NONE;
    }
 

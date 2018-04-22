@@ -42,6 +42,6 @@ public class Cast extends Evaluation {
       ConstraintConverter converter = matcher.match(type);
       Object result = converter.convert(object);
       
-      return Value.getTransient(result, type);
+      return Value.getTransient(result, constraint);
    }
 }

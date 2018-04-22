@@ -31,7 +31,7 @@ public class ClosureDispatcher implements FunctionDispatcher<Function> {
    }
    
    @Override
-   public Constraint compile(Scope scope, Type function, Type... arguments) throws Exception { 
+   public Constraint compile(Scope scope, Constraint function, Type... arguments) throws Exception { 
       return NONE;
    }
 

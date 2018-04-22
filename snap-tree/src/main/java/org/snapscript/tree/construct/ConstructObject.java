@@ -3,6 +3,7 @@ package org.snapscript.tree.construct;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.trace.Trace;
@@ -14,11 +15,11 @@ public class ConstructObject implements Compilation {
    
    private final Evaluation construct;
    
-   public ConstructObject(Evaluation type) {
+   public ConstructObject(Constraint type) {
       this(type, null);         
    }
    
-   public ConstructObject(Evaluation type, ArgumentList arguments) {
+   public ConstructObject(Constraint type, ArgumentList arguments) {
       this.construct = new CreateObject(type, arguments);
    } 
    

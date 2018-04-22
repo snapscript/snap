@@ -29,11 +29,12 @@ public class MapDispatcher implements FunctionDispatcher<Map> {
    }
    
    @Override
-   public Constraint compile(Scope scope, Type map, Type... arguments) throws Exception {
+   public Constraint compile(Scope scope, Constraint constraint, Type... arguments) throws Exception {
+      Type map = constraint.getType(scope);
       FunctionCall local = resolver.resolveInstance(scope, map, name, arguments);
       
       if(local != null) {
-         return local.check();
+         return local.check(constraint);
       }
       return NONE;      
    }

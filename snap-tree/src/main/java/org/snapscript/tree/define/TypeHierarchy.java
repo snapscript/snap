@@ -6,44 +6,42 @@ import org.snapscript.core.InternalStateException;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.AnyLoader;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.variable.Value;
-import org.snapscript.tree.reference.TraitReference;
-import org.snapscript.tree.reference.TypeReference;
+import org.snapscript.tree.constraint.TraitConstraint;
+import org.snapscript.tree.constraint.TypeConstraint;
 
 public class TypeHierarchy {
    
-   private final TraitReference[] traits; 
-   private final TypeReference name;
+   private final TraitConstraint[] traits; 
+   private final TypeConstraint base;
    private final AnyLoader loader;
 
-   public TypeHierarchy(TraitReference... traits) {
+   public TypeHierarchy(TraitConstraint... traits) {
       this(null, traits);     
    }
    
-   public TypeHierarchy(TypeReference name, TraitReference... traits) {
+   public TypeHierarchy(TypeConstraint base, TraitConstraint... traits) {
       this.loader = new AnyLoader();
       this.traits = traits;
-      this.name = name;
+      this.base = base;
    }
 
    public void extend(Scope scope, Type type) throws Exception {
       List<Type> types = type.getTypes();
       
-      if(name != null) {
-         Value value = name.evaluate(scope, null);
-         Type base = value.getValue();
+      if(base != null) {
+         Type constraint = base.getType(scope);
          
-         if(base == null) {
+         if(constraint == null) {
             throw new InternalStateException("Type '" + type + "' could not resolve base");
          }
-         types.add(base);  
+         types.add(constraint);  
       }else {
-         Type base = loader.loadType(scope);
+         Type constraint = loader.loadType(scope);
          
-         if(base == null) {
+         if(constraint == null) {
             throw new InternalStateException("Type '" + type + "' could not be defined");
          }
-         types.add(base);
+         types.add(constraint);
       }
       with(scope, type);
    }
@@ -52,8 +50,7 @@ public class TypeHierarchy {
       List<Type> types = type.getTypes();
       
       for(int i = 0; i < traits.length; i++) {
-         Value value = traits[i].evaluate(scope, null);
-         Type trait = value.getValue();
+         Type trait = traits[i].getType(scope);
          
          if(trait != null) {
             Class base = trait.getType();

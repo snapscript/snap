@@ -21,7 +21,7 @@ public class ConstraintList extends Literal {
    
    @Override
    protected LiteralValue create(Scope scope) throws Exception {
-      List<Type> types = new ArrayList<Type>();
+      List<Constraint> result = new ArrayList<Constraint>();
       
       for(Constraint constraint : constraints) {
          Type type = constraint.getType(scope);
@@ -29,8 +29,8 @@ public class ConstraintList extends Literal {
          if(type == null) {
             throw new InternalStateException("Could not find constraint");
          }
-         types.add(type);
+         result.add(constraint);
       }
-      return new LiteralValue(types, LIST);
+      return new LiteralValue(result, LIST);
    }
 }

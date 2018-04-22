@@ -13,7 +13,6 @@ import org.snapscript.compile.Compiler;
 import org.snapscript.compile.StoreContext;
 import org.snapscript.compile.StringCompiler;
 import org.snapscript.core.Context;
-import org.snapscript.core.Reserved;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.EmptyModel;
 import org.snapscript.core.scope.Model;
@@ -31,7 +30,7 @@ public class NamedGenericParamsTest extends TestCase {
    "   getReturnB(): B{\n"+
    "      return null;\n"+
    "   }\n"+
-   "   getReturnMap(): Map<String, String>{\n"+
+   "   getReturnMap(): Map<A, String>{\n"+
    "      return null;\n"+
    "   }\n"+
    "   doIt(a: A, b: B, c: String): B{\n"+
@@ -46,7 +45,7 @@ public class NamedGenericParamsTest extends TestCase {
       public B getReturnB(){
          return null;
       }
-      public Map<String, String> getReturnMap(){
+      public Map<A, String> getReturnMap(){
          return null;
       }
       public B doIt(A a, B b, String c){
@@ -85,10 +84,10 @@ public class NamedGenericParamsTest extends TestCase {
       assertEquals(constraints.get(1).getName(scope), "B");
       assertEquals(constraints.get(2).getName(scope), "C");
       
-      Constraint returnA = context.getBinder().bind("getReturnA").match(scope, Constraint.getConstraint(type)).compile(scope, type);
-      Constraint returnB = context.getBinder().bind("getReturnB").match(scope, Constraint.getConstraint(type)).compile(scope, type);
-      Constraint returnMap = context.getBinder().bind("getReturnMap").match(scope, Constraint.getConstraint(type)).compile(scope, type);
-      Constraint doIt = context.getBinder().bind("doIt").match(scope, Constraint.getConstraint(type)).compile(scope, type, string, string, string);
+      Constraint returnA = context.getBinder().bind("getReturnA").match(scope, Constraint.getConstraint(type)).compile(scope, Constraint.getConstraint(type));
+      Constraint returnB = context.getBinder().bind("getReturnB").match(scope, Constraint.getConstraint(type)).compile(scope, Constraint.getConstraint(type));
+      Constraint returnMap = context.getBinder().bind("getReturnMap").match(scope, Constraint.getConstraint(type)).compile(scope, Constraint.getConstraint(type));
+      Constraint doIt = context.getBinder().bind("doIt").match(scope, Constraint.getConstraint(type)).compile(scope, Constraint.getConstraint(type), string, string, string);
       
       assertNotNull(returnA);
       assertNotNull(returnB);
@@ -104,6 +103,17 @@ public class NamedGenericParamsTest extends TestCase {
       assertEquals(returnB.getName(scope), "B");
       assertNull(returnMap.getName(scope));
       assertEquals(doIt.getName(scope), "B");  
+      
+      assertFalse(returnMap.getGenerics(scope).isEmpty());
+      
+      assertEquals(returnMap.getGenerics(scope).get(0).getName(scope), "A");
+      assertNull(returnMap.getGenerics(scope).get(1).getName(scope));
+      
+      assertNotNull(returnMap.getGenerics(scope).get(0).getType(scope));
+      assertNotNull(returnMap.getGenerics(scope).get(1).getType(scope));
+      
+      assertEquals(returnMap.getGenerics(scope).get(0).getType(scope).getName(), "String");
+      assertEquals(returnMap.getGenerics(scope).get(1).getType(scope).getName(), "String");
    }
    
    
@@ -131,10 +141,10 @@ public class NamedGenericParamsTest extends TestCase {
       assertEquals(constraints.get(1).getName(scope), "B");
       assertEquals(constraints.get(2).getName(scope), "C");      
       
-      Constraint returnA = context.getBinder().bind("getReturnA").match(scope, Constraint.getConstraint(type)).compile(scope, type);
-      Constraint returnB = context.getBinder().bind("getReturnB").match(scope, Constraint.getConstraint(type)).compile(scope, type);
-      Constraint returnMap = context.getBinder().bind("getReturnMap").match(scope, Constraint.getConstraint(type)).compile(scope, type);
-      Constraint doIt = context.getBinder().bind("doIt").match(scope, Constraint.getConstraint(type)).compile(scope, type, string, string, string);
+      Constraint returnA = context.getBinder().bind("getReturnA").match(scope, Constraint.getConstraint(type)).compile(scope, Constraint.getConstraint(type));
+      Constraint returnB = context.getBinder().bind("getReturnB").match(scope, Constraint.getConstraint(type)).compile(scope, Constraint.getConstraint(type));
+      Constraint returnMap = context.getBinder().bind("getReturnMap").match(scope, Constraint.getConstraint(type)).compile(scope, Constraint.getConstraint(type));
+      Constraint doIt = context.getBinder().bind("doIt").match(scope, Constraint.getConstraint(type)).compile(scope, Constraint.getConstraint(type), string, string, string);
       
       assertNotNull(returnA);
       assertNotNull(returnB);
@@ -149,6 +159,6 @@ public class NamedGenericParamsTest extends TestCase {
       assertEquals(returnA.getName(scope), "A");
       assertEquals(returnB.getName(scope), "B");
       assertNull(returnMap.getName(scope));
-      assertEquals(doIt.getName(scope), "B");            
+      assertEquals(doIt.getName(scope), "B"); 
    }
 }

@@ -48,16 +48,16 @@ public class TypeReference extends Evaluation {
    
    private Value create(Scope scope, Object value, String name) throws Exception {
       Constraint constraint = mapper.map(value);
-      Type type = constraint.getType(scope);
       
       if(name != null) {
+         Type type = constraint.getType(scope);
          String defined = type.getName();
       
          if(!name.equals(defined)) { 
-            return Local.getConstant(value, name, type);
+            return Local.getConstant(value, name, constraint);
          }
       }
-      return Local.getConstant(value, null, type);
+      return Local.getConstant(value, null, constraint);
    }
 
 }

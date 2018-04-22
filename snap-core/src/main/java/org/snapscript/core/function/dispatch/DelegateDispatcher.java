@@ -24,13 +24,14 @@ public class DelegateDispatcher implements FunctionDispatcher<Delegate> {
    }
    
    @Override
-   public Constraint compile(Scope scope, Type object, Type... arguments) throws Exception {
+   public Constraint compile(Scope scope, Constraint constraint, Type... arguments) throws Exception {
+      Type object = constraint.getType(scope);
       FunctionCall call = resolver.resolveFunction(scope, object, name, arguments);
       
       if(call == null) {
          handler.handleCompileError(INVOKE, scope, object, name, arguments);
       }
-      return call.check();
+      return call.check(constraint);
    }
    
    @Override

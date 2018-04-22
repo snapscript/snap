@@ -10,6 +10,10 @@ public class ExpressionParseTest extends TestCase {
       SyntaxParser tree = LexerBuilder.create(GRAMMAR_FILE);
 
       assertNotNull(tree);
+      analyze(tree, "x: Foo<X> = null", "declaration");
+      analyze(tree, "Foo<X>", "constraint");
+      analyze(tree, "var x = 1;", "declaration-statement");
+      analyze(tree, "var x: Foo<X> = null;", "declaration-statement");
       analyze(tree, "yield;", "yield-statement");
       analyze(tree, "yield x;", "yield-statement");
       analyze(tree, "yield x as String;", "yield-statement");

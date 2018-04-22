@@ -2,7 +2,6 @@ package org.snapscript.core.scope.index;
 
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
-import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 
 public class LocalScopeExtractor {
@@ -38,8 +37,7 @@ public class LocalScopeExtractor {
                inner.add(name, local); // enable modification of local
             } else {
                Object value = local.getValue();
-               Type constraint = local.getType(original);
-               Value constant = Value.getConstant(value, constraint);
+               Value constant = Value.getConstant(value, local);
                
                inner.add(name, constant); // local is a visible constant
             }

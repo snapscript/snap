@@ -6,6 +6,7 @@ import org.snapscript.core.scope.index.LocalScopeExtractor;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.constraint.DeclarationConstraint;
 import org.snapscript.core.function.dispatch.FunctionDispatcher;
 import org.snapscript.tree.ArgumentList;
 import org.snapscript.tree.NameReference;
@@ -17,12 +18,14 @@ public class SuperInvocation extends Evaluation {
    private final SuperFunctionHolder holder;
    private final NameReference reference;
    private final ArgumentList arguments;
+   private final Constraint constraint;
    private final Type type;
    
    public SuperInvocation(Evaluation function, ArgumentList arguments, Type type) {
       this.extractor = new LocalScopeExtractor(true, false);
       this.reference = new NameReference(function);
       this.holder = new SuperFunctionHolder(reference, type);
+      this.constraint = new DeclarationConstraint(type);
       this.builder = new SuperInstanceBuilder(type);
       this.arguments = arguments;
       this.type = type;
@@ -37,9 +40,9 @@ public class SuperInvocation extends Evaluation {
          Scope compound = extractor.extract(scope, outer);
          Type[] list = arguments.compile(compound, type); // arguments have no left hand side
 
-         return dispatcher.compile(scope, type, list);
+         return dispatcher.compile(scope, constraint, list);
       }
-      return dispatcher.compile(scope, type, type);
+      return dispatcher.compile(scope, constraint, type);
    }
    
    @Override

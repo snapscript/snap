@@ -1,24 +1,25 @@
 package org.snapscript.core.variable;
 
 import org.snapscript.core.InternalStateException;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 
 public class Constant extends Value {
    
+   private final Constraint type;
    private final Object value;
-   private final Type type;
    private final int modifiers;
    
    public Constant(Object value) {
-      this(value, null);
+      this(value, NONE);
    }
 
-   public Constant(Object value, Type type) {
+   public Constant(Object value, Constraint type) {
       this(value, type, 0);
    }
    
-   public Constant(Object value, Type type, int modifiers) {
+   public Constant(Object value, Constraint type, int modifiers) {
       this.modifiers = modifiers;
       this.value = value;
       this.type = type;
@@ -41,7 +42,7 @@ public class Constant extends Value {
    
    @Override
    public Type getType(Scope scope) {
-      return type;
+      return type.getType(scope);
    }
    
    @Override

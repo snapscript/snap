@@ -24,14 +24,15 @@ public class ModuleDispatcher implements FunctionDispatcher<Module> {
    }
    
    @Override
-   public Constraint compile(Scope scope, Type type, Type... arguments) throws Exception {
+   public Constraint compile(Scope scope, Constraint constraint, Type... arguments) throws Exception {
+      Type type = constraint.getType(scope);
       Module module = type.getModule();
       FunctionCall call = bind(scope, module, arguments);
       
       if(call == null) {
          handler.handleCompileError(INVOKE, scope, type, name, arguments);
       }
-      return call.check();    
+      return call.check(constraint);    
    }
 
    @Override

@@ -24,13 +24,14 @@ public class LocalDispatcher implements FunctionDispatcher<Object> {
    }
 
    @Override
-   public Constraint compile(Scope scope, Type object, Type... arguments) throws Exception {
+   public Constraint compile(Scope scope, Constraint constraint, Type... arguments) throws Exception {
+      Type object = constraint.getType(scope);
       FunctionCall call = bind(scope, object, arguments);
       
       if(call == null) {
          handler.handleCompileError(INVOKE, scope, name, arguments);
       }
-      return call.check();
+      return call.check(constraint);
    }
    
    @Override

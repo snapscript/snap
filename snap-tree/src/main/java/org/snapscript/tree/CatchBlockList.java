@@ -68,10 +68,9 @@ public class CatchBlockList {
             ParameterDeclaration declaration = block.getDeclaration();
             Parameter parameter = declaration.get(scope);
             Constraint constraint = parameter.getConstraint();
-            Type type = constraint.getType(scope);
             String name = parameter.getName();
             Table table = scope.getTable();
-            Local local = Local.getConstant(null, name, type);
+            Local local = Local.getConstant(null, name, constraint);
             int index = offset.get();
             
             table.add(index, local);
