@@ -21,7 +21,6 @@ public class ClassBuilder {
    private final AtomicReference<Type> reference;
    private final ClassPropertyGenerator generator;
    private final ConstantPropertyBuilder builder;
-   private final ConstraintVerifier verifier;
    private final AnnotationList annotations;
    private final TypeHierarchy hierarchy;
    private final TypeName name;
@@ -31,7 +30,6 @@ public class ClassBuilder {
       this.reference = new AtomicReference<Type>();
       this.generator = new ClassPropertyGenerator();
       this.builder = new ConstantPropertyBuilder();
-      this.verifier = new ConstraintVerifier();
       this.annotations = annotations;
       this.hierarchy = hierarchy;
       this.category = category;
@@ -68,18 +66,16 @@ public class ClassBuilder {
       constraints.addAll(generics);
       annotations.apply(scope, type);
       generator.generate(body, scope, type);
-      hierarchy.extend(scope, type); 
+      hierarchy.define(scope, type); 
       
       return type;
    }
    
    public Type compile(TypeBody body, Scope outer) throws Exception {
       Type type = reference.get();
-      List<Constraint> types = type.getTypes();
       
-      for(Constraint base : types) {
-         verifier.verify(outer, base);
-      }
+      hierarchy.compile(outer, type);
+      
       return type;
    }
 }

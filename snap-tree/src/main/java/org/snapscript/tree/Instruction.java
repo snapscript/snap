@@ -40,8 +40,10 @@ import org.snapscript.tree.construct.MapEntryList;
 import org.snapscript.tree.construct.MapKey;
 import org.snapscript.tree.define.ClassConstructor;
 import org.snapscript.tree.define.ClassDefinition;
+import org.snapscript.tree.define.ClassHierarchy;
 import org.snapscript.tree.define.EnumConstructor;
 import org.snapscript.tree.define.EnumDefinition;
+import org.snapscript.tree.define.EnumHierarchy;
 import org.snapscript.tree.define.EnumKey;
 import org.snapscript.tree.define.EnumList;
 import org.snapscript.tree.define.EnumValue;
@@ -62,8 +64,8 @@ import org.snapscript.tree.define.ThisConstructor;
 import org.snapscript.tree.define.TraitConstant;
 import org.snapscript.tree.define.TraitDefinition;
 import org.snapscript.tree.define.TraitFunction;
+import org.snapscript.tree.define.TraitHierarchy;
 import org.snapscript.tree.define.TraitName;
-import org.snapscript.tree.define.TypeHierarchy;
 import org.snapscript.tree.define.TypeName;
 import org.snapscript.tree.function.FunctionCurry;
 import org.snapscript.tree.function.FunctionHandle;
@@ -211,12 +213,12 @@ public enum Instruction {
    GENERIC_LIST(GenericList.class, "generic-list"),
    TYPE_NAME(TypeName.class, "type-name"),
    TRAIT_NAME(TraitName.class, "trait-name"),     
-   TRAIT_HIERARCHY(TypeHierarchy.class, "trait-hierarchy"),
+   TRAIT_HIERARCHY(TraitHierarchy.class, "trait-hierarchy"),
    TRAIT_CONSTANT(TraitConstant.class, "trait-constant"),   
    TRAIT_DEFINITION(TraitDefinition.class, "trait-definition"),    
    TRAIT_FUNCTION(TraitFunction.class, "trait-function"),
    ENUM_KEY(EnumKey.class, "enum-key"),
-   ENUM_HIERARCHY(TypeHierarchy.class, "enum-hierarchy"),
+   ENUM_HIERARCHY(EnumHierarchy.class, "enum-hierarchy"),
    ENUM_FIELD_DECLARATION(MemberFieldDeclaration.class, "enum-field-declaration"),
    ENUM_FIELD(MemberField.class, "enum-field"),
    ENUM_FUNCTION(MemberFunction.class, "enum-function"),   
@@ -224,7 +226,7 @@ public enum Instruction {
    ENUM_CONSTRUCTOR(EnumConstructor.class, "enum-constructor"), 
    ENUM_VALUE(EnumValue.class, "enum-value"),
    ENUM_LIST(EnumList.class, "enum-list"),     
-   CLASS_HIERARCHY(TypeHierarchy.class, "class-hierarchy"),
+   CLASS_HIERARCHY(ClassHierarchy.class, "class-hierarchy"),
    CLASS_DEFINITION(ClassDefinition.class, "class-definition"),
    CLASS_FIELD_DECLARATION(MemberFieldDeclaration.class, "class-field-declaration"),
    CLASS_FIELD(MemberField.class, "class-field"),

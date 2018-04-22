@@ -58,12 +58,16 @@ public class EnumBuilder {
          state.add(key, value);
       }
       generator.generate(body, scope, type, values);
-      hierarchy.extend(scope, type); // this may throw exception if missing type
+      hierarchy.define(scope, type); // this may throw exception if missing type
       
       return type;
    }
    
    public Type compile(TypeBody body, Scope outer) throws Exception {
-      return reference.get();
+      Type type = reference.get();
+      
+      hierarchy.compile(outer, type);
+      
+      return type;
    }
 }
