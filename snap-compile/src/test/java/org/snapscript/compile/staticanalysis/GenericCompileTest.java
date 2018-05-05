@@ -2,6 +2,7 @@ package org.snapscript.compile.staticanalysis;
 
 import org.snapscript.compile.ClassPathCompilerBuilder;
 import org.snapscript.compile.Compiler;
+import org.snapscript.compile.verify.VerifyException;
 
 import junit.framework.TestCase;
 
@@ -50,7 +51,11 @@ public class GenericCompileTest extends TestCase {
    public void testGenericCompile() throws Exception {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
       System.err.println(SOURCE_1);
-      compiler.compile(SOURCE_1).execute();
+      try {
+         compiler.compile(SOURCE_1).execute();
+      }catch(VerifyException e){
+         e.getErrors().get(0).getCause().printStackTrace();
+      }
    }
    
    public void testGenericCompileBoundsError() throws Exception {

@@ -95,9 +95,9 @@ public class NamedGenericParamsTest extends TestCase {
       assertNotNull(doIt);
       
       assertEquals(returnA.getType(scope).getName(), "String");
-      //assertNull(returnB.getType(scope));
+      assertEquals(returnB.getType(scope).getName(), "Object");      
       assertEquals(returnMap.getType(scope).getName(), "Map");
-      //assertNull(doIt.getType(scope));      
+      assertEquals(doIt.getType(scope).getName(), "Object");      
       
       assertEquals(returnA.getName(scope), "A");
       assertEquals(returnB.getName(scope), "B");
@@ -132,10 +132,9 @@ public class NamedGenericParamsTest extends TestCase {
       
       assertFalse(constraints.isEmpty());
       assertEquals(constraints.size(), 3);
-      assertNotNull(constraints.get(0).getType(scope));
-      assertNotNull(constraints.get(1).getType(scope));
-      assertEquals(constraints.get(0).getType(scope).getName(), "String");
-      assertEquals(constraints.get(1).getType(scope).getName(), "Object");
+      assertNotNull(constraints.get(0).getType(scope));  
+      assertNotNull(constraints.get(1).getType(scope)); // this constraint is not bounded i.e B from "SomeType<A extends String, B, C extends Integer>
+      assertEquals(constraints.get(0).getType(scope).getName(), "String");      
       assertEquals(constraints.get(2).getType(scope).getName(), "Integer");
       assertEquals(constraints.get(0).getName(scope), "A");
       assertEquals(constraints.get(1).getName(scope), "B");
@@ -152,9 +151,9 @@ public class NamedGenericParamsTest extends TestCase {
       assertNotNull(doIt);
       
       assertEquals(returnA.getType(scope).getName(), "String");
-      assertNull(returnB.getType(scope));
+      assertEquals(returnB.getType(scope).getName(), "Object");
       assertEquals(returnMap.getType(scope).getName(), "Map");
-      assertNull(doIt.getType(scope));
+      assertEquals(doIt.getType(scope).getName(), "Object");
       
       assertEquals(returnA.getName(scope), "A");
       assertEquals(returnB.getName(scope), "B");

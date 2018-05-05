@@ -1,27 +1,26 @@
-package org.snapscript.tree.constraint;
+package org.snapscript.core.constraint;
 
 import java.util.List;
 
-import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.module.Module;
+import org.snapscript.core.Entity;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 
 public class ConstraintDescription {
    
    private final Constraint constraint;
-   private final Module module;
+   private final Entity entity;
    
-   public ConstraintDescription(Constraint constraint, Module module) {
+   public ConstraintDescription(Constraint constraint, Entity entity) {
       this.constraint = constraint;
-      this.module = module;
+      this.entity = entity;
    }
    
    public String getDescription(){
       StringBuilder builder = new StringBuilder();
       
-      if(constraint != null) {
-         Scope scope = module.getScope();
+      if(constraint != null && entity != null) {
+         Scope scope = entity.getScope();
          Type type = constraint.getType(scope);
          List<Constraint> generics = constraint.getGenerics(scope);
          int length = generics.size();

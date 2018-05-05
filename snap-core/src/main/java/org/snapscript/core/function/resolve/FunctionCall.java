@@ -1,12 +1,8 @@
 package org.snapscript.core.function.resolve;
 
-import static org.snapscript.core.constraint.Constraint.NONE;
-
-import java.util.List;
 import java.util.concurrent.Callable;
 
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.index.FunctionPointer;
 import org.snapscript.core.scope.Scope;
@@ -27,18 +23,7 @@ public class FunctionCall implements Callable<Value> {
    }
 
    public Constraint check(Constraint left) throws Exception {
-      Function function = pointer.getFunction();      
-      Constraint returns = function.getConstraint();
-      String name = returns.getName(scope);
-      
-      if(name != null) {
-         List<Constraint> constraints = left.getGenerics(scope);
-         
-         if(!constraints.isEmpty()) {
-            return NONE; // should really resolve type
-         }
-      }
-      return returns;
+      return pointer.getConstraint(scope, left);
    }
    
    @Override

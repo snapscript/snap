@@ -4,17 +4,15 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.snapscript.core.Context;
+import org.snapscript.core.Entity;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.link.ImportManager;
 import org.snapscript.core.property.Property;
-import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Any;
 import org.snapscript.core.type.Category;
 import org.snapscript.core.type.Type;
 
-public interface Module extends Any{
-   Scope getScope();
+public interface Module extends Entity{
    Context getContext();
    ImportManager getManager();
    Type getType(Class type);   

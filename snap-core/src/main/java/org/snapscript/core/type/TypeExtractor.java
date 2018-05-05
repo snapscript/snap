@@ -1,10 +1,12 @@
 package org.snapscript.core.type;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 import org.snapscript.common.Cache;
 import org.snapscript.common.CopyOnWriteCache;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.property.PropertyExtractor;
 
@@ -96,5 +98,12 @@ public class TypeExtractor {
          return extractor.findProperties(type);
       }
       return Collections.emptySet();
+   }   
+   
+   public List<Constraint> getTypes(Type type, Type base) {
+      if(type != null && base != null) {
+         return traverser.findPath(type, base);
+      }
+      return Collections.emptyList();
    }
 }

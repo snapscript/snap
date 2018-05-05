@@ -1,9 +1,8 @@
 package org.snapscript.compile;
 
-import org.snapscript.compile.Compiler;
-import org.snapscript.compile.Executable;
-
 import junit.framework.TestCase;
+
+import org.snapscript.compile.verify.VerifyException;
 
 public class SynchronizedTest extends TestCase {
    
@@ -21,6 +20,11 @@ public class SynchronizedTest extends TestCase {
    public void testSynchronized() throws Exception {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
       Executable executable = compiler.compile(SOURCE);
-      executable.execute();
+      try{
+         executable.execute();
+      }catch(VerifyException e){
+         e.getErrors().get(0).getCause().printStackTrace();
+         throw e;
+      }
    }
 }

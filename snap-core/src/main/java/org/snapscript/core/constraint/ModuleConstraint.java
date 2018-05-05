@@ -26,4 +26,9 @@ public class ModuleConstraint extends Constraint {
    public boolean isConstant() {
       return true;
    }
+   
+   @Override
+   public String toString(){
+      return String.valueOf(module);
+   }
 }

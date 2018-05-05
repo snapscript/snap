@@ -1,7 +1,6 @@
 package org.snapscript.core.type.index;
 
 import org.snapscript.core.PrimitivePromoter;
-import org.snapscript.core.type.Any;
 import org.snapscript.core.type.Type;
 
 public class ClassConstraintMapper {
@@ -25,9 +24,6 @@ public class ClassConstraintMapper {
    
    private Class convert(Class type) {
       if(type == Object.class) {
-         return null;
-      }
-      if(type == Any.class){
          return null;
       }
       if(type == void.class){

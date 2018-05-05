@@ -2,6 +2,8 @@ package org.snapscript.compile;
 
 import junit.framework.TestCase;
 
+import org.snapscript.compile.verify.VerifyException;
+
 public class BuiltInFunctionTest extends TestCase {
    
    private static final String SOURCE =
@@ -19,7 +21,12 @@ public class BuiltInFunctionTest extends TestCase {
       Executable executable = compiler.compile(SOURCE);
       long start = System.currentTimeMillis();
       
-       executable.execute();
+      try {
+         executable.execute();
+      }catch(VerifyException e){
+         e.getErrors().get(0).getCause().printStackTrace();
+         throw e;
+      }
        System.err.println("time="+(System.currentTimeMillis()-start));
    }
    

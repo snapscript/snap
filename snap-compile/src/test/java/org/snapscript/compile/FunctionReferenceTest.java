@@ -2,6 +2,7 @@ package org.snapscript.compile;
 
 import junit.framework.TestCase;
 
+import org.snapscript.compile.verify.VerifyException;
 import org.snapscript.core.scope.EmptyModel;
 
 public class FunctionReferenceTest extends TestCase {
@@ -129,7 +130,12 @@ public class FunctionReferenceTest extends TestCase {
    public void testFunctionReferenceInModule() throws Exception {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
       System.err.println(SOURCE_5);
-      compiler.compile(SOURCE_5).execute(new EmptyModel());
+      try {
+         compiler.compile(SOURCE_5).execute(new EmptyModel());
+      }catch(VerifyException e){
+         e.getErrors().get(0).getCause().printStackTrace();
+         throw e;
+      }
    }  
    
    public void testFunctionReferenceInClassInstance() throws Exception {

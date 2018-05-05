@@ -56,6 +56,15 @@ public class NameBuilder {
       return module + "." + name;
    }
    
+   public String createArrayName(String type, int size) {
+      int limit = DIMENSIONS.length;
+      
+      if(size >= DIMENSIONS.length) {
+         throw new InternalArgumentException("Maximum of " + limit + " dimensions exceeded");
+      }
+      return type + DIMENSIONS[size];
+   }
+   
    public String createArrayName(String module, String name, int size) {
       int limit = DIMENSIONS.length;
       
@@ -63,12 +72,22 @@ public class NameBuilder {
          throw new InternalArgumentException("Maximum of " + limit + " dimensions exceeded");
       }
       String bounds = DIMENSIONS[size];
-      
-      if(module != null) { // is a null module legal?
-         return createFullName(module, name) + bounds;
-      }
-      return name + bounds;
+      String type = createFullName(module, name);
+            
+      return type + bounds;
    }
+   
+   public String createOuterName(String type) {
+      if(type != null) {
+         int index = type.lastIndexOf('$');
+         
+         if(index > 0) {
+            return type.substring(0, index);
+         }
+         return type;
+      }
+      return null;
+   } 
    
    public String createOuterName(String module, String name) {
       if(name != null) {
@@ -82,6 +101,20 @@ public class NameBuilder {
                return createFullName(module, parent);
             }
          }
+      }
+      return null;
+   }   
+   
+   public String createInnerName(String type) {
+      if(type != null) {
+         String name = createShortName(type);
+         int index = name.lastIndexOf('$');
+         int length = name.length();
+         
+         if(index > 0) {
+            return name.substring(index + 1, length);
+         }
+         return name;
       }
       return null;
    }

@@ -124,13 +124,23 @@ public class StaticCompileTest extends TestCase {
    public void testStaticMethodCompile() throws Exception {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
       System.err.println(SOURCE_3);
-      compiler.compile(SOURCE_3).execute();
+      try{
+         compiler.compile(SOURCE_3).execute();
+      }catch(VerifyException e){
+         e.getErrors().get(0).getCause().printStackTrace();
+         throw e;
+      }
    }
    
    public void testStaticMethodCompileReferencedEarly() throws Exception {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
       System.err.println(SOURCE_4);
-      compiler.compile(SOURCE_4).execute();
+      try {
+         compiler.compile(SOURCE_4).execute();
+      }catch(VerifyException e){
+         e.getErrors().get(0).getCause().printStackTrace();
+         throw e;
+      }
    }
    
    public void testStaticClosure() throws Exception {

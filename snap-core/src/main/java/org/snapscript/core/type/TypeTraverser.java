@@ -1,5 +1,6 @@
 package org.snapscript.core.type;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -97,5 +98,33 @@ public class TypeTraverser {
          }
       }
       return null;
+   }   
+   
+   public List<Constraint> findPath(Type constraint, Type require) {
+      List<Constraint> path = new ArrayList<Constraint>();
+
+      findPath(constraint, require, path);
+      Collections.reverse(path);
+      
+      return path;
+   }
+   
+   public boolean findPath(Type constraint, Type require, List<Constraint> path) {
+      Scope scope = require.getScope();
+      
+      if(constraint != require) {
+         List<Constraint> types = constraint.getTypes();
+         
+         for(Constraint base : types) {
+            Type next = base.getType(scope);
+            
+            if(findPath(next, require, path)) {
+               path.add(base);
+               return true;
+            }
+         }
+         return false;
+      }
+      return true;
    }
 }

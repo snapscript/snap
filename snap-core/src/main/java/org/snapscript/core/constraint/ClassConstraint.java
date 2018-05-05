@@ -42,4 +42,9 @@ public class ClassConstraint extends Constraint {
    public boolean isClass(){
       return ModifierType.isClass(modifiers);
    }
+   
+   @Override
+   public String toString(){
+      return String.valueOf(require);
+   }
 }

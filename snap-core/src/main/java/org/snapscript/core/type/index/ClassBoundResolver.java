@@ -113,19 +113,23 @@ public class ClassBoundResolver {
       Type[] bounds = variable.getBounds();
       
       if(bounds.length > 0) {
-         String name = variable.getName();
+         Object declaration = variable.getGenericDeclaration();
          
-         for(int i = 0; i < bounds.length; i++) {
-            Type bound = bounds[i];
+         if(Class.class.isInstance(declaration)) { // must be class level declaration
+            String name = variable.getName();
             
-            if(Class.class.isInstance(bound)) {
-               Class first = (Class)bound; // match first only
-               Class match = promoter.promote(first); // unlikely
+            for(int i = 0; i < bounds.length; i++) {
+               Type bound = bounds[i];
                
-               return new ClassBound(match, name);
+               if(Class.class.isInstance(bound)) {
+                  Class first = (Class)bound; // match first only
+                  Class match = promoter.promote(first); // unlikely
+                  
+                  return new ClassBound(match, name);
+               }
             }
+            return new ClassBound(Object.class, name);            
          }
-         return new ClassBound(Object.class, name);
       }
       return new ClassBound(Object.class);
    }

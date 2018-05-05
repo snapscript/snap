@@ -23,13 +23,18 @@ public class StoreReader {
       try {
          if(source != null) {
             ByteArrayOutputStream buffer = new ByteArrayOutputStream(read);
-            byte[] array = new byte[read];
-            int count = 0;
             
-            while((count = source.read(array)) != -1) {
-               buffer.write(array, 0, count);
+            try {
+               byte[] array = new byte[read];
+               int count = 0;
+               
+               while((count = source.read(array)) != -1) {
+                  buffer.write(array, 0, count);
+               }
+               return buffer.toByteArray();
+            } finally {
+               source.close();
             }
-            return buffer.toByteArray();
          }
       } catch(Exception e) {
          throw new StoreException("Could not read resource '" + path + "'", e);

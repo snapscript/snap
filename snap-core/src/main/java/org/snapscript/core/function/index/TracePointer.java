@@ -1,5 +1,6 @@
 package org.snapscript.core.function.index;
 
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.ArgumentConverter;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
@@ -10,12 +11,19 @@ import org.snapscript.core.type.Type;
 
 public class TracePointer implements FunctionPointer {
    
+   private final ReturnTypeChecker checker;
    private final Invocation invocation;
    private final Function function;
    
    public TracePointer(Function function, ThreadStack stack) {
+      this.checker = new ReturnTypeChecker(function);
       this.invocation = new TraceInvocation(function, stack);
       this.function = function;
+   }
+
+   @Override
+   public Constraint getConstraint(Scope scope, Constraint left) {
+      return checker.check(scope, left);
    }
    
    @Override
@@ -26,7 +34,7 @@ public class TracePointer implements FunctionPointer {
    @Override
    public Invocation getInvocation() {
       return invocation;
-   }
+   }   
    
    @Override
    public String toString() {

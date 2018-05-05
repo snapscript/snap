@@ -22,5 +22,11 @@ public class GenericParameter extends Constraint {
    @Override
    public String getName(Scope scope) {
       return name;
-   }   
+   }
+   
+   @Override
+   public String toString() {
+      return name;
+   }
+   
 }

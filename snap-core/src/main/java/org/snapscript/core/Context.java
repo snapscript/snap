@@ -1,5 +1,6 @@
 package org.snapscript.core;
 
+import org.snapscript.core.constraint.transform.GenericTransformer;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.proxy.ProxyWrapper;
 import org.snapscript.core.error.ErrorHandler;
@@ -24,6 +25,7 @@ public interface Context extends Any {
    ApplicationValidator getValidator();
    TraceInterceptor getInterceptor();
    ExpressionEvaluator getEvaluator();
+   GenericTransformer getTransformer();
    FunctionResolver getResolver();
    PlatformProvider getProvider();
    PackageLinker getLinker();
