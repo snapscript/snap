@@ -6,7 +6,7 @@ import org.snapscript.compile.verify.VerifyException;
 
 import junit.framework.TestCase;
 
-public class GenericCompileTest extends TestCase {
+public class GenericDeclarationTest extends TestCase {
    
    private static final String SOURCE_1 =
    "class Foo{\n"+
@@ -55,6 +55,7 @@ public class GenericCompileTest extends TestCase {
          compiler.compile(SOURCE_1).execute();
       }catch(VerifyException e){
          e.getErrors().get(0).getCause().printStackTrace();
+         throw e;
       }
    }
    

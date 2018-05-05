@@ -11,13 +11,13 @@ import org.snapscript.core.type.Type;
 
 public class GenericConstraintExtractor {
    
-   private final ClassConstraintMapper mapper;
+   private final GenericClassMapper mapper;
    private final ClassBoundResolver resolver;
    private final TypeIndexer indexer;
    private final Constraint[] empty;
    
    public GenericConstraintExtractor(TypeIndexer indexer){
-      this.mapper = new ClassConstraintMapper(indexer);
+      this.mapper = new GenericClassMapper(indexer);
       this.resolver = new ClassBoundResolver();
       this.empty = new Constraint[]{};
       this.indexer = indexer;

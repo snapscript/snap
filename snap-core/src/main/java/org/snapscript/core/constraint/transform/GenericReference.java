@@ -1,5 +1,7 @@
 package org.snapscript.core.constraint.transform;
 
+import static org.snapscript.core.constraint.Constraint.NONE;
+
 import org.snapscript.core.constraint.Constraint;
 
 public class GenericReference {
@@ -20,9 +22,9 @@ public class GenericReference {
    
    public Constraint getConstraint(String name) {
       if(index != null) {
-         return index.getType(constraint, name);
+         return index.getType(constraint, name);         
       }
-      return null;
+      return NONE;
    }
    
    public Constraint getType(){

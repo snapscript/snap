@@ -11,9 +11,11 @@ import org.snapscript.core.type.Type;
 public class TableIndex implements GenericIndex {
    
    private final Map<String, Integer> table;
+   private final GenericTypeMapper mapper;
    private final Type type;
    
    public TableIndex(Type type, Map<String, Integer> table) {
+      this.mapper = new GenericTypeMapper(type);
       this.table = table;
       this.type = type;
    }
@@ -23,13 +25,18 @@ public class TableIndex implements GenericIndex {
       Integer index = table.get(name);
       
       if(index != null) {
-         List<Constraint> constraints = getTypes(constraint);         
+         List<Constraint> constraints = getTypes(constraint);
          int count = constraints.size();
          
          if(index >= count) {
-            throw new InternalStateException("No generic parameter " + index +" for " + type);         
+            throw new InternalStateException("No generic parameter at " + index +" for " + type);         
          }
-         return constraints.get(index);
+         Constraint result = constraints.get(index);
+
+         if(result == null) {
+            throw new InternalStateException("No generic parameter at " + index +" for " + type);    
+         }
+         return mapper.map(result);
       }
       return null;
    }

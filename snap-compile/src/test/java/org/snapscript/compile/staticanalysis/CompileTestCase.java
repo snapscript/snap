@@ -33,7 +33,12 @@ public abstract class CompileTestCase extends TestCase {
    public static void assertCompileSuccess(String source) throws Exception {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
       System.err.println(source);
-      compiler.compile(source).execute();
+      try {;
+         compiler.compile(source).execute();
+      } catch(VerifyException e){
+         e.getErrors().get(0).getCause().printStackTrace();
+         throw e;
+      }
    }
 
 }

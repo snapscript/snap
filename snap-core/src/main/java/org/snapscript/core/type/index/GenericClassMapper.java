@@ -3,12 +3,12 @@ package org.snapscript.core.type.index;
 import org.snapscript.core.PrimitivePromoter;
 import org.snapscript.core.type.Type;
 
-public class ClassConstraintMapper {
+public class GenericClassMapper {
    
    private final PrimitivePromoter promoter;
    private final TypeIndexer indexer;
    
-   public ClassConstraintMapper(TypeIndexer indexer) {
+   public GenericClassMapper(TypeIndexer indexer) {
       this.promoter = new PrimitivePromoter();
       this.indexer = indexer;
    }

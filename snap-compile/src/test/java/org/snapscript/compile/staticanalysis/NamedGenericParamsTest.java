@@ -95,9 +95,9 @@ public class NamedGenericParamsTest extends TestCase {
       assertNotNull(doIt);
       
       assertEquals(returnA.getType(scope).getName(), "String");
-      assertEquals(returnB.getType(scope).getName(), "Object");      
+      assertNull(returnB.getType(scope));      
       assertEquals(returnMap.getType(scope).getName(), "Map");
-      assertEquals(doIt.getType(scope).getName(), "Object");      
+      assertNull(doIt.getType(scope));      
       
       assertEquals(returnA.getName(scope), "A");
       assertEquals(returnB.getName(scope), "B");
@@ -151,9 +151,9 @@ public class NamedGenericParamsTest extends TestCase {
       assertNotNull(doIt);
       
       assertEquals(returnA.getType(scope).getName(), "String");
-      assertEquals(returnB.getType(scope).getName(), "Object");
+      assertNull(returnB.getType(scope));
       assertEquals(returnMap.getType(scope).getName(), "Map");
-      assertEquals(doIt.getType(scope).getName(), "Object");
+      assertNull(doIt.getType(scope));
       
       assertEquals(returnA.getName(scope), "A");
       assertEquals(returnB.getName(scope), "B");
