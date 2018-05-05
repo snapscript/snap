@@ -18,8 +18,8 @@ public class IndexTransform implements GenericTransform {
       Constraint constraint = index.getType(source, name);
       
       if(constraint == null){
-         throw new InternalStateException("Generic parameternot found for " + source);
+         throw new InternalStateException("Generic parameter '" + name + "' not found for " + source);
       }
-      return new GenericReference(source, constraint, index);
+      return new GenericReference(constraint, index);
    }
 }

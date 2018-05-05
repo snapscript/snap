@@ -81,7 +81,8 @@ public class GenericTransformer {
    private GenericTransform create(Constraint constraint, Constraint require, Type destination) {
       Scope scope = destination.getScope();
       Type origin = constraint.getType(scope);
-      GenericIndex index = indexer.index(origin);
+      GenericIndex originIndex = indexer.index(origin);
+      GenericIndex requireIndex = indexer.index(destination);
       List<Constraint> generics = require.getGenerics(scope); // extends Map<T, Integer>
       int count = generics.size();
       
@@ -91,16 +92,16 @@ public class GenericTransformer {
          for(int i = 0; i < count; i++){
             Constraint generic = generics.get(i);
             String name = generic.getName(scope);
-            Constraint parameter = index.getType(constraint, name);
+            Constraint parameter = originIndex.getType(constraint, name);
             
             if(parameter == null) {
-               transforms[i] = new TypeTransform(constraint, generic, index); // its already got a class
+               transforms[i] = new TypeTransform(generic, originIndex); // its already got a class
             }else {
-               transforms[i] = new IndexTransform(index, name);
+               transforms[i] = new IndexTransform(originIndex, name);
             }
          }
-         return new ConstraintTransform(destination, index, transforms);
+         return new ConstraintTransform(destination, requireIndex, transforms);
       }
-      return new ConstraintTransform(destination, index, empty);
+      return new ConstraintTransform(destination, requireIndex, empty);
    }
 }

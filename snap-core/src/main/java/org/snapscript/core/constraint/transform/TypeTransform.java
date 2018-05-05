@@ -6,8 +6,8 @@ public class TypeTransform implements GenericTransform{
    
    private final GenericReference reference;
    
-   public TypeTransform(Constraint constraint, Constraint result, GenericIndex index){
-      this.reference = new GenericReference(constraint, result, index);
+   public TypeTransform(Constraint constraint, GenericIndex index){
+      this.reference = new GenericReference(constraint, index);
    }
    
    @Override

@@ -73,6 +73,6 @@ public class InstanceOfChecker {
             return false;
          }
       }
-      return false;
+      return constraint == Object.class;
    }
 }

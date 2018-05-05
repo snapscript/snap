@@ -24,13 +24,13 @@ public class ReturnTypeChecker {
       
       if(name != null) {
          Type declared = function.getType();
-         Type require = left.getType(scope);
+         Type constraint = left.getType(scope);
          
-         if(declared != null && require != null) {
+         if(declared != null && constraint != null) {
             Module module = scope.getModule();
             Context context = module.getContext();         
             GenericTransformer transformer = context.getTransformer();
-            GenericTransform transform = transformer.transform(declared, require);
+            GenericTransform transform = transformer.transform(constraint, declared);
             GenericReference reference = transform.getReference(left);
             
             return reference.getConstraint(name);     

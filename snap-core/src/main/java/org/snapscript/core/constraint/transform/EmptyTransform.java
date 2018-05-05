@@ -11,7 +11,7 @@ public class EmptyTransform implements GenericTransform {
    
    public EmptyTransform(Type type) {
       this.constriant = new DeclarationConstraint(type);
-      this.reference = new GenericReference(constriant, constriant);
+      this.reference = new GenericReference(constriant);
    }
 
    @Override

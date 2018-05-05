@@ -1,5 +1,7 @@
 package org.snapscript.tree.define;
 
+import java.util.List;
+
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
@@ -12,6 +14,11 @@ public class GenericParameter extends Constraint {
    public GenericParameter(String name, Constraint constraint) {
       this.constraint = constraint;
       this.name = name;
+   }
+   
+   @Override
+   public List<Constraint> getGenerics(Scope scope) {     
+      return constraint.getGenerics(scope);
    }
    
    @Override

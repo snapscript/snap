@@ -1,7 +1,9 @@
 package org.snapscript.compile.staticanalysis;
 
 import static org.snapscript.core.Reserved.DEFAULT_PACKAGE;
-import junit.framework.Assert;
+
+import java.util.List;
+
 import junit.framework.TestCase;
 
 import org.snapscript.common.store.ClassPathStore;
@@ -36,8 +38,14 @@ public class GenericTransformerTest extends TestCase {
    "class Four<A: Boolean> extends Two<String, A>{\n"+
    "}\n";   
 
+   private static final String SOURCE_2 = 
+   "class Foo<A>{\n"+
+   "   func():A{}\n"+
+   "}\n"+
+   "var f: Foo<List<String>> = new Foo<List<String>>();\n"+
+   "f.func().get(0).substring(1);\n";         
    
-   public void testProjection() throws Exception {
+   public void testGenericTransformation() throws Exception {
       Store store = new ClassPathStore();
       Context context = new StoreContext(store, null);
       Compiler compiler = new StringCompiler(context);
@@ -62,8 +70,9 @@ public class GenericTransformerTest extends TestCase {
       Constraint transformed3 = result3.getType();
       
       System.err.println( transformed3);
-      Assert.assertEquals(transformed3.getType(scope3), type1);
-      Assert.assertEquals(result3.getConstraint("B").getType(scope3), typeInteger);   
+      assertEquals(transformed3.getType(scope3), type1);
+      assertEquals(result3.getConstraint("A").getType(scope3), typeInteger);
+      assertNull(result3.getConstraint("B"));         
       
       
       GenericTransform resolution4 = transformer.transform(type4, type1);
@@ -73,10 +82,35 @@ public class GenericTransformerTest extends TestCase {
       Constraint transformed4 = result4.getType();
       
       System.err.println( transformed4);
-      Assert.assertEquals(transformed4.getType(scope4), type1);
-      Assert.assertEquals(result4.getConstraint("B").getType(scope4), typeBoolean);    
+      assertEquals(transformed4.getType(scope4), type1);
+      assertEquals(result4.getConstraint("A").getType(scope4), typeBoolean);  
+      assertNull(result4.getConstraint("B"));   
    }
    
+//   public void testNestedGenericTransformation() throws Exception {
+//      Store store = new ClassPathStore();
+//      Context context = new StoreContext(store, null);
+//      Compiler compiler = new StringCompiler(context);
+//      Model model = new EmptyModel();
+//      
+//      System.err.println(SOURCE_2);
+//      
+//      compiler.compile(SOURCE_2).execute(model, true);
+//      
+//      TypeLoader loader = context.getLoader();
+//      Type typeFoo = loader.resolveType(DEFAULT_PACKAGE, "Foo");
+//      Type typeList = loader.loadType(List.class);
+//      Type typeString = loader.loadType(String.class);
+//
+//      GenericTransformer transformer = context.getTransformer();
+//      GenericTransform resolution = transformer.transform(typeFoo, typeFoo);
+//      Constraint constraint = Constraint.getConstraint(typeFoo); // original     
+//      GenericReference result = resolution.getReference(constraint);
+//      Scope scope = typeFoo.getScope();
+//      Constraint transformed = result.getType();
+//      
+//      System.err.println(transformed);      
+//   }
    
 
 }

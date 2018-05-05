@@ -12,6 +12,6 @@ public class IdentityTransform implements GenericTransform{
    
    @Override
    public GenericReference getReference(Constraint source){
-      return new GenericReference(source, source, index);
+      return new GenericReference(source, index);
    }
 }

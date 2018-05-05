@@ -22,7 +22,7 @@ public class ConstraintTransform implements GenericTransform{
    @Override
    public GenericReference getReference(Constraint origin){
       Constraint result = getConstraint(origin);
-      return new GenericReference(origin, result, index);
+      return new GenericReference(result, index);
    }
    
    private Constraint getConstraint(Constraint origin){
