@@ -2,40 +2,41 @@ package org.snapscript.core.constraint.transform;
 
 import java.util.List;
 
+import org.snapscript.common.Cache;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
+import org.snapscript.core.type.TypeTree;
 import org.snapscript.core.type.TypeExtractor;
 
-public class GenericTransformer {
+public class ConstraintTransformer {
    
-   private final GenericParameterIndexer indexer;
-   private final GenericTransform[] empty;
-   private final GenericCache cache;
+   private final TypeTree<Integer, ConstraintTransform> tree;
+   private final ConstraintIndexer indexer;
    private final TypeExtractor extractor;
    
-   public GenericTransformer(TypeExtractor extractor){
-      this.indexer = new GenericParameterIndexer();
-      this.empty = new GenericTransform[]{};
-      this.cache = new GenericCache();
+   public ConstraintTransformer(TypeExtractor extractor){
+      this.tree = new TypeTree<Integer, ConstraintTransform>();
+      this.indexer = new ConstraintIndexer();
       this.extractor = extractor;
    }
 
-   public GenericTransform transform(Type constraint, Type require) {
-      GenericTransformTable table = cache.fetch(constraint);
-      GenericTransform transform = table.fetch(require);
+   public ConstraintTransform transform(Type constraint, Type require) {
+      int index = require.getOrder();
+      Cache<Integer, ConstraintTransform> cache = tree.get(constraint);
+      ConstraintTransform transform = cache.fetch(index);
       
       if(transform == null) {
          transform = create(constraint, require);
-         table.cache(require, transform);
+         cache.cache(index, transform);
       }
       return transform;
    }
    
-   private GenericTransform create(Type constraint, Type require) {
+   private ConstraintTransform create(Type constraint, Type require) {
       List<Constraint> constraints = require.getConstraints();
-      GenericIndex index = indexer.index(require);      
+      ConstraintIndex index = indexer.index(require);      
       
       if(constraint.equals(require)) {
          return new IdentityTransform(index);
@@ -49,7 +50,7 @@ public class GenericTransformer {
          if(count <= 0) {
             throw new InternalStateException("Type '" + require + "' not in hierarchy of '" + constraint +"'");
          }
-         GenericTransform[] transforms = new GenericTransform[count];
+         ConstraintTransform[] transforms = new ConstraintTransform[count];
          
          for(int i = 0; i < count; i++){
             Constraint base = path.get(i);      
@@ -58,12 +59,12 @@ public class GenericTransformer {
             transforms[i] = create(original, actual);
             original = base;
          }
-         return new TransformationList(transforms);
+         return new ChainTransform(transforms);
       }
       return new EmptyTransform(require);
    }
    
-   private GenericTransform create(Constraint constraint, Type require) {
+   private ConstraintTransform create(Constraint constraint, Type require) {
       Scope scope = require.getScope();
       Type actual = constraint.getType(scope);
       List<Constraint> hierarchy = actual.getTypes();
@@ -78,30 +79,30 @@ public class GenericTransformer {
       throw new InternalStateException("Type '" + require + "' not in hierarchy of '" + actual +"'");
    }
    
-   private GenericTransform create(Constraint constraint, Constraint require, Type destination) {
+   private ConstraintTransform create(Constraint constraint, Constraint require, Type destination) {
       Scope scope = destination.getScope();
       Type origin = constraint.getType(scope);
-      GenericIndex originIndex = indexer.index(origin);
-      GenericIndex requireIndex = indexer.index(destination);
+      ConstraintIndex originIndex = indexer.index(origin);
+      ConstraintIndex requireIndex = indexer.index(destination);
       List<Constraint> generics = require.getGenerics(scope); // extends Map<T, Integer>
       int count = generics.size();
       
       if(count > 0) {
-         GenericTransform[] transforms = new GenericTransform[count];
+         ConstraintTransform[] transforms = new ConstraintTransform[count];
          
          for(int i = 0; i < count; i++){
             Constraint generic = generics.get(i);
             String name = generic.getName(scope);
-            Constraint parameter = originIndex.getType(constraint, name);
+            Constraint parameter = originIndex.resolve(constraint, name);
             
             if(parameter == null) {
-               transforms[i] = new TypeTransform(generic, originIndex); // its already got a class
+               transforms[i] = new StaticTransform(generic, originIndex); // its already got a class
             }else {
-               transforms[i] = new IndexTransform(originIndex, name);
+               transforms[i] = new GenericParameterTransform(originIndex, name);
             }
          }
-         return new ConstraintTransform(destination, requireIndex, transforms);
+         return new GenericTransform(destination, requireIndex, transforms);
       }
-      return new ConstraintTransform(destination, requireIndex, empty);
+      return new StaticTransform(require, requireIndex);
    }
 }

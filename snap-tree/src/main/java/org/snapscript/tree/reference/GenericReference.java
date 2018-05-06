@@ -47,6 +47,7 @@ public class GenericReference implements Compilation {
          this.line = line;
       }
       
+      @Override
       public Value evaluate(Scope scope, Object left) {      
          Constraint constraint = create(scope, left);
          return Value.getTransient(constraint);
@@ -59,8 +60,11 @@ public class GenericReference implements Compilation {
             Type type = value.getValue();
             
             if(list != null) {
-               List<Constraint> generics = list.create(scope);         
-               return new GenericConstraint(type, generics, name);
+               List<Constraint> generics = list.create(scope);    
+               
+               if(!generics.isEmpty()) {
+                  return new GenericConstraint(type, generics, name);
+               }
             }
             return new TypeConstraint(type, name);
          }catch(Exception e) {

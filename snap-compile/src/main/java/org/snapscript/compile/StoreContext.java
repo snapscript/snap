@@ -12,7 +12,7 @@ import org.snapscript.core.Context;
 import org.snapscript.core.ExpressionEvaluator;
 import org.snapscript.core.ResourceManager;
 import org.snapscript.core.StoreManager;
-import org.snapscript.core.constraint.transform.GenericTransformer;
+import org.snapscript.core.constraint.transform.ConstraintTransformer;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.proxy.ProxyWrapper;
 import org.snapscript.core.error.ErrorHandler;
@@ -30,7 +30,7 @@ import org.snapscript.core.type.TypeLoader;
 public class StoreContext implements Context {
 
    private final ContextValidator validator;
-   private final GenericTransformer transformer;
+   private final ConstraintTransformer transformer;
    private final ExpressionEvaluator evaluator;
    private final TraceInterceptor interceptor;
    private final PlatformProvider provider;
@@ -63,7 +63,7 @@ public class StoreContext implements Context {
       this.loader = new TypeLoader(linker, registry, manager, wrapper, stack);
       this.matcher = new ConstraintMatcher(loader, wrapper);
       this.extractor = new TypeExtractor(loader);
-      this.transformer = new GenericTransformer(extractor);
+      this.transformer = new ConstraintTransformer(extractor);
       this.handler = new ErrorHandler(extractor, stack);
       this.indexer = new FunctionIndexer(extractor, stack);
       this.validator = new ContextValidator(matcher, extractor, indexer, verifier);
@@ -104,7 +104,7 @@ public class StoreContext implements Context {
    }
    
    @Override
-   public GenericTransformer getTransformer() {
+   public ConstraintTransformer getTransformer() {
       return transformer;
    }
    

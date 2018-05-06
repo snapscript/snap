@@ -2,14 +2,14 @@ package org.snapscript.core.constraint.transform;
 
 import org.snapscript.core.constraint.Constraint;
 
-public class EmptyIndex implements GenericIndex {
+public class EmptyIndex implements ConstraintIndex {
    
    public EmptyIndex() {
       super();
    }
 
    @Override
-   public Constraint getType(Constraint constraint, String name) {
+   public Constraint resolve(Constraint constraint, String name) {
       return null;
    }
 

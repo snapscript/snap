@@ -68,4 +68,9 @@ public class CompileConstraint extends Constraint {
       }
       return constraint.getName(scope);
    }
+   
+   @Override
+   public String toString(){
+      return String.valueOf(constraint);
+   }
 }

@@ -4,23 +4,23 @@ import static org.snapscript.core.constraint.Constraint.NONE;
 
 import org.snapscript.core.constraint.Constraint;
 
-public class GenericHandle {
+public class ConstraintHandle {
    
    private final Constraint constraint;   
-   private final GenericIndex index;
+   private final ConstraintIndex index;
 
-   public GenericHandle(Constraint constraint) {
+   public ConstraintHandle(Constraint constraint) {
       this(constraint, null);
    }
    
-   public GenericHandle(Constraint constraint, GenericIndex index) {
+   public ConstraintHandle(Constraint constraint, ConstraintIndex index) {
       this.constraint = constraint;
       this.index = index;
    }
    
    public Constraint getConstraint(String name) {
       if(index != null) {
-         return index.getType(constraint, name);         
+         return index.resolve(constraint, name);         
       }
       return NONE;
    }

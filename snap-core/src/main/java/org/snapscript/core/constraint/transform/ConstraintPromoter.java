@@ -5,15 +5,15 @@ import org.snapscript.core.constraint.TypeConstraint;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 
-public class GenericTypeMapper {
+public class ConstraintPromoter {
    
    private final Type type;
    
-   public GenericTypeMapper(Type type) {
+   public ConstraintPromoter(Type type) {
       this.type = type;
    }
    
-   public Constraint map(Constraint constraint) {
+   public Constraint promote(Constraint constraint) {
       Scope scope = type.getScope();
       Type type = constraint.getType(scope);
       
@@ -27,7 +27,6 @@ public class GenericTypeMapper {
          if(real == void.class) {
             return new TypeConstraint(null, name);
          }
-         return constraint;
       }
       return constraint;
    }

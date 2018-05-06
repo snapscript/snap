@@ -2,7 +2,7 @@ package org.snapscript.core;
 
 import org.snapscript.common.store.ClassPathStore;
 import org.snapscript.common.store.Store;
-import org.snapscript.core.constraint.transform.GenericTransformer;
+import org.snapscript.core.constraint.transform.ConstraintTransformer;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.proxy.ProxyWrapper;
 import org.snapscript.core.error.ErrorHandler;
@@ -22,7 +22,7 @@ import org.snapscript.core.type.TypeLoader;
 
 public class MockContext implements Context {
    
-   private final GenericTransformer transformer;
+   private final ConstraintTransformer transformer;
    private final ConstraintMatcher matcher;
    private final ResourceManager manager;
    private final ModuleRegistry registry;
@@ -46,7 +46,7 @@ public class MockContext implements Context {
       this.registry = new ModuleRegistry(this, null);
       this.loader = new TypeLoader(linker, registry, manager, wrapper, stack);
       this.extractor = new TypeExtractor(loader);
-      this.transformer = new GenericTransformer(extractor);
+      this.transformer = new ConstraintTransformer(extractor);
       this.indexer = new FunctionIndexer(extractor, stack);
       this.resolver = new FunctionResolver(extractor, stack, indexer);
       this.matcher = new ConstraintMatcher(loader, wrapper);
@@ -125,7 +125,7 @@ public class MockContext implements Context {
    }
 
    @Override
-   public GenericTransformer getTransformer() {
+   public ConstraintTransformer getTransformer() {
       return transformer;
    }
    

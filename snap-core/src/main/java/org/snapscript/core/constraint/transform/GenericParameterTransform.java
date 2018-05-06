@@ -3,23 +3,23 @@ package org.snapscript.core.constraint.transform;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.constraint.Constraint;
 
-public class IndexTransform implements GenericTransform {
+public class GenericParameterTransform implements ConstraintTransform {
    
-   private final GenericIndex index;
+   private final ConstraintIndex index;
    private final String name;
    
-   public IndexTransform(GenericIndex index, String name){
+   public GenericParameterTransform(ConstraintIndex index, String name){
       this.index = index;
       this.name = name;
    }
    
    @Override
-   public GenericHandle getHandle(Constraint source){
-      Constraint constraint = index.getType(source, name);
+   public ConstraintHandle apply(Constraint source){
+      Constraint constraint = index.resolve(source, name);
       
       if(constraint == null){
          throw new InternalStateException("Generic parameter '" + name + "' not found for " + source);
       }
-      return new GenericHandle(constraint, index);
+      return new ConstraintHandle(constraint, index);
    }
 }

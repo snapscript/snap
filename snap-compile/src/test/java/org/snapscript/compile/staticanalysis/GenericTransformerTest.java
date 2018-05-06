@@ -13,9 +13,9 @@ import org.snapscript.compile.StoreContext;
 import org.snapscript.compile.StringCompiler;
 import org.snapscript.core.Context;
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.constraint.transform.GenericHandle;
-import org.snapscript.core.constraint.transform.GenericTransform;
-import org.snapscript.core.constraint.transform.GenericTransformer;
+import org.snapscript.core.constraint.transform.ConstraintHandle;
+import org.snapscript.core.constraint.transform.ConstraintTransform;
+import org.snapscript.core.constraint.transform.ConstraintTransformer;
 import org.snapscript.core.scope.EmptyModel;
 import org.snapscript.core.scope.Model;
 import org.snapscript.core.scope.Scope;
@@ -62,10 +62,10 @@ public class GenericTransformerTest extends TestCase {
       Type typeInteger = loader.loadType(Integer.class);
       Type typeBoolean = loader.loadType(Boolean.class);
 
-      GenericTransformer transformer = context.getTransformer();
-      GenericTransform resolution3 = transformer.transform(type3, type1);
+      ConstraintTransformer transformer = context.getTransformer();
+      ConstraintTransform resolution3 = transformer.transform(type3, type1);
       Constraint constraint3 = Constraint.getConstraint(type3); // original     
-      GenericHandle result3 = resolution3.getHandle(constraint3);
+      ConstraintHandle result3 = resolution3.apply(constraint3);
       Scope scope3 = type3.getScope();
       Constraint transformed3 = result3.getType();
       
@@ -75,9 +75,9 @@ public class GenericTransformerTest extends TestCase {
       assertNull(result3.getConstraint("B"));         
       
       
-      GenericTransform resolution4 = transformer.transform(type4, type1);
+      ConstraintTransform resolution4 = transformer.transform(type4, type1);
       Constraint constraint4 = Constraint.getConstraint(type4); // original     
-      GenericHandle result4 = resolution4.getHandle(constraint4);
+      ConstraintHandle result4 = resolution4.apply(constraint4);
       Scope scope4 = type4.getScope();
       Constraint transformed4 = result4.getType();
       

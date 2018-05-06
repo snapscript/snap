@@ -2,16 +2,16 @@ package org.snapscript.core.constraint.transform;
 
 import org.snapscript.core.constraint.Constraint;
 
-public class IdentityTransform implements GenericTransform{
+public class IdentityTransform implements ConstraintTransform{
    
-   private final GenericIndex index;
+   private final ConstraintIndex index;
    
-   public IdentityTransform(GenericIndex index){
+   public IdentityTransform(ConstraintIndex index){
       this.index = index;
    }
    
    @Override
-   public GenericHandle getHandle(Constraint source){
-      return new GenericHandle(source, index);
+   public ConstraintHandle apply(Constraint source){
+      return new ConstraintHandle(source, index);
    }
 }

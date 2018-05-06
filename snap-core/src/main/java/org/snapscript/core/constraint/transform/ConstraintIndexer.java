@@ -9,16 +9,16 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeCache;
 
-public class GenericParameterIndexer {
+public class ConstraintIndexer {
    
-   private final TypeCache<GenericIndex> indexes;
+   private final TypeCache<ConstraintIndex> indexes;
    
-   public GenericParameterIndexer(){
-      this.indexes = new TypeCache<GenericIndex>();
+   public ConstraintIndexer(){
+      this.indexes = new TypeCache<ConstraintIndex>();
    }
 
-   public GenericIndex index(Type type){ // give me the named parameters
-      GenericIndex index = indexes.fetch(type);
+   public ConstraintIndex index(Type type){ // give me the named parameters
+      ConstraintIndex index = indexes.fetch(type);
       
       if(index == null) {
          index = create(type);
@@ -27,7 +27,7 @@ public class GenericParameterIndexer {
       return index;
    }
    
-   private GenericIndex create(Type type) {
+   private ConstraintIndex create(Type type) {
       Scope scope = type.getScope();
       List<Constraint> generics = type.getConstraints(); 
       int count = generics.size();
@@ -43,7 +43,7 @@ public class GenericParameterIndexer {
                table.put(name, i);
             }
          }
-         return new TableIndex(type, table);
+         return new PositionIndex(type, table);
       }
       return new EmptyIndex();
    }
