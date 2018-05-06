@@ -10,6 +10,15 @@ public class ExpressionParseTest extends TestCase {
       SyntaxParser tree = LexerBuilder.create(GRAMMAR_FILE);
 
       assertNotNull(tree);
+      analyze(tree, ">=", "comparison-operator");       
+      analyze(tree, "x>=y", "expression");           
+      analyze(tree, ">", "comparison-operator"); 
+      analyze(tree, "i", "value-operand");
+      analyze(tree, "i", "comparison-operand");
+      analyze(tree, "i>2", "comparison");
+      analyze(tree, "List<List<String>>", "constraint");
+      analyze(tree, "List<String>", "constraint");
+      analyze(tree, "List<?>", "constraint");
       analyze(tree, "class X<T> extends Y{}", "class-definition");
       analyze(tree, "class X extends Y{}", "class-definition");
       analyze(tree, "class X<T> extends Y<T>{}", "class-definition");
@@ -134,6 +143,7 @@ public class ExpressionParseTest extends TestCase {
       analyze(tree, "return++i;", "statement");
       analyze(tree, "t", "expression");
       analyze(tree, "t!=null", "expression");
+      analyze(tree, "i>2", "comparison");
       analyze(tree, "i>2", "expression");
       analyze(tree, "a&&y", "expression");
       analyze(tree, "a&&(y)", "expression");

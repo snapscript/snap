@@ -65,6 +65,7 @@ public class MatchAllGrammar implements Grammar {
                if(mark != -1) {            
                   for(GrammarMatcher grammar : matchers) {               
                      if(!grammar.check(checker, 0)) {
+                        checker.reset(mark, index);
                         failure.set(position);
                         return false;
                      }

@@ -37,13 +37,7 @@ public class GenericTransformerTest extends TestCase {
    "}\n"+
    "class Four<A: Boolean> extends Two<String, A>{\n"+
    "}\n";   
-
-   private static final String SOURCE_2 = 
-   "class Foo<A>{\n"+
-   "   func():A{}\n"+
-   "}\n"+
-   "var f: Foo<List<String>> = new Foo<List<String>>();\n"+
-   "f.func().get(0).substring(1);\n";         
+       
    
    public void testGenericTransformation() throws Exception {
       Store store = new ClassPathStore();
@@ -86,31 +80,5 @@ public class GenericTransformerTest extends TestCase {
       assertEquals(result4.getConstraint("A").getType(scope4), typeBoolean);  
       assertNull(result4.getConstraint("B"));   
    }
-   
-//   public void testNestedGenericTransformation() throws Exception {
-//      Store store = new ClassPathStore();
-//      Context context = new StoreContext(store, null);
-//      Compiler compiler = new StringCompiler(context);
-//      Model model = new EmptyModel();
-//      
-//      System.err.println(SOURCE_2);
-//      
-//      compiler.compile(SOURCE_2).execute(model, true);
-//      
-//      TypeLoader loader = context.getLoader();
-//      Type typeFoo = loader.resolveType(DEFAULT_PACKAGE, "Foo");
-//      Type typeList = loader.loadType(List.class);
-//      Type typeString = loader.loadType(String.class);
-//
-//      GenericTransformer transformer = context.getTransformer();
-//      GenericTransform resolution = transformer.transform(typeFoo, typeFoo);
-//      Constraint constraint = Constraint.getConstraint(typeFoo); // original     
-//      GenericReference result = resolution.getReference(constraint);
-//      Scope scope = typeFoo.getScope();
-//      Constraint transformed = result.getType();
-//      
-//      System.err.println(transformed);      
-//   }
-   
 
 }

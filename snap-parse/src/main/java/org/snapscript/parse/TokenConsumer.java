@@ -12,16 +12,28 @@ public abstract class TokenConsumer implements TokenReader {
    protected TokenConsumer(LexicalAnalyzer analyzer) {
       this.analyzer = analyzer;
    }
-
+   
    @Override
    public boolean literal(String text) {
       Token token = analyzer.literal(text);
 
       if (token != null) {
-         value = token;
+         value = combine(value, token);
          return true;
       }
       return false;
+   }   
+   
+   private Token combine(Token current, Token next){
+      if(current != null) {
+         String first = current.toString();
+         String second = next.toString();
+         Line line = current.getLine();
+         short type = current.getType();
+         
+         return new StringToken(first + second, line, type);
+      }
+      return next;
    }
 
    @Override

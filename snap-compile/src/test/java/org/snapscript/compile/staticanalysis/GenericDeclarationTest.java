@@ -47,7 +47,15 @@ public class GenericDeclarationTest extends TestCase {
    "println(Foo$T.class);\n"+
    "println(Blah$T.class);\n";
 
-
+   private static final String SOURCE_4 = 
+   "class Foo<A>{\n"+
+   "   func():A{\n"+
+   "      return['xx'];\n"+         
+   "   }\n"+
+   "}\n"+
+   "var f: Foo<List<String>> = new Foo<List<String>>();\n"+
+   "f.func().get(0).substring(1);\n";
+   
    public void testGenericCompile() throws Exception {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
       System.err.println(SOURCE_1);
@@ -83,5 +91,11 @@ public class GenericDeclarationTest extends TestCase {
          e.printStackTrace();
       }
       assertTrue(failure);
+   }
+   
+   public void testNestedGenerics() throws Exception {
+      Compiler compiler = ClassPathCompilerBuilder.createCompiler();    
+      System.err.println(SOURCE_4);
+      compiler.compile(SOURCE_4).execute();
    }
 }

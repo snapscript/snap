@@ -40,7 +40,8 @@ public class EvaluationTest extends TestCase {
       model.put("list", Arrays.asList("index-0", "index-1", "index-2"));
       model.put("x", 12d);
       model.put("y", 5d);
-
+      
+      assertEquals(evaluate("x>=y", "expression", model), true);
       assertTrue(executeScript("script18.snap", model).isNormal());
       assertTrue(executeScript("script14.snap", model).isNormal());
       assertTrue(executeScript("script17.snap", model).isNormal());
@@ -218,7 +219,7 @@ public class EvaluationTest extends TestCase {
       Store store = new ClassPathStore();
       Context context = new StoreContext(store);
       ExpressionEvaluator evaluator = context.getEvaluator();
-      
+      System.err.println(source);
       return evaluator.evaluate(model, source);
    }
 }
