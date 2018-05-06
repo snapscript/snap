@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.snapscript.core.InternalStateException;
 import org.snapscript.core.function.ClosureFunctionFinder;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.type.Category;

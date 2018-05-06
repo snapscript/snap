@@ -5,17 +5,16 @@ import static org.snapscript.core.Reserved.METHOD_HASH_CODE;
 import static org.snapscript.core.Reserved.METHOD_TO_STRING;
 
 import java.lang.reflect.Method;
-import java.util.concurrent.Callable;
 
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
+import org.snapscript.core.function.Function;
+import org.snapscript.core.function.resolve.FunctionCall;
+import org.snapscript.core.function.resolve.FunctionResolver;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Transient;
 import org.snapscript.core.variable.Value;
-import org.snapscript.core.function.Function;
-import org.snapscript.core.function.resolve.FunctionCall;
-import org.snapscript.core.function.resolve.FunctionResolver;
 
 public class FunctionProxyHandler implements ProxyHandler { 
    

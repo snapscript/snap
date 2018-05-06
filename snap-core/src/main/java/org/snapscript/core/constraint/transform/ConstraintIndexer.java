@@ -33,17 +33,17 @@ public class ConstraintIndexer {
       int count = generics.size();
       
       if(count > 0) {
-         Map<String, Integer> table = new HashMap<String,Integer>();
+         Map<String, Integer> positions = new HashMap<String,Integer>();
          
          for(int i = 0; i < count; i++){
             Constraint constraint = generics.get(i);
             String name = constraint.getName(scope);
             
             if(name != null) {            
-               table.put(name, i);
+               positions.put(name, i);
             }
          }
-         return new PositionIndex(type, table);
+         return new PositionIndex(type, positions);
       }
       return new EmptyIndex();
    }
