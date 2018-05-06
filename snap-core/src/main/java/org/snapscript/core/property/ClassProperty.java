@@ -10,7 +10,7 @@ import java.util.List;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.constraint.TypeConstraint;
+import org.snapscript.core.constraint.StaticConstraint;
 import org.snapscript.core.type.Type;
 
 public class ClassProperty implements Property {
@@ -19,7 +19,7 @@ public class ClassProperty implements Property {
    private final Type type;
    
    public ClassProperty(Type type, Type constraint) {
-      this.constraint = new TypeConstraint(constraint);
+      this.constraint = new StaticConstraint(constraint);
       this.type = type;
    }
    

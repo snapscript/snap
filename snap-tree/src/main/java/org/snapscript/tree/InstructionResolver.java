@@ -3,22 +3,26 @@ package org.snapscript.tree;
 import java.util.Map;
 
 import org.snapscript.core.Context;
+import org.snapscript.core.InternalStateException;
 
-public class InstructionResolver implements OperationResolver {
+public class InstructionResolver implements OperationResolver {   
    
-   private static final Instruction[] INSTRUCTIONS = Instruction.values();  
-   
+   private volatile Map<String, Operation> operations;
    private volatile InstructionBuilder builder;
-   private volatile Map<String, Operation> table;
 
    public InstructionResolver(Context context) {
       this.builder = new InstructionBuilder(context);
    }
 
    public Operation resolve(String name) throws Exception {
-      if(table == null) {            
-         table = builder.create(INSTRUCTIONS);
+      if(operations == null) {            
+         Instruction[] instructions = Instruction.values();
+         
+         if(instructions.length < 1) {
+            throw new InternalStateException("No instructions found");
+         }
+         operations = builder.create(instructions);         
       }      
-      return table.get(name);
+      return operations.get(name);
    }
 }

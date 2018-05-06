@@ -4,7 +4,7 @@ import static org.snapscript.core.Reserved.METHOD_CLOSURE;
 
 import org.snapscript.core.Statement;
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.constraint.TypeConstraint;
+import org.snapscript.core.constraint.StaticConstraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionBody;
 import org.snapscript.core.function.FunctionType;
@@ -32,7 +32,7 @@ public class ClosureBuilder {
    }
    
    public FunctionBody create(Signature signature, Scope scope, int modifiers) {
-      Constraint constraint = new TypeConstraint(null);
+      Constraint constraint = new StaticConstraint(null);
       Type type = new FunctionType(signature, module, null);
       InvocationBuilder builder = new StatementInvocationBuilder(signature, statement, constraint, true);
       Invocation invocation = new ClosureInvocation(builder, scope);

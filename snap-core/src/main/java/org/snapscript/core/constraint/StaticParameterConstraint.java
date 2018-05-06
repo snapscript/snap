@@ -1,37 +1,35 @@
 package org.snapscript.core.constraint;
 
-import java.util.List;
-
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 
-public class GenericConstraint extends Constraint {
+public class StaticParameterConstraint extends Constraint {
    
    private final ConstraintDescription description;
-   private final List<Constraint> generics;
+   private final String name;
    private final Type type;
-   private final int modifiers;
-
-   public GenericConstraint(Type type, List<Constraint> generics) {
-      this(type, generics,  0);
+   private final int modifiers; 
+   
+   public StaticParameterConstraint(Type type, String name) {
+      this(type, name, 0);
    }
    
-   public GenericConstraint(Type type, List<Constraint> generics, int modifiers) {
+   public StaticParameterConstraint(Type type, String name, int modifiers) {
       this.description = new ConstraintDescription(this, type);
       this.modifiers = modifiers;
-      this.generics = generics;
       this.type = type;
-   }
-   
-   @Override
-   public List<Constraint> getGenerics(Scope scope) {
-      return generics;
+      this.name = name;
    }
 
    @Override
    public Type getType(Scope scope) {
       return type;
+   }
+   
+   @Override
+   public String getName(Scope scope) {
+      return name;
    }
 
    @Override

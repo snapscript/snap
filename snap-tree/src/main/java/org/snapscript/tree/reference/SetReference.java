@@ -1,20 +1,25 @@
 package org.snapscript.tree.reference;
 
 import static org.snapscript.core.constraint.Constraint.SET;
-import static org.snapscript.core.constraint.Constraint.NONE;
 
+import org.snapscript.core.InternalStateException;
 import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Type;
 import org.snapscript.parse.StringToken;
-import org.snapscript.tree.literal.Literal;
 
-public class SetReference extends Literal {
+public class SetReference extends ConstraintReference {
    
    public SetReference(StringToken token) {
       super();
    }
    
    @Override
-   protected LiteralValue create(Scope scope) {
-      return new LiteralValue(SET, NONE);
+   protected ConstraintValue create(Scope scope) {
+      try {
+         Type type = SET.getType(scope);
+         return new ConstraintValue(type, SET);
+      } catch(Exception e) {
+         throw new InternalStateException("Could not resolve set reference", e);
+      }
    }
 }

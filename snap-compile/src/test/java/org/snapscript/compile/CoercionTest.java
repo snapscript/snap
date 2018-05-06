@@ -1,5 +1,7 @@
 package org.snapscript.compile;
 
+import org.snapscript.compile.verify.VerifyException;
+
 import junit.framework.TestCase;
 
 public class CoercionTest extends TestCase {
@@ -31,8 +33,16 @@ public class CoercionTest extends TestCase {
    public void testCoercion() throws Exception {;
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
       System.err.println(SOURCE_1);
-      Executable executable = compiler.compile(SOURCE_1);
-      executable.execute();
+      try{
+         Executable executable = compiler.compile(SOURCE_1);
+         executable.execute();
+      }catch(VerifyException e){
+         e.getErrors().get(0).getCause().printStackTrace();
+         throw e;
+      }catch(Exception e){
+         e.printStackTrace();
+         throw e;
+      }
    }
     
    public void testReturnCoercion() throws Exception {;

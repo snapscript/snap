@@ -59,16 +59,18 @@ public class InstanceOfChecker {
    private boolean isInstanceOf(Scope scope, Class instance, Class constraint) {
       if (constraint != null && instance != null) {
          try {
-            if(instance.isArray() && constraint.isArray()) {
-               Class instanceEntry = instance.getComponentType();
-               Class constraintEntry = constraint.getComponentType();
-               
+            Class instanceEntry = instance.getComponentType();
+            Class constraintEntry = constraint.getComponentType();
+            
+            if(instanceEntry != null && constraintEntry != null) {
                return isInstanceOf(scope, instanceEntry, constraintEntry);
             }
             Class instanceType = promoter.promote(instance);
             Class constraintType = promoter.promote(constraint);
 
-            return instanceType == constraintType;
+            if(instanceType == constraintType) {
+               return true;
+            }
          } catch (Exception e) {
             return false;
          }

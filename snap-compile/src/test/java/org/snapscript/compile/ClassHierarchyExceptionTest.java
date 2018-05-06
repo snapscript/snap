@@ -22,7 +22,7 @@ public class ClassHierarchyExceptionTest extends TestCase {
          executable.execute();
       }catch(Exception e) {
          e.printStackTrace();
-         assertEquals(e.getCause().getMessage(), "Invalid constraint");
+         assertEquals(e.getCause().getMessage(), "Could not resolve constraint");
       }
    }
 

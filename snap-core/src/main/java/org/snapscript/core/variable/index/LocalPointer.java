@@ -3,7 +3,7 @@ package org.snapscript.core.variable.index;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.constraint.ConstraintMapper;
+import org.snapscript.core.constraint.ConstraintWrapper;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
 import org.snapscript.core.variable.Value;
@@ -12,13 +12,13 @@ import org.snapscript.core.variable.bind.VariableFinder;
 public class LocalPointer implements VariablePointer<Object> {
    
    private final AtomicReference<Object> reference;
-   private final ConstraintMapper mapper;
+   private final ConstraintWrapper mapper;
    private final VariableFinder finder;
    private final String name;
    
    public LocalPointer(VariableFinder finder, String name) {
       this.reference = new AtomicReference<Object>();
-      this.mapper = new ConstraintMapper();
+      this.mapper = new ConstraintWrapper();
       this.finder = finder;
       this.name = name;
    }
@@ -35,13 +35,13 @@ public class LocalPointer implements VariablePointer<Object> {
             Object value = finder.findTypes(scope, name);
             
             if(value != null) {
-               return mapper.map(value); // is this really needed?
+               return mapper.toConstraint(value); // is this really needed?
             }
             return null;
          }
          return Constraint.getConstraint(variable);
       }
-      return mapper.map(result);
+      return mapper.toConstraint(result);
    }
    
    @Override

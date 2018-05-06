@@ -1,29 +1,29 @@
 package org.snapscript.core.constraint;
 
-import static org.snapscript.core.ModifierType.CLASS;
-
-import org.snapscript.core.module.Module;
+import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.variable.Value;
 
 public class ConstraintMapper {
    
    public ConstraintMapper() {
       super();
    }
-
-   public Constraint map(Object value) {  
-      if(value != null) {
-         if(Type.class.isInstance(value)) {
-            return Constraint.getConstraint((Type)value, CLASS.mask);
+   
+   public Constraint map(Scope scope, Constraint constraint) {    
+      Type type = constraint.getType(scope);
+      
+      if(type != null) {
+         String name = constraint.getName(scope);
+         Class real = type.getType();
+         
+         if(real == Object.class) {
+            return new GenericParameterConstraint(null, name);
          }
-         if(Module.class.isInstance(value)) {
-            return Constraint.getConstraint((Module)value);
+         if(real == void.class) {
+            return new GenericParameterConstraint(null, name);
          }
-         if(Value.class.isInstance(value)) {         
-            return Constraint.getConstraint((Value)value);
-         }         
       }
-      return Constraint.getConstraint(value);
+      return constraint;
    }
 }
+

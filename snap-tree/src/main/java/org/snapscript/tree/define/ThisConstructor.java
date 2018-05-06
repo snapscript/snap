@@ -2,7 +2,7 @@ package org.snapscript.tree.define;
 
 import org.snapscript.core.Execution;
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.constraint.TypeConstraint;
+import org.snapscript.core.constraint.StaticConstraint;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeBody;
@@ -31,7 +31,7 @@ public class ThisConstructor extends TypePart {
    @Override
    public TypeState define(TypeBody body, Type type, Scope scope) throws Exception {  
       Execution execution = new StaticBody(body, type);
-      Constraint constraint = new TypeConstraint(type);
+      Constraint constraint = new StaticConstraint(type);
       CreateObject evaluation = new CreateObject(constraint, arguments);
       
       return new ThisState(execution, evaluation);

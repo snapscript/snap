@@ -3,7 +3,7 @@ package org.snapscript.tree.reference;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.constraint.ConstraintMapper;
+import org.snapscript.core.constraint.ConstraintWrapper;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.index.Local;
 import org.snapscript.core.type.NameBuilder;
@@ -12,13 +12,13 @@ import org.snapscript.core.variable.Value;
 
 public class TypeReference extends Evaluation {
    
-   private ConstraintMapper mapper;
+   private ConstraintWrapper mapper;
    private NameBuilder builder;
    private Evaluation[] list;
    private Value type;
    
    public TypeReference(Evaluation... list) {
-      this.mapper = new ConstraintMapper();
+      this.mapper = new ConstraintWrapper();
       this.builder = new NameBuilder();
       this.list = list;
    }
@@ -49,7 +49,7 @@ public class TypeReference extends Evaluation {
    private Value create(Scope scope, Value result) throws Exception {
       Object value = result.getValue();
       String name = result.getName(scope);
-      Constraint constraint = mapper.map(value);
+      Constraint constraint = mapper.toConstraint(value);
       
       if(name != null) {
          Type type = constraint.getType(scope);

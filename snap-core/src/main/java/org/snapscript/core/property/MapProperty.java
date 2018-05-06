@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.constraint.TypeConstraint;
+import org.snapscript.core.constraint.StaticConstraint;
 import org.snapscript.core.type.Type;
 
 public class MapProperty implements Property<Map> {
@@ -17,7 +17,7 @@ public class MapProperty implements Property<Map> {
    private final int modifiers;
    
    public MapProperty(String name, Type type, int modifiers){
-      this.constraint = new TypeConstraint(null);
+      this.constraint = new StaticConstraint(null);
       this.modifiers = modifiers;
       this.name = name;
       this.type = type;

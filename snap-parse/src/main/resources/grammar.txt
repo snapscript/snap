@@ -58,7 +58,7 @@ reference-part = { <reference-invocation> |
 				   <literal> };
 			   				   
 reference-navigation = <reference-part>*(<reference-operator><reference-navigation>);
-reference-variable = { <constraint-reference> |					   
+reference-variable = { <array-reference> |					   
 					   <function-invocation> | 
 					   <construct> | 
 					   <closure> |					  
@@ -174,13 +174,12 @@ list-reference = '[]';
 set-reference = '{}';
 map-reference = '{:}';
 function-reference = '('<parameter-list>')';
-constraint-reference = <array-reference>;
 
-reference-constraint = { <array-reference> | <function-reference> | <list-reference> | <set-reference> | <map-reference> };
+type-constraint = { <array-reference> | <function-reference> | <list-reference> | <set-reference> | <map-reference> };
 class-constraint = <generic-reference>;
 trait-constraint = <generic-reference>;
 
-constraint = {<reference-constraint> | <class-constraint> };
+constraint = {<type-constraint> | <class-constraint> };
 
 generic-reference = <type-reference> ?<generic-argument-list>;
 generic-argument = {'?'|<constraint>};

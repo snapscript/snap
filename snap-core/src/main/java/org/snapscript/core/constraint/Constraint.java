@@ -35,11 +35,11 @@ public abstract class Constraint {
    }
 
    public static Constraint getConstraint(Type type) {
-      return new TypeConstraint(type);
+      return new StaticConstraint(type);
    }
    
    public static Constraint getConstraint(Type type, int modifiers) {
-      return new TypeConstraint(type, modifiers);
+      return new StaticConstraint(type, modifiers);
    }
 
    public static Constraint getConstraint(Object value) {

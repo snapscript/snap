@@ -6,7 +6,8 @@ import java.lang.reflect.Method;
 
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.constraint.TypeConstraint;
+import org.snapscript.core.constraint.GenericConstraint;
+import org.snapscript.core.constraint.GenericParameterConstraint;
 import org.snapscript.core.type.Type;
 
 public class GenericConstraintExtractor {
@@ -29,10 +30,10 @@ public class GenericConstraintExtractor {
             Type match = indexer.loadType(type);            
             
             if(match != null) {
-               return new TypeConstraint(match, name);
+               return new GenericParameterConstraint(match, name);
             }
          }
-         return new TypeConstraint(null, name);
+         return new GenericParameterConstraint(null, name);
       } catch(Exception e) {
          throw new InternalStateException("Could not create constraint for " + type, e);
       }
@@ -45,7 +46,7 @@ public class GenericConstraintExtractor {
          Class actual = bound.getBound();
          Type match = mapper.map(actual);  
          
-         return new TypeConstraint(match, name, modifiers);
+         return new GenericParameterConstraint(match, name, modifiers);
       } catch(Exception e) {
          throw new InternalStateException("Could not create constraint for " + field, e);
       }
@@ -58,7 +59,7 @@ public class GenericConstraintExtractor {
          Class actual = bound.getBound();
          Type match = mapper.map(actual);  
          
-         return new TypeConstraint(match, name, modifiers);
+         return new GenericParameterConstraint(match, name, modifiers);
       } catch(Exception e) {
          throw new InternalStateException("Could not create constraint for " + method, e);
       }

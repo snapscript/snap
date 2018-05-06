@@ -21,8 +21,8 @@ import org.snapscript.tree.condition.SwitchStatement;
 import org.snapscript.tree.condition.ValueCase;
 import org.snapscript.tree.condition.WhileStatement;
 import org.snapscript.tree.constraint.ClassConstraint;
-import org.snapscript.tree.constraint.ReferenceConstraint;
 import org.snapscript.tree.constraint.TraitConstraint;
+import org.snapscript.tree.constraint.TypeConstraint;
 import org.snapscript.tree.construct.ConstructArray;
 import org.snapscript.tree.construct.ConstructList;
 import org.snapscript.tree.construct.ConstructMap;
@@ -82,7 +82,6 @@ import org.snapscript.tree.operation.PrefixIncrement;
 import org.snapscript.tree.operation.PrefixOperation;
 import org.snapscript.tree.operation.SignedNumber;
 import org.snapscript.tree.reference.ArrayReference;
-import org.snapscript.tree.reference.ConstraintReference;
 import org.snapscript.tree.reference.FunctionReference;
 import org.snapscript.tree.reference.GenericArgument;
 import org.snapscript.tree.reference.GenericArgumentList;
@@ -155,7 +154,6 @@ public enum Instruction {
    SET_REFERENCE(SetReference.class, "set-reference"),   
    MAP_REFERENCE(MapReference.class, "map-reference"),
    FUNCTION_REFERENCE(FunctionReference.class, "function-reference"),
-   CONSTRAINT_REFERENCE(ConstraintReference.class, "constraint-reference"),
    GENERIC_REFERENCE(GenericReference.class, "generic-reference"),
    GENERIC_ARGUMENT(GenericArgument.class, "generic-argument"),
    GENERIC_ARGUMENT_LIST(GenericArgumentList.class, "generic-argument-list"),   
@@ -200,7 +198,7 @@ public enum Instruction {
    MATCH_STATEMENT(MatchStatement.class, "match-statement"),
    MATCH_CASE(ValueCase.class, "match-case"),
    MATCH_DEFAULT(DefaultCase.class, "match-default"),    
-   REFERENCE_CONSTRAINT(ReferenceConstraint.class, "reference-constraint"),
+   TYPE_CONSTRAINT(TypeConstraint.class, "type-constraint"),
    CLASS_CONSTRAINT(ClassConstraint.class, "class-constraint"),
    TRAIT_CONSTRAINT(TraitConstraint.class, "trait-constraint"),     
    VARIABLE_ARGUMENT(Modifier.class, "variable-argument"),

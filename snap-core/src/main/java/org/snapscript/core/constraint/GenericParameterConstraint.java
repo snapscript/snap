@@ -1,33 +1,44 @@
 package org.snapscript.core.constraint;
 
+import static java.util.Collections.EMPTY_LIST;
+
+import java.util.List;
+
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 
-public class TypeConstraint extends Constraint {
+public class GenericParameterConstraint extends Constraint {
    
    private final ConstraintDescription description;
+   private final List<Constraint> generics;
    private final String name;
    private final Type type;
-   private final int modifiers;
-
-   public TypeConstraint(Type type) {
-      this(type, 0);
+   private final int modifiers; 
+   
+   public GenericParameterConstraint(Type type, String name) {
+      this(type, EMPTY_LIST, name);
    }
    
-   public TypeConstraint(Type type, int modifiers) {
-      this(type, null, modifiers);
+   public GenericParameterConstraint(Type type, String name, int modifiers) {
+      this(type, EMPTY_LIST, name, modifiers);
    }
    
-   public TypeConstraint(Type type, String name) {
-      this(type, name, 0);
+   public GenericParameterConstraint(Type type, List<Constraint> generics, String name) {
+      this(type, generics, name, 0);
    }
    
-   public TypeConstraint(Type type, String name, int modifiers) {
+   public GenericParameterConstraint(Type type, List<Constraint> generics, String name, int modifiers) {
       this.description = new ConstraintDescription(this, type);
       this.modifiers = modifiers;
+      this.generics = generics;
       this.type = type;
       this.name = name;
+   }
+   
+   @Override
+   public List<Constraint> getGenerics(Scope scope) {
+      return generics;
    }
 
    @Override

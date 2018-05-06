@@ -39,6 +39,46 @@ public class GenericTransformerTest extends TestCase {
    "}\n";   
        
    
+   private static final String SOURCE_2 =
+   "class One<A>{\n"+
+   "   func():A{\n"+
+   "   }\n"+
+   "}\n"+
+   "class Two<A, B> extends One<List<B>>{\n"+
+   "   blah():A{\n"+
+   "   }\n"+
+   "}\n"+
+   "class Three extends Two<Integer, List<Integer>>{\n"+
+   "}\n";
+   
+   public void testNestedGenericTransformation() throws Exception {
+      Store store = new ClassPathStore();
+      Context context = new StoreContext(store, null);
+      Compiler compiler = new StringCompiler(context);
+      Model model = new EmptyModel();
+      
+      System.err.println(SOURCE_2);
+      
+      compiler.compile(SOURCE_2).execute(model, true);
+      
+      TypeLoader loader = context.getLoader();
+      Type type3 = loader.resolveType(DEFAULT_PACKAGE, "Three");      
+      Type type1 = loader.resolveType(DEFAULT_PACKAGE, "One");
+      Type listType = loader.loadType(List.class);
+
+      ConstraintTransformer transformer = context.getTransformer();
+      ConstraintTransform resolution3 = transformer.transform(type3, type1);
+      Constraint constraint3 = Constraint.getConstraint(type3); // original     
+      ConstraintHandle result3 = resolution3.apply(constraint3);
+      Scope scope3 = type3.getScope();
+      Constraint transformed3 = result3.getType();
+      
+      System.err.println( transformed3);
+      assertEquals(transformed3.getType(scope3), type1);
+      assertEquals(result3.getConstraint("A").getType(scope3), listType);
+      assertNull(result3.getConstraint("B"));         
+   }
+   
    public void testGenericTransformation() throws Exception {
       Store store = new ClassPathStore();
       Context context = new StoreContext(store, null);

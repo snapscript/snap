@@ -40,10 +40,10 @@ public class ArrayCastChecker {
    
    public Score toArray(Class actual, Class constraint) throws Exception{
       if(constraint != null && actual != null) {
-         if(constraint.isArray() && actual.isArray()) {
-            Class constraintEntry = constraint.getComponentType();
-            Class actualEntry = actual.getComponentType();
-            
+         Class constraintEntry = constraint.getComponentType();
+         Class actualEntry = actual.getComponentType();
+         
+         if(actualEntry != null && constraintEntry != null) {
             return toArray(actualEntry, constraintEntry);
          }
          Class constraintType = promoter.promote(constraint);

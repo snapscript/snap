@@ -1,7 +1,7 @@
 package org.snapscript.core.constraint.transform;
 
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.constraint.TypeConstraint;
+import org.snapscript.core.constraint.StaticConstraint;
 import org.snapscript.core.type.Type;
 
 public class EmptyTransform implements ConstraintTransform {
@@ -10,7 +10,7 @@ public class EmptyTransform implements ConstraintTransform {
    private final Constraint constriant;
    
    public EmptyTransform(Type type) {
-      this.constriant = new TypeConstraint(type);
+      this.constriant = new StaticConstraint(type);
       this.reference = new ConstraintHandle(constriant);
    }
 

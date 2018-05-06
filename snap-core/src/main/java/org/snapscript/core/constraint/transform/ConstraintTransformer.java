@@ -96,13 +96,13 @@ public class ConstraintTransformer {
             Constraint parameter = originIndex.resolve(constraint, name);
             
             if(parameter == null) {
-               transforms[i] = new TypeTransform(generic, originIndex); // its already got a class
+               transforms[i] = new StaticParameterTransform(generic); // its already got a class
             }else {
                transforms[i] = new GenericParameterTransform(originIndex, name);
             }
          }
          return new GenericTransform(destination, requireIndex, transforms);
       }
-      return new TypeTransform(require, requireIndex);
+      return new StaticTransform(require, requireIndex);
    }
 }
