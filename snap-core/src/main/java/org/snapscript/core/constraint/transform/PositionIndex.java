@@ -5,18 +5,19 @@ import java.util.Map;
 
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.constraint.ConstraintPromoter;
 import org.snapscript.core.type.Type;
 
 public class PositionIndex implements ConstraintIndex {
    
    private final Map<String, Integer> positions;
-   private final ConstraintExtractor extractor;
    private final ConstraintPromoter promoter;
+   private final ConstraintSource source;
    private final Type type;
    
    public PositionIndex(Type type, Map<String, Integer> positions) {
-      this.extractor = new ConstraintExtractor(type);
       this.promoter = new ConstraintPromoter(type);
+      this.source = new ConstraintSource(type);
       this.positions = positions;
       this.type = type;
    }
@@ -26,7 +27,7 @@ public class PositionIndex implements ConstraintIndex {
       Integer position = positions.get(name);
       
       if(position != null) {
-         List<Constraint> constraints = extractor.extract(constraint);
+         List<Constraint> constraints = source.getConstraints(constraint);
          int count = constraints.size();
          
          if(position >= count) {

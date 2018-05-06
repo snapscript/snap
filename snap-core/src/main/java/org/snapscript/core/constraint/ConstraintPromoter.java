@@ -1,7 +1,5 @@
-package org.snapscript.core.constraint.transform;
+package org.snapscript.core.constraint;
 
-import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.constraint.TypeConstraint;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 

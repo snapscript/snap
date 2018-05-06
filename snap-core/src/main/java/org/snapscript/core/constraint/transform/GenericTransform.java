@@ -22,11 +22,7 @@ public class GenericTransform implements ConstraintTransform{
    @Override
    public ConstraintHandle apply(Constraint origin){
       Constraint constraint = create(origin);
-      
-      if(index != null) {
-         return new ConstraintHandle(constraint, index);
-      }
-      return new ConstraintHandle(constraint);
+      return new ConstraintHandle(constraint, index);
    }
    
    private Constraint create(Constraint origin){

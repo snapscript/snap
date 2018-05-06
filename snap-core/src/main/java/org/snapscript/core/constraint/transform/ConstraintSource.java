@@ -7,15 +7,15 @@ import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 
-public class ConstraintExtractor {
+public class ConstraintSource {
    
    private final Type type;
    
-   public ConstraintExtractor(Type type) {
+   public ConstraintSource(Type type) {
       this.type = type;
    }
    
-   public List<Constraint> extract(Constraint constraint) {
+   public List<Constraint> getConstraints(Constraint constraint) {
       Scope scope = type.getScope();
       List<Constraint> generics = constraint.getGenerics(scope);
       List<Constraint> constraints = type.getConstraints();

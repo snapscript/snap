@@ -7,8 +7,8 @@ import org.snapscript.core.InternalStateException;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.type.TypeTree;
 import org.snapscript.core.type.TypeExtractor;
+import org.snapscript.core.type.TypeTree;
 
 public class ConstraintTransformer {
    
@@ -96,13 +96,13 @@ public class ConstraintTransformer {
             Constraint parameter = originIndex.resolve(constraint, name);
             
             if(parameter == null) {
-               transforms[i] = new StaticTransform(generic, originIndex); // its already got a class
+               transforms[i] = new TypeTransform(generic, originIndex); // its already got a class
             }else {
                transforms[i] = new GenericParameterTransform(originIndex, name);
             }
          }
          return new GenericTransform(destination, requireIndex, transforms);
       }
-      return new StaticTransform(require, requireIndex);
+      return new TypeTransform(require, requireIndex);
    }
 }

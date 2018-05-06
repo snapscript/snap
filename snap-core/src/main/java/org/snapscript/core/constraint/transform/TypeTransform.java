@@ -2,11 +2,11 @@ package org.snapscript.core.constraint.transform;
 
 import org.snapscript.core.constraint.Constraint;
 
-public class StaticTransform implements ConstraintTransform{
+public class TypeTransform implements ConstraintTransform{
    
    private final ConstraintHandle reference;
    
-   public StaticTransform(Constraint constraint, ConstraintIndex index){
+   public TypeTransform(Constraint constraint, ConstraintIndex index){
       this.reference = new ConstraintHandle(constraint, index);
    }
    
