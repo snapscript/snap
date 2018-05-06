@@ -14,10 +14,10 @@ import org.snapscript.core.NoExecution;
 import org.snapscript.core.Statement;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.TypeState;
 import org.snapscript.core.type.Phase;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypePart;
+import org.snapscript.core.type.TypeState;
 import org.snapscript.tree.annotation.AnnotationList;
 
 public class ClassDefinition extends Statement {   
@@ -33,7 +33,7 @@ public class ClassDefinition extends Statement {
    private final Execution execution;
    private final TypePart[] parts;
    
-   public ClassDefinition(AnnotationList annotations, TypeName name, TypeHierarchy hierarchy, TypePart... parts) {
+   public ClassDefinition(AnnotationList annotations, ClassName name, TypeHierarchy hierarchy, TypePart... parts) {
       this.builder = new ClassBuilder(annotations, name, hierarchy, CLASS);
       this.generator = new FunctionPropertyGenerator(); 
       this.collector = new TypeStateCollector();

@@ -4,16 +4,16 @@ import static org.snapscript.core.constraint.Constraint.NONE;
 
 import org.snapscript.core.constraint.Constraint;
 
-public class GenericReference {
+public class GenericHandle {
    
    private final Constraint constraint;   
    private final GenericIndex index;
 
-   public GenericReference(Constraint constraint) {
+   public GenericHandle(Constraint constraint) {
       this(constraint, null);
    }
    
-   public GenericReference(Constraint constraint, GenericIndex index) {
+   public GenericHandle(Constraint constraint, GenericIndex index) {
       this.constraint = constraint;
       this.index = index;
    }

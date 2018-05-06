@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.constraint.DeclarationConstraint;
+import org.snapscript.core.constraint.GenericConstraint;
 import org.snapscript.core.type.Type;
 
 public class ConstraintTransform implements GenericTransform{
@@ -20,20 +20,24 @@ public class ConstraintTransform implements GenericTransform{
    }
    
    @Override
-   public GenericReference getReference(Constraint origin){
-      Constraint result = getConstraint(origin);
-      return new GenericReference(result, index);
+   public GenericHandle getHandle(Constraint origin){
+      Constraint constraint = getConstraint(origin);
+      
+      if(index != null) {
+         return new GenericHandle(constraint, index);
+      }
+      return new GenericHandle(constraint);
    }
    
    private Constraint getConstraint(Constraint origin){
       List<Constraint> constraints = new ArrayList<Constraint>();
 
       for(GenericTransform entry : list){
-         GenericReference reference = entry.getReference(origin);
-         Constraint constraint = reference.getType();
+         GenericHandle handle = entry.getHandle(origin);
+         Constraint constraint = handle.getType();
          
          constraints.add(constraint);
       }
-      return new DeclarationConstraint(type, constraints);
+      return new GenericConstraint(type, constraints);
    }
 }

@@ -2,9 +2,9 @@ package org.snapscript.tree.constraint;
 
 import org.snapscript.core.Evaluation;
 
-public class TraitConstraint extends ClassConstraint {
+public class ClassConstraint extends ReferenceConstraint {
    
-   public TraitConstraint(Evaluation evaluation) {
+   public ClassConstraint(Evaluation evaluation) {
       super(evaluation);
    }
 }

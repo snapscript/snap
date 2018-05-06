@@ -3,6 +3,7 @@ package org.snapscript.tree.define;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.constraint.DeclarationConstraint;
 import org.snapscript.core.function.Accessor;
 import org.snapscript.core.function.AccessorProperty;
 import org.snapscript.core.function.ModuleAccessor;
@@ -13,7 +14,6 @@ import org.snapscript.core.scope.State;
 import org.snapscript.core.variable.Value;
 import org.snapscript.tree.DeclarationAllocator;
 import org.snapscript.tree.NameReference;
-import org.snapscript.tree.constraint.DeclarationConstraint;
 import org.snapscript.tree.literal.TextLiteral;
 
 public class ModuleProperty {

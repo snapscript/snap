@@ -4,9 +4,9 @@ import static org.snapscript.core.ModifierType.CONSTANT;
 
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.constraint.DeclarationConstraint;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.tree.NameReference;
-import org.snapscript.tree.constraint.DeclarationConstraint;
 import org.snapscript.tree.literal.TextLiteral;
 
 public class MemberFieldDeclaration {

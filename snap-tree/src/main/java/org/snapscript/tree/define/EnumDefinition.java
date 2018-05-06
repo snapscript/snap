@@ -31,7 +31,7 @@ public class EnumDefinition extends Statement {
    private final EnumList list;
    private final TypePart[] parts;
    
-   public EnumDefinition(AnnotationList annotations, TypeName name, TypeHierarchy hierarchy, EnumList list, TypePart... parts) {
+   public EnumDefinition(AnnotationList annotations, EnumName name, TypeHierarchy hierarchy, EnumList list, TypePart... parts) {
       this.builder = new EnumBuilder(name, hierarchy);
       this.collector = new TypeStateCollector();
       this.constructor = new DefaultConstructor(collector, true);

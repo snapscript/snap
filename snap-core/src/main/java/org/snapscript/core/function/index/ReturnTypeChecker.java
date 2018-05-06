@@ -2,7 +2,7 @@ package org.snapscript.core.function.index;
 
 import org.snapscript.core.Context;
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.constraint.transform.GenericReference;
+import org.snapscript.core.constraint.transform.GenericHandle;
 import org.snapscript.core.constraint.transform.GenericTransform;
 import org.snapscript.core.constraint.transform.GenericTransformer;
 import org.snapscript.core.function.Function;
@@ -31,9 +31,9 @@ public class ReturnTypeChecker {
             Context context = module.getContext();         
             GenericTransformer transformer = context.getTransformer();
             GenericTransform transform = transformer.transform(constraint, declared);
-            GenericReference reference = transform.getReference(left);
+            GenericHandle handle = transform.getHandle(left);
             
-            return reference.getConstraint(name);     
+            return handle.getConstraint(name);     
          }
       }
       return returns;

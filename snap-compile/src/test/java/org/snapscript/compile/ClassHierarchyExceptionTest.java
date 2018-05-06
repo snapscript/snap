@@ -22,7 +22,7 @@ public class ClassHierarchyExceptionTest extends TestCase {
          executable.execute();
       }catch(Exception e) {
          e.printStackTrace();
-         assertEquals(e.getCause().getMessage(), "Invalid constraint in /default.snap at line 1");
+         assertEquals(e.getCause().getMessage(), "Invalid constraint");
       }
    }
 

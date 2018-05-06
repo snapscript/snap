@@ -30,11 +30,15 @@ public class ClassHierarchyIndexer {
          Class base = source.getSuperclass(); // the super class
          
          if(base != null) {
-            Constraint constraint = Constraint.getConstraint(base);
+            Type type = indexer.loadType(base);
+            Constraint constraint = Constraint.getConstraint(type);
+            
             hierarchy.add(constraint);
          }
          for (Class entry : interfaces) {
-            Constraint constraint = Constraint.getConstraint(entry);
+            Type type = indexer.loadType(entry);
+            Constraint constraint = Constraint.getConstraint(type);
+            
             hierarchy.add(constraint);
          }
       }

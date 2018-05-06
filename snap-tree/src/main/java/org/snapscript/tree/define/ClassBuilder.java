@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.constraint.ConstraintVerifier;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
@@ -23,10 +22,10 @@ public class ClassBuilder {
    private final ConstantPropertyBuilder builder;
    private final AnnotationList annotations;
    private final TypeHierarchy hierarchy;
-   private final TypeName name;
+   private final ClassName name;
    private final Category category;
    
-   public ClassBuilder(AnnotationList annotations, TypeName name, TypeHierarchy hierarchy, Category category) {
+   public ClassBuilder(AnnotationList annotations, ClassName name, TypeHierarchy hierarchy, Category category) {
       this.reference = new AtomicReference<Type>();
       this.generator = new ClassPropertyGenerator();
       this.builder = new ConstantPropertyBuilder();

@@ -10,6 +10,7 @@ import org.snapscript.core.ModifierType;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.constraint.DeclarationConstraint;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.function.Accessor;
 import org.snapscript.core.function.AccessorProperty;
@@ -27,7 +28,6 @@ import org.snapscript.core.variable.Value;
 import org.snapscript.tree.ModifierChecker;
 import org.snapscript.tree.ModifierList;
 import org.snapscript.tree.annotation.AnnotationList;
-import org.snapscript.tree.constraint.DeclarationConstraint;
 import org.snapscript.tree.literal.TextLiteral;
 
 public class TraitConstant implements Compilation {

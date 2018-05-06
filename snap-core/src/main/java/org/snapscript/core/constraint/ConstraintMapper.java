@@ -22,7 +22,7 @@ public class ConstraintMapper {
          }
          if(Value.class.isInstance(value)) {         
             return Constraint.getConstraint((Value)value);
-         }
+         }         
       }
       return Constraint.getConstraint(value);
    }

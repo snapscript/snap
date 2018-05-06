@@ -11,6 +11,7 @@ import org.snapscript.core.InternalStateException;
 import org.snapscript.core.NoExecution;
 import org.snapscript.core.Statement;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.constraint.DeclarationConstraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionBody;
 import org.snapscript.core.function.Signature;
@@ -19,7 +20,6 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.tree.NameReference;
 import org.snapscript.tree.compile.FunctionScopeCompiler;
 import org.snapscript.tree.compile.ScopeCompiler;
-import org.snapscript.tree.constraint.DeclarationConstraint;
 import org.snapscript.tree.function.FunctionBuilder;
 import org.snapscript.tree.function.ParameterList;
 

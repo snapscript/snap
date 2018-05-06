@@ -1,7 +1,7 @@
 package org.snapscript.core.constraint.transform;
 
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.constraint.DeclarationConstraint;
+import org.snapscript.core.constraint.TypeConstraint;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 
@@ -22,10 +22,10 @@ public class GenericTypeMapper {
          Class real = type.getType();
          
          if(real == Object.class) {
-            return new DeclarationConstraint(null, name);
+            return new TypeConstraint(null, name);
          }
          if(real == void.class) {
-            return new DeclarationConstraint(null, name);
+            return new TypeConstraint(null, name);
          }
          return constraint;
       }

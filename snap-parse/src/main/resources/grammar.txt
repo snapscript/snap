@@ -58,7 +58,7 @@ reference-part = { <reference-invocation> |
 				   <literal> };
 			   				   
 reference-navigation = <reference-part>*(<reference-operator><reference-navigation>);
-reference-variable = { <constraint-variable> |					   
+reference-variable = { <constraint-reference> |					   
 					   <function-invocation> | 
 					   <construct> | 
 					   <closure> |					  
@@ -81,7 +81,7 @@ map-entry-list = <map-entry>*(','<map-entry>);
 type-reference = <type-reference-part>*('.'<type-reference>);
 type-reference-part = [type];
 
-construct-object = 'new'_<type-constraint>'('?<argument-list>')';
+construct-object = 'new'_<class-constraint>'('?<argument-list>')';
 construct-list = '[]' | '['<list-entry-list>']';
 construct-array = 'new'_<type-reference>+('['<argument>']');
 construct-set = '{}' | ('{'<set-entry-list>'}');
@@ -166,18 +166,25 @@ expression = { <literal> |
 			   <conditional> | 
 			   '('<expression>')';
 
-function-constraint = '('<parameter-list>')';
-generic-constraint = <type-reference> ?<constraint-list>;
-type-constraint = <generic-constraint>;
-trait-constraint = <generic-constraint>;
+
+
 array-dimension = '[]';
-array-constraint = <type-reference>+<array-dimension>;
-list-constraint = '[]';
-set-constraint = '{}';
-map-constraint = '{:}';
-constraint = {<array-constraint> | <type-constraint> | <function-constraint> | <list-constraint> | <set-constraint> | <map-constraint>};
-constraint-variable = <array-constraint>;
-constraint-list = '<' <constraint>*(','<constraint>) '>';
+array-reference = <type-reference>+<array-dimension>;
+list-reference = '[]';
+set-reference = '{}';
+map-reference = '{:}';
+function-reference = '('<parameter-list>')';
+constraint-reference = <array-reference>;
+
+reference-constraint = { <array-reference> | <function-reference> | <list-reference> | <set-reference> | <map-reference> };
+class-constraint = <generic-reference>;
+trait-constraint = <generic-reference>;
+
+constraint = {<reference-constraint> | <class-constraint> };
+
+generic-reference = <type-reference> ?<generic-argument-list>;
+generic-argument = {'?'|<constraint>};
+generic-argument-list = '<' <generic-argument>*(','<generic-argument>) '>';
 
 return-statement = 'return' ?(? _ {<cast> | <expression> | <closure>}) ';';
 yield-statement = 'yield' ?(? _ {<cast> | <expression> | <closure>}) ';';
@@ -256,11 +263,12 @@ parameter-list = ?(<parameter-declaration>*(','<parameter-declaration>));
 closure-parameter-list = '('<parameter-list>')' | ?<parameter-declaration>;
 closure = <closure-parameter-list>?_'->'?_{<group-statement> | <expression>};
 
-generic-declaration = [type] ?(':' <constraint>);
-generic-list = ?('<' <generic-declaration> *(',' <generic-declaration>) '>');
+generic-parameter = [type] ?(':' <constraint>);
+generic-list = ?('<' <generic-parameter> *(',' <generic-parameter>) '>');
 
-type-name = [type] <generic-list>;
+class-name = [type] <generic-list>;
 trait-name = [type] <generic-list>;
+enum-name = [type];
 
 annotation-name = [type];
 annotation-list = *<annotation-declaration>?_;
@@ -284,8 +292,8 @@ class-field = <annotation-list><field-modifier-list><class-field-declaration>*('
 class-function = <annotation-list><function-modifier-list><function>'('<parameter-list>')'?(':'<constraint>){';' | <group-statement>};
 class-constructor = <annotation-list><access-modifier-list>'new''('<parameter-list>')'?(':'{<this-constructor> | <super-constructor>})<group-statement>;
 class-part = {<class-field> | <class-constructor> | <class-function> | <inner-class-definition> | <inner-enum-definition> | <inner-trait-definition>};
-class-hierarchy = ?{?_'extends'_<type-constraint> | ?_'with'_<trait-constraint>}*(?_'with'_<trait-constraint>);
-class-definition = ?<annotation-list>'class'_<type-name>?<class-hierarchy>{'{}' | '{'*<class-part>'}'};
+class-hierarchy = ?{?_'extends'_<class-constraint> | ?_'with'_<trait-constraint>}*(?_'with'_<trait-constraint>);
+class-definition = ?<annotation-list>'class'_<class-name>?<class-hierarchy>{'{}' | '{'*<class-part>'}'};
 
 trait-constant = <annotation-list><field-modifier-list><assignment-variable>?(':'<constraint>)'='<assignment-expression>';';
 trait-hierarchy = *(?_'extends'_<trait-constraint>);
@@ -302,7 +310,7 @@ enum-field-declaration = <assignment-variable>?(':'<constraint>)?('='<assignment
 enum-field = <annotation-list><field-modifier-list><enum-field-declaration>*(','<enum-field-declaration>)';';
 enum-function = <annotation-list><function-modifier-list><function>'('<parameter-list>')'?(':'<constraint>){';' | <group-statement>};
 enum-part = {<enum-field> | <enum-constructor> | <enum-function>};
-enum-definition = ?<annotation-list>'enum'_<type-name>?<enum-hierarchy>'{'<enum-list>?(';'*<enum-part>)'}';
+enum-definition = ?<annotation-list>'enum'_<enum-name>?<enum-hierarchy>'{'<enum-list>?(';'*<enum-part>)'}';
    
 inner-class-definition = <class-definition>;
 inner-enum-definition = <enum-definition>;

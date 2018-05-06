@@ -4,14 +4,14 @@ import org.snapscript.core.constraint.Constraint;
 
 public class TypeTransform implements GenericTransform{
    
-   private final GenericReference reference;
+   private final GenericHandle reference;
    
    public TypeTransform(Constraint constraint, GenericIndex index){
-      this.reference = new GenericReference(constraint, index);
+      this.reference = new GenericHandle(constraint, index);
    }
    
    @Override
-   public GenericReference getReference(Constraint source){
+   public GenericHandle getHandle(Constraint source){
       return reference;
    }
 }

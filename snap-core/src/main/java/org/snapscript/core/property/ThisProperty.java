@@ -8,10 +8,10 @@ import static org.snapscript.core.Reserved.TYPE_THIS;
 import java.util.List;
 
 import org.snapscript.core.InternalStateException;
-import org.snapscript.core.type.Type;
 import org.snapscript.core.annotation.Annotation;
-import org.snapscript.core.constraint.DeclarationConstraint;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.constraint.TypeConstraint;
+import org.snapscript.core.type.Type;
 
 public class ThisProperty implements Property {
    
@@ -19,7 +19,7 @@ public class ThisProperty implements Property {
    private final Type type;
    
    public ThisProperty(Type type) {
-      this.constraint = new DeclarationConstraint(type);
+      this.constraint = new TypeConstraint(type);
       this.type = type;
    }
    

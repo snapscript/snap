@@ -5,6 +5,7 @@ import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
+import org.snapscript.core.constraint.CompileConstraint;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.resolve.FunctionCall;
 import org.snapscript.core.function.resolve.FunctionResolver;
@@ -13,7 +14,6 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 import org.snapscript.tree.ArgumentList;
-import org.snapscript.tree.constraint.CompiledConstraint;
 
 public class CreateObject extends Evaluation {
    
@@ -21,7 +21,7 @@ public class CreateObject extends Evaluation {
    private final Constraint constraint;
 
    public CreateObject(Constraint constraint, ArgumentList arguments) {
-      this.constraint = new CompiledConstraint(constraint);
+      this.constraint = new CompileConstraint(constraint);
       this.arguments = arguments;
    }      
 

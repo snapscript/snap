@@ -20,10 +20,10 @@ public class EnumBuilder {
    private final EnumPropertyGenerator generator;
    private final ConstantPropertyBuilder builder;
    private final TypeHierarchy hierarchy;
-   private final TypeName name;
+   private final EnumName name;
    private final List values;
    
-   public EnumBuilder(TypeName name, TypeHierarchy hierarchy) {
+   public EnumBuilder(EnumName name, TypeHierarchy hierarchy) {
       this.reference = new AtomicReference<Type>();
       this.generator = new EnumPropertyGenerator();
       this.builder = new ConstantPropertyBuilder();

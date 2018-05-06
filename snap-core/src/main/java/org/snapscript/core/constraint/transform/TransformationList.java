@@ -10,13 +10,13 @@ public class TransformationList implements GenericTransform {
       this.path = path;
    }
    
-   public GenericReference getReference(Constraint constraint){
-      GenericReference reference = null;
+   public GenericHandle getHandle(Constraint constraint){
+      GenericHandle handle = null;
       
       for(GenericTransform transform : path) {
-         reference = transform.getReference(constraint);         
-         constraint = reference.getType();
+         handle = transform.getHandle(constraint);         
+         constraint = handle.getType();
       }
-      return reference;
+      return handle;
    }
 }

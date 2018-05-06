@@ -1,13 +1,13 @@
 package org.snapscript.tree.define;
 
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.constraint.TypeConstraint;
+import org.snapscript.core.function.dispatch.FunctionDispatcher;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.index.LocalScopeExtractor;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
-import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.constraint.DeclarationConstraint;
-import org.snapscript.core.function.dispatch.FunctionDispatcher;
 import org.snapscript.tree.ArgumentList;
 import org.snapscript.tree.NameReference;
 
@@ -25,7 +25,7 @@ public class SuperInvocation extends Evaluation {
       this.extractor = new LocalScopeExtractor(true, false);
       this.reference = new NameReference(function);
       this.holder = new SuperFunctionHolder(reference, type);
-      this.constraint = new DeclarationConstraint(type);
+      this.constraint = new TypeConstraint(type);
       this.builder = new SuperInstanceBuilder(type);
       this.arguments = arguments;
       this.type = type;

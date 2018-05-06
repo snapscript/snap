@@ -13,6 +13,7 @@ import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.constraint.DeclarationConstraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionBody;
 import org.snapscript.core.function.Signature;
@@ -20,7 +21,6 @@ import org.snapscript.tree.ModifierList;
 import org.snapscript.tree.NameReference;
 import org.snapscript.tree.annotation.AnnotationList;
 import org.snapscript.tree.compile.TypeScopeCompiler;
-import org.snapscript.tree.constraint.DeclarationConstraint;
 import org.snapscript.tree.function.ParameterList;
 
 public class ModuleFunction implements ModulePart {

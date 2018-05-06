@@ -20,16 +20,9 @@ import org.snapscript.tree.condition.NullCoalesce;
 import org.snapscript.tree.condition.SwitchStatement;
 import org.snapscript.tree.condition.ValueCase;
 import org.snapscript.tree.condition.WhileStatement;
-import org.snapscript.tree.constraint.ArrayConstraint;
-import org.snapscript.tree.constraint.ConstraintList;
-import org.snapscript.tree.constraint.ConstraintVariable;
-import org.snapscript.tree.constraint.FunctionConstraint;
-import org.snapscript.tree.constraint.GenericConstraint;
-import org.snapscript.tree.constraint.ListConstraint;
-import org.snapscript.tree.constraint.MapConstraint;
-import org.snapscript.tree.constraint.SetConstraint;
+import org.snapscript.tree.constraint.ClassConstraint;
+import org.snapscript.tree.constraint.ReferenceConstraint;
 import org.snapscript.tree.constraint.TraitConstraint;
-import org.snapscript.tree.constraint.TypeConstraint;
 import org.snapscript.tree.construct.ConstructArray;
 import org.snapscript.tree.construct.ConstructList;
 import org.snapscript.tree.construct.ConstructMap;
@@ -41,14 +34,16 @@ import org.snapscript.tree.construct.MapKey;
 import org.snapscript.tree.define.ClassConstructor;
 import org.snapscript.tree.define.ClassDefinition;
 import org.snapscript.tree.define.ClassHierarchy;
+import org.snapscript.tree.define.ClassName;
 import org.snapscript.tree.define.EnumConstructor;
 import org.snapscript.tree.define.EnumDefinition;
 import org.snapscript.tree.define.EnumHierarchy;
 import org.snapscript.tree.define.EnumKey;
 import org.snapscript.tree.define.EnumList;
+import org.snapscript.tree.define.EnumName;
 import org.snapscript.tree.define.EnumValue;
-import org.snapscript.tree.define.GenericDeclaration;
 import org.snapscript.tree.define.GenericList;
+import org.snapscript.tree.define.GenericParameter;
 import org.snapscript.tree.define.InnerTypeDefinition;
 import org.snapscript.tree.define.MemberField;
 import org.snapscript.tree.define.MemberFieldDeclaration;
@@ -66,7 +61,6 @@ import org.snapscript.tree.define.TraitDefinition;
 import org.snapscript.tree.define.TraitFunction;
 import org.snapscript.tree.define.TraitHierarchy;
 import org.snapscript.tree.define.TraitName;
-import org.snapscript.tree.define.TypeName;
 import org.snapscript.tree.function.FunctionCurry;
 import org.snapscript.tree.function.FunctionHandle;
 import org.snapscript.tree.function.FunctionInvocation;
@@ -87,10 +81,19 @@ import org.snapscript.tree.operation.PrefixDecrement;
 import org.snapscript.tree.operation.PrefixIncrement;
 import org.snapscript.tree.operation.PrefixOperation;
 import org.snapscript.tree.operation.SignedNumber;
+import org.snapscript.tree.reference.ArrayReference;
+import org.snapscript.tree.reference.ConstraintReference;
+import org.snapscript.tree.reference.FunctionReference;
+import org.snapscript.tree.reference.GenericArgument;
+import org.snapscript.tree.reference.GenericArgumentList;
+import org.snapscript.tree.reference.GenericReference;
+import org.snapscript.tree.reference.ListReference;
+import org.snapscript.tree.reference.MapReference;
 import org.snapscript.tree.reference.ReferenceInvocation;
 import org.snapscript.tree.reference.ReferenceNavigation;
 import org.snapscript.tree.reference.ReferencePart;
 import org.snapscript.tree.reference.ReferenceProperty;
+import org.snapscript.tree.reference.SetReference;
 import org.snapscript.tree.reference.TypeReference;
 import org.snapscript.tree.reference.TypeReferencePart;
 import org.snapscript.tree.script.Script;
@@ -146,7 +149,16 @@ public enum Instruction {
    NULL_COALESCE(NullCoalesce.class, "null-coalesce"),    
    ASSIGNMENT(Assignment.class, "assignment"),
    TYPE_REFERENCE(TypeReference.class, "type-reference"),
-   TYPE_REFERENCE_PART(TypeReferencePart.class, "type-reference-part"),    
+   TYPE_REFERENCE_PART(TypeReferencePart.class, "type-reference-part"),
+   ARRAY_REFERENCE(ArrayReference.class, "array-reference"),
+   LIST_REFERENCE(ListReference.class, "list-reference"),   
+   SET_REFERENCE(SetReference.class, "set-reference"),   
+   MAP_REFERENCE(MapReference.class, "map-reference"),
+   FUNCTION_REFERENCE(FunctionReference.class, "function-reference"),
+   CONSTRAINT_REFERENCE(ConstraintReference.class, "constraint-reference"),
+   GENERIC_REFERENCE(GenericReference.class, "generic-reference"),
+   GENERIC_ARGUMENT(GenericArgument.class, "generic-argument"),
+   GENERIC_ARGUMENT_LIST(GenericArgumentList.class, "generic-argument-list"),   
    CONSTRUCT_LIST(ConstructList.class, "construct-list"),
    CONSTRUCT_ARRAY(ConstructArray.class, "construct-array"),
    CONSTRUCT_OBJECT(ConstructObject.class, "construct-object"),
@@ -187,17 +199,10 @@ public enum Instruction {
    SWITCH_DEFAULT(DefaultCase.class, "switch-default"),
    MATCH_STATEMENT(MatchStatement.class, "match-statement"),
    MATCH_CASE(ValueCase.class, "match-case"),
-   MATCH_DEFAULT(DefaultCase.class, "match-default"), 
-   FUNCTION_CONSTRAINT(FunctionConstraint.class, "function-constraint"),
-   GENERIC_CONSTRAINT(GenericConstraint.class, "generic-constraint"),
-   TYPE_CONSTRAINT(TypeConstraint.class, "type-constraint"),
-   TRAIT_CONSTRAINT(TraitConstraint.class, "trait-constraint"),
-   ARRAY_CONSTRAINT(ArrayConstraint.class, "array-constraint"),
-   LIST_CONSTRAINT(ListConstraint.class, "list-constraint"),   
-   SET_CONSTRAINT(SetConstraint.class, "set-constraint"),   
-   MAP_CONSTRAINT(MapConstraint.class, "map-constraint"),      
-   CONSTRAINT_VARIABLE(ConstraintVariable.class, "constraint-variable"), // array
-   CONSTRAINT_LIST(ConstraintList.class, "constraint-list"), 
+   MATCH_DEFAULT(DefaultCase.class, "match-default"),    
+   REFERENCE_CONSTRAINT(ReferenceConstraint.class, "reference-constraint"),
+   CLASS_CONSTRAINT(ClassConstraint.class, "class-constraint"),
+   TRAIT_CONSTRAINT(TraitConstraint.class, "trait-constraint"),     
    VARIABLE_ARGUMENT(Modifier.class, "variable-argument"),
    PARAMETER_MODIFIER(Modifier.class, "parameter-modifier"),
    PARAMETER_MODIFIER_LIST(ModifierList.class, "parameter-modifier-list"),
@@ -209,14 +214,15 @@ public enum Instruction {
    CATCH_BLOCK(CatchBlock.class, "catch-block"),
    CATCH_BLOCK_LIST(CatchBlockList.class, "catch-block-list"),
    TRY_STATEMENT(TryStatement.class, "try-statement"),
-   GENERIC_DECLARATION(GenericDeclaration.class, "generic-declaration"),
+   GENERIC_PARAMETER(GenericParameter.class, "generic-parameter"),
    GENERIC_LIST(GenericList.class, "generic-list"),
-   TYPE_NAME(TypeName.class, "type-name"),
+   CLASS_NAME(ClassName.class, "class-name"),
    TRAIT_NAME(TraitName.class, "trait-name"),     
    TRAIT_HIERARCHY(TraitHierarchy.class, "trait-hierarchy"),
    TRAIT_CONSTANT(TraitConstant.class, "trait-constant"),   
    TRAIT_DEFINITION(TraitDefinition.class, "trait-definition"),    
    TRAIT_FUNCTION(TraitFunction.class, "trait-function"),
+   ENUM_NAME(EnumName.class, "enum-name"),
    ENUM_KEY(EnumKey.class, "enum-key"),
    ENUM_HIERARCHY(EnumHierarchy.class, "enum-hierarchy"),
    ENUM_FIELD_DECLARATION(MemberFieldDeclaration.class, "enum-field-declaration"),

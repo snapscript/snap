@@ -1,9 +1,14 @@
 package org.snapscript.tree.literal;
 
-import static org.snapscript.core.ModifierType.CONSTANT;
+import static org.snapscript.core.constraint.Constraint.BYTE;
+import static org.snapscript.core.constraint.Constraint.DOUBLE;
+import static org.snapscript.core.constraint.Constraint.FLOAT;
+import static org.snapscript.core.constraint.Constraint.INTEGER;
+import static org.snapscript.core.constraint.Constraint.LONG;
+import static org.snapscript.core.constraint.Constraint.NUMBER;
+import static org.snapscript.core.constraint.Constraint.SHORT;
 
 import org.snapscript.core.InternalStateException;
-import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.variable.Value;
 import org.snapscript.parse.NumberToken;
@@ -33,9 +38,31 @@ public class NumberLiteral extends Literal {
       }
       Value value = operator.operate(number);
       Number result = value.getValue();
-      Class real = result.getClass();
-      Constraint constraint = Constraint.getConstraint(real, CONSTANT.mask);
       
-      return new LiteralValue(result, constraint);
+      return create(scope, result);
+   }
+
+   private LiteralValue create(Scope scope, Number result) throws Exception {
+      Class type = result.getClass();
+      
+      if(type == Integer.class) {
+         return new LiteralValue(result, INTEGER);
+      }
+      if(type == Double.class) {
+         return new LiteralValue(result, DOUBLE);
+      }
+      if(type == Float.class) {
+         return new LiteralValue(result, FLOAT);
+      }
+      if(type == Byte.class) {
+         return new LiteralValue(result, BYTE);
+      }
+      if(type == Short.class) {
+         return new LiteralValue(result, SHORT);
+      }
+      if(type == Long.class) {
+         return new LiteralValue(result, LONG);
+      }
+      return new LiteralValue(result, NUMBER);
    }
 }

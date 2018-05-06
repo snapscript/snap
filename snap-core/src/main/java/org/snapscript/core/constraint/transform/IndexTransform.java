@@ -14,12 +14,12 @@ public class IndexTransform implements GenericTransform {
    }
    
    @Override
-   public GenericReference getReference(Constraint source){
+   public GenericHandle getHandle(Constraint source){
       Constraint constraint = index.getType(source, name);
       
       if(constraint == null){
          throw new InternalStateException("Generic parameter '" + name + "' not found for " + source);
       }
-      return new GenericReference(constraint, index);
+      return new GenericHandle(constraint, index);
    }
 }

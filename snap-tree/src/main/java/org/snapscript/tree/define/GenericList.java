@@ -8,9 +8,9 @@ import org.snapscript.core.scope.Scope;
 
 public class GenericList {
 
-   private final GenericDeclaration[] declarations;
+   private final GenericParameter[] declarations;
    
-   public GenericList(GenericDeclaration... declarations) {
+   public GenericList(GenericParameter... declarations) {
       this.declarations = declarations;
    }
    
@@ -18,7 +18,7 @@ public class GenericList {
       List<Constraint> generics = new ArrayList<Constraint>();
       
       if(declarations != null) {
-         for(GenericDeclaration declaration : declarations) {
+         for(GenericParameter declaration : declarations) {
             Constraint constraint = declaration.getGeneric(scope);
             generics.add(constraint);
          }

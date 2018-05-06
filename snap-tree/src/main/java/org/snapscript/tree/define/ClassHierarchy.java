@@ -11,19 +11,19 @@ import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.AnyLoader;
 import org.snapscript.core.type.Type;
+import org.snapscript.tree.constraint.ClassConstraint;
 import org.snapscript.tree.constraint.TraitConstraint;
-import org.snapscript.tree.constraint.TypeConstraint;
 
 public class ClassHierarchy implements Compilation {
    
    private final TraitConstraint[] traits; 
-   private final TypeConstraint base;
+   private final ClassConstraint base;
 
    public ClassHierarchy(TraitConstraint... traits) {
       this(null, traits);     
    }
    
-   public ClassHierarchy(TypeConstraint base, TraitConstraint... traits) {
+   public ClassHierarchy(ClassConstraint base, TraitConstraint... traits) {
       this.traits = traits;
       this.base = base;
    }
@@ -37,12 +37,12 @@ public class ClassHierarchy implements Compilation {
       
       private final ConstraintVerifier verifier;
       private final TraitConstraint[] traits; 
-      private final TypeConstraint base;
+      private final ClassConstraint base;
       private final AnyLoader loader;
       private final Path path;
       private final int line;
       
-      public CompileResult(TypeConstraint base, TraitConstraint[] traits, Path path, int line) {
+      public CompileResult(ClassConstraint base, TraitConstraint[] traits, Path path, int line) {
          this.verifier = new ConstraintVerifier();
          this.loader = new AnyLoader();
          this.traits = traits;

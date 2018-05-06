@@ -1,9 +1,9 @@
 package org.snapscript.compile.staticanalysis;
 
+import junit.framework.TestCase;
+
 import org.snapscript.compile.ClassPathCompilerBuilder;
 import org.snapscript.compile.Compiler;
-
-import junit.framework.TestCase;
 
 public class ClassHierarchyFailureTest extends TestCase {
    

@@ -1,4 +1,4 @@
-package org.snapscript.tree.constraint;
+package org.snapscript.core.constraint;
 
 import static org.snapscript.core.type.Phase.DEFINE;
 
@@ -7,22 +7,21 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.snapscript.common.Progress;
 import org.snapscript.core.InternalStateException;
-import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Phase;
 import org.snapscript.core.type.Type;
 
-public class CompiledConstraint extends Constraint {
+public class CompileConstraint extends Constraint {
    
    private final AtomicBoolean defined;
    private final Constraint constraint;
    private final long duration;
 
-   public CompiledConstraint(Constraint constraint) {
+   public CompileConstraint(Constraint constraint) {
       this(constraint, 10000);
    }
    
-   public CompiledConstraint(Constraint constraint, long duration) {
+   public CompileConstraint(Constraint constraint, long duration) {
       this.defined = new AtomicBoolean();
       this.constraint = constraint;
       this.duration = duration;
