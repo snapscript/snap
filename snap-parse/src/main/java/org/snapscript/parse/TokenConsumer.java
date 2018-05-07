@@ -2,7 +2,7 @@ package org.snapscript.parse;
 
 public abstract class TokenConsumer implements TokenReader {
 
-   protected TokenProcessor processor;
+   protected TokenMerger merger;
    protected TokenLexer lexer;
    protected Token value;
 
@@ -11,7 +11,7 @@ public abstract class TokenConsumer implements TokenReader {
    }      
    
    protected TokenConsumer(TokenLexer lexer) {
-      this.processor = new TokenProcessor();
+      this.merger = new TokenMerger();
       this.lexer = lexer;
    }
    
@@ -20,7 +20,7 @@ public abstract class TokenConsumer implements TokenReader {
       Token token = lexer.literal(text);
 
       if (token != null) {
-         value = processor.process(value, token);
+         value = merger.merge(value, token);
          return true;
       }
       return false;

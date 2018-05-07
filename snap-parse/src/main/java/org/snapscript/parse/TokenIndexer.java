@@ -213,19 +213,24 @@ public class TokenIndexer {
    
    private boolean identifier(Character value) {
       if (value != null) {
-         if (Character.isLetter(value)) {
+         char code = value.charValue();
+         
+         if(code >= 'a' && code <='z') {
             return true;
          }
-         if (Character.isDigit(value)) {
+         if(code >= 'A' && code <= 'Z') {
             return true;
          }
+         return code >= '0' && code <= '9';
       }
       return false;
    }
    
    private boolean special(Character value) {
       if(value != null) {
-         switch(value) {
+         char code = value.charValue();
+         
+         switch(code) {
          case ')': case '(':
          case '.': case '?':
          case ',': 
