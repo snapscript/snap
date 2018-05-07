@@ -4,7 +4,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.Context;
 import org.snapscript.core.Execution;
-import org.snapscript.core.ApplicationValidator;
+import org.snapscript.core.ContextValidator;
 import org.snapscript.core.Statement;
 import org.snapscript.core.link.Package;
 import org.snapscript.core.link.PackageDefinition;
@@ -26,7 +26,7 @@ public class ApplicationCompiler {
       Execution execution = cache.get();
       
       if(execution == null) {
-         ApplicationValidator validator = context.getValidator();
+         ContextValidator validator = context.getValidator();
          PackageDefinition definition = library.create(scope); // create all types
          Statement statement = definition.define(scope, null); // define tree
          Execution result = statement.compile(scope, null);

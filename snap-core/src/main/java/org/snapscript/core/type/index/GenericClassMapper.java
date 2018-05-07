@@ -1,6 +1,6 @@
 package org.snapscript.core.type.index;
 
-import org.snapscript.core.PrimitivePromoter;
+import org.snapscript.core.convert.PrimitivePromoter;
 import org.snapscript.core.type.Type;
 
 public class GenericClassMapper {

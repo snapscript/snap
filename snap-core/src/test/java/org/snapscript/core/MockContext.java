@@ -90,7 +90,7 @@ public class MockContext implements Context {
    }
 
    @Override
-   public ApplicationValidator getValidator() {
+   public ContextValidator getValidator() {
       return null;
    }
 

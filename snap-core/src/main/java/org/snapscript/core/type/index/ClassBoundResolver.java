@@ -6,7 +6,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 
-import org.snapscript.core.PrimitivePromoter;
+import org.snapscript.core.convert.PrimitivePromoter;
 
 public class ClassBoundResolver {
    

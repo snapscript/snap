@@ -5,9 +5,9 @@ import java.util.concurrent.Executor;
 import org.snapscript.common.store.Store;
 import org.snapscript.compile.assemble.ExecutorLinker;
 import org.snapscript.compile.assemble.OperationEvaluator;
-import org.snapscript.compile.validate.ContextValidator;
+import org.snapscript.compile.validate.ExecutableValidator;
 import org.snapscript.compile.verify.ExecutableVerifier;
-import org.snapscript.core.ApplicationValidator;
+import org.snapscript.core.ContextValidator;
 import org.snapscript.core.Context;
 import org.snapscript.core.ExpressionEvaluator;
 import org.snapscript.core.ResourceManager;
@@ -29,7 +29,7 @@ import org.snapscript.core.type.TypeLoader;
 
 public class StoreContext implements Context {
 
-   private final ContextValidator validator;
+   private final ExecutableValidator validator;
    private final ConstraintTransformer transformer;
    private final ExpressionEvaluator evaluator;
    private final TraceInterceptor interceptor;
@@ -66,7 +66,7 @@ public class StoreContext implements Context {
       this.transformer = new ConstraintTransformer(extractor);
       this.handler = new ErrorHandler(extractor, stack);
       this.indexer = new FunctionIndexer(extractor, stack);
-      this.validator = new ContextValidator(matcher, extractor, indexer, verifier);
+      this.validator = new ExecutableValidator(matcher, extractor, indexer, verifier);
       this.resolver = new FunctionResolver(extractor, stack, indexer);
       this.evaluator = new OperationEvaluator(this, verifier, executor);
       this.provider = new PlatformProvider(extractor, wrapper, stack);
@@ -94,7 +94,7 @@ public class StoreContext implements Context {
    }
    
    @Override
-   public ApplicationValidator getValidator() {
+   public ContextValidator getValidator() {
       return validator;
    }
    

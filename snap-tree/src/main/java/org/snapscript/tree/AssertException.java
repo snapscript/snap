@@ -1,4 +1,6 @@
-package org.snapscript.core;
+package org.snapscript.tree;
+
+import org.snapscript.core.InternalException;
 
 public class AssertException extends InternalException {
 

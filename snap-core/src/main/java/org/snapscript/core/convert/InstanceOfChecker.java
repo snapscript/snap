@@ -3,7 +3,6 @@ package org.snapscript.core.convert;
 import java.util.Set;
 
 import org.snapscript.core.Context;
-import org.snapscript.core.PrimitivePromoter;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;

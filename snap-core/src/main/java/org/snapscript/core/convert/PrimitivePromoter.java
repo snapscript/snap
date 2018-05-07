@@ -1,4 +1,4 @@
-package org.snapscript.core;
+package org.snapscript.core.convert;
 
 public class PrimitivePromoter {
 

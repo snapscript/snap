@@ -7,7 +7,6 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import org.snapscript.core.InternalArgumentException;
 import org.snapscript.core.InternalStateException;
-import org.snapscript.core.PrimitivePromoter;
 import org.snapscript.core.type.Type;
 
 public abstract class ConstraintConverter  {

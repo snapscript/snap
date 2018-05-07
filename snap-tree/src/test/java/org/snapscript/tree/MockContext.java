@@ -2,7 +2,7 @@ package org.snapscript.tree;
 
 import org.snapscript.common.store.ClassPathStore;
 import org.snapscript.common.store.Store;
-import org.snapscript.core.ApplicationValidator;
+import org.snapscript.core.ContextValidator;
 import org.snapscript.core.Context;
 import org.snapscript.core.ExpressionEvaluator;
 import org.snapscript.core.ResourceManager;
@@ -95,7 +95,7 @@ public class MockContext implements Context {
    }
 
    @Override
-   public ApplicationValidator getValidator() {
+   public ContextValidator getValidator() {
       return null;
    }
 

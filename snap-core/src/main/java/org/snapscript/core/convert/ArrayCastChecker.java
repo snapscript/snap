@@ -4,7 +4,6 @@ import static org.snapscript.core.convert.Score.EXACT;
 import static org.snapscript.core.convert.Score.INVALID;
 import static org.snapscript.core.convert.Score.SIMILAR;
 
-import org.snapscript.core.PrimitivePromoter;
 import org.snapscript.core.type.Type;
 
 public class ArrayCastChecker {

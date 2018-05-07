@@ -22,7 +22,7 @@ public interface Context extends Any {
    ResourceManager getManager();
    ModuleRegistry getRegistry();
    ConstraintMatcher getMatcher();
-   ApplicationValidator getValidator();
+   ContextValidator getValidator();
    TraceInterceptor getInterceptor();
    ExpressionEvaluator getEvaluator();
    ConstraintTransformer getTransformer();
