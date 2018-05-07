@@ -41,6 +41,7 @@ public class EvaluationTest extends TestCase {
       model.put("x", 12d);
       model.put("y", 5d);
       
+      assertEquals(evaluate("null!=null", "expression", model), Boolean.FALSE);
       assertEquals(evaluate("x>=y", "expression", model), true);
       assertTrue(executeScript("script18.snap", model).isNormal());
       assertTrue(executeScript("script14.snap", model).isNormal());

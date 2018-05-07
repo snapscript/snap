@@ -1,6 +1,6 @@
 package org.snapscript.parse;
 
-public interface LexicalAnalyzer {      
+public interface TokenLexer {      
    Token<String> type();   
    Token<String> text();
    Token<String> template();

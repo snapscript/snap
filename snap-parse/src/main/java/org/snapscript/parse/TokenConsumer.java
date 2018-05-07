@@ -2,43 +2,33 @@ package org.snapscript.parse;
 
 public abstract class TokenConsumer implements TokenReader {
 
-   protected LexicalAnalyzer analyzer;
+   protected TokenProcessor processor;
+   protected TokenLexer lexer;
    protected Token value;
 
    protected TokenConsumer() {
       this(null);
    }      
    
-   protected TokenConsumer(LexicalAnalyzer analyzer) {
-      this.analyzer = analyzer;
+   protected TokenConsumer(TokenLexer lexer) {
+      this.processor = new TokenProcessor();
+      this.lexer = lexer;
    }
    
    @Override
    public boolean literal(String text) {
-      Token token = analyzer.literal(text);
+      Token token = lexer.literal(text);
 
       if (token != null) {
-         value = combine(value, token);
+         value = processor.process(value, token);
          return true;
       }
       return false;
    }   
-   
-   private Token combine(Token current, Token next){
-      if(current != null) {
-         String first = current.toString();
-         String second = next.toString();
-         Line line = current.getLine();
-         short type = current.getType();
-         
-         return new StringToken(first + second, line, type);
-      }
-      return next;
-   }
 
    @Override
    public boolean decimal() {
-      Token token = analyzer.decimal();
+      Token token = lexer.decimal();
 
       if (token != null) {
          value = token;
@@ -49,7 +39,7 @@ public abstract class TokenConsumer implements TokenReader {
    
    @Override
    public boolean binary() {
-      Token token = analyzer.binary();
+      Token token = lexer.binary();
 
       if (token != null) {
          value = token;
@@ -60,7 +50,7 @@ public abstract class TokenConsumer implements TokenReader {
 
    @Override
    public boolean hexidecimal() {
-      Token token = analyzer.hexidecimal();
+      Token token = lexer.hexidecimal();
 
       if (token != null) {
          value = token;
@@ -71,7 +61,7 @@ public abstract class TokenConsumer implements TokenReader {
 
    @Override
    public boolean identifier() {
-      Token token = analyzer.identifier();
+      Token token = lexer.identifier();
 
       if (token != null) {
          value = token;
@@ -82,7 +72,7 @@ public abstract class TokenConsumer implements TokenReader {
    
    @Override
    public boolean qualifier() {
-      Token token = analyzer.qualifier();
+      Token token = lexer.qualifier();
 
       if (token != null) {
          value = token;
@@ -93,7 +83,7 @@ public abstract class TokenConsumer implements TokenReader {
    
    @Override
    public boolean type() {
-      Token token = analyzer.type();
+      Token token = lexer.type();
 
       if (token != null) {
          value = token;
@@ -104,7 +94,7 @@ public abstract class TokenConsumer implements TokenReader {
 
    @Override
    public boolean text() {
-      Token token = analyzer.text();
+      Token token = lexer.text();
 
       if (token != null) {
          value = token;
@@ -115,7 +105,7 @@ public abstract class TokenConsumer implements TokenReader {
    
    @Override
    public boolean template() {
-      Token token = analyzer.template();
+      Token token = lexer.template();
 
       if (token != null) {
          value = token;
@@ -126,7 +116,7 @@ public abstract class TokenConsumer implements TokenReader {
    
    @Override
    public boolean space() {
-      Token token = analyzer.space();
+      Token token = lexer.space();
 
       if (token != null) {
          value = token;

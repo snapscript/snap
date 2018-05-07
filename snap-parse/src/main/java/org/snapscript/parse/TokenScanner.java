@@ -14,7 +14,7 @@ import static org.snapscript.parse.TokenType.TYPE;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TokenScanner implements LexicalAnalyzer {
+public class TokenScanner implements TokenLexer {
 
    private TokenIndexer indexer;
    private List<Token> tokens;

@@ -11,16 +11,16 @@ public class SyntaxTree {
 
    private final Comparator<SyntaxNode> comparator;
    private final List<SyntaxCursor> nodes;
-   private final LexicalAnalyzer analyzer;
    private final GrammarIndexer indexer;
    private final AtomicInteger commit;
    private final PositionStack stack;
+   private final TokenLexer lexer;
    private final String resource;
    private final String grammar;
    private final int length;
 
    public SyntaxTree(GrammarIndexer indexer, String resource, String grammar, char[] original, char[] source, short[] lines, short[] types) {
-      this.analyzer = new TokenScanner(indexer, resource, original, source, lines, types);
+      this.lexer = new TokenScanner(indexer, resource, original, source, lines, types);
       this.comparator = new SyntaxNodeComparator();
       this.nodes = new LinkedList<SyntaxCursor>();
       this.commit = new AtomicInteger();
@@ -39,27 +39,27 @@ public class SyntaxTree {
          throw new ParseException("Syntax has been validated");
       }
       stack.push(0, index);
-      return new SyntaxValidator(analyzer);
+      return new SyntaxValidator(lexer);
    }
 
    public SyntaxBuilder build() {   
       int index = indexer.index(grammar);
-      int mark = analyzer.mark();
-      int count = analyzer.count();
+      int mark = lexer.mark();
+      int count = lexer.count();
       
       if(mark != count) {
          int error = commit.get(); // last successful commit
-         Line line = analyzer.line(error);
+         Line line = lexer.line(error);
          
          if(resource != null) {
             throw new ParseException("Syntax error in '" + resource + "' at line " + line);
          }  
          throw new ParseException("Syntax error at line " + line);
       }
-      analyzer.reset(0);
+      lexer.reset(0);
       stack.clear();
       stack.push(0,index);
-      return new SyntaxCursor(analyzer, nodes, index, 0);
+      return new SyntaxCursor(lexer, nodes, index, 0);
    }
    
    public SyntaxNode commit() { 
@@ -83,18 +83,18 @@ public class SyntaxTree {
    
    private class SyntaxValidator extends TokenConsumer implements SyntaxChecker {
 
-      public SyntaxValidator(LexicalAnalyzer analyzer) {
-         this.analyzer = analyzer;
+      public SyntaxValidator(TokenLexer lexer) {
+         this.lexer = lexer;
       }        
       
       @Override
       public void validate(){
-         int mark = analyzer.mark();
-         int count = analyzer.count();
+         int mark = lexer.mark();
+         int count = lexer.count();
          
          if(mark != count) {
             int error = commit.get(); // last successful commit
-            Line line = analyzer.line(error);
+            Line line = lexer.line(error);
             
             if(resource != null) {
                throw new ParseException("Syntax error in '" + resource + "' at line " + line);
@@ -105,7 +105,7 @@ public class SyntaxTree {
       
       @Override
       public int mark(int grammar) {              
-         int off = analyzer.mark();
+         int off = lexer.mark();
          int index = stack.depth(off, grammar); // this is slow!!
 
          if (index <= 0) {
@@ -117,16 +117,16 @@ public class SyntaxTree {
 
       @Override
       public int reset(int start, int grammar) {
-         int mark = analyzer.mark();
+         int mark = lexer.mark();
             
          stack.pop(start, grammar);
-         analyzer.reset(start); // sets the global offset
+         lexer.reset(start); // sets the global offset
          return mark;
       }
 
       @Override
       public void commit(int start, int grammar) {
-         int mark = analyzer.mark();
+         int mark = lexer.mark();
          int error = commit.get();
          int value = stack.pop(start, grammar);
 
@@ -139,12 +139,12 @@ public class SyntaxTree {
 
       @Override
       public int position() {
-         return analyzer.mark();
+         return lexer.mark();
       }
       
       @Override
       public int peek() {
-         return analyzer.peek();
+         return lexer.peek();
       }
    }
    
@@ -155,11 +155,11 @@ public class SyntaxTree {
       private final int grammar;
       private final int start;
 
-      public SyntaxCursor(LexicalAnalyzer analyzer, List<SyntaxCursor> parent, int grammar, int start) {
+      public SyntaxCursor(TokenLexer lexer, List<SyntaxCursor> parent, int grammar, int start) {
          this.nodes = new LinkedList<SyntaxCursor>();
-         this.analyzer = analyzer;
          this.grammar = grammar;
          this.parent = parent;
+         this.lexer = lexer;
          this.start = start;
       }      
       
@@ -169,28 +169,28 @@ public class SyntaxTree {
 
       @Override
       public SyntaxBuilder mark(int grammar) {              
-         int off = analyzer.mark();
+         int off = lexer.mark();
          int index = stack.depth(off, grammar); // this is slow!!
 
          if (index <= 0) {
             stack.push(off, grammar);
-            return new SyntaxCursor(analyzer, nodes, grammar, off);
+            return new SyntaxCursor(lexer, nodes, grammar, off);
          }
          return null;
       }    
 
       @Override
       public int reset() {
-         int mark = analyzer.mark();
+         int mark = lexer.mark();
             
          stack.pop(start, grammar);
-         analyzer.reset(start); // sets the global offset
+         lexer.reset(start); // sets the global offset
          return mark;
       }
 
       @Override
       public void commit() {
-         int mark = analyzer.mark();
+         int mark = lexer.mark();
          int error = commit.get();
          int value = stack.pop(start, grammar);
 
@@ -204,12 +204,12 @@ public class SyntaxTree {
 
       @Override
       public int position() {
-         return analyzer.mark();
+         return lexer.mark();
       }
       
       @Override
       public int peek() {
-         return analyzer.peek();
+         return lexer.peek();
       }
    }
 
@@ -256,7 +256,7 @@ public class SyntaxTree {
       
       @Override
       public Line getLine() {
-         return analyzer.line(start);
+         return lexer.line(start);
       }
 
       @Override
