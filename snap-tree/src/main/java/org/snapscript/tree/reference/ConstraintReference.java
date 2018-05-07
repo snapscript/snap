@@ -2,7 +2,6 @@ package org.snapscript.tree.reference;
 
 import java.util.List;
 
-import org.snapscript.core.Entity;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.constraint.Constraint;

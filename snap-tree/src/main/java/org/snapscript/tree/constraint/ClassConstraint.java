@@ -1,10 +1,10 @@
 package org.snapscript.tree.constraint;
 
-import org.snapscript.tree.reference.ConstraintReference;
+import org.snapscript.core.Evaluation;
 
 public class ClassConstraint extends TypeConstraint {
    
-   public ClassConstraint(ConstraintReference reference) {
-      super(reference);
+   public ClassConstraint(Evaluation evaluation) {
+      super(evaluation);
    }
 }

@@ -2,26 +2,26 @@ package org.snapscript.tree.constraint;
 
 import java.util.List;
 
+import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
-import org.snapscript.tree.reference.ConstraintReference;
 
 public class TypeConstraint extends Constraint {
 
-   private ConstraintReference reference;
+   private Evaluation evaluation;
    private Constraint constraint;
    
-   public TypeConstraint(ConstraintReference reference) {
-      this.reference = reference;
+   public TypeConstraint(Evaluation evaluation) {
+      this.evaluation = evaluation;
    }
    
    @Override
    public List<Constraint> getGenerics(Scope scope) {
       if(constraint == null) {
          try {
-            constraint = reference.compile(scope, null);
+            constraint = evaluation.compile(scope, null);
          } catch (Exception e) {
             throw new InternalStateException("Could not resolve constraint", e);
          }
@@ -33,7 +33,7 @@ public class TypeConstraint extends Constraint {
    public Type getType(Scope scope) {
       if(constraint == null) {
          try {
-            constraint = reference.compile(scope, null);
+            constraint = evaluation.compile(scope, null);
          } catch (Exception e) {
             throw new InternalStateException("Could not resolve constraint", e);
          }
@@ -45,7 +45,7 @@ public class TypeConstraint extends Constraint {
    public String getName(Scope scope) {
       if(constraint == null) {
          try {
-            constraint = reference.compile(scope, null);
+            constraint = evaluation.compile(scope, null);
          } catch (Exception e) {
             throw new InternalStateException("Could not resolve constraint", e);
          }
