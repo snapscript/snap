@@ -3,6 +3,7 @@ package org.snapscript.compile.staticanalysis;
 import static org.snapscript.core.Reserved.DEFAULT_PACKAGE;
 
 import java.util.List;
+import java.util.Map;
 
 import junit.framework.TestCase;
 
@@ -13,9 +14,6 @@ import org.snapscript.compile.StoreContext;
 import org.snapscript.compile.StringCompiler;
 import org.snapscript.core.Context;
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.constraint.transform.ConstraintHandle;
-import org.snapscript.core.constraint.transform.ConstraintTransform;
-import org.snapscript.core.constraint.transform.ConstraintTransformer;
 import org.snapscript.core.scope.EmptyModel;
 import org.snapscript.core.scope.Model;
 import org.snapscript.core.scope.Scope;
@@ -43,6 +41,10 @@ public class GenericTransformerTest extends TestCase {
    "class One<A>{\n"+
    "   func():A{\n"+
    "   }\n"+
+   "   boo():Map<String, A>{\n"+
+   "   }\n"+
+   "   basic():String{\n"+
+   "   }\n"+
    "}\n"+
    "class Two<A, B> extends One<List<B>>{\n"+
    "   blah():A{\n"+
@@ -51,32 +53,36 @@ public class GenericTransformerTest extends TestCase {
    "class Three extends Two<Integer, List<Integer>>{\n"+
    "}\n";
    
-   public void testNestedGenericTransformation() throws Exception {
+   private static final String SOURCE_3 =
+   "class Duh<K,V>{\n"+
+   "   duh():K{\n"+
+   "   }\n"+
+   "}\n"+
+   "class Blah extends Duh<String,Integer>{\n"+
+   "}\n"+
+   "class Foo<A,B> extends Blah{\n"+
+   "}\n";
+   
+   public void testRedundantTransformation() throws Exception {
       Store store = new ClassPathStore();
       Context context = new StoreContext(store, null);
       Compiler compiler = new StringCompiler(context);
       Model model = new EmptyModel();
       
-      System.err.println(SOURCE_2);
+      System.err.println(SOURCE_3);
       
-      compiler.compile(SOURCE_2).execute(model, true);
+      compiler.compile(SOURCE_3).execute(model, true);
       
       TypeLoader loader = context.getLoader();
-      Type type3 = loader.resolveType(DEFAULT_PACKAGE, "Three");      
-      Type type1 = loader.resolveType(DEFAULT_PACKAGE, "One");
-      Type listType = loader.loadType(List.class);
-
-      ConstraintTransformer transformer = context.getTransformer();
-      ConstraintTransform resolution3 = transformer.transform(type3, type1);
-      Constraint constraint3 = Constraint.getConstraint(type3); // original     
-      ConstraintHandle result3 = resolution3.apply(constraint3);
-      Scope scope3 = type3.getScope();
-      Constraint transformed3 = result3.getType();
+      Type fromType = loader.resolveType(DEFAULT_PACKAGE, "Foo");      
+      Type toType = loader.resolveType(DEFAULT_PACKAGE, "Duh");    
       
-      System.err.println( transformed3);
-      assertEquals(transformed3.getType(scope3), type1);
-      assertEquals(result3.getConstraint("A").getType(scope3), listType);
-      assertNull(result3.getConstraint("B"));         
+      Scope scope = fromType.getScope();
+      Constraint constraint = Constraint.getConstraint(fromType);
+      Constraint duhResult = context.getResolver().resolveInstance(scope, toType, "duh").check(constraint);
+      
+      assertNotNull(duhResult);
+      assertNotNull(duhResult.getType(scope));
    }
    
    public void testGenericTransformation() throws Exception {
@@ -96,29 +102,72 @@ public class GenericTransformerTest extends TestCase {
       Type typeInteger = loader.loadType(Integer.class);
       Type typeBoolean = loader.loadType(Boolean.class);
 
-      ConstraintTransformer transformer = context.getTransformer();
-      ConstraintTransform resolution3 = transformer.transform(type3, type1);
-      Constraint constraint3 = Constraint.getConstraint(type3); // original     
-      ConstraintHandle result3 = resolution3.apply(constraint3);
       Scope scope3 = type3.getScope();
-      Constraint transformed3 = result3.getType();
+      Constraint constraint3 = Constraint.getConstraint(type3);
+      Constraint result3 = context.getResolver().resolveInstance(scope3, type1, "func").check(constraint3);
       
-      System.err.println( transformed3);
-      assertEquals(transformed3.getType(scope3), type1);
-      assertEquals(result3.getConstraint("A").getType(scope3), typeInteger);
-      assertNull(result3.getConstraint("B"));         
+      assertNotNull(result3);
+      assertNotNull(result3.getType(scope3));
+      assertEquals(result3.getType(scope3), typeInteger);   
       
-      
-      ConstraintTransform resolution4 = transformer.transform(type4, type1);
-      Constraint constraint4 = Constraint.getConstraint(type4); // original     
-      ConstraintHandle result4 = resolution4.apply(constraint4);
       Scope scope4 = type4.getScope();
-      Constraint transformed4 = result4.getType();
+      Constraint constraint4 = Constraint.getConstraint(type4);
+      Constraint result4 = context.getResolver().resolveInstance(scope4, type1, "func").check(constraint4);
       
-      System.err.println( transformed4);
-      assertEquals(transformed4.getType(scope4), type1);
-      assertEquals(result4.getConstraint("A").getType(scope4), typeBoolean);  
-      assertNull(result4.getConstraint("B"));   
+      assertNotNull(result4);
+      assertNotNull(result4.getType(scope4));
+      assertEquals(result4.getType(scope3), typeBoolean);     
    }
+   
+   public void testNestedGenericTransformation() throws Exception {
+      Store store = new ClassPathStore();
+      Context context = new StoreContext(store, null);
+      Compiler compiler = new StringCompiler(context);
+      Model model = new EmptyModel();
+      
+      System.err.println(SOURCE_2);
+      
+      compiler.compile(SOURCE_2).execute(model, true);
+      
+      TypeLoader loader = context.getLoader();
+      Type type3 = loader.resolveType(DEFAULT_PACKAGE, "Three");      
+      Type type1 = loader.resolveType(DEFAULT_PACKAGE, "One");
+      Type typeList = loader.loadType(List.class);
+      Type typeMap = loader.loadType(Map.class);      
+      Type typeInteger = loader.loadType(Integer.class);
+      Type typeString = loader.loadType(String.class);      
+      
+      Scope scope = type3.getScope();
+      Constraint constraint = Constraint.getConstraint(type3);
+      Constraint funcResult = context.getResolver().resolveInstance(scope, type1, "func").check(constraint);
+      
+      assertNotNull(funcResult);
+      assertNotNull(funcResult.getType(scope));
+      assertEquals(funcResult.getType(scope), typeList);
+      assertEquals(funcResult.getGenerics(scope).size(), 1);
+      assertEquals(funcResult.getGenerics(scope).get(0).getType(scope), typeList);
+      assertEquals(funcResult.getGenerics(scope).get(0).getGenerics(scope).size(), 1);
+      assertEquals(funcResult.getGenerics(scope).get(0).getGenerics(scope).get(0).getType(scope), typeInteger);
+
+      Constraint booResult = context.getResolver().resolveInstance(scope, type1, "boo").check(constraint);
+      
+      assertNotNull(booResult);
+      assertNotNull(booResult.getType(scope));
+      assertEquals(booResult.getType(scope), typeMap);
+      assertEquals(booResult.getGenerics(scope).size(), 2);
+      assertEquals(booResult.getGenerics(scope).get(0).getType(scope), typeString);
+      assertEquals(booResult.getGenerics(scope).get(1).getType(scope), typeList);
+      assertEquals(booResult.getGenerics(scope).get(1).getGenerics(scope).size(), 1);
+      assertEquals(booResult.getGenerics(scope).get(1).getGenerics(scope).get(0).getType(scope), typeList);
+      assertEquals(booResult.getGenerics(scope).get(1).getGenerics(scope).get(0).getGenerics(scope).size(), 1);         
+      assertEquals(booResult.getGenerics(scope).get(1).getGenerics(scope).get(0).getGenerics(scope).get(0).getType(scope), typeInteger);    
+      
+      Constraint basicResult = context.getResolver().resolveInstance(scope, type1, "basic").check(constraint);
+      
+      assertNotNull(basicResult);
+      assertNotNull(basicResult.getType(scope));
+      assertEquals(basicResult.getType(scope), typeString);
+   }
+
 
 }

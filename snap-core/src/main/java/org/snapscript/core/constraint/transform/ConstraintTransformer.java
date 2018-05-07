@@ -28,19 +28,27 @@ public class ConstraintTransformer {
       ConstraintTransform transform = cache.fetch(index);
       
       if(transform == null) {
-         transform = create(constraint, require);
+         transform = resolve(constraint, require);
          cache.cache(index, transform);
       }
       return transform;
    }
    
-   private ConstraintTransform create(Type constraint, Type require) {
-      List<Constraint> constraints = require.getConstraints();
-      ConstraintIndex index = indexer.index(require);      
-      
-      if(constraint.equals(require)) {
+   private ConstraintTransform resolve(Type constraint, Type require) {          
+      if(constraint == require) { 
+         ConstraintIndex index = indexer.index(require); 
+         
+         if(index == null) {
+            throw new InternalStateException("Type '" + require+ "' count not be indexed");
+         }
          return new IdentityTransform(index);
       }
+      return create(constraint, require);
+   }
+   
+   private ConstraintTransform create(Type constraint, Type require) {
+      List<Constraint> constraints = require.getConstraints();
+      
       if(!constraints.isEmpty()) {
          List<Constraint> path = extractor.getTypes(constraint, require);
          Constraint original = Constraint.getConstraint(constraint);
@@ -62,7 +70,7 @@ public class ConstraintTransformer {
          return new ChainTransform(transforms);
       }
       return new EmptyTransform(require);
-   }
+   }   
    
    private ConstraintTransform create(Constraint constraint, Type require) {
       Scope scope = require.getScope();
@@ -92,13 +100,12 @@ public class ConstraintTransformer {
          
          for(int i = 0; i < count; i++){
             Constraint generic = generics.get(i);
-            String name = generic.getName(scope);
-            Constraint parameter = originIndex.resolve(constraint, name);
+            Constraint parameter = originIndex.update(constraint, generic);
             
-            if(parameter == null) {
+            if(parameter == generic) {
                transforms[i] = new StaticParameterTransform(generic); // its already got a class
             }else {
-               transforms[i] = new GenericParameterTransform(originIndex, name);
+               transforms[i] = new GenericParameterTransform(originIndex, generic);
             }
          }
          return new GenericTransform(destination, requireIndex, transforms);

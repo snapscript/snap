@@ -1,5 +1,6 @@
 package org.snapscript.core.function.index;
 
+import org.snapscript.core.InternalStateException;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.ArgumentConverter;
 import org.snapscript.core.function.Function;
@@ -11,19 +12,24 @@ import org.snapscript.core.type.Type;
 
 public class TracePointer implements FunctionPointer {
    
-   private final ReturnTypeChecker checker;
+   private final ReturnTypeBinder checker;
    private final Invocation invocation;
    private final Function function;
    
    public TracePointer(Function function, ThreadStack stack) {
-      this.checker = new ReturnTypeChecker(function);
+      this.checker = new ReturnTypeBinder(function);
       this.invocation = new TraceInvocation(function, stack);
       this.function = function;
    }
 
    @Override
    public Constraint getConstraint(Scope scope, Constraint left) {
-      return checker.check(scope, left);
+      ReturnType type = checker.bind(scope);
+      
+      if(type == null) {
+         throw new InternalStateException("No return type for '" + function + "'");
+      }
+      return type.getConstraint(scope, left);      
    }
    
    @Override

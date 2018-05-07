@@ -51,6 +51,7 @@ public class ClassHierarchy implements Compilation {
          this.line = line;
       }
 
+      @Override
       public void define(Scope scope, Type type) throws Exception {
          List<Constraint> types = type.getTypes();
          
@@ -78,6 +79,7 @@ public class ClassHierarchy implements Compilation {
          }
       }
       
+      @Override
       public void compile(Scope scope, Type type) throws Exception {
          List<Constraint> types = type.getTypes();
          

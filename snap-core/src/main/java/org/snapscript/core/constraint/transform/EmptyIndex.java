@@ -9,8 +9,8 @@ public class EmptyIndex implements ConstraintIndex {
    }
 
    @Override
-   public Constraint resolve(Constraint constraint, String name) {
-      return null;
+   public Constraint update(Constraint source, Constraint change) {
+      return change;
    }
 
 }

@@ -17,6 +17,10 @@ public class ConstraintDescription {
    }
    
    public String getDescription(){
+      return getDescription(constraint);
+   }
+   
+   private String getDescription(Constraint constraint) {
       StringBuilder builder = new StringBuilder();
       
       if(constraint != null && entity != null) {
@@ -32,30 +36,18 @@ public class ConstraintDescription {
             
             for(int i = 0; i < length; i++){
                Constraint generic = generics.get(i);
-               Type bound = generic.getType(scope);
-               String name = generic.getName(scope);
+               String entry = getDescription(generic);
                
                if(i > 0) {
                   builder.append(", ");
                }
-               if(bound != null) {
-                  String entry = bound.getName();
-                  
-                  if(name != null) {
-                     builder.append(name);
-                     builder.append(": ");
-                  }
-                  builder.append(entry);
-               } else {
-                  if(name != null) {
-                     builder.append(name);
-                  }
-               }
+               builder.append(entry);
             }
             builder.append(">");
-         }              
+         }
+         return builder.toString();
       }
-      return builder.toString();
+      return "?";
    }
    
    @Override

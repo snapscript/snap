@@ -1,5 +1,8 @@
 package org.snapscript.core.constraint;
 
+import static java.util.Collections.EMPTY_LIST;
+
+import java.util.Collections;
 import java.util.List;
 
 import org.snapscript.core.ModifierType;
@@ -32,7 +35,7 @@ public class DeclarationConstraint extends Constraint {
       if(constraint != null) {
          return constraint.getGenerics(scope);
       }
-      return null;
+      return EMPTY_LIST;
    }
    
    

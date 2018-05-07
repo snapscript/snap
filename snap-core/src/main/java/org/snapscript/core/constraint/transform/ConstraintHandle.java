@@ -1,13 +1,11 @@
 package org.snapscript.core.constraint.transform;
 
-import static org.snapscript.core.constraint.Constraint.NONE;
-
 import org.snapscript.core.constraint.Constraint;
 
 public class ConstraintHandle {
    
-   private final Constraint constraint;   
    private final ConstraintIndex index;
+   private final Constraint constraint; 
 
    public ConstraintHandle(Constraint constraint) {
       this(constraint, null);
@@ -18,11 +16,11 @@ public class ConstraintHandle {
       this.index = index;
    }
    
-   public Constraint getConstraint(String name) {
+   public Constraint getConstraint(Constraint original) {
       if(index != null) {
-         return index.resolve(constraint, name);         
+         return index.update(constraint, original);
       }
-      return NONE;
+      return original;
    }
    
    public Constraint getType(){

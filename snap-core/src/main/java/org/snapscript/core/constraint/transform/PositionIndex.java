@@ -1,47 +1,51 @@
 package org.snapscript.core.constraint.transform;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.snapscript.core.InternalStateException;
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.constraint.ConstraintMapper;
+import org.snapscript.core.constraint.GenericConstraint;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 
 public class PositionIndex implements ConstraintIndex {
    
-   private final Map<String, Integer> positions;
-   private final ConstraintMapper mapper;
-   private final ConstraintSource source;
+   private final PositionMapper mapper;
    private final Type type;
    
    public PositionIndex(Type type, Map<String, Integer> positions) {
-      this.source = new ConstraintSource(type);
-      this.mapper = new ConstraintMapper();
-      this.positions = positions;
+      this.mapper = new PositionMapper(type, positions);
       this.type = type;
    }
-   
-   @Override
-   public Constraint resolve(Constraint constraint, String name){
-      Integer position = positions.get(name);
-      
-      if(position != null) {
-         List<Constraint> constraints = source.getConstraints(constraint);
-         int count = constraints.size();
-         
-         if(position >= count) {
-            throw new InternalStateException("No generic parameter at " + position +" for " + type);         
-         }
-         Scope scope = type.getScope();
-         Constraint result = constraints.get(position);
 
-         if(result == null) {
-            throw new InternalStateException("No generic parameter at " + position +" for " + type);    
+   @Override
+   public Constraint update(Constraint source, Constraint change) {
+      Scope scope = type.getScope();
+      String name = change.getName(scope);
+      
+      if(name == null) {
+         List<Constraint> generics = change.getGenerics(scope);
+         Type type = change.getType(scope);
+         int count = generics.size();
+         
+         if(count > 0) {
+            List<Constraint> updated = new ArrayList<Constraint>();
+            AtomicBoolean touch = new AtomicBoolean();
+               
+            for(Constraint generic : generics) {
+               Constraint update = update(source, generic);
+               
+               touch.compareAndSet(false, update!= generic); // has anything at all changed
+               updated.add(update);
+            }
+            if(touch.get()) {            
+               return new GenericConstraint(type, updated);
+            }
          }
-         return mapper.map(scope, result);
+         return change;
       }
-      return null;
+      return mapper.resolve(source, name);
    }
 }

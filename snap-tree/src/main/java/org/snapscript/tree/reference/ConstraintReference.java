@@ -2,9 +2,11 @@ package org.snapscript.tree.reference;
 
 import java.util.List;
 
+import org.snapscript.core.Entity;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.constraint.ConstraintDescription;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
@@ -37,12 +39,14 @@ public abstract class ConstraintReference extends Evaluation {
 
    protected static class ConstraintValue extends Value {
       
+      private final ConstraintDescription description;
       private final Constraint constraint;
-      private final Object value;
+      private final Type type;
       
-      public ConstraintValue(Object value, Constraint constraint) {     
+      public ConstraintValue(Type type, Constraint constraint) {
+         this.description = new ConstraintDescription(constraint, type);
          this.constraint = constraint;
-         this.value = value;       
+         this.type = type;       
       }
       
       public List<Constraint> getGenerics(Scope scope) {
@@ -61,7 +65,7 @@ public abstract class ConstraintReference extends Evaluation {
       
       @Override
       public <T> T getValue() {
-         return (T)value;
+         return (T)type;
       }
       
       @Override
@@ -71,7 +75,7 @@ public abstract class ConstraintReference extends Evaluation {
       
       @Override
       public String toString() {
-         return String.valueOf(value);
+         return description.toString();
       }      
    }
 }
