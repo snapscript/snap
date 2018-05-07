@@ -84,6 +84,43 @@ public class GenericFunctionCompileTest extends CompileTestCase {
    "var n: Nuh = new Nuh();\n"+
    "n.funA(1).func();\n";   
    
+   private static final String SUCCESS_11 =
+   "class One<A>{\n"+
+   "   func():A{\n"+
+   "   }\n"+
+   "   boo():Map<String, A>{\n"+
+   "   }\n"+
+   "   basic():String{\n"+
+   "   }\n"+
+   "}\n"+
+   "class Two<A, B> extends One<List<B>>{\n"+
+   "   blah():A{\n"+
+   "   }\n"+
+   "}\n"+
+   "class Three extends Two<Integer, List<Integer>>{\n"+
+   "}\n"+
+   "var two: Two<Integer, Map<Boolean, String>> = new Two<Integer, Map<Boolean, String>>();\n"+
+   "two.func().get(0).get(true).substring(1);\n"+
+   "two.boo().get('x').get(1).get(true).substring(1);\n";   
+   
+   private static final String SUCCESS_12 =
+   "class One<A>{\n"+
+   "   func():A{\n"+
+   "   }\n"+
+   "   boo():Map<String, A>{\n"+
+   "   }\n"+
+   "   basic():String{\n"+
+   "   }\n"+
+   "}\n"+
+   "class Two<A, B> extends One<List<B>>{\n"+
+   "   blah():A{\n"+
+   "   }\n"+
+   "}\n"+
+   "class Three extends Two<Integer, List<Integer>>{\n"+
+   "}\n"+
+   "var two: Two<Integer, Map<Boolean, String>> = new Two<Integer, Map<Boolean, String>>();\n"+
+   "two.basic().substring(1);\n";
+   
    private static final String FAILURE_1 =
    "var m: Map<String, String> = {'x':'x'};\n"+
    "m.get('x').longValue();\n";
@@ -120,6 +157,42 @@ public class GenericFunctionCompileTest extends CompileTestCase {
    "var n: Nuh<String> = new Nuh<String>();\n"+
    "n.funB(1).func();\n";   
    
+   private static final String FAILURE_5 =
+   "class One<A>{\n"+
+   "   func():A{\n"+
+   "   }\n"+
+   "   boo():Map<String, A>{\n"+
+   "   }\n"+
+   "   basic():String{\n"+
+   "   }\n"+
+   "}\n"+
+   "class Two<A, B> extends One<List<B>>{\n"+
+   "   blah():A{\n"+
+   "   }\n"+
+   "}\n"+
+   "class Three extends Two<Integer, List<Integer>>{\n"+
+   "}\n"+
+   "var two: Two<Integer, Map<Boolean, String>> = new Two<Integer, Map<Boolean, String>>();\n"+
+   "two.func().get(0).get(true).longValue();\n";
+   
+   private static final String FAILURE_6 =
+   "class One<A>{\n"+
+   "   func():A{\n"+
+   "   }\n"+
+   "   boo():Map<String, A>{\n"+
+   "   }\n"+
+   "   basic():String{\n"+
+   "   }\n"+
+   "}\n"+
+   "class Two<A, B> extends One<List<B>>{\n"+
+   "   blah():A{\n"+
+   "   }\n"+
+   "}\n"+
+   "class Three extends Two<Integer, List<Integer>>{\n"+
+   "}\n"+
+   "var two: Two<Integer, Map<Boolean, String>> = new Two<Integer, Map<Boolean, String>>();\n"+
+   "two.func().get(true).get(true);\n";
+   
    public void testFunctionGenerics() throws Exception {
       assertCompileSuccess(SUCCESS_1);
       assertCompileSuccess(SUCCESS_2);
@@ -130,10 +203,14 @@ public class GenericFunctionCompileTest extends CompileTestCase {
       assertCompileSuccess(SUCCESS_7);
       assertCompileSuccess(SUCCESS_8);
       assertCompileSuccess(SUCCESS_9);
-      assertCompileSuccess(SUCCESS_10);      
+      assertCompileSuccess(SUCCESS_10);
+      assertCompileSuccess(SUCCESS_11);
+      assertCompileSuccess(SUCCESS_12);       
       assertCompileError(FAILURE_1, "Function 'longValue()' not found for 'lang.String' in /default.snap at line 2");
       assertCompileError(FAILURE_2, "Function 'substring(lang.Integer)' not found for 'lang.Integer' in /default.snap at line 2");
       assertCompileError(FAILURE_3, "Function 'longValue()' not found for 'lang.String' in /default.snap at line 11");
-      assertCompileError(FAILURE_4, "Function 'func()' not found for 'lang.String' in /default.snap at line 13");       
+      assertCompileError(FAILURE_4, "Function 'func()' not found for 'lang.String' in /default.snap at line 13");
+      assertCompileError(FAILURE_5, "Function 'longValue()' not found for 'lang.String' in /default.snap at line 16");
+      assertCompileError(FAILURE_6, "Function 'get(lang.Boolean)' not found for 'util.List' in /default.snap at line 16");       
    }
 }

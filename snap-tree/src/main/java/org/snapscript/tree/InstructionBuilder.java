@@ -9,13 +9,15 @@ import org.snapscript.core.type.TypeLoader;
 
 public class InstructionBuilder {
    
+   private final Instruction[] instructions;
    private final Context context;
    
    public InstructionBuilder(Context context) {
+      this.instructions = Instruction.values();
       this.context = context;
    }
 
-   public Map<String, Operation> create(Instruction[] instructions) throws Exception{
+   public Map<String, Operation> create() throws Exception{
       Map<String, Operation> table = new HashMap<String, Operation>();   
       
       for(Instruction instruction : instructions){
