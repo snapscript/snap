@@ -14,6 +14,7 @@ public class SyntaxTree {
    private final GrammarIndexer indexer;
    private final AtomicInteger commit;
    private final PositionStack stack;
+   private final TokenMerger merger;
    private final TokenLexer lexer;
    private final String resource;
    private final String grammar;
@@ -25,6 +26,7 @@ public class SyntaxTree {
       this.nodes = new LinkedList<SyntaxCursor>();
       this.commit = new AtomicInteger();
       this.stack = new PositionStack();
+      this.merger = new TokenMerger();
       this.length = source.length;
       this.resource = resource;
       this.indexer = indexer;
@@ -178,6 +180,17 @@ public class SyntaxTree {
          }
          return null;
       }    
+      
+      @Override
+      public boolean literal(String text) {
+         Token token = lexer.literal(text);
+
+         if (token != null) {
+            value = merger.merge(value, token);
+            return true;
+         }
+         return false;
+      }   
 
       @Override
       public int reset() {
