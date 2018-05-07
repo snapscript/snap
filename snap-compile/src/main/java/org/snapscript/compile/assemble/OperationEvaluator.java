@@ -9,7 +9,6 @@ import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.ExpressionEvaluator;
 import org.snapscript.core.InternalStateException;
-import org.snapscript.core.ScopeMerger;
 import org.snapscript.core.scope.Model;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.index.LocalScopeExtractor;

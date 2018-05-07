@@ -5,7 +5,6 @@ import static org.snapscript.core.error.Reason.THROW;
 import org.snapscript.compile.Executable;
 import org.snapscript.core.Context;
 import org.snapscript.core.Execution;
-import org.snapscript.core.ScopeMerger;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.link.Package;
 import org.snapscript.core.module.Path;
