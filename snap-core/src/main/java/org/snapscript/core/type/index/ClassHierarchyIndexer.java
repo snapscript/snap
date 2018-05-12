@@ -1,44 +1,37 @@
 package org.snapscript.core.type.index;
 
-import static org.snapscript.core.Reserved.ANY_TYPE;
-import static org.snapscript.core.Reserved.DEFAULT_PACKAGE;
-
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.snapscript.core.constraint.AnyConstraint;
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.type.Type;
 
 public class ClassHierarchyIndexer {
 
-   private final TypeIndexer indexer;
+   private final GenericConstraintResolver resolver;
+   private final Constraint any;
    
-   public ClassHierarchyIndexer(TypeIndexer indexer) {
-      this.indexer = indexer;
+   public ClassHierarchyIndexer() {
+      this.resolver = new GenericConstraintResolver();
+      this.any = new AnyConstraint();
    }
    
    public List<Constraint> index(Class source) throws Exception {
       List<Constraint> hierarchy = new ArrayList<Constraint>();
       
       if(source == Object.class) {
-         Type base = indexer.loadType(DEFAULT_PACKAGE, ANY_TYPE);
-         Constraint constraint = Constraint.getConstraint(base);
-
-         hierarchy.add(constraint);
+         hierarchy.add(any);
       } else {
-         Class[] interfaces = source.getInterfaces();
-         Class base = source.getSuperclass(); // the super class
+         Type[] interfaces = source.getGenericInterfaces();
+         Type base = source.getGenericSuperclass(); // the super class
          
          if(base != null) {
-            Type type = indexer.loadType(base);
-            Constraint constraint = Constraint.getConstraint(type);
-            
+            Constraint constraint = resolver.resolve(base);            
             hierarchy.add(constraint);
          }
-         for (Class entry : interfaces) {
-            Type type = indexer.loadType(entry);
-            Constraint constraint = Constraint.getConstraint(type);
-            
+         for (Type entry : interfaces) {
+            Constraint constraint = resolver.resolve(entry);    
             hierarchy.add(constraint);
          }
       }

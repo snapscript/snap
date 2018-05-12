@@ -7,6 +7,7 @@ import java.lang.reflect.Proxy;
 
 import org.snapscript.core.Context;
 import org.snapscript.core.constraint.AnyConstraint;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
@@ -15,7 +16,7 @@ import org.snapscript.core.type.Type;
 
 public class TypeInspector {
    
-   private final AnyConstraint any;
+   private final Constraint any;
 
    public TypeInspector() {
       this.any = new AnyConstraint();

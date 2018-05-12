@@ -15,7 +15,7 @@ public class FunctionPathFinder {
    
    private final EntityCache<List<Type>> paths;  
    private final TypeInspector inspector;  
-   private final AnyConstraint any;
+   private final Constraint any;
    
    public FunctionPathFinder() {
       this.paths = new EntityCache<List<Type>>();

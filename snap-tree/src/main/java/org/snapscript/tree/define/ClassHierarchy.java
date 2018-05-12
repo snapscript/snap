@@ -38,7 +38,7 @@ public class ClassHierarchy implements Compilation {
       private final ConstraintVerifier verifier;
       private final TraitConstraint[] traits; 
       private final ClassConstraint base;
-      private final AnyConstraint any;
+      private final Constraint any;
       private final Path path;
       private final int line;
       
