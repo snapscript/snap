@@ -1,9 +1,9 @@
 package org.snapscript.core.scope;
 
+import org.snapscript.core.Handle;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.index.Index;
 import org.snapscript.core.scope.index.Table;
-import org.snapscript.core.type.Handle;
 import org.snapscript.core.type.Type;
 
 public interface Scope extends Handle {

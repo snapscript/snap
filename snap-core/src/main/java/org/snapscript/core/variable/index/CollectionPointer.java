@@ -21,11 +21,11 @@ public class CollectionPointer implements VariablePointer<Collection> {
    }
 
    @Override
-   public Constraint compile(Scope scope, Constraint left) {
+   public Constraint getConstraint(Scope scope, Constraint left) {
       if(name.equals(PROPERTY_LENGTH)) {
          return INTEGER;
       }
-      return pointer.compile(scope, left);
+      return pointer.getConstraint(scope, left);
    }
    
    @Override

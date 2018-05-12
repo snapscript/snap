@@ -1,26 +1,25 @@
-package org.snapscript.core.type;
+package org.snapscript.core;
 
 import org.snapscript.common.Cache;
 import org.snapscript.common.CopyOnWriteCache;
 import org.snapscript.common.CopyOnWriteSparseArray;
 import org.snapscript.common.SparseArray;
-import org.snapscript.core.type.Type;
 
-public class TypeCache<V> {
+public class EntityCache<V> {
 
    private final SparseArray<V> array;
-   private final Cache<Type, V> cache;
+   private final Cache<Entity, V> cache;
    
-   public TypeCache() {
+   public EntityCache() {
       this(10000);
    }
    
-   public TypeCache(int capacity) {
+   public EntityCache(int capacity) {
       this.array = new CopyOnWriteSparseArray<V>(capacity); // for order > 0
-      this.cache = new CopyOnWriteCache<Type, V>(); // for order = 0
+      this.cache = new CopyOnWriteCache<Entity, V>(); // for order = 0
    }
 
-   public V take(Type type) {
+   public V take(Entity type) {
       int order = type.getOrder();
       
       if(order == 0) {
@@ -29,7 +28,7 @@ public class TypeCache<V> {
       return array.remove(order);
    }
 
-   public V fetch(Type type) {
+   public V fetch(Entity type) {
       int order = type.getOrder();
       
       if(order == 0) {
@@ -38,7 +37,7 @@ public class TypeCache<V> {
       return array.get(order);
    }
 
-   public boolean contains(Type type) {
+   public boolean contains(Entity type) {
       int order = type.getOrder();
       
       if(order == 0) {
@@ -47,7 +46,7 @@ public class TypeCache<V> {
       return array.get(order) != null;
    }
 
-   public void cache(Type type, V value) {
+   public void cache(Entity type, V value) {
       int order = type.getOrder();
       
       if(order == 0) {

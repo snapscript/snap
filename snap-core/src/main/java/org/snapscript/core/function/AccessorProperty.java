@@ -34,6 +34,11 @@ public class AccessorProperty<T> implements Property<T> {
    @Override
    public Constraint getConstraint() {
       return constraint;
+   }   
+
+   @Override
+   public Type getHandle() {
+      return null;
    }
    
    @Override

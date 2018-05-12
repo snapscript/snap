@@ -5,6 +5,6 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.variable.Value;
 
 public interface VariablePointer<T> {
-   Constraint compile(Scope scope, Constraint left);
+   Constraint getConstraint(Scope scope, Constraint left);
    Value get(Scope scope, T left);
 }

@@ -19,9 +19,9 @@ public class FunctionGenerator {
    private final DefaultMethodChecker checker;
    private final PlatformProvider provider;
    
-   public FunctionGenerator(TypeIndexer indexer, PlatformProvider provider) {
-      this.extractor = new GenericConstraintExtractor(indexer); 
-      this.generator = new SignatureGenerator(indexer);     
+   public FunctionGenerator(PlatformProvider provider) {
+      this.extractor = new GenericConstraintExtractor(); 
+      this.generator = new SignatureGenerator();     
       this.checker = new DefaultMethodChecker();
       this.provider = provider;
    }

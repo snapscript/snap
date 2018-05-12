@@ -25,7 +25,7 @@ public class FunctionSignature implements Signature {
    }
    
    public FunctionSignature(List<Parameter> parameters, Module module, Member source, boolean absolute, boolean variable){
-      this.description = new SignatureDescription(this);
+      this.description = new SignatureDescription(this, module);
       this.matcher = new SignatureMatcher(this, module);
       this.definition = new FunctionType(this, module);
       this.parameters = parameters;

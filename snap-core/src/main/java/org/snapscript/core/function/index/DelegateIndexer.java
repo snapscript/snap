@@ -2,17 +2,17 @@ package org.snapscript.core.function.index;
 
 import java.util.List;
 
+import org.snapscript.core.EntityCache;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.convert.TypeInspector;
 import org.snapscript.core.convert.proxy.Delegate;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.stack.ThreadStack;
-import org.snapscript.core.type.TypeCache;
 import org.snapscript.core.type.TypeExtractor;
 
 public class DelegateIndexer {
    
-   private final TypeCache<FunctionIndex> indexes;
+   private final EntityCache<FunctionIndex> indexes;
    private final FunctionPointerConverter converter;
    private final FunctionIndexBuilder builder;
    private final FunctionPathFinder finder;
@@ -22,7 +22,7 @@ public class DelegateIndexer {
    public DelegateIndexer(TypeExtractor extractor, ThreadStack stack) {
       this.builder = new FunctionIndexBuilder(extractor, stack);
       this.converter = new FunctionPointerConverter(stack);
-      this.indexes = new TypeCache<FunctionIndex>();
+      this.indexes = new EntityCache<FunctionIndex>();
       this.finder = new FunctionPathFinder();
       this.inspector = new TypeInspector();
       this.extractor = extractor;

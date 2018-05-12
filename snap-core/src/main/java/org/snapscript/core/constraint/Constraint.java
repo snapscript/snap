@@ -13,22 +13,22 @@ import org.snapscript.core.variable.Value;
 
 public abstract class Constraint {
 
-   public static final Constraint NONE = new PrimitiveConstraint(null);
-   public static final Constraint NUMBER = new PrimitiveConstraint(Number.class);
-   public static final Constraint INTEGER = new PrimitiveConstraint(Integer.class);
-   public static final Constraint LONG = new PrimitiveConstraint(Long.class);
-   public static final Constraint FLOAT = new PrimitiveConstraint(Float.class);
-   public static final Constraint DOUBLE = new PrimitiveConstraint(Double.class);
-   public static final Constraint SHORT = new PrimitiveConstraint(Short.class);
-   public static final Constraint BYTE = new PrimitiveConstraint(Byte.class);
-   public static final Constraint STRING = new PrimitiveConstraint(String.class);
-   public static final Constraint BOOLEAN = new PrimitiveConstraint(Boolean.class);
-   public static final Constraint SET = new PrimitiveConstraint(Set.class);
-   public static final Constraint LIST = new PrimitiveConstraint(List.class);
-   public static final Constraint MAP = new PrimitiveConstraint(Map.class);
-   public static final Constraint ITERABLE = new PrimitiveConstraint(Iterable.class);  
-   public static final Constraint TYPE = new PrimitiveConstraint(Type.class);
-   public static final Constraint OBJECT = new PrimitiveConstraint(Object.class);
+   public static final Constraint NONE = new ClassConstraint(null);
+   public static final Constraint NUMBER = new ClassConstraint(Number.class);
+   public static final Constraint INTEGER = new ClassConstraint(Integer.class);
+   public static final Constraint LONG = new ClassConstraint(Long.class);
+   public static final Constraint FLOAT = new ClassConstraint(Float.class);
+   public static final Constraint DOUBLE = new ClassConstraint(Double.class);
+   public static final Constraint SHORT = new ClassConstraint(Short.class);
+   public static final Constraint BYTE = new ClassConstraint(Byte.class);
+   public static final Constraint STRING = new ClassConstraint(String.class);
+   public static final Constraint BOOLEAN = new ClassConstraint(Boolean.class);
+   public static final Constraint SET = new ClassConstraint(Set.class);
+   public static final Constraint LIST = new ClassConstraint(List.class);
+   public static final Constraint MAP = new ClassConstraint(Map.class);
+   public static final Constraint ITERABLE = new ClassConstraint(Iterable.class);  
+   public static final Constraint TYPE = new ClassConstraint(Type.class);
+   public static final Constraint OBJECT = new ClassConstraint(Object.class);
    
    public static Constraint getConstraint(Module module) {
       return new ModuleConstraint(module);
@@ -40,6 +40,10 @@ public abstract class Constraint {
    
    public static Constraint getConstraint(Type type, int modifiers) {
       return new StaticConstraint(type, modifiers);
+   }
+   
+   public static Constraint getConstraint(Class value) {
+      return new ClassConstraint(value);
    }
 
    public static Constraint getConstraint(Object value) {

@@ -22,12 +22,10 @@ import org.snapscript.core.type.Type;
 
 public class PrimitiveFunctionGenerator {
    
-   private final GenericConstraintExtractor extractor;
    private final PrimitiveFunctionAccessor accessor;
    private final ParameterBuilder builder;
    
-   public PrimitiveFunctionGenerator(TypeIndexer indexer) {
-      this.extractor = new GenericConstraintExtractor(indexer);
+   public PrimitiveFunctionGenerator() {
       this.accessor = new PrimitiveFunctionAccessor();
       this.builder = new ParameterBuilder();
    }
@@ -44,7 +42,7 @@ public class PrimitiveFunctionGenerator {
       
       for(int i = 0; i < types.length; i++){
          Class require = types[i];
-         Constraint constraint = extractor.extractType(require, null);
+         Constraint constraint = Constraint.getConstraint(require);
          Parameter parameter = null;
          
          if(require == Object.class) { // avoid proxy wrapping

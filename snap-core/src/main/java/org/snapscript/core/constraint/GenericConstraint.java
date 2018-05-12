@@ -1,5 +1,7 @@
 package org.snapscript.core.constraint;
 
+import static java.util.Collections.EMPTY_LIST;
+
 import java.util.List;
 
 import org.snapscript.core.ModifierType;
@@ -13,6 +15,10 @@ public class GenericConstraint extends Constraint {
    private final Type type;
    private final int modifiers;
 
+   public GenericConstraint(Type type) {
+      this(type, EMPTY_LIST);
+   }
+   
    public GenericConstraint(Type type, List<Constraint> generics) {
       this(type, generics,  0);
    }

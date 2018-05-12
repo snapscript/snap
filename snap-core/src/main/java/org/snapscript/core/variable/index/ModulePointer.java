@@ -6,29 +6,28 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.module.Module;
-import org.snapscript.core.property.Property;
-import org.snapscript.core.property.PropertyValue;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 import org.snapscript.core.variable.bind.VariableFinder;
+import org.snapscript.core.variable.bind.VariableResult;
 
 public class ModulePointer implements VariablePointer<Module> {
    
-   private final AtomicReference<Property> reference;
+   private final AtomicReference<VariableResult> reference;
    private final VariableFinder finder;
    private final String name;
    
    public ModulePointer(VariableFinder finder, String name) {
-      this.reference = new AtomicReference<Property>();
+      this.reference = new AtomicReference<VariableResult>();
       this.finder = finder;
       this.name = name;
    }
 
    @Override
-   public Constraint compile(Scope scope, Constraint left) {
-      Property property = reference.get();
+   public Constraint getConstraint(Scope scope, Constraint left) {
+      VariableResult property = reference.get();
       
       if(property == null) {
          Type parent = left.getType(scope);
@@ -40,11 +39,11 @@ public class ModulePointer implements VariablePointer<Module> {
             Type type = module.getType(name);
             
             if(type == null) {
-               Property match = finder.findAll(scope, module, name);
+               VariableResult match = finder.findAll(scope, module, name);
                
                if(match != null) {
                   reference.set(match);
-                  return match.getConstraint();
+                  return match.getConstraint(left);
                }
                return null;
             }
@@ -52,12 +51,12 @@ public class ModulePointer implements VariablePointer<Module> {
          }
          return value;
       } 
-      return property.getConstraint();
+      return property.getConstraint(left);
    }
    
    @Override
    public Value get(Scope scope, Module left) {
-      Property property = reference.get();
+      VariableResult property = reference.get();
       
       if(property == null) {
          Scope inner = left.getScope();
@@ -68,11 +67,11 @@ public class ModulePointer implements VariablePointer<Module> {
             Type type = left.getType(name);
             
             if(type == null) {            
-               Property match = finder.findAll(scope, left, name);
+               VariableResult match = finder.findAll(scope, left, name);
                
                if(match != null) {
                   reference.set(match);
-                  return new PropertyValue(match, left, name);
+                  return match.getValue(left);
                }
                return null;
             }
@@ -80,7 +79,7 @@ public class ModulePointer implements VariablePointer<Module> {
          }
          return value;
       } 
-      return new PropertyValue(property, left, name);
+      return property.getValue(left);
    }
    
 }

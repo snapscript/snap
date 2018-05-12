@@ -17,8 +17,8 @@ public class ConstructorIndexer {
    private final ConstructorGenerator generator;
    private final ModifierConverter converter;
    
-   public ConstructorIndexer(TypeIndexer indexer, PlatformProvider provider) {
-      this.generator = new ConstructorGenerator(indexer, provider);
+   public ConstructorIndexer(PlatformProvider provider) {
+      this.generator = new ConstructorGenerator(provider);
       this.extractor = new AnnotationExtractor();
       this.converter = new ModifierConverter();
    }

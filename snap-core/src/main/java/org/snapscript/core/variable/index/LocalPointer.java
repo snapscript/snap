@@ -24,7 +24,7 @@ public class LocalPointer implements VariablePointer<Object> {
    }
 
    @Override
-   public Constraint compile(Scope scope, Constraint left) {
+   public Constraint getConstraint(Scope scope, Constraint left) {
       Object result = reference.get();
       
       if(result == null) {

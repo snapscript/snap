@@ -11,7 +11,6 @@ import org.snapscript.core.module.ModuleRegistry;
 import org.snapscript.core.platform.PlatformProvider;
 import org.snapscript.core.stack.ThreadStack;
 import org.snapscript.core.trace.TraceInterceptor;
-import org.snapscript.core.type.Any;
 import org.snapscript.core.type.TypeExtractor;
 import org.snapscript.core.type.TypeLoader;
 

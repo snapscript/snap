@@ -1,4 +1,4 @@
-package org.snapscript.core.function.index;
+package org.snapscript.core.attribute;
 
 import org.snapscript.core.Context;
 import org.snapscript.core.constraint.Constraint;
@@ -9,12 +9,12 @@ import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 
-public class GenericReturnType implements ReturnType {
+public class GenericAttributeType implements AttributeType {
    
    private final Constraint returns;
    private final Type declared;
    
-   public GenericReturnType(Constraint returns, Type declared) {
+   public GenericAttributeType(Constraint returns, Type declared) {
       this.declared = declared;
       this.returns = returns;
    }

@@ -13,56 +13,57 @@ import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeExtractor;
 import org.snapscript.core.variable.Value;
 import org.snapscript.core.variable.bind.VariableFinder;
+import org.snapscript.core.variable.bind.VariableResult;
 
 public class ClosurePointer implements VariablePointer<Function> {
 
-   private final AtomicReference<Property> reference;
+   private final AtomicReference<VariableResult> reference;
    private final VariableFinder finder;
    private final String name;
    
    public ClosurePointer(VariableFinder finder, String name) {
-      this.reference = new AtomicReference<Property>();
+      this.reference = new AtomicReference<VariableResult>();
       this.finder = finder;
       this.name = name;
    }
    
    @Override
-   public Constraint compile(Scope scope, Constraint left) {
-      Property accessor = reference.get();
+   public Constraint getConstraint(Scope scope, Constraint left) {
+      VariableResult accessor = reference.get();
       
       if(accessor == null) {
          Module module = scope.getModule();
          Context context = module.getContext();
          TypeExtractor extractor = context.getExtractor();
          Type type = extractor.getType(Function.class);
-         Property match = finder.findAll(scope, type, name);
+         VariableResult match = finder.findAll(scope, type, name);
          
          if(match != null) {
             reference.set(match);
-            return match.getConstraint();
+            return match.getConstraint(left);
          }
          return null;
       }
-      return accessor.getConstraint();
+      return accessor.getConstraint(left);
    }
    
    @Override
    public Value get(Scope scope, Function left) {
-      Property accessor = reference.get();
+      VariableResult accessor = reference.get();
       
       if(accessor == null) {
          Module module = scope.getModule();
          Context context = module.getContext();
          TypeExtractor extractor = context.getExtractor();
          Type type = extractor.getType(Function.class);
-         Property match = finder.findAll(scope, type, name);
+         VariableResult match = finder.findAll(scope, type, name);
          
          if(match != null) {
             reference.set(match);
-            return new PropertyValue(match, left, name);
+            return match.getValue(left);
          }
          return null;
       }
-      return new PropertyValue(accessor, left, name);
+      return accessor.getValue(left);
    }
 }

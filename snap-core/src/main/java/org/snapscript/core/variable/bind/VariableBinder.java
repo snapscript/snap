@@ -27,7 +27,7 @@ public class VariableBinder {
    
    public Constraint compile(Scope scope) throws Exception {
       VariablePointer pointer = resolver.index(scope);
-      Constraint value = pointer.compile(scope, null);
+      Constraint value = pointer.getConstraint(scope, null);
       
       if(value == null) {
          handler.handleCompileError(REFERENCE, scope, name);
@@ -37,7 +37,7 @@ public class VariableBinder {
    
    public Constraint compile(Scope scope, Constraint left) throws Exception {
       VariablePointer pointer = resolver.index(scope, left);
-      Constraint value = pointer.compile(scope, left);
+      Constraint value = pointer.getConstraint(scope, left);
       Type type = left.getType(scope);
       
       if(value == null) {

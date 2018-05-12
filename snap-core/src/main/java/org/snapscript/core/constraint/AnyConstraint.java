@@ -1,4 +1,4 @@
-package org.snapscript.core.type;
+package org.snapscript.core.constraint;
 
 import static org.snapscript.core.Reserved.ANY_TYPE;
 import static org.snapscript.core.Reserved.DEFAULT_PACKAGE;
@@ -8,18 +8,22 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.snapscript.core.Context;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.NameBuilder;
+import org.snapscript.core.type.Type;
+import org.snapscript.core.type.TypeLoader;
 
-public class AnyLoader {
+public class AnyConstraint extends Constraint {
 
    private final AtomicReference<Type> reference;
    private final NameBuilder builder;
    
-   public AnyLoader(){
+   public AnyConstraint(){
       this.reference = new AtomicReference<Type>();
       this.builder = new NameBuilder();
    }
 
-   public Type loadType(Scope scope) {
+   @Override
+   public Type getType(Scope scope) {
       Type type  = reference.get();
       
       if(type == null) {
@@ -35,4 +39,9 @@ public class AnyLoader {
       }
       return type;
    }   
+   
+   @Override
+   public String toString() {
+      return String.format("%s.%s",  DEFAULT_PACKAGE, ANY_TYPE);
+   }
 }

@@ -4,12 +4,12 @@ import java.util.List;
 
 import org.snapscript.core.Compilation;
 import org.snapscript.core.InternalStateException;
+import org.snapscript.core.constraint.AnyConstraint;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.constraint.ConstraintVerifier;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.AnyLoader;
 import org.snapscript.core.type.Type;
 import org.snapscript.tree.constraint.ClassConstraint;
 import org.snapscript.tree.constraint.TraitConstraint;
@@ -38,13 +38,13 @@ public class ClassHierarchy implements Compilation {
       private final ConstraintVerifier verifier;
       private final TraitConstraint[] traits; 
       private final ClassConstraint base;
-      private final AnyLoader loader;
+      private final AnyConstraint any;
       private final Path path;
       private final int line;
       
       public CompileResult(ClassConstraint base, TraitConstraint[] traits, Path path, int line) {
          this.verifier = new ConstraintVerifier();
-         this.loader = new AnyLoader();
+         this.any = new AnyConstraint();
          this.traits = traits;
          this.base = base;
          this.path = path;
@@ -56,10 +56,7 @@ public class ClassHierarchy implements Compilation {
          List<Constraint> types = type.getTypes();
          
          if(base == null) {
-            Type match = loader.loadType(scope);
-            Constraint base = Constraint.getConstraint(match);
-            
-            types.add(base);
+            types.add(any);
          } else {
             Type match = base.getType(scope);
             

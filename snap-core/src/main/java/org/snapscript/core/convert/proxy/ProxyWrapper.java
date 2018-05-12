@@ -5,19 +5,19 @@ import java.lang.reflect.Proxy;
 
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
-import org.snapscript.core.ThisBinder;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.platform.Bridge;
+import org.snapscript.core.scope.ScopeBinder;
 import org.snapscript.core.scope.instance.Instance;
 
 public class ProxyWrapper {
 
    private final ProxyFactory factory;
-   private final ThisBinder binder;
+   private final ScopeBinder binder;
    
    public ProxyWrapper(Context context) {
       this.factory = new ProxyFactory(this, context);
-      this.binder = new ThisBinder();
+      this.binder = new ScopeBinder();
    }
    
    public Object asProxy(Instance instance) {

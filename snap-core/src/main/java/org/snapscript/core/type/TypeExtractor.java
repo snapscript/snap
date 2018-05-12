@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.snapscript.common.Cache;
 import org.snapscript.common.CopyOnWriteCache;
+import org.snapscript.core.Handle;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.property.PropertyExtractor;
@@ -44,19 +45,13 @@ public class TypeExtractor {
          
          if(Handle.class.isAssignableFrom(type)) {
             Handle handle = (Handle)value;
-            return handle.getHandle();
-         }
-         Type match = matches.fetch(type);
-         
-         if(match == null) {    
-            Type actual = loader.loadType(type);
+            Type match = handle.getHandle();
             
-            if(actual != null) {
-               matches.cache(type, actual);
+            if(match != null) {
+               return match;
             }
-            return actual;
          }
-         return match;
+         return getType(type);
       }
       return null;
    }

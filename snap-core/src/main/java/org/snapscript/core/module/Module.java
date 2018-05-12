@@ -25,7 +25,5 @@ public interface Module extends Entity{
    List<Function> getFunctions();
    List<Type> getTypes();
    Type getType();
-   String getName();
    Path getPath();
-   int getOrder();
 }

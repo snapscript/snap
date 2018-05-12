@@ -6,11 +6,12 @@ import static org.snapscript.core.convert.Score.POSSIBLE;
 
 import java.util.List;
 
-import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.Signature;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Type;
 
 public class FunctionComparator {
    
@@ -20,7 +21,7 @@ public class FunctionComparator {
       this.matcher = matcher;
    }
 
-   public Score compare(Function actual, Function constraint) throws Exception{
+   public Score compare(Scope scope, Function actual, Function constraint) throws Exception{
       Signature actualSignature = actual.getSignature();
       Signature constraintSignature = constraint.getSignature();
       List<Parameter> actualParameters = actualSignature.getParameters();
@@ -30,14 +31,14 @@ public class FunctionComparator {
       boolean constraintVariable = constraintSignature.isVariable();
       
       if(actualSize == constraintSize) {
-         Score score = compare(actualParameters, constraintParameters);
+         Score score = compare(scope, actualParameters, constraintParameters);
          
          if(score.isValid()) {
             return score;
          }
       }
       if(constraintVariable && constraintSize <= actualSize) {
-         Score score = compare(actualParameters, constraintParameters); // compare(a...) == compare(a, b)
+         Score score = compare(scope, actualParameters, constraintParameters); // compare(a...) == compare(a, b)
          
          if(score.isValid()) {
             return score;
@@ -46,7 +47,7 @@ public class FunctionComparator {
       return INVALID;
    }
    
-   private Score compare(List<Parameter> actual, List<Parameter> constraint) throws Exception{
+   private Score compare(Scope scope, List<Parameter> actual, List<Parameter> constraint) throws Exception{
       int actualSize = actual.size();
       
       if(actualSize > 0) {
@@ -55,7 +56,7 @@ public class FunctionComparator {
          for(int i = 0, j = 0; i < actualSize; i++) {
             Parameter actualParameter = actual.get(i);
             Parameter constraintParameter = constraint.get(j);
-            Score score = compare(actualParameter, constraintParameter);
+            Score score = compare(scope, actualParameter, constraintParameter);
             
             if(score.isInvalid()) { // must check for numbers
                return INVALID;
@@ -71,11 +72,11 @@ public class FunctionComparator {
       return EXACT;
    }
    
-   private Score compare(Parameter actual, Parameter constraint) throws Exception{
+   private Score compare(Scope scope, Parameter actual, Parameter constraint) throws Exception{
       Constraint actualConstraint  = actual.getConstraint();
       Constraint constraintConstraint = constraint.getConstraint();
-      Type actualType  = actualConstraint.getType(null);
-      Type constraintType = constraintConstraint.getType(null);
+      Type actualType  = actualConstraint.getType(scope);
+      Type constraintType = constraintConstraint.getType(scope);
       ConstraintConverter converter = matcher.match(actualType);
       Score score = converter.score(constraintType);
       

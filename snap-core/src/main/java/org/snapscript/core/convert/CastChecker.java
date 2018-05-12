@@ -10,6 +10,7 @@ import java.util.Set;
 
 import org.snapscript.core.function.ClosureFunctionFinder;
 import org.snapscript.core.function.Function;
+import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Category;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeExtractor;
@@ -74,12 +75,13 @@ public class CastChecker {
          Function possible = finder.findFunctional(actual);
          List<Function> functions = constraint.getFunctions();
          Iterator<Function> iterator = functions.iterator();
+         Scope scope = actual.getScope();
          
          if(iterator.hasNext()) {
             Function required = iterator.next();
          
             if(possible != null) {         
-               return comparator.compare(possible, required);         
+               return comparator.compare(scope, possible, required);         
             }
          }
       }
@@ -94,12 +96,13 @@ public class CastChecker {
          Function possible = finder.findFunctional(type);
          List<Function> functions = constraint.getFunctions();
          Iterator<Function> iterator = functions.iterator();
+         Scope scope = actual.getScope();
          
          if(iterator.hasNext()) {
             Function required = iterator.next();
             
             if(possible != null) {
-               return comparator.compare(possible, required);
+               return comparator.compare(scope, possible, required);
             }
          }
       }

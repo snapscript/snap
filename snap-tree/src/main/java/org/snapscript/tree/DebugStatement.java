@@ -7,7 +7,7 @@ import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Execution;
-import org.snapscript.core.Substitute;
+import org.snapscript.core.IdentityEvaluation;
 import org.snapscript.core.Statement;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
@@ -68,7 +68,7 @@ public class DebugStatement implements Compilation {
       private final Trace trace;
 
       public CompileResult(TraceInterceptor interceptor, Evaluation evaluation, Trace trace){
-         this.success = new Substitute(TRUE);
+         this.success = new IdentityEvaluation(TRUE);
          this.interceptor = interceptor;
          this.evaluation = evaluation;
          this.trace = trace;

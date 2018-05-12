@@ -1,24 +1,28 @@
 package org.snapscript.core.constraint.transform;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.snapscript.common.Cache;
+import org.snapscript.core.EntityTree;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.constraint.GenericConstraint;
+import org.snapscript.core.convert.InstanceOfChecker;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeExtractor;
-import org.snapscript.core.type.TypeTree;
 
 public class ConstraintTransformer {
    
-   private final TypeTree<Integer, ConstraintTransform> tree;
-   private final ConstraintIndexer indexer;
+   private final EntityTree<Integer, ConstraintTransform> tree;
+   private final ConstraintIndexBuilder indexer;
    private final TypeExtractor extractor;
    
    public ConstraintTransformer(TypeExtractor extractor){
-      this.tree = new TypeTree<Integer, ConstraintTransform>();
-      this.indexer = new ConstraintIndexer();
+      this.tree = new EntityTree<Integer, ConstraintTransform>();
+      this.indexer = new ConstraintIndexBuilder();
       this.extractor = extractor;
    }
 
@@ -43,10 +47,41 @@ public class ConstraintTransformer {
          }
          return new IdentityTransform(index);
       }
-      return create(constraint, require);
+      Type entry = constraint.getEntry();
+      
+      if(entry != null) {
+         return resolveArray(constraint, require);
+      }
+      return resolveType(constraint, require);
    }
    
-   private ConstraintTransform create(Type constraint, Type require) {
+   private ConstraintTransform resolveArray(Type constraint, Type require) { // String[] -> List
+      Class actual = require.getType();
+      Type entry = constraint.getEntry();
+      Constraint element = Constraint.getConstraint(entry);
+      
+      if(Iterable.class.isAssignableFrom(actual)) {         
+         return resolveArray(element, require);
+      }
+      throw new InternalStateException("Type '" + require+ "' is not compatible with an array");
+   }
+   
+   private ConstraintTransform resolveArray(Constraint constraint, Type require) { // String[] -> List
+      ConstraintIndex index = indexer.index(require);
+      List<Constraint> constraints = require.getConstraints();
+      
+      if(constraints.isEmpty()) {     
+         List<Constraint> generics = new ArrayList<Constraint>();
+         Constraint result = new GenericConstraint(require, constraints);
+         
+         generics.add(constraint);
+         
+         return new StaticTransform(result, index);
+      }
+      return new EmptyTransform(require); // already parameterized
+   }
+   
+   private ConstraintTransform resolveType(Type constraint, Type require) {
       List<Constraint> constraints = require.getConstraints();
       
       if(!constraints.isEmpty()) {
@@ -64,7 +99,7 @@ public class ConstraintTransformer {
             Constraint base = path.get(i);      
             Type actual = base.getType(scope);
             
-            transforms[i] = create(original, actual);
+            transforms[i] = resolveType(original, actual);
             original = base;
          }
          return new ChainTransform(transforms);
@@ -72,7 +107,7 @@ public class ConstraintTransformer {
       return new EmptyTransform(require);
    }   
    
-   private ConstraintTransform create(Constraint constraint, Type require) {
+   private ConstraintTransform resolveType(Constraint constraint, Type require) {
       Scope scope = require.getScope();
       Type actual = constraint.getType(scope);
       List<Constraint> hierarchy = actual.getTypes();
@@ -81,13 +116,13 @@ public class ConstraintTransformer {
          Type type = base.getType(scope);
          
          if(type == require) { // here we know how require was declared in the type
-            return create(constraint, base, type);
+            return resolveType(constraint, base, type);
          }
       } 
       throw new InternalStateException("Type '" + require + "' not in hierarchy of '" + actual +"'");
    }
    
-   private ConstraintTransform create(Constraint constraint, Constraint require, Type destination) {
+   private ConstraintTransform resolveType(Constraint constraint, Constraint require, Type destination) {
       Scope scope = destination.getScope();
       Type origin = constraint.getType(scope);
       ConstraintIndex originIndex = indexer.index(origin);

@@ -1,8 +1,8 @@
-package org.snapscript.core.function.index;
+package org.snapscript.core.attribute;
 
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
 
-public interface ReturnType {
+public interface AttributeType {
    Constraint getConstraint(Scope scope, Constraint left);
 }

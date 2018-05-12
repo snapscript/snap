@@ -20,9 +20,9 @@ public class MethodIndexer {
    private final ModifierConverter converter;
    private final ClassExtender extender;
    
-   public MethodIndexer(TypeIndexer indexer, ClassExtender extender, PlatformProvider provider){
-      this.generator = new FunctionGenerator(indexer, provider);
-      this.indexer = new ConstructorIndexer(indexer, provider);
+   public MethodIndexer(ClassExtender extender, PlatformProvider provider){
+      this.indexer = new ConstructorIndexer(provider);
+      this.generator = new FunctionGenerator(provider);
       this.extractor = new AnnotationExtractor();
       this.converter = new ModifierConverter();
       this.extender = extender;

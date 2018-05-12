@@ -44,6 +44,7 @@ public class FunctionValidator {
    
    private void validateModifiers(Function function) throws Exception {
       Type parent = function.getType();
+      Scope scope = parent.getScope();
       int modifiers = function.getModifiers();
       
       if(ModifierType.isOverride(modifiers)) {
@@ -59,7 +60,7 @@ public class FunctionValidator {
                   String match = available.getName();
                   
                   if(name.equals(match)) {
-                     Score compare = comparator.compare(available, function);
+                     Score compare = comparator.compare(scope, available, function);
                      
                      if(compare.isSimilar()) {
                         validateModifiers(available, function);

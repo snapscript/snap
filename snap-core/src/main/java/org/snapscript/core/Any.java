@@ -1,4 +1,4 @@
-package org.snapscript.core.type;
+package org.snapscript.core;
 
 public interface Any {
    int hashCode();

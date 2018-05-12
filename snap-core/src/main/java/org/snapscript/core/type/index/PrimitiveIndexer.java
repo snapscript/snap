@@ -38,8 +38,8 @@ public class PrimitiveIndexer{
    private final TypeIndexer indexer;
    
    public PrimitiveIndexer(TypeIndexer indexer){
+      this.generator = new PrimitiveFunctionGenerator();
       this.reference = new AtomicReference<Type>();
-      this.generator = new PrimitiveFunctionGenerator(indexer);
       this.indexer = indexer;
    }
 

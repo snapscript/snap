@@ -7,18 +7,19 @@ import static org.snapscript.core.Reserved.METHOD_TO_STRING;
 import java.util.List;
 import java.util.Set;
 
+import org.snapscript.core.EntityCache;
 import org.snapscript.core.ModifierType;
-import org.snapscript.core.type.Type;
 import org.snapscript.core.convert.FunctionComparator;
 import org.snapscript.core.convert.Score;
+import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Category;
-import org.snapscript.core.type.TypeCache;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeExtractor;
 import org.snapscript.core.type.TypeLoader;
 
 public class ClosureFunctionFinder {
 
-   private final TypeCache<Function> functions;
+   private final EntityCache<Function> functions;
    private final FunctionComparator comparator;
    private final TypeExtractor extractor;
    private final TypeLoader loader;
@@ -26,7 +27,7 @@ public class ClosureFunctionFinder {
    private final Function invalid;
    
    public ClosureFunctionFinder(FunctionComparator comparator, TypeExtractor extractor, TypeLoader loader) {
-      this.functions = new TypeCache<Function>();
+      this.functions = new EntityCache<Function>();
       this.signature = new EmptySignature();
       this.invalid = new EmptyFunction(signature);
       this.comparator = comparator;
@@ -98,6 +99,7 @@ public class ClosureFunctionFinder {
    
    private Function resolveSingle(Type type) throws Exception {
       Set<Type> types = extractor.getTypes(type);
+      Scope scope = type.getScope();
       Function function = invalid;
       
       for(Type base : types){
@@ -105,7 +107,7 @@ public class ClosureFunctionFinder {
          
          if(match != null) {
             if(function != invalid) {
-               Score score = comparator.compare(match, function);
+               Score score = comparator.compare(scope, match, function);
                
                if(score.isExact()) {
                   return null;

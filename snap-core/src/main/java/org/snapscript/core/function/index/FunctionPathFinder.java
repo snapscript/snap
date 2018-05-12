@@ -4,23 +4,23 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.snapscript.core.EntityCache;
+import org.snapscript.core.constraint.AnyConstraint;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.TypeInspector;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.AnyLoader;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.type.TypeCache;
 
 public class FunctionPathFinder {
    
-   private final TypeCache<List<Type>> paths;  
+   private final EntityCache<List<Type>> paths;  
    private final TypeInspector inspector;  
-   private final AnyLoader loader;
+   private final AnyConstraint any;
    
    public FunctionPathFinder() {
-      this.paths = new TypeCache<List<Type>>();
+      this.paths = new EntityCache<List<Type>>();
       this.inspector = new TypeInspector();
-      this.loader = new AnyLoader();
+      this.any = new AnyConstraint();
    }
 
    public List<Type> findPath(Type type) {
@@ -39,7 +39,7 @@ public class FunctionPathFinder {
 
    private void findTypes(Type type, List<Type> done) {
       Scope scope = type.getScope();
-      Type base = loader.loadType(scope);
+      Type base = any.getType(scope);
       Class real = type.getType();
       
       findClasses(type, done);

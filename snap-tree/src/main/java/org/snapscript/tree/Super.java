@@ -6,11 +6,11 @@ import static org.snapscript.core.Reserved.TYPE_THIS;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
-import org.snapscript.core.ThisBinder;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.ScopeBinder;
 import org.snapscript.core.scope.State;
 import org.snapscript.core.scope.instance.Instance;
 import org.snapscript.core.stack.ThreadStack;
@@ -20,10 +20,10 @@ import org.snapscript.parse.StringToken;
 
 public class Super extends Evaluation {
 
-   private final ThisBinder binder;
+   private final ScopeBinder binder;
    
    public Super(StringToken token) {
-      this.binder = new ThisBinder();
+      this.binder = new ScopeBinder();
    }
    
    @Override

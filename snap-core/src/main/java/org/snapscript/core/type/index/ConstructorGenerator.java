@@ -19,8 +19,8 @@ public class ConstructorGenerator {
    private final SignatureGenerator generator;
    private final PlatformProvider provider;
    
-   public ConstructorGenerator(TypeIndexer indexer, PlatformProvider provider) {
-      this.generator = new SignatureGenerator(indexer);
+   public ConstructorGenerator(PlatformProvider provider) {
+      this.generator = new SignatureGenerator();
       this.provider = provider;
    }
    

@@ -13,13 +13,13 @@ public class MethodMatcher {
    }
    
    public Method match(Method[] methods, Class require, String name) throws Exception {
-      PropertyType[] types = PropertyType.values();
+      MethodType[] types = MethodType.values();
 
       for(Method method : methods) {         
          int modifiers = converter.convert(method);
          
          if(!ModifierType.isStatic(modifiers) && ModifierType.isPublic(modifiers)) {
-            for(PropertyType type : types) {            
+            for(MethodType type : types) {            
                if(type.isWrite(method)) {
                   Class[] parameters = method.getParameterTypes();
                   Class actual = parameters[0];

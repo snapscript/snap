@@ -5,6 +5,7 @@ import static org.snapscript.core.error.Reason.INVOKE;
 
 import java.util.List;
 
+import org.snapscript.core.Any;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
@@ -14,7 +15,6 @@ import org.snapscript.core.function.Signature;
 import org.snapscript.core.function.resolve.FunctionCall;
 import org.snapscript.core.function.resolve.FunctionResolver;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Any;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 

@@ -6,6 +6,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.snapscript.core.EntityCache;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.module.Module;
@@ -13,10 +14,10 @@ import org.snapscript.core.scope.Scope;
 
 public class TypeTraverser {
    
-   private final TypeCache<Set<Type>> types;
+   private final EntityCache<Set<Type>> types;
    
    public TypeTraverser() {
-      this.types = new TypeCache<Set<Type>>();
+      this.types = new EntityCache<Set<Type>>();
    }
 
    public Set<Type> findHierarchy(Type type) {

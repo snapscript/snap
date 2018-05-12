@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 
 import org.snapscript.compile.ClassPathCompilerBuilder;
 import org.snapscript.compile.Compiler;
+import org.snapscript.compile.verify.VerifyException;
 
 public class EvalCompileConstraint extends TestCase {
 
@@ -20,6 +21,11 @@ public class EvalCompileConstraint extends TestCase {
    public void testEvalHasNoConstraint() throws Exception {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
       System.err.println(SOURCE);
-      compiler.compile(SOURCE).execute();
+      try {
+         compiler.compile(SOURCE).execute();
+      }catch(VerifyException e){
+         e.getErrors().get(0).getCause().printStackTrace();
+         throw e;
+      }
    }   
 }

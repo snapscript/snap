@@ -31,6 +31,11 @@ public class ThisProperty implements Property {
    @Override
    public Constraint getConstraint() {
       return constraint;
+   }   
+
+   @Override
+   public Type getHandle() {
+      return null;
    }
    
    @Override

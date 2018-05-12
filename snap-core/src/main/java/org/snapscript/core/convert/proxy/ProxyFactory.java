@@ -2,12 +2,12 @@ package org.snapscript.core.convert.proxy;
 
 import java.lang.reflect.Proxy;
 
+import org.snapscript.core.Any;
 import org.snapscript.core.Context;
 import org.snapscript.core.ContextClassLoader;
 import org.snapscript.core.convert.InterfaceCollector;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Any;
 
 public class ProxyFactory {
 

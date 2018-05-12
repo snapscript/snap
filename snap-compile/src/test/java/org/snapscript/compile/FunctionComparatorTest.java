@@ -11,6 +11,7 @@ import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.FunctionComparator;
 import org.snapscript.core.convert.Score;
 import org.snapscript.core.function.Function;
+import org.snapscript.core.scope.Scope;
 
 public class FunctionComparatorTest extends TestCase {
    
@@ -60,7 +61,8 @@ public class FunctionComparatorTest extends TestCase {
       Function extendX = context.getLoader().resolveType("default.ExtendX").getFunctions().get(0);
       Function x = context.getLoader().resolveType("org.snapscript.compile.FunctionComparatorTest$X").getFunctions().get(0);
       
-      Score score = comparator.compare(extendX, x);
+      Scope scope = x.getType().getScope();
+      Score score = comparator.compare(scope, extendX, x);
       Score scoreExtendX = extendX.getSignature().getConverter().score(new byte[10], 1, 1);
       Score scoreX = extendX.getSignature().getConverter().score(new byte[10], 1, 1);
       
@@ -89,7 +91,8 @@ public class FunctionComparatorTest extends TestCase {
       BufferedImage image = new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB);
       Graphics2D graphics = image.createGraphics();
       
-      Score score = comparator.compare(extendY, y);
+      Scope scope = y.getType().getScope();
+      Score score = comparator.compare(scope, extendY, y);
       Score scoreExtendY = extendY.getSignature().getConverter().score(graphics);
       Score scoreY = extendY.getSignature().getConverter().score(graphics);
       
@@ -114,7 +117,8 @@ public class FunctionComparatorTest extends TestCase {
       Function extendZ = context.getLoader().resolveType("default.ExtendZ").getFunctions().get(0);
       Function z = context.getLoader().resolveType("org.snapscript.compile.FunctionComparatorTest$Z").getFunctions().get(0);
       
-      Score score = comparator.compare(extendZ, z);
+      Scope scope = z.getType().getScope();
+      Score score = comparator.compare(scope, extendZ, z);
       Score scoreExtendZ = extendZ.getSignature().getConverter().score("text", 1);
       Score scoreZ = extendZ.getSignature().getConverter().score("text", 1);
       

@@ -7,13 +7,12 @@ import static org.snapscript.core.constraint.Constraint.NONE;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.snapscript.core.type.Type;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.type.Type;
 
 public class EmptyFunction implements Function {
 
-   private final FunctionDescription description;
    private final List<Annotation> annotations;
    private final Signature signature;
    private final String name;
@@ -28,7 +27,6 @@ public class EmptyFunction implements Function {
    }
 
    public EmptyFunction(Signature signature, String name, int modifiers){
-      this.description = new FunctionDescription(signature, null, name);
       this.annotations = new ArrayList<Annotation>();
       this.signature = signature;
       this.modifiers = modifiers;
@@ -87,11 +85,11 @@ public class EmptyFunction implements Function {
    
    @Override
    public String getDescription() {
-      return description.getDescription();
+      return name + signature;
    }
    
    @Override
    public String toString(){
-      return description.toString();
+      return name + signature;
    }
 }

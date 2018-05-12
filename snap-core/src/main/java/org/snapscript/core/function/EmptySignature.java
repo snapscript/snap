@@ -49,4 +49,9 @@ public class EmptySignature implements Signature {
    public boolean isInvalid() {
       return true;
    }
+   
+   @Override
+   public String toString() {
+      return "()";
+   }
 }

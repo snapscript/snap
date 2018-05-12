@@ -5,7 +5,7 @@ import org.snapscript.core.type.Type;
 
 public class FunctionDescription {
 
-   private final SignatureDescription description;
+   private final Signature signature;
    private final String name;
    private final Type type;
    
@@ -14,7 +14,7 @@ public class FunctionDescription {
    }
   
    public FunctionDescription(Signature signature, Type type, String name, int start) {
-      this.description = new SignatureDescription(signature, start);
+      this.signature = signature;
       this.name = name;
       this.type = type;
    }
@@ -36,7 +36,7 @@ public class FunctionDescription {
          }
       } 
       builder.append(name);
-      builder.append(description);
+      builder.append(signature);
       
       return builder.toString();
    }

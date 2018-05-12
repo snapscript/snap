@@ -22,8 +22,8 @@ public class SignatureGenerator {
    private final AnnotationConverter converter;
    private final ParameterBuilder builder;
    
-   public SignatureGenerator(TypeIndexer indexer) {
-      this.extractor = new GenericConstraintExtractor(indexer);
+   public SignatureGenerator() {
+      this.extractor = new GenericConstraintExtractor();
       this.converter = new AnnotationConverter();
       this.builder = new ParameterBuilder();
    }

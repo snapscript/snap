@@ -2,8 +2,8 @@ package org.snapscript.core.link;
 
 import org.snapscript.common.Cache;
 import org.snapscript.common.CopyOnWriteCache;
+import org.snapscript.core.Any;
 import org.snapscript.core.ContextClassLoader;
-import org.snapscript.core.type.Any;
 
 import java.lang.Package;
 

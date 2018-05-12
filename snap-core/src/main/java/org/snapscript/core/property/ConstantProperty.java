@@ -35,6 +35,11 @@ public class ConstantProperty implements Property<Object> {
    public Constraint getConstraint() {
       return constraint;
    }
+
+   @Override
+   public Type getHandle() {
+      return null;
+   }
    
    @Override
    public Type getType(){

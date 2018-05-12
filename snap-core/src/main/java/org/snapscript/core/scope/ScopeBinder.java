@@ -1,14 +1,12 @@
-package org.snapscript.core;
+package org.snapscript.core.scope;
 
 import static org.snapscript.core.Reserved.TYPE_THIS;
 
-import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.State;
 import org.snapscript.core.variable.Value;
 
-public class ThisBinder {
+public class ScopeBinder {
    
-   public ThisBinder() {
+   public ScopeBinder() {
       super();
    }
 

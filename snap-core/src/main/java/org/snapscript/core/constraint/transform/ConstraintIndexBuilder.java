@@ -4,17 +4,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.snapscript.core.EntityCache;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.type.TypeCache;
 
-public class ConstraintIndexer {
+public class ConstraintIndexBuilder {
    
-   private final TypeCache<ConstraintIndex> indexes;
+   private final EntityCache<ConstraintIndex> indexes;
    
-   public ConstraintIndexer(){
-      this.indexes = new TypeCache<ConstraintIndex>();
+   public ConstraintIndexBuilder(){
+      this.indexes = new EntityCache<ConstraintIndex>();
    }
 
    public ConstraintIndex index(Type type){ // give me the named parameters

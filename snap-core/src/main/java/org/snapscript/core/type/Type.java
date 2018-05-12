@@ -22,6 +22,4 @@ public interface Type extends Entity {
    Class getType();
    Type getOuter();
    Type getEntry();
-   String getName();
-   int getOrder();
 }

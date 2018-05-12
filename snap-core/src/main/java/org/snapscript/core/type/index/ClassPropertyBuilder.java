@@ -1,13 +1,15 @@
 package org.snapscript.core.type.index;
 
+import static org.snapscript.core.constraint.Constraint.TYPE;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.snapscript.core.InternalStateException;
-import org.snapscript.core.type.Type;
 import org.snapscript.core.property.ClassProperty;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.property.ThisProperty;
+import org.snapscript.core.type.Type;
 
 public class ClassPropertyBuilder {
 
@@ -19,14 +21,13 @@ public class ClassPropertyBuilder {
 
    public List<Property> create(Class source) throws Exception {
       Type type = indexer.loadType(source);
-      Type constraint = indexer.loadType(Type.class);
       
       if(type == null) {
          throw new InternalStateException("Could not load type for " + source);
       }
       List<Property> properties = new ArrayList<Property>();
       Property thisProperty = new ThisProperty(type);
-      Property classProperty = new ClassProperty(type, constraint);
+      Property classProperty = new ClassProperty(type, TYPE);
       
       properties.add(thisProperty);
       properties.add(classProperty);

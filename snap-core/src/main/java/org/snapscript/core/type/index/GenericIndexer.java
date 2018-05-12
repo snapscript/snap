@@ -1,37 +1,35 @@
 package org.snapscript.core.type.index;
 
+import static java.util.Collections.EMPTY_LIST;
+
+import java.lang.reflect.TypeVariable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.snapscript.core.constraint.Constraint;
 
 public class GenericIndexer {
    
-   private final GenericConstraintExtractor extractor;
-   private final ClassBoundResolver resolver;
+   private final GenericConstraintResolver resolver;
    
    public GenericIndexer(TypeIndexer indexer){
-      this.extractor = new GenericConstraintExtractor(indexer);
-      this.resolver = new ClassBoundResolver();
+      this.resolver = new GenericConstraintResolver();
    }
    
    public List<Constraint> index(Class type) {
-      ClassBound[] bounds = resolver.resolveType(type);
+      TypeVariable[] variables = type.getTypeParameters();
       
-      if(bounds.length > 0) {
+      if(variables.length > 0) {
          List<Constraint> constraints = new ArrayList<Constraint>();
          
-         for(int i = 0; i < bounds.length; i++) {       
-            ClassBound bound = bounds[i];
-            String name = bound.getName();
-            Class actual = bound.getBound();
-            Constraint constraint = extractor.extractType(actual, name);
+         for(int i = 0; i < variables.length; i++) {
+            TypeVariable variable = variables[i];            
+            Constraint constraint = resolver.resolve(variable);
             
             constraints.add(constraint);
          }
          return constraints;
       }
-      return Collections.emptyList();
+      return EMPTY_LIST;
    }
 }

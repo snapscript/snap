@@ -66,7 +66,6 @@ public class FunctionExtractor {
    }
 
    private Function extract(Module module, Class extend, Object value, Function function) {
-      Scope scope = module.getScope();
       String name = function.getName();
       Invocation invocation = function.getInvocation();
       Signature signature = function.getSignature();

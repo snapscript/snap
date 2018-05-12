@@ -6,7 +6,7 @@ import static org.snapscript.core.Reserved.PROPERTY_SET;
 
 import java.lang.reflect.Method;
 
-public enum PropertyType {
+public enum MethodType {
    GET(PROPERTY_GET),
    SET(PROPERTY_SET),      
    IS(PROPERTY_IS);
@@ -14,7 +14,7 @@ public enum PropertyType {
    private final String prefix;
    private final int size;
 
-   private PropertyType(String prefix) {
+   private MethodType(String prefix) {
       this.size = prefix.length();         
       this.prefix = prefix;
    }

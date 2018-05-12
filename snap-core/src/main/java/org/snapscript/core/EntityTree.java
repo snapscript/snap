@@ -1,14 +1,15 @@
-package org.snapscript.core.type;
+package org.snapscript.core;
 
 import org.snapscript.common.Cache;
 import org.snapscript.common.CopyOnWriteCache;
+import org.snapscript.core.type.Type;
 
-public class TypeTree<K, V>  {
+public class EntityTree<K, V>  {
 
-   private final TypeCache<Cache<K, V>> cache;
+   private final EntityCache<Cache<K, V>> cache;
    
-   public TypeTree() {
-      this.cache = new TypeCache<Cache<K, V>>();
+   public EntityTree() {
+      this.cache = new EntityCache<Cache<K, V>>();
    }
    
    public Cache<K, V> get(Type type) {

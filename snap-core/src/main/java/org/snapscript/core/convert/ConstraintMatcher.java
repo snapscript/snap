@@ -6,16 +6,16 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.snapscript.core.EntityCache;
 import org.snapscript.core.convert.proxy.ProxyWrapper;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.type.TypeCache;
 import org.snapscript.core.type.TypeExtractor;
 import org.snapscript.core.type.TypeLoader;
 
 public class ConstraintMatcher {
    
-   private final TypeCache<ConstraintConverter> converters;
+   private final EntityCache<ConstraintConverter> converters;
    private final ConstraintInspector inspector;
    private final ConstraintConverter converter;   
    private final TypeExtractor extractor;
@@ -23,7 +23,7 @@ public class ConstraintMatcher {
    private final ProxyWrapper wrapper;
    
    public ConstraintMatcher(TypeLoader loader, ProxyWrapper wrapper) {
-      this.converters = new TypeCache<ConstraintConverter>();
+      this.converters = new EntityCache<ConstraintConverter>();
       this.extractor = new TypeExtractor(loader);
       this.checker = new CastChecker(this, extractor, loader);
       this.inspector = new ConstraintInspector(loader, checker);

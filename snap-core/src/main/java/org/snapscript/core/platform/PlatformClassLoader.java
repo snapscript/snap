@@ -3,10 +3,10 @@ package org.snapscript.core.platform;
 import java.lang.reflect.Constructor;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.snapscript.core.Any;
 import org.snapscript.core.ContextClassLoader;
 import org.snapscript.core.convert.proxy.ProxyWrapper;
 import org.snapscript.core.function.index.FunctionIndexer;
-import org.snapscript.core.type.Any;
 
 public class PlatformClassLoader {
    

@@ -5,17 +5,17 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.snapscript.core.EntityCache;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.type.TypeCache;
 import org.snapscript.core.type.TypeExtractor;
 
 public class PropertyExtractor {
 
-   private final TypeCache<Set<Property>> cache;
+   private final EntityCache<Set<Property>> cache;
    private final TypeExtractor extractor;
    
    public PropertyExtractor(TypeExtractor extractor) {
-      this.cache = new TypeCache<Set<Property>>();
+      this.cache = new EntityCache<Set<Property>>();
       this.extractor = extractor;
    }
    

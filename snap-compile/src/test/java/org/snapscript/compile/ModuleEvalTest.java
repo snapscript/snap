@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.snapscript.common.store.Store;
+import org.snapscript.compile.verify.VerifyException;
 import org.snapscript.core.Context;
 
 import junit.framework.TestCase;
@@ -39,7 +40,12 @@ public class ModuleEvalTest extends TestCase {
       Store store = new MapStore(sources);
       Context context = new StoreContext(store, null); 
       Compiler compiler = new ResourceCompiler(context);
-      Timer.timeExecution("testModuleEval", compiler.compile("/run.snap"));
+      try {
+         Timer.timeExecution("testModuleEval", compiler.compile("/run.snap"));
+      } catch(VerifyException e) {
+         e.getErrors().get(0).getCause().printStackTrace();
+         throw e;
+      }
    }
    
    private static class MapStore implements Store {

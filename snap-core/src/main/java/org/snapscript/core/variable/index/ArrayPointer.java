@@ -23,14 +23,14 @@ public class ArrayPointer implements VariablePointer<Object> {
    }
 
    @Override
-   public Constraint compile(Scope scope, Constraint left) {
+   public Constraint getConstraint(Scope scope, Constraint left) {
       if(name.equals(PROPERTY_LENGTH)) {
          return INTEGER;
       }
       if(name.equals(TYPE_CLASS)) {
          return TYPE;
       }
-      return pointer.compile(scope, left);
+      return pointer.getConstraint(scope, left);
    }
 
    @Override

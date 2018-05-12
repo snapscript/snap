@@ -2,20 +2,24 @@ package org.snapscript.core.function;
 
 import java.util.List;
 
-import org.snapscript.core.type.Type;
+import org.snapscript.core.Entity;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Type;
 
 public class SignatureDescription {
 
    private final Signature signature;
+   private final Entity entity;
    private final int start;
    
-   public SignatureDescription(Signature signature) {
-      this(signature, 0);
+   public SignatureDescription(Signature signature, Entity entity) {
+      this(signature, entity, 0);
    }
   
-   public SignatureDescription(Signature signature, int start) {
+   public SignatureDescription(Signature signature, Entity entity, int start) {
       this.signature = signature;
+      this.entity = entity;
       this.start = start;
    }
 
@@ -26,12 +30,13 @@ public class SignatureDescription {
       
       if(signature != null) {
          List<Parameter> parameters = signature.getParameters();
+         Scope scope = entity.getScope();
          int size = parameters.size();
          
          for(int i = start; i < size; i++) {
             Parameter parameter = parameters.get(i);
             Constraint constraint = parameter.getConstraint();
-            Type type = constraint.getType(null);
+            Type type = constraint.getType(scope);
             String name = parameter.getName();
             
             if(i > start) {

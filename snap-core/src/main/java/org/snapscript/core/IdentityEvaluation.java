@@ -6,16 +6,16 @@ import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.variable.Value;
 
-public class Substitute extends Evaluation {
+public class IdentityEvaluation extends Evaluation {
    
    private final Constraint type;
    private final Object value;
    
-   public Substitute(Object value) {
+   public IdentityEvaluation(Object value) {
       this(value, NONE);      
    }
    
-   public Substitute(Object value, Constraint type) {
+   public IdentityEvaluation(Object value, Constraint type) {
       this.value = value;
       this.type = type;
    }

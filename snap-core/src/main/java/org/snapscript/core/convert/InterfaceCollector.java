@@ -5,22 +5,22 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.snapscript.core.Any;
 import org.snapscript.core.Context;
+import org.snapscript.core.EntityCache;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Any;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.type.TypeCache;
 import org.snapscript.core.type.TypeExtractor;
 
 public class InterfaceCollector {
 
-   private final TypeCache<Class[]> cache;
+   private final EntityCache<Class[]> cache;
    private final Class[] include;
    private final Class[] empty;
    
    public InterfaceCollector(Class... include) {
-      this.cache = new TypeCache<Class[]>();
+      this.cache = new EntityCache<Class[]>();
       this.empty = new Class[]{};
       this.include = include;
    }

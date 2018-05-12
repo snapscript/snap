@@ -28,8 +28,8 @@ public class PropertyIndexer {
    private final TypeIndexer indexer;
    
    public PropertyIndexer(TypeIndexer indexer){
-      this.generics = new GenericConstraintExtractor(indexer); 
       this.builder = new ClassPropertyBuilder(indexer);
+      this.generics = new GenericConstraintExtractor(); 
       this.extractor = new AnnotationExtractor();
       this.converter = new ModifierConverter();
       this.generator = new PropertyGenerator();
