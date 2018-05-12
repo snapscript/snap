@@ -22,7 +22,7 @@ public class ClassHierarchyExceptionTest extends TestCase {
          executable.execute();
       }catch(Exception e) {
          e.printStackTrace();
-         assertEquals(e.getCause().getMessage(), "Could not resolve constraint");
+         assertEquals(e.getCause().getMessage(), "Import not found");
       }
    }
 
