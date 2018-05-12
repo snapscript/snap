@@ -13,7 +13,7 @@ public class VerifyError {
       this.trace = trace;
    }
    
-   public String getDescription (){
+   public String getDescription(){
       StringBuilder builder = new StringBuilder();
       
       if(cause != null) {

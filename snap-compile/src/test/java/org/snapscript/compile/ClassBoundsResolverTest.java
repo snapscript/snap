@@ -1,4 +1,4 @@
-package org.snapscript.core.type.index;
+package org.snapscript.compile;
 
 import java.lang.reflect.Method;
 import java.util.Iterator;
@@ -6,9 +6,11 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.snapscript.core.MockContext;
+import org.snapscript.common.store.ClassPathStore;
+import org.snapscript.core.Context;
 import org.snapscript.core.Reserved;
 import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.index.GenericConstraintResolver;
 
 public class ClassBoundsResolverTest extends TestCase {
 
@@ -37,7 +39,9 @@ public class ClassBoundsResolverTest extends TestCase {
       Method justDoIt = GenericFunction.class.getDeclaredMethod("justDoIt");
       Method getList = GenericFunction.class.getDeclaredMethod("getList");
       Method getIterator = GenericFunction.class.getDeclaredMethod("getIterator");
-      Scope scope = new MockContext().getRegistry().addModule(Reserved.DEFAULT_PACKAGE).getScope(); 
+      ClassPathStore store = new ClassPathStore();
+      Context context = new StoreContext(store);
+      Scope scope = context.getRegistry().addModule(Reserved.DEFAULT_PACKAGE).getScope(); 
 
       assertNotNull(getIterator);
       assertNull(resolver.resolve(getIterator.getGenericReturnType()).getName(scope));
@@ -61,8 +65,8 @@ public class ClassBoundsResolverTest extends TestCase {
       assertEquals(resolver.resolve(getList.getGenericReturnType()).getType(scope).getType(), List.class);
       
       assertNotNull(doIt);
-      assertEquals(resolver.resolve(doIt.getGenericReturnType()).getName(scope), null); // its a method level generic, so ignore
-      assertEquals(resolver.resolve(doIt.getGenericReturnType()).getType(scope).getType(), Object.class);
+      assertNull(resolver.resolve(doIt.getGenericReturnType()).getName(scope)); // its a method level generic, so ignore
+      assertNull(resolver.resolve(doIt.getGenericReturnType()).getType(scope));
       
       assertNotNull(goForIt);
       assertEquals(resolver.resolve(goForIt.getGenericReturnType()).getName(scope), "X");

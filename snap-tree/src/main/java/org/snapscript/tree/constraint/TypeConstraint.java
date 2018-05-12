@@ -23,7 +23,7 @@ public class TypeConstraint extends Constraint {
          try {
             constraint = evaluation.compile(scope, null);
          } catch (Exception e) {
-            throw new InternalStateException("Could not resolve constraint", e);
+            throw new InternalStateException("Import not found", e);
          }
       }
       return constraint.getGenerics(scope);
@@ -35,7 +35,7 @@ public class TypeConstraint extends Constraint {
          try {
             constraint = evaluation.compile(scope, null);
          } catch (Exception e) {
-            throw new InternalStateException("Could not resolve constraint", e);
+            throw new InternalStateException("Import not found", e);
          }
       }
       return constraint.getType(scope);
@@ -47,7 +47,7 @@ public class TypeConstraint extends Constraint {
          try {
             constraint = evaluation.compile(scope, null);
          } catch (Exception e) {
-            throw new InternalStateException("Could not resolve constraint", e);
+            throw new InternalStateException("Import not found", e);
          }
       }
       return constraint.getName(scope);
