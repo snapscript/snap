@@ -1,5 +1,7 @@
 package org.snapscript.tree.condition;
 
+import static org.snapscript.core.constraint.Constraint.BOOLEAN;
+
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
@@ -36,7 +38,7 @@ public class Comparison extends Evaluation {
          right.compile(scope, null);
       }
       left.compile(scope, null);
-      return Constraint.BOOLEAN;
+      return BOOLEAN;
    }
    
    @Override

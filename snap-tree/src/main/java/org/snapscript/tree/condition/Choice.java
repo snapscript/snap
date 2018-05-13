@@ -1,5 +1,7 @@
 package org.snapscript.tree.condition;
 
+import static java.lang.Boolean.TRUE;
+
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
@@ -35,9 +37,9 @@ public class Choice extends Evaluation {
    @Override
    public Value evaluate(Scope scope, Object left) throws Exception {
       Value result = condition.evaluate(scope, null);
-      boolean value = result.getBoolean();
+      Object value = result.getValue();
       
-      if(value) {
+      if(BooleanChecker.isTrue(value)) {
          return positive.evaluate(scope, left);
       } 
       return negative.evaluate(scope, left);

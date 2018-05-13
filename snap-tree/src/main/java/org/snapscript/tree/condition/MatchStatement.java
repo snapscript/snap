@@ -119,9 +119,9 @@ public class MatchStatement implements Compilation {
             }
             Value right = evaluation.evaluate(scope, null);
             Value value = EQUALS.operate(scope, left, right);
-            boolean match = value.getBoolean();
+            Object result = value.getValue();
             
-            if(match) {
+            if(BooleanChecker.isTrue(result)) {
                Execution statement = cases[i].getExecution();
                
                if(statement != null) {

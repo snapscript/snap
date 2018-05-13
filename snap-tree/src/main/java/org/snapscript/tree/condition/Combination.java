@@ -67,9 +67,9 @@ public class Combination extends Evaluation {
    
    private Value evaluate(Scope scope, Evaluation evaluation) throws Exception { 
       Value value = evaluation.evaluate(scope, null);
-      boolean result = value.getBoolean();
+      Object result = value.getValue();
       
-      if(result) {
+      if(BooleanChecker.isTrue(result)) {
          return TRUE;
       }
       return FALSE;

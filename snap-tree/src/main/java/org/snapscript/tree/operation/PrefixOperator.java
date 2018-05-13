@@ -5,14 +5,17 @@ import static org.snapscript.core.variable.BooleanValue.TRUE;
 
 import org.snapscript.core.variable.Value;
 import org.snapscript.parse.StringToken;
+import org.snapscript.tree.condition.BooleanChecker;
 import org.snapscript.tree.math.NumericConverter;
 
 public enum PrefixOperator {
    NOT("!"){
       @Override
       public Value operate(Value right) { 
-         boolean value = right.getBoolean();         
-         return value ? FALSE : TRUE;
+         Object result = right.getValue();         
+         boolean value = !BooleanChecker.isTrue(result);
+         
+         return value ? TRUE : FALSE;
       }      
    }, 
    COMPLEMENT("~"){

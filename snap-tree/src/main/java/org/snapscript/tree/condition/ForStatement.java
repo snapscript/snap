@@ -121,10 +121,10 @@ public class ForStatement implements Compilation {
       @Override
       public Result resume(Scope scope, Object data) throws Exception {
          while(true) {
-            Value result = condition.evaluate(scope, null);
-            boolean value = result.getBoolean();
+            Value value = condition.evaluate(scope, null);
+            Object result = value.getValue();
             
-            if(value) {
+            if(BooleanChecker.isTrue(result)) {
                Result next = body.execute(scope);
                
                if(next.isYield()) {

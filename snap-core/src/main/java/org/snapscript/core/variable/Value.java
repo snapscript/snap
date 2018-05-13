@@ -48,15 +48,6 @@ public abstract class Value extends Constraint {
       return new Transient(value, type);
    }
    
-   public boolean getBoolean() {
-      Object value = getValue();
-
-      if (value != null) {
-         return Boolean.TRUE.equals(value);
-      }
-      return false;
-   }
-   
    public char getCharacter() {
       Object value = getValue();
 

@@ -91,9 +91,9 @@ public class IfStatement implements Compilation {
       @Override
       public Result execute(Scope scope) throws Exception {
          Value result = condition.evaluate(scope, null);
-         boolean value = result.getBoolean();
+         Object value = result.getValue();
          
-         if(value) {
+         if(BooleanChecker.isTrue(value)) {
             return positive.execute(scope);
          } else {
             if(negative != null) {
