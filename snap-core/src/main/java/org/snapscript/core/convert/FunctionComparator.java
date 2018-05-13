@@ -21,32 +21,32 @@ public class FunctionComparator {
       this.matcher = matcher;
    }
 
-   public Score compare(Scope scope, Function actual, Function constraint) throws Exception{
-      Signature actualSignature = actual.getSignature();
-      Signature constraintSignature = constraint.getSignature();
-      List<Parameter> actualParameters = actualSignature.getParameters();
-      List<Parameter> constraintParameters = constraintSignature.getParameters();
-      int actualSize = actualParameters.size();
-      int constraintSize = constraintParameters.size();
-      boolean actualVariable = actualSignature.isVariable();
-      boolean constraintVariable = constraintSignature.isVariable();
+   public Score compare(Scope scope, Function left, Function right) throws Exception{
+      Signature leftSignature = left.getSignature();
+      Signature rightSignature = right.getSignature();
+      List<Parameter> leftParameters = leftSignature.getParameters();
+      List<Parameter> rightParameters = rightSignature.getParameters();
+      int leftSize = leftParameters.size();
+      int rightSize = rightParameters.size();
+      boolean leftVariable = leftSignature.isVariable();
+      boolean rightVariable = rightSignature.isVariable();
       
-      if(actualSize == constraintSize) {
-         Score score = compare(scope, actualParameters, constraintParameters);
+      if(leftSize == rightSize) {
+         Score score = compare(scope, leftParameters, rightParameters);
          
          if(score.isValid()) {
             return score;
          }
       }
-      if(actualVariable && actualSize <= constraintSize) {
-         Score score = compare(scope, actualParameters, constraintParameters); // compare(a...) == compare(a, b)
+      if(leftVariable && leftSize <= rightSize) {
+         Score score = compare(scope, leftParameters, rightParameters); // compare(a...) == compare(a, b)
          
          if(score.isValid()) {
             return score;
          }
       }
-      if(constraintVariable && constraintSize <= actualSize) {
-         Score score = compare(scope, constraintParameters, actualParameters); // compare(a, b) == compare(a...)
+      if(rightVariable && rightSize <= leftSize) {
+         Score score = compare(scope, rightParameters, leftParameters); // compare(a, b) == compare(a...)
          
          if(score.isValid()) {
             return score;
@@ -55,23 +55,23 @@ public class FunctionComparator {
       return INVALID;
    }
    
-   private Score compare(Scope scope, List<Parameter> actual, List<Parameter> constraint) throws Exception{
-      int actualSize = actual.size();
+   private Score compare(Scope scope, List<Parameter> left, List<Parameter> right) throws Exception{
+      int leftSize = left.size();
       
-      if(actualSize > 0) {
+      if(leftSize > 0) {
          Score total = INVALID;
          
-         for(int i = 0, j = 0; i < actualSize; i++) {
-            Parameter actualParameter = actual.get(i);
-            Parameter constraintParameter = constraint.get(j);
-            Score score = compare(scope, actualParameter, constraintParameter);
+         for(int i = 0, j = 0; i < leftSize; i++) {
+            Parameter leftParameter = left.get(i);
+            Parameter rightParameter = right.get(j);
+            Score score = compare(scope, leftParameter, rightParameter);
             
             if(score.isInvalid()) { // must check for numbers
                return INVALID;
             }
             total = Score.sum(total, score); // sum for better match
             
-            if(!actualParameter.isVariable()) { // if variable stick
+            if(!leftParameter.isVariable()) { // if variable stick
                j++;
             }
          }
@@ -80,15 +80,15 @@ public class FunctionComparator {
       return EXACT;
    }
    
-   private Score compare(Scope scope, Parameter actual, Parameter constraint) throws Exception{
-      Constraint actualConstraint  = actual.getConstraint();
-      Constraint constraintConstraint = constraint.getConstraint();
-      Type actualType  = actualConstraint.getType(scope);
-      Type constraintType = constraintConstraint.getType(scope);
-      ConstraintConverter converter = matcher.match(actualType);
-      Score score = converter.score(constraintType);
+   private Score compare(Scope scope, Parameter left, Parameter right) throws Exception{
+      Constraint leftConstraint  = left.getConstraint();
+      Constraint rightConstraint = right.getConstraint();
+      Type leftType  = leftConstraint.getType(scope);
+      Type rightType = rightConstraint.getType(scope);
+      ConstraintConverter converter = matcher.match(leftType);
+      Score score = converter.score(rightType);
       
-      if(actual.isVariable()) {
+      if(left.isVariable()) {
          if(score.isInvalid()) {
             return INVALID;
          }
