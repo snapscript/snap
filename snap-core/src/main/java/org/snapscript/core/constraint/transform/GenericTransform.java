@@ -15,12 +15,12 @@ public class GenericTransform implements ConstraintTransform{
    }
    
    @Override
-   public ConstraintHandle apply(Constraint source){
+   public ConstraintRule apply(Constraint source){
       Constraint constraint = builder.create(source);
       
       if(constraint == null) {
          throw new InternalStateException("No constraint for '" + source + "'");
       }
-      return new ConstraintHandle(constraint, index);
+      return new ConstraintIndexRule(constraint, index);
    }
 }

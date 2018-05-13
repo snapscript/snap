@@ -14,12 +14,12 @@ public class GenericParameterTransform implements ConstraintTransform {
    }
    
    @Override
-   public ConstraintHandle apply(Constraint source){
+   public ConstraintRule apply(Constraint source){
       Constraint constraint = index.update(source, next);
       
       if(constraint == null) {
          throw new InternalStateException("No constraint for '" + source + "'");
       }
-      return new ConstraintHandle(constraint, index);
+      return new ConstraintIndexRule(constraint, index);
    }
 }

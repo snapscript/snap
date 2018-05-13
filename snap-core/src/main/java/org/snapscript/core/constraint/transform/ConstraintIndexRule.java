@@ -2,28 +2,30 @@ package org.snapscript.core.constraint.transform;
 
 import org.snapscript.core.constraint.Constraint;
 
-public class ConstraintHandle {
+public class ConstraintIndexRule implements ConstraintRule {
    
    private final ConstraintIndex index;
    private final Constraint constraint; 
 
-   public ConstraintHandle(Constraint constraint) {
+   public ConstraintIndexRule(Constraint constraint) {
       this(constraint, null);
    }
    
-   public ConstraintHandle(Constraint constraint, ConstraintIndex index) {
+   public ConstraintIndexRule(Constraint constraint, ConstraintIndex index) {
       this.constraint = constraint;
       this.index = index;
    }
    
-   public Constraint getConstraint(Constraint original) {
+   @Override
+   public Constraint getResult(Constraint original) {
       if(index != null) {
          return index.update(constraint, original);
       }
       return original;
    }
    
-   public Constraint getType(){
+   @Override
+   public Constraint getSource(){
       return constraint;
    }
 }

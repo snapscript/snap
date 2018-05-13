@@ -11,7 +11,7 @@ public class IdentityTransform implements ConstraintTransform{
    }
    
    @Override
-   public ConstraintHandle apply(Constraint source){
-      return new ConstraintHandle(source, index);
+   public ConstraintRule apply(Constraint source){
+      return new ConstraintIndexRule(source, index);
    }
 }

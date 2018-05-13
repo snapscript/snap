@@ -4,14 +4,14 @@ import org.snapscript.core.constraint.Constraint;
 
 public class StaticTransform implements ConstraintTransform{
    
-   private final ConstraintHandle reference;
+   private final ConstraintRule reference;
    
    public StaticTransform(Constraint constraint, ConstraintIndex index){
-      this.reference = new ConstraintHandle(constraint, index);
+      this.reference = new ConstraintIndexRule(constraint, index);
    }
    
    @Override
-   public ConstraintHandle apply(Constraint source){
+   public ConstraintRule apply(Constraint source){
       return reference;
    }
 }

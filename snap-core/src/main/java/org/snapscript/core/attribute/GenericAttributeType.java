@@ -2,7 +2,7 @@ package org.snapscript.core.attribute;
 
 import org.snapscript.core.Context;
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.constraint.transform.ConstraintHandle;
+import org.snapscript.core.constraint.transform.ConstraintRule;
 import org.snapscript.core.constraint.transform.ConstraintTransform;
 import org.snapscript.core.constraint.transform.ConstraintTransformer;
 import org.snapscript.core.module.Module;
@@ -28,9 +28,9 @@ public class GenericAttributeType implements AttributeType {
          Context context = module.getContext();         
          ConstraintTransformer transformer = context.getTransformer();
          ConstraintTransform transform = transformer.transform(constraint, declared);
-         ConstraintHandle handle = transform.apply(left);
+         ConstraintRule rule = transform.apply(left);
          
-         return handle.getConstraint(returns);     
+         return rule.getResult(returns);     
       }
       return left;
    }

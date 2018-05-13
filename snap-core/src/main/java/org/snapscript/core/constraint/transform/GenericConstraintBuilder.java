@@ -21,8 +21,8 @@ public class GenericConstraintBuilder {
       List<Constraint> constraints = new ArrayList<Constraint>();
 
       for(ConstraintTransform entry : list){
-         ConstraintHandle handle = entry.apply(origin);
-         Constraint constraint = handle.getType();
+         ConstraintRule rule = entry.apply(origin);
+         Constraint constraint = rule.getSource();
          
          constraints.add(constraint);
       }

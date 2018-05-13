@@ -10,13 +10,13 @@ public class ChainTransform implements ConstraintTransform {
       this.path = path;
    }
    
-   public ConstraintHandle apply(Constraint constraint){
-      ConstraintHandle handle = null;
+   public ConstraintRule apply(Constraint constraint){
+      ConstraintRule rule = null;
       
       for(ConstraintTransform transform : path) {
-         handle = transform.apply(constraint);         
-         constraint = handle.getType();
+         rule = transform.apply(constraint);         
+         constraint = rule.getSource();
       }
-      return handle;
+      return rule;
    }
 }
