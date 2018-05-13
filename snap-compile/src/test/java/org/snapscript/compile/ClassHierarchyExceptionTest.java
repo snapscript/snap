@@ -2,6 +2,8 @@ package org.snapscript.compile;
 
 import junit.framework.TestCase;
 
+import org.snapscript.compile.verify.VerifyException;
+
 public class ClassHierarchyExceptionTest extends TestCase {
    
    private static final String SOURCE = 
@@ -20,9 +22,9 @@ public class ClassHierarchyExceptionTest extends TestCase {
       Executable executable = compiler.compile(SOURCE);
       try{
          executable.execute();
-      }catch(Exception e) {
+      }catch(VerifyException e) {
          e.printStackTrace();
-         assertEquals(e.getCause().getMessage(), "Import not found");
+         assertEquals(e.getErrors().get(0).toString(), "Import not found in /default.snap at line 1");
       }
    }
 

@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 
 import org.snapscript.compile.ClassPathCompilerBuilder;
 import org.snapscript.compile.Compiler;
+import org.snapscript.compile.verify.VerifyException;
 
 public class ClassHierarchyFailureTest extends TestCase {
    
@@ -39,8 +40,8 @@ public class ClassHierarchyFailureTest extends TestCase {
       
       try {
          compiler.compile(SOURCE_1).execute();
-      } catch(Exception e) {
-         String message = e.getMessage();
+      } catch(VerifyException e) {
+         String message = e.getErrors().get(0).getCause().getMessage();
          e.printStackTrace();
          assertEquals("Function 'new(default.X)' not found for 'default.X'", message);
          failure = true;
@@ -56,8 +57,8 @@ public class ClassHierarchyFailureTest extends TestCase {
       
       try {
          compiler.compile(SOURCE_2).execute();
-      } catch(Exception e) {
-         String message = e.getMessage();
+      } catch(VerifyException e) {
+         String message = e.getErrors().get(0).getCause().getMessage();
          e.printStackTrace();
          assertEquals("Function 'new(default.X, default.Any)' not found for 'default.X'", message);
          failure = true;
@@ -73,8 +74,8 @@ public class ClassHierarchyFailureTest extends TestCase {
       
       try {
          compiler.compile(SOURCE_3).execute();
-      } catch(Exception e) {
-         String message = e.getMessage();
+      } catch(VerifyException e) {
+         String message = e.getErrors().get(0).getCause().getMessage();
          e.printStackTrace();
          assertEquals("Function 'new(default.X, lang.String, lang.Integer)' not found for 'default.X'", message);
          failure = true;

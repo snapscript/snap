@@ -28,6 +28,15 @@ public class TraceStatement extends Statement {
    }
    
    @Override
+   public void create(Scope scope) throws Exception {
+      try {
+         statement.create(scope);
+      }catch(Exception cause) {
+         interceptor.traceCompileError(scope, trace, cause);
+      }    
+   }
+   
+   @Override
    public boolean define(Scope scope) throws Exception {
       try {
          return statement.define(scope);
