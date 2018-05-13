@@ -10,17 +10,17 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalArgumentException;
 import org.snapscript.core.InternalStateException;
-import org.snapscript.core.type.NameBuilder;
+import org.snapscript.core.NameFormatter;
 import org.snapscript.core.type.extend.ModuleExtender;
 
 public class ModuleRegistry {
 
    private final Map<String, Module> modules;
    private final List<Module> references;
+   private final NameFormatter formatter;
    private final PathConverter converter;
    private final ModuleExtender extender;
    private final AtomicInteger counter;
-   private final NameBuilder builder;
    private final Executor executor;
    private final Context context;
    private final int limit;
@@ -34,7 +34,7 @@ public class ModuleRegistry {
       this.references = new CopyOnWriteArrayList<Module>();
       this.extender = new ModuleExtender(context);
       this.converter = new FilePathConverter();
-      this.builder = new NameBuilder();
+      this.formatter = new NameFormatter();
       this.counter = new AtomicInteger(1);
       this.executor = executor;
       this.context = context;
@@ -72,7 +72,7 @@ public class ModuleRegistry {
       Module current = modules.get(name);
 
       if (current == null) {
-         String local = builder.createLocalName(name);
+         String local = formatter.formatLocalName(name);
          int order = counter.getAndIncrement();
          
          if(order > limit) {

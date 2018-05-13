@@ -1,30 +1,28 @@
-package org.snapscript.core.type;
+package org.snapscript.core;
 
-import org.snapscript.core.InternalArgumentException;
-
-public class NameBuilder {
+public class NameFormatter {
    
    private static final String[] DIMENSIONS = {"", "[]", "[][]", "[][][]" };     
    private static final String DIMENSION = "[]";
    
-   public NameBuilder(){
+   public NameFormatter(){
       super();
    }
    
-   public String createFullName(Class type) {
+   public String formatFullName(Class type) {
       Class entry = type.getComponentType();
       
       if(entry != null) {
-         return createFullName(entry) + DIMENSION;
+         return formatFullName(entry) + DIMENSION;
       }
       return type.getName();
    }
    
-   public String createShortName(Class type) {
+   public String formatShortName(Class type) {
       Class entry = type.getComponentType();
       
       if(entry != null) {
-         return createShortName(entry) + DIMENSION;
+         return formatShortName(entry) + DIMENSION;
       }
       String name = type.getName();
       int index = name.lastIndexOf('.');
@@ -36,7 +34,7 @@ public class NameBuilder {
       return name;
    }
    
-   public String createShortName(String type) {
+   public String formatShortName(String type) {
       int index = type.lastIndexOf('.');
       int length = type.length();
       
@@ -46,7 +44,7 @@ public class NameBuilder {
       return type;
    }
    
-   public String createFullName(String module, String name) {
+   public String formatFullName(String module, String name) {
       if(module == null) { // is a null module legal?
          return name;
       }
@@ -56,7 +54,7 @@ public class NameBuilder {
       return module + "." + name;
    }
    
-   public String createArrayName(String type, int size) {
+   public String formatArrayName(String type, int size) {
       int limit = DIMENSIONS.length;
       
       if(size >= DIMENSIONS.length) {
@@ -65,19 +63,19 @@ public class NameBuilder {
       return type + DIMENSIONS[size];
    }
    
-   public String createArrayName(String module, String name, int size) {
+   public String formatArrayName(String module, String name, int size) {
       int limit = DIMENSIONS.length;
       
       if(size >= DIMENSIONS.length) {
          throw new InternalArgumentException("Maximum of " + limit + " dimensions exceeded");
       }
       String bounds = DIMENSIONS[size];
-      String type = createFullName(module, name);
+      String type = formatFullName(module, name);
             
       return type + bounds;
    }
    
-   public String createOuterName(String type) {
+   public String formatOuterName(String type) {
       if(type != null) {
          int index = type.lastIndexOf('$');
          
@@ -89,7 +87,7 @@ public class NameBuilder {
       return null;
    } 
    
-   public String createOuterName(String module, String name) {
+   public String formatOuterName(String module, String name) {
       if(name != null) {
          int index = name.lastIndexOf('$');
          
@@ -98,16 +96,16 @@ public class NameBuilder {
             int length = parent.length();
             
             if(length > 0) {
-               return createFullName(module, parent);
+               return formatFullName(module, parent);
             }
          }
       }
       return null;
    }   
    
-   public String createInnerName(String type) {
+   public String formatInnerName(String type) {
       if(type != null) {
-         String name = createShortName(type);
+         String name = formatShortName(type);
          int index = name.lastIndexOf('$');
          int length = name.length();
          
@@ -119,9 +117,9 @@ public class NameBuilder {
       return null;
    }
    
-   public String createLocalName(String type) {
+   public String formatLocalName(String type) {
       if(type != null) {
-         String name = createTopName(type);
+         String name = formatTopName(type);
          int index = name.lastIndexOf('.');
          int length = name.length();
          
@@ -133,7 +131,7 @@ public class NameBuilder {
       return null;
    }
    
-   public String createTopName(String type) {
+   public String formatTopName(String type) {
       if(type != null) {
          int index = type.indexOf('$');
          
@@ -145,7 +143,7 @@ public class NameBuilder {
       return null;
    }
    
-   public String createTopName(String module, String name) {
+   public String formatTopName(String module, String name) {
       if(name != null) {
          int index = name.indexOf('$');
          
@@ -154,10 +152,10 @@ public class NameBuilder {
             int length = parent.length();
             
             if(length > 0) {
-               return createFullName(module, parent);
+               return formatFullName(module, parent);
             }
          }
-         return createFullName(module, name);
+         return formatFullName(module, name);
       }
       return null;
    }

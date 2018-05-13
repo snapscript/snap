@@ -4,16 +4,16 @@ import static org.snapscript.core.link.ImportType.EXPLICIT;
 import static org.snapscript.core.link.ImportType.IMPLICIT;
 
 import org.snapscript.core.InternalStateException;
-import org.snapscript.core.type.NameBuilder;
+import org.snapscript.core.NameFormatter;
   
 public class PackageManager {
    
+   private final NameFormatter formatter;
    private final ImportScanner scanner;
    private final PackageLoader loader;
-   private final NameBuilder builder;
    
    public PackageManager(PackageLoader loader, ImportScanner scanner) {
-      this.builder = new NameBuilder();;
+      this.formatter = new NameFormatter();
       this.scanner = scanner;
       this.loader = loader;
    }
@@ -32,11 +32,11 @@ public class PackageManager {
    }
    
    public Package importType(String module, String name) {
-      String type  = builder.createFullName(module, name);            
+      String type  = formatter.formatFullName(module, name);            
       Object result = scanner.importType(type);
       
       if(result == null) {
-         String outer  = builder.createTopName(module, name); 
+         String outer  = formatter.formatTopName(module, name); 
          
          try {
             return loader.load(EXPLICIT, outer, module); // import some.package.Blah
@@ -51,7 +51,7 @@ public class PackageManager {
       Object result = scanner.importType(type);
       
       if(result == null) {
-         String outer  = builder.createTopName(type); 
+         String outer  = formatter.formatTopName(type); 
          
          try {
             return loader.load(EXPLICIT, outer); 

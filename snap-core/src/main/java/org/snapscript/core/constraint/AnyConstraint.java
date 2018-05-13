@@ -6,20 +6,20 @@ import static org.snapscript.core.Reserved.DEFAULT_PACKAGE;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.Context;
+import org.snapscript.core.NameFormatter;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.NameBuilder;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeLoader;
 
 public class AnyConstraint extends Constraint {
 
    private final AtomicReference<Type> reference;
-   private final NameBuilder builder;
+   private final NameFormatter formatter;
    
    public AnyConstraint(){
       this.reference = new AtomicReference<Type>();
-      this.builder = new NameBuilder();
+      this.formatter = new NameFormatter();
    }
 
    @Override
@@ -30,7 +30,7 @@ public class AnyConstraint extends Constraint {
          Module module = scope.getModule();
          Context context = module.getContext();
          TypeLoader loader = context.getLoader();
-         String name = builder.createFullName(DEFAULT_PACKAGE, ANY_TYPE);
+         String name = formatter.formatFullName(DEFAULT_PACKAGE, ANY_TYPE);
          Type base = loader.resolveType(name);
          
          reference.set(base); // any is very last

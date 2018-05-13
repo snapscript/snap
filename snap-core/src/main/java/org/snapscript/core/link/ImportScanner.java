@@ -9,8 +9,9 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 import org.snapscript.common.Cache;
 import org.snapscript.common.CopyOnWriteCache;
+import org.snapscript.core.NameFormatter;
 import org.snapscript.core.ResourceManager;
-import org.snapscript.core.type.NameBuilder;
+
 import java.lang.Package;
 
 public class ImportScanner {
@@ -19,8 +20,8 @@ public class ImportScanner {
    private final Cache<String, Class> types;
    private final Cache<Object, String> names;
    private final ImportPathResolver selector;
+   private final NameFormatter formatter;
    private final ImportLoader loader;
-   private final NameBuilder builder;
    private final Set<String> failures;
 
    public ImportScanner(ResourceManager manager) {
@@ -33,7 +34,7 @@ public class ImportScanner {
       this.types = new CopyOnWriteCache<String, Class>();
       this.failures = new CopyOnWriteArraySet<String>();
       this.selector = new ImportPathResolver(file);
-      this.builder = new NameBuilder();
+      this.formatter = new NameFormatter();
       this.loader = new ImportLoader();
    }
    
@@ -106,7 +107,7 @@ public class ImportScanner {
       String result = names.fetch(type);
       
       if(result == null) {
-         String absolute = builder.createFullName(type);
+         String absolute = formatter.formatFullName(type);
          String name = selector.resolveName(absolute);
                
          types.cache(absolute, type);

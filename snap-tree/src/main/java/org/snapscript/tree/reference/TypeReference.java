@@ -2,24 +2,24 @@ package org.snapscript.tree.reference;
 
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
+import org.snapscript.core.NameFormatter;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.constraint.ConstraintWrapper;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.index.Local;
-import org.snapscript.core.type.NameBuilder;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 
 public class TypeReference extends Evaluation {
    
    private ConstraintWrapper mapper;
-   private NameBuilder builder;
+   private NameFormatter formatter;
    private Evaluation[] list;
    private Value type;
    
    public TypeReference(Evaluation... list) {
       this.mapper = new ConstraintWrapper();
-      this.builder = new NameBuilder();
+      this.formatter = new NameFormatter();
       this.list = list;
    }
    
@@ -54,7 +54,7 @@ public class TypeReference extends Evaluation {
       if(name != null) {
          Type type = constraint.getType(scope);
          String defined = type.getName();
-         String actual = builder.createInnerName(defined);
+         String actual = formatter.formatInnerName(defined);
          
          if(!name.equals(actual)) { 
             return Local.getConstant(value, name, constraint);

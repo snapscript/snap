@@ -5,6 +5,7 @@ import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Execution;
 import org.snapscript.core.InternalStateException;
+import org.snapscript.core.NameFormatter;
 import org.snapscript.core.NoStatement;
 import org.snapscript.core.Statement;
 import org.snapscript.core.constraint.Constraint;
@@ -14,7 +15,6 @@ import org.snapscript.core.link.PackageDefinition;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.NameBuilder;
 import org.snapscript.core.type.TypeLoader;
 import org.snapscript.core.variable.Value;
 
@@ -65,7 +65,7 @@ public class Import implements Compilation {
    private static class CompileResult extends Statement {
       
       private PackageDefinition definition;
-      private NameBuilder builder;
+      private NameFormatter formatter;
       private Statement statement;
       private Package library;
       private Path path;
@@ -74,7 +74,7 @@ public class Import implements Compilation {
       private String[] alias;
 
       public CompileResult(Package library, Path path, String location, String target, String... alias) {
-         this.builder = new NameBuilder();
+         this.formatter = new NameFormatter();
          this.location = location;
          this.library = library;
          this.target = target;
@@ -114,7 +114,7 @@ public class Import implements Compilation {
       private PackageDefinition process(Scope scope) throws Exception {
          Module module = scope.getModule();
          ImportManager manager = module.getManager();
-         String type = builder.createFullName(location, target);
+         String type = formatter.formatFullName(location, target);
              
          if(target == null) {
             manager.addImport(location); // import game.tetris.*;

@@ -5,24 +5,24 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.snapscript.core.InternalStateException;
+import org.snapscript.core.NameFormatter;
 import org.snapscript.core.link.ImportScanner;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.ModuleRegistry;
 import org.snapscript.core.platform.PlatformProvider;
 import org.snapscript.core.type.Category;
-import org.snapscript.core.type.NameBuilder;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.extend.ClassExtender;
 
 public class TypeIndexer {
 
    private final Map<Object, Type> types;
+   private final NameFormatter formatter;
    private final ImportScanner scanner;
    private final PrimitiveLoader loader;
    private final ModuleRegistry registry;
    private final ClassIndexer indexer;
    private final AtomicInteger counter;
-   private final NameBuilder builder;
    private final int limit;
    
    public TypeIndexer(ModuleRegistry registry, ImportScanner scanner, ClassExtender extender, PlatformProvider provider) {
@@ -32,8 +32,8 @@ public class TypeIndexer {
    public TypeIndexer(ModuleRegistry registry, ImportScanner scanner, ClassExtender extender, PlatformProvider provider, int limit) {
       this.indexer = new ClassIndexer(this, registry, scanner, extender, provider);
       this.types = new LinkedHashMap<Object, Type>();
-      this.builder = new NameBuilder();
-      this.loader = new PrimitiveLoader(this, builder);     
+      this.formatter = new NameFormatter();
+      this.loader = new PrimitiveLoader(this, formatter);     
       this.counter = new AtomicInteger(1); // consider function types which own 0
       this.registry = registry;
       this.scanner = scanner;
@@ -55,7 +55,7 @@ public class TypeIndexer {
    }
 
    public synchronized Type loadType(String module, String name) {
-      String alias = builder.createFullName(module, name);
+      String alias = formatter.formatFullName(module, name);
       Type done = types.get(alias);
 
       if (done == null) {
@@ -70,11 +70,11 @@ public class TypeIndexer {
    }
 
    public synchronized Type loadArrayType(String module, String name, int size) {
-      String alias = builder.createArrayName(module, name, size);
+      String alias = formatter.formatArrayName(module, name, size);
       Type done = types.get(alias);
       
       if (done == null) {
-         String type = builder.createFullName(module, name);
+         String type = formatter.formatFullName(module, name);
          Class match = scanner.importType(type, size);
          
          if (match == null) {
@@ -89,7 +89,7 @@ public class TypeIndexer {
    }   
    
    public synchronized Type defineType(String module, String name, Category category) {
-      String alias = builder.createFullName(module, name);
+      String alias = formatter.formatFullName(module, name);
       Type done = types.get(alias);
 
       if (done == null) {
@@ -126,8 +126,8 @@ public class TypeIndexer {
    }
 
    private synchronized Type createType(String module, String name, Category category) {
-      String alias = builder.createFullName(module, name);
-      String prefix = builder.createOuterName(module, name); 
+      String alias = formatter.formatFullName(module, name);
+      String prefix = formatter.formatOuterName(module, name); 
       Module parent = registry.addModule(module);
       Type type = types.get(alias);
       
@@ -144,7 +144,7 @@ public class TypeIndexer {
    }
    
    private synchronized Type createArrayType(String module, String name, int size) {
-      String alias = builder.createArrayName(module, name, size);
+      String alias = formatter.formatArrayName(module, name, size);
       Module parent = registry.addModule(module);
       Type type = types.get(alias);
       
@@ -154,7 +154,7 @@ public class TypeIndexer {
          if(entry == null) {
             throw new InternalStateException("Type entry for '" +alias+ "' not found");
          }
-         String array = builder.createArrayName(null, name, size);
+         String array = formatter.formatArrayName(null, name, size);
          int order = counter.getAndIncrement();
          
          if(order > limit) {
@@ -170,7 +170,7 @@ public class TypeIndexer {
       Type type = types.get(alias);
       
       if(type == null) {
-         String name = builder.createShortName(source);
+         String name = formatter.formatShortName(source);
          int order = counter.getAndIncrement();
          
          if(order > limit) {

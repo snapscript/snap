@@ -8,10 +8,10 @@ import java.util.concurrent.Executor;
 
 import org.snapscript.core.Context;
 import org.snapscript.core.InternalStateException;
+import org.snapscript.core.NameFormatter;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.ModuleRegistry;
 import org.snapscript.core.module.Path;
-import org.snapscript.core.type.NameBuilder;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeLoader;
 
@@ -20,8 +20,8 @@ public class ImportManager {
    private final Map<String, Type> generics;
    private final Map<String, String> aliases;
    private final Set<String> imports;
+   private final NameFormatter formatter;
    private final ImportMatcher matcher;
-   private final NameBuilder builder;
    private final Module parent;
    private final String from;
    private final String local;
@@ -31,7 +31,7 @@ public class ImportManager {
       this.aliases = new ConcurrentHashMap<String, String>();
       this.imports = new CopyOnWriteArraySet<String>();
       this.matcher = new ImportMatcher(parent, executor, path, from);
-      this.builder = new NameBuilder();
+      this.formatter = new NameFormatter();
       this.parent = parent;
       this.local = local;
       this.from = from;
@@ -60,7 +60,7 @@ public class ImportManager {
    
    public Module getModule(String name) {
       try {
-         String alias = builder.createLocalName(name);
+         String alias = formatter.formatLocalName(name);
          char first = alias.charAt(0);
          
          if(!Character.isUpperCase(first)) {
@@ -103,7 +103,7 @@ public class ImportManager {
    
    public Type getType(String name) {
       try {
-         String alias = builder.createLocalName(name);
+         String alias = formatter.formatLocalName(name);
          char first = alias.charAt(0);
          
          if(!Character.isUpperCase(first)) {

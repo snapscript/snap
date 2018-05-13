@@ -8,6 +8,7 @@ import org.snapscript.core.Compilation;
 import org.snapscript.core.Execution;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.ModifierType;
+import org.snapscript.core.NameFormatter;
 import org.snapscript.core.NoExecution;
 import org.snapscript.core.Statement;
 import org.snapscript.core.constraint.Constraint;
@@ -15,7 +16,6 @@ import org.snapscript.core.function.Function;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.NameBuilder;
 import org.snapscript.core.type.Type;
 
 public class ImportStatic implements Compilation {   
@@ -37,15 +37,15 @@ public class ImportStatic implements Compilation {
    
    private static class CompileResult extends Statement {
       
-      private final Execution execution;
-      private final NameBuilder builder;      
+      private final NameFormatter formatter;  
+      private final Execution execution;    
       private final String location;
       private final String target;
       private final String prefix;
       
       public CompileResult(String location, String target, String prefix) {
          this.execution = new NoExecution(NORMAL);
-         this.builder = new NameBuilder();        
+         this.formatter = new NameFormatter();        
          this.location = location;
          this.target = target;
          this.prefix = prefix;
@@ -54,7 +54,7 @@ public class ImportStatic implements Compilation {
       @Override
       public boolean define(Scope scope) throws Exception {
          Module module = scope.getModule();
-         String parent = builder.createFullName(location, target);
+         String parent = formatter.formatFullName(location, target);
          Type type = module.getType(parent); // this is a type name
          
          if(type == null) {

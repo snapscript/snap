@@ -6,22 +6,22 @@ import java.util.concurrent.Future;
 
 import org.snapscript.core.ContextValidator;
 import org.snapscript.core.Context;
+import org.snapscript.core.NameFormatter;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.ModuleRegistry;
 import org.snapscript.core.module.Path;
-import org.snapscript.core.type.NameBuilder;
 import org.snapscript.core.type.Type;
 
 public class ImportMatcher {
 
    private final ImportTaskResolver resolver;
-   private final NameBuilder builder;
+   private final NameFormatter formatter;
    private final Module parent;
    private final String from;
    
    public ImportMatcher(Module parent, Executor executor, Path path, String from) {
       this.resolver = new ImportTaskResolver(parent, executor, path);
-      this.builder = new NameBuilder();
+      this.formatter = new NameFormatter();
       this.parent = parent;
       this.from = from;
    }
@@ -48,7 +48,7 @@ public class ImportMatcher {
             return type;
          }
       }
-      String type = builder.createFullName(from, name);
+      String type = formatter.formatFullName(from, name);
       Module module = registry.getModule(type);
       
       if(module == null){ 
@@ -58,7 +58,7 @@ public class ImportMatcher {
    }
    
    private Type importType(String prefix, String name) throws Exception {
-      String qualifier = builder.createFullName(prefix, name);
+      String qualifier = formatter.formatFullName(prefix, name);
       Future<Type> task = resolver.importType(qualifier);
       
       if(task != null) {
@@ -79,7 +79,7 @@ public class ImportMatcher {
       ModuleRegistry registry = context.getRegistry();
       
       for(String prefix : prefixes) {
-         String inner = builder.createFullName(prefix, name);
+         String inner = formatter.formatFullName(prefix, name);
          Module match = registry.getModule(inner); // get imports from the outer module if it exists
          
          if(match != null) {
@@ -97,7 +97,7 @@ public class ImportMatcher {
    }
    
    private Module importModule(String prefix, String name) throws Exception {
-      String qualifier = builder.createFullName(prefix, name);
+      String qualifier = formatter.formatFullName(prefix, name);
       Future<Module> task = resolver.importModule(qualifier);
       
       if(task != null) {
