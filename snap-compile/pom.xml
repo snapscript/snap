@@ -3,23 +3,23 @@
   <groupId>org.snapscript</groupId>
   <artifactId>snap-compile</artifactId>
   <packaging>jar</packaging>
-  <version>1.3.2</version>
+  <version>1.3.3</version>
   <url>http://www.snapscript.org</url>
   <dependencies>
     <dependency>
       <groupId>org.snapscript</groupId>
       <artifactId>snap-tree</artifactId>
-      <version>1.3.2</version>
+      <version>1.3.3</version>
     </dependency>  
     <dependency>
       <groupId>org.snapscript</groupId>
       <artifactId>snap-core</artifactId>
-      <version>1.3.2</version>
+      <version>1.3.3</version>
     </dependency>
     <dependency>
       <groupId>org.snapscript</groupId>
       <artifactId>snap-parse</artifactId>
-      <version>1.3.2</version>
+      <version>1.3.3</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
