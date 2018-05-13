@@ -8,60 +8,60 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
 import org.snapscript.core.variable.Value;
 import org.snapscript.core.variable.bind.VariableFinder;
+import org.snapscript.core.variable.bind.VariableResult;
 
 public class LocalPointer implements VariablePointer<Object> {
    
-   private final AtomicReference<Object> reference;
-   private final ConstraintWrapper mapper;
+   private final AtomicReference<VariableResult> reference;
    private final VariableFinder finder;
    private final String name;
    
    public LocalPointer(VariableFinder finder, String name) {
-      this.reference = new AtomicReference<Object>();
-      this.mapper = new ConstraintWrapper();
+      this.reference = new AtomicReference<VariableResult>();
       this.finder = finder;
       this.name = name;
    }
 
    @Override
    public Constraint getConstraint(Scope scope, Constraint left) {
-      Object result = reference.get();
+      VariableResult result = reference.get();
       
       if(result == null) {
          State state = scope.getState();
          Value variable = state.get(name);
          
          if(variable == null) { 
-            Object value = finder.findTypes(scope, name);
+            VariableResult match = finder.findType(scope, name);
             
-            if(value != null) {
-               return mapper.toConstraint(value); // is this really needed?
+            if(match != null) {
+               reference.set(match);
+               return match.getConstraint(left); 
             }
             return null;
          }
-         return Constraint.getConstraint(variable);
+         return variable;
       }
-      return mapper.toConstraint(result);
+      return result.getConstraint(left);
    }
    
    @Override
-   public Value get(Scope scope, Object left) {
-      Object result = reference.get();
+   public Value getValue(Scope scope, Object left) {
+      VariableResult result = reference.get();
       
       if(result == null) {
          State state = scope.getState();
          Value variable = state.get(name);
          
          if(variable == null) { 
-            Object value = finder.findTypes(scope, name);
+            VariableResult match = finder.findType(scope, name);
             
-            if(value != null) {
-               reference.set(value);
-               return Value.getTransient(value);
+            if(match != null) {
+               reference.set(match);
+               return match.getValue(left);
             }
          }
          return variable;
       }
-      return Value.getTransient(result);
+      return result.getValue(left);
    }
 }

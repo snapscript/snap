@@ -6,8 +6,6 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.property.Property;
-import org.snapscript.core.property.PropertyValue;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
@@ -28,9 +26,9 @@ public class MapPointer implements VariablePointer<Map> {
    
    @Override
    public Constraint getConstraint(Scope scope, Constraint left) {
-      VariableResult accessor = reference.get();
+      VariableResult result = reference.get();
       
-      if(accessor == null) {
+      if(result == null) {
          Type type = left.getType(scope);
          VariableResult match = finder.findProperty(scope, type, name);
          
@@ -40,14 +38,14 @@ public class MapPointer implements VariablePointer<Map> {
          }
          return NONE;
       }
-      return accessor.getConstraint(left);
+      return result.getConstraint(left);
    }
    
    @Override
-   public Value get(Scope scope, Map left) {
-      VariableResult accessor = reference.get();
+   public Value getValue(Scope scope, Map left) {
+      VariableResult result = reference.get();
       
-      if(accessor == null) {
+      if(result == null) {
          VariableResult match = finder.findProperty(scope, left, name);
          
          if(match != null) {
@@ -56,6 +54,6 @@ public class MapPointer implements VariablePointer<Map> {
          }
          return null;
       }
-      return accessor.getValue(left);
+      return result.getValue(left);
    }
 }

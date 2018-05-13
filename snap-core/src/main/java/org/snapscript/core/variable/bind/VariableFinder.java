@@ -111,32 +111,53 @@ public class VariableFinder {
       
       for(Type base : list) {
          Scope outer = base.getScope();
-         Object value = findTypes(outer, name); // this is really slow
+         VariableResult result = findType(outer, name); // this is really slow
    
-         if(value != null) {
-            return new ConstantResult(value, NONE);
+         if(result != null) {
+            return result;
          }
       }
       return null;
    }   
    
-   public Object findTypes(Scope scope, String name) {
+   public VariableResult findType(Scope scope, String name) {
       Scope current = binder.bind(scope); // this could be slow
       Module module = current.getModule();
-      Type type = module.getType(name); // this is super slow if a variable is referenced
-      Type parent = current.getType();
+      VariableResult result = findType(scope, module, name);
       
-      if(type == null) {
-         Object result = module.getModule(name);
+      if(result == null) {
+         Type parent = current.getType();
          
-         if(result == null && parent != null) {
-            Context context = module.getContext();
-            TypeExtractor extractor = context.getExtractor();
-            
-            return extractor.getType(parent, name);
+         if(parent != null) {
+            return findType(scope, parent, name);
          }
-         return result;
       }
-      return type;
+      return result;
+   }
+   
+   public VariableResult findType(Scope scope, Module module, String name) {
+      Type inner = module.getType(name); // this is super slow if a variable is referenced
+      
+      if(inner == null) {
+         Module result = module.getModule(name);
+         
+         if(result != null) {
+            return new ModuleResult(result);
+         }
+         return null;
+      }
+      return new TypeResult(inner);
+   }
+   
+   public VariableResult findType(Scope scope, Type type, String name) {
+      Module module = type.getModule();
+      Context context = module.getContext();
+      TypeExtractor extractor = context.getExtractor();      
+      Type inner =  extractor.getType(type, name);
+      
+      if(inner != null) {
+         return new TypeResult(inner);
+      }
+      return null;          
    }
 }

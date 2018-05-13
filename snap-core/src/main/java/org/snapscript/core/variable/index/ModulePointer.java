@@ -27,9 +27,9 @@ public class ModulePointer implements VariablePointer<Module> {
 
    @Override
    public Constraint getConstraint(Scope scope, Constraint left) {
-      VariableResult property = reference.get();
+      VariableResult result = reference.get();
       
-      if(property == null) {
+      if(result == null) {
          Type parent = left.getType(scope);
          Module module = parent.getModule();
          State state = scope.getState();
@@ -51,14 +51,14 @@ public class ModulePointer implements VariablePointer<Module> {
          }
          return value;
       } 
-      return property.getConstraint(left);
+      return result.getConstraint(left);
    }
    
    @Override
-   public Value get(Scope scope, Module left) {
-      VariableResult property = reference.get();
+   public Value getValue(Scope scope, Module left) {
+      VariableResult result = reference.get();
       
-      if(property == null) {
+      if(result == null) {
          Scope inner = left.getScope();
          State state = inner.getState();
          Value value = state.get(name);
@@ -79,7 +79,7 @@ public class ModulePointer implements VariablePointer<Module> {
          }
          return value;
       } 
-      return property.getValue(left);
+      return result.getValue(left);
    }
    
 }

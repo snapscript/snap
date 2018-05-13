@@ -29,9 +29,9 @@ public class ClosurePointer implements VariablePointer<Function> {
    
    @Override
    public Constraint getConstraint(Scope scope, Constraint left) {
-      VariableResult accessor = reference.get();
+      VariableResult result = reference.get();
       
-      if(accessor == null) {
+      if(result == null) {
          Module module = scope.getModule();
          Context context = module.getContext();
          TypeExtractor extractor = context.getExtractor();
@@ -44,14 +44,14 @@ public class ClosurePointer implements VariablePointer<Function> {
          }
          return null;
       }
-      return accessor.getConstraint(left);
+      return result.getConstraint(left);
    }
    
    @Override
-   public Value get(Scope scope, Function left) {
-      VariableResult accessor = reference.get();
+   public Value getValue(Scope scope, Function left) {
+      VariableResult result = reference.get();
       
-      if(accessor == null) {
+      if(result == null) {
          Module module = scope.getModule();
          Context context = module.getContext();
          TypeExtractor extractor = context.getExtractor();
@@ -64,6 +64,6 @@ public class ClosurePointer implements VariablePointer<Function> {
          }
          return null;
       }
-      return accessor.getValue(left);
+      return result.getValue(left);
    }
 }

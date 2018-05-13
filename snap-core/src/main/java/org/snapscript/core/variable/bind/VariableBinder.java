@@ -48,7 +48,7 @@ public class VariableBinder {
    
    public Value bind(Scope scope) throws Exception {
       VariablePointer pointer = resolver.index(scope);
-      Value value = pointer.get(scope, null);
+      Value value = pointer.getValue(scope, null);
       
       if(value == null) {
          handler.handleRuntimeError(REFERENCE, scope, name);
@@ -59,7 +59,7 @@ public class VariableBinder {
    public Value bind(Scope scope, Object left) throws Exception {
       Object object = wrapper.fromProxy(left); // what about double wrapping?
       VariablePointer pointer = resolver.index(scope, object);
-      Value value = pointer.get(scope, object);
+      Value value = pointer.getValue(scope, object);
       
       if(value == null) {
          handler.handleRuntimeError(REFERENCE, scope, object, name);

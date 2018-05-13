@@ -29,11 +29,11 @@ public class CollectionPointer implements VariablePointer<Collection> {
    }
    
    @Override
-   public Value get(Scope scope, Collection left) {
+   public Value getValue(Scope scope, Collection left) {
       if(name.equals(PROPERTY_LENGTH)) {
          int length = left.size();
          return Value.getConstant(length);
       }
-      return pointer.get(scope, left);
+      return pointer.getValue(scope, left);
    }
 }

@@ -3,10 +3,8 @@ package org.snapscript.core.variable.index;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.Context;
-import org.snapscript.core.attribute.AttributeTypeBinder;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.module.Module;
-import org.snapscript.core.property.PropertyValue;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeExtractor;
@@ -28,9 +26,9 @@ public class TypeInstancePointer implements VariablePointer<Object> {
    
    @Override
    public Constraint getConstraint(Scope scope, Constraint left) {
-      VariableResult accessor = reference.get();
+      VariableResult result = reference.get();
       
-      if(accessor == null) {
+      if(result == null) {
          Type type = left.getType(scope);
          
          if(type != null) {
@@ -43,14 +41,14 @@ public class TypeInstancePointer implements VariablePointer<Object> {
          }
          return null;
       }
-      return accessor.getConstraint(left);
+      return result.getConstraint(left);
    }
    
    @Override
-   public Value get(Scope scope, Object left) {
-      VariableResult accessor = reference.get();
+   public Value getValue(Scope scope, Object left) {
+      VariableResult result = reference.get();
       
-      if(accessor == null) {
+      if(result == null) {
          Module module = scope.getModule();
          Context context = module.getContext();
          TypeExtractor extractor = context.getExtractor();
@@ -63,7 +61,7 @@ public class TypeInstancePointer implements VariablePointer<Object> {
          }
          return null;
       }
-      return accessor.getValue(left);
+      return result.getValue(left);
    }
 
 }

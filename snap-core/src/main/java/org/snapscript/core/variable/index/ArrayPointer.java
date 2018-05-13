@@ -34,11 +34,11 @@ public class ArrayPointer implements VariablePointer<Object> {
    }
 
    @Override
-   public Value get(Scope scope, Object left) {
+   public Value getValue(Scope scope, Object left) {
       if(name.equals(PROPERTY_LENGTH)) {
          int length = Array.getLength(left);
          return Value.getConstant(length);
       }
-      return pointer.get(scope, left);
+      return pointer.getValue(scope, left);
    }
 }

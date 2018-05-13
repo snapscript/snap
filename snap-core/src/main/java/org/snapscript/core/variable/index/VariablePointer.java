@@ -6,5 +6,5 @@ import org.snapscript.core.variable.Value;
 
 public interface VariablePointer<T> {
    Constraint getConstraint(Scope scope, Constraint left);
-   Value get(Scope scope, T left);
+   Value getValue(Scope scope, T left);
 }

@@ -23,9 +23,9 @@ public class TypeStaticPointer implements VariablePointer<Type> {
 
    @Override
    public Constraint getConstraint(Scope scope, Constraint left) {
-      VariableResult property = reference.get();
+      VariableResult result = reference.get();
       
-      if(property == null) {
+      if(result == null) {
          Type type = left.getType(scope);
          VariableResult match = finder.findAll(scope, type, name);
          
@@ -35,14 +35,14 @@ public class TypeStaticPointer implements VariablePointer<Type> {
          }
          return null;
       } 
-      return property.getConstraint(left);
+      return result.getConstraint(left);
    }
    
    @Override
-   public Value get(Scope scope, Type left) {
-      VariableResult property = reference.get();
+   public Value getValue(Scope scope, Type left) {
+      VariableResult result = reference.get();
       
-      if(property == null) {
+      if(result == null) {
          VariableResult match = finder.findAll(scope, left, name);
          
          if(match == null) {
@@ -54,6 +54,6 @@ public class TypeStaticPointer implements VariablePointer<Type> {
          }
          return null;
       } 
-      return property.getValue(left);
+      return result.getValue(left);
    }   
 }
