@@ -34,7 +34,6 @@ public class LocalPointer implements VariablePointer<Object> {
             VariableResult match = finder.findType(scope, name);
             
             if(match != null) {
-               reference.set(match);
                return match.getConstraint(left); 
             }
             return null;
