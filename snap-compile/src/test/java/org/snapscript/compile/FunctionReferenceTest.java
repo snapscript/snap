@@ -103,6 +103,14 @@ public class FunctionReferenceTest extends TestCase {
    "var p = System.err::println;\n"+
    "assert p(`hello`) == null;\n";
    
+   private static final String SOURCE_8 =
+   "func(1,2, Math::max); // method handles\n"+
+   "function func(x, y, func: (a,b)) {\n"+
+   "   var result = func(x, y);\n"+
+   "   println(result);\n"+
+   "}\n";
+   
+   
    public void testFunctionReference() throws Exception {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
       System.err.println(SOURCE_1);
@@ -149,4 +157,10 @@ public class FunctionReferenceTest extends TestCase {
       System.err.println(SOURCE_7);
       compiler.compile(SOURCE_7).execute(new EmptyModel());
    }   
+   
+   public void testFunctionConstraint() throws Exception {
+      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
+      System.err.println(SOURCE_8);
+      compiler.compile(SOURCE_8).execute(new EmptyModel());
+   }  
 }

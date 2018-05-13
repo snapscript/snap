@@ -28,6 +28,7 @@ public class FunctionComparator {
       List<Parameter> constraintParameters = constraintSignature.getParameters();
       int actualSize = actualParameters.size();
       int constraintSize = constraintParameters.size();
+      boolean actualVariable = actualSignature.isVariable();
       boolean constraintVariable = constraintSignature.isVariable();
       
       if(actualSize == constraintSize) {
@@ -37,8 +38,15 @@ public class FunctionComparator {
             return score;
          }
       }
-      if(constraintVariable && constraintSize <= actualSize) {
+      if(actualVariable && actualSize <= constraintSize) {
          Score score = compare(scope, actualParameters, constraintParameters); // compare(a...) == compare(a, b)
+         
+         if(score.isValid()) {
+            return score;
+         }
+      }
+      if(constraintVariable && constraintSize <= actualSize) {
+         Score score = compare(scope, constraintParameters, actualParameters); // compare(a, b) == compare(a...)
          
          if(score.isValid()) {
             return score;
@@ -63,7 +71,7 @@ public class FunctionComparator {
             }
             total = Score.sum(total, score); // sum for better match
             
-            if(!constraintParameter.isVariable()) { // if variable stick
+            if(!actualParameter.isVariable()) { // if variable stick
                j++;
             }
          }
@@ -80,7 +88,7 @@ public class FunctionComparator {
       ConstraintConverter converter = matcher.match(actualType);
       Score score = converter.score(constraintType);
       
-      if(constraint.isVariable()) {
+      if(actual.isVariable()) {
          if(score.isInvalid()) {
             return INVALID;
          }
