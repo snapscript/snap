@@ -4,6 +4,24 @@ import static org.snapscript.parse.TokenType.LITERAL;
 
 public class TokenMerger {
    
+   private static final int[] SCORE = {
+   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 
+   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};     
+   
    public TokenMerger() {
       super();
    }
@@ -39,19 +57,13 @@ public class TokenMerger {
       char last = prefix.charAt(length -1);
       char first = suffix.charAt(0);
 
-      if(!identifier(last) && !identifier(first)) {
-         return prefix.concat(suffix);
+      if(first < SCORE.length && last < SCORE.length) {
+         int value = SCORE[first] + SCORE[last];
+         
+         if(value >= 2) {
+            return prefix.concat(suffix);
+         }
       }
       return null;
-   }
-   
-   private boolean identifier(char value) {
-      if(value >= 'a' && value <='z') {
-         return true;
-      }
-      if(value >= 'A' && value <= 'Z') {
-         return true;
-      }
-      return value >= '0' && value <= '9';
    }
 }
