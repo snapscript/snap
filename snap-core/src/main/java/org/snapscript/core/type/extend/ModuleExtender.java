@@ -25,7 +25,7 @@ public class ModuleExtender {
       TypeLoader loader = context.getLoader();
       
       if(functions.isEmpty()) {
-         FunctionExtractor extractor = new FunctionExtractor(loader);
+         FunctionExtractor extractor = new FunctionExtractor(loader, true);
          ScopeExtension extension = new ScopeExtension(context);
          
          try {

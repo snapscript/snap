@@ -32,6 +32,6 @@ public class GenericAttributeType implements AttributeType {
          
          return rule.getResult(returns);     
       }
-      return left;
+      return returns;
    }
 }

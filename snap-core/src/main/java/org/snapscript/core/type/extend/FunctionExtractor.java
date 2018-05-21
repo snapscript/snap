@@ -21,9 +21,15 @@ public class FunctionExtractor {
    
    private final ParameterBuilder builder;
    private final TypeLoader loader;
+   private final boolean anonymous;
    
    public FunctionExtractor(TypeLoader loader){
+      this(loader, false);
+   }
+   
+   public FunctionExtractor(TypeLoader loader, boolean anonymous){
       this.builder = new ParameterBuilder();
+      this.anonymous = anonymous;
       this.loader = loader;
    }
 
@@ -66,6 +72,7 @@ public class FunctionExtractor {
    }
 
    private Function extract(Module module, Class extend, Object value, Function function) {
+      Type type = function.getType();
       String name = function.getName();
       Invocation invocation = function.getInvocation();
       Signature signature = function.getSignature();
@@ -87,7 +94,10 @@ public class FunctionExtractor {
             
             copy.add(duplicate);
          }
-         return new InvocationFunction(reduced, adapter, null, returns, name, modifiers); // type is null so its not on stack
+         if(anonymous) {
+            return new InvocationFunction(reduced, adapter, null, returns, name, modifiers); // type is null so its not on stack
+         }
+         return new InvocationFunction(reduced, adapter, type, returns, name, modifiers); 
       }
       return null;
    }
