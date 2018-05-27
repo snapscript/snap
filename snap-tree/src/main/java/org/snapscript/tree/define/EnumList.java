@@ -1,6 +1,6 @@
 package org.snapscript.tree.define;
 
-import static org.snapscript.core.type.Order.STATIC;
+import static org.snapscript.core.type.Category.STATIC;
 
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;

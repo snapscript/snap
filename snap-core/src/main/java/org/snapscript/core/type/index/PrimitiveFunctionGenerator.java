@@ -4,6 +4,7 @@ import static org.snapscript.core.ModifierType.PUBLIC;
 import static org.snapscript.core.ModifierType.STATIC;
 import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
 import static org.snapscript.core.constraint.Constraint.NONE;
+import static org.snapscript.core.function.Origin.DEFAULT;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +39,7 @@ public class PrimitiveFunctionGenerator {
          throw new InternalStateException("Could not create invocation for " + invoke);
       }
       List<Parameter> parameters = new ArrayList<Parameter>();
-      Signature signature = new FunctionSignature(parameters, module, null, true);
+      Signature signature = new FunctionSignature(parameters, module, null, DEFAULT, true);
       
       for(int i = 0; i < types.length; i++){
          Class require = types[i];

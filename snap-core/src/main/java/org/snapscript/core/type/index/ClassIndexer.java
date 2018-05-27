@@ -1,12 +1,14 @@
 package org.snapscript.core.type.index;
 
+import static org.snapscript.core.ModifierType.ABSTRACT;
+import static org.snapscript.core.ModifierType.ARRAY;
+import static org.snapscript.core.ModifierType.CLASS;
+import static org.snapscript.core.ModifierType.ENUM;
+import static org.snapscript.core.ModifierType.PROXY;
+import static org.snapscript.core.ModifierType.TRAIT;
 import static org.snapscript.core.Reserved.DEFAULT_PACKAGE;
-import static org.snapscript.core.type.Category.ARRAY;
-import static org.snapscript.core.type.Category.CLASS;
-import static org.snapscript.core.type.Category.ENUM;
-import static org.snapscript.core.type.Category.PROXY;
-import static org.snapscript.core.type.Category.TRAIT;
 
+import java.lang.reflect.Modifier;
 import java.lang.reflect.Proxy;
 import java.util.List;
 
@@ -21,7 +23,6 @@ import org.snapscript.core.module.Module;
 import org.snapscript.core.module.ModuleRegistry;
 import org.snapscript.core.platform.PlatformProvider;
 import org.snapscript.core.property.Property;
-import org.snapscript.core.type.Category;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.extend.ClassExtender;
 
@@ -151,21 +152,25 @@ public class ClassIndexer {
       return null;
    }
    
-   public Category indexCategory(ClassType type) throws Exception {
+   public int indexModifiers(ClassType type) throws Exception {
       Class source = type.getType();
+      int modifiers = source.getModifiers();
       
       if(source.isEnum()) {
-         return ENUM;
+         return ENUM.mask;
       }
       if(source.isInterface()) {
-         return TRAIT;
+         return TRAIT.mask | ABSTRACT.mask;
       } 
       if(source.isArray()) {
-         return ARRAY;
+         return ARRAY.mask;
       } 
       if(Proxy.isProxyClass(source)) {
-         return PROXY;
+         return PROXY.mask;
       }
-      return CLASS;
+      if(Modifier.isAbstract(modifiers)) {
+         return CLASS.mask | ABSTRACT.mask;
+      }
+      return CLASS.mask;
    }
 }

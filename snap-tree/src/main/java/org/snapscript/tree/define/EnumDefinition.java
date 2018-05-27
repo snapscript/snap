@@ -57,7 +57,7 @@ public class EnumDefinition implements Compilation {
       private final EnumList list;
       private final TypePart[] parts;
       
-      public CompileResult(AnnotationList annotations, EnumName name, TypeHierarchy hierarchy, EnumList list, TypePart... parts) {
+      public CompileResult(AnnotationList annotations, EnumName name, TypeHierarchy hierarchy, EnumList list, TypePart[] parts) {
          this.builder = new EnumBuilder(name, hierarchy);
          this.collector = new TypeStateCollector();
          this.constructor = new DefaultConstructor(collector, true);

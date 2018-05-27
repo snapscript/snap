@@ -1,5 +1,7 @@
 package org.snapscript.compile.validate;
 
+import static org.snapscript.core.ModifierType.ABSTRACT;
+import static org.snapscript.core.ModifierType.PUBLIC;
 import static org.snapscript.core.Reserved.ANY_TYPE;
 import static org.snapscript.core.Reserved.TYPE_CLASS;
 import static org.snapscript.core.Reserved.TYPE_THIS;
@@ -7,9 +9,11 @@ import static org.snapscript.core.Reserved.TYPE_THIS;
 import java.util.List;
 import java.util.Set;
 
+import org.snapscript.core.ModifierType;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.index.FunctionIndexer;
+import org.snapscript.core.function.index.FunctionPointer;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.type.Type;
@@ -23,11 +27,13 @@ public class TypeValidator {
    private final PropertyValidator properties;
    private final FunctionValidator functions;
    private final TypeExtractor extractor;
+   private final FunctionIndexer indexer;
    
    public TypeValidator(ConstraintMatcher matcher, TypeExtractor extractor, FunctionIndexer indexer) {
       this.functions = new FunctionValidator(matcher, extractor, indexer);
       this.properties = new PropertyValidator(matcher);
       this.extractor = extractor;
+      this.indexer = indexer;
    }
    
    public void validate(Type type) throws Exception {
@@ -91,8 +97,17 @@ public class TypeValidator {
    }
 
    private void validateFunctions(Type type) throws Exception {
+      int modifiers = type.getModifiers();
       List<Function> list = type.getFunctions();
+      
+      if(!ModifierType.isAbstract(modifiers)) {
+         List<FunctionPointer> pointers = indexer.index(type, PUBLIC.mask | ABSTRACT.mask);
          
+         for(FunctionPointer pointer : pointers) {
+            Function function = pointer.getFunction();
+            functions.validate(function, type); // ensure abstract methods are implemted
+         }
+      }
       for(Function function : list) {
          functions.validate(function);
       }

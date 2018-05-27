@@ -8,7 +8,6 @@ import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.property.Property;
-import org.snapscript.core.type.Category;
 import org.snapscript.core.type.Type;
 
 public class ClassIndex {
@@ -20,10 +19,10 @@ public class ClassIndex {
    private List<Constraint> types;
    private ClassIndexer indexer;
    private ClassType require;
-   private Category category;
    private Module module;
    private Type outer;
    private Type entry;
+   private int modifiers;
    
    public ClassIndex(ClassIndexer indexer, ClassType require) {      
       this.indexer = indexer;
@@ -118,14 +117,14 @@ public class ClassIndex {
       return entry;
    }
    
-   public Category getCategory() {
-      if(category == null) {
+   public int getModifiers() {
+      if(modifiers == 0) {
          try {
-            category = indexer.indexCategory(require);
+            modifiers = indexer.indexModifiers(require);
          } catch(Exception e) {
             throw new InternalStateException("Could not index " + require, e);
          }
       }
-      return category;
+      return modifiers;
    }
 }

@@ -6,16 +6,16 @@ import static org.snapscript.core.ModifierType.STATIC;
 import java.util.List;
 
 import org.snapscript.core.InternalStateException;
+import org.snapscript.core.ModifierType;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Accessor;
 import org.snapscript.core.function.AccessorProperty;
 import org.snapscript.core.function.StaticAccessor;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.TypeState;
-import org.snapscript.core.type.Category;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeBody;
+import org.snapscript.core.type.TypeState;
 import org.snapscript.tree.ArgumentList;
 import org.snapscript.tree.NameReference;
 
@@ -38,9 +38,9 @@ public class EnumValue {
       String name = reference.getName(scope);
       Constraint constraint = Constraint.getConstraint(type, CONSTANT.mask);
       List<Property> properties = type.getProperties();
-      Category category = type.getCategory();
+      int modifiers = type.getModifiers();
       
-      if(!category.isEnum()) {
+      if(!ModifierType.isEnum(modifiers)) {
          throw new InternalStateException("Type '" + type + "' is not an enum");
       }
       Accessor accessor = new StaticAccessor(body, type, name);

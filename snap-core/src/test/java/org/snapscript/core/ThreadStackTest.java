@@ -1,5 +1,7 @@
 package org.snapscript.core;
 
+import static org.snapscript.core.function.Origin.DEFAULT;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +10,7 @@ import junit.framework.TestCase;
 import org.snapscript.core.function.FunctionSignature;
 import org.snapscript.core.function.FunctionType;
 import org.snapscript.core.function.InvocationFunction;
+import org.snapscript.core.function.Origin;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.Signature;
 import org.snapscript.core.module.ContextModule;
@@ -55,7 +58,7 @@ public class ThreadStackTest extends TestCase {
       Module module = new ContextModule(null, null, converter.createPath(moduleName), moduleName,"", -1);
       MockType type = new MockType(module, typeName, null, null);
       List<Parameter> parameters = new ArrayList<Parameter>();
-      Signature signature = new FunctionSignature(parameters, module, null, true);
+      Signature signature = new FunctionSignature(parameters, module, null, DEFAULT, true);
       
       stack.before(new InvocationFunction(signature, null, type, null, functionName, 11));
    }
@@ -64,7 +67,7 @@ public class ThreadStackTest extends TestCase {
       FilePathConverter converter = new FilePathConverter();
       Module module = new ContextModule(null, null, converter.createPath(moduleName), moduleName,"", -1);
       List<Parameter> parameters = new ArrayList<Parameter>();
-      Signature signature = new FunctionSignature(parameters, module, null, true);
+      Signature signature = new FunctionSignature(parameters, module, null, DEFAULT, true);
       FunctionType type = new FunctionType(signature, module, null);
       
       stack.before(new InvocationFunction(signature, null, type, null, functionName, 11));

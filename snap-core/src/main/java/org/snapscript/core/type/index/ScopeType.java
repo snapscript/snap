@@ -11,7 +11,6 @@ import org.snapscript.core.function.Function;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Category;
 import org.snapscript.core.type.Phase;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeDescription;
@@ -26,14 +25,14 @@ public class ScopeType implements Type {
    private final List<Function> functions;
    private final List<Constraint> types;
    private final Progress<Phase> progress;
-   private final Category category;
    private final Module module;
    private final Scope scope;
    private final Type outer;
    private final String name;
+   private final int modifiers;
    private final int order;
    
-   public ScopeType(Module module, Type outer, Category category, String name, int order){
+   public ScopeType(Module module, Type outer, String name, int modifiers, int order){
       this.description = new TypeDescription(this);
       this.annotations = new ArrayList<Annotation>();
       this.constraints = new ArrayList<Constraint>();
@@ -42,7 +41,7 @@ public class ScopeType implements Type {
       this.types = new ArrayList<Constraint>();
       this.progress = new LockProgress<Phase>();
       this.scope = new TypeScope(this);
-      this.category = category;
+      this.modifiers = modifiers;
       this.module = module;
       this.outer = outer;
       this.order = order;
@@ -80,11 +79,6 @@ public class ScopeType implements Type {
    }
    
    @Override
-   public Category getCategory() {
-      return category;
-   }
-   
-   @Override
    public Module getModule(){
       return module;
    }
@@ -113,6 +107,11 @@ public class ScopeType implements Type {
    public Type getEntry(){
       return null;
    }
+   
+   @Override
+   public int getModifiers() {
+      return modifiers;
+   }   
    
    @Override
    public int getOrder() {

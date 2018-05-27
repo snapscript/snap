@@ -1,5 +1,6 @@
 package org.snapscript.core.scope.index;
 
+import java.util.Arrays;
 import java.util.Iterator;
 
 public class ArrayTable implements Table {
@@ -41,6 +42,11 @@ public class ArrayTable implements Table {
          table = copy;
       }
       table[index] = local;
+   }
+   
+   @Override
+   public String toString() {
+      return Arrays.toString(table);
    }
    
    private static class LocalIterator implements Iterator<Local> {

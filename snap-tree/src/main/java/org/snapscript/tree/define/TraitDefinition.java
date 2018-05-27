@@ -1,7 +1,6 @@
 package org.snapscript.tree.define;
 
 import static org.snapscript.core.result.Result.NORMAL;
-import static org.snapscript.core.type.Category.TRAIT;
 import static org.snapscript.core.type.Phase.COMPILE;
 import static org.snapscript.core.type.Phase.CREATE;
 import static org.snapscript.core.type.Phase.DEFINE;
@@ -58,8 +57,8 @@ public class TraitDefinition implements Compilation {
       private final Execution execution;
       private final TypePart[] parts;
       
-      public CompileResult(AnnotationList annotations, TraitName name, TypeHierarchy hierarchy, TypePart... parts) {
-         this.builder = new ClassBuilder(annotations, name, hierarchy, TRAIT);
+      public CompileResult(AnnotationList annotations, TraitName name, TypeHierarchy hierarchy, TypePart[] parts) {
+         this.builder = new ClassBuilder(annotations, name, hierarchy);
          this.generator = new FunctionPropertyGenerator(); 
          this.constants = new StaticState();
          this.collector = new TypeStateCollector();

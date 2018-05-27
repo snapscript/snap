@@ -1,5 +1,7 @@
 package org.snapscript.core.type.extend;
 
+import static org.snapscript.core.function.Origin.SYSTEM;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +27,7 @@ public class ModuleExtender {
       TypeLoader loader = context.getLoader();
       
       if(functions.isEmpty()) {
-         FunctionExtractor extractor = new FunctionExtractor(loader, true);
+         FunctionExtractor extractor = new FunctionExtractor(loader, SYSTEM);
          ScopeExtension extension = new ScopeExtension(context);
          
          try {

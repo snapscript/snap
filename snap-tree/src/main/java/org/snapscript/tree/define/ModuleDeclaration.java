@@ -8,6 +8,7 @@ import java.util.List;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Execution;
+import org.snapscript.core.ModifierValidator;
 import org.snapscript.core.Statement;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
@@ -73,10 +74,12 @@ public class ModuleDeclaration implements Compilation {
    private static class CompileStatement extends Statement {
    
       private final ModuleProperty[] properties;
+      private final ModifierValidator validator;
       private final ModifierData modifiers;
       private final ModuleBody body;
       
       public CompileStatement(ModifierData modifiers, ModuleProperty[] properties, ModuleBody body) {
+         this.validator = new ModifierValidator();
          this.properties = properties;
          this.modifiers = modifiers;
          this.body = body;
@@ -89,7 +92,9 @@ public class ModuleDeclaration implements Compilation {
          int mask = modifiers.getModifiers();
          
          for(ModuleProperty declaration : properties) {
-            Property property = declaration.define(body, scope, mask | STATIC.mask); 
+            Property property = declaration.define(body, scope, mask | STATIC.mask);
+            
+            validator.validate(module, property, mask | STATIC.mask);
             list.add(property);
          }
          return true;

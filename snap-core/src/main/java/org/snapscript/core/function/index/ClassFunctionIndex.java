@@ -5,9 +5,10 @@ import java.util.List;
 
 import org.snapscript.common.Cache;
 import org.snapscript.common.CopyOnWriteCache;
-import org.snapscript.core.type.Type;
 import org.snapscript.core.function.Function;
+import org.snapscript.core.function.Origin;
 import org.snapscript.core.function.Signature;
+import org.snapscript.core.type.Type;
 
 public class ClassFunctionIndex implements FunctionIndex {
    
@@ -23,6 +24,21 @@ public class ClassFunctionIndex implements FunctionIndex {
       this.builder = builder;
    }
 
+   @Override
+   public List<FunctionPointer> resolve(int modifiers) {
+      List<FunctionPointer> matches = new ArrayList<FunctionPointer>();
+      
+      for(FunctionPointer pointer : pointers){
+         Function function = pointer.getFunction();
+         int mask = function.getModifiers();
+         
+         if((modifiers & mask) == modifiers) {
+            matches.add(pointer);
+         }
+      }
+      return matches;
+   }
+   
    @Override
    public FunctionPointer resolve(String name, Type... types) throws Exception {
       Object key = builder.create(name, types);
@@ -58,12 +74,13 @@ public class ClassFunctionIndex implements FunctionIndex {
       }
       return validate(pointer);
    }
-
+   
    private FunctionPointer validate(FunctionPointer pointer) {
       Function function = pointer.getFunction();
       Signature signature = function.getSignature();
+      Origin origin = signature.getOrigin();
       
-      if(!signature.isInvalid()) {
+      if(!origin.isError()) {
          return pointer;
       }
       return null;

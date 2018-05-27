@@ -74,5 +74,9 @@ public class SoftCache<K, V> implements Cache<K, V> {
    public int size() {
       return cache.size();
    }
-
+   
+   @Override
+   public String toString() {
+      return String.valueOf(cache);
+   }
 }

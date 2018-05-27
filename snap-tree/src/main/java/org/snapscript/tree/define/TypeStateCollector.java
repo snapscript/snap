@@ -1,9 +1,9 @@
 package org.snapscript.tree.define;
 
 import static org.snapscript.core.result.Result.NORMAL;
-import static org.snapscript.core.type.Order.INSTANCE;
-import static org.snapscript.core.type.Order.OTHER;
-import static org.snapscript.core.type.Order.STATIC;
+import static org.snapscript.core.type.Category.INSTANCE;
+import static org.snapscript.core.type.Category.OTHER;
+import static org.snapscript.core.type.Category.STATIC;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.snapscript.core.result.Result;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Order;
+import org.snapscript.core.type.Category;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeBody;
 import org.snapscript.core.type.TypeState;
@@ -22,18 +22,18 @@ public class TypeStateCollector extends TypeState implements TypeBody {
    private final List<TypeState> statics;
    private final List<TypeState> other;
    private final List<TypeState> list;
-   private final Order order;
+   private final Category category;
 
    public TypeStateCollector(){
       this(OTHER);
    }
    
-   public TypeStateCollector(Order order){
+   public TypeStateCollector(Category category){
       this.statics = new CopyOnWriteArrayList<TypeState>();
       this.instances = new ArrayList<TypeState>();
       this.other = new ArrayList<TypeState>();
       this.list = new ArrayList<TypeState>();
-      this.order = order;
+      this.category = category;
    }
 
    public void update(TypeState state) throws Exception {
@@ -43,13 +43,13 @@ public class TypeStateCollector extends TypeState implements TypeBody {
    }
    
    @Override
-   public Order define(Scope scope, Type type) throws Exception {
+   public Category define(Scope scope, Type type) throws Exception {
       for(TypeState state : list) {
-         Order order = state.define(scope, type);
+         Category category = state.define(scope, type);
          
-         if(order.isStatic()) {         
+         if(category.isStatic()) {         
             statics.add(state);            
-         } else if(order.isInstance()) {
+         } else if(category.isInstance()) {
             instances.add(state);
          } else {
             other.add(state);
@@ -61,7 +61,7 @@ public class TypeStateCollector extends TypeState implements TypeBody {
       if(!instances.isEmpty()) {
          return INSTANCE;
       }
-      return order;
+      return category;
    } 
    
    @Override

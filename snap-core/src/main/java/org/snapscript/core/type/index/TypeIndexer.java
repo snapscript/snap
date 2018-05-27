@@ -10,7 +10,6 @@ import org.snapscript.core.link.ImportScanner;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.ModuleRegistry;
 import org.snapscript.core.platform.PlatformProvider;
-import org.snapscript.core.type.Category;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.extend.ClassExtender;
 
@@ -88,7 +87,7 @@ public class TypeIndexer {
       return done;
    }   
    
-   public synchronized Type defineType(String module, String name, Category category) {
+   public synchronized Type defineType(String module, String name, int modifiers) {
       String alias = formatter.formatFullName(module, name);
       Type done = types.get(alias);
 
@@ -96,7 +95,7 @@ public class TypeIndexer {
          Class match = scanner.importType(alias);
          
          if (match == null) {
-            Type type = createType(module, name, category);
+            Type type = createType(module, name, modifiers);
             
             types.put(type, type);
             types.put(alias, type);
@@ -125,7 +124,7 @@ public class TypeIndexer {
       return done;
    }
 
-   private synchronized Type createType(String module, String name, Category category) {
+   private synchronized Type createType(String module, String name, int modifiers) {
       String alias = formatter.formatFullName(module, name);
       String prefix = formatter.formatOuterName(module, name); 
       Module parent = registry.addModule(module);
@@ -138,7 +137,7 @@ public class TypeIndexer {
          if(order > limit) {
             throw new InternalStateException("Type limit of " + limit + " exceeded");
          }
-         return new ScopeType(parent, outer, category, name, order);
+         return new ScopeType(parent, outer, name, modifiers, order);
       }
       return type;
    }

@@ -24,10 +24,10 @@ public class ProxyBuilder {
    }
    
    public Object create(Function function) {
-      Type type = function.getType();
+      Type source = function.getSource();
       
-      if(type != null) {
-         Module module = type.getModule();
+      if(source != null) {
+         Module module = source.getModule();
          Context context = module.getContext();
          ProxyWrapper wrapper = context.getWrapper();
          
@@ -37,10 +37,10 @@ public class ProxyBuilder {
    }
    
    public Object create(Function function, Class require) {
-      Type type = function.getType();
+      Type source = function.getSource();
       
-      if(type != null) {
-         Module module = type.getModule();
+      if(source != null) {
+         Module module = source.getModule();
          Context context = module.getContext();
          ProxyWrapper wrapper = context.getWrapper();
          

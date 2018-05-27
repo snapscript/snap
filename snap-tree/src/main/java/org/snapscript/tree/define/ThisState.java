@@ -1,6 +1,6 @@
 package org.snapscript.tree.define;
 
-import static org.snapscript.core.type.Order.OTHER;
+import static org.snapscript.core.type.Category.OTHER;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -9,7 +9,7 @@ import org.snapscript.core.Execution;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.instance.Instance;
 import org.snapscript.core.type.TypeState;
-import org.snapscript.core.type.Order;
+import org.snapscript.core.type.Category;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 import org.snapscript.core.result.Result;
@@ -31,7 +31,7 @@ public class ThisState extends TypeState {
    }
 
    @Override
-   public Order define(Scope instance, Type real) throws Exception {
+   public Category define(Scope instance, Type real) throws Exception {
       if(define.compareAndSet(false, true)) {
          expression.define(instance);
       }

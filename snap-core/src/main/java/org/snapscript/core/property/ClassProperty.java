@@ -15,11 +15,11 @@ import org.snapscript.core.type.Type;
 public class ClassProperty implements Property {
    
    private final Constraint constraint;
-   private final Type type;
+   private final Type source;
    
-   public ClassProperty(Type type, Constraint constraint) {
+   public ClassProperty(Type source, Constraint constraint) {
       this.constraint = constraint;
-      this.type = type;
+      this.source = source;
    }
    
    @Override
@@ -38,8 +38,8 @@ public class ClassProperty implements Property {
    }
    
    @Override
-   public Type getType() {
-      return type;
+   public Type getSource() {
+      return source;
    }
 
    @Override
@@ -53,12 +53,12 @@ public class ClassProperty implements Property {
    }
 
    @Override
-   public Object getValue(Object source) {
-      return type;
+   public Object getValue(Object object) {
+      return source;
    }
 
    @Override
-   public void setValue(Object source, Object value) {
+   public void setValue(Object object, Object value) {
       throw new InternalStateException("Illegal modification of constant " + TYPE_CLASS);
    }
    

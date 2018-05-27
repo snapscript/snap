@@ -1,14 +1,14 @@
 package org.snapscript.core.type;
 
 import static org.snapscript.core.result.Result.NORMAL;
-import static org.snapscript.core.type.Order.OTHER;
+import static org.snapscript.core.type.Category.OTHER;
 
 import org.snapscript.core.result.Result;
 import org.snapscript.core.scope.Scope;
 
 public abstract class TypeState {
 
-   public Order define(Scope scope, Type type) throws Exception {
+   public Category define(Scope scope, Type type) throws Exception {
       return OTHER;
    } 
    

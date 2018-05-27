@@ -18,11 +18,11 @@ public class AttributeTypeBuilder {
       Constraint returns = attribute.getConstraint();
       List<Constraint> constraints = returns.getGenerics(scope);
       String name = returns.getName(scope);
-      Type declared = attribute.getType();
+      Type source = attribute.getSource();
       int count = constraints.size();
       
       if(name != null || count > 0) {
-         return new GenericAttributeType(returns, declared);
+         return new GenericAttributeType(returns, source);
       }
       return new StaticAttributeType(returns);
    }

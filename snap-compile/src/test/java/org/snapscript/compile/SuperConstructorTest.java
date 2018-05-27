@@ -12,7 +12,7 @@ public class SuperConstructorTest extends TestCase  {
    "   GREEN,\n"+
    "   BLUE;\n"+
    "}\n"+
-   "class Shape{\n"+
+   "abstract class Shape{\n"+
    "   const id;\n"+
    "   new(id){\n"+
    "      this.id=id;\n"+

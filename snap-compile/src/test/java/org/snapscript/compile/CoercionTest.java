@@ -24,7 +24,7 @@ public class CoercionTest extends TestCase {
    "class Blah{\n"+
    "   func(a...): []{\n"+
    "      println(a.class);\n"+       
-   "      assert a.class.category.isArray();\n"+
+   "      assert a.class.getEntry() != null;\n"+
    "      return a;\n"+
    "   }\n"+
    "}\n"+

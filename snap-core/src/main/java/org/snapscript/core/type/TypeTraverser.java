@@ -18,7 +18,7 @@ public class TypeTraverser {
    
    public TypeTraverser() {
       this.types = new EntityCache<Set<Type>>();
-   }
+   }   
 
    public Set<Type> findHierarchy(Type type) {
       Set<Type> list = types.fetch(type);
@@ -99,7 +99,7 @@ public class TypeTraverser {
          }
       }
       return null;
-   }   
+   }
    
    public List<Constraint> findPath(Type constraint, Type require) {
       List<Constraint> path = new ArrayList<Constraint>();

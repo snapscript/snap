@@ -14,6 +14,6 @@ public class ArrayElementCoercionTest extends ScriptTestCase {
    "println(buffer);\n";
    
    public void testElementConversion() throws Exception {
-      execute(SOURCE);
+      assertScriptExecutes(SOURCE);
    }
 }

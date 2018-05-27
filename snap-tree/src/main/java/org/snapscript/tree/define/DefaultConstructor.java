@@ -1,7 +1,7 @@
 package org.snapscript.tree.define;
 
 import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
-import static org.snapscript.core.type.Order.OTHER;
+import static org.snapscript.core.type.Category.OTHER;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -10,7 +10,7 @@ import org.snapscript.core.NoStatement;
 import org.snapscript.core.Statement;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Order;
+import org.snapscript.core.type.Category;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeBody;
 import org.snapscript.core.type.TypeState;
@@ -45,7 +45,7 @@ public class DefaultConstructor extends TypeState {
    } 
 
    @Override
-   public Order define(Scope scope, Type type) throws Exception {
+   public Category define(Scope scope, Type type) throws Exception {
       List<Function> functions = type.getFunctions();
       
       for(Function function : functions) {

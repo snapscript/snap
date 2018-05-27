@@ -14,6 +14,7 @@ public class SuperStaticSingletonTest extends TestCase {
    "      println(\"Base.new(${x})\");\n"+
    "      this.x=x;\n"+
    "   }\n"+
+   "   override run(){}\n"+
    "}\n"+
    "class Nuh extends Base {\n"+
    "   static const DEFAULT_SIZE=1;\n"+

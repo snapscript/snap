@@ -10,7 +10,6 @@ import org.snapscript.core.function.Function;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Category;
 import org.snapscript.core.type.Phase;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeDescription;
@@ -67,8 +66,8 @@ public class ClassType implements Type {
    }
    
    @Override
-   public Category getCategory() {
-      return index.getCategory();
+   public int getModifiers() {
+      return index.getModifiers();
    }
    
    @Override

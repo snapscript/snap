@@ -1,5 +1,7 @@
 package org.snapscript.core.function.index;
 
+import static org.snapscript.core.function.Origin.PLATFORM;
+
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.attribute.AttributeType;
 import org.snapscript.core.attribute.AttributeTypeBinder;
@@ -7,6 +9,7 @@ import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.ArgumentConverter;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
+import org.snapscript.core.function.Origin;
 import org.snapscript.core.function.Signature;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.stack.ThreadStack;
@@ -64,23 +67,22 @@ public class TracePointer implements FunctionPointer {
          Signature signature = function.getSignature();
          ArgumentConverter converter = signature.getConverter();
          Invocation invocation = function.getInvocation();
-         Object source = signature.getSource();
-         Type type = function.getType();
+         Origin origin = signature.getOrigin();
          
          try {
             Object[] list = arguments;
             
-            if(type != null) {
+            if(!origin.isSystem()) {
                stack.before(function);
             }
-            if(source != null) {
+            if(origin.isPlatform()) {
                list = converter.convert(arguments);
             } else {
                list = converter.assign(arguments);
             }
             return invocation.invoke(scope, object, list);
          } finally {
-            if(type != null) {
+            if(!origin.isSystem()) {
                stack.after(function);
             }
          }

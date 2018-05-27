@@ -3,9 +3,9 @@ package org.snapscript.core.convert;
 import static org.snapscript.core.convert.Score.EXACT;
 
 import org.snapscript.core.InternalArgumentException;
-import org.snapscript.core.type.Type;
+import org.snapscript.core.ModifierType;
 import org.snapscript.core.convert.proxy.ProxyWrapper;
-import org.snapscript.core.type.Category;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeExtractor;
 
 public class ObjectConverter extends ConstraintConverter {
@@ -53,9 +53,9 @@ public class ObjectConverter extends ConstraintConverter {
          Type match = extractor.getType(object);
          
          if(match != constraint) {
-            Category category = match.getCategory();
             Score score = checker.toType(match, constraint, object);
-            
+            int modifiers = match.getModifiers();            
+
             if(score.isInvalid()) {
                Class require = constraint.getType();
                
@@ -63,9 +63,8 @@ public class ObjectConverter extends ConstraintConverter {
                   throw new InternalArgumentException("Conversion from " + match + " to '" + constraint + "' is not possible");
                }
                return convert(object);
-            }
-            
-            if(category.isFunction()) {
+            }            
+            if(ModifierType.isFunction(modifiers)) {
                return convert(object);
             }
          }

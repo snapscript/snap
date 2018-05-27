@@ -1,5 +1,6 @@
 package org.snapscript.core.function.index;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.snapscript.core.type.Type;
@@ -9,7 +10,7 @@ import org.snapscript.core.function.Signature;
 
 public class ScopeFunctionIndex implements FunctionIndex {
 
-   private FunctionIndexPartition[] caches;
+   private FunctionIndexPartition[] partitions;
    private FunctionKeyBuilder builder;
    private FunctionReducer reducer;
    private int limit; 
@@ -19,21 +20,37 @@ public class ScopeFunctionIndex implements FunctionIndex {
    }
    
    public ScopeFunctionIndex(FunctionReducer reducer, FunctionKeyBuilder builder, int limit) {
-      this.caches = new FunctionIndexPartition[2];
+      this.partitions = new FunctionIndexPartition[2];
       this.reducer = reducer;
       this.builder = builder;
       this.limit = limit;
+   }
+
+   @Override
+   public List<FunctionPointer> resolve(int modifiers) {
+      List<FunctionPointer> matches = new ArrayList<FunctionPointer>();
+      
+      for(FunctionIndexPartition partition : partitions){
+         if(partition != null) {
+            List<FunctionPointer> group = partition.resolve(modifiers);
+            
+            if(group != null) {
+               matches.addAll(group);
+            }
+         }
+      }
+      return matches;
    }
    
    @Override
    public FunctionPointer resolve(String name, Type... arguments) throws Exception {
       int size = arguments.length;
       
-      if(size < caches.length) {
-         FunctionIndexPartition cache = caches[size];
+      if(size < partitions.length) {
+         FunctionIndexPartition partition = partitions[size];
          
-         if(cache != null) {
-            return cache.resolve(name, arguments);
+         if(partition != null) {
+            return partition.resolve(name, arguments);
          }
       }
       return null;
@@ -43,11 +60,11 @@ public class ScopeFunctionIndex implements FunctionIndex {
    public FunctionPointer resolve(String name, Object... arguments) throws Exception {
       int size = arguments.length;
       
-      if(size < caches.length) {
-         FunctionIndexPartition cache = caches[size];
+      if(size < partitions.length) {
+         FunctionIndexPartition partition = partitions[size];
          
-         if(cache != null) {
-            return cache.resolve(name, arguments);
+         if(partition != null) {
+            return partition.resolve(name, arguments);
          }
       }
       return null;
@@ -73,18 +90,18 @@ public class ScopeFunctionIndex implements FunctionIndex {
    }
    
    private void index(FunctionPointer call, int size) throws Exception {
-      if(size >= caches.length) {
+      if(size >= partitions.length) {
          FunctionIndexPartition[] copy = new FunctionIndexPartition[size + 1];
          
-         for(int i = 0; i < caches.length; i++){
-            copy[i] = caches[i];
+         for(int i = 0; i < partitions.length; i++){
+            copy[i] = partitions[i];
          }
-         caches = copy;
+         partitions = copy;
       }
-      FunctionIndexPartition cache = caches[size];
+      FunctionIndexPartition cache = partitions[size];
       
       if(cache == null) {
-         cache = caches[size] = new FunctionIndexPartition(reducer, builder);
+         cache = partitions[size] = new FunctionIndexPartition(reducer, builder);
       }
       cache.index(call);
    }

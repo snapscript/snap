@@ -2,16 +2,16 @@ package org.snapscript.core.function.dispatch;
 
 import java.util.Map;
 
-import org.snapscript.core.module.Module;
-import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Category;
-import org.snapscript.core.type.Type;
-import org.snapscript.core.variable.Value;
+import org.snapscript.core.ModifierType;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.proxy.Delegate;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.resolve.FunctionResolver;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Type;
+import org.snapscript.core.variable.Value;
 
 public class FunctionDispatcherBuilder {
 
@@ -52,8 +52,8 @@ public class FunctionDispatcherBuilder {
    
    public FunctionDispatcher create(Scope scope, Constraint left) throws Exception {
       Type type = left.getType(scope);
-      Category category = type.getCategory();
       Class real = type.getType();
+      int modifiers = type.getModifiers();
       
       if(left.isModule()) {
          return new ModuleDispatcher(resolver, handler, name);
@@ -61,13 +61,13 @@ public class FunctionDispatcherBuilder {
       if(left.isClass()) {
          return new TypeStaticDispatcher(resolver, handler, name);
       }
-      if(category.isFunction()) {
+      if(ModifierType.isFunction(modifiers)) {
          return new ClosureDispatcher(resolver, handler, name);
       }
-      if(category.isProxy()) { 
+      if(ModifierType.isProxy(modifiers)) {
          return new DelegateDispatcher(resolver, handler, name);
       } 
-      if(category.isArray()) {
+      if(ModifierType.isArray(modifiers)) {
          return new ArrayDispatcher(resolver, handler, name);
       }
       if(real != null) {

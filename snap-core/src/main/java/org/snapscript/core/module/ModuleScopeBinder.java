@@ -19,10 +19,10 @@ public class ModuleScopeBinder {
       Function function = stack.current(); // we can determine the function type
       
       if(function != null) {
-         Type type = function.getType();
+         Type source = function.getSource();
          
-         if(type != null) {
-            Scope current = type.getScope();
+         if(source != null) {
+            Scope current = source.getScope();
             
             if(current != null) {
                return current;

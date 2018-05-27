@@ -1,5 +1,7 @@
 package org.snapscript.tree.define;
 
+import static org.snapscript.core.ModifierType.CLASS;
+
 import java.util.List;
 
 import org.snapscript.core.constraint.Constraint;
@@ -18,6 +20,11 @@ public class ClassName implements TypeName {
    public ClassName(TextLiteral literal, GenericList generics) {
       this.reference = new NameReference(literal);
       this.generics = generics;
+   }
+   
+   @Override
+   public int getModifiers(Scope scope) throws Exception{
+      return CLASS.mask;
    }
    
    @Override

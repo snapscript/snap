@@ -33,52 +33,25 @@ public class FunctionResolver {
       this.values = new ValueIndexer(stack);
       this.scopes = new LocalIndexer(stack);
    }
-   
-   public FunctionCall resolveValue(Value value, Object... list) throws Exception { // closures
-      FunctionPointer pointer = values.index(value, list);
+
+   public FunctionCall resolveInstance(Scope scope, Type source, String name, Type... list) throws Exception {
+      FunctionPointer pointer = instances.index(source, name, list);
       
       if(pointer != null) {
-         return new FunctionCall(pointer, null, null, list);
-      }
-      return null;
-   }
-   
-   public FunctionCall resolveScope(Scope scope, String name, Type... list) throws Exception { // function variable
-      FunctionPointer pointer = scopes.index(scope, name, list);
-      
-      if(pointer != null) {
-         return new FunctionCall(pointer, scope, scope, list);
-      }
-      return null;
-   }
-   
-   public FunctionCall resolveScope(Scope scope, String name, Object... list) throws Exception { // function variable
-      FunctionPointer pointer = scopes.index(scope, name, list);
-      
-      if(pointer != null) {
-         return new FunctionCall(pointer, scope, scope, list);
+         return new FunctionCall(pointer, scope, source, list);
       }
       return null;
    }
 
-   public FunctionCall resolveModule(Scope scope, Module module, String name, Type... list) throws Exception {
-      FunctionPointer pointer = modules.index(module, name, list);
+   public FunctionCall resolveInstance(Scope scope, Object source, String name, Object... list) throws Exception {
+      FunctionPointer pointer = instances.index(source, name, list);
       
       if(pointer != null) {
-         return new FunctionCall(pointer, scope, module, list);
+         return new FunctionCall(pointer, scope, source, list);
       }
       return null;
    }
    
-   public FunctionCall resolveModule(Scope scope, Module module, String name, Object... list) throws Exception {
-      FunctionPointer pointer = modules.index(module, name, list);
-      
-      if(pointer != null) {
-         return new FunctionCall(pointer, scope, module, list);
-      }
-      return null;
-   }
-
    public FunctionCall resolveStatic(Scope scope, Type type, String name, Type... list) throws Exception {
       FunctionPointer pointer = statics.index(type, name, list);
       
@@ -93,6 +66,24 @@ public class FunctionResolver {
       
       if(pointer != null) {
          return new FunctionCall(pointer, scope, null, list);
+      }
+      return null;
+   }
+   
+   public FunctionCall resolveModule(Scope scope, Module module, String name, Type... list) throws Exception {
+      FunctionPointer pointer = modules.index(module, name, list);
+      
+      if(pointer != null) {
+         return new FunctionCall(pointer, scope, module, list);
+      }
+      return null;
+   }
+   
+   public FunctionCall resolveModule(Scope scope, Module module, String name, Object... list) throws Exception {
+      FunctionPointer pointer = modules.index(module, name, list);
+      
+      if(pointer != null) {
+         return new FunctionCall(pointer, scope, module, list);
       }
       return null;
    }
@@ -115,20 +106,29 @@ public class FunctionResolver {
       return null;
    }
    
-   public FunctionCall resolveInstance(Scope scope, Type source, String name, Type... list) throws Exception {
-      FunctionPointer pointer = instances.index(source, name, list);
+   public FunctionCall resolveScope(Scope scope, String name, Type... list) throws Exception { // function variable
+      FunctionPointer pointer = scopes.index(scope, name, list);
       
       if(pointer != null) {
-         return new FunctionCall(pointer, scope, source, list);
+         return new FunctionCall(pointer, scope, scope, list);
       }
       return null;
    }
-
-   public FunctionCall resolveInstance(Scope scope, Object source, String name, Object... list) throws Exception {
-      FunctionPointer pointer = instances.index(source, name, list);
+   
+   public FunctionCall resolveScope(Scope scope, String name, Object... list) throws Exception { // function variable
+      FunctionPointer pointer = scopes.index(scope, name, list);
       
       if(pointer != null) {
-         return new FunctionCall(pointer, scope, source, list);
+         return new FunctionCall(pointer, scope, scope, list);
+      }
+      return null;
+   }
+   
+   public FunctionCall resolveValue(Value value, Object... list) throws Exception { // closures
+      FunctionPointer pointer = values.index(value, list);
+      
+      if(pointer != null) {
+         return new FunctionCall(pointer, null, null, list);
       }
       return null;
    }

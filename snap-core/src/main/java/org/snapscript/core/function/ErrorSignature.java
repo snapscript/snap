@@ -1,5 +1,7 @@
 package org.snapscript.core.function;
 
+import static org.snapscript.core.function.Origin.ERROR;
+
 import java.lang.reflect.Member;
 import java.util.Collections;
 import java.util.List;
@@ -7,11 +9,11 @@ import java.util.List;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.convert.NoArgumentConverter;
 
-public class EmptySignature implements Signature {
+public class ErrorSignature implements Signature {
 
    private final ArgumentConverter converter;
    
-   public EmptySignature() {
+   public ErrorSignature() {
       this.converter = new NoArgumentConverter();
    }
    
@@ -34,6 +36,11 @@ public class EmptySignature implements Signature {
    public Member getSource() {
       return null;
    }
+   
+   @Override
+   public Origin getOrigin() {
+      return ERROR;
+   }
 
    @Override
    public boolean isVariable() {
@@ -42,11 +49,6 @@ public class EmptySignature implements Signature {
 
    @Override
    public boolean isAbsolute() {
-      return true;
-   }
-   
-   @Override
-   public boolean isInvalid() {
       return true;
    }
    

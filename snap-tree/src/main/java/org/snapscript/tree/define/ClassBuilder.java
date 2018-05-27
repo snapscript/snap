@@ -9,7 +9,6 @@ import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
-import org.snapscript.core.type.Category;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeBody;
 import org.snapscript.core.variable.Value;
@@ -22,23 +21,22 @@ public class ClassBuilder {
    private final ConstantPropertyBuilder builder;
    private final AnnotationList annotations;
    private final TypeHierarchy hierarchy;
-   private final ClassName name;
-   private final Category category;
+   private final ClassName name;  
    
-   public ClassBuilder(AnnotationList annotations, ClassName name, TypeHierarchy hierarchy, Category category) {
+   public ClassBuilder(AnnotationList annotations, ClassName name, TypeHierarchy hierarchy) {
       this.reference = new AtomicReference<Type>();
       this.generator = new ClassPropertyGenerator();
       this.builder = new ConstantPropertyBuilder();
       this.annotations = annotations;
       this.hierarchy = hierarchy;
-      this.category = category;
       this.name = name;
    }
    
    public Type create(TypeBody body, Scope outer) throws Exception {
       Module module = outer.getModule();
       String alias = name.getName(outer);
-      Type type = module.addType(alias, category); 
+      int modifiers = name.getModifiers(outer);
+      Type type = module.addType(alias, modifiers); 
       
       reference.set(type);
       

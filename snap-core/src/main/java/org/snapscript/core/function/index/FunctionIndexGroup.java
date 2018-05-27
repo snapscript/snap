@@ -8,6 +8,7 @@ import org.snapscript.common.Cache;
 import org.snapscript.common.CopyOnWriteCache;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
+import org.snapscript.core.function.Origin;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.Signature;
 import org.snapscript.core.scope.Scope;
@@ -30,7 +31,7 @@ public class FunctionIndexGroup {
       this.builder = builder;
       this.name = name;
    }
-   
+
    public FunctionPointer resolve(Type... list) throws Exception {
       int size = group.size();
       
@@ -83,12 +84,12 @@ public class FunctionIndexGroup {
 
    public void index(FunctionPointer pointer) {
       Function function = pointer.getFunction();
-      Type parent = function.getType();
+      Type source = function.getSource();
       Signature signature = function.getSignature();
       List<Parameter> parameters = signature.getParameters();
       
-      if(parent != null) {
-         Scope scope = parent.getScope();
+      if(source != null) {
+         Scope scope = source.getScope();
          
          for(Parameter parameter : parameters) {
             Constraint constraint = parameter.getConstraint();
@@ -105,8 +106,9 @@ public class FunctionIndexGroup {
    private FunctionPointer validate(FunctionPointer pointer) {
       Function function = pointer.getFunction();
       Signature signature = function.getSignature();
+      Origin origin = signature.getOrigin();
       
-      if(!signature.isInvalid()) {
+      if(!origin.isError()) {
          return pointer;
       }
       return null;

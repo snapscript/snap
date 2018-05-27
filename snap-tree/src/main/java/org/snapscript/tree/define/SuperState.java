@@ -1,13 +1,13 @@
 package org.snapscript.tree.define;
 
-import static org.snapscript.core.type.Order.OTHER;
+import static org.snapscript.core.type.Category.OTHER;
 
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.result.Result;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.TypeState;
-import org.snapscript.core.type.Order;
+import org.snapscript.core.type.Category;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 
@@ -22,7 +22,7 @@ public class SuperState extends TypeState {
    }
    
    @Override
-   public Order define(Scope instance, Type real) throws Exception {
+   public Category define(Scope instance, Type real) throws Exception {
       expression.define(instance);
       return OTHER;
    }

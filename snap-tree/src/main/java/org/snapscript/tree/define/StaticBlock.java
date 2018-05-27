@@ -1,6 +1,6 @@
 package org.snapscript.tree.define;
 
-import static org.snapscript.core.type.Order.STATIC;
+import static org.snapscript.core.type.Category.STATIC;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -8,7 +8,7 @@ import org.snapscript.core.Context;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.TypeState;
-import org.snapscript.core.type.Order;
+import org.snapscript.core.type.Category;
 import org.snapscript.core.type.Type;
 
 public abstract class StaticBlock extends TypeState {
@@ -24,7 +24,7 @@ public abstract class StaticBlock extends TypeState {
    }
    
    @Override
-   public Order define(Scope scope, Type type) throws Exception { 
+   public Category define(Scope scope, Type type) throws Exception { 
       if(!define.get()) {
          Module module = type.getModule();
          Context context = module.getContext();

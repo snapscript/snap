@@ -1,21 +1,12 @@
 package org.snapscript.compile;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.Arrays;
 
-import junit.framework.TestCase;
-
-import org.snapscript.common.store.Store;
+import org.snapscript.core.Any;
 import org.snapscript.core.Context;
-import org.snapscript.core.scope.EmptyModel;
-import org.snapscript.core.scope.Model;
+import org.snapscript.core.scope.instance.ObjectInstance;
 
-public class NewInstanceEvaluationTest extends TestCase {
+public class NewInstanceEvaluationTest extends ScriptTestCase {
    
    private static final String SOURCE_1 =
    "import util.stream.Collectors;\n"+
@@ -50,59 +41,33 @@ public class NewInstanceEvaluationTest extends TestCase {
    "value.test();\n";
    
    public void testEvaluation() throws Exception {
-      Map<String, String> sources = new HashMap<String, String>();
-      sources.put("/base/Base.snap", SOURCE_1);
-      sources.put("/test/Other.snap", SOURCE_2);    
-      Store store = new MapStore(sources);
-      Executor executor = new ScheduledThreadPoolExecutor(10);
-      Model model = new EmptyModel();
-      Context context = new StoreContext(store, executor);
-      Compiler compiler = new ResourceCompiler(context);
-      compiler.compile("/test/Other.snap").execute();
-      Object result = context.getEvaluator().evaluate(model, "new Other().test()", "test");
-      Object instance = context.getEvaluator().evaluate(model, "new Other()", "test");
-      Object proxy = context.getWrapper().toProxy(instance);
-      System.err.println("result=" + result+ " instance="+proxy +" class="+proxy.getClass());
+      addScript("/base/Base.snap", SOURCE_1);
+      addScript("/test/Other.snap", SOURCE_2);    
+      assertExpressionEvaluates("/test/Other.snap", "new Other().test()", "test");
+      assertExpressionEvaluates("/test/Other.snap", "new Other()", "test", new AssertionCallback() {
+         @Override
+         public void onSuccess(Context context, Object result) {
+            assertNotNull(result);
+            assertEquals(result.getClass(), ObjectInstance.class);
+            assertEquals(ObjectInstance.class.cast(result).getType().getName(), "Other");
+            assertEquals(ObjectInstance.class.cast(result).getType().getModule().getName(), "test");
+            assertNull(ObjectInstance.class.cast(result).getType().getType()); // not a platform type i.e a Java type
+            assertEquals(result.toString(), "test.Other");   
+            
+            Object proxy = context.getWrapper().toProxy(result);
+            
+            assertNotNull(proxy);
+            assertTrue(Arrays.asList(proxy.getClass().getInterfaces()).contains(Any.class));
+            assertEquals(proxy.toString(), "Other.toString()");
+         }
+      });
    }
    
    public void testEvaluationReturnValue() throws Exception {
-      Map<String, String> sources = new HashMap<String, String>();
-      sources.put("/base/Base.snap", SOURCE_1);
-      sources.put("/test/Other.snap", SOURCE_2);   
-      sources.put("/run.snap", SOURCE_3);    
-      Store store = new MapStore(sources);
-      Executor executor = new ScheduledThreadPoolExecutor(10);
-      Context context = new StoreContext(store, executor);
-      Compiler compiler = new ResourceCompiler(context);
-      compiler.compile("/run.snap").execute();
+      addScript("/base/Base.snap", SOURCE_1);
+      addScript("/test/Other.snap", SOURCE_2);   
+      addScript("/run.snap", SOURCE_3);    
+      assertScriptExecutes("/run.snap");
    }
    
-   private static class MapStore implements Store {
-      
-      private final Map<String, String> sources;
-      
-      public MapStore(Map<String, String> sources){
-         this.sources = sources;
-      }
-
-      @Override
-      public InputStream getInputStream(String name) {
-         String source = sources.get(name);
-         if(source != null) {
-            try {
-               byte[] data = source.getBytes("UTF-8");
-               return new ByteArrayInputStream(data);
-            }catch(Exception e){
-               throw new IllegalStateException("Could not load " + name, e);
-            }
-         }
-         return null;
-      }
-
-      @Override
-      public OutputStream getOutputStream(String name) {
-         return null;
-      }
-      
-   }
 }

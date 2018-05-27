@@ -12,7 +12,6 @@ import org.snapscript.core.ModifierType;
 import org.snapscript.core.convert.FunctionComparator;
 import org.snapscript.core.convert.Score;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Category;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeExtractor;
 import org.snapscript.core.type.TypeLoader;
@@ -28,7 +27,7 @@ public class ClosureFunctionFinder {
    
    public ClosureFunctionFinder(FunctionComparator comparator, TypeExtractor extractor, TypeLoader loader) {
       this.functions = new EntityCache<Function>();
-      this.signature = new EmptySignature();
+      this.signature = new ErrorSignature();
       this.invalid = new EmptyFunction(signature);
       this.comparator = comparator;
       this.extractor = extractor;
@@ -61,8 +60,9 @@ public class ClosureFunctionFinder {
    public Function findFunctional(Type type) throws Exception {
       Function function = findMatch(type);
       Signature signature = function.getSignature();
+      Origin origin = signature.getOrigin();
       
-      if(!signature.isInvalid()) {
+      if(!origin.isError()) {
          return function;
       }
       return null;
@@ -85,9 +85,9 @@ public class ClosureFunctionFinder {
    }
  
    private Function resolveBest(Type type) throws Exception {
-      Category category = type.getCategory();
+      int modifiers = type.getModifiers();
       
-      if(category.isFunction()) {
+      if(ModifierType.isFunction(modifiers)) {
          List<Function> functions = type.getFunctions();
          
          if(!functions.isEmpty()) {

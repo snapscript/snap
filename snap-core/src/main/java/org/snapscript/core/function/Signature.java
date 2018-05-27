@@ -9,8 +9,8 @@ public interface Signature {
    ArgumentConverter getConverter();
    List<Parameter> getParameters();
    Type getDefinition();
+   Origin getOrigin();
    Member getSource();
    boolean isVariable();
    boolean isAbsolute(); // does it have absolute parameters
-   boolean isInvalid();
 }

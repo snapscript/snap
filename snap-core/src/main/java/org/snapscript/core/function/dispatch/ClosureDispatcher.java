@@ -68,8 +68,8 @@ public class ClosureDispatcher implements FunctionDispatcher<Function> {
          return function.getModifiers();
       }
       
-      public Type getType() {
-         return function.getType();
+      public Type getSource() {
+         return function.getSource();
       }
       
       public Type getHandle() {

@@ -10,8 +10,13 @@ public enum ModifierType {
    VARIABLE("var", 0x0040),
    MODULE("module", 0x0080),
    CLASS("class", 0x0100),   
-   ABSTRACT("abstract", 0x0200),
-   VARARGS("...", 0x0400);
+   TRAIT("trait", 0x0200),
+   ENUM("enum", 0x0400),
+   FUNCTION("function", 0x0800),   
+   ABSTRACT("abstract", 0x1000),
+   PROXY("proxy", 0x2000),
+   ARRAY("[]", 0x4000),
+   VARARGS("...", 0x8000);
    
    public final String token;
    public final int mask;
@@ -35,6 +40,26 @@ public enum ModifierType {
    
    public static boolean isClass(int modifier){
       return modifier >= 0 && (CLASS.mask & modifier) != 0;
+   }
+   
+   public static boolean isTrait(int modifier){
+      return modifier >= 0 && (TRAIT.mask & modifier) != 0;
+   }
+   
+   public static boolean isEnum(int modifier){
+      return modifier >= 0 && (ENUM.mask & modifier) != 0;
+   }
+   
+   public static boolean isProxy(int modifier){
+      return modifier >= 0 && (PROXY.mask & modifier) != 0;
+   }
+   
+   public static boolean isFunction(int modifier){
+      return modifier >= 0 && (FUNCTION.mask & modifier) != 0;
+   }
+   
+   public static boolean isArray(int modifier){
+      return modifier >= 0 && (ARRAY.mask & modifier) != 0;
    }
    
    public static boolean isConstant(int modifier){

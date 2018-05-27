@@ -1,5 +1,7 @@
 package org.snapscript.core.type.extend;
 
+import static org.snapscript.core.function.Origin.DEFAULT;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -19,7 +21,7 @@ public class ExtensionRegistry {
    
    public ExtensionRegistry(TypeLoader loader){
       this.extensions = new CopyOnWriteCache<Class, Class>();
-      this.extractor = new FunctionExtractor(loader);
+      this.extractor = new FunctionExtractor(loader, DEFAULT);
       this.loader = loader;
    }
    

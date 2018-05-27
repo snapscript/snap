@@ -76,11 +76,11 @@ public class FunctionProxyHandler implements ProxyHandler {
    }
    
    private FunctionCall resolve(Object proxy, String name, Object[] convert, Object[] arguments) throws Throwable {
-      Type type = function.getType();
+      Type source = function.getSource();
       FunctionResolver resolver = context.getResolver();  
 
-      if(type != null) {
-         Scope scope = type.getScope();
+      if(source != null) {
+         Scope scope = source.getScope();
          FunctionCall call = resolver.resolveInstance(scope, proxy, name, arguments); 
          
          if(call != null) {

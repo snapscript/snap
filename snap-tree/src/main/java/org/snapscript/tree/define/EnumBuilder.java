@@ -1,7 +1,7 @@
 package org.snapscript.tree.define;
 
+import static org.snapscript.core.ModifierType.ENUM;
 import static org.snapscript.core.constraint.Constraint.NONE;
-import static org.snapscript.core.type.Category.ENUM;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +35,7 @@ public class EnumBuilder {
    public Type create(TypeBody body, Scope outer) throws Exception {
       Module module = outer.getModule();
       String alias = name.getName(outer);
-      Type type = module.addType(alias, ENUM);
+      Type type = module.addType(alias, ENUM.mask);
       
       reference.set(type);
       

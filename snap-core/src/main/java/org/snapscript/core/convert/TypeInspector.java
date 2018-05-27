@@ -6,12 +6,12 @@ import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
 import java.lang.reflect.Proxy;
 
 import org.snapscript.core.Context;
+import org.snapscript.core.ModifierType;
 import org.snapscript.core.constraint.AnyConstraint;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Category;
 import org.snapscript.core.type.Type;
 
 public class TypeInspector {
@@ -44,18 +44,18 @@ public class TypeInspector {
    }
 
    public boolean isArray(Type type) throws Exception {
-      Category category = type.getCategory();
+      int modifiers = type.getModifiers(); 
       
-      if(category.isArray()){
+      if(ModifierType.isArray(modifiers)) {
          return true;
       }
       return false;
    }
    
    public boolean isFunction(Type type) throws Exception {
-      Category category = type.getCategory();
-
-      if(category.isFunction()){
+      int modifiers = type.getModifiers(); 
+      
+      if(ModifierType.isFunction(modifiers)) {
          return true;
       }
       return false;
@@ -71,21 +71,21 @@ public class TypeInspector {
    }
    
    public boolean isConstructor(Type type, Function function) {
-      Type parent = function.getType();
+      Type source = function.getSource();
       String name = function.getName();
       
       if(name.equals(TYPE_CONSTRUCTOR)) {
-         return parent == type;
+         return source == type;
       }
       return false;
    }
    
    public boolean isSuperConstructor(Type type, Function function) {
-      Type parent = function.getType();
+      Type source = function.getSource();
       String name = function.getName();
       
       if(name.equals(TYPE_CONSTRUCTOR)) {
-         return parent != type;
+         return source != type;
       }
       return false;
    }

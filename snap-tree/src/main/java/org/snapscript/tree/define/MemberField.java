@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
+import org.snapscript.core.ModifierValidator;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
@@ -49,12 +50,14 @@ public class MemberField implements Compilation {
       private final TypeStateCollector collector;
       private final MemberFieldAssembler assembler;
       private final AnnotationList annotations;
+      private final ModifierValidator validator;
       private final ModifierChecker checker;
    
       public CompileResult(AnnotationList annotations, ModifierList modifiers, MemberFieldDeclaration... declarations) {
          this.assembler = new MemberFieldAssembler(modifiers);
          this.checker = new ModifierChecker(modifiers);
          this.collector = new TypeStateCollector();
+         this.validator = new ModifierValidator();
          this.declarations = declarations;
          this.annotations = annotations;
       }
@@ -62,24 +65,26 @@ public class MemberField implements Compilation {
       @Override
       public TypeState define(TypeBody body, Type type, Scope scope) throws Exception {
          List<Property> properties = type.getProperties();
-         int mask = checker.getModifiers();
+         int modifiers = checker.getModifiers();
          
          for(MemberFieldDeclaration declaration : declarations) {
-            MemberFieldData data = declaration.create(scope, mask);
+            MemberFieldData data = declaration.create(scope, modifiers);
             String name = data.getName();
             Constraint constraint = data.getConstraint();
             TypeState declare = assembler.assemble(data);
             
             if (checker.isStatic()) {
                Accessor accessor = new StaticAccessor(body, type, name);
-               Property property = new AccessorProperty(name, type, constraint, accessor, mask);
+               Property property = new AccessorProperty(name, type, constraint, accessor, modifiers);
                
+               validator.validate(type, property, modifiers);
                annotations.apply(scope, property);
                properties.add(property);
             } else {
                Accessor accessor = new ScopeAccessor(name);
-               Property property = new AccessorProperty(name, type, constraint, accessor, mask); // is this the correct type!!??
+               Property property = new AccessorProperty(name, type, constraint, accessor, modifiers); // is this the correct type!!??               
                
+               validator.validate(type, property, modifiers);
                annotations.apply(scope, property);
                properties.add(property);
             }

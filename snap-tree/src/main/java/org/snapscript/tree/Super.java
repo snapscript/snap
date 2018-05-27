@@ -60,13 +60,13 @@ public class Super extends Evaluation {
    }  
    
    private Instance resolve(Instance instance, Function function) {
-      Type location = function.getType();
+      Type source = function.getSource();
       Instance next = instance;
       
       while(next != null) {
          Type actual = next.getHandle();
          
-         if(location == actual){
+         if(source == actual){
             return next.getSuper(); // return the object instance for super
          }
          next = next.getSuper(); 

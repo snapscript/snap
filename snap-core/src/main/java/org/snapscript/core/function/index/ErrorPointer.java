@@ -4,19 +4,19 @@ import static org.snapscript.core.constraint.Constraint.NONE;
 
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.EmptyFunction;
-import org.snapscript.core.function.EmptySignature;
+import org.snapscript.core.function.ErrorSignature;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.Signature;
 import org.snapscript.core.scope.Scope;
 
-public class EmptyPointer implements FunctionPointer {
+public class ErrorPointer implements FunctionPointer {
 
    private final Signature signature;
    private final Function function;
    
-   public EmptyPointer() {
-      this.signature = new EmptySignature();
+   public ErrorPointer() {
+      this.signature = new ErrorSignature();
       this.function = new EmptyFunction(signature);
    }
    

@@ -6,12 +6,13 @@ import static org.snapscript.core.convert.Score.SIMILAR;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale.Category;
 import java.util.Set;
 
+import org.snapscript.core.ModifierType;
 import org.snapscript.core.function.ClosureFunctionFinder;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Category;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeExtractor;
 import org.snapscript.core.type.TypeLoader;
@@ -38,9 +39,9 @@ public class CastChecker {
          if(list.contains(constraint)) {
             return SIMILAR;
          }
-         Category category = actual.getCategory();
+         int modifiers = actual.getModifiers(); 
          
-         if(category.isFunction()) {
+         if(ModifierType.isFunction(modifiers)) {
             return toFunction(constraint, actual);
          }
          return INVALID;
@@ -58,9 +59,9 @@ public class CastChecker {
          if(list.contains(constraint)) {
             return SIMILAR;
          }
-         Category category = actual.getCategory();
+         int modifiers = actual.getModifiers(); 
          
-         if(category.isFunction()) {
+         if(ModifierType.isFunction(modifiers)) {
             return toFunction(constraint, actual);
          }
          return INVALID;
@@ -69,9 +70,9 @@ public class CastChecker {
    }
    
    public Score toFunction(Type actual, Type constraint) throws Exception {
-      Category category = constraint.getCategory();
+      int modifiers = constraint.getModifiers(); 
       
-      if(category.isFunction()) {
+      if(ModifierType.isFunction(modifiers)) {
          Function possible = finder.findFunctional(actual);
          List<Function> functions = constraint.getFunctions();
          Iterator<Function> iterator = functions.iterator();
@@ -90,9 +91,9 @@ public class CastChecker {
    
    public Score toFunction(Type actual, Type constraint, Object value) throws Exception {
       Type type = extractor.getType(value);
-      Category category = type.getCategory();
+      int modifiers = type.getModifiers(); 
       
-      if(category.isFunction()) {
+      if(ModifierType.isFunction(modifiers)) {
          Function possible = finder.findFunctional(type);
          List<Function> functions = constraint.getFunctions();
          Iterator<Function> iterator = functions.iterator();

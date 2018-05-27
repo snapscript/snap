@@ -1,5 +1,6 @@
 package org.snapscript.core.type.index;
 
+import static org.snapscript.core.ModifierType.CLASS;
 import static org.snapscript.core.ModifierType.CONSTANT;
 import static org.snapscript.core.ModifierType.PUBLIC;
 import static org.snapscript.core.Reserved.ANY_TYPE;
@@ -16,7 +17,6 @@ import static org.snapscript.core.constraint.Constraint.BOOLEAN;
 import static org.snapscript.core.constraint.Constraint.INTEGER;
 import static org.snapscript.core.constraint.Constraint.NONE;
 import static org.snapscript.core.constraint.Constraint.STRING;
-import static org.snapscript.core.type.Category.CLASS;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -47,7 +47,7 @@ public class PrimitiveIndexer{
       Type type  = reference.get();
       
       if(type == null) {
-         Type result = indexer.defineType(DEFAULT_PACKAGE, ANY_TYPE, CLASS);
+         Type result = indexer.defineType(DEFAULT_PACKAGE, ANY_TYPE, CLASS.mask);
          List<Function> functions = result.getFunctions();
          Function constructor = generator.generate(result, NONE, TYPE_CONSTRUCTOR, NewInvocation.class, Object.class);
          Function hashCode = generator.generate(result, INTEGER, METHOD_HASH_CODE, HashCodeInvocation.class);

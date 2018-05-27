@@ -4,16 +4,17 @@ import java.util.List;
 
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.ModifierType;
+import org.snapscript.core.ModifierValidator;
 import org.snapscript.core.Statement;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionBody;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.TypeState;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeBody;
 import org.snapscript.core.type.TypePart;
+import org.snapscript.core.type.TypeState;
 import org.snapscript.tree.ModifierList;
 import org.snapscript.tree.annotation.AnnotationList;
 import org.snapscript.tree.function.ParameterList;
@@ -21,6 +22,7 @@ import org.snapscript.tree.function.ParameterList;
 public class MemberFunction extends TypePart {
    
    protected final MemberFunctionAssembler assembler;
+   protected final ModifierValidator validator;
    protected final AnnotationList annotations;
    protected final Statement statement;
    
@@ -38,6 +40,7 @@ public class MemberFunction extends TypePart {
    
    public MemberFunction(AnnotationList annotations, ModifierList modifiers, Evaluation identifier, ParameterList parameters, Constraint constraint, Statement statement){  
       this.assembler = new MemberFunctionAssembler(modifiers, identifier, parameters, constraint, statement);
+      this.validator = new ModifierValidator();
       this.annotations = annotations;
       this.statement = statement;
    } 
@@ -61,6 +64,7 @@ public class MemberFunction extends TypePart {
          
          list.add(function); // This is VERY STRANGE!!! NEEDED BUT SHOULD NOT BE HERE!!!
       }      
+      validator.validate(type, function, modifiers);
       annotations.apply(scope, function);
       functions.add(function);
       body.define(scope); // count stacks

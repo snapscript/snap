@@ -1,17 +1,7 @@
 package org.snapscript.compile;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.HashMap;
-import java.util.Map;
 
-import junit.framework.TestCase;
-
-import org.snapscript.common.store.Store;
-import org.snapscript.core.Context;
-
-public class ImportResourceTest extends TestCase {
+public class ImportResourceTest extends ScriptTestCase {
    
    private static final String SOURCE_1 =
    "import util.regex.Pattern;\n"+
@@ -82,47 +72,12 @@ public class ImportResourceTest extends TestCase {
    "println(demo);\n";   
          
    public void testImports() throws Exception {
-      Map<String, String> sources = new HashMap<String, String>();
-      sources.put("/example.snap", SOURCE_1);
-      sources.put("/demo.snap", SOURCE_2);
-      sources.put("/builder/Builder.snap", SOURCE_3);  
-      sources.put("/main.snap", SOURCE_4);  
-      sources.put("/launch.snap", SOURCE_5);         
-      System.err.println(SOURCE_3);
-      Store store = new MapStore(sources);
-      Context context = new StoreContext(store, null); 
-      Compiler compiler = new ResourceCompiler(context);
-      Timer.timeExecution("testImports", compiler.compile("/main.snap"));
-      Timer.timeExecution("testImports", compiler.compile("/launch.snap"));
-   }
-   
-   private static class MapStore implements Store {
-      
-      private final Map<String, String> sources;
-      
-      public MapStore(Map<String, String> sources){
-         this.sources = sources;
-      }
-
-      @Override
-      public InputStream getInputStream(String name) {
-         String source = sources.get(name);
-         if(source != null) {
-            try {
-               System.err.println(name);
-               byte[] data = source.getBytes("UTF-8");
-               return new ByteArrayInputStream(data);
-            }catch(Exception e){
-               throw new IllegalStateException("Could not load " + name, e);
-            }
-         }
-         return null;
-      }
-
-      @Override
-      public OutputStream getOutputStream(String name) {
-         return null;
-      }
-      
+      addScript("/example.snap", SOURCE_1);
+      addScript("/demo.snap", SOURCE_2);
+      addScript("/builder/Builder.snap", SOURCE_3);  
+      addScript("/main.snap", SOURCE_4);  
+      addScript("/launch.snap", SOURCE_5);         
+      assertScriptExecutes("/main.snap");
+      assertScriptExecutes("/launch.snap");
    }
 }

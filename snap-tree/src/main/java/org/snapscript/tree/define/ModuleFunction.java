@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Execution;
+import org.snapscript.core.ModifierValidator;
 import org.snapscript.core.NoExecution;
 import org.snapscript.core.Statement;
 import org.snapscript.core.module.Module;
@@ -58,6 +59,7 @@ public class ModuleFunction implements ModulePart {
    
       private final AtomicReference<FunctionBody> cache;
       private final ModuleFunctionBuilder builder;
+      private final ModifierValidator validator;
       private final TypeScopeCompiler compiler;
       private final Execution execution;
       private final String name;
@@ -67,6 +69,7 @@ public class ModuleFunction implements ModulePart {
          this.builder = new ModuleFunctionBuilder(body, statement);
          this.cache = new AtomicReference<FunctionBody>();
          this.execution = new NoExecution(NORMAL);
+         this.validator = new ModifierValidator();
          this.compiler = new TypeScopeCompiler();
          this.modifiers = modifiers;
          this.name = name;
@@ -81,7 +84,8 @@ public class ModuleFunction implements ModulePart {
          FunctionBody body = builder.create(signature, module, require, name);
          Function function = body.create(scope);
          Constraint constraint = function.getConstraint();         
-
+         
+         validator.validate(module, function, modifiers);
          annotations.apply(scope, function);
          functions.add(function);
          body.define(scope); // count stack

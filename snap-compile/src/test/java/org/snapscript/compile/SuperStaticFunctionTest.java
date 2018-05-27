@@ -18,6 +18,7 @@ public class SuperStaticFunctionTest extends TestCase {
    "   static get(){\n"+
    "      return BLAH;\n"+
    "   }\n"+
+   "   run(){}\n"+
    "}\n"+
    "class Nuh extends Base {\n"+
    "   static const DEFAULT_SIZE=1;\n"+

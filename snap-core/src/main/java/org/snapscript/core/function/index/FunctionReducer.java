@@ -16,7 +16,7 @@ public class FunctionReducer {
    private final FunctionPointer invalid;
    
    public FunctionReducer(ThreadStack stack) {
-      this.invalid = new EmptyPointer();
+      this.invalid = new ErrorPointer();
    }
 
    public FunctionPointer reduce(List<FunctionPointer> pointers, String name, Type... types) throws Exception { 

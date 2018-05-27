@@ -39,12 +39,12 @@ public class StackElement {
       
       if(function != null) {
          String name = function.getName();
-         Type type = function.getType();
+         Type source = function.getSource();
          
-         if(type != null) {
-            Module parent = type.getModule();
+         if(source != null) {
+            Module parent = source.getModule();
             String prefix = parent.getName();
-            String suffix = type.getName(); // module functions have no type name
+            String suffix = source.getName(); // module functions have no type name
             String qualifier = formatter.formatFullName(prefix, suffix);
             
             return new StackTraceElement(qualifier, name, resource, line);

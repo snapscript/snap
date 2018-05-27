@@ -10,6 +10,7 @@ import junit.framework.TestCase;
 
 import com.sun.management.ThreadMXBean;
 
+@SuppressWarnings("restriction")
 public class MapFunctionTest extends TestCase {
    
    private static final String SOURCE =

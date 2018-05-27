@@ -26,11 +26,23 @@ public class FunctionIndexer {
       this.inspector = new TypeInspector();
    }
    
+   public List<FunctionPointer> index(Type type, int modifiers) throws Exception { 
+      TypeIndex match = indexes.fetch(type);
+
+      if(match == null) {
+         TypeIndex structure = build(type);
+         
+         indexes.cache(type, structure);
+         return structure.get(modifiers);
+      }
+      return match.get(modifiers);
+   }
+   
    public FunctionPointer index(Type type, String name, Type... types) throws Exception { 
       TypeIndex match = indexes.fetch(type);
 
       if(match == null) {
-         TypeIndex structure = build(type, name);
+         TypeIndex structure = build(type);
          
          indexes.cache(type, structure);
          return structure.get(name, types);
@@ -42,7 +54,7 @@ public class FunctionIndexer {
       TypeIndex match = indexes.fetch(type);
 
       if(match == null) {
-         TypeIndex structure = build(type, name);
+         TypeIndex structure = build(type);
          
          indexes.cache(type, structure);
          return structure.get(name, values);
@@ -50,7 +62,7 @@ public class FunctionIndexer {
       return match.get(name, values);
    }
    
-   private TypeIndex build(Type type, String name) throws Exception { 
+   private TypeIndex build(Type type) throws Exception { 
       List<Type> path = finder.findPath(type); 
       FunctionIndex implemented = builder.create(type);
       FunctionIndex abstracts = builder.create(type);
@@ -85,6 +97,13 @@ public class FunctionIndexer {
       public TypeIndex(FunctionIndex implemented, FunctionIndex abstracts) {
          this.implemented = implemented;
          this.abstracts = abstracts;
+      }
+      
+      public List<FunctionPointer> get(int modifiers) throws Exception {
+         if(ModifierType.isAbstract(modifiers)) { 
+            return abstracts.resolve(modifiers);
+         }
+         return implemented.resolve(modifiers);
       }
       
       public FunctionPointer get(String name, Type... types) throws Exception {

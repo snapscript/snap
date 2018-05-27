@@ -13,17 +13,17 @@ public class ConstantProperty implements Property<Object> {
    private final List<Annotation> annotations;
    private final Constraint constraint;
    private final Constant constant;
-   private final Type type;
+   private final Type source;
    private final String name;
    private final int modifiers;
    
-   public ConstantProperty(String name, Type type, Constraint constraint, Object value, int modifiers){
+   public ConstantProperty(String name, Type source, Constraint constraint, Object value, int modifiers){
       this.annotations = new ArrayList<Annotation>();
       this.constant = new Constant(value);
       this.constraint = constraint;
       this.modifiers = modifiers;
+      this.source = source;
       this.name = name;
-      this.type = type;
    }
    
    @Override
@@ -42,8 +42,8 @@ public class ConstantProperty implements Property<Object> {
    }
    
    @Override
-   public Type getType(){
-      return type;
+   public Type getSource(){
+      return source;
    }
    
    @Override

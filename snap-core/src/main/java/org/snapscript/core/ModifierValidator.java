@@ -1,4 +1,4 @@
-package org.snapscript.tree;
+package org.snapscript.core;
 
 import static org.snapscript.core.ModifierType.ABSTRACT;
 import static org.snapscript.core.ModifierType.CONSTANT;
@@ -8,8 +8,6 @@ import static org.snapscript.core.ModifierType.PUBLIC;
 import static org.snapscript.core.ModifierType.STATIC;
 import static org.snapscript.core.ModifierType.VARIABLE;
 
-import org.snapscript.core.InternalStateException;
-import org.snapscript.core.type.Type;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.property.Property;
 
@@ -24,22 +22,24 @@ public class ModifierValidator {
       super();
    }
    
-   public void validate(Type type, Property property, int modifiers) { 
+   public void validate(Entity source, Property property, int modifiers) {
       if((PUBLIC_PRIVATE & modifiers) == PUBLIC_PRIVATE) {
-         throw new InternalStateException("Property '" + type + '.' + property + "' is both public and private");
+         throw new InternalStateException("Property '" + source + '.' + property + "' is both public and private");
       }
       if((CONSTANT_VARIABLE & modifiers) == CONSTANT_VARIABLE) {
-         throw new InternalStateException("Property '" + type + '.' + property + "' is both variable and constant");
+         throw new InternalStateException("Property '" + source + '.' + property + "' is both variable and constant");
       }
       if((OVERRIDE.mask & modifiers) == OVERRIDE.mask) {
-         throw new InternalStateException("Property '" + type + '.' + property + "' is declared as override");
+         throw new InternalStateException("Property '" + source + '.' + property + "' is declared as override");
       }
       if((ABSTRACT.mask & modifiers) == ABSTRACT.mask) {
-         throw new InternalStateException("Property '" + type + '.' + property + "' is declared as abstract");
+         throw new InternalStateException("Property '" + source + '.' + property + "' is declared as abstract");
       }
    }
    
-   public void validate(Type type, Function function, int modifiers) {
+   public void validate(Entity source, Function function, int modifiers) {
+      int type = source.getModifiers();
+      
       if((PUBLIC_PRIVATE & modifiers) == PUBLIC_PRIVATE) {
          throw new InternalStateException("Function '" + function + "' is both public and private");
       }
@@ -54,6 +54,9 @@ public class ModifierValidator {
       }
       if((VARIABLE.mask & modifiers) == VARIABLE.mask) {
          throw new InternalStateException("Function '" + function + "' is declared as variable");
+      }
+      if((ABSTRACT.mask & modifiers) == ABSTRACT.mask && (ABSTRACT.mask & type) != ABSTRACT.mask) {
+         throw new InternalStateException("Function '" + function + "' is abstract but '" + source + "' is not");
       }
    }
 }

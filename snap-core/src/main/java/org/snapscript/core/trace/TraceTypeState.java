@@ -1,12 +1,12 @@
 package org.snapscript.core.trace;
 
 import static org.snapscript.core.error.Reason.THROW;
-import static org.snapscript.core.type.Order.OTHER;
+import static org.snapscript.core.type.Category.OTHER;
 
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.result.Result;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Order;
+import org.snapscript.core.type.Category;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeState;
 
@@ -25,7 +25,7 @@ public class TraceTypeState extends TypeState {
    }
    
    @Override
-   public Order define(Scope scope, Type type) throws Exception {
+   public Category define(Scope scope, Type type) throws Exception {
       try {
          return state.define(scope, type);
       }catch(Exception cause) {

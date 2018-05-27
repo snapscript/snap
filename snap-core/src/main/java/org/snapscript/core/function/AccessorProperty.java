@@ -13,17 +13,17 @@ public class AccessorProperty<T> implements Property<T> {
    private final List<Annotation> annotations;
    private final Accessor<T> accessor;
    private final Constraint constraint;
-   private final Type type;
+   private final Type source;
    private final String name;
    private final int modifiers;
    
-   public AccessorProperty(String name, Type type, Constraint constraint, Accessor<T> accessor, int modifiers){
+   public AccessorProperty(String name, Type source, Constraint constraint, Accessor<T> accessor, int modifiers){
       this.annotations = new ArrayList<Annotation>();
       this.constraint = constraint;
       this.modifiers = modifiers;
       this.accessor = accessor;
+      this.source = source;
       this.name = name;
-      this.type = type;
    }
    
    @Override
@@ -42,8 +42,8 @@ public class AccessorProperty<T> implements Property<T> {
    }
    
    @Override
-   public Type getType(){
-      return type;
+   public Type getSource(){
+      return source;
    }
    
    @Override

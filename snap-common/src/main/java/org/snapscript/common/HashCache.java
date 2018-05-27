@@ -1,6 +1,7 @@
 package org.snapscript.common;
 
-import java.util.Collections;
+import static java.util.Collections.EMPTY_MAP;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -10,52 +11,37 @@ public class HashCache<K, V> implements Cache<K, V> {
    private volatile Map<K, V> map;
 
    public HashCache() {
-      super();
+      this.map = EMPTY_MAP;
    }
 
    @Override
-   public Set<K> keySet() {
-      if(map != null) {
-         return map.keySet();
-      }
-      return Collections.emptySet();
+   public Set<K> keySet() {      
+      return map.keySet();
    }
 
    @Override
    public V take(K key) {
-      if(map != null) {
-         return map.remove(key);
-      }
-      return null;
+      return map.remove(key);
    }
 
    @Override
-   public V fetch(K key) {
-      if(map != null) {
-         return map.get(key);
-      }
-      return null;
+   public V fetch(K key) {      
+      return map.get(key);
    }
 
    @Override
-   public boolean isEmpty() {
-      if(map != null) {
-         return map.isEmpty();
-      }
-      return true;
+   public boolean isEmpty() {      
+      return map.isEmpty();
    }
 
    @Override
-   public boolean contains(K key) {
-      if(map != null) {
-         return map.containsKey(key);
-      }
-      return false;
+   public boolean contains(K key) {      
+      return map.containsKey(key);
    }
 
    @Override
    public void cache(K key, V value) {
-      if(map == null) {
+      if(map == EMPTY_MAP) {
          map = new HashMap<K, V>();
       }
       map.put(key, value);
@@ -63,17 +49,12 @@ public class HashCache<K, V> implements Cache<K, V> {
 
    @Override
    public void clear() {
-      if(map != null) {
-         map.clear();
-      }
+      map.clear();     
    }
 
    @Override
    public int size() {
-      if(map != null) {
-         return map.size();
-      }
-      return 0;
+      return map.size();
    }
    
    @Override

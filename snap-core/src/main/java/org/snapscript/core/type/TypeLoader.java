@@ -45,8 +45,8 @@ public class TypeLoader {
       return manager.importType(module, name); 
    }
    
-   public Type defineType(String module, String name, Category category) {
-      return indexer.defineType(module, name, category);
+   public Type defineType(String module, String name, int modifiers) {
+      return indexer.defineType(module, name, modifiers);
    }
    
    public Type resolveType(String module, String name) {

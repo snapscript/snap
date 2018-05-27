@@ -6,25 +6,25 @@ import org.snapscript.core.type.Type;
 public class FunctionDescription {
 
    private final Signature signature;
+   private final Type source;
    private final String name;
-   private final Type type;
    
-   public FunctionDescription(Signature signature, Type type, String name) {
-      this(signature, type, name, 0);
+   public FunctionDescription(Signature signature, Type source, String name) {
+      this(signature, source, name, 0);
    }
   
-   public FunctionDescription(Signature signature, Type type, String name, int start) {
+   public FunctionDescription(Signature signature, Type source, String name, int start) {
       this.signature = signature;
+      this.source = source;
       this.name = name;
-      this.type = type;
    }
    
    public String getDescription() {
       StringBuilder builder = new StringBuilder();
       
-      if(type != null) {
-         String name = type.getName();
-         Module module = type.getModule();
+      if(source != null) {
+         String name = source.getName();
+         Module module = source.getModule();
          String prefix = module.getName();
          
          builder.append(prefix);

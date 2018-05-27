@@ -3,12 +3,12 @@ package org.snapscript.core.variable.index;
 import java.util.Collection;
 import java.util.Map;
 
+import org.snapscript.core.ModifierType;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.instance.Instance;
-import org.snapscript.core.type.Category;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.bind.VariableFinder;
 
@@ -57,8 +57,8 @@ public class VariablePointerBuilder {
       Type type = left.getType(scope);
       
       if(type != null) {
-         Category category = type.getCategory();
          Class real = type.getType();
+         int modifiers = type.getModifiers();
          
          if(left.isModule()) {
             return new ModulePointer(finder, name);
@@ -66,10 +66,10 @@ public class VariablePointerBuilder {
          if(left.isClass()) {
             return new TypeStaticPointer(finder, name);
          }
-         if(category.isFunction()) {
+         if(ModifierType.isFunction(modifiers)) {
             return new ClosurePointer(finder, name);
          }
-         if(category.isArray()) {
+         if(ModifierType.isArray(modifiers)) {
             return new ArrayPointer(finder, name);
          }
          if(real != null) {

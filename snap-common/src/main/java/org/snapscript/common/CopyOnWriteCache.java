@@ -62,6 +62,11 @@ public class CopyOnWriteCache<K, V> implements Cache<K, V> {
       return cache.size();
    }
    
+   @Override
+   public String toString() {
+      return String.valueOf(cache);
+   }
+   
    private class MapUpdater {
       
       private final Map<K, V> empty;

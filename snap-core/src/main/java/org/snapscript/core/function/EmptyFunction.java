@@ -49,7 +49,7 @@ public class EmptyFunction implements Function {
    }
    
    @Override
-   public Type getType() {
+   public Type getSource() {
       return null;
    }
    

@@ -33,8 +33,8 @@ public class ClosureFunction implements Function {
    }
    
    @Override
-   public Type getType() {
-      return template.getType();
+   public Type getSource() {
+      return template.getSource();
    }
    
    @Override

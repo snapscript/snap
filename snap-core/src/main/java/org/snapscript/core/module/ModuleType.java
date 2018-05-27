@@ -1,6 +1,6 @@
 package org.snapscript.core.module;
 
-import static org.snapscript.core.type.Category.MODULE;
+import static org.snapscript.core.ModifierType.MODULE;
 
 import java.util.Collections;
 import java.util.List;
@@ -12,7 +12,6 @@ import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Category;
 import org.snapscript.core.type.Phase;
 import org.snapscript.core.type.Type;
 
@@ -57,11 +56,6 @@ public class ModuleType implements Type {
    }
 
    @Override
-   public Category getCategory() {
-      return MODULE;
-   }
-
-   @Override
    public Module getModule() {
       return module;
    }
@@ -89,6 +83,11 @@ public class ModuleType implements Type {
    @Override
    public String getName() {
       return module.getName();
+   }
+   
+   @Override
+   public int getModifiers(){
+      return MODULE.mask;
    }
 
    @Override

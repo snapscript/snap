@@ -1,18 +1,20 @@
 package org.snapscript.core.module;
 
+import static org.snapscript.core.ModifierType.MODULE;
+
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import org.snapscript.core.Context;
+import org.snapscript.core.Reserved;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.link.ImportManager;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.scope.ModelScope;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Category;
 import org.snapscript.core.type.Type;
 
 public class EmptyModule implements Module {
@@ -62,7 +64,7 @@ public class EmptyModule implements Module {
    }
 
    @Override
-   public Type addType(String name, Category category) {
+   public Type addType(String name, int modifiers) {
       return null;
    }
 
@@ -105,10 +107,19 @@ public class EmptyModule implements Module {
    public Path getPath() {
       return null;
    }
+   
+   @Override
+   public int getModifiers() {
+      return MODULE.mask;
+   }
 
    @Override
    public int getOrder() {
       return 0;
    }
-
+   
+   @Override
+   public String toString() {
+      return Reserved.DEFAULT_PACKAGE;
+   }
 }

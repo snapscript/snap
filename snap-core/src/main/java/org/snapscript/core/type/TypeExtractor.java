@@ -8,6 +8,7 @@ import org.snapscript.common.Cache;
 import org.snapscript.common.CopyOnWriteCache;
 import org.snapscript.core.Handle;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.function.Function;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.property.PropertyExtractor;
 
@@ -77,7 +78,7 @@ public class TypeExtractor {
          return traverser.findHierarchy(type);
       }
       return Collections.emptySet();
-   }
+   }   
 
    public Set<Property> getProperties(Type type) {
       if(type != null) {

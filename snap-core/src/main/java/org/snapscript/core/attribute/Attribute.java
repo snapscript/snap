@@ -5,8 +5,8 @@ import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.type.Type;
 
 public interface Attribute extends Handle {
-   Type getType(); // declaring type
    String getName();
+   Type getSource(); // declaring type
    Constraint getConstraint();
    int getModifiers();
 }

@@ -9,7 +9,6 @@ import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.link.ImportManager;
 import org.snapscript.core.property.Property;
-import org.snapscript.core.type.Category;
 import org.snapscript.core.type.Type;
 
 public interface Module extends Entity{
@@ -17,7 +16,7 @@ public interface Module extends Entity{
    ImportManager getManager();
    Type getType(Class type);   
    Type getType(String name);
-   Type addType(String name, Category category);
+   Type addType(String name, int modifiers);
    Module getModule(String module); 
    InputStream getResource(String path);
    List<Annotation> getAnnotations();

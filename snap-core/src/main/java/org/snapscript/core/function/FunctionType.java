@@ -1,7 +1,7 @@
 package org.snapscript.core.function;
 
+import static org.snapscript.core.ModifierType.FUNCTION;
 import static org.snapscript.core.Reserved.METHOD_CLOSURE;
-import static org.snapscript.core.type.Category.FUNCTION;
 
 import java.util.Collections;
 import java.util.List;
@@ -13,7 +13,6 @@ import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Category;
 import org.snapscript.core.type.Phase;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeDescription;
@@ -70,11 +69,6 @@ public class FunctionType implements Type {
    public List<Constraint> getTypes() {
       return Collections.emptyList();
    }
-   
-   @Override
-   public Category getCategory(){
-      return FUNCTION;
-   }
 
    @Override
    public Module getModule() {
@@ -104,6 +98,11 @@ public class FunctionType implements Type {
    @Override
    public String getName() {
       return name; 
+   }
+   
+   @Override
+   public int getModifiers(){
+      return FUNCTION.mask;
    }
    
    @Override

@@ -31,6 +31,8 @@ import org.snapscript.tree.construct.ConstructSet;
 import org.snapscript.tree.construct.MapEntry;
 import org.snapscript.tree.construct.MapEntryList;
 import org.snapscript.tree.construct.MapKey;
+import org.snapscript.tree.define.AbstractClassDefinition;
+import org.snapscript.tree.define.AbstractClassName;
 import org.snapscript.tree.define.ClassConstructor;
 import org.snapscript.tree.define.ClassDefinition;
 import org.snapscript.tree.define.ClassHierarchy;
@@ -236,9 +238,12 @@ public enum Instruction {
    CLASS_FIELD(MemberField.class, "class-field"),
    CLASS_FUNCTION(MemberFunction.class, "class-function"),   
    CLASS_CONSTRUCTOR(ClassConstructor.class, "class-constructor"), 
+   ABSTRACT_CLASS_NAME(AbstractClassName.class, "abstract-class-name"),
+   ABSTRACT_CLASS_DEFINITION(AbstractClassDefinition.class, "abstract-class-definition"),   
    INNER_CLASS_DEFINITION(InnerTypeDefinition.class, "inner-class-definition"),
    INNER_ENUM_DEFINITION(InnerTypeDefinition.class, "inner-enum-definition"),
    INNER_TRAIT_DEFINITION(InnerTypeDefinition.class, "inner-trait-definition"),
+   INNER_ABSTRACT_CLASS_DEFINITION(InnerTypeDefinition.class, "inner-abstract-class-definition"),
    ANNOTATION_NAME(AnnotationName.class, "annotation-name"),
    ANNOTATION_LIST(AnnotationList.class, "annotation-list"),
    ANNOTATION_DECLARATION(AnnotationDeclaration.class, "annotation-declaration"),

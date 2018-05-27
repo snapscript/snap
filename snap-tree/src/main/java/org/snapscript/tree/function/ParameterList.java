@@ -1,11 +1,13 @@
 package org.snapscript.tree.function;
 
 import static org.snapscript.core.constraint.Constraint.NONE;
+import static org.snapscript.core.function.Origin.DEFAULT;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.snapscript.core.function.FunctionSignature;
+import org.snapscript.core.function.Origin;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.ParameterBuilder;
 import org.snapscript.core.function.Signature;
@@ -50,7 +52,7 @@ public class ParameterList {
                parameters.add(parameter);
             }
          }
-         signature = new FunctionSignature(parameters, module, null, absolute, variable);
+         signature = new FunctionSignature(parameters, module, null, DEFAULT, absolute, variable);
       }
       return signature;
    }

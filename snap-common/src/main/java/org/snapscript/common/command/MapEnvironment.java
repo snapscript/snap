@@ -32,5 +32,10 @@ public class MapEnvironment implements Environment {
       }
       return builder;
    }
+   
+   @Override
+   public String toString() {
+      return String.valueOf(variables);
+   }
 
 }

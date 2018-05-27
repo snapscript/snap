@@ -1,5 +1,7 @@
 package org.snapscript.core.type.index;
 
+import static org.snapscript.core.function.Origin.PLATFORM;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -56,7 +58,7 @@ public class SignatureGenerator {
             }
             parameters.add(parameter);
          }
-         return new FunctionSignature(parameters, module, method, true, variable);
+         return new FunctionSignature(parameters, module, method, PLATFORM, true, variable);
       } catch(Exception e) {
          throw new InternalStateException("Could not create function for " + method, e);
       }
@@ -90,7 +92,7 @@ public class SignatureGenerator {
             }
             parameters.add(parameter);
          }
-         return new FunctionSignature(parameters, module, constructor, true, variable);
+         return new FunctionSignature(parameters, module, constructor, PLATFORM, true, variable);
       } catch(Exception e) {
          throw new InternalStateException("Could not create constructor for " + constructor, e);
       }

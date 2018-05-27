@@ -1,6 +1,6 @@
 package org.snapscript.compile;
 
-import static org.snapscript.core.type.Category.CLASS;
+import static org.snapscript.core.ModifierType.CLASS;
 
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
@@ -35,7 +35,7 @@ public class TypeLoaderTest extends TestCase {
       Store store = new ClassPathStore();
       Context context = new StoreContext(store);
       TypeLoader loader = context.getLoader();    
-      loader.defineType("foo", "Blah", CLASS);
+      loader.defineType("foo", "Blah", CLASS.mask);
       Type type1 = loader.resolveArrayType("org.snapscript.compile", "TypeLoaderTest$ExampleObject", 2);
       Type type2 = loader.resolveArrayType("lang", "Integer", 3);
       Type type3 = loader.resolveArrayType("foo", "Blah", 3);

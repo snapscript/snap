@@ -1,10 +1,8 @@
 package org.snapscript.compile;
 
-import junit.framework.TestCase;
-
 import org.snapscript.compile.verify.VerifyException;
 
-public class ClassHierarchyExceptionTest extends TestCase {
+public class ClassHierarchyExceptionTest extends ScriptTestCase {
    
    private static final String SOURCE = 
    "class Foo extends NoSuchClass {\n"+

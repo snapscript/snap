@@ -1,36 +1,34 @@
 package org.snapscript.core.type.extend;
 
+import java.lang.reflect.Member;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.snapscript.core.module.Module;
-import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionSignature;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationFunction;
+import org.snapscript.core.function.Origin;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.ParameterBuilder;
 import org.snapscript.core.function.Signature;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeLoader;
 
 public class FunctionExtractor {
    
    private final ParameterBuilder builder;
    private final TypeLoader loader;
-   private final boolean anonymous;
+   private final Origin origin;
    
-   public FunctionExtractor(TypeLoader loader){
-      this(loader, false);
-   }
-   
-   public FunctionExtractor(TypeLoader loader, boolean anonymous){
+   public FunctionExtractor(TypeLoader loader, Origin origin){
       this.builder = new ParameterBuilder();
-      this.anonymous = anonymous;
       this.loader = loader;
+      this.origin = origin;
    }
 
    public List<Function> extract(Module module, Class extend, Object value) throws Exception {
@@ -72,19 +70,16 @@ public class FunctionExtractor {
    }
 
    private Function extract(Module module, Class extend, Object value, Function function) {
-      Type type = function.getType();
-      String name = function.getName();
       Invocation invocation = function.getInvocation();
       Signature signature = function.getSignature();
       List<Parameter> parameters = signature.getParameters();
-      Constraint returns = function.getConstraint();
+      Member member = signature.getSource();
       boolean variable = signature.isVariable();
-      int modifiers = function.getModifiers();
       int length = parameters.size();
    
       if(length > 0) {
          List<Parameter> copy = new ArrayList<Parameter>();
-         Signature reduced = new FunctionSignature(copy, module, null, true, variable);
+         Signature reduced = new FunctionSignature(copy, module, member, origin, true, variable);
          Invocation adapter = new ExportInvocation(invocation, value, extend);
          
          for(int i = 1; i < length; i++) {
@@ -94,10 +89,12 @@ public class FunctionExtractor {
             
             copy.add(duplicate);
          }
-         if(anonymous) {
-            return new InvocationFunction(reduced, adapter, null, returns, name, modifiers); // type is null so its not on stack
-         }
-         return new InvocationFunction(reduced, adapter, type, returns, name, modifiers); 
+         String name = function.getName();
+         Type source = function.getSource();
+         Constraint returns = function.getConstraint();
+         int modifiers = function.getModifiers();
+         
+         return new InvocationFunction(reduced, adapter, source, returns, name, modifiers); 
       }
       return null;
    }

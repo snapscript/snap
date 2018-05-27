@@ -1,12 +1,8 @@
 package org.snapscript.compile;
 
-import junit.framework.TestCase;
-
-import org.snapscript.compile.verify.VerifyException;
-
-public class BuiltInFunctionTest extends TestCase {
+public class BuiltInFunctionTest extends ScriptTestCase {
    
-   private static final String SOURCE =
+   private static final String SOURCE_1 =
    "println(\"x\");\n"+
    "print(\"xx\");\n"+
    "println(time());\n"+
@@ -15,22 +11,45 @@ public class BuiltInFunctionTest extends TestCase {
    "function blah(x){\n"+
    "   println(\"blah(\"+x+\")\");\n"+
    "}\n";
+   
+   private static final String SOURCE_2 =
+   "exec('java -version', System.getProperty('java.home') + '/bin');\n";
          
+   private static final String SOURCE_3 =
+   "const vars = [];\n"+
+   "exec('env', {'SOME_ENV': 'blah'})\n"+
+   "   .forEachRemaining(line -> vars.add(line));\n"+
+   "\n"+
+   "assert 'blah' == vars.stream()\n"+
+   "   .filter(line -> line.startsWith('SOME_ENV'))\n"+
+   "   .map(line -> line.split('=')[1])\n"+
+   "   .findFirst()\n"+
+   "   .get();\n";     
+   
+   private static final String SOURCE_4 =
+   "const vars = [];\n"+
+   "exec('env', System.getProperty('java.home') + '/bin', {'SOME_ENV': 'blah'})\n"+
+   "   .forEachRemaining(line -> vars.add(line));\n"+
+   "\n"+
+   "assert 'blah' == vars.stream()\n"+
+   "   .filter(line -> line.startsWith('SOME_ENV'))\n"+
+   "   .map(line -> line.split('=')[1])\n"+
+   "   .findFirst()\n"+
+   "   .get();\n";
+   
    public void testBuiltInFunctions() throws Exception{
-      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
-      Executable executable = compiler.compile(SOURCE);
-      long start = System.currentTimeMillis();
-      
-      try {
-         executable.execute();
-      }catch(VerifyException e){
-         e.getErrors().get(0).getCause().printStackTrace();
-         throw e;
-      }
-       System.err.println("time="+(System.currentTimeMillis()-start));
+      assertScriptExecutes(SOURCE_1);
    }
    
-   public static void main(String[] list) throws Exception {
-      new BuiltInFunctionTest().testBuiltInFunctions();
+   public void testExecFunction() throws Exception{
+      assertScriptExecutes(SOURCE_2);
+   }
+   
+   public void testExecFunctionWithEnvVars() throws Exception{
+      assertScriptExecutes(SOURCE_3);
+   }
+   
+   public void testExecFunctionWithEnvVarsAndWorkingDir() throws Exception{
+      assertScriptExecutes(SOURCE_4);
    }
 }

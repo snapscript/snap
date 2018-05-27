@@ -3,9 +3,9 @@ package org.snapscript.core.convert;
 import static org.snapscript.core.convert.Score.EXACT;
 
 import org.snapscript.core.InternalArgumentException;
-import org.snapscript.core.type.Type;
+import org.snapscript.core.ModifierType;
 import org.snapscript.core.convert.proxy.ProxyWrapper;
-import org.snapscript.core.type.Category;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeExtractor;
 
 public class FunctionConverter extends ConstraintConverter {
@@ -34,9 +34,9 @@ public class FunctionConverter extends ConstraintConverter {
    public Score score(Object object) throws Exception { // argument type
       if(object != null) {
          Type match = extractor.getType(object);
-         Category category = match.getCategory();
+         int modifiers = match.getModifiers();
          
-         if(category.isProxy()) {
+         if(ModifierType.isProxy(modifiers)) {
             Object real = wrapper.fromProxy(object);
             
             if(real != object) {
@@ -52,9 +52,9 @@ public class FunctionConverter extends ConstraintConverter {
    public Object assign(Object object) throws Exception {
       if(object != null) {
          Type match = extractor.getType(object);
-         Category category = match.getCategory();
+         int modifiers = match.getModifiers();
          
-         if(category.isProxy()) {
+         if(ModifierType.isProxy(modifiers)) {
             Object real = wrapper.fromProxy(object);
             
             if(real != object) {
@@ -74,9 +74,9 @@ public class FunctionConverter extends ConstraintConverter {
    public Object convert(Object object) throws Exception {
       if(object != null) {
          Type match = extractor.getType(object);
-         Category category = match.getCategory();
+         int modifiers = match.getModifiers();
          
-         if(category.isProxy()) {
+         if(ModifierType.isProxy(modifiers)) {
             Object real = wrapper.fromProxy(object);
             
             if(real != object) {

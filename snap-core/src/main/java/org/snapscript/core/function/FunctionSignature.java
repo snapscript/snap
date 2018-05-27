@@ -10,21 +10,18 @@ public class FunctionSignature implements Signature {
    
    private final List<Parameter> parameters;
    private final SignatureDescription description;
-   private final SignatureMatcher matcher;
+   private final SignatureMatcher matcher;   
    private final Type definition;
    private final Member source;
+   private final Origin origin;
    private final boolean absolute;
    private final boolean variable;
-   
-   public FunctionSignature(List<Parameter> parameters, Module module, Member source){
-      this(parameters, module, source, true);
+
+   public FunctionSignature(List<Parameter> parameters, Module module, Member source, Origin origin, boolean absolute){
+      this(parameters, module, source, origin, absolute, false);
    }
    
-   public FunctionSignature(List<Parameter> parameters, Module module, Member source, boolean absolute){
-      this(parameters, module, source, absolute, false);
-   }
-   
-   public FunctionSignature(List<Parameter> parameters, Module module, Member source, boolean absolute, boolean variable){
+   public FunctionSignature(List<Parameter> parameters, Module module, Member source, Origin origin, boolean absolute, boolean variable){
       this.description = new SignatureDescription(this, module);
       this.matcher = new SignatureMatcher(this, module);
       this.definition = new FunctionType(this, module);
@@ -32,6 +29,7 @@ public class FunctionSignature implements Signature {
       this.absolute = absolute;
       this.variable = variable;
       this.source = source;
+      this.origin = origin;
    }
    
    @Override
@@ -55,6 +53,11 @@ public class FunctionSignature implements Signature {
    }
    
    @Override
+   public Origin getOrigin() {
+      return origin;
+   }
+   
+   @Override
    public boolean isVariable() {
       return variable;
    }
@@ -62,11 +65,6 @@ public class FunctionSignature implements Signature {
    @Override
    public boolean isAbsolute() {
       return absolute; // array parameters are not absolute
-   }
-   
-   @Override
-   public boolean isInvalid() {
-      return false;
    }
    
    @Override

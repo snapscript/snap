@@ -1,6 +1,5 @@
 package org.snapscript.parse;
 
-
 public class ArrayPositionCache<T> {
    
    private final ArrayTable<T> table;

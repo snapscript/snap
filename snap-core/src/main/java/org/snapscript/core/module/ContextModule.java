@@ -1,5 +1,7 @@
 package org.snapscript.core.module;
 
+import static org.snapscript.core.ModifierType.MODULE;
+
 import java.io.InputStream;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -8,15 +10,15 @@ import java.util.concurrent.Executor;
 import org.snapscript.common.Cache;
 import org.snapscript.common.CopyOnWriteCache;
 import org.snapscript.core.Context;
+import org.snapscript.core.ModifierType;
 import org.snapscript.core.ResourceManager;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.link.ImportManager;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Category;
-import org.snapscript.core.type.TypeLoader;
 import org.snapscript.core.type.Type;
+import org.snapscript.core.type.TypeLoader;
 
 public class ContextModule implements Module {
    
@@ -85,7 +87,7 @@ public class ContextModule implements Module {
    }
    
    @Override
-   public Type addType(String name, Category category) {
+   public Type addType(String name, int modifiers) {
       Type type = types.fetch(name); 
       
       if(type != null) {
@@ -95,7 +97,7 @@ public class ContextModule implements Module {
          TypeLoader loader = context.getLoader();
          
          if(loader != null) {
-            type = loader.defineType(prefix, name, category);
+            type = loader.defineType(prefix, name, modifiers);
          }
          if(type != null) {
             types.cache(name, type);
@@ -194,6 +196,11 @@ public class ContextModule implements Module {
    @Override
    public Path getPath() {
       return path;
+   }
+   
+   @Override
+   public int getModifiers() {
+      return MODULE.mask;
    }
    
    @Override

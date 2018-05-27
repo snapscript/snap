@@ -1,7 +1,6 @@
 package org.snapscript.tree.define;
 
 import static org.snapscript.core.result.Result.NORMAL;
-import static org.snapscript.core.type.Category.CLASS;
 import static org.snapscript.core.type.Phase.COMPILE;
 import static org.snapscript.core.type.Phase.CREATE;
 import static org.snapscript.core.type.Phase.DEFINE;
@@ -59,8 +58,8 @@ public class ClassDefinition implements Compilation {
       private final Execution execution;
       private final TypePart[] parts;
       
-      public CompileResult(AnnotationList annotations, ClassName name, TypeHierarchy hierarchy, TypePart... parts) {
-         this.builder = new ClassBuilder(annotations, name, hierarchy, CLASS);
+      public CompileResult(AnnotationList annotations, ClassName name, TypeHierarchy hierarchy, TypePart[] parts) {
+         this.builder = new ClassBuilder(annotations, name, hierarchy);
          this.generator = new FunctionPropertyGenerator(); 
          this.collector = new TypeStateCollector();
          this.constructor = new DefaultConstructor(collector);

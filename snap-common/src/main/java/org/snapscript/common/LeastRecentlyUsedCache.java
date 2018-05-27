@@ -64,4 +64,9 @@ public class LeastRecentlyUsedCache<K, V> implements Cache<K, V> {
    public synchronized boolean isEmpty() {
       return cache.isEmpty();
    }
+   
+   @Override
+   public synchronized String toString() {
+      return String.valueOf(cache);
+   }
 }

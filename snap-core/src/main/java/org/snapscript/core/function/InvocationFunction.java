@@ -16,27 +16,27 @@ public class InvocationFunction implements Function {
    private final Constraint constraint;
    private final FunctionProxy proxy;
    private final Signature signature;
-   private final Type parent;
+   private final Type source;
    private final String name;
    private final int modifiers;
 
-   public InvocationFunction(Signature signature, Invocation invocation, Type parent, Constraint constraint, String name){
-      this(signature, invocation, parent, constraint, name, 0);
+   public InvocationFunction(Signature signature, Invocation invocation, Type source, Constraint constraint, String name){
+      this(signature, invocation, source, constraint, name, 0);
    }
    
-   public InvocationFunction(Signature signature, Invocation invocation, Type parent, Constraint constraint, String name, int modifiers){
-      this(signature, invocation, parent, constraint, name, modifiers, 0);
+   public InvocationFunction(Signature signature, Invocation invocation, Type source, Constraint constraint, String name, int modifiers){
+      this(signature, invocation, source, constraint, name, modifiers, 0);
    }
    
-   public InvocationFunction(Signature signature, Invocation invocation, Type parent, Constraint constraint, String name, int modifiers, int start){
-      this.description = new FunctionDescription(signature, parent, name, start);
+   public InvocationFunction(Signature signature, Invocation invocation, Type source, Constraint constraint, String name, int modifiers, int start){
+      this.description = new FunctionDescription(signature, source, name, start);
       this.annotations = new ArrayList<Annotation>();
       this.proxy = new FunctionProxy(this);
       this.constraint = constraint;
       this.invocation = invocation;
       this.signature = signature;
       this.modifiers = modifiers;
-      this.parent = parent;
+      this.source = source;
       this.name = name;
    }
    
@@ -46,8 +46,8 @@ public class InvocationFunction implements Function {
    }
    
    @Override
-   public Type getType() {
-      return parent;
+   public Type getSource() {
+      return source;
    }
    
    @Override

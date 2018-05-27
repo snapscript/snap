@@ -265,10 +265,6 @@ closure = <closure-parameter-list>?_'->'?_{<group-statement> | <expression>};
 generic-parameter = [type] ?(':' <constraint>);
 generic-list = ?('<' <generic-parameter> *(',' <generic-parameter>) '>');
 
-class-name = [type] <generic-list>;
-trait-name = [type] <generic-list>;
-enum-name = [type];
-
 annotation-name = [type];
 annotation-list = *<annotation-declaration>?_;
 annotation-declaration = '@'<annotation-name>?<annotation-attributes>;
@@ -286,20 +282,26 @@ access-modifier-list = *(<access-modifier>_);
 super-constructor = 'super''('?<argument-list>')';
 this-constructor = 'this''('?<argument-list>')';
 
+class-name = [type] <generic-list>;
 class-field-declaration = <assignment-variable>?(':'<constraint>)?('='<assignment-expression>);
 class-field = <annotation-list><field-modifier-list><class-field-declaration>*(','<class-field-declaration>)';';
 class-function = <annotation-list><function-modifier-list><function>'('<parameter-list>')'?(':'<constraint>){';' | <group-statement>};
 class-constructor = <annotation-list><access-modifier-list>'new''('<parameter-list>')'?(':'{<this-constructor> | <super-constructor>})<group-statement>;
-class-part = {<class-field> | <class-constructor> | <class-function> | <inner-class-definition> | <inner-enum-definition> | <inner-trait-definition>};
+class-part = {<class-field> | <class-constructor> | <class-function> | <inner-class-definition> | <inner-abstract-class-definition> | <inner-enum-definition> | <inner-trait-definition> };
 class-hierarchy = ?{?_'extends'_<class-constraint> | ?_'with'_<trait-constraint>}*(?_'with'_<trait-constraint>);
 class-definition = ?<annotation-list>'class'_<class-name>?<class-hierarchy>{'{}' | '{'*<class-part>'}'};
 
+abstract-class-name = [type] <generic-list>;
+abstract-class-definition = ?<annotation-list>'abstract'_'class'_<abstract-class-name>?<class-hierarchy>{'{}' | '{'*<class-part>'}'};
+
+trait-name = [type] <generic-list>;
 trait-constant = <annotation-list><field-modifier-list><assignment-variable>?(':'<constraint>)'='<assignment-expression>';';
 trait-hierarchy = *(?_'extends'_<trait-constraint>);
 trait-function = ?<annotation-list><function-modifier-list><function>'('<parameter-list>')'?(':'<constraint>){';' | <group-statement>};
 trait-part = {<trait-constant> | <trait-function>};
 trait-definition = ?<annotation-list>'trait'_<trait-name>?<trait-hierarchy>{'{}' | '{'*<trait-part>'}'};
-   
+
+enum-name = [type];   
 enum-hierarchy = *(?_'with'_<trait-constraint>)};
 enum-key = [identifier];
 enum-value = <enum-key>?('('<argument-list>')');
@@ -312,10 +314,11 @@ enum-part = {<enum-field> | <enum-constructor> | <enum-function>};
 enum-definition = ?<annotation-list>'enum'_<enum-name>?<enum-hierarchy>'{'<enum-list>?(';'*<enum-part>)'}';
    
 inner-class-definition = <class-definition>;
+inner-abstract-class-definition = <abstract-class-definition>;
 inner-enum-definition = <enum-definition>;
 inner-trait-definition = <trait-definition>;
  
-type-definition = {<class-definition> | <trait-definition> | <enum-definition>};
+type-definition = {<class-definition> | <abstract-class-definition> | <trait-definition> | <enum-definition>};
 
 full-qualifier = [qualifier]*('.'[qualifier]);
 wild-qualifier = [qualifier]*('.'[qualifier])'.*';

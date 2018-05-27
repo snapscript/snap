@@ -16,11 +16,11 @@ import org.snapscript.core.type.Type;
 public class ThisProperty implements Property {
    
    private final Constraint constraint;
-   private final Type type;
+   private final Type source;
    
-   public ThisProperty(Type type) {
-      this.constraint = new StaticConstraint(type);
-      this.type = type;
+   public ThisProperty(Type source) {
+      this.constraint = new StaticConstraint(source);
+      this.source = source;
    }
    
    @Override
@@ -39,8 +39,8 @@ public class ThisProperty implements Property {
    }
    
    @Override
-   public Type getType() {
-      return type;
+   public Type getSource() {
+      return source;
    }
 
    @Override
