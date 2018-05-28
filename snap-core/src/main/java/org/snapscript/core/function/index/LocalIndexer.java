@@ -15,13 +15,15 @@ import org.snapscript.core.variable.Value;
 
 public class LocalIndexer {
    
+   private final LocalFunctionIndexer indexer;
    private final ThreadStack stack;
    
-   public LocalIndexer(ThreadStack stack) {
+   public LocalIndexer(ThreadStack stack, FunctionIndexer indexer) {
+      this.indexer = new LocalFunctionIndexer(indexer);
       this.stack = stack;
    }
    
-   public FunctionPointer index(Scope scope, String name, Type... values) throws Exception { // match function variable
+   public FunctionPointer index(Scope scope, String name, Type... types) throws Exception { // match function variable
       State state = scope.getState();
       Value value = state.get(name);
       
@@ -36,7 +38,7 @@ public class LocalIndexer {
                Function function = functions.get(0);
                Signature signature = function.getSignature();
                ArgumentConverter match = signature.getConverter();
-               Score score = match.score(values);
+               Score score = match.score(types);
                
                if(score.isValid()) {
                   return new TracePointer(function, stack);
@@ -44,7 +46,7 @@ public class LocalIndexer {
             }
          }
       }
-      return null;
+      return indexer.index(scope, name, types);
    }
    
    public FunctionPointer index(Scope scope, String name, Object... values) throws Exception { // match function variable
@@ -67,6 +69,6 @@ public class LocalIndexer {
             }
          }
       }
-      return null;
+      return indexer.index(scope, name, values);
    }
 }

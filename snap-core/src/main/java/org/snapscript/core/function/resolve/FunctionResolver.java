@@ -30,8 +30,8 @@ public class FunctionResolver {
       this.statics = new TypeStaticIndexer(extractor, stack);
       this.delegates = new DelegateIndexer(extractor, stack);
       this.modules = new ModuleIndexer(extractor, stack);
+      this.scopes = new LocalIndexer(stack, indexer);
       this.values = new ValueIndexer(stack);
-      this.scopes = new LocalIndexer(stack);
    }
 
    public FunctionCall resolveInstance(Scope scope, Type source, String name, Type... list) throws Exception {
