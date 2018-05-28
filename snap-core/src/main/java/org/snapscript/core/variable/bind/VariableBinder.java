@@ -19,7 +19,7 @@ public class VariableBinder {
    private final String name;
    
    public VariableBinder(ErrorHandler handler, ProxyWrapper wrapper, String name) {
-      this.resolver = new VariableIndexer(name);
+      this.resolver = new VariableIndexer(wrapper, name);
       this.wrapper = wrapper;
       this.handler = handler;
       this.name = name;

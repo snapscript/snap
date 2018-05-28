@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.convert.proxy.ProxyWrapper;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
@@ -17,8 +18,8 @@ public class VariablePointerBuilder {
    private final VariableFinder finder;
    private final String name;
    
-   public VariablePointerBuilder(String name) {
-      this.finder = new VariableFinder();
+   public VariablePointerBuilder(ProxyWrapper wrapper, String name) {
+      this.finder = new VariableFinder(wrapper);
       this.name = name;
    }
 

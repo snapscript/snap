@@ -5,6 +5,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.snapscript.common.Cache;
 import org.snapscript.common.CopyOnWriteCache;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.convert.proxy.ProxyWrapper;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 
@@ -16,10 +17,10 @@ public class VariableIndexer {
    private final VariableIndexResolver resolver;
    private final VariablePointer empty;
    
-   public VariableIndexer(String name) {
+   public VariableIndexer(ProxyWrapper wrapper, String name) {
       this.cache = new CopyOnWriteCache<Integer, VariablePointer>();
       this.reference = new AtomicReference<VariablePointer>();
-      this.builder = new VariablePointerBuilder(name);
+      this.builder = new VariablePointerBuilder(wrapper, name);
       this.resolver = new VariableIndexResolver();
       this.empty = new EmptyPointer();
    }

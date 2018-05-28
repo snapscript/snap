@@ -348,5 +348,5 @@ script-statement = { <try-statement> |
 				     <assignment-statement> | 
 				     <expression-statement> };
 				     
-script-package = *{<script-import> | <type-definition> | <module-definition>};
+script-package = *{<script-import> | <script-function> | <type-definition> | <module-definition>};
 script = *{<script-import> | <script-function> | <script-statement>};

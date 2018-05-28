@@ -13,6 +13,8 @@ import org.snapscript.core.convert.proxy.ProxyWrapper;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
+import org.snapscript.core.variable.ListValue;
+import org.snapscript.core.variable.MapValue;
 import org.snapscript.core.variable.Value;
 import org.snapscript.tree.Argument;
 
