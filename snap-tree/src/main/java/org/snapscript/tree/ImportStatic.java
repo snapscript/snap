@@ -7,7 +7,6 @@ import java.util.List;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Execution;
 import org.snapscript.core.InternalStateException;
-import org.snapscript.core.ModifierType;
 import org.snapscript.core.NameFormatter;
 import org.snapscript.core.NoExecution;
 import org.snapscript.core.Statement;
@@ -15,7 +14,10 @@ import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
+import org.snapscript.core.property.Property;
 import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.index.Local;
 import org.snapscript.core.type.Type;
 
 public class ImportStatic implements Compilation {   
@@ -37,6 +39,7 @@ public class ImportStatic implements Compilation {
    
    private static class CompileResult extends Statement {
       
+      private final StaticImportMatcher matcher;
       private final NameFormatter formatter;  
       private final Execution execution;    
       private final String location;
@@ -45,6 +48,7 @@ public class ImportStatic implements Compilation {
       
       public CompileResult(String location, String target, String prefix) {
          this.execution = new NoExecution(NORMAL);
+         this.matcher = new StaticImportMatcher();
          this.formatter = new NameFormatter();        
          this.location = location;
          this.target = target;
@@ -53,27 +57,32 @@ public class ImportStatic implements Compilation {
       
       @Override
       public boolean define(Scope scope) throws Exception {
-         Module module = scope.getModule();
+         Module module = scope.getModule();         
          String parent = formatter.formatFullName(location, target);
          Type type = module.getType(parent); // this is a type name
          
          if(type == null) {
             throw new InternalStateException("Could not import '" + parent + "'");
          }
-         List<Function> methods = type.getFunctions();
-         List<Function> functions = module.getFunctions();
+         List<Function> list = module.getFunctions();
+         List<Function> functions = matcher.matchFunctions(type, prefix);
+         List<Property> properties = matcher.matchProperties(type, prefix);
+         Scope outer = module.getScope(); // make sure to use module scope
+         State state = outer.getState(); 
          
-         for(Function method : methods){
-            int modifiers = method.getModifiers();
-            
-            if(ModifierType.isStatic(modifiers) && ModifierType.isPublic(modifiers)){
-               String name = method.getName();
-               
-               if(prefix == null || prefix.equals(name)) {
-                  functions.add(method);
-               }
-            }
+         for(Property property : properties) {
+            String name = property.getName();
+            Object value = property.getValue(null);
+            Constraint constraint = property.getConstraint();
+            Local local = Local.getConstant(value, name, constraint);
+
+            try {
+               state.add(name, local);
+            }catch(Exception e) {
+               throw new InternalStateException("Import of static property '" + name +"' failed", e);
+            }  
          }
+         list.addAll(functions);     
          return true;
       }
       

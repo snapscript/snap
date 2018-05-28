@@ -5,6 +5,7 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
+import org.snapscript.compile.verify.VerifyException;
 import org.snapscript.core.scope.MapModel;
 import org.snapscript.core.scope.Model;
 
@@ -63,11 +64,16 @@ public class CompilerTest extends TestCase {
       Map<String, Object> map = new LinkedHashMap<String, Object>();
       Model model = new MapModel(map);
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
-      Executable executable = compiler.compile("import static lang.Math.*;var x = 1.6; var y = round(x); map.put('x',x); map.put('y',y);");
-      map.put("map", map);
-      executable.execute(model);
-      assertEquals(map.get("x"), 1.6d);
-      assertEquals(map.get("y"), 2l);
+      try{
+         Executable executable = compiler.compile("import static lang.Math.*;var x = 1.6; var y = round(x); map.put('x',x); map.put('y',y);");
+         map.put("map", map);
+         executable.execute(model);
+         assertEquals(map.get("x"), 1.6d);
+         assertEquals(map.get("y"), 2l);
+      }catch(VerifyException e){
+         e.getErrors().get(0).getCause().printStackTrace();
+         throw e;
+      }
    }
 
    public void testImport() throws Exception {

@@ -54,6 +54,6 @@ public class ResourceCompiler implements Compiler {
       PackageLinker linker = context.getLinker();
       Package library = linker.link(path, source, SCRIPT.name);
   
-      return new Application(context, library, path, module);
+      return new Application(context, library, module);
    }
 }

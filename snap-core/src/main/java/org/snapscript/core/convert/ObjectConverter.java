@@ -24,13 +24,10 @@ public class ObjectConverter extends ConstraintConverter {
    
    @Override
    public Score score(Type actual) throws Exception {
-      if(actual != null) {
-         Class real = actual.getType();
-         Class require = constraint.getType();
-         
-         if(require != real) {
+      if(actual != null) { 
+         if(actual != constraint) {
             return checker.toType(actual, constraint);            
-         }
+         }         
       }
       return EXACT;
    }

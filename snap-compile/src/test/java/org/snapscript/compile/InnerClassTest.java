@@ -1,8 +1,6 @@
 package org.snapscript.compile;
 
-import junit.framework.TestCase;
-
-public class InnerClassTest extends TestCase {
+public class InnerClassTest extends ScriptTestCase {
    
    private static final String SOURCE_1=
    "class Outer {\n"+
@@ -43,17 +41,73 @@ public class InnerClassTest extends TestCase {
    "var parent = new Parent();\n"+
    "parent.dump();\n";
    
-   public void testInnerClass() throws Exception {
-      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
-      System.err.println(SOURCE_1);
-      Executable executable = compiler.compile(SOURCE_1);
-      executable.execute();
-   }
+   private static final String SOURCE_3 =
+   "class Outer {\n"+
+   "   abstract class AbstractInner {\n"+
+   "      var x;\n"+
+   "      var y;\n"+
+   "      new(x,y){\n"+
+   "         this.x=x;\n"+
+   "         this.y=y;\n"+
+   "      }\n"+
+   "      foo() {\n"+
+   "         return `AbstractInner.foo(): x=${x} y=${y}`;\n"+
+   "      }\n"+
+   "   }\n"+
+   "\n"+
+   "   class Inner extends AbstractInner{\n"+
+   "      new(x,y): super(x,y){}\n"+
+   "      dump(){\n"+
+   "         println(`x=${x} y=${y}`);\n"+
+   "      }\n"+
+   "   }\n"+
+   "   static create(x,y): AbstractInner {\n"+
+   "      return new Inner(x,y);\n"+
+   "   }\n"+
+   "}\n"+
+   "assert Outer.create(1,2).foo() == 'AbstractInner.foo(): x=1 y=2';\n"+
+   "println(Outer.create(1,2).foo());\n";           
    
-   public void testInnerEnum() throws Exception {
-      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
-      System.err.println(SOURCE_2);
-      Executable executable = compiler.compile(SOURCE_2);
-      executable.execute();
+   private static final String SOURCE_4 =
+   "trait Outer {\n"+
+   "\n"+
+   "   blah(x: AbstractInner){\n"+
+   "      return x.foo();\n"+
+   "   }\n"+
+   "\n"+
+   "   blah(x: Inner){\n"+
+   "      return x.foo();\n"+
+   "   }\n"+   
+   "\n"+
+   "   abstract class AbstractInner {\n"+
+   "      var x;\n"+
+   "      var y;\n"+
+   "      new(x,y){\n"+
+   "         this.x=x;\n"+
+   "         this.y=y;\n"+
+   "      }\n"+
+   "      foo() {\n"+
+   "         return `AbstractInner.foo(): x=${x} y=${y}`;\n"+
+   "      }\n"+
+   "   }\n"+
+   "\n"+
+   "   class Inner extends AbstractInner{\n"+
+   "      new(x,y): super(x,y){}\n"+
+   "      dump(){\n"+
+   "         println(`x=${x} y=${y}`);\n"+
+   "      }\n"+
+   "   }\n"+
+   "   static create(x,y): AbstractInner {\n"+
+   "      return new Inner(x,y);\n"+
+   "   }\n"+
+   "}\n"+
+   "assert Outer.create(1,2).foo() == 'AbstractInner.foo(): x=1 y=2';\n"+
+   "println(Outer.create(1,2).foo());\n";     
+   
+   public void testInnerClass() throws Exception {
+      assertScriptExecutes(SOURCE_1);
+      assertScriptExecutes(SOURCE_2);
+      assertScriptExecutes(SOURCE_3);
+      assertScriptExecutes(SOURCE_4);        
    }
 }

@@ -3,8 +3,8 @@ package org.snapscript.compile.assemble;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.Context;
-import org.snapscript.core.Execution;
 import org.snapscript.core.ContextValidator;
+import org.snapscript.core.Execution;
 import org.snapscript.core.Statement;
 import org.snapscript.core.link.Package;
 import org.snapscript.core.link.PackageDefinition;

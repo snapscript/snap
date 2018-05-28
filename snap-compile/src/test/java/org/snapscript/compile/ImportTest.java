@@ -34,7 +34,7 @@ public class ImportTest extends TestCase {
    "println(new Line2D.Double().class);\n"+
    "println(new Double().class);\n"+
    "HashMap.dump();\n"+
-   "println(RGB.black);";
+   "println(RGB.black);";   
    
    public void testInnerClassImport() throws Exception {
       Double d = new Double();

@@ -19,7 +19,7 @@ import org.snapscript.parse.SyntaxCompiler;
 import org.snapscript.parse.SyntaxNode;
 import org.snapscript.parse.SyntaxParser;
 
-public class EvaluationBuilder {
+public class EvaluationCompiler {
 
    private final Cache<String, Evaluation> cache;
    private final PathConverter converter;
@@ -29,11 +29,11 @@ public class EvaluationBuilder {
    private final Executor executor;
    private final int limit;
    
-   public EvaluationBuilder(Assembler assembler, Verifier verifier, Executor executor){
+   public EvaluationCompiler(Assembler assembler, Verifier verifier, Executor executor){
       this(assembler, verifier, executor, 200);
    }
    
-   public EvaluationBuilder(Assembler assembler, Verifier verifier, Executor executor, int limit) {
+   public EvaluationCompiler(Assembler assembler, Verifier verifier, Executor executor, int limit) {
       this.cache = new LeastRecentlyUsedCache<String, Evaluation>();
       this.compiler = new SyntaxCompiler(GRAMMAR_FILE);
       this.converter = new FilePathConverter();
@@ -43,7 +43,7 @@ public class EvaluationBuilder {
       this.limit = limit;
    }
    
-   public Evaluation create(Scope scope, String source, String module) throws Exception{
+   public Evaluation compile(Scope scope, String source, String module) throws Exception{
       Evaluation evaluation = cache.fetch(source);
 
       if(evaluation == null) {

@@ -1,11 +1,8 @@
 package org.snapscript.compile;
 
-import junit.framework.TestCase;
+import org.snapscript.core.Context;
 
-import org.snapscript.compile.Compiler;
-import org.snapscript.core.scope.EmptyModel;
-
-public class ModuleTest extends TestCase {
+public class ModuleTest extends ScriptTestCase {
    
    private static final String SOURCE_1=
    "@Blah\n"+
@@ -43,17 +40,37 @@ public class ModuleTest extends TestCase {
    "   }\n"+
    "}\n"+
    "System.err.println(Mod.createTyp(55));\n";
-
+   
+   private static final String SOURCE_3=
+   "module Mod {\n"+
+   "   abstract foo(i);\n"+
+   "   createTyp(i){\n"+
+   "      println(Mod.getContext());\n"+
+   "      return new Typ(i);\n"+
+   "   }\n"+         
+   "   }\n"+
+   "}\n"+
+   "System.err.println(Mod.foo(55));\n";
 
    public void testModuleInnerClass() throws Exception {
-      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
-      System.err.println(SOURCE_1);
-      compiler.compile(SOURCE_1).execute(new EmptyModel());
+      assertScriptExecutes(SOURCE_2);
    }
    
    public void testModuleOuterClass() throws Exception {
-      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
-      System.err.println(SOURCE_2);
-      compiler.compile(SOURCE_2).execute(new EmptyModel());
+      assertScriptExecutes(SOURCE_2);
+   }
+   
+   public void testModuleWithAbstractMethod() throws Exception {
+      assertScriptExecutes(SOURCE_3, new AssertionCallback() {
+         
+         @Override
+         public void onSuccess(Context context, Object result) {
+            assertTrue("Should fail on abstract method", false);
+         }
+         @Override
+         public void onException(Context context, Exception result) {
+            result.printStackTrace();
+         }
+      });
    }
 }

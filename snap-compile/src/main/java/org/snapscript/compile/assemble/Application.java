@@ -7,7 +7,6 @@ import org.snapscript.core.Context;
 import org.snapscript.core.Execution;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.link.Package;
-import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.EmptyModel;
 import org.snapscript.core.scope.Model;
 import org.snapscript.core.scope.Scope;
@@ -15,24 +14,22 @@ import org.snapscript.core.scope.Scope;
 public class Application implements Executable{
    
    private final ApplicationCompiler compiler;
-   private final ScopeMerger merger;
+   private final ModelScopeBuilder builder;
    private final Context context;
-   private final Model model;
-   private final String name;
-   private final Path path;
+   private final String module;
+   private final Model empty;
    
-   public Application(Context context, Package library, Path path, String name){
+   public Application(Context context, Package library, String module){
       this.compiler = new ApplicationCompiler(context, library);
-      this.merger = new ScopeMerger(context);
-      this.model = new EmptyModel();
+      this.builder = new ModelScopeBuilder(context);
+      this.empty = new EmptyModel();
       this.context = context;
-      this.path = path;
-      this.name = name;
+      this.module = module;
    }
    
    @Override
    public void execute() throws Exception {
-      execute(model);
+      execute(empty);
    }
 
    @Override
@@ -41,8 +38,8 @@ public class Application implements Executable{
    }
    
    @Override
-   public void execute(Model model, boolean test) throws Exception{ 
-      Scope scope = merger.merge(model, name, path);
+   public void execute(Model model, boolean test) throws Exception{
+      Scope scope = builder.create(model, module); 
       ErrorHandler handler = context.getHandler();
       Execution execution = compiler.compile(scope); // create all types
       

@@ -13,8 +13,8 @@ import junit.framework.TestCase;
 import org.snapscript.common.store.ClassPathStore;
 import org.snapscript.common.store.Store;
 import org.snapscript.compile.assemble.Assembler;
+import org.snapscript.compile.assemble.ModelScopeBuilder;
 import org.snapscript.compile.assemble.OperationAssembler;
-import org.snapscript.compile.assemble.ScopeMerger;
 import org.snapscript.core.Context;
 import org.snapscript.core.ExpressionEvaluator;
 import org.snapscript.core.Statement;
@@ -203,8 +203,8 @@ public class EvaluationTest extends TestCase {
       Context context = new StoreContext(store);
       Assembler builder = new OperationAssembler(context, null);
       SyntaxCompiler compiler = new SyntaxCompiler(GRAMMAR_FILE);
-      ScopeMerger merger = new ScopeMerger(context);
-      Scope scope = merger.merge(model, "default", new Path("/default.snap"));
+      ModelScopeBuilder merger = new ModelScopeBuilder(context);
+      Scope scope = merger.create(model, "default");
       SyntaxParser analyzer = compiler.compile();
       SyntaxNode token = analyzer.parse("/default.snap", source, grammar);
       SyntaxPrinter.print(analyzer, source, grammar); // Evaluating the

@@ -298,7 +298,7 @@ trait-name = [type] <generic-list>;
 trait-constant = <annotation-list><field-modifier-list><assignment-variable>?(':'<constraint>)'='<assignment-expression>';';
 trait-hierarchy = *(?_'extends'_<trait-constraint>);
 trait-function = ?<annotation-list><function-modifier-list><function>'('<parameter-list>')'?(':'<constraint>){';' | <group-statement>};
-trait-part = {<trait-constant> | <trait-function>};
+trait-part = {<trait-constant> | <trait-function> | <inner-class-definition> | <inner-abstract-class-definition> | <inner-enum-definition> | <inner-trait-definition>};
 trait-definition = ?<annotation-list>'trait'_<trait-name>?<trait-hierarchy>{'{}' | '{'*<trait-part>'}'};
 
 enum-name = [type];   
