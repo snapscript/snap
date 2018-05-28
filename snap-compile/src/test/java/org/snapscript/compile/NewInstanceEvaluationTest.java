@@ -11,9 +11,9 @@ public class NewInstanceEvaluationTest extends ScriptTestCase {
    private static final String SOURCE_1 =
    "import util.stream.Collectors;\n"+
    "trait Base{\n"+
-    "   func(name){\n"+
-   "       var func = -> Collectors.toList();\n"+
-   "       func();\n"+
+    "   f(name){\n"+
+   "       var f = -> Collectors.toList();\n"+
+   "       f();\n"+
    "       eval('{:}');\n"+
    "       eval(name);\n"+
    "    }\n"+
@@ -24,7 +24,7 @@ public class NewInstanceEvaluationTest extends ScriptTestCase {
    //"import base.*;\n"+ // this works
    "class Other with Base{\n"+
    "   test(){\n"+
-   "      func('get()');\n"+
+   "      f('get()');\n"+
    "   }\n"+
    "   get(){\n"+
    "      \"Other.get()\";\n"+

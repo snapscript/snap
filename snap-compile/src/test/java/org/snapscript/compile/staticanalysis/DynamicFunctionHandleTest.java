@@ -9,8 +9,8 @@ public class DynamicFunctionHandleTest extends TestCase {
    
    private static final String SOURCE_1 =
    "var map = {a: [Math.class]};\n"+
-   "var func = map.a[0]::max;\n"+
-   "var result = func(7,33);\n"+
+   "var f = map.a[0]::max;\n"+
+   "var result = f(7,33);\n"+
    "\n"+
    "assert result == 33;\n";   
    

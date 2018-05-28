@@ -3,7 +3,7 @@ package org.snapscript.core;
 public enum ModifierType {
    VARIABLE(0x0001, "var", "let"),
    CONSTANT(0x0002, "const"),
-   FUNCTION(0x0004, "function"),  
+   FUNCTION(0x0004, "function", "func"),  
    CLASS(0x0008, "class"),   
    TRAIT(0x0010, "trait"),
    ENUM(0x0020, "enum"),

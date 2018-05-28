@@ -26,18 +26,18 @@ public class FunctionReferenceTest extends TestCase {
    "      \"${a},${b}\";"+
    "   }\n"+
    "}\n"+
-   "function create(func) {\n"+
-   "   func(1,2);\n"+
+   "function create(f) {\n"+
+   "   f(1,2);\n"+
    "}\n"+
    "var res = create(Foo::new);\n"+
    "println(res);\n"+
    "assert res.toString() == '1,2';\n";
    
    private static final String SOURCE_3 =
-   "var func = String::new;\n"+
+   "var f = String::new;\n"+
    "\n"+
-   "assert '' == func();\n"+
-   "assert 'hello' == func('hello');\n";
+   "assert '' == f();\n"+
+   "assert 'hello' == f('hello');\n";
    
    private static final String SOURCE_4 =
    "import util.stream.Collectors;\n"+
@@ -104,9 +104,9 @@ public class FunctionReferenceTest extends TestCase {
    "assert p(`hello`) == null;\n";
    
    private static final String SOURCE_8 =
-   "func(1,2, Math::max); // method handles\n"+
-   "function func(x, y, func: (a,b)) {\n"+
-   "   var result = func(x, y);\n"+
+   "f(1,2, Math::max); // method handles\n"+
+   "function f(x, y, f: (a,b)) {\n"+
+   "   var result = f(x, y);\n"+
    "   println(result);\n"+
    "}\n";
    

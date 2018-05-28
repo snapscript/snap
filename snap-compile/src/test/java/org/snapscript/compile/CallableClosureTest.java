@@ -13,8 +13,8 @@ public class CallableClosureTest extends TestCase {
    "   list[i] = () -> println(i);\n"+
    "}\n"+
    "for(var i = 0; i < 100; i++){\n"+
-   "   var func = list[i];\n"+
-   "   func();\n"+
+   "   var f = list[i];\n"+
+   "   f();\n"+
    "}\n";
          
    

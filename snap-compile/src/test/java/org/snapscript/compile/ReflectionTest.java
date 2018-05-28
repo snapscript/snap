@@ -10,10 +10,10 @@ public class ReflectionTest extends TestCase {
    private static final String SOURCE =
    "module Mod{\n"+
    "   @Test\n"+
-   "   func(){\n"+
+   "   f(){\n"+
    "   }\n"+
    "}\n"+
-   "Mod.getFunctions().stream().forEach(func -> println(func.getAnnotations()));\n";
+   "Mod.getFunctions().stream().forEach(f -> println(f.getAnnotations()));\n";
          
    
    public void testReflection() throws Exception {

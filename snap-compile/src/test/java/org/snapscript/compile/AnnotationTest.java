@@ -22,9 +22,9 @@ public class AnnotationTest extends TestCase {
 
    private static final String SOURCE_2=
    "import org.snapscript.compile.AnnotationTest$TypeExample;\n"+
-   "AnnotationTest$TypeExample.class.getFunctions().stream().forEach(func -> println(func.getAnnotations()));\n"+
-   "AnnotationTest$TypeExample.class.getFunctions().stream().forEach(func -> {\n"+
-   "  func.getSignature().getParameters().stream().forEach(param -> {\n"+
+   "AnnotationTest$TypeExample.class.getFunctions().stream().forEach(f -> println(f.getAnnotations()));\n"+
+   "AnnotationTest$TypeExample.class.getFunctions().stream().forEach(f -> {\n"+
+   "  f.getSignature().getParameters().stream().forEach(param -> {\n"+
    "     println(param.getAnnotations());"+
    "  });\n"+
    "});";

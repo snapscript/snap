@@ -69,7 +69,7 @@ public class ExpressionParseTest extends TestCase {
       analyze(tree, "a&&y", "combination");
       analyze(tree, "Integer[][]", "constraint");
       analyze(tree, "Integer[][]", "reference");
-      analyze(tree, "func = 0;", "assignment-statement");
+      analyze(tree, "f = 0;", "assignment-statement");
       analyze(tree, "@Blah", "argument");
       analyze(tree, "@Blah(x: 55)", "argument");
       analyze(tree, "@Blah(x: 55, y: 'blah')", "argument");

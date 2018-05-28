@@ -17,22 +17,22 @@ public class ClosureTest extends TestCase {
    private static final String SOURCE_2=
    "max((a,b)->{return a+b;});\n"+
    "\n"+
-   "function max(func){\n"+
-   "   var x = func('xx', 'bb');\n"+
+   "function max(f){\n"+
+   "   var x = f('xx', 'bb');\n"+
    "   println(x);\n"+
    "}\n";
    
    private static final String SOURCE_3=
    "max((a,b)->a+b);\n"+
    "\n"+
-   "function max(func){\n"+
-   "   var x = func('xx', 'bb');\n"+
+   "function max(f){\n"+
+   "   var x = f('xx', 'bb');\n"+
    "   println(x);\n"+
    "}\n";
 
    private static final String SOURCE_4=
    "var expression = x->x>0;\n"+
-   "var func = -> {\n"+
+   "var f = -> {\n"+
    "   expression(10);\n"+
    "};\n";
 

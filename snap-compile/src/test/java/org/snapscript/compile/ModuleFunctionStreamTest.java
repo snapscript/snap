@@ -13,9 +13,9 @@ public class ModuleFunctionStreamTest extends TestCase {
    "}\n"+
    "Module.getFunctions()\n"+
    "   .stream()\n"+
-   "   .forEach(func -> {\n"+
-   "      println(func);\n"+
-   "      func.getAnnotations()\n"+
+   "   .forEach(f -> {\n"+
+   "      println(f);\n"+
+   "      f.getAnnotations()\n"+
    "         .stream()\n"+
    "         .forEach(annotation -> {\n"+
    "            println(annotation);\n"+

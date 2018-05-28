@@ -336,7 +336,7 @@ module-part = {<module-import> | <module-function> | <module-declaration> | <mod
 module-definition = ?<annotation-list>'module'_<module-name>{'{}' | '{'*<module-part>'}'};
  
 script-import = <import-static> | <import>;
-script-function = 'function'_<function>'('<parameter-list>')'?(':'<constraint>)<group-statement>;
+script-function = {'function'|'func'}_<function>'('<parameter-list>')'?(':'<constraint>)<group-statement>;
 script-statement = { <try-statement> | 
 				     <synchronized-statement> |
 				     <declaration-statement> |

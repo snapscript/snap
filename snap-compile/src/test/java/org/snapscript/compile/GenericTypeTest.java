@@ -16,8 +16,8 @@ public class GenericTypeTest extends TestCase {
    "assert 11 == new Foo(1).func();\n";
    
    private static final String SOURCE_2 =
-   "const func = (const x: Iterable<String>, const y: (x: String)) -> x.iterator.forEachRemaining(x -> y(x));\n"+
-   "func([1,2,3,4], x -> println(x));";
+   "const f = (const x: Iterable<String>, const y: (x: String)) -> x.iterator.forEachRemaining(x -> y(x));\n"+
+   "f([1,2,3,4], x -> println(x));";
    
    private static final String SOURCE_3 =
    "class Foo<K, V> {\n"+
