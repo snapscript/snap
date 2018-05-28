@@ -21,8 +21,10 @@ public class GrammarIndexer {
       int index = literals.indexOf(value);
       
       if (index == -1) {
-         literals.add(value);
-         return value;
+         String token = value.intern();
+         
+         literals.add(token);
+         return token;
       }
       return literals.get(index);
    }
@@ -36,7 +38,9 @@ public class GrammarIndexer {
       int size = values.size();
       
       if (index == -1) {
-         values.add(value);
+         String token = value.intern();
+         
+         values.add(token);
          return size;
       }
       return index;

@@ -1,28 +1,28 @@
 package org.snapscript.core;
 
 public enum ModifierType {
-   STATIC("static", 0x0001),
-   OVERRIDE("override", 0x0002),
-   PRIVATE("private", 0x0004),
-   PUBLIC("public", 0x0008),
-   PROTECTED("protected", 0x0010), // java only
-   CONSTANT("const", 0x0020),
-   VARIABLE("var", 0x0040),
-   MODULE("module", 0x0080),
-   CLASS("class", 0x0100),   
-   TRAIT("trait", 0x0200),
-   ENUM("enum", 0x0400),
-   FUNCTION("function", 0x0800),   
-   ABSTRACT("abstract", 0x1000),
-   PROXY("proxy", 0x2000),
-   ARRAY("[]", 0x4000),
-   VARARGS("...", 0x8000);
+   VARIABLE(0x0001, "var", "let"),
+   CONSTANT(0x0002, "const"),
+   FUNCTION(0x0004, "function"),  
+   CLASS(0x0008, "class"),   
+   TRAIT(0x0010, "trait"),
+   ENUM(0x0020, "enum"),
+   MODULE(0x0040, "module"),
+   OVERRIDE(0x0080, "override"),
+   PRIVATE(0x0100, "private"),
+   PUBLIC(0x0200, "public"),
+   PROTECTED(0x0400, "protected"), // java only
+   STATIC(0x0800, "static"),
+   ABSTRACT(0x1000, "abstract"),
+   PROXY(0x2000, "proxy"),
+   ARRAY(0x4000, "[]"),
+   VARARGS(0x8000, "...");
    
-   public final String token;
+   public final String[] tokens;
    public final int mask;
    
-   private ModifierType(String token, int mask) {
-      this.token = token;
+   private ModifierType(int mask, String... tokens) {
+      this.tokens = tokens;
       this.mask = mask;
    }
    
@@ -97,8 +97,10 @@ public enum ModifierType {
    public static ModifierType resolveModifier(String token) {
       if(token != null) {
          for(ModifierType modifier : VALUES){
-            if(modifier.token.equals(token)) {
-               return modifier;
+            for(int i = 0; i < modifier.tokens.length; i++) {
+               if(modifier.tokens[i].equals(token)) {
+                  return modifier;
+               }
             }
          }
       }
@@ -106,14 +108,18 @@ public enum ModifierType {
    }
    
    private static final ModifierType[] VALUES = {
-      STATIC,
+      VARIABLE,
+      CONSTANT,
+      FUNCTION, 
+      CLASS,
+      TRAIT,
+      ENUM,
+      MODULE,
       OVERRIDE,
       PRIVATE,
       PUBLIC,
       PROTECTED,
-      CONSTANT,
-      VARIABLE,
+      STATIC,
       ABSTRACT,
-      VARARGS
    };
 }

@@ -214,7 +214,7 @@ assignment-variable = [identifier];
 assignment-expression = (<value-operand> | <reference> | <calculation> | <choice> | <conditional> | <cast>);
 assignment-statement = <reference><assignment-operator><assignment-expression>';';
   
-declaration-modifier = {'var' | 'const'};
+declaration-modifier = {'var' | 'let'| 'const'};
 declaration = <assignment-variable>?(':'<constraint>?_)?('='<assignment-expression>);
 declaration-statement = <declaration-modifier>_<declaration>*(','<declaration>)';';
    
@@ -224,7 +224,7 @@ while-statement = 'while''('<conditional>')'<statement>;
 for-assignment = {<assignment> | <increment-decrement> | <reference>};
 for-assignment-list = <for-assignment>*(','<for-assignment>);
 for-statement = 'for''('(<declaration-statement> | <assignment-statement> | <terminal-statement>)<conditional>';'?(<for-assignment-list>)')'<statement>;
-for-in-declaration = ?('var'_)<assignment-variable>?(':'<constraint>);
+for-in-declaration = ?({'var' | 'let' }_)<assignment-variable>?(':'<constraint>);
 for-in-statement = 'for''('<for-in-declaration>_'in'?_{<range> | <reference>}')'<statement>;
 loop-statement = {'loop' | 'for(;;)'}<statement>;
 conditional-statement = { <if-statement> | 
@@ -254,7 +254,7 @@ try-statement = <try-block>? <catch-block-list>? <finally-block>};
 variable-argument = '...';
 
 parameter-name = [identifier];
-parameter-modifier = {'const' | 'var'};
+parameter-modifier = {'const' | 'let' | 'var'};
 parameter-modifier-list = ?<parameter-modifier>;
 parameter-declaration = ?<annotation-list><parameter-modifier-list>?_<parameter-name>?<variable-argument>?(':'<constraint>);
 parameter-list = ?(<parameter-declaration>*(','<parameter-declaration>));
@@ -270,7 +270,7 @@ annotation-list = *<annotation-declaration>?_;
 annotation-declaration = '@'<annotation-name>?<annotation-attributes>;
 annotation-attributes = '('?<map-entry-list>')';
    
-field-modifier = {'var' | 'const' | 'static' | 'public' | 'private'};
+field-modifier = {'var' | 'let' | 'const' | 'static' | 'public' | 'private'};
 field-modifier-list = *(<field-modifier>_);
 
 function-modifier = {'static' | 'public' | 'private' | 'abstract' | 'override'};

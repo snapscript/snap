@@ -4,9 +4,9 @@ import junit.framework.TestCase;
 
 import org.snapscript.core.scope.EmptyModel;
 
-public class FunctionTest extends TestCase {
+public class FunctionTest extends ScriptTestCase {
 
-   private static final String SOURCE =
+   private static final String SOURCE_1 =
    "var global =1;\n"+
    "\n"+
    "function a(){\n"+
@@ -25,10 +25,29 @@ public class FunctionTest extends TestCase {
    "}\n"+
    "a();\n"+
    "b();\n";
-         
+   
+   private static final String SOURCE_2 =
+   "let global =1;\n"+
+   "\n"+
+   "function a(){\n"+
+   "   let x=0;\n"+
+   "   let y =0;\n"+
+   "   let z=0;\n"+
+   "   let v=x+y+z+1;\n"+
+   "}\n"+
+   "\n"+
+   "function b(){\n"+
+   "   let aa = 0;\n"+
+   "   if(aa==0){\n"+
+   "      let y=0;\n"+
+   "      y++;\n"+
+   "   }\n"+
+   "}\n"+
+   "a();\n"+
+   "b();\n";
+   
    public void testFunction() throws Exception {
-      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
-      System.err.println(SOURCE);
-      compiler.compile(SOURCE).execute(new EmptyModel());
+      assertScriptExecutes(SOURCE_1);
+      assertScriptExecutes(SOURCE_2);
    }
 }
