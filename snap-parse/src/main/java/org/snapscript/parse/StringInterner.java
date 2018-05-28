@@ -35,7 +35,7 @@ public class StringInterner {
       return empty;
    }
    
-   private class Range{
+   private static class Range{
       
       private char[] source;
       private int start;
