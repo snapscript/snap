@@ -2,8 +2,10 @@ package org.snapscript.tree.reference;
 
 import java.util.List;
 
+import org.snapscript.core.Entity;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
+import org.snapscript.core.ModifierType;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.constraint.GenericParameterConstraint;
 import org.snapscript.core.module.Path;
@@ -29,16 +31,22 @@ public class GenericDeclaration {
       try {
          Value value = type.evaluate(scope, null);
          String name = value.getName(scope);
-         Type type = value.getValue();
-         
-         if(list != null) {
-            List<Constraint> generics = list.create(scope);    
+         Entity entity = value.getValue();
+         int modifiers = entity.getModifiers();
+               
+         if(!ModifierType.isModule(modifiers)) {
+            Type type = value.getValue();
             
-            if(!generics.isEmpty()) {
-               return new GenericParameterConstraint(type, generics, name);
+            if(list != null) {
+               List<Constraint> generics = list.create(scope);    
+               
+               if(!generics.isEmpty()) {
+                  return new GenericParameterConstraint(type, generics, name);
+               }
             }
+            return new GenericParameterConstraint(type, name);
          }
-         return new GenericParameterConstraint(type, name);
+         return value;
       }catch(Exception e) {
          throw new InternalStateException("Invalid constraint in " + path + " at line " + line, e);
       }

@@ -1,5 +1,10 @@
 package org.snapscript.tree.construct;
 
+import static org.snapscript.core.ModifierType.ABSTRACT;
+import static org.snapscript.core.ModifierType.ENUM;
+import static org.snapscript.core.ModifierType.MODULE;
+import static org.snapscript.core.ModifierType.TRAIT;
+
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
@@ -20,7 +25,7 @@ public class ConstructObject implements Compilation {
    }
    
    public ConstructObject(Constraint type, ArgumentList arguments) {
-      this.construct = new CreateObject(type, arguments);
+      this.construct = new CreateObject(type, arguments, ABSTRACT.mask | TRAIT.mask | ENUM.mask | MODULE.mask);
    } 
    
    @Override

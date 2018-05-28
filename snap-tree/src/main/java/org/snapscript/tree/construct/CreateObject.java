@@ -1,12 +1,14 @@
 package org.snapscript.tree.construct;
 
 import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
+import static org.snapscript.core.error.Reason.CONSTRUCTION;
 
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.constraint.CompileConstraint;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.function.resolve.FunctionCall;
 import org.snapscript.core.function.resolve.FunctionResolver;
 import org.snapscript.core.module.Module;
@@ -15,13 +17,15 @@ import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 import org.snapscript.tree.ArgumentList;
 
-public class CreateObject extends Evaluation {
+public class CreateObject extends Evaluation {   
    
    private final ArgumentList arguments;
    private final Constraint constraint;
+   private final int violation; // what modifiers are illegal
 
-   public CreateObject(Constraint constraint, ArgumentList arguments) {
+   public CreateObject(Constraint constraint, ArgumentList arguments, int violation) {
       this.constraint = new CompileConstraint(constraint);
+      this.violation = violation;
       this.arguments = arguments;
    }      
 
@@ -35,7 +39,15 @@ public class CreateObject extends Evaluation {
    @Override
    public Constraint compile(Scope scope, Constraint left) throws Exception {
       Type type = constraint.getType(scope);
+      int modifiers = type.getModifiers();
       
+      if((violation & modifiers) != 0) {
+         Module module = type.getModule();
+         Context context = module.getContext();
+         ErrorHandler handler = context.getHandler();
+         
+         handler.handleCompileError(CONSTRUCTION, scope, type);
+      }
       if(arguments != null) {
          arguments.compile(scope, type);
       }

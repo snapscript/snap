@@ -1,14 +1,16 @@
 package org.snapscript.core.error;
 
-import static org.snapscript.core.Reserved.ANY_TYPE;
-import static org.snapscript.core.Reserved.DEFAULT_PACKAGE;
+import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
 
 import org.snapscript.core.type.Type;
+import org.snapscript.core.type.TypeExtractor;
 
 public class CompileErrorFormatter {
    
-   public CompileErrorFormatter() {
-      super();
+   private final ErrorMessageFormatter formatter;
+   
+   public CompileErrorFormatter(TypeExtractor extractor) {
+      this.formatter = new ErrorMessageFormatter(extractor);
    }
 
    public String formatAccessError(String name) {
@@ -58,10 +60,12 @@ public class CompileErrorFormatter {
    public String formatAccessError(String name, Type[] list) {
       StringBuilder builder = new StringBuilder();
       
-      builder.append("Function '");
-      builder.append(name);
-      
-      String signature = formatSignature(list);
+      if(name.equals(TYPE_CONSTRUCTOR)) {
+         builder.append("Constructor '");
+      } else {
+         builder.append("Function '");
+      }  
+      String signature = formatter.formatFunction(name, list);
       
       builder.append(signature);
       builder.append("' is not accessible");
@@ -72,10 +76,12 @@ public class CompileErrorFormatter {
    public String formatAccessError(Type type, String name, Type[] list) {
       StringBuilder builder = new StringBuilder();
       
-      builder.append("Function '");
-      builder.append(name);
-      
-      String signature = formatSignature(list);
+      if(name.equals(TYPE_CONSTRUCTOR)) {
+         builder.append("Constructor '");
+      } else {
+         builder.append("Function '");
+      }      
+      String signature = formatter.formatFunction(name, list);
       
       builder.append(signature);
       builder.append("' for '");
@@ -88,10 +94,12 @@ public class CompileErrorFormatter {
    public String formatInvokeError(String name, Type[] list) {
       StringBuilder builder = new StringBuilder();
       
-      builder.append("Function '");
-      builder.append(name);
-      
-      String signature = formatSignature(list);
+      if(name.equals(TYPE_CONSTRUCTOR)) {
+         builder.append("Constructor '");
+      } else {
+         builder.append("Function '");
+      }  
+      String signature = formatter.formatFunction(name, list);
       
       builder.append(signature);
       builder.append("' not found in scope");
@@ -102,10 +110,12 @@ public class CompileErrorFormatter {
    public String formatInvokeError(Type type, String name, Type[] list) {
       StringBuilder builder = new StringBuilder();
       
-      builder.append("Function '");
-      builder.append(name);
-      
-      String signature = formatSignature(list);
+      if(name.equals(TYPE_CONSTRUCTOR)) {
+         builder.append("Constructor '");
+      } else {
+         builder.append("Function '");
+      }  
+      String signature = formatter.formatFunction(name, list);
       
       builder.append(signature);
       builder.append("' not found for '");
@@ -125,28 +135,14 @@ public class CompileErrorFormatter {
       builder.append("' is not possible");
       
       return builder.toString();
-   }
-
-   private String formatSignature(Type[] list) {
+   }   
+   
+   public String formatConstructionError(Type type) {
       StringBuilder builder = new StringBuilder();
       
-      builder.append("(");
-
-      for(int i = 0; i < list.length; i++) {
-         Type type = list[i];
-
-         if(i > 0) {
-            builder.append(", ");
-         }
-         if(type != null) {
-            builder.append(type);
-         } else {
-            builder.append(DEFAULT_PACKAGE);
-            builder.append(".");
-            builder.append(ANY_TYPE);
-         }
-      }
-      builder.append(")");
+      builder.append("Type '");
+      builder.append(type);
+      builder.append("' is not a concrete class");
       
       return builder.toString();
    }

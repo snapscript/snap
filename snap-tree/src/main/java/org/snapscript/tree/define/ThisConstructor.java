@@ -1,5 +1,9 @@
 package org.snapscript.tree.define;
 
+import static org.snapscript.core.ModifierType.ENUM;
+import static org.snapscript.core.ModifierType.MODULE;
+import static org.snapscript.core.ModifierType.TRAIT;
+
 import org.snapscript.core.Execution;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.constraint.StaticConstraint;
@@ -32,7 +36,7 @@ public class ThisConstructor extends TypePart {
    public TypeState define(TypeBody body, Type type, Scope scope) throws Exception {  
       Execution execution = new StaticBody(body, type);
       Constraint constraint = new StaticConstraint(type);
-      CreateObject evaluation = new CreateObject(constraint, arguments);
+      CreateObject evaluation = new CreateObject(constraint, arguments, TRAIT.mask | ENUM.mask | MODULE.mask);
       
       return new ThisState(execution, evaluation);
    }   

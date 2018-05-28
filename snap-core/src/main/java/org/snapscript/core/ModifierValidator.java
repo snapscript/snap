@@ -2,10 +2,12 @@ package org.snapscript.core;
 
 import static org.snapscript.core.ModifierType.ABSTRACT;
 import static org.snapscript.core.ModifierType.CONSTANT;
+import static org.snapscript.core.ModifierType.ENUM;
 import static org.snapscript.core.ModifierType.OVERRIDE;
 import static org.snapscript.core.ModifierType.PRIVATE;
 import static org.snapscript.core.ModifierType.PUBLIC;
 import static org.snapscript.core.ModifierType.STATIC;
+import static org.snapscript.core.ModifierType.TRAIT;
 import static org.snapscript.core.ModifierType.VARIABLE;
 
 import org.snapscript.core.function.Function;

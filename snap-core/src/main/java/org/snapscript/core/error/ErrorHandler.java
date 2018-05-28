@@ -26,6 +26,10 @@ public class ErrorHandler {
       this.external = new ExternalErrorHandler();
    }
    
+   public Result handleCompileError(Reason reason, Scope scope, Type type) {
+      return compile.handleConstructionError(scope, type);          
+   }
+   
    public Result handleCompileError(Reason reason, Scope scope, String name) {
       if(reason.isAccess()) {
          return compile.handleAccessError(scope, name);          

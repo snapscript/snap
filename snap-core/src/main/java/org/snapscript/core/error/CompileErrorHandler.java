@@ -17,7 +17,7 @@ public class CompileErrorHandler {
    
    public CompileErrorHandler(TypeExtractor extractor, ThreadStack stack, boolean replace) {
       this.builder = new InternalErrorBuilder(stack, replace);
-      this.formatter = new CompileErrorFormatter();
+      this.formatter = new CompileErrorFormatter(extractor);
    }
    
    public Result handleAccessError(Scope scope, String name) {
@@ -62,6 +62,11 @@ public class CompileErrorHandler {
    
    public Result handleCastError(Scope scope, Type require, Type actual) {
       String message = formatter.formatCastError(require, actual);
+      throw builder.createInternalException(message);
+   }   
+   
+   public Result handleConstructionError(Scope scope, Type type) {
+      String message = formatter.formatConstructionError(type);
       throw builder.createInternalException(message);
    }
 }

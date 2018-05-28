@@ -1,16 +1,17 @@
 package org.snapscript.core.error;
 
-import static org.snapscript.core.Reserved.ANY_TYPE;
-import static org.snapscript.core.Reserved.DEFAULT_PACKAGE;
+import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
 
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeExtractor;
 
 public class RuntimeErrorFormatter {
    
+   private final ErrorMessageFormatter formatter;
    private final TypeExtractor extractor;
    
    public RuntimeErrorFormatter(TypeExtractor extractor) {
+      this.formatter = new ErrorMessageFormatter(extractor);
       this.extractor = extractor;
    }
    
@@ -44,10 +45,12 @@ public class RuntimeErrorFormatter {
    public String formatInvokeError(String name, Object[] list) {
       StringBuilder builder = new StringBuilder();
       
-      builder.append("Function '");
-      builder.append(name);
-      
-      String signature = formatSignature(list);
+      if(name.equals(TYPE_CONSTRUCTOR)) {
+         builder.append("Constructor '");
+      } else {
+         builder.append("Function '");
+      }  
+      String signature = formatter.formatFunction(name, list);
       
       builder.append(signature);
       builder.append("' not found in scope");
@@ -58,10 +61,12 @@ public class RuntimeErrorFormatter {
    public String formatInvokeError(Object object, String name, Object[] list) {
       StringBuilder builder = new StringBuilder();
       
-      builder.append("Function '");
-      builder.append(name);
-      
-      String signature = formatSignature(list);
+      if(name.equals(TYPE_CONSTRUCTOR)) {
+         builder.append("Constructor '");
+      } else {
+         builder.append("Function '");
+      }  
+      String signature = formatter.formatFunction(name, list);
       
       builder.append(signature);
       builder.append("' not found");
@@ -79,40 +84,17 @@ public class RuntimeErrorFormatter {
    public String formatInvokeError(Type type, String name, Object[] list) {
       StringBuilder builder = new StringBuilder();
       
-      builder.append("Function '");
-      builder.append(name);
-      
-      String signature = formatSignature(list);
+      if(name.equals(TYPE_CONSTRUCTOR)) {
+         builder.append("Constructor '");
+      } else {
+         builder.append("Function '");
+      }  
+      String signature = formatter.formatFunction(name, list);
       
       builder.append(signature);
       builder.append("' not found for '");
       builder.append(type);
       builder.append("'");
-      
-      return builder.toString();
-   }
-   
-   private String formatSignature(Object[] list) {
-      StringBuilder builder = new StringBuilder();
-      
-      builder.append("(");
-
-      for(int i = 0; i < list.length; i++) {
-         Object value = list[i];
-         Type parameter = extractor.getType(value);
-         
-         if(i > 0) {
-            builder.append(", ");
-         }
-         if(parameter != null) {
-            builder.append(parameter);
-         } else {
-            builder.append(DEFAULT_PACKAGE);
-            builder.append(".");
-            builder.append(ANY_TYPE);
-         }
-      }
-      builder.append(")");
       
       return builder.toString();
    }
