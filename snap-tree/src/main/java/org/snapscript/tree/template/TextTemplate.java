@@ -1,5 +1,7 @@
 package org.snapscript.tree.template;
 
+import static org.snapscript.core.constraint.Constraint.STRING;
+
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +62,7 @@ public class TextTemplate implements Compilation {
             }
          }
          segments = list;
-         return Constraint.STRING;
+         return STRING;
       }
    
       @Override
