@@ -1,5 +1,8 @@
 package org.snapscript.tree.template;
 
+import org.snapscript.core.ExpressionEvaluator;
+import org.snapscript.core.convert.proxy.ProxyWrapper;
+
 public class SegmentIterator {
    
    private static final short[] IDENTIFIER = {
@@ -17,11 +20,15 @@ public class SegmentIterator {
    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, };
    
+   private ExpressionEvaluator evaluator;
+   private ProxyWrapper wrapper;
    private char[] source;
    private int off;
    
-   public SegmentIterator(String text) {
-      this.source = text.toCharArray();
+   public SegmentIterator(ExpressionEvaluator evaluator, ProxyWrapper wrapper, char[] source) {
+      this.evaluator = evaluator;
+      this.wrapper = wrapper;
+      this.source = source;
    }
    
    public Segment next() {
@@ -46,9 +53,9 @@ public class SegmentIterator {
                   
                   if(symbol == '}') {
                      if(special > 0) {
-                        return new ExpressionSegment(source, mark, off - mark);
+                        return new ExpressionSegment(evaluator, wrapper, source, mark, off - mark);
                      }
-                     return new VariableSegment(source, mark, off - mark);
+                     return new VariableSegment(wrapper, source, mark, off - mark);
                   } 
                   if(off > start) {
                      if(IDENTIFIER.length < symbol) {

@@ -4,48 +4,52 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.snapscript.core.Compilation;
+import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
-import org.snapscript.core.InternalStateException;
+import org.snapscript.core.ExpressionEvaluator;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.convert.proxy.ProxyWrapper;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.index.LocalScopeExtractor;
 import org.snapscript.core.variable.Value;
 import org.snapscript.parse.StringToken;
 
-public class TextTemplate extends Evaluation {
-
-   private LocalScopeExtractor extractor;
-   private List<Segment> tokens;
-   private StringToken template;
+public class TextTemplate implements Compilation {
+   
+   private final StringToken template;
    
    public TextTemplate(StringToken template) {
-      this.extractor = new LocalScopeExtractor(true, true);
       this.template = template;
-   }
-   
-   @Override
-   public Constraint compile(Scope scope, Constraint left) throws Exception {
-      return Constraint.STRING;
    }
 
    @Override
-   public Value evaluate(Scope scope, Object left) throws Exception {
+   public Evaluation compile(Module module, Path path, int line) throws Exception {
+      Context context = module.getContext();
+      ProxyWrapper wrapper = context.getWrapper();
+      ExpressionEvaluator evaluator = context.getEvaluator();
       String text = template.getValue();
-      Scope capture = extractor.extract(scope);
+      char[] source = text.toCharArray();
       
-      if(text == null) {
-         throw new InternalStateException("Text value was null");
-      }
-      String result = interpolate(capture, text);
-   
-      return Value.getTransient(result);
+      return new CompileResult(evaluator, wrapper, source);
    }
    
-   private String interpolate(Scope scope, String text) throws Exception {
-      StringWriter writer = new StringWriter();
-            
-      if(tokens == null) {
-         SegmentIterator iterator = new SegmentIterator(text);
+   private static class CompileResult extends Evaluation {
+
+      private LocalScopeExtractor extractor;
+      private SegmentIterator iterator;
+      private List<Segment> segments;
+
+      public CompileResult(ExpressionEvaluator evaluator, ProxyWrapper wrapper, char[] source) {
+         this.iterator = new SegmentIterator(evaluator, wrapper, source);
+         this.extractor = new LocalScopeExtractor(true, true);
+         this.segments = new ArrayList<Segment>();
+      }
+      
+      @Override
+      public Constraint compile(Scope scope, Constraint left) throws Exception {
          List<Segment> list = new ArrayList<Segment>();
          
          while(iterator.hasNext()) {
@@ -55,11 +59,24 @@ public class TextTemplate extends Evaluation {
                list.add(token);  
             }
          }
-         tokens = list; // atomic swap
+         segments = list;
+         return Constraint.STRING;
       }
-      for(Segment token : tokens) {
-         token.process(scope, writer);
+   
+      @Override
+      public Value evaluate(Scope scope, Object left) throws Exception {
+         StringWriter writer = new StringWriter();
+         
+         if(!segments.isEmpty()) {
+            Scope capture = extractor.extract(scope);
+            
+            for(Segment segment : segments) {
+               segment.process(capture, writer);
+            }
+         }
+         String result = writer.toString();
+         return Value.getTransient(result);
       }
-      return writer.toString();
    }
+
 }

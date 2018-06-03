@@ -2,20 +2,28 @@ package org.snapscript.tree.template;
 
 import java.io.Writer;
 
-import org.snapscript.core.convert.StringBuilder;
+import org.snapscript.core.convert.proxy.ProxyWrapper;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.State;
 import org.snapscript.core.variable.Value;
+import org.snapscript.core.variable.bind.VariableFinder;
+import org.snapscript.core.variable.index.LocalPointer;
+import org.snapscript.core.variable.index.VariablePointer;
 
 public class VariableSegment implements Segment {
    
-   private String variable;
-   private char[] source;
-   private int off;
-   private int length;
+   private final VariablePointer pointer;
+   private final  VariableFinder finder;
+   private final  ProxyWrapper wrapper;
+   private final  String variable;
+   private final  char[] source;
+   private final  int off;
+   private final  int length;
    
-   public VariableSegment(char[] source, int off, int length) {
+   public VariableSegment(ProxyWrapper wrapper, char[] source, int off, int length) {
       this.variable = new String(source, off + 2, length - 3);
+      this.finder = new VariableFinder(wrapper);
+      this.pointer = new LocalPointer(finder, variable);
+      this.wrapper = wrapper;
       this.source = source;
       this.length = length;
       this.off = off;         
@@ -23,14 +31,14 @@ public class VariableSegment implements Segment {
    
    @Override
    public void process(Scope scope, Writer writer) throws Exception {
-      State state = scope.getState();
-      Value value = state.get(variable);
+      Value value = pointer.getValue(scope, null);
       
       if(value == null) {
          writer.write(source, off, length);
       } else {
          Object token = value.getValue();
-         String text = StringBuilder.create(scope, token);
+         Object object = wrapper.toProxy(token);
+         String text = String.valueOf(object);
          
          writer.append(text);            
       }
