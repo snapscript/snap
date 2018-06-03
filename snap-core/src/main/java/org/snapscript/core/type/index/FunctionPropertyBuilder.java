@@ -36,7 +36,7 @@ public class FunctionPropertyBuilder {
       int count = names.size();
       
       if(count == 0) {
-         FunctionAccessor accessor = new FunctionAccessor(function, stack);
+         FunctionAccessor accessor = new FunctionAccessor(function, stack, module);
          AccessorProperty property = new AccessorProperty(name, type, constraint, accessor, modifiers & ~MODIFIERS);
    
          return property;

@@ -14,6 +14,10 @@ public class ExtensionTest extends TestCase {
    private static final String SOURCE_2 = 
    "println(new Date().getYear());\n";
    
+   private static final String SOURCE_3 = 
+   "let x = URL('http://www.bbc.co.uk').get().status;\n"+
+   "println(x);"; 
+   
    public void testFileExtension() throws Exception {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
       System.err.println(SOURCE_1);
@@ -24,6 +28,12 @@ public class ExtensionTest extends TestCase {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
       System.err.println(SOURCE_2);
       Executable executable = compiler.compile(SOURCE_2);
+      executable.execute();
+   }  
+   public void testURLExtension() throws Exception {
+      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
+      System.err.println(SOURCE_3);
+      Executable executable = compiler.compile(SOURCE_3);
       executable.execute();
    }  
 }

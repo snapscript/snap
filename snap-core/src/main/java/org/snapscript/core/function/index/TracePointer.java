@@ -1,7 +1,5 @@
 package org.snapscript.core.function.index;
 
-import static org.snapscript.core.function.Origin.PLATFORM;
-
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.attribute.AttributeType;
 import org.snapscript.core.attribute.AttributeTypeBinder;
@@ -13,7 +11,6 @@ import org.snapscript.core.function.Origin;
 import org.snapscript.core.function.Signature;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.stack.ThreadStack;
-import org.snapscript.core.type.Type;
 
 public class TracePointer implements FunctionPointer {
    
