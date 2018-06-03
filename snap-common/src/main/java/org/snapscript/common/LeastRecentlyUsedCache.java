@@ -44,6 +44,21 @@ public class LeastRecentlyUsedCache<K, V> implements Cache<K, V> {
    public synchronized V fetch(K key) {
       return cache.get(key);
    }
+   
+   @Override
+   public synchronized V fetch(K key, ValueBuilder<K, V> builder) {
+      V value = cache.get(key);
+      
+      if(value == null) {
+         V update = builder.create(key);
+         
+         if(update != null) {
+            cache(key, update);
+         }
+         return update;
+      }
+      return value;
+   } 
 
    @Override
    public synchronized void cache(K key, V value) {

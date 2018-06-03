@@ -25,7 +25,7 @@ public class ClassExtender {
    }
    
    public List<Function> extend(Class type){
-      if(done.compareAndSet(false, true)) {
+      if(!done.get()) {
          registry.register(File.class, FileExtension.class);
          registry.register(Date.class, DateExtension.class);
          registry.register(Reader.class, ReaderExtension.class);
@@ -34,6 +34,7 @@ public class ClassExtender {
          registry.register(OutputStream.class, OutputStreamExtension.class);
          registry.register(URLConnection.class, URLConnectionExtension.class);
          registry.register(URL.class, URLExtension.class);
+         done.set(true);
       }
       return registry.extract(type);
    }

@@ -44,6 +44,17 @@ public abstract class ProgressCache<K, V, E extends Enum> implements Cache<K, V>
       }
       return value;
    }
+   
+   @Override
+   public V fetch(K key, ValueBuilder<K, V> builder) {
+      V value = cache.fetch(key);
+      
+      if(value != null) {
+         Progress<E> progress = progress(value);
+         progress.wait(require, delay);
+      }
+      return value;
+   }
 
    @Override
    public boolean isEmpty() {

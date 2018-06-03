@@ -11,40 +11,48 @@ import java.util.List;
 import java.util.Set;
 
 import org.snapscript.core.ModifierType;
-import org.snapscript.core.type.Type;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.annotation.AnnotationExtractor;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.function.Function;
 import org.snapscript.core.property.Property;
+import org.snapscript.core.type.Type;
+import org.snapscript.core.type.extend.ClassExtender;
 
 public class PropertyIndexer {
    
    private final GenericConstraintExtractor generics;
+   private final FunctionPropertyCollector collector;
    private final AnnotationExtractor extractor;
    private final ClassPropertyBuilder builder;
    private final ModifierConverter converter;
    private final PropertyGenerator generator;
+   private final ClassExtender extender;
    private final MethodMatcher matcher;
    private final TypeIndexer indexer;
    
-   public PropertyIndexer(TypeIndexer indexer){
+   public PropertyIndexer(TypeIndexer indexer, ClassExtender extender){
       this.builder = new ClassPropertyBuilder(indexer);
       this.generics = new GenericConstraintExtractor(); 
+      this.collector = new FunctionPropertyCollector();
       this.extractor = new AnnotationExtractor();
       this.converter = new ModifierConverter();
       this.generator = new PropertyGenerator();
       this.matcher = new MethodMatcher();
+      this.extender = extender;
       this.indexer = indexer;
    }
 
    public List<Property> index(Class source) throws Exception {
       List<Property> properties = builder.create(source);
+      List<Function> extensions = extender.extend(source);
       Method[] methods = source.getDeclaredMethods();
       Field[] fields = source.getDeclaredFields();
       Class[] types = source.getDeclaredClasses();
       Type type = indexer.loadType(source);
+      int count = extensions.size();
 
-      if(fields.length > 0 || methods.length > 0 || types.length >0) {
+      if(fields.length + methods.length + types.length +count > 0) {
          Set<String> done = new HashSet<String>();
          
          if(fields.length > 0) {
@@ -73,6 +81,17 @@ public class PropertyIndexer {
             List<Property> indexed = index(type, types);
             
             for(Property property : indexed) {
+               String name = property.getName();
+               
+               if(done.add(name)) {
+                  properties.add(property);
+               }
+            }
+         }
+         if(count > 0) {
+            List<Property> extended = collector.collect(extensions, done);
+            
+            for(Property property : extended) {
                String name = property.getName();
                
                if(done.add(name)) {

@@ -39,7 +39,7 @@ public class ClassIndexer {
    private final TypeIndexer indexer;
 
    public ClassIndexer(TypeIndexer indexer, ModuleRegistry registry, ImportScanner scanner, ClassExtender extender, PlatformProvider provider) {
-      this.properties = new PropertyIndexer(indexer);
+      this.properties = new PropertyIndexer(indexer, extender);
       this.functions = new MethodIndexer(extender, provider);
       this.generics = new GenericIndexer(indexer);
       this.hierarchy = new ClassHierarchyIndexer();

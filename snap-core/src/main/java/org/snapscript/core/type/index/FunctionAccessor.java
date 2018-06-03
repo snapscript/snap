@@ -1,4 +1,4 @@
-package org.snapscript.tree.define;
+package org.snapscript.core.type.index;
 
 import org.snapscript.core.InternalStateException;
 import org.snapscript.core.function.Accessor;
