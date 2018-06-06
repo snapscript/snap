@@ -17,7 +17,7 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Phase;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeDescription;
-import org.snapscript.core.type.TypeScope;
+import org.snapscript.core.type.StaticScope;
 
 public class ScopeArrayType implements Type {
    
@@ -40,7 +40,7 @@ public class ScopeArrayType implements Type {
    public ScopeArrayType(Module module, String name, Type entry, int size, int order){
       this.progress = new CompleteProgress<Phase>();
       this.description = new TypeDescription(this);
-      this.scope = new TypeScope(this);
+      this.scope = new StaticScope(this);
       this.module = module;
       this.order = order;
       this.entry = entry;

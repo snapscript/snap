@@ -31,7 +31,7 @@ public class AnyConstraint extends Constraint {
          Context context = module.getContext();
          TypeLoader loader = context.getLoader();
          String name = formatter.formatFullName(DEFAULT_PACKAGE, ANY_TYPE);
-         Type base = loader.resolveType(name);
+         Type base = loader.loadType(name);
          
          reference.set(base); // any is very last
          

@@ -1,5 +1,5 @@
 package org.snapscript.common;
 
-public interface ValueBuilder<K, V> {
+public interface LazyBuilder<K, V> {
    V create(K key);
 }

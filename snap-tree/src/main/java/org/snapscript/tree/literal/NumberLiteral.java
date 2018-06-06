@@ -8,7 +8,7 @@ import static org.snapscript.core.constraint.Constraint.LONG;
 import static org.snapscript.core.constraint.Constraint.NUMBER;
 import static org.snapscript.core.constraint.Constraint.SHORT;
 
-import org.snapscript.core.InternalStateException;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.variable.Value;
 import org.snapscript.parse.NumberToken;

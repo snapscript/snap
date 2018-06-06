@@ -1,6 +1,6 @@
 package org.snapscript.compile.validate;
 
-import org.snapscript.core.InternalException;
+import org.snapscript.core.error.InternalException;
 
 public class ValidateException extends InternalException {
 

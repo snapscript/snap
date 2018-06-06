@@ -1,7 +1,7 @@
 package org.snapscript.core.constraint.transform;
 
-import org.snapscript.core.InternalStateException;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.type.Type;
 
 public class GenericTransform implements ConstraintTransform{

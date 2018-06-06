@@ -58,8 +58,8 @@ public class FunctionComparatorTest extends TestCase {
       
       compiler.compile(SOURCE_1).execute();
       
-      Function extendX = context.getLoader().resolveType("default.ExtendX").getFunctions().get(0);
-      Function x = context.getLoader().resolveType("org.snapscript.compile.FunctionComparatorTest$X").getFunctions().get(0);
+      Function extendX = context.getLoader().loadType("default.ExtendX").getFunctions().get(0);
+      Function x = context.getLoader().loadType("org.snapscript.compile.FunctionComparatorTest$X").getFunctions().get(0);
       
       Scope scope = x.getSource().getScope();
       Score score = comparator.compare(scope, extendX, x);
@@ -85,8 +85,8 @@ public class FunctionComparatorTest extends TestCase {
       
       compiler.compile(SOURCE_2).execute();
       
-      Function extendY = context.getLoader().resolveType("default.ExtendY").getFunctions().get(0);
-      Function y = context.getLoader().resolveType("org.snapscript.compile.FunctionComparatorTest$Y").getFunctions().get(0);
+      Function extendY = context.getLoader().loadType("default.ExtendY").getFunctions().get(0);
+      Function y = context.getLoader().loadType("org.snapscript.compile.FunctionComparatorTest$Y").getFunctions().get(0);
       
       BufferedImage image = new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB);
       Graphics2D graphics = image.createGraphics();
@@ -114,8 +114,8 @@ public class FunctionComparatorTest extends TestCase {
       
       compiler.compile(SOURCE_3).execute();
       
-      Function extendZ = context.getLoader().resolveType("default.ExtendZ").getFunctions().get(0);
-      Function z = context.getLoader().resolveType("org.snapscript.compile.FunctionComparatorTest$Z").getFunctions().get(0);
+      Function extendZ = context.getLoader().loadType("default.ExtendZ").getFunctions().get(0);
+      Function z = context.getLoader().loadType("org.snapscript.compile.FunctionComparatorTest$Z").getFunctions().get(0);
       
       Scope scope = z.getSource().getScope();
       Score score = comparator.compare(scope, extendZ, z);

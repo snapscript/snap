@@ -7,8 +7,8 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.Executor;
 
 import org.snapscript.core.Context;
-import org.snapscript.core.InternalStateException;
 import org.snapscript.core.NameFormatter;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.ModuleRegistry;
 import org.snapscript.core.module.Path;
@@ -139,21 +139,21 @@ public class ImportManager {
                if(module != null) {
                   return null; // its a module!!
                }
-               type = loader.resolveType(alias);
+               type = loader.loadType(alias);
             }
          }
          if(type == null) {
-            type = loader.resolveType(from, name);
+            type = loader.loadType(from, name);
          }
          if(type == null) {
             for(String module : imports) {
-               type = loader.resolveType(module, name); // this is "tetris.game.*"
+               type = loader.loadType(module, name); // this is "tetris.game.*"
                
                if(type != null) {
                   return type;
                }
             }
-            type = loader.resolveType(null, name); // null is "java.*"
+            type = loader.loadType(null, name); // null is "java.*"
          }
          if(type == null && load) {
             type = matcher.importType(imports, name);

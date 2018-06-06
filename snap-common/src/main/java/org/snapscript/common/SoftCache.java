@@ -41,21 +41,6 @@ public class SoftCache<K, V> implements Cache<K, V> {
    }
    
    @Override
-   public V fetch(K key, ValueBuilder<K, V> builder) {
-      SoftReference<V> reference = cache.fetch(key);
-      
-      if(reference == null) {         
-         V value = builder.create(key);
-         
-         if(value != null) {
-            cache(key, value);
-         }
-         return value;
-      }
-      return reference.get();
-   } 
-   
-   @Override
    public void cache(K key, V value) {
       SoftReference<V> reference = new SoftReference<V>(value);
       

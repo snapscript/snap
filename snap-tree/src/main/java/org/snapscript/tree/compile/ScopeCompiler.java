@@ -93,7 +93,7 @@ public abstract class ScopeCompiler {
          TypeLoader loader = context.getLoader();
          String prefix = module.getName();
          String name = type.getName();         
-         Type array = loader.resolveArrayType(prefix, name, 1);
+         Type array = loader.loadArrayType(prefix, name, 1);
          
          return Constraint.getConstraint(array);
       }

@@ -28,21 +28,6 @@ public class HashCache<K, V> implements Cache<K, V> {
    public V fetch(K key) {      
       return map.get(key);
    }   
-   
-   @Override
-   public V fetch(K key, ValueBuilder<K, V> builder) {
-      V value = map.get(key);
-      
-      if(value == null) {
-         V update = builder.create(key);
-         
-         if(update != null) {
-            cache(key, update);
-         }
-         return update;
-      }
-      return value;
-   }   
 
    @Override
    public boolean isEmpty() {      

@@ -17,11 +17,12 @@ public class TypeLoader {
    
    private final ImportScanner scanner;
    private final TypeExtractor extractor;
+   private final ClassExtender extender;
    private final PlatformProvider provider;
    private final PackageManager manager;
    private final PackageLoader loader;
    private final TypeIndexer indexer;
-   private final ClassExtender extender;
+   private final TypeCache cache;
    
    public TypeLoader(PackageLinker linker, ModuleRegistry registry, ResourceManager manager, ProxyWrapper wrapper, ThreadStack stack){
       this.extractor = new TypeExtractor(this);
@@ -31,6 +32,7 @@ public class TypeLoader {
       this.indexer = new TypeIndexer(registry, scanner, extender, provider);
       this.loader = new PackageLoader(linker, manager);
       this.manager = new PackageManager(loader, scanner);
+      this.cache = new TypeCache(indexer);
    }
    
    public Package importPackage(String module)  {
@@ -49,19 +51,19 @@ public class TypeLoader {
       return indexer.defineType(module, name, modifiers);
    }
    
-   public Type resolveType(String module, String name) {
-      return indexer.loadType(module, name);
+   public Type loadType(String module, String name) {
+      return cache.fetch(module, name);
    }
    
-   public Type resolveArrayType(String module, String name, int size) {
-      return indexer.loadArrayType(module, name, size); // array type
+   public Type loadArrayType(String module, String name, int size) {
+      return indexer.loadArrayType(module, name, size); // no cache
    }
    
-   public Type resolveType(String type) {
-      return indexer.loadType(type);
+   public Type loadType(String type) {
+      return cache.fetch(type);
    }
    
    public Type loadType(Class type) {
-      return indexer.loadType(type);
+      return cache.fetch(type);
    } 
 }

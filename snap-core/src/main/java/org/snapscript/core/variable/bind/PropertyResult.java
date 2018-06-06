@@ -1,10 +1,10 @@
 package org.snapscript.core.variable.bind;
 
 import org.snapscript.core.Entity;
-import org.snapscript.core.InternalStateException;
 import org.snapscript.core.attribute.AttributeType;
 import org.snapscript.core.attribute.AttributeTypeBinder;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.property.PropertyValue;
 import org.snapscript.core.scope.Scope;

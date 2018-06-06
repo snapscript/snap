@@ -13,7 +13,7 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Phase;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeDescription;
-import org.snapscript.core.type.TypeScope;
+import org.snapscript.core.type.StaticScope;
 
 public class ClassType implements Type {
 
@@ -29,7 +29,7 @@ public class ClassType implements Type {
       this.progress = new CompleteProgress<Phase>();
       this.description = new TypeDescription(this);
       this.index = new ClassIndex(indexer, this);
-      this.scope = new TypeScope(this);
+      this.scope = new StaticScope(this);
       this.name = name;
       this.type = type;
       this.order = order;

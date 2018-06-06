@@ -2,7 +2,7 @@ package org.snapscript.compile.verify;
 
 import java.util.List;
 
-import org.snapscript.core.InternalException;
+import org.snapscript.core.error.InternalException;
 
 public class VerifyException extends InternalException {
    

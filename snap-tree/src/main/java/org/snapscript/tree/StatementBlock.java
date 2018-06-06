@@ -3,9 +3,9 @@ package org.snapscript.tree;
 import static org.snapscript.core.result.Result.NORMAL;
 
 import org.snapscript.core.Execution;
-import org.snapscript.core.InternalStateException;
 import org.snapscript.core.Statement;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.result.Result;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.index.Index;
@@ -14,8 +14,8 @@ import org.snapscript.core.yield.Yield;
 
 public class StatementBlock extends Statement {
    
-   private volatile StatementBuilder builder;
    private volatile StatementCompiler compiler;
+   private volatile StatementBuilder builder;
    
    public StatementBlock(Statement... statements) {
       this.builder = new StatementBuilder(statements);

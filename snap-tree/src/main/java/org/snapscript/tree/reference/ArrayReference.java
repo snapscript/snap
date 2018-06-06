@@ -1,8 +1,8 @@
 package org.snapscript.tree.reference;
 
 import org.snapscript.core.Context;
-import org.snapscript.core.InternalStateException;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
@@ -30,7 +30,7 @@ public class ArrayReference extends ConstraintReference {
          TypeLoader loader = context.getLoader();
          String prefix = module.getName();
          String name = entry.getName();         
-         Type array = loader.resolveArrayType(prefix, name, bounds.length);
+         Type array = loader.loadArrayType(prefix, name, bounds.length);
          Constraint constraint = Constraint.getConstraint(array);
          
          return new ConstraintValue(array, constraint);

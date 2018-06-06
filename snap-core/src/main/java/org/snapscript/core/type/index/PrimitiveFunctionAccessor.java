@@ -2,7 +2,7 @@ package org.snapscript.core.type.index;
 
 import java.lang.reflect.Constructor;
 
-import org.snapscript.core.InternalStateException;
+import org.snapscript.core.error.InternalStateException;
 
 public class PrimitiveFunctionAccessor {
 

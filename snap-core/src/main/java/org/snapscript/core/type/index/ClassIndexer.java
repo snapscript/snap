@@ -12,11 +12,11 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.Proxy;
 import java.util.List;
 
-import org.snapscript.core.InternalArgumentException;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.annotation.AnnotationExtractor;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.PrimitivePromoter;
+import org.snapscript.core.error.InternalArgumentException;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.link.ImportScanner;
 import org.snapscript.core.module.Module;

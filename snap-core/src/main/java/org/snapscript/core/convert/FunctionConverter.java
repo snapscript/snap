@@ -2,9 +2,9 @@ package org.snapscript.core.convert;
 
 import static org.snapscript.core.convert.Score.EXACT;
 
-import org.snapscript.core.InternalArgumentException;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.convert.proxy.ProxyWrapper;
+import org.snapscript.core.error.InternalArgumentException;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeExtractor;
 

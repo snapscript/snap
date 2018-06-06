@@ -1,8 +1,8 @@
 package org.snapscript.compile;
 
-import junit.framework.TestCase;
+import org.snapscript.core.Context;
 
-public class TextTemplateTest extends TestCase {
+public class TextTemplateTest extends ScriptTestCase {
 
    private static final String SOURCE_1=
    "var arr = new Integer[2];\n"+
@@ -19,27 +19,54 @@ public class TextTemplateTest extends TestCase {
    "}\n"+
    "f();\n";
 
+   private static final String SOURCE_3 = 
+   "var x = 11;\n"+
+   "assert `${y} ${x}` == `null 11`;\n";
+   
+   private static final String SOURCE_4 = 
+   "assert `${String.class.type.name}` == 'java.lang.String';\n";
+   
+   private static final String SOURCE_5 = 
+   "function f(){\n"+
+   "   return null;\n"+
+   "}\n"+
+   "println(`val=${f()}`);\n" +
+   "assert `val=${f()}` == 'val=null';\n";
+   
+   private static final String SOURCE_6 = 
+   "var x = 11;\n"+
+   "var y = null;\n"+
+   "assert `${y} ${x}` == `null 11`;\n";
+   
    public void testTemplate() throws Exception {
-      System.out.println(SOURCE_1);
-      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
-      Executable executable = compiler.compile(SOURCE_1);
-      long start = System.currentTimeMillis();
-      
-       executable.execute();
-       System.err.println("time="+(System.currentTimeMillis()-start));
+      assertScriptExecutes(SOURCE_1);
    }
    
    public void testTemplateFromFunction() throws Exception {
-      System.out.println(SOURCE_2);
-      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
-      Executable executable = compiler.compile(SOURCE_2);
-      long start = System.currentTimeMillis();
-      
-       executable.execute();
-       System.err.println("time="+(System.currentTimeMillis()-start));
+       assertScriptExecutes(SOURCE_2);
    }
-
-   public static void main(String[] list) throws Exception {
-      new TextTemplateTest().testTemplate();
+   
+   public void testMissingVariable() throws Exception {
+      assertScriptExecutes(SOURCE_3, new AssertionCallback() {
+         @Override
+         public void onSuccess(Context context, Object result) throws Exception{
+            throw new IllegalStateException("Should be an error");
+         }
+         public void onException(Context context, Exception cause) throws Exception{
+            cause.printStackTrace();
+         }
+      });
+   }
+   
+   public void testClassReference() throws Exception {
+      assertScriptExecutes(SOURCE_4);
+   }
+   
+   public void testNullReturnedFromFunction() throws Exception {
+      assertScriptExecutes(SOURCE_5);
+   }
+   
+   public void testNullVariable() throws Exception {
+      assertScriptExecutes(SOURCE_6);
    }
 }

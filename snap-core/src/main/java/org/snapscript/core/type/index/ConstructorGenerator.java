@@ -4,9 +4,9 @@ import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
 
 import java.lang.reflect.Constructor;
 
-import org.snapscript.core.InternalStateException;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationFunction;

@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.snapscript.core.EntityCache;
-import org.snapscript.core.InternalStateException;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 

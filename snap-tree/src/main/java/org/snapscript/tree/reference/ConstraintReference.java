@@ -3,9 +3,9 @@ package org.snapscript.tree.reference;
 import java.util.List;
 
 import org.snapscript.core.Evaluation;
-import org.snapscript.core.InternalStateException;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.constraint.ConstraintDescription;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;

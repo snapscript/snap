@@ -35,18 +35,7 @@ public class CopyOnWriteCache<K, V> implements Cache<K, V> {
    @Override
    public V fetch(K key) {
       return cache.get(key);
-   }
-   
-   @Override
-   public V fetch(K key, ValueBuilder<K, V> builder) {
-      V value = cache.get(key);
-      
-      if(value == null) {
-         value = builder.create(key);
-         cache.put(key, value);
-      }
-      return value;
-   }   
+   } 
 
    @Override
    public boolean isEmpty() {

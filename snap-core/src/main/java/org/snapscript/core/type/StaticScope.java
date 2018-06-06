@@ -10,14 +10,14 @@ import org.snapscript.core.scope.index.Index;
 import org.snapscript.core.scope.index.StackIndex;
 import org.snapscript.core.scope.index.Table;
 
-public class TypeScope implements Scope {
+public class StaticScope implements Scope {
    
    private final Index index;
    private final Table table;
    private final State state;
    private final Type type;
    
-   public TypeScope(Type type) {
+   public StaticScope(Type type) {
       this.table = new ArrayTable();
       this.state = new MapState();
       this.index = new StackIndex();

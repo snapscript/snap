@@ -6,11 +6,11 @@ import java.util.List;
 
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Execution;
-import org.snapscript.core.InternalStateException;
 import org.snapscript.core.NameFormatter;
 import org.snapscript.core.NoExecution;
 import org.snapscript.core.Statement;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;

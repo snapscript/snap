@@ -16,7 +16,7 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Phase;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeDescription;
-import org.snapscript.core.type.TypeScope;
+import org.snapscript.core.type.StaticScope;
 
 public class FunctionType implements Type {
    
@@ -35,7 +35,7 @@ public class FunctionType implements Type {
       this.function = new EmptyFunction(signature, METHOD_CLOSURE);
       this.progress = new CompleteProgress<Phase>();
       this.description = new TypeDescription(this);
-      this.scope = new TypeScope(this);
+      this.scope = new StaticScope(this);
       this.module = module;
       this.name = name;
    }

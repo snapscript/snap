@@ -1,6 +1,6 @@
 package org.snapscript.core.module;
 
-import org.snapscript.core.InternalArgumentException;
+import org.snapscript.core.error.InternalArgumentException;
 
 public class ModuleException extends InternalArgumentException {
 

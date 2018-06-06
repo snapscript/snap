@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.snapscript.common.Progress;
-import org.snapscript.core.InternalStateException;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Phase;
 import org.snapscript.core.type.Type;

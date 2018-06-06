@@ -7,10 +7,10 @@ import static org.snapscript.core.Reserved.TYPE_THIS;
 
 import java.util.List;
 
-import org.snapscript.core.InternalStateException;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.constraint.StaticConstraint;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.type.Type;
 
 public class ThisProperty implements Property {

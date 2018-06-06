@@ -7,7 +7,7 @@ import static org.snapscript.core.Reserved.METHOD_TO_STRING;
 import java.lang.reflect.Method;
 
 import org.snapscript.core.Context;
-import org.snapscript.core.InternalStateException;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.resolve.FunctionCall;
 import org.snapscript.core.function.resolve.FunctionResolver;

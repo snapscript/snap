@@ -1,7 +1,7 @@
 package org.snapscript.tree;
 
-import org.snapscript.core.InternalStateException;
 import org.snapscript.core.ModifierType;
+import org.snapscript.core.error.InternalStateException;
 
 public class ModifierData {
    

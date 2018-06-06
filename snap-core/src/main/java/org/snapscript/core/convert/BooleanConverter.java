@@ -4,7 +4,7 @@ import static org.snapscript.core.convert.Score.EXACT;
 import static org.snapscript.core.convert.Score.INVALID;
 import static org.snapscript.core.convert.Score.POSSIBLE;
 
-import org.snapscript.core.InternalArgumentException;
+import org.snapscript.core.error.InternalArgumentException;
 import org.snapscript.core.type.Type;
 
 public class BooleanConverter extends ConstraintConverter {

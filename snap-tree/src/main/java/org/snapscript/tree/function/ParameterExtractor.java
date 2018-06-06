@@ -2,9 +2,9 @@ package org.snapscript.tree.function;
 
 import java.util.List;
 
-import org.snapscript.core.InternalStateException;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.TypeInspector;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.Signature;
 import org.snapscript.core.scope.Scope;

@@ -3,7 +3,7 @@ package org.snapscript.core.platform;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
-import org.snapscript.core.InternalStateException;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;

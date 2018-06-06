@@ -2,8 +2,8 @@ package org.snapscript.core.constraint;
 
 import java.util.List;
 
-import org.snapscript.core.InternalStateException;
 import org.snapscript.core.convert.InstanceOfChecker;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 

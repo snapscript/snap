@@ -1,5 +1,7 @@
 package org.snapscript.core;
 
+import org.snapscript.core.error.InternalArgumentException;
+
 public class NameFormatter {
    
    private static final String[] DIMENSIONS = {"", "[]", "[][]", "[][][]" };     

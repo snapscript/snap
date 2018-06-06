@@ -1,9 +1,9 @@
 package org.snapscript.core.function.index;
 
-import org.snapscript.core.InternalStateException;
 import org.snapscript.core.attribute.AttributeType;
 import org.snapscript.core.attribute.AttributeTypeBinder;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.ArgumentConverter;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;

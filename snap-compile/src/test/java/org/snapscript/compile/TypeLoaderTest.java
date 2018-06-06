@@ -36,11 +36,11 @@ public class TypeLoaderTest extends TestCase {
       Context context = new StoreContext(store);
       TypeLoader loader = context.getLoader();    
       loader.defineType("foo", "Blah", CLASS.mask);
-      Type type1 = loader.resolveArrayType("org.snapscript.compile", "TypeLoaderTest$ExampleObject", 2);
-      Type type2 = loader.resolveArrayType("lang", "Integer", 3);
-      Type type3 = loader.resolveArrayType("foo", "Blah", 3);
-      Type type4 = loader.resolveType("java.awt.geom.Line2D$Double");
-      Type type5 = loader.resolveType("java.awt.geom.Ellipse2D$Double");
+      Type type1 = loader.loadArrayType("org.snapscript.compile", "TypeLoaderTest$ExampleObject", 2);
+      Type type2 = loader.loadArrayType("lang", "Integer", 3);
+      Type type3 = loader.loadArrayType("foo", "Blah", 3);
+      Type type4 = loader.loadType("java.awt.geom.Line2D$Double");
+      Type type5 = loader.loadType("java.awt.geom.Ellipse2D$Double");
       
       System.err.println(type1);
       System.err.println(type2);

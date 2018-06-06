@@ -1,5 +1,7 @@
 package org.snapscript.tree.template;
 
+import static org.snapscript.core.Reserved.TYPE_NULL;
+
 import java.io.Writer;
 
 import org.snapscript.core.ExpressionEvaluator;
@@ -12,17 +14,11 @@ public class ExpressionSegment implements Segment {
    private final ExpressionEvaluator evaluator;
    private final ProxyWrapper wrapper;
    private final String expression;
-   private final char[] source;
-   private final int off;
-   private final int length;
    
    public ExpressionSegment(ExpressionEvaluator evaluator, ProxyWrapper wrapper, char[] source, int off, int length) {
       this.expression = new String(source, off + 2, length - 3);
       this.evaluator = evaluator;
-      this.wrapper = wrapper;
-      this.source = source;
-      this.length = length;
-      this.off = off;         
+      this.wrapper = wrapper;       
    }
    
    @Override
@@ -32,7 +28,7 @@ public class ExpressionSegment implements Segment {
       Object value = evaluator.evaluate(scope, expression, name);
       
       if(value == null) {
-         writer.write(source, off, length);
+         writer.write(TYPE_NULL);
       } else {
          Object object = wrapper.toProxy(value);
          String text = String.valueOf(object);

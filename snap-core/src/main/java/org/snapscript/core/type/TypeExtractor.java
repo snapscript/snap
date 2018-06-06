@@ -4,8 +4,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import org.snapscript.common.Cache;
-import org.snapscript.common.CopyOnWriteCache;
 import org.snapscript.core.Handle;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.property.Property;
@@ -13,30 +11,21 @@ import org.snapscript.core.property.PropertyExtractor;
 
 public class TypeExtractor {
    
-   private final Cache<Class, Type> matches;
    private final PropertyExtractor extractor;
    private final TypeTraverser traverser;
    private final TypeLoader loader;
    
    public TypeExtractor(TypeLoader loader) {
-      this.matches = new CopyOnWriteCache<Class, Type>();
       this.extractor = new PropertyExtractor(this);
       this.traverser = new TypeTraverser();
       this.loader = loader;
    }
    
    public Type getType(Class type) {
-      Type match = matches.fetch(type);
-      
-      if(match == null) {
-         Type actual = loader.loadType(type);
-         
-         if(actual != null) {
-            matches.cache(type, actual);
-         }
-         return actual;
+      if(type != null) {
+         return loader.loadType(type);
       }
-      return match;
+      return null;
    }
    
    public Type getType(Object value) {

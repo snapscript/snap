@@ -64,7 +64,7 @@ public class NamedGenericParamsTest extends TestCase {
       compiler.compile(SOURCE).execute(model, true);
       
       TypeLoader loader = context.getLoader();
-      Type type = loader.resolveType(DEFAULT_PACKAGE, "SomeType");      
+      Type type = loader.loadType(DEFAULT_PACKAGE, "SomeType");      
       Type string = loader.loadType(String.class);
       
       assertNotNull(type);

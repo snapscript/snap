@@ -14,7 +14,7 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Phase;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeDescription;
-import org.snapscript.core.type.TypeScope;
+import org.snapscript.core.type.StaticScope;
 
 public class ScopeType implements Type {
    
@@ -40,7 +40,7 @@ public class ScopeType implements Type {
       this.functions = new ArrayList<Function>();
       this.types = new ArrayList<Constraint>();
       this.progress = new LockProgress<Phase>();
-      this.scope = new TypeScope(this);
+      this.scope = new StaticScope(this);
       this.modifiers = modifiers;
       this.module = module;
       this.outer = outer;

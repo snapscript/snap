@@ -2,8 +2,8 @@ package org.snapscript.core.type.index;
 
 import java.lang.reflect.Type;
 
-import org.snapscript.core.InternalStateException;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.error.InternalStateException;
 
 public class GenericConstraintResolver {
    

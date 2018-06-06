@@ -1,6 +1,6 @@
 package org.snapscript.core.variable;
 
-import org.snapscript.core.InternalStateException;
+import org.snapscript.core.error.InternalStateException;
 
 public class BooleanValue extends Value {   
    

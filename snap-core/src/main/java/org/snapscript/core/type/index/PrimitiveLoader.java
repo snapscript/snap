@@ -11,9 +11,9 @@ public class PrimitiveLoader {
    private final PrimitiveIndexer generator;
    private final NameFormatter formatter;
    
-   public PrimitiveLoader(TypeIndexer indexer, NameFormatter builder) {
+   public PrimitiveLoader(TypeIndexer indexer) {
       this.generator = new PrimitiveIndexer(indexer);
-      this.formatter = builder;
+      this.formatter = new NameFormatter();
    }
    
    public Type loadType(String type) {      

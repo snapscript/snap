@@ -3,8 +3,8 @@ package org.snapscript.core.link;
 import static org.snapscript.core.link.ImportType.EXPLICIT;
 import static org.snapscript.core.link.ImportType.IMPLICIT;
 
-import org.snapscript.core.InternalStateException;
 import org.snapscript.core.NameFormatter;
+import org.snapscript.core.error.InternalStateException;
   
 public class PackageManager {
    

@@ -37,7 +37,7 @@ public class ArrayConstraint extends Constraint {
          String prefix = parent.getName();
          String name = type.getName();
          
-         return loader.resolveArrayType(prefix, name, bounds);
+         return loader.loadArrayType(prefix, name, bounds);
       }
       return loader.loadType(Object[].class);
    }

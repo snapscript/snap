@@ -5,10 +5,10 @@ import static org.snapscript.core.error.Reason.CONSTRUCTION;
 
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
-import org.snapscript.core.InternalStateException;
 import org.snapscript.core.constraint.CompileConstraint;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.resolve.FunctionCall;
 import org.snapscript.core.function.resolve.FunctionResolver;
 import org.snapscript.core.module.Module;

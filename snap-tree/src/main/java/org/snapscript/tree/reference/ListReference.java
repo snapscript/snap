@@ -2,7 +2,7 @@ package org.snapscript.tree.reference;
 
 import static org.snapscript.core.constraint.Constraint.LIST;
 
-import org.snapscript.core.InternalStateException;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.parse.StringToken;

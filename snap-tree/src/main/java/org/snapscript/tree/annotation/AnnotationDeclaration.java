@@ -5,9 +5,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.snapscript.core.Evaluation;
-import org.snapscript.core.InternalStateException;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.annotation.MapAnnotation;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.variable.Value;
 import org.snapscript.tree.construct.MapEntryList;

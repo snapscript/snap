@@ -1,11 +1,11 @@
 package org.snapscript.core.type.index;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.snapscript.core.InternalStateException;
+import org.snapscript.common.Cache;
+import org.snapscript.common.HashCache;
 import org.snapscript.core.NameFormatter;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.link.ImportScanner;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.ModuleRegistry;
@@ -15,7 +15,7 @@ import org.snapscript.core.type.extend.ClassExtender;
 
 public class TypeIndexer {
 
-   private final Map<Object, Type> types;
+   private final Cache<Object, Type> types;
    private final NameFormatter formatter;
    private final ImportScanner scanner;
    private final PrimitiveLoader loader;
@@ -30,9 +30,9 @@ public class TypeIndexer {
    
    public TypeIndexer(ModuleRegistry registry, ImportScanner scanner, ClassExtender extender, PlatformProvider provider, int limit) {
       this.indexer = new ClassIndexer(this, registry, scanner, extender, provider);
-      this.types = new LinkedHashMap<Object, Type>();
-      this.formatter = new NameFormatter();
-      this.loader = new PrimitiveLoader(this, formatter);     
+      this.types = new HashCache<Object, Type>();
+      this.loader = new PrimitiveLoader(this); 
+      this.formatter = new NameFormatter();    
       this.counter = new AtomicInteger(1); // consider function types which own 0
       this.registry = registry;
       this.scanner = scanner;
@@ -40,7 +40,7 @@ public class TypeIndexer {
    }
    
    public synchronized Type loadType(String type) {
-      Type done = types.get(type);
+      Type done = types.fetch(type);
 
       if (done == null) {
          Class match = scanner.importType(type);
@@ -55,7 +55,7 @@ public class TypeIndexer {
 
    public synchronized Type loadType(String module, String name) {
       String alias = formatter.formatFullName(module, name);
-      Type done = types.get(alias);
+      Type done = types.fetch(alias);
 
       if (done == null) {
          Class match = scanner.importType(alias);
@@ -70,7 +70,7 @@ public class TypeIndexer {
 
    public synchronized Type loadArrayType(String module, String name, int size) {
       String alias = formatter.formatArrayName(module, name, size);
-      Type done = types.get(alias);
+      Type done = types.fetch(alias);
       
       if (done == null) {
          String type = formatter.formatFullName(module, name);
@@ -89,7 +89,7 @@ public class TypeIndexer {
    
    public synchronized Type defineType(String module, String name, int modifiers) {
       String alias = formatter.formatFullName(module, name);
-      Type done = types.get(alias);
+      Type done = types.fetch(alias);
 
       if (done == null) {
          Class match = scanner.importType(alias);
@@ -97,8 +97,8 @@ public class TypeIndexer {
          if (match == null) {
             Type type = createType(module, name, modifiers);
             
-            types.put(type, type);
-            types.put(alias, type);
+            types.cache(type, type);
+            types.cache(alias, type);
             
             return type;
          }
@@ -108,16 +108,16 @@ public class TypeIndexer {
    }
    
    public synchronized Type loadType(Class source) {
-      Type done = types.get(source);
+      Type done = types.fetch(source);
       
       if (done == null) {
          String alias = scanner.importName(source);
          String absolute = source.getName();
          Type type = createType(source);
 
-         types.put(source, type);
-         types.put(alias, type);
-         types.put(absolute, type);
+         types.cache(source, type);
+         types.cache(alias, type);
+         types.cache(absolute, type);
          
          return type;
       }
@@ -128,10 +128,10 @@ public class TypeIndexer {
       String alias = formatter.formatFullName(module, name);
       String prefix = formatter.formatOuterName(module, name); 
       Module parent = registry.addModule(module);
-      Type type = types.get(alias);
+      Type type = types.fetch(alias);
       
       if(type == null) {
-         Type outer = types.get(prefix);
+         Type outer = types.fetch(prefix);
          int order = counter.getAndIncrement();
          
          if(order > limit) {
@@ -145,7 +145,7 @@ public class TypeIndexer {
    private synchronized Type createArrayType(String module, String name, int size) {
       String alias = formatter.formatArrayName(module, name, size);
       Module parent = registry.addModule(module);
-      Type type = types.get(alias);
+      Type type = types.fetch(alias);
       
       if(type == null) {
          Type entry = loadArrayType(module, name, size -1);
@@ -166,7 +166,7 @@ public class TypeIndexer {
    
    private synchronized Type createType(Class source) {
       String alias = scanner.importName(source);
-      Type type = types.get(alias);
+      Type type = types.fetch(alias);
       
       if(type == null) {
          String name = formatter.formatShortName(source);

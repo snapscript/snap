@@ -4,7 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.snapscript.core.Context;
-import org.snapscript.core.InternalStateException;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.platform.Platform;

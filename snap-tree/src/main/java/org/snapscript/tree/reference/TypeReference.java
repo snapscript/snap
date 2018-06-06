@@ -1,10 +1,10 @@
 package org.snapscript.tree.reference;
 
 import org.snapscript.core.Evaluation;
-import org.snapscript.core.InternalStateException;
 import org.snapscript.core.NameFormatter;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.constraint.ConstraintWrapper;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.index.Local;
 import org.snapscript.core.type.Type;

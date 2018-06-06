@@ -74,8 +74,8 @@ public class GenericTransformerTest extends TestCase {
       compiler.compile(SOURCE_3).execute(model, true);
       
       TypeLoader loader = context.getLoader();
-      Type fromType = loader.resolveType(DEFAULT_PACKAGE, "Foo");      
-      Type toType = loader.resolveType(DEFAULT_PACKAGE, "Duh");    
+      Type fromType = loader.loadType(DEFAULT_PACKAGE, "Foo");      
+      Type toType = loader.loadType(DEFAULT_PACKAGE, "Duh");    
       
       Scope scope = fromType.getScope();
       Constraint constraint = Constraint.getConstraint(fromType);
@@ -96,9 +96,9 @@ public class GenericTransformerTest extends TestCase {
       compiler.compile(SOURCE_1).execute(model, true);
       
       TypeLoader loader = context.getLoader();
-      Type type3 = loader.resolveType(DEFAULT_PACKAGE, "Three");
-      Type type4 = loader.resolveType(DEFAULT_PACKAGE, "Four");        
-      Type type1 = loader.resolveType(DEFAULT_PACKAGE, "One");
+      Type type3 = loader.loadType(DEFAULT_PACKAGE, "Three");
+      Type type4 = loader.loadType(DEFAULT_PACKAGE, "Four");        
+      Type type1 = loader.loadType(DEFAULT_PACKAGE, "One");
       Type typeInteger = loader.loadType(Integer.class);
       Type typeBoolean = loader.loadType(Boolean.class);
 
@@ -130,8 +130,8 @@ public class GenericTransformerTest extends TestCase {
       compiler.compile(SOURCE_2).execute(model, true);
       
       TypeLoader loader = context.getLoader();
-      Type type3 = loader.resolveType(DEFAULT_PACKAGE, "Three");      
-      Type type1 = loader.resolveType(DEFAULT_PACKAGE, "One");
+      Type type3 = loader.loadType(DEFAULT_PACKAGE, "Three");      
+      Type type1 = loader.loadType(DEFAULT_PACKAGE, "One");
       Type typeList = loader.loadType(List.class);
       Type typeMap = loader.loadType(Map.class);      
       Type typeInteger = loader.loadType(Integer.class);

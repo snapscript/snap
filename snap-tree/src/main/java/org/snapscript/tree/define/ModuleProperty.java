@@ -1,9 +1,9 @@
 package org.snapscript.tree.define;
 
 import org.snapscript.core.Evaluation;
-import org.snapscript.core.InternalStateException;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.constraint.DeclarationConstraint;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.Accessor;
 import org.snapscript.core.function.AccessorProperty;
 import org.snapscript.core.function.ModuleAccessor;

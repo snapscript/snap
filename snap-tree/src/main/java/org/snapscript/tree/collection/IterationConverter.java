@@ -9,12 +9,12 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.snapscript.core.Context;
-import org.snapscript.core.InternalArgumentException;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.array.ArrayBuilder;
 import org.snapscript.core.convert.proxy.ProxyWrapper;
+import org.snapscript.core.error.InternalArgumentException;
 
 public class IterationConverter {
 

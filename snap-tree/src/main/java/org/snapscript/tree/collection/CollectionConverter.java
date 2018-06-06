@@ -3,8 +3,8 @@ package org.snapscript.tree.collection;
 import java.util.List;
 import java.util.Map;
 
-import org.snapscript.core.InternalArgumentException;
 import org.snapscript.core.array.ArrayBuilder;
+import org.snapscript.core.error.InternalArgumentException;
 
 public class CollectionConverter {
 

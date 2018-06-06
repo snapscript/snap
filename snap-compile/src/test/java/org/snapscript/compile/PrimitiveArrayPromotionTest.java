@@ -16,7 +16,7 @@ public class PrimitiveArrayPromotionTest extends TestCase {
       Store store = new ClassPathStore();
       Context context = new StoreContext(store);
       TypeLoader loader = context.getLoader();
-      Type type1 = loader.resolveArrayType("lang", "Byte", 1);
+      Type type1 = loader.loadArrayType("lang", "Byte", 1);
       Type type2 = loader.loadType(byte[].class);
 
       System.err.println(type1);
@@ -40,7 +40,7 @@ public class PrimitiveArrayPromotionTest extends TestCase {
       Store store = new ClassPathStore();
       Context context = new StoreContext(store);
       TypeLoader loader = context.getLoader();
-      Type type1 = loader.resolveArrayType("lang", "Byte", 2);
+      Type type1 = loader.loadArrayType("lang", "Byte", 2);
       Type type2 = loader.loadType(byte[][].class);
 
       System.err.println(type1);

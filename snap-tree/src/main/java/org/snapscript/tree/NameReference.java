@@ -1,7 +1,7 @@
 package org.snapscript.tree;
 
 import org.snapscript.core.Evaluation;
-import org.snapscript.core.InternalStateException;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.variable.Value;
 

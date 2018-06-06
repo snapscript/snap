@@ -3,9 +3,9 @@ package org.snapscript.core.constraint.transform;
 import java.util.List;
 import java.util.Map;
 
-import org.snapscript.core.InternalStateException;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.constraint.ConstraintMapper;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 

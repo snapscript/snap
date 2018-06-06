@@ -2,8 +2,8 @@ package org.snapscript.core.variable;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.snapscript.core.InternalStateException;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 

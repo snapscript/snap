@@ -7,8 +7,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.FutureTask;
 
-import org.snapscript.core.InternalStateException;
 import org.snapscript.core.ResourceManager;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.module.PathConverter;
 

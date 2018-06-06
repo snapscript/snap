@@ -1,6 +1,6 @@
 package org.snapscript.core.array;
 
-import org.snapscript.core.InternalArgumentException;
+import org.snapscript.core.error.InternalArgumentException;
 
 public class DoubleList extends ArrayWrapper<Object> {
 

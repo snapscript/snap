@@ -15,7 +15,7 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Phase;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeDescription;
-import org.snapscript.core.type.TypeScope;
+import org.snapscript.core.type.StaticScope;
 
 public class MockType implements Type {
 
@@ -40,7 +40,7 @@ public class MockType implements Type {
       this.properties = new ArrayList<Property>();
       this.functions = new ArrayList<Function>();
       this.types = new ArrayList<Constraint>();
-      this.scope = new TypeScope(this);
+      this.scope = new StaticScope(this);
       this.module = module;
       this.entry = entry;
       this.type = type;
