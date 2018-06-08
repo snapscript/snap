@@ -16,6 +16,17 @@ public class ClassPathStore implements Store {
       InputStream source = loader.getResourceAsStream(path);
       
       if(source == null) {
+         int index = path.indexOf('/');
+         int length = path.length();
+         
+         if(index == 0 && length > 0) {
+            String relative = path.substring(1);
+            int remainder = relative.length();
+            
+            if(remainder > 0) {
+               return getInputStream(relative);
+            }
+         }
          throw new NotFoundException("Could not find '" + path + "'");
       }  
       return source;
