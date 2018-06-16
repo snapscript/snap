@@ -31,7 +31,7 @@ public class DeclarationAllocator {
          if(real != null) {
             object = converter.compile(scope, real, constraint, name);        
          }
-         return assign(scope, name, object, object, modifiers);
+         return assign(scope, name, null, object, modifiers);
       }
       return declare(scope, name, constraint, modifiers); // nothing assigned yet
    }
