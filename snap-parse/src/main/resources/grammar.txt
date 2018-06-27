@@ -203,16 +203,20 @@ statement = { <control-statement> |
 			  <synchronized-statement> | 
 			  <assert-statement> |
 			  <debug-statement> | 
-			  <assignment-statement> | 
+			  <assignment-statement> |
 			  <expression-statement> | 
 			  <conditional-statement> | 
-			  <declaration-statement> | 
+			  <declaration-statement> |
+			  <assignment-list-statement> |   
 			  <group-statement> | 
 			  <terminal-statement> };
 
 assignment-variable = [identifier];
 assignment-expression = (<value-operand> | <reference> | <calculation> | <choice> | <conditional> | <cast>);
 assignment-statement = <reference><assignment-operator><assignment-expression>';';
+  
+assignment-list = '('<reference>*(','<reference>)')';
+assignment-list-statement = <assignment-list>'=''('<assignment-expression>*(','<assignment-expression>)')'';';
   
 declaration-modifier = {'var' | 'let'| 'const'};
 declaration = <assignment-variable>?(':'<constraint>?_)?('='<assignment-expression>);
@@ -345,7 +349,8 @@ script-statement = { <try-statement> |
 				     <conditional-statement> | 
 				     <type-definition> | 
 				     <module-definition> | 
-				     <assignment-statement> | 
+				     <assignment-statement> |
+				     <assignment-list-statement> |  
 				     <expression-statement> };
 				     
 script-package = *{<script-import> | <script-function> | <type-definition> | <module-definition>};

@@ -10,6 +10,13 @@ public class ExpressionParseTest extends TestCase {
       SyntaxParser tree = LexerBuilder.create(GRAMMAR_FILE);
 
       assertNotNull(tree);
+      analyze(tree, "(a, b, c)", "assignment-list");  
+      analyze(tree, "(a.x, b, c)", "assignment-list");   
+      analyze(tree, "(a.x, b, c[1])", "assignment-list");  
+      analyze(tree, "(a.x, b, c[1]) = (1, 2, 3);", "assignment-list-statement"); 
+      analyze(tree, "(a.x, b, c[1]) = (1, 2, 3);", "statement"); 
+      analyze(tree, "(a.x, b, c[1]) = (1, 2, 3);", "script-statement"); 
+      analyze(tree, "(a.x, b, c[1]) = (1, null, 3);", "script-statement"); 
       analyze(tree, ">=", "comparison-operator");       
       analyze(tree, "x>=y", "expression");           
       analyze(tree, ">", "comparison-operator"); 

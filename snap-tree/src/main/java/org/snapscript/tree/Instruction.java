@@ -73,6 +73,8 @@ import org.snapscript.tree.literal.NullLiteral;
 import org.snapscript.tree.literal.NumberLiteral;
 import org.snapscript.tree.literal.TextLiteral;
 import org.snapscript.tree.operation.Assignment;
+import org.snapscript.tree.operation.AssignmentList;
+import org.snapscript.tree.operation.AssignmentListStatement;
 import org.snapscript.tree.operation.AssignmentStatement;
 import org.snapscript.tree.operation.CalculationList;
 import org.snapscript.tree.operation.CalculationOperand;
@@ -149,6 +151,7 @@ public enum Instruction {
    CHOICE(Choice.class, "choice"), 
    NULL_COALESCE(NullCoalesce.class, "null-coalesce"),    
    ASSIGNMENT(Assignment.class, "assignment"),
+   ASSIGNMENT_LIST(AssignmentList.class, "assignment-list"),
    TYPE_REFERENCE(TypeReference.class, "type-reference"),
    TYPE_REFERENCE_PART(TypeReferencePart.class, "type-reference-part"),
    ARRAY_REFERENCE(ArrayReference.class, "array-reference"),
@@ -175,7 +178,8 @@ public enum Instruction {
    DECLARATION(Declaration.class, "declaration"),
    DECLARATION_MODIFIER(Modifier.class, "declaration-modifier"),      
    DECLARATION_STATEMENT(DeclarationStatement.class, "declaration-statement"),
-   ASSIGNMENT_STATEMENT(AssignmentStatement.class, "assignment-statement"),      
+   ASSIGNMENT_STATEMENT(AssignmentStatement.class, "assignment-statement"), 
+   ASSIGNMENT_LIST_STATEMENT(AssignmentListStatement.class, "assignment-list-statement"),
    EXPRESSION_STATEMENT(ExpressionStatement.class, "expression-statement"),
    SYNCHRONIZED_STATEMENT(SynchronizedStatement.class, "synchronized-statement"),
    TERMINAL_STATEMENT(EmptyStatement.class, "terminal-statement"),   

@@ -17,32 +17,11 @@ public class ArgumentList {
       this.list = list;
    }
    
-   public void define(Scope scope) throws Exception{
+   public int define(Scope scope) throws Exception{
       for(int i = 0; i < list.length; i++){
          list[i].define(scope);
       }
-   }
-   
-   public Object[] create(Scope scope) throws Exception{
-      if(list.length > 0) {
-         return create(scope, empty);
-      }
-      return empty;
-   }
-   
-   public Object[] create(Scope scope, Object... prefix) throws Exception{
-      Object[] values = new Object[list.length + prefix.length];
-      
-      for(int i = 0; i < list.length; i++){
-         Value reference = list[i].evaluate(scope, null);
-         Object result = reference.getValue();
-         
-         values[i + prefix.length] = result;
-      }
-      for(int i = 0; i < prefix.length; i++) {
-         values[i] = prefix[i];
-      }
-      return values;
+      return list.length;
    }
    
    public Type[] compile(Scope scope) throws Exception{
@@ -60,6 +39,28 @@ public class ArgumentList {
          Type type = result.getType(scope);
          
          values[i + prefix.length] = type;
+      }
+      for(int i = 0; i < prefix.length; i++) {
+         values[i] = prefix[i];
+      }
+      return values;
+   }
+   
+   public Object[] create(Scope scope) throws Exception{
+      if(list.length > 0) {
+         return create(scope, empty);
+      }
+      return empty;
+   }
+   
+   public Object[] create(Scope scope, Object... prefix) throws Exception{
+      Object[] values = new Object[list.length + prefix.length];
+      
+      for(int i = 0; i < list.length; i++){
+         Value reference = list[i].evaluate(scope, null);
+         Object result = reference.getValue();
+         
+         values[i + prefix.length] = result;
       }
       for(int i = 0; i < prefix.length; i++) {
          values[i] = prefix[i];
