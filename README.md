@@ -54,3 +54,5 @@ Below are some screenshots of the development environment.
 ![Developer Debug](https://raw.githubusercontent.com/snapscript/snap-site/master/images/debugger_save.png)
 ##### Open Projects
 ![Developer Debug](https://raw.githubusercontent.com/snapscript/snap-site/master/images/debugger_open.png)
+
+
