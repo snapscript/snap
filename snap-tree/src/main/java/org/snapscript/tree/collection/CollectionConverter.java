@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.snapscript.core.array.ArrayBuilder;
 import org.snapscript.core.error.InternalArgumentException;
+import org.snapscript.core.type.Type;
 
 public class CollectionConverter {
 
@@ -43,6 +44,9 @@ public class CollectionConverter {
          }
          if(Map.class.isAssignableFrom(type)) {
             return value;
+         }
+         if(Type.class.isAssignableFrom(type)) {
+            throw new InternalArgumentException("Illegal index of type " + value);            
          }
          throw new InternalArgumentException("Illegal index of " + type);
       }
