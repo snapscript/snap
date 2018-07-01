@@ -80,6 +80,9 @@ public class CollectionIndex extends Evaluation {
          
          return new MapValue(wrapper, map, key);
       }
+      if(Type.class.isInstance(type)) {
+         throw new InternalArgumentException("Illegal index of type " + left);
+      }
       throw new InternalArgumentException("Illegal index of " + type);
    }
 }
