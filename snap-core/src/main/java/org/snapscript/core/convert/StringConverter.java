@@ -7,6 +7,10 @@ import org.snapscript.core.type.Type;
 
 public class StringConverter extends ConstraintConverter {
    
+   public StringConverter() {
+      super();
+   }
+   
    @Override
    public Score score(Type actual) throws Exception {
       if(actual != null) {

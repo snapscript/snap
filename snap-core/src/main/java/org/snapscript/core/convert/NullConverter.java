@@ -6,6 +6,10 @@ import static org.snapscript.core.convert.Score.SIMILAR;
 import org.snapscript.core.type.Type;
 
 public class NullConverter extends ConstraintConverter { 
+   
+   public NullConverter() {
+      super();
+   }
 
    @Override
    public Score score(Type type) throws Exception {

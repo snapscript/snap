@@ -12,11 +12,13 @@ import org.snapscript.core.variable.Value;
 public class ScopeProxyHandler implements ProxyHandler {
    
    private final ProxyArgumentExtractor extractor;
+   private final ProxyWrapper wrapper;
    private final Context context;
    private final Scope scope;
    
    public ScopeProxyHandler(ProxyWrapper wrapper, Context context, Scope scope) {
       this.extractor = new ProxyArgumentExtractor(wrapper);
+      this.wrapper = wrapper;
       this.context = context;
       this.scope = scope;
    }
@@ -34,7 +36,7 @@ public class ScopeProxyHandler implements ProxyHandler {
       Value value = call.call();
       Object result = value.getValue();
       
-      return result;
+      return wrapper.toProxy(result);
    }
    
    @Override

@@ -3,6 +3,7 @@ package org.snapscript.core.convert;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -128,6 +129,9 @@ public class ConstraintMatcher {
       }
       if(inspector.isSame(type, List.class)) {
          return new ListConverter(extractor, checker, wrapper, type);
+      }
+      if(inspector.isSame(type, Properties.class)) {
+         return new PropertiesConverter(extractor, checker, wrapper, type);
       }
       if(inspector.isArray(type)) {
          return new ArrayConverter(this, checker, wrapper, type);

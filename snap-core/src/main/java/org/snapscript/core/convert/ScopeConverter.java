@@ -9,6 +9,10 @@ import org.snapscript.core.type.Type;
 
 public class ScopeConverter extends ConstraintConverter {
    
+   public ScopeConverter() {
+      super();
+   }
+   
    @Override
    public Score score(Type actual) throws Exception {
       if(actual != null) {
