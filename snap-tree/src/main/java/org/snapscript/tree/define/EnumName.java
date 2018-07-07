@@ -5,7 +5,6 @@ import static org.snapscript.core.ModifierType.ENUM;
 
 import java.util.List;
 
-import org.snapscript.core.ModifierType;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;

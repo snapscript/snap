@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.snapscript</groupId>
 	<artifactId>snap</artifactId>
-	<version>1.3.4</version>
+	<version>1.3.5</version>
 	<packaging>pom</packaging>
 
 	<properties>

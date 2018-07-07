@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.snapscript.core.function.FunctionSignature;
-import org.snapscript.core.function.Origin;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.ParameterBuilder;
 import org.snapscript.core.function.Signature;

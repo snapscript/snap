@@ -10,6 +10,7 @@ public class ClosureScopeCompiler extends ScopeCompiler{
       super();
    }
    
+   @Override
    public Scope compile(Scope closure, Type type, Function function) throws Exception {
       Scope scope = closure.getStack();
       

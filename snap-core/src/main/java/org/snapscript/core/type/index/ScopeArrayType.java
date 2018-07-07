@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.snapscript.common.CompleteProgress;
 import org.snapscript.common.Progress;
-import org.snapscript.core.ModifierType;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;

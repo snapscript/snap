@@ -12,6 +12,7 @@ public class ClosureBody extends FunctionBody {
       super(builder, other, function);
    }
    
+   @Override
    public Function create(Scope scope) throws Exception {
       Invocation invocation = new ClosureInvocation(actual, scope);
       Function closure = new ClosureFunction(function, invocation);

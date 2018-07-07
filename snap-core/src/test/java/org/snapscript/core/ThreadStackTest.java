@@ -10,7 +10,6 @@ import junit.framework.TestCase;
 import org.snapscript.core.function.FunctionSignature;
 import org.snapscript.core.function.FunctionType;
 import org.snapscript.core.function.InvocationFunction;
-import org.snapscript.core.function.Origin;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.Signature;
 import org.snapscript.core.module.ContextModule;

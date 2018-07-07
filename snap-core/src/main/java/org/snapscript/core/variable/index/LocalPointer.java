@@ -3,7 +3,6 @@ package org.snapscript.core.variable.index;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.constraint.ConstraintWrapper;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
 import org.snapscript.core.variable.Value;

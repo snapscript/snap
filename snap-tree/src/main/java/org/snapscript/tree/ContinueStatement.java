@@ -1,7 +1,6 @@
 package org.snapscript.tree;
 
 import static org.snapscript.core.result.Result.CONTINUE;
-import static org.snapscript.core.result.Result.NORMAL;
 
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;

@@ -11,7 +11,6 @@ import java.util.List;
 import org.snapscript.core.constraint.ArrayConstraint;
 import org.snapscript.core.constraint.ClassParameterConstraint;
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.convert.PrimitivePromoter;
 
 public class GenericConverterResolver {
    

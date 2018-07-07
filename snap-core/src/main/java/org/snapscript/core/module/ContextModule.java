@@ -10,7 +10,6 @@ import java.util.concurrent.Executor;
 import org.snapscript.common.Cache;
 import org.snapscript.common.CopyOnWriteCache;
 import org.snapscript.core.Context;
-import org.snapscript.core.ModifierType;
 import org.snapscript.core.ResourceManager;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.function.Function;

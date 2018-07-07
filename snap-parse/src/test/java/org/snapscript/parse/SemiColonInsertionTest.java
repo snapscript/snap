@@ -142,23 +142,23 @@ public class SemiColonInsertionTest extends TestCase {
       
       if(token.getValue().equals('\n')) {
          if(!isLiteralBefore(tokens, i) && isLiteralAfter(tokens, i)) {
-            return Arrays.<Token>asList(new CharacterToken(';', token.getLine(), (int)token.getType()));
+            return Arrays.<Token>asList(new CharacterToken(';', token.getLine(), token.getType()));
          }
          if(isPreviousOneOf(tokens, i, "return", "continue", "break")) {
-            return Arrays.<Token>asList(new CharacterToken(';', token.getLine(), (int)token.getType()), token);
+            return Arrays.<Token>asList(new CharacterToken(';', token.getLine(), token.getType()), token);
          }
          if((isAlphaBefore(tokens, i) && isAlphaAfter(tokens, i)) && !isLiteralBefore(tokens, i) && !isLiteralAfter(tokens, i)) {
-            return Arrays.<Token>asList(new CharacterToken(';', token.getLine(), (int)token.getType()), token);
+            return Arrays.<Token>asList(new CharacterToken(';', token.getLine(), token.getType()), token);
          }
       }
       if(token.getValue().equals("}")) {
          if(!isPreviousOneOf(tokens, i, "}")) {
-            return Arrays.<Token>asList(new CharacterToken(';', token.getLine(), (int)token.getType()), token);
+            return Arrays.<Token>asList(new CharacterToken(';', token.getLine(), token.getType()), token);
          }
       }
       if(token.getValue().equals(")") || token.getValue().equals("]")) {
          if(isAlphaAfter(tokens, i)) {
-            return Arrays.<Token>asList(token, new CharacterToken(';', token.getLine(), (int)token.getType()));
+            return Arrays.<Token>asList(token, new CharacterToken(';', token.getLine(), token.getType()));
          }
       }
       return Arrays.asList(token);

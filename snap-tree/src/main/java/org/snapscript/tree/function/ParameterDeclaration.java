@@ -5,7 +5,6 @@ import static org.snapscript.core.constraint.Constraint.NONE;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.variable.Value;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.Parameter;

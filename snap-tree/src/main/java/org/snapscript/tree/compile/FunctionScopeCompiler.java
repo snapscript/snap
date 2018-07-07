@@ -13,6 +13,7 @@ public class FunctionScopeCompiler extends ScopeCompiler {
       this.extractor = new LocalScopeExtractor(false, true);          
    }
 
+   @Override
    public Scope compile(Scope local, Type type, Function function) throws Exception {    
       Scope scope = extractor.extract(local);
       Scope stack = scope.getStack();

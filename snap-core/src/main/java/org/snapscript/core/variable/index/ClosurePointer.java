@@ -6,8 +6,6 @@ import org.snapscript.core.Context;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.module.Module;
-import org.snapscript.core.property.Property;
-import org.snapscript.core.property.PropertyValue;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeExtractor;

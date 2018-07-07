@@ -24,6 +24,7 @@ public class PropertyResult implements VariableResult {
       this.name = name;
    }
    
+   @Override
    public Constraint getConstraint(Constraint left) {
       Scope scope = entity.getScope();
       AttributeType type = binder.bind(scope);
@@ -34,6 +35,7 @@ public class PropertyResult implements VariableResult {
       return type.getConstraint(scope, left);  
    }
    
+   @Override
    public Value getValue(Object left) {
       return new PropertyValue(property, left, name);
    }

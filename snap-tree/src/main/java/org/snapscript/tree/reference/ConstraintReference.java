@@ -48,6 +48,7 @@ public abstract class ConstraintReference extends Evaluation {
          this.type = type;       
       }
       
+      @Override
       public List<Constraint> getGenerics(Scope scope) {
          return constraint.getGenerics(scope);
       }

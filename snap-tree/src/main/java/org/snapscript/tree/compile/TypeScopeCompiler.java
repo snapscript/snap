@@ -15,6 +15,7 @@ public class TypeScopeCompiler extends ScopeCompiler{
       super();
    }
 
+   @Override
    public Scope compile(Scope scope, Type type, Function function) throws Exception {          
       Scope outer = type.getScope();
       Scope inner = outer.getStack();
