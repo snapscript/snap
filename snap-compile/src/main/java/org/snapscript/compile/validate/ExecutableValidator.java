@@ -27,22 +27,34 @@ public class ExecutableValidator implements ContextValidator {
    @Override
    public void validate(Context context) throws Exception {
       ModuleRegistry registry = context.getRegistry();
-      List<Module> modules = registry.getModules();
+      List<Module> available = registry.getModules();
     
       verifier.verify();
-      
-      for(Module module : modules) {
-         validate(module);
+    
+      try {
+         for(Module module : available) {
+            modules.validate(module);
+         }  
+      } finally {
+         verifier.verify();
       }
    }
 
    @Override
    public void validate(Type type) throws Exception {
-      types.validate(type);
+      try {
+         types.validate(type);
+      } finally {
+         verifier.verify();
+      }
    }
 
    @Override
    public void validate(Module module) throws Exception {
-      modules.validate(module);
+      try {
+         modules.validate(module);
+      } finally {
+         verifier.verify();
+      }
    }
 }

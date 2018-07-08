@@ -4,6 +4,7 @@ import static org.snapscript.core.trace.TraceType.ALLOCATE;
 import static org.snapscript.core.trace.TraceType.CONSTRUCT;
 import static org.snapscript.core.trace.TraceType.DEBUG;
 import static org.snapscript.core.trace.TraceType.DEFINE;
+import static org.snapscript.core.trace.TraceType.IMPORT;
 import static org.snapscript.core.trace.TraceType.INVOKE;
 import static org.snapscript.core.trace.TraceType.NATIVE;
 import static org.snapscript.core.trace.TraceType.NORMAL;
@@ -37,6 +38,10 @@ public class Trace {
    public static Trace getDefine(Module module, Path path, int line) {
       return new Trace(DEFINE, module, path, line);
    }   
+
+   public static Trace getImport(Module module, Path path, int line) {
+      return new Trace(IMPORT, module, path, line);
+   }  
    
    public static Trace getAllocate(Module module, Path path, int line) {
       return new Trace(ALLOCATE, module, path, line);
