@@ -34,7 +34,7 @@ public class ClosureBuilder {
    public FunctionBody create(Signature signature, Scope scope, int modifiers) {
       Constraint constraint = new StaticConstraint(null);
       Type type = new FunctionType(signature, module, null);
-      InvocationBuilder builder = new StatementInvocationBuilder(signature, statement, constraint, true);
+      InvocationBuilder builder = new StatementInvocationBuilder(signature, statement, constraint, type, true);
       Invocation invocation = new ClosureInvocation(builder, scope);
       Function function = new InvocationFunction(signature, invocation, type, constraint, METHOD_CLOSURE, modifiers);
       

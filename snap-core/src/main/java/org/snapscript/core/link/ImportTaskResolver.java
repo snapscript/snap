@@ -24,7 +24,7 @@ public class ImportTaskResolver {
    public ImportTaskResolver(Module parent, Executor executor, Path from) {
       this.modules = new ConcurrentHashMap<Path, Future<Module>>();
       this.types = new ConcurrentHashMap<Path, Future<Type>>();
-      this.builder = new ImportTaskBuilder(parent, from);
+      this.builder = new ImportTaskBuilder(parent, executor, from);
       this.converter = new FilePathConverter();
       this.executor = executor;
    }

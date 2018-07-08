@@ -25,7 +25,7 @@ public class ModuleFunctionBuilder {
 
    public FunctionBody create(Signature signature, Module module, Constraint constraint, String name) {
       Type type = new FunctionType(signature, module, null);
-      InvocationBuilder builder = new StatementInvocationBuilder(signature, statement, constraint);
+      InvocationBuilder builder = new StatementInvocationBuilder(signature, statement, constraint, type);
       Invocation invocation = new StatementInvocation(builder);
       Function function = new InvocationFunction(signature, invocation, type, constraint, name, 0);
       

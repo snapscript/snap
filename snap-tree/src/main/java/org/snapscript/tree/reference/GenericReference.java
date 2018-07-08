@@ -31,8 +31,8 @@ public class GenericReference implements Compilation {
 
       private final GenericDeclaration declaration;
       
-      public CompileResult(Evaluation type, GenericArgumentList list, Path path, int line) {
-         this.declaration = new GenericDeclaration(type, list, path, line);
+      public CompileResult(Evaluation evaluation, GenericArgumentList list, Path path, int line) {
+         this.declaration = new GenericDeclaration(evaluation, list, path, line);
       }
 
       @Override

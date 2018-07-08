@@ -33,7 +33,7 @@ public class InstanceFunctionBuilder implements MemberFunctionBuilder {
    
    @Override
    public FunctionBody create(TypeBody body, Scope scope, Type type){
-      InvocationBuilder builder = new StatementInvocationBuilder(signature, statement, constraint);
+      InvocationBuilder builder = new StatementInvocationBuilder(signature, statement, constraint, type);
       Invocation invocation = new InstanceInvocation(builder, name, statement == null);
       Function function = new InvocationFunction(signature, invocation, type, constraint, name, modifiers);
       

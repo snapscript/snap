@@ -34,7 +34,7 @@ public class CompileConstraint extends Constraint {
          Progress<Phase> progress = result.getProgress();
          
          if(!progress.wait(DEFINE, duration)) {
-            throw new InternalStateException("Type '" + result + "' not compiled");
+            throw new InternalStateException("Type '" + result + "' not defined");
          }
          defined.set(true);
       }
@@ -48,7 +48,7 @@ public class CompileConstraint extends Constraint {
          Progress<Phase> progress = result.getProgress();
          
          if(!progress.wait(DEFINE, duration)) {
-            throw new InternalStateException("Type '" + result + "' not compiled");
+            throw new InternalStateException("Type '" + result + "' not defined");
          }
          defined.set(true);
       }
@@ -62,7 +62,7 @@ public class CompileConstraint extends Constraint {
          Progress<Phase> progress = result.getProgress();
          
          if(!progress.wait(DEFINE, duration)) {
-            throw new InternalStateException("Type '" + result + "' not compiled");
+            throw new InternalStateException("Type '" + result + "' not defined");
          }
          defined.set(true);
       }

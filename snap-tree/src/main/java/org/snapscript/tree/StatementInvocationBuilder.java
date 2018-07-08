@@ -1,10 +1,11 @@
 package org.snapscript.tree;
 
+import static org.snapscript.core.type.Phase.COMPILE;
+
+import org.snapscript.common.Progress;
 import org.snapscript.core.Context;
 import org.snapscript.core.Execution;
 import org.snapscript.core.Statement;
-import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.ConstraintConverter;
 import org.snapscript.core.convert.ConstraintMatcher;
@@ -15,6 +16,9 @@ import org.snapscript.core.function.Signature;
 import org.snapscript.core.function.SignatureAligner;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.result.Result;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Phase;
+import org.snapscript.core.type.Type;
 import org.snapscript.tree.function.ParameterExtractor;
 
 public class StatementInvocationBuilder implements InvocationBuilder {
@@ -25,16 +29,18 @@ public class StatementInvocationBuilder implements InvocationBuilder {
    private Constraint constraint;
    private Statement statement;
    private Execution execution;
+   private Type type;
 
-   public StatementInvocationBuilder(Signature signature, Statement statement, Constraint constraint) {
-      this(signature, statement, constraint, false);
+   public StatementInvocationBuilder(Signature signature, Statement statement, Constraint constraint, Type type) {
+      this(signature, statement, constraint, type, false);
    }
    
-   public StatementInvocationBuilder(Signature signature, Statement statement, Constraint constraint, boolean closure) {
+   public StatementInvocationBuilder(Signature signature, Statement statement, Constraint constraint, Type type, boolean closure) {
       this.extractor = new ParameterExtractor(signature, closure);
       this.aligner = new SignatureAligner(signature);
       this.constraint = constraint;
       this.statement = statement;
+      this.type = type;
    }
    
    @Override
@@ -59,14 +65,18 @@ public class StatementInvocationBuilder implements InvocationBuilder {
    
    @Override
    public Invocation create(Scope scope) throws Exception {
+      Progress progress = type.getProgress();
+      
       if(statement == null) {
          throw new InternalStateException("Function is abstract");         
       }
-      if(execution == null) {
-         throw new InternalStateException("Function has not been compiled");
-      }
-      if(converter == null) {
-         converter = build(scope);
+      if(progress.wait(COMPILE)) {
+         if(execution == null) {
+            throw new InternalStateException("Function has not been compiled");
+         }
+         if(converter == null) {
+            converter = build(scope);
+         }
       }
       return converter;
    }

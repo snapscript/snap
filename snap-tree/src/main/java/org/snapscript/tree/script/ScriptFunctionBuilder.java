@@ -23,7 +23,7 @@ public class ScriptFunctionBuilder extends FunctionBuilder {
    @Override
    public FunctionBody create(Signature signature, Module module, Constraint constraint, String name) {
       Type type = new FunctionType(signature, module, null);
-      InvocationBuilder builder = new StatementInvocationBuilder(signature, statement, constraint);
+      InvocationBuilder builder = new StatementInvocationBuilder(signature, statement, constraint, type);
       Invocation invocation = new ScriptInvocation(builder, signature);
       Function function = new InvocationFunction(signature, invocation, type, constraint, name, 0);
       
