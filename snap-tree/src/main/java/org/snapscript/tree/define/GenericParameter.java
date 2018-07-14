@@ -5,7 +5,7 @@ import static org.snapscript.core.constraint.Constraint.OBJECT;
 import java.util.List;
 
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.constraint.GenericParameterConstraint;
+import org.snapscript.core.constraint.TypeParameterConstraint;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.tree.NameReference;
@@ -30,6 +30,6 @@ public class GenericParameter {
       Type type = constraint.getType(scope);
       List<Constraint> generics = constraint.getGenerics(scope);
          
-      return new GenericParameterConstraint(type, generics, parameter);
+      return new TypeParameterConstraint(type, generics, parameter);
    }
 }

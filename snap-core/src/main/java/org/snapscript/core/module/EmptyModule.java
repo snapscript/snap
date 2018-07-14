@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.snapscript.common.CompleteProgress;
+import org.snapscript.common.Progress;
 import org.snapscript.core.Context;
 import org.snapscript.core.Reserved;
 import org.snapscript.core.annotation.Annotation;
@@ -15,19 +17,22 @@ import org.snapscript.core.link.ImportManager;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.scope.ModelScope;
 import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Phase;
 import org.snapscript.core.type.Type;
 
 public class EmptyModule implements Module {
 
    private final List<Property> properties;
    private final List<Function> functions;
+   private final Progress<Phase> progress;
    private final Context context;
    private final Scope scope;
    private final Type type;
    
    public EmptyModule(Context context) {
+      this.progress = new CompleteProgress<Phase>();
       this.properties = new ArrayList<Property>();
-      this.functions = new ArrayList<Function>();
+      this.functions = new ArrayList<Function>();      
       this.scope = new ModelScope(null, this);
       this.type = new ModuleType(this);
       this.context = context;
@@ -46,6 +51,11 @@ public class EmptyModule implements Module {
    @Override
    public Context getContext() {
       return context;
+   }
+   
+   @Override
+   public Progress<Phase> getProgress() {
+      return progress;
    }
 
    @Override

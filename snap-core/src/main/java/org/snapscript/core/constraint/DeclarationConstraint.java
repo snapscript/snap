@@ -30,6 +30,15 @@ public class DeclarationConstraint extends Constraint {
    }
    
    @Override
+   public List<String> getImports(Scope scope) {
+      if(constraint != null) {
+         return constraint.getImports(scope);
+      }
+      return EMPTY_LIST;
+   }
+   
+   
+   @Override
    public List<Constraint> getGenerics(Scope scope) {
       if(constraint != null) {
          return constraint.getGenerics(scope);

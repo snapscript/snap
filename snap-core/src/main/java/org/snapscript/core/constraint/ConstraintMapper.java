@@ -17,10 +17,10 @@ public class ConstraintMapper {
          Class real = type.getType();
          
          if(real == Object.class) {
-            return new GenericParameterConstraint(null, name);
+            return new TypeParameterConstraint(null, name);
          }
          if(real == void.class) {
-            return new GenericParameterConstraint(null, name);
+            return new TypeParameterConstraint(null, name);
          }
       }
       return constraint;

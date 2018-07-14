@@ -6,7 +6,7 @@ import java.util.List;
 import org.snapscript.common.Cache;
 import org.snapscript.core.EntityTree;
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.constraint.GenericConstraint;
+import org.snapscript.core.constraint.TypeConstraint;
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
@@ -70,7 +70,7 @@ public class ConstraintTransformer {
       
       if(!constraints.isEmpty()) {     
          List<Constraint> generics = new ArrayList<Constraint>();
-         Constraint result = new GenericConstraint(require, generics);
+         Constraint result = new TypeConstraint(require, generics);
          
          generics.add(constraint);
          

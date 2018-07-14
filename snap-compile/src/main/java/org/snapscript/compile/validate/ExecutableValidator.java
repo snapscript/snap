@@ -3,8 +3,8 @@ package org.snapscript.compile.validate;
 import java.util.List;
 
 import org.snapscript.compile.verify.Verifier;
-import org.snapscript.core.ContextValidator;
 import org.snapscript.core.Context;
+import org.snapscript.core.ContextValidator;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.function.index.FunctionIndexer;
 import org.snapscript.core.module.Module;

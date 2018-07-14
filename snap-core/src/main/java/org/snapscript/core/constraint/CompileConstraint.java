@@ -28,6 +28,16 @@ public class CompileConstraint extends Constraint {
    }
    
    @Override
+   public String getName(Scope scope) {
+      return constraint.getName(scope);
+   }
+   
+   @Override
+   public List<String> getImports(Scope scope) {
+      return constraint.getImports(scope);
+   }
+   
+   @Override
    public List<Constraint> getGenerics(Scope scope) {
       if(!defined.get()) {
          Type result = constraint.getType(scope);
@@ -54,21 +64,7 @@ public class CompileConstraint extends Constraint {
       }
       return constraint.getType(scope);
    }
-   
-   @Override
-   public String getName(Scope scope) {
-      if(!defined.get()) {
-         Type result = constraint.getType(scope);
-         Progress<Phase> progress = result.getProgress();
-         
-         if(!progress.wait(DEFINE, duration)) {
-            throw new InternalStateException("Type '" + result + "' not defined");
-         }
-         defined.set(true);
-      }
-      return constraint.getName(scope);
-   }
-   
+
    @Override
    public String toString(){
       return String.valueOf(constraint);

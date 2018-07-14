@@ -77,6 +77,10 @@ public abstract class Constraint {
    public List<Constraint> getGenerics(Scope scope) {
       return EMPTY_LIST;
    }
+            
+   public List<String> getImports(Scope  scope) {
+      return EMPTY_LIST;
+   }
    
    public String getName(Scope  scope) {
       return null;

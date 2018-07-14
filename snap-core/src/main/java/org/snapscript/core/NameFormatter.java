@@ -47,13 +47,19 @@ public class NameFormatter {
    }
    
    public String formatFullName(String module, String name) {
-      if(module == null) { // is a null module legal?
-         return name;
-      }
       if(name == null) {
          return module;
       }
-      return module + "." + name;
+      if(module != null) { // is a null module legal?
+         int index = module.lastIndexOf(".");
+         char first = module.charAt(index == -1 ? 0 : index + 1);
+         
+         if(Character.isUpperCase(first)) {
+            return module + '$' + name; 
+         }         
+         return module + "." + name;
+      }
+      return name;
    }
    
    public String formatArrayName(String type, int size) {

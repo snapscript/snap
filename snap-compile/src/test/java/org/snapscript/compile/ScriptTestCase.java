@@ -74,7 +74,7 @@ public abstract class ScriptTestCase extends TestCase {
       
    }
    
-   private static class AssertionContext{
+   protected static class AssertionContext{
       private final Compiler compiler;
       private final Context context;
       
@@ -92,7 +92,7 @@ public abstract class ScriptTestCase extends TestCase {
       }
    }
 
-   private AssertionContext getContext() {
+   protected AssertionContext getContext() {
       if(!scripts.isEmpty()) {
          Store store = new MapStore(scripts);
          Context context = new StoreContext(store, DEFAULT_EXECUTOR);         

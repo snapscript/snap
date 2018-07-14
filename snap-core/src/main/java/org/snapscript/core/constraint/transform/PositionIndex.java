@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.constraint.GenericConstraint;
+import org.snapscript.core.constraint.TypeConstraint;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 
@@ -41,7 +41,7 @@ public class PositionIndex implements ConstraintIndex {
                updated.add(update);
             }
             if(touch.get()) {            
-               return new GenericConstraint(type, updated);
+               return new TypeConstraint(type, updated);
             }
          }
          return change;

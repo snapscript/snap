@@ -1,9 +1,13 @@
 package org.snapscript.tree.define;
 
 import static org.snapscript.core.Reserved.TYPE_THIS;
+import static org.snapscript.core.type.Phase.COMPILE;
+import static org.snapscript.core.type.Phase.CREATE;
+import static org.snapscript.core.type.Phase.DEFINE;
 
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.snapscript.common.Progress;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Execution;
@@ -17,6 +21,7 @@ import org.snapscript.core.scope.State;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.trace.TraceStatement;
+import org.snapscript.core.type.Phase;
 import org.snapscript.core.variable.Value;
 import org.snapscript.tree.annotation.AnnotationList;
 
@@ -53,32 +58,46 @@ public class ModuleDefinition implements Compilation {
       @Override
       public void create(Scope scope) throws Exception {
          Module module = builder.create(scope);
+         Progress<Phase> progress = module.getProgress();
          Scope inner = module.getScope();
          
-         reference.set(module);
-         body.create(inner); 
+         try {
+            reference.set(module);
+            body.create(inner);
+         } finally {
+            progress.done(CREATE);
+         }
       }
    
       @Override
       public boolean define(Scope scope) throws Exception {
          Module module = reference.get();
+         Progress<Phase> progress = module.getProgress();
          Value value = Value.getTransient(module);
          Scope inner = module.getScope();
          State state = inner.getState();
          
-         state.add(TYPE_THIS, value);
-         body.define(inner); // must be module scope
-         
+         try {
+            state.add(TYPE_THIS, value);
+            body.define(inner); // must be module scope
+         } finally {
+            progress.done(DEFINE);
+         }         
          return true;
       }
       
       @Override
       public Execution compile(Scope scope, Constraint returns) throws Exception {
          Module module = reference.get();
+         Progress<Phase> progress = module.getProgress();
          Scope inner = module.getScope();
          Scope local = inner.getStack();
          
-         return body.compile(local, null); // must be module scope
+         try {
+            return body.compile(local, null); // must be module scope
+         } finally {
+            progress.done(COMPILE);
+         }
       }
    }
 }

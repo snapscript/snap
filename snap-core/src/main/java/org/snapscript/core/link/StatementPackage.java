@@ -62,7 +62,7 @@ public class StatementPackage implements Package {
             Module module = scope.getModule();
             Context context = module.getContext();
             ModuleRegistry registry = context.getRegistry();
-            Module library = registry.addModule(name, path); //  we should include path
+            Module library = registry.addModule(name, path); //  we shPhaseinclude path
             Scope inner = library.getScope();
            
             statement.create(inner);

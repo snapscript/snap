@@ -5,6 +5,7 @@ import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.Signature;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
+import org.snapscript.core.variable.Value;
 import org.snapscript.tree.function.ParameterList;
 
 public class FunctionReference extends ConstraintReference {
@@ -21,8 +22,9 @@ public class FunctionReference extends ConstraintReference {
          Signature signature = list.create(scope);
          Type type = signature.getDefinition();
          Constraint constraint = Constraint.getConstraint(type);
+         Value reference = Value.getReference(type);
          
-         return new ConstraintValue(type, constraint);
+         return new ConstraintValue(constraint, reference, type);
       } catch(Exception e) {
          throw new InternalStateException("Invalid function reference", e);
       }

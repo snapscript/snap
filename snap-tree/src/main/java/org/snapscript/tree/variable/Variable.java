@@ -8,6 +8,7 @@ import org.snapscript.core.Evaluation;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.proxy.ProxyWrapper;
 import org.snapscript.core.error.ErrorHandler;
+import org.snapscript.core.link.ImplicitImportLoader;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.Scope;
@@ -37,7 +38,8 @@ public class Variable implements Compilation {
    }
    
    private static class CompileResult extends Evaluation {
-   
+      
+      private final ImplicitImportLoader loader;
       private final LocalScopeFinder finder;
       private final VariableBinder binder;
       private final AtomicInteger offset;
@@ -45,6 +47,7 @@ public class Variable implements Compilation {
       
       public CompileResult(ErrorHandler handler, ProxyWrapper wrapper, String name) {
          this.binder = new VariableBinder(handler, wrapper, name);
+         this.loader = new ImplicitImportLoader();
          this.finder = new LocalScopeFinder();
          this.offset = new AtomicInteger(-1);
          this.name = name;
@@ -55,7 +58,11 @@ public class Variable implements Compilation {
          Index index = scope.getIndex();
          int depth = index.get(name);
    
-         offset.set(depth);
+         if(depth == -1) {
+            loader.loadImports(scope, name); // static reference
+         } else {
+            offset.set(depth);
+         }
       }
       
       @Override

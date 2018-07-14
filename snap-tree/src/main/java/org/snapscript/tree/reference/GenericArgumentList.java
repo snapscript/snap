@@ -16,7 +16,19 @@ public class GenericArgumentList {
       this.arguments = arguments;
    }
    
-   public List<Constraint> create(Scope scope) throws Exception {
+   public List<String> getReferences(Scope scope) throws Exception {
+      List<String> result = new ArrayList<String>();
+      
+      for(GenericArgument argument : arguments) {
+         Constraint constraint = argument.getConstraint();
+         List<String> imports = constraint.getImports(scope);
+         
+         result.addAll(imports);
+      }
+      return result;
+   }
+   
+   public List<Constraint> getConstraints(Scope scope) throws Exception {
       List<Constraint> result = new ArrayList<Constraint>();
       
       for(GenericArgument argument : arguments) {

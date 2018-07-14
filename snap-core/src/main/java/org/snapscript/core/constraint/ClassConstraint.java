@@ -13,7 +13,7 @@ import org.snapscript.core.type.TypeLoader;
 
 public class ClassConstraint extends Constraint {
 
-   private final List<Constraint> constraints;
+   private final List<Constraint> generics;
    private final Class require;
    private final int modifiers;
    
@@ -21,13 +21,13 @@ public class ClassConstraint extends Constraint {
       this(require, EMPTY_LIST);
    }
    
-   public ClassConstraint(Class require, List<Constraint> constraints) {
-      this(require, constraints, 0);
+   public ClassConstraint(Class require, List<Constraint> generics) {
+      this(require, generics, 0);
    }
    
-   public ClassConstraint(Class require, List<Constraint> constraints, int modifiers) {
-      this.constraints = constraints;
+   public ClassConstraint(Class require, List<Constraint> generics, int modifiers) {
       this.modifiers = modifiers;
+      this.generics = generics;
       this.require = require;
    }
    
@@ -45,7 +45,7 @@ public class ClassConstraint extends Constraint {
    
    @Override
    public List<Constraint> getGenerics(Scope scope){
-      return constraints;
+      return generics;
    }
    
    @Override

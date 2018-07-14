@@ -1,6 +1,5 @@
 package org.snapscript.tree.reference;
 
-import org.snapscript.core.Evaluation;
 import org.snapscript.core.NameFormatter;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.constraint.ConstraintWrapper;
@@ -10,30 +9,37 @@ import org.snapscript.core.scope.index.Local;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 
-public class TypeReference extends Evaluation {
+public class TypeReference extends TypeNavigation {
    
    private ConstraintWrapper mapper;
    private NameFormatter formatter;
-   private Evaluation[] list;
+   private TypeNavigation[] list;
+   private TypeNavigation root;
    private Value type;
    
-   public TypeReference(Evaluation... list) {
+   public TypeReference(TypeNavigation root, TypeNavigation... list) {
       this.mapper = new ConstraintWrapper();
       this.formatter = new NameFormatter();
+      this.root = root;
       this.list = list;
    }
    
    @Override
-   public Constraint compile(Scope scope, Constraint left) throws Exception {
-      return evaluate(scope, null);
+   public String qualify(Scope scope, String left) throws Exception {
+      String name = root.qualify(scope, left);
+      
+      for(int i = 0; i < list.length; i++) {
+         name = list[i].qualify(scope, name);
+      }
+      return name;
    }
    
    @Override
    public Value evaluate(Scope scope, Object left) throws Exception {
       if(type == null) {
-         Value result = list[0].evaluate(scope, left);
+         Value result = root.evaluate(scope, left);
          
-         for(int i = 1; i < list.length; i++) {
+         for(int i = 0; i < list.length; i++) {
             Object next = result.getValue();
             
             if(next == null) {
@@ -62,5 +68,4 @@ public class TypeReference extends Evaluation {
       }
       return Local.getConstant(value, null, constraint);
    }
-
 }

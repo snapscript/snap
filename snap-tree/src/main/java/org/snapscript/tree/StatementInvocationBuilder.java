@@ -17,7 +17,6 @@ import org.snapscript.core.function.SignatureAligner;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.result.Result;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Phase;
 import org.snapscript.core.type.Type;
 import org.snapscript.tree.function.ParameterExtractor;
 

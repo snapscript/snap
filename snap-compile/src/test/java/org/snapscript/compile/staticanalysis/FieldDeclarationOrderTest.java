@@ -27,8 +27,8 @@ public class FieldDeclarationOrderTest extends CompileTestCase {
    "}\n";   
    
    public void testThatFieldOrderDoesNotMatter() throws Exception {
-//      assertCompileSuccess(SUCCESS_1);
-//      assertCompileSuccess(SUCCESS_2);
+      assertCompileSuccess(SUCCESS_1);
+      assertCompileSuccess(SUCCESS_2);
       assertCompileError(FAILURE_1, "Function 'intValue()' not found for 'lang.String' in /default.snap at line 3");      
    }
 

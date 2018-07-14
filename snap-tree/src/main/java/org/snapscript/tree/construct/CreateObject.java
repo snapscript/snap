@@ -3,6 +3,9 @@ package org.snapscript.tree.construct;
 import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
 import static org.snapscript.core.error.Reason.CONSTRUCTION;
 
+import java.util.List;
+import java.util.Set;
+
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.constraint.CompileConstraint;
@@ -11,6 +14,7 @@ import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.resolve.FunctionCall;
 import org.snapscript.core.function.resolve.FunctionResolver;
+import org.snapscript.core.link.ImplicitImportLoader;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
@@ -19,18 +23,26 @@ import org.snapscript.tree.ArgumentList;
 
 public class CreateObject extends Evaluation {   
    
+   private final ImplicitImportLoader loader;
    private final ArgumentList arguments;
    private final Constraint constraint;
    private final int violation; // what modifiers are illegal
 
    public CreateObject(Constraint constraint, ArgumentList arguments, int violation) {
       this.constraint = new CompileConstraint(constraint);
+      this.loader = new ImplicitImportLoader();
       this.violation = violation;
       this.arguments = arguments;
    }      
 
    @Override
    public void define(Scope scope) throws Exception {
+      List<String> names = constraint.getImports(scope);
+      int count = names.size();
+      
+      if(count > 0) {
+         loader.loadImports(scope, names);
+      }
       if(arguments != null) {
          arguments.define(scope);
       }

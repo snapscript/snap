@@ -8,7 +8,7 @@ import org.snapscript.core.ModifierType;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 
-public class GenericParameterConstraint extends Constraint {
+public class TypeParameterConstraint extends Constraint {
    
    private final ConstraintDescription description;
    private final List<Constraint> generics;
@@ -16,19 +16,19 @@ public class GenericParameterConstraint extends Constraint {
    private final Type type;
    private final int modifiers; 
    
-   public GenericParameterConstraint(Type type, String name) {
+   public TypeParameterConstraint(Type type, String name) {
       this(type, EMPTY_LIST, name);
    }
    
-   public GenericParameterConstraint(Type type, String name, int modifiers) {
+   public TypeParameterConstraint(Type type, String name, int modifiers) {
       this(type, EMPTY_LIST, name, modifiers);
    }
    
-   public GenericParameterConstraint(Type type, List<Constraint> generics, String name) {
+   public TypeParameterConstraint(Type type, List<Constraint> generics, String name) {
       this(type, generics, name, 0);
    }
    
-   public GenericParameterConstraint(Type type, List<Constraint> generics, String name, int modifiers) {
+   public TypeParameterConstraint(Type type, List<Constraint> generics, String name, int modifiers) {
       this.description = new ConstraintDescription(this, type);
       this.modifiers = modifiers;
       this.generics = generics;

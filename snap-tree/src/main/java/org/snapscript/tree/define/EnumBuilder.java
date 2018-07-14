@@ -35,17 +35,8 @@ public class EnumBuilder {
    public Type create(TypeBody body, Scope outer) throws Exception {
       Module module = outer.getModule();
       String alias = name.getName(outer);
-      Type type = module.addType(alias, ENUM.mask);
-      
-      reference.set(type);
-      
-      return type;
-   }
-   
-   public Type define(TypeBody body, Scope outer) throws Exception {
-      Type type = reference.get();
       Type enclosing = outer.getType();
-      Scope scope = type.getScope();
+      Type type = module.addType(alias, ENUM.mask);
       
       if(enclosing != null) {
          String name = type.getName();
@@ -57,6 +48,15 @@ public class EnumBuilder {
          builder.createStaticProperty(body, key, enclosing, NONE);
          state.add(key, value);
       }
+      reference.set(type);
+      
+      return type;
+   }
+   
+   public Type define(TypeBody body, Scope outer) throws Exception {
+      Type type = reference.get();
+      Scope scope = type.getScope();      
+
       generator.generate(body, scope, type, values);
       hierarchy.define(scope, type); // this may throw exception if missing type
       

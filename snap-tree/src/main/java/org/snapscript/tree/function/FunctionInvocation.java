@@ -13,6 +13,7 @@ import org.snapscript.core.function.Function;
 import org.snapscript.core.function.bind.FunctionBinder;
 import org.snapscript.core.function.bind.FunctionMatcher;
 import org.snapscript.core.function.dispatch.FunctionDispatcher;
+import org.snapscript.core.link.ImplicitImportLoader;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.Scope;
@@ -61,6 +62,7 @@ public class FunctionInvocation implements Compilation {
    private static class CompileResult extends Evaluation {   
 
       private final Evaluation[] evaluations; // func()[1][x]
+      private final ImplicitImportLoader loader;
       private final LocalScopeFinder finder;
       private final FunctionMatcher matcher;
       private final ArgumentList arguments;
@@ -68,8 +70,9 @@ public class FunctionInvocation implements Compilation {
       private final String name;
       
       public CompileResult(FunctionMatcher matcher, ArgumentList arguments, Evaluation[] evaluations, String name) {
+         this.loader = new ImplicitImportLoader();
          this.finder = new LocalScopeFinder();
-         this.offset = new AtomicInteger();
+         this.offset = new AtomicInteger(-1);
          this.evaluations = evaluations;
          this.arguments = arguments;
          this.matcher = matcher;
@@ -81,7 +84,11 @@ public class FunctionInvocation implements Compilation {
          Index index = scope.getIndex();
          int depth = index.get(name);
 
-         offset.set(depth);
+         if(depth == -1) {
+            loader.loadImports(scope, name);
+         } else {
+            offset.set(depth);
+         }
          arguments.define(scope);
          
          for(Evaluation evaluation : evaluations) {

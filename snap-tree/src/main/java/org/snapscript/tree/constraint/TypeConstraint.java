@@ -18,6 +18,18 @@ public class TypeConstraint extends Constraint {
    }
    
    @Override
+   public List<String> getImports(Scope scope) {
+      if(constraint == null) {
+         try {
+            constraint = evaluation.compile(scope, null);
+         } catch (Exception e) {
+            throw new InternalStateException("Import not found", e);
+         }
+      }
+      return constraint.getImports(scope);
+   }
+   
+   @Override
    public List<Constraint> getGenerics(Scope scope) {
       if(constraint == null) {
          try {

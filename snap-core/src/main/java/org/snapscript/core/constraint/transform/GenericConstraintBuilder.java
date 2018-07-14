@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.constraint.GenericConstraint;
+import org.snapscript.core.constraint.TypeConstraint;
 import org.snapscript.core.type.Type;
 
 public class GenericConstraintBuilder {
@@ -26,6 +26,6 @@ public class GenericConstraintBuilder {
          
          constraints.add(constraint);
       }
-      return new GenericConstraint(type, constraints);
+      return new TypeConstraint(type, constraints);
    }
 }

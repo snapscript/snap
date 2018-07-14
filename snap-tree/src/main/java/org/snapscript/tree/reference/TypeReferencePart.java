@@ -31,7 +31,7 @@ public class TypeReferencePart implements Compilation {
       return new CompileResult(extractor, module, name);
    }
    
-   private static class CompileResult extends Evaluation {
+   private static class CompileResult extends TypeNavigation {
 
       private final TypeExtractor extractor;
       private final Module source;
@@ -44,6 +44,14 @@ public class TypeReferencePart implements Compilation {
       }   
       
       @Override
+      public String qualify(Scope scope, String left) throws Exception {
+         if(left != null) {
+            return left + '$' +name;
+         }
+         return name;
+      }
+      
+      @Override
       public Value evaluate(Scope scope, Object left) throws Exception {
          if(left != null) {
             if(Module.class.isInstance(left)) {
@@ -54,23 +62,29 @@ public class TypeReferencePart implements Compilation {
             }
             throw new InternalStateException("No type found for '" + name + "' in '" + source + "'"); // class not found
          }
-         return create(scope, source);
+         return create(scope);
       }
       
-      private Value create(Scope scope, Module module) throws Exception {
+      private Value create(Scope scope) throws Exception {
          Module parent = scope.getModule();
          Object result = parent.getType(name);
          Type type = scope.getType();
-         
-         if(result == null && parent != module) {
-            result = module.getType(name); // find classes declared in the Scope module
-         }
+
          if(result == null) {
-            result = module.getModule(name); 
+            result = source.getModule(name); 
          }
          if(result == null && type != null) {
             result = extractor.getType(type, name);
          }
+         if(result == null) {
+            throw new InternalStateException("No type found for '" + name + "' in '" + source + "'"); // class not found
+         }
+         return Local.getConstant(result, name);
+      }
+      
+      private Value create(Scope scope, Module module) throws Exception {
+         Object result = module.getType(name);
+         
          if(result == null) {
             throw new InternalStateException("No type found for '" + name + "' in '" + module + "'"); // class not found
          }

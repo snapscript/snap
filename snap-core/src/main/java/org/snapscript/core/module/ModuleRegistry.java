@@ -1,44 +1,40 @@
 package org.snapscript.core.module;
 
+import static org.snapscript.core.type.Phase.COMPILE;
+
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Executor;
-import java.util.concurrent.atomic.AtomicInteger;
 
+import org.snapscript.common.Progress;
 import org.snapscript.core.Context;
-import org.snapscript.core.NameFormatter;
+import org.snapscript.core.NameChecker;
 import org.snapscript.core.error.InternalArgumentException;
-import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.type.Phase;
 import org.snapscript.core.type.extend.ModuleExtender;
 
 public class ModuleRegistry {
 
    private final Map<String, Module> modules;
    private final List<Module> references;
-   private final NameFormatter formatter;
+   private final ModuleAllocator allocator;
    private final PathConverter converter;
    private final ModuleExtender extender;
-   private final AtomicInteger counter;
-   private final Executor executor;
-   private final Context context;
-   private final int limit;
+   private final NameChecker checker;
    
    public ModuleRegistry(Context context, Executor executor) {
       this(context, executor, 100000);
    }
    
    public ModuleRegistry(Context context, Executor executor, int limit) {
+      this.allocator = new ModuleAllocator(context, executor, limit);
       this.modules = new ConcurrentHashMap<String, Module>();
       this.references = new CopyOnWriteArrayList<Module>();
       this.extender = new ModuleExtender(context);
       this.converter = new FilePathConverter();
-      this.formatter = new NameFormatter();
-      this.counter = new AtomicInteger(1);
-      this.executor = executor;
-      this.context = context;
-      this.limit = limit;
+      this.checker = new NameChecker(true);
    }
    
    public synchronized List<Module> getModules() {
@@ -72,14 +68,12 @@ public class ModuleRegistry {
       Module current = modules.get(name);
 
       if (current == null) {
-         String local = formatter.formatLocalName(name);
-         int order = counter.getAndIncrement();
+         Module module = allocator.allocate(name, path);
+         Progress<Phase> progress = module.getProgress();
          
-         if(order > limit) {
-            throw new InternalStateException("Module limit of " + limit + " exceeded");
-         }
-         Module module = new ContextModule(context, executor, path, name, local, order);
-
+         if(!checker.isEntity(name)) {
+            progress.done(COMPILE);   
+         }          
          modules.put(name, module);
          extender.extend(module); 
          references.add(module);
@@ -88,4 +82,5 @@ public class ModuleRegistry {
       }
       return current;
    }
+
 }

@@ -2,45 +2,44 @@ package org.snapscript.tree.reference;
 
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Evaluation;
-import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Type;
+import org.snapscript.core.variable.Value;
 
 public class GenericReference implements Compilation {
    
    private final GenericArgumentList list;
-   private final Evaluation evaluation;
+   private final TypeReference type;
    
-   public GenericReference(Evaluation evaluation) {
-      this(evaluation, null);
+   public GenericReference(TypeReference type) {
+      this(type, null);
    }
    
-   public GenericReference(Evaluation evaluation, GenericArgumentList list) {
-      this.evaluation = evaluation;
+   public GenericReference(TypeReference type, GenericArgumentList list) {
+      this.type = type;
       this.list = list;
    }
 
    @Override
    public Evaluation compile(Module module, Path path, int line) throws Exception {
-      return new CompileResult(evaluation, list, path, line);
+      return new CompileResult(type, list, path, line);
    }
    
    private static class CompileResult extends ConstraintReference { 
 
       private final GenericDeclaration declaration;
       
-      public CompileResult(Evaluation evaluation, GenericArgumentList list, Path path, int line) {
-         this.declaration = new GenericDeclaration(evaluation, list, path, line);
+      public CompileResult(TypeReference type, GenericArgumentList list, Path path, int line) {
+         this.declaration = new GenericDeclaration(type, list, path, line);
       }
 
       @Override
       protected ConstraintValue create(Scope scope) throws Exception {
-         Constraint constraint = declaration.declare(scope);
-         Type type = constraint.getType(scope);
+         Value value = declaration.declare(scope);
+         Module module = scope.getModule();
          
-         return new ConstraintValue(type, constraint);
+         return new ConstraintValue(value, value, module);
       }      
    }
 }

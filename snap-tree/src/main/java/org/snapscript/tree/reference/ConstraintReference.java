@@ -2,6 +2,7 @@ package org.snapscript.tree.reference;
 
 import java.util.List;
 
+import org.snapscript.core.Entity;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.constraint.ConstraintDescription;
@@ -34,18 +35,23 @@ public abstract class ConstraintReference extends Evaluation {
       return value;
    }
    
-   protected abstract ConstraintValue create(Scope scope) throws Exception; 
+   protected abstract ConstraintValue create(Scope scope) throws Exception;
 
    protected static class ConstraintValue extends Value {
       
       private final ConstraintDescription description;
       private final Constraint constraint;
-      private final Type type;
+      private final Value value;
       
-      public ConstraintValue(Type type, Constraint constraint) {
-         this.description = new ConstraintDescription(constraint, type);
+      public ConstraintValue(Constraint constraint, Value value, Entity entity) {
+         this.description = new ConstraintDescription(constraint, entity);
          this.constraint = constraint;
-         this.type = type;       
+         this.value = value;       
+      }
+      
+      @Override
+      public List<String> getImports(Scope scope) {
+         return constraint.getImports(scope);
       }
       
       @Override
@@ -65,7 +71,7 @@ public abstract class ConstraintReference extends Evaluation {
       
       @Override
       public <T> T getValue() {
-         return (T)type;
+         return value.getValue();
       }
       
       @Override

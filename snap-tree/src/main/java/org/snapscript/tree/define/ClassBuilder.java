@@ -36,20 +36,9 @@ public class ClassBuilder {
       Module module = outer.getModule();
       String alias = name.getName(outer);
       int modifiers = name.getModifiers(outer);
-      Type type = module.addType(alias, modifiers); 
-      
-      reference.set(type);
-      
-      return type;
-   }
-   
-   public Type define(TypeBody body, Scope outer) throws Exception {
-      Type type = reference.get();
       Type enclosing = outer.getType();
-      Scope scope = type.getScope();
-      List<Constraint> generics = name.getGenerics(scope);
-      List<Constraint> constraints = type.getConstraints();
-      
+      Type type = module.addType(alias, modifiers); 
+
       if(enclosing != null) {
          String name = type.getName();
          String prefix = enclosing.getName();
@@ -59,7 +48,18 @@ public class ClassBuilder {
          
          builder.createStaticProperty(body, key, enclosing, NONE);
          state.add(key, value);
-      }      
+      } 
+      reference.set(type);
+      
+      return type;
+   }
+   
+   public Type define(TypeBody body, Scope outer) throws Exception {
+      Type type = reference.get();
+      Scope scope = type.getScope();
+      List<Constraint> generics = name.getGenerics(scope);
+      List<Constraint> constraints = type.getConstraints();      
+     
       constraints.addAll(generics);
       annotations.apply(scope, type);
       generator.generate(body, scope, type);

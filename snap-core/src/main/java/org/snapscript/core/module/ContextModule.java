@@ -6,16 +6,21 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Executor;
+import java.util.concurrent.Future;
 
 import org.snapscript.common.Cache;
 import org.snapscript.common.CopyOnWriteCache;
+import org.snapscript.common.LockProgress;
+import org.snapscript.common.Progress;
 import org.snapscript.core.Context;
 import org.snapscript.core.ResourceManager;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.link.ImportManager;
+import org.snapscript.core.link.ImportProcessor;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Phase;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeLoader;
 
@@ -23,11 +28,12 @@ public class ContextModule implements Module {
    
    private final Cache<String, Module> modules;
    private final Cache<String, Type> types;
+   private final Progress<Phase> progress;
    private final List<Annotation> annotations;  
    private final List<Property> properties; 
    private final List<Function> functions; 
    private final List<Type> references;
-   private final ImportManager manager;
+   private final ImportProcessor manager;
    private final Context context;
    private final String prefix;
    private final Scope scope;
@@ -40,13 +46,14 @@ public class ContextModule implements Module {
    }
    
    public ContextModule(Context context, Executor executor, Path path, String prefix, String local, int order) {
-      this.manager = new ImportManager(this, executor, path, prefix, local);
+      this.manager = new ImportProcessor(this, executor, path, prefix, local);
       this.annotations = new CopyOnWriteArrayList<Annotation>();
       this.functions = new CopyOnWriteArrayList<Function>();
       this.properties = new CopyOnWriteArrayList<Property>();
       this.references = new CopyOnWriteArrayList<Type>();
       this.modules = new CopyOnWriteCache<String, Module>();
       this.types = new CopyOnWriteCache<String, Type>(); 
+      this.progress = new LockProgress<Phase>();
       this.type = new ModuleType(this);
       this.scope = new ModuleScope(this);
       this.context = context;
@@ -63,6 +70,11 @@ public class ContextModule implements Module {
    @Override
    public ImportManager getManager() {
       return manager;
+   }
+   
+   @Override
+   public Progress<Phase> getProgress() {
+      return progress;
    }
    
    @Override
@@ -116,7 +128,7 @@ public class ContextModule implements Module {
          if(module == null) {
             if(!types.contains(name)) { // don't resolve if its a type
                module = manager.getModule(name); // import tetris.game.*
-               
+
                if(module != null) {
                   modules.cache(name, module);
                }
@@ -136,7 +148,7 @@ public class ContextModule implements Module {
          if(type == null) {
             if(!modules.contains(name)) {// don't resolve if its a module
                type = manager.getType(name);
-            
+
                if(type != null) {
                   types.cache(name, type);
                   references.add(type);

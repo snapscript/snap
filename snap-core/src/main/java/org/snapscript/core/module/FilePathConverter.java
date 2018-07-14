@@ -86,10 +86,11 @@ public class FilePathConverter implements PathConverter {
    }
    
    private String convertResource(String path) {
-      int suffix = path.indexOf(extension);
+      int suffix = extension.length();
+      int length = path.length();
 
-      if(suffix != -1) {
-         path = path.substring(0, suffix);
+      if(path.endsWith(extension)) {
+         path = path.substring(0, length - suffix);
       }
       if(path.startsWith("/")) {
          path = path.substring(1);
