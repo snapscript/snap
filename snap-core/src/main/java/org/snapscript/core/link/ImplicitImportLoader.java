@@ -57,7 +57,7 @@ public class ImplicitImportLoader {
    
    private boolean loadImports(Scope scope, List<String> names, BitSet done) throws Exception {
       int count = names.size();      
-      int remain = 0;
+      int remain = count;
       
       for(int i = 0; i < count; i++) {         
          if(!done.get(i)) {

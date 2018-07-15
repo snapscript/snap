@@ -1,14 +1,19 @@
 package org.snapscript.core.function.index;
 
+import static org.snapscript.core.type.Phase.DEFINE;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.snapscript.common.Progress;
 import org.snapscript.core.EntityCache;
 import org.snapscript.core.constraint.AnyConstraint;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.TypeInspector;
+import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Phase;
 import org.snapscript.core.type.Type;
 
 public class FunctionPathFinder {
@@ -16,11 +21,17 @@ public class FunctionPathFinder {
    private final EntityCache<List<Type>> paths;  
    private final TypeInspector inspector;  
    private final Constraint any;
+   private final long wait;
    
    public FunctionPathFinder() {
+      this(60000);
+   }
+   
+   public FunctionPathFinder(long wait) {
       this.paths = new EntityCache<List<Type>>();
       this.inspector = new TypeInspector();
       this.any = new AnyConstraint();
+      this.wait = wait;
    }
 
    public List<Type> findPath(Type type) {
@@ -38,10 +49,14 @@ public class FunctionPathFinder {
    }
 
    private void findTypes(Type type, List<Type> done) {
+      Progress<Phase> progress = type.getProgress();
       Scope scope = type.getScope();
       Type base = any.getType(scope);
       Class real = type.getType();
       
+      if(!progress.wait(DEFINE, wait)) {
+         throw new InternalStateException("Type '" + type +"' was not been defined");
+      }
       findClasses(type, done);
       
       if(real == null) {

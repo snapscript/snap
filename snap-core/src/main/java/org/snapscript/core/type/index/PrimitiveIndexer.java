@@ -17,10 +17,12 @@ import static org.snapscript.core.constraint.Constraint.BOOLEAN;
 import static org.snapscript.core.constraint.Constraint.INTEGER;
 import static org.snapscript.core.constraint.Constraint.NONE;
 import static org.snapscript.core.constraint.Constraint.STRING;
+import static org.snapscript.core.type.Phase.COMPILE;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.snapscript.common.Progress;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
@@ -28,6 +30,7 @@ import org.snapscript.core.result.Result;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
 import org.snapscript.core.scope.instance.Instance;
+import org.snapscript.core.type.Phase;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 
@@ -48,6 +51,7 @@ public class PrimitiveIndexer{
       
       if(type == null) {
          Type result = indexer.defineType(DEFAULT_PACKAGE, ANY_TYPE, CLASS.mask);
+         Progress<Phase> progress = result.getProgress();
          List<Function> functions = result.getFunctions();
          Function constructor = generator.generate(result, NONE, TYPE_CONSTRUCTOR, NewInvocation.class, Object.class);
          Function hashCode = generator.generate(result, INTEGER, METHOD_HASH_CODE, HashCodeInvocation.class);
@@ -66,6 +70,7 @@ public class PrimitiveIndexer{
          functions.add(hashCode);
          functions.add(equals);
          functions.add(toString);
+         progress.done(COMPILE);
          reference.set(type);
          
          return result;

@@ -169,7 +169,7 @@ expression = { <literal> |
 
 
 array-dimension = '[]';
-array-reference = <type-reference>+<array-dimension>;
+array-reference = <class-constraint>+<array-dimension>;
 list-reference = '[]';
 set-reference = '{}';
 map-reference = '{:}';

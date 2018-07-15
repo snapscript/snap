@@ -1,12 +1,15 @@
 package org.snapscript.core.function.index;
 
 import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
+import static org.snapscript.core.type.Phase.DEFINE;
 
+import org.snapscript.common.Progress;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Phase;
 import org.snapscript.core.type.Type;
 
 public class LocalFunctionIndexer {

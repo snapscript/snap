@@ -12,19 +12,18 @@ import org.snapscript.parse.StringToken;
 
 public class ArrayReference extends ConstraintReference {
 
-   private final TypeReference reference;
+   private final Constraint constraint;
    private final StringToken[] bounds;
    
-   public ArrayReference(TypeReference reference, StringToken... bounds) {
-      this.reference = reference;
+   public ArrayReference(Constraint constraint, StringToken... bounds) {
+      this.constraint = constraint;
       this.bounds = bounds;
    }
    
    @Override
    protected ConstraintValue create(Scope scope) {
       try {
-         Value value = reference.evaluate(scope, null);
-         Type entry = value.getValue();
+         Type entry = constraint.getType(scope);
          Module module = entry.getModule();
          Context context = module.getContext();
          TypeLoader loader = context.getLoader();

@@ -1,6 +1,7 @@
 package org.snapscript.compile.verify;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceErrorCollector;
@@ -10,7 +11,7 @@ public class ExecutableVerifier extends TraceErrorCollector implements Verifier 
    private final List<VerifyError> errors;
    
    public ExecutableVerifier() {
-      this.errors = new ArrayList<VerifyError>();
+      this.errors = new CopyOnWriteArrayList<VerifyError>();
    }
 
    @Override
@@ -18,7 +19,8 @@ public class ExecutableVerifier extends TraceErrorCollector implements Verifier 
       VerifyError error = new VerifyError(cause, trace);
       errors.add(error);
    }
-   
+
+   @Override
    public void verify(){
       if(!errors.isEmpty()) {
          throw new VerifyException("Compilation errors found " + errors, errors);

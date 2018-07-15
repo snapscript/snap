@@ -16,7 +16,7 @@ public class GenericArgumentList {
       this.arguments = arguments;
    }
    
-   public List<String> getReferences(Scope scope) throws Exception {
+   public List<String> getImports(Scope scope) throws Exception {
       List<String> result = new ArrayList<String>();
       
       for(GenericArgument argument : arguments) {
