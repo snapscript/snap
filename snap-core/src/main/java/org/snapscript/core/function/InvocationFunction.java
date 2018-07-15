@@ -1,12 +1,14 @@
 package org.snapscript.core.function;
 
+import static org.snapscript.core.ModifierType.FUNCTION;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.snapscript.core.type.Type;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.proxy.FunctionProxy;
+import org.snapscript.core.type.Type;
 
 public class InvocationFunction implements Function {
 
@@ -42,7 +44,7 @@ public class InvocationFunction implements Function {
    
    @Override
    public int getModifiers(){
-      return modifiers;
+      return modifiers | FUNCTION.mask;
    }
    
    @Override

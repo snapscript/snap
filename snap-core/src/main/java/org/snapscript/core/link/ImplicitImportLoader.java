@@ -1,12 +1,9 @@
 package org.snapscript.core.link;
 
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
-import java.util.Set;
-import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.Future;
 
+import org.snapscript.common.BitSet;
 import org.snapscript.core.Entity;
 import org.snapscript.core.NameChecker;
 import org.snapscript.core.module.Module;
@@ -23,51 +20,57 @@ public class ImplicitImportLoader {
       this.checker = new NameChecker(true);
    }
    
-   public void loadImports(Scope scope, String name) throws Exception {
-      List<String> names = Arrays.asList(name);
-      
+   public boolean loadImports(Scope scope, String name) throws Exception {
       if(checker.isEntity(name)) {
-         loadImports(scope, names);         
-      }
-   }
-
-   public void loadImports(Scope scope, Collection<String> names) throws Exception {
-      Type type = scope.getType();
-      
-      if(!names.isEmpty()) {
-         Set<String> required = new CopyOnWriteArraySet<String>(names);
-         
-         while(type != null) {
-            Scope inner = type.getScope();
-            
-            if(!required.isEmpty()) {
-               resolveImports(inner, required);
-            }
-            type = type.getOuter();
-         }
-         if(!required.isEmpty()) {
-            resolveImports(scope, required);
-         }      
-      }
-   }
-   
-   private void resolveImports(Scope scope, Collection<String> names) throws Exception {
-      Module module = scope.getModule();
-      ImportManager manager = module.getManager();
-      State state = scope.getState();
-      
-      for(String name : names) {
+         Module module = scope.getModule();
+         ImportManager manager = module.getManager();
+         State state = scope.getState();
          Value value = state.get(name);         
          
          if(value == null) {
-            Future<Entity> entity = manager.getImport(name);
+            return manager.getImport(name) != null;
+         }                   
+         return true;
+      }
+      return false;
+   }
+
+   public boolean loadImports(Scope scope, List<String> names) throws Exception {
+      Type type = scope.getType();
+      int count = names.size();
+      
+      if(count > 0) {
+         BitSet done = new BitSet(count);
+         
+         while(type != null) {
+            Scope inner = type.getScope();            
             
-            if(entity != null) {
-               names.remove(name);
+            if(loadImports(inner, names, done)) {
+               return true;
+            }            
+            type = type.getOuter();
+         }
+         return loadImports(scope, names, done);               
+      }
+      return true;
+   }
+   
+   private boolean loadImports(Scope scope, List<String> names, BitSet done) throws Exception {
+      int count = names.size();      
+      int remain = 0;
+      
+      for(int i = 0; i < count; i++) {         
+         if(!done.get(i)) {
+            String name = names.get(i);
+            
+            if(loadImports(scope, name)) {
+               done.set(i);
+               remain--;
             }
          } else {
-            names.remove(name);
-         }         
+            remain--;
+         }
       }
+      return remain <= 0;
    }
 }

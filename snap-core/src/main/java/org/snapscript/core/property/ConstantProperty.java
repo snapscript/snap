@@ -1,12 +1,14 @@
 package org.snapscript.core.property;
 
+import static org.snapscript.core.ModifierType.CONSTANT;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.snapscript.core.type.Type;
-import org.snapscript.core.variable.Constant;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.type.Type;
+import org.snapscript.core.variable.Constant;
 
 public class ConstantProperty implements Property<Object> {
 
@@ -53,7 +55,7 @@ public class ConstantProperty implements Property<Object> {
    
    @Override
    public int getModifiers() {
-      return modifiers;
+      return modifiers | CONSTANT.mask;
    }
    
    @Override

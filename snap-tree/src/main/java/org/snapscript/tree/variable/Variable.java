@@ -68,7 +68,7 @@ public class Variable implements Compilation {
       @Override
       public Constraint compile(Scope scope, Constraint left) throws Exception{
          int depth = offset.get();
-         Value value = finder.find(scope, name, depth);
+         Value value = finder.findValue(scope, name, depth);
          
          if(value == null) {
             return binder.compile(scope);
@@ -79,7 +79,7 @@ public class Variable implements Compilation {
       @Override
       public Value evaluate(Scope scope, Object left) throws Exception{
          int depth = offset.get();
-         Value value = finder.find(scope, name, depth);
+         Value value = finder.findValue(scope, name, depth);
          
          if(value == null) {
             return binder.bind(scope);

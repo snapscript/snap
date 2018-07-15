@@ -4,7 +4,6 @@ import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
 import static org.snapscript.core.error.Reason.CONSTRUCTION;
 
 import java.util.List;
-import java.util.Set;
 
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;

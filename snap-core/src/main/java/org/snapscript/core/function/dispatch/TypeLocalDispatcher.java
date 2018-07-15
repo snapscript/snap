@@ -45,7 +45,7 @@ public class TypeLocalDispatcher implements FunctionDispatcher<Scope> {
       FunctionCall match = bind(scope, object, arguments);
       
       if(match == null) {
-         Type type = object.getType();
+         Type type = scope.getType();
          
          if(type != null) {
             handler.handleRuntimeError(INVOKE, scope, type, name, arguments);

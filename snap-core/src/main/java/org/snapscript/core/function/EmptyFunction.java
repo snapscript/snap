@@ -1,6 +1,7 @@
 package org.snapscript.core.function;
 
 import static org.snapscript.core.ModifierType.ABSTRACT;
+import static org.snapscript.core.ModifierType.FUNCTION;
 import static org.snapscript.core.Reserved.METHOD_CLOSURE;
 import static org.snapscript.core.constraint.Constraint.NONE;
 
@@ -35,7 +36,7 @@ public class EmptyFunction implements Function {
    
    @Override
    public int getModifiers(){
-      return modifiers;
+      return modifiers & FUNCTION.mask;
    }
    
    @Override

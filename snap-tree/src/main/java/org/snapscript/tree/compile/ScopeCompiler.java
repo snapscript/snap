@@ -49,9 +49,9 @@ public abstract class ScopeCompiler {
       Type result = constraint.getType(scope);
 
       if(constraint.isConstant()) {
-         return Value.getConstant(null, constraint);  
+         return Value.getConstant(property, constraint);  
       }
-      return Local.getReference(null, constraint);      
+      return Local.getReference(property, constraint);      
    }
    
    protected void compileParameters(Scope scope, Function function) {
@@ -79,9 +79,9 @@ public abstract class ScopeCompiler {
          constraint = compileArray(scope, constraint);
       }
       if(parameter.isConstant()) {
-         return Local.getConstant(null, name, constraint);  
+         return Local.getConstant(parameter, name, constraint);  
       }
-      return Local.getReference(null, name, constraint);      
+      return Local.getReference(parameter, name, constraint);      
    }
    
    protected Constraint compileArray(Scope scope, Constraint constraint) {

@@ -99,13 +99,13 @@ public class FunctionInvocation implements Compilation {
       @Override
       public Constraint compile(Scope scope, Constraint left) throws Exception {
          int depth = offset.get();
-         Value value = finder.find(scope, name, depth);
+         Value value = finder.findFunction(scope, name, depth);
  
          if(value != null) { 
             Type type = value.getType(scope);
             
             if(type == null) {
-               arguments.compile(scope);
+               arguments.compile(scope); 
                return NONE;
             }
             return compile(scope, name, value);            
@@ -120,7 +120,7 @@ public class FunctionInvocation implements Compilation {
          
          for(Evaluation evaluation : evaluations) {
             if(result == null) {
-               throw new InternalStateException("Result of '" + name + "' null"); 
+               throw new InternalStateException("Result of '" + name + "' is null"); 
             }
             result = evaluation.compile(scope, result);
          }
@@ -134,7 +134,7 @@ public class FunctionInvocation implements Compilation {
          
          for(Evaluation evaluation : evaluations) {
             if(result == null) {
-               throw new InternalStateException("Result of '" + name + "' null"); 
+               throw new InternalStateException("Result of '" + name + "' is null"); 
             }
             result = evaluation.compile(scope, result);
          }
@@ -144,7 +144,7 @@ public class FunctionInvocation implements Compilation {
       @Override
       public Value evaluate(Scope scope, Object left) throws Exception {
          int depth = offset.get();
-         Value value = finder.find(scope, name, depth);
+         Value value = finder.findFunction(scope, name, depth);
             
          if(value != null) { 
             Object object = value.getValue();
@@ -165,7 +165,7 @@ public class FunctionInvocation implements Compilation {
             Object result = value.getValue();
             
             if(result == null) {
-               throw new InternalStateException("Result of '" + name + "' null"); 
+               throw new InternalStateException("Result of '" + name + "' is null"); 
             }
             value = evaluation.evaluate(scope, result);
          }
@@ -181,7 +181,7 @@ public class FunctionInvocation implements Compilation {
             Object result = value.getValue();
             
             if(result == null) {
-               throw new InternalStateException("Result of '" + name + "' null"); 
+               throw new InternalStateException("Result of '" + name + "' is null"); 
             }
             value = evaluation.evaluate(scope, result);
          }

@@ -8,7 +8,7 @@ import org.snapscript.core.function.ArgumentConverter;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Signature;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.index.LocalScopeFinder;
 import org.snapscript.core.stack.ThreadStack;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
@@ -16,16 +16,17 @@ import org.snapscript.core.variable.Value;
 public class LocalIndexer {
    
    private final LocalFunctionIndexer indexer;
+   private final LocalScopeFinder finder;
    private final ThreadStack stack;
    
    public LocalIndexer(ThreadStack stack, FunctionIndexer indexer) {
       this.indexer = new LocalFunctionIndexer(indexer);
+      this.finder = new LocalScopeFinder();
       this.stack = stack;
    }
    
-   public FunctionPointer index(Scope scope, String name, Type... types) throws Exception { // match function variable
-      State state = scope.getState();
-      Value value = state.get(name);
+   public FunctionPointer index(Scope scope, String name, Type... types) throws Exception { // match function variable    
+      Value value = finder.findFunction(scope, name);
       
       if(value != null) {
          Type type = value.getType(scope);
@@ -50,8 +51,7 @@ public class LocalIndexer {
    }
    
    public FunctionPointer index(Scope scope, String name, Object... values) throws Exception { // match function variable
-      State state = scope.getState();
-      Value value = state.get(name);
+      Value value = finder.findFunction(scope, name);
       
       if(value != null) {
          Object object = value.getValue();

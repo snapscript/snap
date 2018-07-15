@@ -10,7 +10,6 @@ import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.constraint.TypeParameterConstraint;
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.module.Module;
-import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
@@ -21,7 +20,7 @@ public class GenericDeclaration {
    private final GenericArgumentList list;
    private final TypeReference type;   
    
-   public GenericDeclaration(TypeReference type, GenericArgumentList list, Path path, int line) {
+   public GenericDeclaration(TypeReference type, GenericArgumentList list) {
       this.compilation = new ConstraintCompilation(type, list);
       this.list = list;
       this.type = type;

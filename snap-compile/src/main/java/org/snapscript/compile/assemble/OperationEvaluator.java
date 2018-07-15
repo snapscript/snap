@@ -1,6 +1,7 @@
 package org.snapscript.compile.assemble;
 
 import static org.snapscript.core.Reserved.DEFAULT_PACKAGE;
+import static org.snapscript.core.error.Reason.THROW;
 
 import java.util.concurrent.Executor;
 
@@ -8,7 +9,8 @@ import org.snapscript.compile.verify.Verifier;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.ExpressionEvaluator;
-import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.error.ErrorHandler;
+import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Model;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.index.LocalScopeExtractor;
@@ -49,15 +51,19 @@ public class OperationEvaluator implements ExpressionEvaluator {
    }
    
    @Override
-   public <T> T evaluate(Scope scope, String source, String module) throws Exception{ 
+   public <T> T evaluate(Scope scope, String source, String module) throws Exception{
+      Module parent = scope.getModule();
+      Context context = parent.getContext();      
+      ErrorHandler handler = context.getHandler();
+            
       try {
          Scope capture = extractor.extract(scope);
          Evaluation evaluation = compiler.compile(capture, source, module);
          Value reference = evaluation.evaluate(capture,null);
          
          return (T)reference.getValue();
-      } catch(Exception e) {
-         throw new InternalStateException("Could not evaluate '" + source + "'", e);
+      } catch(Throwable cause) {
+         return (T)handler.handleExternalError(THROW, scope, cause);
       }
    }
 }
