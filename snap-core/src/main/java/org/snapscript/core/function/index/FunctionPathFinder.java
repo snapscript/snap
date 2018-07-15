@@ -55,7 +55,7 @@ public class FunctionPathFinder {
       Class real = type.getType();
       
       if(!progress.wait(DEFINE, wait)) {
-         throw new InternalStateException("Type '" + type +"' was not been defined");
+         throw new InternalStateException("Type '" + type +"' has not been defined");
       }
       findClasses(type, done);
       
