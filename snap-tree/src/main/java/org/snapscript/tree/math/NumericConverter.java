@@ -156,6 +156,9 @@ public enum NumericConverter {
       }
       if (Byte.class == primary || Byte.class == secondary) {
          return BYTE;
+      }      
+      if (Character.class == primary || Character.class == secondary) {
+         return INTEGER;
       }
       return DOUBLE;
    }

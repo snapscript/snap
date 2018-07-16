@@ -130,6 +130,9 @@ public enum NumericOperator {
       if(Byte.class == primary || Byte.class == secondary) {
          return operate(left, right, BYTE);
       }
+      if(Character.class == primary || Character.class == secondary) {
+         return operate(left, right, INTEGER);
+      }
       return operate(left, right, DOUBLE);
    }
    

@@ -47,15 +47,6 @@ public abstract class Value extends Constraint {
    public static Value getTransient(Object value, Constraint type) {
       return new Transient(value, type);
    }
-   
-   public char getCharacter() {
-      Object value = getValue();
-
-      if (value != null) {
-         return (Character) value; // optimistic!!
-      }
-      return 0;
-   }
 
    public double getDouble() {
       Number number = getNumber();
@@ -88,11 +79,20 @@ public abstract class Value extends Constraint {
       Object value = getValue();
 
       if (value != null) {
-         return (Number) value; // optimistic!!
+         return ValueMapper.toNumber(value); 
       }
       return null;
    }
+   
+   public char getCharacter() {
+      Object value = getValue();
 
+      if (value != null) {
+         return ValueMapper.toCharacter(value); 
+      }
+      return 0;
+   }
+   
    public String getString() {
       Object value = getValue();
 

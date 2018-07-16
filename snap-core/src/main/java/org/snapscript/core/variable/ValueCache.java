@@ -66,6 +66,13 @@ public class ValueCache {
       return Value.getTransient(value);
    }
    
+   public static Value getCharacter(int value){
+      if (value >= LOW && value <= HIGH) {
+         return CONSTANTS[CHARACTER][value + -LOW];
+      }
+      return Value.getTransient((char)value);
+   }
+   
    public static Value getFloat(float value) {
       return Value.getTransient(value);
    }
