@@ -39,9 +39,13 @@ public abstract class ConstraintReference extends Evaluation {
 
    protected static class ConstraintValue extends Value {
       
-      private final ConstraintDescription description;
-      private final Constraint constraint;
-      private final Value value;
+      private ConstraintDescription description;
+      private List<Constraint> generics;
+      private List<String> imports;
+      private Constraint constraint;
+      private Value value;
+      private Type type;
+      private String name;
       
       public ConstraintValue(Constraint constraint, Value value, Entity entity) {
          this.description = new ConstraintDescription(constraint, entity);
@@ -51,22 +55,34 @@ public abstract class ConstraintReference extends Evaluation {
       
       @Override
       public List<String> getImports(Scope scope) {
-         return constraint.getImports(scope);
+         if(imports == null) {
+            imports = constraint.getImports(scope);
+         }
+         return imports;
       }
       
       @Override
       public List<Constraint> getGenerics(Scope scope) {
-         return constraint.getGenerics(scope);
+         if(generics == null) {
+            generics = constraint.getGenerics(scope);
+         }
+         return generics;
       }
       
       @Override
       public Type getType(Scope scope) {
-         return constraint.getType(scope);
+         if(type == null) {
+            type = constraint.getType(scope);
+         }
+         return type;
       }
       
       @Override
       public String getName(Scope scope) {
-         return constraint.getName(scope);
+         if(name == null) {
+            name = constraint.getName(scope);
+         }
+         return name;
       }       
       
       @Override
