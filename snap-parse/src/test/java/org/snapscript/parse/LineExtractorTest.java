@@ -24,7 +24,7 @@ public class LineExtractorTest extends TestCase {
    "}";//17
    
    public void testExtractor() {
-      LineExtractor extractor = new LineExtractor("test", SOURCE.toCharArray());
+      LineExtractor extractor = new LineExtractor("test", SOURCE.toCharArray(), 17);
       
       assertEquals(extractor.extract(1).getNumber(), 1);
       assertEquals(extractor.extract(1).getSource(), "/**");

@@ -58,7 +58,7 @@ public class GrammarBuilder {
       
       if(count > 1) {
          List<Grammar> copy = new ArrayList<Grammar>(nodes);         
-         MatchOneGrammar choice = new MatchOneGrammar(copy, origin, index);  
+         MatchOneGrammar choice = new MatchOneGrammar(copy, origin, count, index);  
          
          return choice;
       }
@@ -72,7 +72,7 @@ public class GrammarBuilder {
       
       if(count > 1) {
          List<Grammar> copy = new ArrayList<Grammar>(nodes);         
-         MatchFirstGrammar choice = new MatchFirstGrammar(copy, origin, index);  
+         MatchFirstGrammar choice = new MatchFirstGrammar(copy, origin, count, index);  
          
          return choice;
       }
@@ -86,7 +86,7 @@ public class GrammarBuilder {
       
       if(count > 1) {
          List<Grammar> copy = new ArrayList<Grammar>(nodes);
-         MatchAllGrammar group = new MatchAllGrammar(copy, origin, index);
+         MatchAllGrammar group = new MatchAllGrammar(copy, origin, count, index);
          
          return group;
       }

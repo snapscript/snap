@@ -26,8 +26,8 @@ public class ReferenceBuilder {
    private static class ReferenceResolver {
       
       private final AtomicReference<GrammarMatcher> reference;
-      private final Grammar grammar;
       private final GrammarCache cache;
+      private final Grammar grammar;
       private final int length;
       
       public ReferenceResolver(GrammarCache cache, Grammar grammar, int length) {

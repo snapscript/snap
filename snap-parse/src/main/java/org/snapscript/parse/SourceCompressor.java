@@ -90,7 +90,7 @@ public class SourceCompressor {
          index[i] = lines[i]; 
          text[i] = next;
       }
-      return new SourceCode(original, text, index, types);
+      return new SourceCode(original, text, index, types, line);
    }
    
    private boolean directive() {

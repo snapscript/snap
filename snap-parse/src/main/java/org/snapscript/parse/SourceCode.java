@@ -6,10 +6,12 @@ public class SourceCode {
    private final char[] source;
    private final short[] lines;
    private final short[] types;
+   private final int count; // line count
    
-   public SourceCode(char[] original, char[] source, short[] lines, short[] types) {
+   public SourceCode(char[] original, char[] source, short[] lines, short[] types, int count) {
       this.original = original;
       this.source = source;
+      this.count = count;
       this.lines = lines;
       this.types = types;
    }
@@ -28,6 +30,10 @@ public class SourceCode {
    
    public short[] getTypes() {
       return types;
+   }
+   
+   public int getCount() {
+      return count;
    }
    
    @Override

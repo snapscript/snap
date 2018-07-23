@@ -20,8 +20,8 @@ public class SyntaxTree {
    private final String grammar;
    private final int length;
 
-   public SyntaxTree(GrammarIndexer indexer, String resource, String grammar, char[] original, char[] source, short[] lines, short[] types) {
-      this.lexer = new TokenScanner(indexer, resource, original, source, lines, types);
+   public SyntaxTree(GrammarIndexer indexer, String resource, String grammar, char[] original, char[] source, short[] lines, short[] types, int count) {
+      this.lexer = new TokenScanner(indexer, resource, original, source, lines, types, count);
       this.comparator = new SyntaxNodeComparator();
       this.nodes = new LinkedList<SyntaxCursor>();
       this.commit = new AtomicInteger();

@@ -3,15 +3,22 @@ package org.snapscript.parse;
 public class LineExtractor {
 
    private final String resource;
+   private final Line[] lines;
    private final char[] source;
    
-   public LineExtractor(String resource, char[] source) {
+   public LineExtractor(String resource, char[] source, int lines) {
+      this.lines = new Line[lines + 1];
       this.resource = resource;
       this.source = source;
    }
    
    public Line extract(int line) {
-      return new Reference(line);
+      Line result = lines[line];
+      
+      if(result == null) {
+         result = lines[line] = new Reference(line);
+      }
+      return result;
    }
    
    private String create(int line) {

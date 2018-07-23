@@ -52,8 +52,9 @@ public class BraceStackTest extends TestCase {
       char[] compress = source.getSource();
       short[] lines = source.getLines();
       short[]types = source.getTypes();
+      int count = source.getCount();
 
-      TokenIndexer tokenIndexer = new TokenIndexer(grammarIndexer, resource, original, compress, lines, types);
+      TokenIndexer tokenIndexer = new TokenIndexer(grammarIndexer, resource, original, compress, lines, types, count);
       tokenIndexer.index(tokens);
       return tokens;
    }

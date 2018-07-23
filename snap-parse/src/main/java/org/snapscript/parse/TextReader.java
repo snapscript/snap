@@ -40,35 +40,34 @@ public class TextReader {
       this.off = off;      
    }       
    
-   public Character peek() {
+   public char peek() {
       if(off < count) {
          return source[off];
       }
-      return null;
+      return 0;
    }
    
-   public Character next() {
+   public char next() {
       if(off < count) {
          return source[off++];
       }
-      return null;
+      return 0;
    }
    
-   public Character literal(char value) {
+   public boolean literal(char value) {
       if(off < count) {   
          char next = source[off];
          
          if(next == value) {
             off++;
-            return next;
+            return true;
          }
       }
-      return null;
+      return false;
    }
    
-   public String literal(char[] text) {
+   public boolean literal(char[] text) {
       int length = text.length;      
-      int mark = off;
       
       if(count - off >= length) {
          for(int i = 0; i < length; i++) {
@@ -76,16 +75,16 @@ public class TextReader {
             char next = source[off + i];
             
             if(value != next) {
-               return null;
+               return false;
             }
          }
          off += length;
-         return decoder.decode(mark, length, false);
+         return true;
       }
-      return null;
+      return false;
    }
    
-   public String literal(String text) {
+   public boolean literal(String text) {
       int length = text.length();      
       
       if(count - off >= length) {
@@ -94,13 +93,13 @@ public class TextReader {
             char next = source[off + i];
             
             if(value != next) {
-               return null;
+               return false;
             }
          }
          off += length;
-         return text;
+         return true;
       }
-      return null;
+      return false;
    }
    
    public Character space() {

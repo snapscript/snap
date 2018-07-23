@@ -21,7 +21,8 @@ public class SyntaxTreeBuilder {
       char[] compress = source.getSource();
       short[] lines = source.getLines();
       short[]types = source.getTypes();
+      int count = source.getCount();
 
-      return new SyntaxTree(indexer, resource, grammar, original, compress, lines, types);
+      return new SyntaxTree(indexer, resource, grammar, original, compress, lines, types, count);
    }       
 }

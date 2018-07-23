@@ -22,8 +22,8 @@ public class TokenScanner implements TokenLexer {
    private int count;
    private int mark;
 
-   public TokenScanner(GrammarIndexer indexer, String resource, char[] original, char[] source, short[] lines, short[] types) {
-      this.indexer = new TokenIndexer(indexer, resource, original, source, lines, types);
+   public TokenScanner(GrammarIndexer indexer, String resource, char[] original, char[] source, short[] lines, short[] types, int count) {
+      this.indexer = new TokenIndexer(indexer, resource, original, source, lines, types, count);
       this.tokens = new ArrayList<Token>();
       this.count = source.length;
    }

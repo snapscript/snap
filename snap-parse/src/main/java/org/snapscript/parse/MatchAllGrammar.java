@@ -1,6 +1,6 @@
 package org.snapscript.parse;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.snapscript.common.BitSet;
@@ -9,34 +9,36 @@ public class MatchAllGrammar implements Grammar {
 
    private final List<Grammar> grammars;
    private final String name;
+   private final int count;
    private final int index;
    
-   public MatchAllGrammar(List<Grammar> grammars, String name, int index) {
+   public MatchAllGrammar(List<Grammar> grammars, String name, int count, int index) {
       this.grammars = grammars;
       this.index = index;
+      this.count = count;
       this.name = name;
    }  
 
    @Override
    public GrammarMatcher create(GrammarCache cache, int length) {
-      List<GrammarMatcher> matchers = new ArrayList<GrammarMatcher>();
+      GrammarMatcher[] matchers = new GrammarMatcher[count];
       
-      for(Grammar grammar : grammars) {
-         GrammarMatcher matcher = grammar.create(cache, length);
-         matchers.add(matcher);
+      for(int i = 0; i < count; i++) {
+         Grammar grammar = grammars.get(i);
+         matchers[i] = grammar.create(cache, length);
       }
       return new MatchAllMatcher(matchers, name, index, length);
    } 
    
    public static class MatchAllMatcher implements GrammarMatcher {
       
-      private final List<GrammarMatcher> matchers;
+      private final GrammarMatcher[] matchers;
       private final BitSet success;
       private final BitSet failure;
       private final String name;
       private final int index;
 
-      public MatchAllMatcher(List<GrammarMatcher> matchers, String name, int index, int length) {
+      public MatchAllMatcher(GrammarMatcher[] matchers, String name, int index, int length) {
          this.success = new BitSet(length);
          this.failure = new BitSet(length);
          this.matchers = matchers;
@@ -59,7 +61,6 @@ public class MatchAllGrammar implements Grammar {
          if(!failure.get(position)) {
             if(!success.get(position)) {
                int mark = checker.mark(index);   
-               int require = matchers.size();
                int count = 0;
                
                if(mark != -1) {            
@@ -73,7 +74,7 @@ public class MatchAllGrammar implements Grammar {
                   }
                   checker.reset(mark, index);
                }           
-               if(count == require) {
+               if(count == matchers.length) {
                   success.set(position);
                }
             }
@@ -104,7 +105,6 @@ public class MatchAllGrammar implements Grammar {
          if(!failure.get(position)) {
             if(!success.get(position)) {
                SyntaxBuilder child = builder.mark(index);   
-               int require = matchers.size();
                int count = 0;
                
                if(child != null) {            
@@ -117,7 +117,7 @@ public class MatchAllGrammar implements Grammar {
                   }
                   child.reset();
                }           
-               if(count == require) {
+               if(count == matchers.length) {
                   success.set(position);
                }
             }
@@ -135,7 +135,7 @@ public class MatchAllGrammar implements Grammar {
       
       @Override
       public String toString() {
-         return String.valueOf(matchers);
+         return Arrays.toString(matchers);
       }
    }
 }

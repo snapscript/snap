@@ -17,18 +17,16 @@ import java.util.List;
 
 public class TokenIndexer {
 
-   private final LengthComparator comparator;
+   private final List<LiteralValue> values;
    private final LineExtractor extractor;
    private final GrammarIndexer indexer;
    private final TextReader reader;
-   private final List<String> values;
    private final short[] lines;
 
-   public TokenIndexer(GrammarIndexer indexer, String resource, char[] original, char[] source, short[] lines, short[] types) {
-      this.extractor = new LineExtractor(resource, original);
+   public TokenIndexer(GrammarIndexer indexer, String resource, char[] original, char[] source, short[] lines, short[] types, int count) {
+      this.extractor = new LineExtractor(resource, original, count);
       this.reader = new TextReader(source, types);
-      this.comparator = new LengthComparator();
-      this.values = new ArrayList<String>();
+      this.values = new ArrayList<LiteralValue>();
       this.indexer = indexer;
       this.lines = lines;
    }
@@ -38,9 +36,13 @@ public class TokenIndexer {
          List<String> literals = indexer.list();
         
          for(String literal : literals) {
-            values.add(literal);
+            LiteralValue value = new LiteralValue(literal);
+           
+            if(!value.isEmpty()) {
+               values.add(value);
+            }
          }
-         Collections.sort(values, comparator);
+         Collections.sort(values);
       }
       return scan(tokens);
    }
@@ -188,55 +190,77 @@ public class TokenIndexer {
    
    private Token literal(int number) {
       Line line = extractor.extract(number);
+      int count = values.size();
       
-      for (String literal : values) {
+      for (int i = 0; i < count; i++) {
          int mark = reader.mark();
-         String token = reader.literal(literal);
-
-         if (token != null) {
-            int length = token.length();
-            Character last = token.charAt(length - 1);
-            Character peek = reader.peek();
+         LiteralValue literal = values.get(i);
+         
+         if (reader.literal(literal.text)) {
+            char last = literal.text[literal.text.length - 1];
+            char peek = reader.peek();
             
             if (identifier(last) && identifier(peek)) {
                reader.reset(mark);
             } else {
                if(identifier(last) && special(peek)) {
-                  return new StringToken(literal, line, LITERAL.mask | IDENTIFIER.mask | QUALIFIER.mask);
+                  return new StringToken(literal.value, line, LITERAL.mask | IDENTIFIER.mask | QUALIFIER.mask);
                }
-               return new StringToken(literal, line, LITERAL.mask);
+               return new StringToken(literal.value, line, LITERAL.mask);
             }
          }
       }
       return null;
    }
    
-   private boolean identifier(Character value) {
-      if (value != null) {
-         char code = value.charValue();
-         
-         if(code >= 'a' && code <='z') {
-            return true;
-         }
-         if(code >= 'A' && code <= 'Z') {
-            return true;
-         }
-         return code >= '0' && code <= '9';
+   private boolean identifier(char value) {
+      if(value >= 'a' && value <='z') {
+         return true;
+      }
+      if(value >= 'A' && value <= 'Z') {
+         return true;
+      }
+      return value >= '0' && value <= '9';
+   }
+   
+   private boolean special(char value) {
+      switch(value) {
+      case ')': case '(':
+      case '.': case '?':
+      case ',': 
+         return true;
       }
       return false;
    }
    
-   private boolean special(Character value) {
-      if(value != null) {
-         char code = value.charValue();
-         
-         switch(code) {
-         case ')': case '(':
-         case '.': case '?':
-         case ',': 
-            return true;
-         }
+   private static class LiteralValue implements Comparable<LiteralValue> {
+      
+      private final String value;
+      private final char[] text;
+
+      private LiteralValue(String value) {
+         this.text = value.toCharArray();
+         this.value = value;
       }
-      return false;
+
+      @Override
+      public int compareTo(LiteralValue other) {
+         if(text.length < other.text.length) {
+            return 1;
+         }
+         if(text.length == other.text.length) {
+            return 0;
+         }
+         return -1; 
+      }
+      
+      public boolean isEmpty() {
+         return text.length == 0;
+      }
+      
+      @Override
+      public String toString() {
+         return value;
+      }
    }
 }
