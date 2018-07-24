@@ -78,7 +78,7 @@ public class URLConnectionExtension {
       return connection;
    }
    
-   public URLConnection success(URLConnection connection, Consumer<URLConnection> consumer) throws IOException {
+   public URLConnection success(URLConnection connection, Consumer<URLConnection, ?> consumer) throws IOException {
       HttpURLConnection request = (HttpURLConnection)connection;
       int status = request.getResponseCode();
       
@@ -98,7 +98,7 @@ public class URLConnectionExtension {
       return connection;
    }
    
-   public URLConnection failure(URLConnection connection, Consumer<URLConnection> consumer) throws IOException {
+   public URLConnection failure(URLConnection connection, Consumer<URLConnection, ?> consumer) throws IOException {
       HttpURLConnection request = (HttpURLConnection)connection;
       int status = request.getResponseCode();
       

@@ -8,6 +8,7 @@ import java.io.Writer;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -34,6 +35,7 @@ public class ClassExtender {
          registry.register(OutputStream.class, OutputStreamExtension.class);
          registry.register(URLConnection.class, URLConnectionExtension.class);
          registry.register(URL.class, URLExtension.class);
+         registry.register(Iterator.class, IteratorExtension.class);
          done.set(true);
       }
       return registry.extract(type);

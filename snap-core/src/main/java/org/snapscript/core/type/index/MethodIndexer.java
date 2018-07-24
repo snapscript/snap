@@ -29,17 +29,17 @@ public class MethodIndexer {
    }
 
    public List<Function> index(Type type) throws Exception {
-      Class source = type.getType();
-      List<Function> extensions = extender.extend(source);
-      List<Function> constructors = indexer.index(type);
-      Method[] methods = source.getDeclaredMethods();
+      List<Function> functions = new ArrayList<Function>();
       
-      for(Function extension : extensions) {
-         constructors.add(extension);
-      }
-      if(methods.length > 0) {
-         List<Function> functions = new ArrayList<Function>();
-   
+      if(type != null) {
+         Class source = type.getType();
+         List<Function> extensions = extender.extend(source);
+         List<Function> constructors = indexer.index(type);
+         Method[] methods = source.getDeclaredMethods();
+         
+         functions.addAll(constructors);
+         functions.addAll(extensions);
+         
          for(Method method : methods){
             int modifiers = converter.convert(method);
             
@@ -53,11 +53,7 @@ public class MethodIndexer {
                actual.addAll(extracted);
             }
          }
-         if(!constructors.isEmpty()) {
-            functions.addAll(constructors);
-         }
-         return functions;
       }
-      return constructors;
+      return functions;
    }
 }

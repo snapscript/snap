@@ -1,5 +1,5 @@
 package org.snapscript.common;
 
-public interface Consumer<T> {
-   void consume(T value);
+public interface Consumer<V, R> {
+   R consume(V value);
 }
