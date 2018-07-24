@@ -1,20 +1,36 @@
 package org.snapscript.core.variable;
 
+import org.snapscript.core.error.InternalStateException;
+
 public class ValueMapper {
 
    public static Character toCharacter(Object value) {
+      return toCharacter(value, null);
+   }
+
+   public static Number toNumber(Object value) {
+      return toNumber(value, null);
+   }
+   
+   private static Character toCharacter(Object value, Exception cause) {
       try {
          return (Character)value;
       } catch(Exception e) {
-         return (char)toNumber(value).intValue();
+         if(cause == null) {
+            return (char)toNumber(value, e).intValue();
+         }
+         throw new InternalStateException("Conversion failure for " + value, cause);
       }
    }
    
-   public static Number toNumber(Object value) {
+   private static Number toNumber(Object value, Exception cause) {
       try {
          return (Number)value;
       } catch(Exception e) {
-         return (int)toCharacter(value).charValue();
+         if(cause == null) {
+            return (int)toCharacter(value, e).charValue();
+         }
+         throw new InternalStateException("Conversion failure for " + value, cause);
       }
    }
 }
