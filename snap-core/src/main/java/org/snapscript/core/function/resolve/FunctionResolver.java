@@ -69,7 +69,7 @@ public class FunctionResolver {
       }
       return null;
    }
-   
+
    public FunctionCall resolveModule(Scope scope, Module module, String name, Type... list) throws Exception {
       FunctionPointer pointer = modules.index(module, name, list);
       
@@ -78,10 +78,10 @@ public class FunctionResolver {
       }
       return null;
    }
-   
+
    public FunctionCall resolveModule(Scope scope, Module module, String name, Object... list) throws Exception {
       FunctionPointer pointer = modules.index(module, name, list);
-      
+
       if(pointer != null) {
          return new FunctionCall(pointer, scope, module, list);
       }

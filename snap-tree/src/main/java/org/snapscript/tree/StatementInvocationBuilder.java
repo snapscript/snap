@@ -64,16 +64,16 @@ public class StatementInvocationBuilder implements InvocationBuilder {
    
    @Override
    public Invocation create(Scope scope) throws Exception {
-      Progress progress = type.getProgress();
-      
-      if(statement == null) {
-         throw new InternalStateException("Function is abstract");         
-      }
-      if(progress.wait(COMPILE)) {
-         if(execution == null) {
-            throw new InternalStateException("Function has not been compiled");
+      if(converter == null) {
+         Progress progress = type.getProgress();
+
+         if(statement == null) {
+            throw new InternalStateException("Function is abstract");
          }
-         if(converter == null) {
+         if (progress.wait(COMPILE)) {
+            if (execution == null) {
+               throw new InternalStateException("Function has not been compiled");
+            }
             converter = build(scope);
          }
       }

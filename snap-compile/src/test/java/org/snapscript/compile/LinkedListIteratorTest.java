@@ -36,6 +36,22 @@ public class LinkedListIteratorTest extends TestCase {
    "      println('iterator=' + (finish - start));\n"+
    "   }\n"+
    "\n"+
+   "   start = System.currentTimeMillis();\n"+
+   "   try {\n"+
+   "      for(var i = 0; i < 100; i++) {\n"+
+   "         var it = list.iterator;\n"+
+   "\n"+
+   "         while(it.hasNext){\n"+ // we don't use a function we use a property
+   "            var v = it.next;\n"+ // no function, only property
+   "            assert v != null;\n"+
+   "         }\n"+
+   "      }\n"+
+   "   } finally {\n"+
+   "      var finish = System.currentTimeMillis();\n"+
+   "      println('iterator(prop)=' + (finish - start));\n"+
+   "   }\n"+
+   "\n"+
+   "\n"+
    "   start = System.currentTimeMillis();\n"+   
    "   try {\n"+
    "      for(var i = 0; i < 100; i++) {\n"+
