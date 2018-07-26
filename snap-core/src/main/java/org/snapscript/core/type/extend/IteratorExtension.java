@@ -23,7 +23,7 @@ public class IteratorExtension {
       return new FilterIterator<T>(iterator, filter);
    }
 
-   public <T> Iterator reverse(Iterator<T> iterator) {
+   public <T> Iterator<T> reverse(Iterator<T> iterator) {
       List<T> list = new ArrayList<T>();
       
       while(iterator.hasNext()) {
@@ -34,6 +34,16 @@ public class IteratorExtension {
          Collections.reverse(list);
       }
       return list.iterator();
+   }
+   
+   public <T> List<T> gather(Iterator<T> iterator) {
+      List<T> list = new ArrayList<T>();
+      
+      while(iterator.hasNext()) {
+         T value = iterator.next();
+         list.add(value);
+      }
+      return list;
    }
 
    private static class FilterIterator<T> implements Iterator<T> {
