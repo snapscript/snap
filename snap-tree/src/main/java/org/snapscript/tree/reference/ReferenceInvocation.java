@@ -31,11 +31,13 @@ public class ReferenceInvocation implements Compilation {
    private final Evaluation[] evaluations;
    private final NameReference reference;
    private final ArgumentList arguments;
+   private final Evaluation function;
    
    public ReferenceInvocation(Evaluation function, ArgumentList arguments, Evaluation... evaluations) {
       this.reference = new NameReference(function);
       this.evaluations = evaluations;
       this.arguments = arguments;
+      this.function = function;
    }
    
    @Override
@@ -45,6 +47,7 @@ public class ReferenceInvocation implements Compilation {
       Trace trace = Trace.getInvoke(module, path, line);
       Evaluation invocation = create(module, path, line);
       
+
       return new TraceEvaluation(interceptor, invocation, trace);
    }
    
@@ -54,8 +57,8 @@ public class ReferenceInvocation implements Compilation {
       String name = reference.getName(scope);
       FunctionBinder binder = context.getBinder();   
       FunctionMatcher matcher = binder.bind(name);
-      
-      return new CompileResult(matcher, arguments, evaluations, name);     
+      Evaluation ev = new ReferenceProperty(function, evaluations).compile(module, path, line);
+      return new CompileResult(matcher, arguments, evaluations, name, ev);     
    }
    
    private static class CompileResult extends Evaluation {
@@ -66,14 +69,16 @@ public class ReferenceInvocation implements Compilation {
       private final ArgumentList arguments;
       private final AtomicInteger offset;
       private final String name;
+      private Evaluation ev;
       
-      public CompileResult(FunctionMatcher matcher, ArgumentList arguments, Evaluation[] evaluations, String name) {
+      public CompileResult(FunctionMatcher matcher, ArgumentList arguments, Evaluation[] evaluations, String name, Evaluation ev) {
          this.verifier = new ModifierAccessVerifier();
          this.offset = new AtomicInteger();
          this.evaluations = evaluations;
          this.arguments = arguments;
          this.matcher = matcher;
          this.name = name;
+         this.ev = ev;
       }
       
       @Override
@@ -91,6 +96,14 @@ public class ReferenceInvocation implements Compilation {
       
       @Override
       public Constraint compile(Scope scope, Constraint left) throws Exception {
+         int count = arguments.count();
+         if(count == 0) {
+            try{
+               ev.compile(scope, left);
+            }catch(Exception e){
+               ev=null;
+            }
+         }
          Type type = left.getType(scope);         
          Type[] array = arguments.compile(scope); 
          FunctionDispatcher dispatcher = matcher.match(scope, left);
@@ -116,6 +129,10 @@ public class ReferenceInvocation implements Compilation {
 
       @Override
       public Value evaluate(Scope scope, Object left) throws Exception {
+         int count = arguments.count();
+         if(count == 0 && ev != null) {            
+            return ev.evaluate(scope, left);
+         }
          Object[] array = arguments.create(scope); 
          FunctionDispatcher dispatcher = matcher.match(scope, left);
          Value value = dispatcher.dispatch(scope, left, array);

@@ -17,6 +17,10 @@ public class ArgumentList {
       this.list = list;
    }
    
+   public int count() throws Exception {
+      return list.length;
+   }
+   
    public int define(Scope scope) throws Exception{
       for(int i = 0; i < list.length; i++){
          list[i].define(scope);

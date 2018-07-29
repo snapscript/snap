@@ -51,7 +51,7 @@ public class PropertyIndexer {
       Class[] types = source.getDeclaredClasses();
       Type type = indexer.loadType(source);
       int count = extensions.size();
-
+      
       if(fields.length + methods.length + types.length +count > 0) {
          Set<String> done = new HashSet<String>();
          
@@ -150,7 +150,7 @@ public class PropertyIndexer {
       for(Method method : methods){
          int modifiers = converter.convert(method);
          
-         if(ModifierType.isPublic(modifiers) && !ModifierType.isStatic(modifiers)) {
+         if(ModifierType.isPublic(modifiers) /*&& !ModifierType.isStatic(modifiers)*/) {
             Class[] parameters = method.getParameterTypes();
             Class returns = method.getReturnType();
             

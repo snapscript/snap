@@ -84,4 +84,8 @@ public class LinkedListIteratorTest extends TestCase {
       System.err.println(SOURCE);
       compiler.compile(SOURCE).execute();
    }
+   
+   public static void main(String[] l)throws Exception{
+      new LinkedListIteratorTest().testListIteration();
+   }
 }
