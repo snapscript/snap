@@ -2,6 +2,7 @@ package org.snapscript.tree.function;
 
 import static org.snapscript.core.constraint.Constraint.NONE;
 
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.snapscript.core.Compilation;
@@ -26,17 +27,19 @@ import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 import org.snapscript.tree.ArgumentList;
 import org.snapscript.tree.NameReference;
+import org.snapscript.tree.variable.Variable;
 
 public class FunctionInvocation implements Compilation {
 
    private final Evaluation[] evaluations;
    private final NameReference reference;
    private final ArgumentList arguments;
-   
+   Evaluation function;
    public FunctionInvocation(Evaluation function, ArgumentList arguments, Evaluation... evaluations) {
       this.reference = new NameReference(function);
       this.evaluations = evaluations;
       this.arguments = arguments;
+      this.function = function;
    }
    
    @Override
@@ -55,8 +58,8 @@ public class FunctionInvocation implements Compilation {
       String name = reference.getName(scope); 
       FunctionBinder binder = context.getBinder();   
       FunctionMatcher matcher = binder.bind(name);
-      
-      return new CompileResult(matcher, arguments, evaluations, name);     
+      Evaluation ev = new Variable(function).compile(module, path, line);
+      return new CompileResult(matcher, arguments, evaluations, name, ev);     
    }
    
    private static class CompileResult extends Evaluation {   
@@ -68,8 +71,9 @@ public class FunctionInvocation implements Compilation {
       private final ArgumentList arguments;
       private final AtomicInteger offset;    
       private final String name;
+      private Evaluation ev;
       
-      public CompileResult(FunctionMatcher matcher, ArgumentList arguments, Evaluation[] evaluations, String name) {
+      public CompileResult(FunctionMatcher matcher, ArgumentList arguments, Evaluation[] evaluations, String name, Evaluation ev) {
          this.loader = new ImplicitImportLoader();
          this.finder = new LocalScopeFinder();
          this.offset = new AtomicInteger(-1);
@@ -77,10 +81,20 @@ public class FunctionInvocation implements Compilation {
          this.arguments = arguments;
          this.matcher = matcher;
          this.name = name;
+         this.ev = ev;
       }
       
       @Override
       public void define(Scope scope) throws Exception {
+         int count = arguments.count();
+         if(count == 0) {
+            try{
+               ev.define(scope);
+            }catch(Exception e){
+               e.printStackTrace();
+               ev=null;
+            }
+         }
          Index index = scope.getIndex();
          int depth = index.get(name);
 
@@ -98,6 +112,14 @@ public class FunctionInvocation implements Compilation {
       
       @Override
       public Constraint compile(Scope scope, Constraint left) throws Exception {
+         int count = arguments.count();
+         if(count == 0 && ev != null) {
+            try{
+               ev.compile(scope, left);
+            }catch(Exception e){
+               ev=null;
+            }
+         }
          int depth = offset.get();
          Value value = finder.findFunction(scope, name, depth);
  
@@ -140,9 +162,41 @@ public class FunctionInvocation implements Compilation {
          }
          return result; 
       }
-      
+      static AtomicInteger x = new AtomicInteger();
+      static AtomicInteger fail = new AtomicInteger();
+      static AtomicInteger ignore = new AtomicInteger();
+//      static {
+//         new Thread(new Runnable(){
+//            public void run(){
+//               while(true){
+//                  try{
+//                     Thread.sleep(1000);
+//                     System.err.println("#################### VAR ###########################:  succes: "+x + " fail: "+fail + " ignore: "+ignore);
+//                  } catch(Exception e){}
+//               }
+//            }
+//         }).start();
+//      }
+      AtomicBoolean start = new AtomicBoolean();
+      AtomicBoolean end = new AtomicBoolean();
+      AtomicBoolean a= new AtomicBoolean();
       @Override
       public Value evaluate(Scope scope, Object left) throws Exception {
+         int count = arguments.count();
+         if(count == 0 && ev != null) {
+            try{
+               if(start.compareAndSet(false, true))
+                  x.getAndIncrement();
+               return ev.evaluate(scope, left);
+            }catch(Exception e){
+               if(end.compareAndSet(false,  true)){
+                  x.getAndDecrement();
+                  fail.getAndIncrement();
+               }
+               ev=null;
+            }
+
+         }
          int depth = offset.get();
          Value value = finder.findFunction(scope, name, depth);
             
@@ -159,7 +213,7 @@ public class FunctionInvocation implements Compilation {
       private Value evaluate(Scope scope, String name) throws Exception {
          Object[] array = arguments.create(scope); 
          FunctionDispatcher dispatcher = matcher.match(scope);
-         Value value = dispatcher.dispatch(scope, null, array);
+         Value value = dispatcher.dispatch(scope, null, array).call(true, scope, null, array);
          
          for(Evaluation evaluation : evaluations) {
             Object result = value.getValue();
@@ -175,7 +229,7 @@ public class FunctionInvocation implements Compilation {
       private Value evaluate(Scope scope, String name, Object local) throws Exception {
          Object[] array = arguments.create(scope); 
          FunctionDispatcher dispatcher = matcher.match(scope, local);
-         Value value = dispatcher.dispatch(scope, local, array);
+         Value value = dispatcher.dispatch(scope, local, array).call(true, scope, local, array);
          
          for(Evaluation evaluation : evaluations) {
             Object result = value.getValue();

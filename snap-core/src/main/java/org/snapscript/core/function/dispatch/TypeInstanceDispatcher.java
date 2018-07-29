@@ -34,12 +34,12 @@ public class TypeInstanceDispatcher implements FunctionDispatcher<Object> {
    }
    
    @Override
-   public Value dispatch(Scope scope, Object object, Object... arguments) throws Exception {
+   public Call dispatch(Scope scope, Object object, Object... arguments) throws Exception {
       FunctionCall call = resolver.resolveInstance(scope, object, name, arguments);
       
       if(call == null) {
          handler.handleRuntimeError(INVOKE, scope, object, name, arguments);
       }
-      return call.call();
+      return call;
    }
 }

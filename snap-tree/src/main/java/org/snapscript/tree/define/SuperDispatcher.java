@@ -28,7 +28,7 @@ public class SuperDispatcher implements FunctionDispatcher<Object> {
    }
    
    @Override
-   public Value dispatch(Scope scope, Object object, Object... list) throws Exception {
+   public Call dispatch(Scope scope, Object object, Object... list) throws Exception {
       Type real = (Type)list[0];
       Module module = scope.getModule();
       Context context = module.getContext();
@@ -42,12 +42,17 @@ public class SuperDispatcher implements FunctionDispatcher<Object> {
       if(copy.length > 0) {
          System.arraycopy(list, 1, copy, 0, copy.length);
       }
-      Constraint constraint = Constraint.getConstraint(type);
+      final Constraint constraint = Constraint.getConstraint(type);
       PlatformProvider provider = context.getProvider();
       Platform platform = provider.create();
       Invocation invocation = platform.createSuperConstructor(real, type);
-      Object instance = invocation.invoke(scope, real, copy);
+      final Object instance = invocation.invoke(scope, real, copy);
       
-      return Value.getTransient(instance, constraint);
+      return new Call() {
+         @Override
+         public Value call(boolean skip, Scope scope, Object object, Object... arguments) throws Exception{
+            return Value.getTransient(instance, constraint);
+         }
+      };
    }
 }

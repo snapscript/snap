@@ -56,9 +56,9 @@ public class SuperInvocation extends Evaluation {
          Scope compound = extractor.extract(scope, outer);
          Object[] list = arguments.create(compound, real); // arguments have no left hand side
 
-         return dispatcher.dispatch(instance, instance, list);
+         return dispatcher.dispatch(instance, instance, list).call(true, instance, instance, list);
       }
-      return dispatcher.dispatch(instance, instance, real);
+      return dispatcher.dispatch(instance, instance, real).call(true, instance, instance, real);
    }
    
 

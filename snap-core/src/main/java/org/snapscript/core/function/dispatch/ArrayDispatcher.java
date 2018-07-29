@@ -40,13 +40,13 @@ public class ArrayDispatcher implements FunctionDispatcher<Object> {
    }
 
    @Override
-   public Value dispatch(Scope scope, Object object, Object... arguments) throws Exception {
+   public Call dispatch(Scope scope, Object object, Object... arguments) throws Exception {
       List list = builder.convert(object);
       FunctionCall call = resolver.resolveInstance(scope, list, name, arguments);
       
       if(call == null) {
          handler.handleRuntimeError(INVOKE, scope, object, name, arguments);
       }
-      return call.call();
+      return call;
    }
 }

@@ -35,12 +35,12 @@ public class DelegateDispatcher implements FunctionDispatcher<Delegate> {
    }
    
    @Override
-   public Value dispatch(Scope scope, Delegate object, Object... arguments) throws Exception {
+   public Call dispatch(Scope scope, Delegate object, Object... arguments) throws Exception {
       FunctionCall call = resolver.resolveFunction(scope, object, name, arguments);
       
       if(call == null) {
          handler.handleRuntimeError(INVOKE, scope, object, name, arguments);
       }
-      return call.call();
+      return call;
    }
 }

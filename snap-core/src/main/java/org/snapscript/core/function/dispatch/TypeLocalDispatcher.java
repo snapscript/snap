@@ -41,7 +41,7 @@ public class TypeLocalDispatcher implements FunctionDispatcher<Scope> {
    }
 
    @Override
-   public Value dispatch(Scope scope, Scope object, Object... arguments) throws Exception {
+   public Call dispatch(Scope scope, Scope object, Object... arguments) throws Exception {
       FunctionCall match = bind(scope, object, arguments);
       
       if(match == null) {
@@ -53,7 +53,7 @@ public class TypeLocalDispatcher implements FunctionDispatcher<Scope> {
             handler.handleRuntimeError(INVOKE, scope, name, arguments);
          }
       }
-      return match.call();          
+      return match;          
    }
    
    private FunctionCall bind(Scope scope, Type object, Type... arguments) throws Exception {

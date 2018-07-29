@@ -36,13 +36,13 @@ public class ModuleDispatcher implements FunctionDispatcher<Module> {
    }
 
    @Override
-   public Value dispatch(Scope scope, Module module, Object... arguments) throws Exception {   
+   public Call dispatch(Scope scope, Module module, Object... arguments) throws Exception {   
       FunctionCall call = bind(scope, module, arguments);
       
       if(call == null) {
          handler.handleRuntimeError(INVOKE, scope, module, name, arguments);
       }
-      return call.call();           
+      return call;           
    }
    
    private FunctionCall bind(Scope scope, Module module, Type... arguments) throws Exception {

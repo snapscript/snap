@@ -2,6 +2,7 @@ package org.snapscript.tree.reference;
 
 import static org.snapscript.core.error.Reason.ACCESS;
 
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.snapscript.core.Compilation;
@@ -13,6 +14,7 @@ import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.bind.FunctionBinder;
 import org.snapscript.core.function.bind.FunctionMatcher;
 import org.snapscript.core.function.dispatch.FunctionDispatcher;
+import org.snapscript.core.function.dispatch.FunctionDispatcher.Call;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.Scope;
@@ -22,8 +24,8 @@ import org.snapscript.core.trace.TraceEvaluation;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
-import org.snapscript.tree.ModifierAccessVerifier;
 import org.snapscript.tree.ArgumentList;
+import org.snapscript.tree.ModifierAccessVerifier;
 import org.snapscript.tree.NameReference;
 
 public class ReferenceInvocation implements Compilation {
@@ -79,6 +81,8 @@ public class ReferenceInvocation implements Compilation {
          this.matcher = matcher;
          this.name = name;
          this.ev = ev;
+         if(arguments.count() != 0)
+            ignore.getAndIncrement();
       }
       
       @Override
@@ -126,17 +130,96 @@ public class ReferenceInvocation implements Compilation {
          }
          return result; 
       }
+      static AtomicInteger x = new AtomicInteger();
+      static AtomicInteger fail = new AtomicInteger();
+      static AtomicInteger ignore = new AtomicInteger();
+      static AtomicInteger revert= new AtomicInteger();
+      static AtomicInteger optimistic= new AtomicInteger();
+//      static {
+//         new Thread(new Runnable(){
+//            public void run(){
+//               while(true){
+//                  try{
+//                     Thread.sleep(1000);
+//                     System.err.println("###############################################:  succes: "+x + " fail: "+fail + " ignore: "+ignore + " revert: "+revert + " optimistic: "+optimistic);
+//                  } catch(Exception e){}
+//               }
+//            }
+//         }).start();
+//      }
+      AtomicBoolean start = new AtomicBoolean();
+      AtomicBoolean end = new AtomicBoolean();
 
-      @Override
+      FunctionDispatcher dispatcher;
+      Call call;
+     // Type t;
+      
+      boolean revertToOldWay = false;
+      
+      @Override      
       public Value evaluate(Scope scope, Object left) throws Exception {
-         int count = arguments.count();
-         if(count == 0 && ev != null) {            
-            return ev.evaluate(scope, left);
+
+         Object[] array = arguments.create(scope);
+//         if(scope != null){
+//            return  matcher.match(scope, left).dispatch(scope, left, array).call(true, scope, left, array);
+//         }
+         if(call != null){
+            try{
+               //value =dispatcher.dispatch(scope, left, array).call(true, scope, left, array);
+              // if(tt == t || tt.getType()!=null) {
+                  return call.call(false, scope, left, array);
+             //  }else {
+             //     value = call.call(false, scope, left, array);
+                  //value = dispatcher.dispatch(scope, left, array).call(true, scope, left, array);
+             //  }
+            }catch(Throwable e){
+               e.printStackTrace();
+               revertToOldWay=true;
+               revert.getAndIncrement();
+               optimistic.getAndDecrement();
+               //e.printStackTrace();
+               return matcher.match(scope, left).dispatch(scope, left, array).call(true, scope, left, array);
+              //throw new RuntimeException(e);
+            }
          }
-         Object[] array = arguments.create(scope); 
-         FunctionDispatcher dispatcher = matcher.match(scope, left);
-         Value value = dispatcher.dispatch(scope, left, array);
+         int count = arguments.count();
+         Value value = null;
          
+         if(dispatcher == null) {
+            dispatcher = matcher.match(scope, left);
+         }
+
+            if(revertToOldWay) {
+               value = matcher.match(scope, left).dispatch(scope, left, array).call(true, scope, left, array);
+            } else {
+               if(Module.class.isInstance(left)||Type.class.isInstance(left)||"start".equals(name)) {
+                  value =dispatcher.dispatch(scope, left, array).call(true, scope, left, array);
+               }else {
+                  //Type tt = scope.getModule().getContext().getExtractor().getType(left);
+                  if(call == null) {
+                     call = dispatcher.dispatch(scope, left, array);
+                 //    t = tt;
+                     optimistic.getAndIncrement();
+                  }
+                  try{
+                     //value =dispatcher.dispatch(scope, left, array).call(true, scope, left, array);
+                    // if(tt == t || tt.getType()!=null) {
+                        value = call.call(false, scope, left, array);
+                   //  }else {
+                   //     value = call.call(false, scope, left, array);
+                        //value = dispatcher.dispatch(scope, left, array).call(true, scope, left, array);
+                   //  }
+                  }catch(Throwable e){
+                     revertToOldWay=true;
+                     revert.getAndIncrement();
+                     optimistic.getAndDecrement();
+                     //e.printStackTrace();
+                     value = matcher.match(scope, left).dispatch(scope, left, array).call(true, scope, left, array);
+                    //throw new RuntimeException(e);
+                  }
+               }
+            } 
+
          for(Evaluation evaluation : evaluations) {
             Object result = value.getValue();
             

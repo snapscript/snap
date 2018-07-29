@@ -20,22 +20,9 @@ public class LinkedListIteratorTest extends TestCase {
    "   list.add(new Item(i));\n"+
    "}\n"+
    "\n"+
+   "var start = System.currentTimeMillis();\n"+
+   "\n"+
    "for(var n in 0..10){\n"+
-   "   var start = System.currentTimeMillis();\n"+
-   "   try {\n"+
-   "      for(var i = 0; i < 100; i++) {\n"+
-   "         var it = list.iterator();\n"+
-   "\n"+
-   "         while(it.hasNext()){\n"+
-   "            var v = it.next();\n"+
-   "            assert v != null;\n"+
-   "         }\n"+
-   "      }\n"+
-   "   } finally {\n"+
-   "      var finish = System.currentTimeMillis();\n"+
-   "      println('iterator=' + (finish - start));\n"+
-   "   }\n"+
-   "\n"+
    "   start = System.currentTimeMillis();\n"+
    "   try {\n"+
    "      for(var i = 0; i < 100; i++) {\n"+
@@ -51,6 +38,21 @@ public class LinkedListIteratorTest extends TestCase {
    "      println('iterator(prop)=' + (finish - start));\n"+
    "   }\n"+
    "\n"+
+   "   start = System.currentTimeMillis();\n"+
+   "\n"+
+   "   try {\n"+
+   "      for(var i = 0; i < 100; i++) {\n"+
+   "         var it = list.iterator();\n"+
+   "\n"+
+   "         while(it.hasNext()){\n"+
+   "            var v = it.next();\n"+
+   "            assert v != null;\n"+
+   "         }\n"+
+   "      }\n"+
+   "   } finally {\n"+
+   "      var finish = System.currentTimeMillis();\n"+
+   "      println('iterator=' + (finish - start));\n"+
+   "   }\n"+  
    "\n"+
    "   start = System.currentTimeMillis();\n"+   
    "   try {\n"+

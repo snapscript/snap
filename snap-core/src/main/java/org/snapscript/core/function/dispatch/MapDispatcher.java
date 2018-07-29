@@ -40,13 +40,13 @@ public class MapDispatcher implements FunctionDispatcher<Map> {
    }
    
    @Override
-   public Value dispatch(Scope scope, Map map, Object... arguments) throws Exception {
+   public Call dispatch(Scope scope, Map map, Object... arguments) throws Exception {
       FunctionCall call = bind(scope, map, arguments);
       
       if(call == null) {
          handler.handleRuntimeError(INVOKE, scope, map, name, arguments);
       }
-      return call.call();
+      return call;
    }
    
    private FunctionCall bind(Scope scope, Map map, Object... arguments) throws Exception {

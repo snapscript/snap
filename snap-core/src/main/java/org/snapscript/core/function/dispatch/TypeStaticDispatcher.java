@@ -34,7 +34,7 @@ public class TypeStaticDispatcher implements FunctionDispatcher<Type> {
    } 
 
    @Override
-   public Value dispatch(Scope scope, Type type, Object... arguments) throws Exception {   
+   public Call dispatch(Scope scope, Type type, Object... arguments) throws Exception {   
       FunctionCall call = resolver.resolveStatic(scope, type, name, arguments);
 
       if(call == null) {
@@ -43,6 +43,6 @@ public class TypeStaticDispatcher implements FunctionDispatcher<Type> {
       if(call == null) {
          handler.handleRuntimeError(INVOKE, scope, type, name, arguments);
       }
-      return call.call();          
+      return call;          
    } 
 }

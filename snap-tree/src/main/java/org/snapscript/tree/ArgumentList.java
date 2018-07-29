@@ -17,7 +17,7 @@ public class ArgumentList {
       this.list = list;
    }
    
-   public int count() throws Exception {
+   public int count()  {
       return list.length;
    }
    

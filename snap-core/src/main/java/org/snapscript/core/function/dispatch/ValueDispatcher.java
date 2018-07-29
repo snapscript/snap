@@ -29,12 +29,12 @@ public class ValueDispatcher implements FunctionDispatcher<Value> {
    }
 
    @Override
-   public Value dispatch(Scope scope, Value value, Object... list) throws Exception {
+   public Call dispatch(Scope scope, Value value, Object... list) throws Exception {
       FunctionCall closure = resolver.resolveValue(value, list); // function variable
       
       if(closure == null) {
          handler.handleRuntimeError(INVOKE, scope, name, list);
       }
-      return closure.call();   
+      return closure;   
    }
 }
