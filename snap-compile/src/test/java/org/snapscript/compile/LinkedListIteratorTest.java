@@ -20,7 +20,7 @@ public class LinkedListIteratorTest extends TestCase {
    "   list.add(new Item(i));\n"+
    "}\n"+
    "\n"+
-   "for(var n in 0..3){\n"+
+   "for(var n in 0..10){\n"+
    "   var start = System.currentTimeMillis();\n"+
    "   try {\n"+
    "      for(var i = 0; i < 100; i++) {\n"+

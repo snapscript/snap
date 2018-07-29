@@ -47,6 +47,7 @@ public class PropertyNameExtractor {
             String token = function.substring(require);
             return getProperty(token);
          }
+         return null;
       }
       return function;
    }

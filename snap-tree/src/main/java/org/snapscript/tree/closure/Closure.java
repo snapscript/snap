@@ -7,17 +7,16 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Statement;
+import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.function.Function;
+import org.snapscript.core.function.FunctionBody;
+import org.snapscript.core.function.Signature;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.index.LocalScopeExtractor;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
-import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.function.Function;
-import org.snapscript.core.function.FunctionBody;
-import org.snapscript.core.function.Signature;
-import org.snapscript.tree.Expression;
 import org.snapscript.tree.ExpressionStatement;
 import org.snapscript.tree.compile.ClosureScopeCompiler;
 
@@ -31,11 +30,11 @@ public class Closure implements Compilation {
       this(parameters, statement, null);
    }  
    
-   public Closure(ClosureParameterList parameters, Expression expression){
+   public Closure(ClosureParameterList parameters, Evaluation expression){
       this(parameters, null, expression);
    }
    
-   public Closure(ClosureParameterList parameters, Statement statement, Expression expression){
+   public Closure(ClosureParameterList parameters, Statement statement, Evaluation expression){
       this.compilation = new ExpressionStatement(expression);
       this.parameters = parameters;
       this.statement = statement;
