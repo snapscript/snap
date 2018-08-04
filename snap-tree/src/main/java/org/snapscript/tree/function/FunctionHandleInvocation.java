@@ -12,13 +12,13 @@ public class FunctionHandleInvocation implements Invocation {
    private final FunctionHandleAligner aligner;
    private final FunctionMatcher matcher;
    private final Module module;
-   private final Object value;
+   private final Value value;
 
-   public FunctionHandleInvocation(FunctionMatcher matcher, Module module, Object value) {
+   public FunctionHandleInvocation(FunctionMatcher matcher, Module module, Value value) {
       this(matcher, module, value, false);
    }
    
-   public FunctionHandleInvocation(FunctionMatcher matcher, Module module, Object value, boolean constructor) {
+   public FunctionHandleInvocation(FunctionMatcher matcher, Module module, Value value, boolean constructor) {
       this.aligner = new FunctionHandleAligner(value, constructor);
       this.matcher = matcher;
       this.module = module;

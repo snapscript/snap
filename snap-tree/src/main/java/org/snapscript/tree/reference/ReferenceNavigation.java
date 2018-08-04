@@ -68,7 +68,7 @@ public class ReferenceNavigation implements Compilation {
       } 
       
       @Override
-      public Value evaluate(Scope scope, Object left) throws Exception {
+      public Value evaluate(Scope scope, Value left) throws Exception {
          Value value = part.evaluate(scope, left);         
          
          if(operator != null) {

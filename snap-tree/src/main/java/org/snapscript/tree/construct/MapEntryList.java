@@ -38,7 +38,7 @@ public class MapEntryList extends Evaluation{
    }
    
    @Override
-   public Value evaluate(Scope scope, Object left) throws Exception{
+   public Value evaluate(Scope scope, Value left) throws Exception{
       Map map = new LinkedHashMap();
       
       for(int i = 0; i < list.length; i++){

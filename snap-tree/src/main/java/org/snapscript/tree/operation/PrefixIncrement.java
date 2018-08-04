@@ -13,7 +13,7 @@ public class PrefixIncrement extends NumericOperation {
    }
    
    @Override
-   public Value evaluate(Scope scope, Object left) throws Exception { // this is rubbish
+   public Value evaluate(Scope scope, Value left) throws Exception { // this is rubbish
       Value reference = evaluation.evaluate(scope, left);
       Number number = reference.getNumber();
       NumericConverter converter = NumericConverter.resolveConverter(number);

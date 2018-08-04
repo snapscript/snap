@@ -48,10 +48,9 @@ public class FunctionCurry implements Compilation {
       }
          
       @Override
-      public Value evaluate(Scope scope, Object left) throws Exception { 
-         Value value = Value.getTransient(left);        
+      public Value evaluate(Scope scope, Value left) throws Exception {         
          Object[] array = arguments.create(scope); 
-         FunctionCall call = resolver.resolveValue(value, array);
+         FunctionCall call = resolver.resolveValue(left, array);
          int width = array.length;
          
          if(call == null) {

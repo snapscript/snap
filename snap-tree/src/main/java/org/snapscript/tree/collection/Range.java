@@ -29,12 +29,12 @@ public class Range extends Evaluation {
    }
    
    @Override
-   public Value evaluate(Scope scope, Object left) throws Exception {
+   public Value evaluate(Scope scope, Value left) throws Exception {
       Iterable<Number> range = create(scope, left);
       return Value.getTransient(range);
    }
    
-   private Sequence create(Scope scope, Object left) throws Exception {
+   private Sequence create(Scope scope, Value left) throws Exception {
       Value first = start.evaluate(scope, left);
       Value last = finish.evaluate(scope, left);
       long start = first.getLong();

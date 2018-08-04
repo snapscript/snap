@@ -35,7 +35,7 @@ public class TypeReference extends TypeNavigation {
    }
    
    @Override
-   public Value evaluate(Scope scope, Object left) throws Exception {
+   public Value evaluate(Scope scope, Value left) throws Exception {
       if(type == null) {
          Value result = root.evaluate(scope, left);
          
@@ -45,7 +45,7 @@ public class TypeReference extends TypeNavigation {
             if(next == null) {
                throw new InternalStateException("Could not determine type");
             }
-            result = list[i].evaluate(scope, next);
+            result = list[i].evaluate(scope, result);
          }
          type = create(scope, result);
       }

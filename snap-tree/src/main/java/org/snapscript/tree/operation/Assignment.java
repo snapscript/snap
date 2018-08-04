@@ -1,5 +1,7 @@
 package org.snapscript.tree.operation;
 
+import static org.snapscript.core.variable.Value.NULL;
+
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.StringBuilder;
@@ -37,9 +39,9 @@ public class Assignment extends Evaluation {
    }
    
    @Override
-   public Value evaluate(Scope scope, Object context) throws Exception { // this is rubbish
-      Value leftResult = left.evaluate(scope, context);
-      Value rightResult = right.evaluate(scope, context);
+   public Value evaluate(Scope scope, Value context) throws Exception { // this is rubbish
+      Value leftResult = left.evaluate(scope, NULL);
+      Value rightResult = right.evaluate(scope, NULL);
       
       if(operator != AssignmentOperator.EQUAL) {
          Object leftValue = leftResult.getValue();

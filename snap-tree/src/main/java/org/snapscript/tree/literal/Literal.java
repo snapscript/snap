@@ -24,7 +24,7 @@ public abstract class Literal extends Evaluation {
    }
    
    @Override
-   public Value evaluate(Scope scope, Object left) throws Exception {
+   public Value evaluate(Scope scope, Value left) throws Exception {
       if(value == null) {
          value = create(scope);
       }

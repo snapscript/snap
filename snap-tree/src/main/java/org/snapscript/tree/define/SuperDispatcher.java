@@ -14,7 +14,7 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 
-public class SuperDispatcher implements FunctionDispatcher<Object> {
+public class SuperDispatcher implements FunctionDispatcher {
 
    private final Type type;
    
@@ -28,7 +28,7 @@ public class SuperDispatcher implements FunctionDispatcher<Object> {
    }
    
    @Override
-   public Value dispatch(Scope scope, Object object, Object... list) throws Exception {
+   public Value dispatch(Scope scope, Value value, Object... list) throws Exception {
       Type real = (Type)list[0];
       Module module = scope.getModule();
       Context context = module.getContext();

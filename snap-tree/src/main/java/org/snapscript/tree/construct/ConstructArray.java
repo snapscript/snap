@@ -1,6 +1,7 @@
 package org.snapscript.tree.construct;
 
 import static org.snapscript.core.constraint.Constraint.NONE;
+import static org.snapscript.core.variable.Value.NULL;
 
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
@@ -67,8 +68,8 @@ public class ConstructArray implements Compilation {
       }
       
       @Override
-      public Value evaluate(Scope scope, Object left) throws Exception {
-         Value value = reference.evaluate(scope, null);
+      public Value evaluate(Scope scope, Value left) throws Exception {
+         Value value = reference.evaluate(scope, NULL);
          Type type = value.getValue();
          Class entry = type.getType();
          

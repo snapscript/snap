@@ -30,7 +30,7 @@ public class MapKey extends Evaluation {
    }
    
    @Override
-   public Value evaluate(Scope scope, Object left) throws Exception{
+   public Value evaluate(Scope scope, Value left) throws Exception{
       String name = reference.getName(scope);
       int depth = offset.get();
       

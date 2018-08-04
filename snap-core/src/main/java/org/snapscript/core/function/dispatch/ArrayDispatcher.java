@@ -13,7 +13,7 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 
-public class ArrayDispatcher implements FunctionDispatcher<Object> {
+public class ArrayDispatcher implements FunctionDispatcher {
    
    private final FunctionResolver resolver;
    private final ArrayBuilder builder;
@@ -28,19 +28,20 @@ public class ArrayDispatcher implements FunctionDispatcher<Object> {
    }
    
    @Override
-   public Constraint compile(Scope scope, Constraint object, Type... arguments) throws Exception {
-      Type actual = object.getType(scope);
+   public Constraint compile(Scope scope, Constraint constraint, Type... arguments) throws Exception {
+      Type actual = constraint.getType(scope);
       Type list = builder.convert(actual);
       FunctionCall call = resolver.resolveInstance(scope, list, name, arguments);
       
       if(call == null) {
          handler.handleCompileError(INVOKE, scope, actual, name, arguments);
       }
-      return call.check(object);
+      return call.check(constraint);
    }
 
    @Override
-   public Value dispatch(Scope scope, Object object, Object... arguments) throws Exception {
+   public Value dispatch(Scope scope, Value value, Object... arguments) throws Exception {
+      Object object = value.getValue();
       List list = builder.convert(object);
       FunctionCall call = resolver.resolveInstance(scope, list, name, arguments);
       

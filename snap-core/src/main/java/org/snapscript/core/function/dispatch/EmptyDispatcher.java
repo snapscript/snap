@@ -15,12 +15,12 @@ public class EmptyDispatcher implements FunctionDispatcher {
    }
 
    @Override
-   public Constraint compile(Scope scope, Constraint object, Type... arguments) throws Exception {
+   public Constraint compile(Scope scope, Constraint constraint, Type... arguments) throws Exception {
       return NONE;
    }
 
    @Override
-   public Value dispatch(Scope scope, Object object, Object... arguments) throws Exception {
+   public Value dispatch(Scope scope, Value value, Object... arguments) throws Exception {
       return NULL;
    }
 }

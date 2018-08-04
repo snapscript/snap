@@ -14,7 +14,7 @@ public class AnnotationName extends Evaluation {
    }
 
    @Override
-   public Value evaluate(Scope scope, Object left) throws Exception {
+   public Value evaluate(Scope scope, Value left) throws Exception {
       return literal.evaluate(scope, left);
    }
    

@@ -46,7 +46,7 @@ public class Combination extends Evaluation {
    }
    
    @Override
-   public Value evaluate(Scope scope, Object context) throws Exception { 
+   public Value evaluate(Scope scope, Value context) throws Exception { 
       Value first = evaluate(scope, left);
       
       if(first == TRUE) {

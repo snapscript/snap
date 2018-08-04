@@ -18,7 +18,7 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 
-public class ClosureDispatcher implements FunctionDispatcher<Function> {
+public class ClosureDispatcher implements FunctionDispatcher {
 
    private final FunctionResolver resolver;
    private final ErrorHandler handler;
@@ -31,12 +31,13 @@ public class ClosureDispatcher implements FunctionDispatcher<Function> {
    }
    
    @Override
-   public Constraint compile(Scope scope, Constraint function, Type... arguments) throws Exception { 
+   public Constraint compile(Scope scope, Constraint constraint, Type... arguments) throws Exception { 
       return NONE;
    }
 
    @Override
-   public Value dispatch(Scope scope, Function function, Object... arguments) throws Exception {
+   public Value dispatch(Scope scope, Value value, Object... arguments) throws Exception {
+      Function function = value.getValue();
       FunctionCall call = bind(scope, function, arguments); // this is not used often
       
       if(call == null) {

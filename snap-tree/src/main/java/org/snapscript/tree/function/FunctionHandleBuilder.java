@@ -18,6 +18,7 @@ import org.snapscript.core.function.Signature;
 import org.snapscript.core.function.bind.FunctionMatcher;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.type.Type;
+import org.snapscript.core.variable.Value;
 
 public class FunctionHandleBuilder {
    
@@ -31,7 +32,7 @@ public class FunctionHandleBuilder {
       this.matcher = matcher;
    }
    
-   public Function create(Module module, Object value, String method) throws Exception {
+   public Function create(Module module, Value value, String method) throws Exception {
       List<Parameter> parameters = new ArrayList<Parameter>();
       Signature signature = new FunctionSignature(parameters, module, null, SYSTEM, true, true);
       Invocation invocation = new FunctionHandleInvocation(matcher, module, value, constructor);

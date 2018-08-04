@@ -11,7 +11,7 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 
-public class ValueDispatcher implements FunctionDispatcher<Value> {
+public class ValueDispatcher implements FunctionDispatcher {
    
    private final FunctionResolver resolver;
    private final ErrorHandler handler;
@@ -30,7 +30,8 @@ public class ValueDispatcher implements FunctionDispatcher<Value> {
 
    @Override
    public Value dispatch(Scope scope, Value value, Object... list) throws Exception {
-      FunctionCall closure = resolver.resolveValue(value, list); // function variable
+      Value reference = value.getValue();
+      FunctionCall closure = resolver.resolveValue(reference, list); // function variable
       
       if(closure == null) {
          handler.handleRuntimeError(INVOKE, scope, name, list);

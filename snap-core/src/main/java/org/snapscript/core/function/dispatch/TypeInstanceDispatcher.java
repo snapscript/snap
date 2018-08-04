@@ -10,7 +10,7 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 
-public class TypeInstanceDispatcher implements FunctionDispatcher<Object> {
+public class TypeInstanceDispatcher implements FunctionDispatcher {
    
    private final FunctionResolver resolver;
    private final ErrorHandler handler;
@@ -34,7 +34,8 @@ public class TypeInstanceDispatcher implements FunctionDispatcher<Object> {
    }
    
    @Override
-   public Value dispatch(Scope scope, Object object, Object... arguments) throws Exception {
+   public Value dispatch(Scope scope, Value value, Object... arguments) throws Exception {
+      Object object = value.getValue();
       FunctionCall call = resolver.resolveInstance(scope, object, name, arguments);
       
       if(call == null) {

@@ -76,7 +76,7 @@ public class ReferenceProperty implements Compilation {
       } 
       
       @Override
-      public Value evaluate(Scope scope, Object left) throws Exception{
+      public Value evaluate(Scope scope, Value left) throws Exception{
          Value value = binder.bind(scope, left);
          
          for(Evaluation evaluation : evaluations) {
@@ -85,7 +85,7 @@ public class ReferenceProperty implements Compilation {
             if(result == null) {
                throw new InternalStateException("Result of '" + name + "' is null"); 
             }
-            value = evaluation.evaluate(scope, result);
+            value = evaluation.evaluate(scope, value);
          }
          return value; 
       } 

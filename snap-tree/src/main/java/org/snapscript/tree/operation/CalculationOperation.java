@@ -1,5 +1,7 @@
 package org.snapscript.tree.operation;
 
+import static org.snapscript.core.variable.Value.NULL;
+
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.StringBuilder;
@@ -34,9 +36,9 @@ public class CalculationOperation extends Evaluation {
    
    
    @Override
-   public Value evaluate(Scope scope, Object context) throws Exception {
-      Value leftResult = left.evaluate(scope, null);
-      Value rightResult = right.evaluate(scope, null);
+   public Value evaluate(Scope scope, Value context) throws Exception {
+      Value leftResult = left.evaluate(scope, NULL);
+      Value rightResult = right.evaluate(scope, NULL);
       
       if(operator == NumericOperator.PLUS) {
          Object leftValue = leftResult.getValue();

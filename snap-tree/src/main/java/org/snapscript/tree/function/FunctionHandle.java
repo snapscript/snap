@@ -51,7 +51,7 @@ public class FunctionHandle implements Compilation {
       }
    
       @Override
-      public Value evaluate(Scope scope, Object left) throws Exception {
+      public Value evaluate(Scope scope, Value left) throws Exception {
          Module module = scope.getModule(); // is this the correct module?
          Function function = builder.create(module, left, name); 
          

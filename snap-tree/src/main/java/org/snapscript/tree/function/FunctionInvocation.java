@@ -1,6 +1,7 @@
 package org.snapscript.tree.function;
 
 import static org.snapscript.core.constraint.Constraint.NONE;
+import static org.snapscript.core.variable.Value.NULL;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -23,6 +24,7 @@ import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceEvaluation;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.type.Type;
+import org.snapscript.core.variable.Constant;
 import org.snapscript.core.variable.Value;
 import org.snapscript.tree.ArgumentList;
 import org.snapscript.tree.NameReference;
@@ -142,15 +144,16 @@ public class FunctionInvocation implements Compilation {
       }
       
       @Override
-      public Value evaluate(Scope scope, Object left) throws Exception {
+      public Value evaluate(Scope scope, Value left) throws Exception {
          int depth = offset.get();
          Value value = finder.findFunction(scope, name, depth);
             
          if(value != null) { 
             Object object = value.getValue();
+            Value constant = Constant.getConstant(value);
             
             if(Function.class.isInstance(object)) {
-               return evaluate(scope, name, value);
+               return evaluate(scope, name, constant);
             }
          }
          return evaluate(scope, name);
@@ -159,7 +162,7 @@ public class FunctionInvocation implements Compilation {
       private Value evaluate(Scope scope, String name) throws Exception {
          Object[] array = arguments.create(scope); 
          FunctionDispatcher dispatcher = matcher.match(scope);
-         Value value = dispatcher.dispatch(scope, null, array);
+         Value value = dispatcher.dispatch(scope, NULL, array);
          
          for(Evaluation evaluation : evaluations) {
             Object result = value.getValue();
@@ -167,12 +170,12 @@ public class FunctionInvocation implements Compilation {
             if(result == null) {
                throw new InternalStateException("Result of '" + name + "' is null"); 
             }
-            value = evaluation.evaluate(scope, result);
+            value = evaluation.evaluate(scope, value);
          }
          return value; 
       }
       
-      private Value evaluate(Scope scope, String name, Object local) throws Exception {
+      private Value evaluate(Scope scope, String name, Value local) throws Exception {
          Object[] array = arguments.create(scope); 
          FunctionDispatcher dispatcher = matcher.match(scope, local);
          Value value = dispatcher.dispatch(scope, local, array);
@@ -183,7 +186,7 @@ public class FunctionInvocation implements Compilation {
             if(result == null) {
                throw new InternalStateException("Result of '" + name + "' is null"); 
             }
-            value = evaluation.evaluate(scope, result);
+            value = evaluation.evaluate(scope, value);
          }
          return value; 
       }

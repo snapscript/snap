@@ -16,7 +16,7 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 
-public class MapDispatcher implements FunctionDispatcher<Map> {
+public class MapDispatcher implements FunctionDispatcher {
    
    private final FunctionResolver resolver;
    private final ErrorHandler handler;
@@ -40,7 +40,8 @@ public class MapDispatcher implements FunctionDispatcher<Map> {
    }
    
    @Override
-   public Value dispatch(Scope scope, Map map, Object... arguments) throws Exception {
+   public Value dispatch(Scope scope, Value value, Object... arguments) throws Exception {
+      Map map = value.getValue();
       FunctionCall call = bind(scope, map, arguments);
       
       if(call == null) {

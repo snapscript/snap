@@ -7,6 +7,7 @@ import org.snapscript.core.function.bind.FunctionMatcher;
 import org.snapscript.core.function.dispatch.FunctionDispatcher;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
+import org.snapscript.core.variable.Value;
 import org.snapscript.tree.NameReference;
 
 public class FunctionHolder {
@@ -42,7 +43,7 @@ public class FunctionHolder {
       return group.match(scope, left);
    }
    
-   public FunctionDispatcher get(Scope scope, Object left) throws Exception {
+   public FunctionDispatcher get(Scope scope, Value left) throws Exception {
       if(group == null) {
          Module module = scope.getModule();
          Context context = module.getContext();

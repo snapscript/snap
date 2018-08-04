@@ -65,11 +65,11 @@ public class ConstructMap implements Compilation {
       }
       
       @Override
-      public Value evaluate(Scope scope, Object context) throws Exception { 
+      public Value evaluate(Scope scope, Value left) throws Exception { 
          Map map = new LinkedHashMap();
          
          if(list != null) {
-            return list.evaluate(scope, context);
+            return list.evaluate(scope, left);
          }
          return Value.getTransient(map);
       }

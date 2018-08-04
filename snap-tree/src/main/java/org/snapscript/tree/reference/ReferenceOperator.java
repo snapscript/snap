@@ -12,7 +12,7 @@ public enum ReferenceOperator {
          Object object = value.getValue();
          
          if(object != null) {
-            return next.evaluate(scope, object);
+            return next.evaluate(scope, value);
          }
          throw new NullPointerException("Reference to a null object");
       }      
@@ -23,7 +23,7 @@ public enum ReferenceOperator {
          Object object = value.getValue();
          
          if(object != null) {
-            return next.evaluate(scope, object);
+            return next.evaluate(scope, value);
          }
          throw new NullPointerException("Reference to a null object");
       } 
@@ -34,7 +34,7 @@ public enum ReferenceOperator {
          Object object = value.getValue();
          
          if(object != null) {
-            return next.evaluate(scope, object);
+            return next.evaluate(scope, value);
          }
          return Value.getTransient(object);
       }

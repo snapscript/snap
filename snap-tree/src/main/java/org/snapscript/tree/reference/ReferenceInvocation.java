@@ -115,7 +115,7 @@ public class ReferenceInvocation implements Compilation {
       }
 
       @Override
-      public Value evaluate(Scope scope, Object left) throws Exception {
+      public Value evaluate(Scope scope, Value left) throws Exception {
          Object[] array = arguments.create(scope); 
          FunctionDispatcher dispatcher = matcher.match(scope, left);
          Value value = dispatcher.dispatch(scope, left, array);
@@ -126,7 +126,7 @@ public class ReferenceInvocation implements Compilation {
             if(result == null) {
                throw new InternalStateException("Result of '" + name + "' is null"); 
             }
-            value = evaluation.evaluate(scope, result);
+            value = evaluation.evaluate(scope, value);
          }
          return value; 
       }

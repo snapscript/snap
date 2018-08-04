@@ -56,8 +56,9 @@ public class VariableBinder {
       return value;
    }
    
-   public Value bind(Scope scope, Object left) throws Exception {
-      Object object = wrapper.fromProxy(left); // what about double wrapping?
+   public Value bind(Scope scope, Value left) throws Exception {
+      Object original = left.getValue();
+      Object object = wrapper.fromProxy(original); // what about double wrapping?
       VariablePointer pointer = resolver.index(scope, object);
       Value value = pointer.getValue(scope, object);
       

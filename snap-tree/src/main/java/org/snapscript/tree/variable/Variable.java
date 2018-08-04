@@ -77,7 +77,7 @@ public class Variable implements Compilation {
       } 
       
       @Override
-      public Value evaluate(Scope scope, Object left) throws Exception{
+      public Value evaluate(Scope scope, Value left) throws Exception{
          int depth = offset.get();
          Value value = finder.findValue(scope, name, depth);
          

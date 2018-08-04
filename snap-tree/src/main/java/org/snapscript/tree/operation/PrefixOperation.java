@@ -1,5 +1,7 @@
 package org.snapscript.tree.operation;
 
+import static org.snapscript.core.variable.Value.NULL;
+
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
@@ -27,8 +29,8 @@ public class PrefixOperation extends Evaluation {
    }
    
    @Override
-   public Value evaluate(Scope scope, Object left) throws Exception {
-      Value reference = evaluation.evaluate(scope, null);
+   public Value evaluate(Scope scope, Value left) throws Exception {
+      Value reference = evaluation.evaluate(scope, NULL);
       return operator.operate(reference);
    } 
 }

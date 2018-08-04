@@ -2,8 +2,6 @@ package org.snapscript.core.function.bind;
 
 import org.snapscript.common.Cache;
 import org.snapscript.common.CopyOnWriteCache;
-import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.function.dispatch.EmptyDispatcher;
@@ -12,6 +10,9 @@ import org.snapscript.core.function.dispatch.FunctionDispatcherBuilder;
 import org.snapscript.core.function.dispatch.LocalDispatcher;
 import org.snapscript.core.function.dispatch.TypeLocalDispatcher;
 import org.snapscript.core.function.resolve.FunctionResolver;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Type;
+import org.snapscript.core.variable.Value;
 
 public class FunctionMatcher {
    
@@ -47,11 +48,12 @@ public class FunctionMatcher {
       return empty;
    }
    
-   public FunctionDispatcher match(Scope scope, Object left) throws Exception {
+   public FunctionDispatcher match(Scope scope, Value left) throws Exception {
       Type type = scope.getType();
+      Object object = left.getValue();
       
-      if(left != null) {
-         Class key = left.getClass();
+      if(object != null) {
+         Class key = object.getClass();
          FunctionDispatcher dispatcher = cache.fetch(key); // key seems wrong?
          
          if(dispatcher == null) { 

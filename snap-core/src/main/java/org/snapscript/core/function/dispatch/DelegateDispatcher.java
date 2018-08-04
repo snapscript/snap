@@ -11,7 +11,7 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 
-public class DelegateDispatcher implements FunctionDispatcher<Delegate> {
+public class DelegateDispatcher implements FunctionDispatcher {
    
    private final FunctionResolver resolver;
    private final ErrorHandler handler;
@@ -35,7 +35,8 @@ public class DelegateDispatcher implements FunctionDispatcher<Delegate> {
    }
    
    @Override
-   public Value dispatch(Scope scope, Delegate object, Object... arguments) throws Exception {
+   public Value dispatch(Scope scope, Value value, Object... arguments) throws Exception {
+      Delegate object = value.getValue();
       FunctionCall call = resolver.resolveFunction(scope, object, name, arguments);
       
       if(call == null) {

@@ -15,7 +15,7 @@ public abstract class Evaluation{
       return NONE;
    }
 
-   public Value evaluate(Scope scope, Object left) throws Exception {
+   public Value evaluate(Scope scope, Value left) throws Exception {
       return NULL;
    }
 }

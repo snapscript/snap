@@ -52,13 +52,15 @@ public class TypeReferencePart implements Compilation {
       }
       
       @Override
-      public Value evaluate(Scope scope, Object left) throws Exception {
-         if(left != null) {
-            if(Module.class.isInstance(left)) {
-               return create(scope, (Module)left);
+      public Value evaluate(Scope scope, Value left) throws Exception {
+         Object object = left.getValue();
+         
+         if(object != null) {
+            if(Module.class.isInstance(object)) {
+               return create(scope, (Module)object);
             }
-            if(Type.class.isInstance(left)) {
-               return create(scope, (Type)left);
+            if(Type.class.isInstance(object)) {
+               return create(scope, (Type)object);
             }
             throw new InternalStateException("No type found for '" + name + "' in '" + source + "'"); // class not found
          }

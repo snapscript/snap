@@ -66,7 +66,7 @@ public class TextTemplate implements Compilation {
       }
    
       @Override
-      public Value evaluate(Scope scope, Object left) throws Exception {
+      public Value evaluate(Scope scope, Value left) throws Exception {
          StringWriter writer = new StringWriter();
          
          if(!segments.isEmpty()) {

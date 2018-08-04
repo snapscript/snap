@@ -32,7 +32,7 @@ public class Cast extends Evaluation {
    }
    
    @Override
-   public Value evaluate(Scope scope, Object left) throws Exception {
+   public Value evaluate(Scope scope, Value left) throws Exception {
       Value value = evaluation.evaluate(scope, left);
       Type type = constraint.getType(scope);
       Object object = value.getValue();

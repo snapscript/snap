@@ -28,7 +28,7 @@ public class AnnotationDeclaration extends Evaluation {
    }
 
    @Override
-   public Value evaluate(Scope scope, Object left) throws Exception {
+   public Value evaluate(Scope scope, Value left) throws Exception {
       if(value == null) {
          Annotation annotation = create(scope, left);
          
@@ -40,7 +40,7 @@ public class AnnotationDeclaration extends Evaluation {
       return value;
    }
    
-   private Annotation create(Scope scope, Object left) throws Exception {
+   private Annotation create(Scope scope, Value left) throws Exception {
       Map<String, Object> attributes = new LinkedHashMap<String, Object>();
       
       if(list != null) {

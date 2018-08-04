@@ -45,7 +45,7 @@ public class Expression implements Compilation {
       }
       
       @Override
-      public Value evaluate(Scope scope, Object left) throws Exception {
+      public Value evaluate(Scope scope, Value left) throws Exception {
          Value value = list[0].evaluate(scope, left);
          
          for(int i = 1; i < list.length; i++){

@@ -74,7 +74,7 @@ public class MemberFieldAssembler {
       }
       
       @Override
-      public Value evaluate(Scope scope, Object left) throws Exception {
+      public Value evaluate(Scope scope, Value left) throws Exception {
          Value value = allocator.allocate(scope, name, modifiers);
          State state = scope.getState();
          

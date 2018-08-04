@@ -1,6 +1,7 @@
 package org.snapscript.tree.reference;
 
 import static org.snapscript.core.constraint.Constraint.OBJECT;
+import static org.snapscript.core.variable.Value.NULL;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -70,7 +71,7 @@ public class GenericDeclaration {
       @Override
       public Constraint compile(Scope scope, Constraint left) { 
          try {
-            Value value = type.evaluate(scope, null);
+            Value value = type.evaluate(scope, NULL);
             Entity entity = value.getValue();
             int modifiers = entity.getModifiers();
                   

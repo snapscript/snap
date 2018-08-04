@@ -14,7 +14,7 @@ public class ModuleName extends Evaluation {
    }
    
    @Override
-   public Value evaluate(Scope scope, Object left) throws Exception{
+   public Value evaluate(Scope scope, Value left) throws Exception{
       Value value = literal.evaluate(scope, left);
       String name = value.getValue();
       

@@ -11,7 +11,7 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 
-public class LocalDispatcher implements FunctionDispatcher<Object> {
+public class LocalDispatcher implements FunctionDispatcher {
    
    private final FunctionResolver binder;
    private final ErrorHandler handler;
@@ -35,7 +35,8 @@ public class LocalDispatcher implements FunctionDispatcher<Object> {
    }
    
    @Override
-   public Value dispatch(Scope scope, Object object, Object... arguments) throws Exception {
+   public Value dispatch(Scope scope, Value value, Object... arguments) throws Exception {
+      Object object = value.getValue();
       FunctionCall call = bind(scope, object, arguments);
       
       if(call == null) {

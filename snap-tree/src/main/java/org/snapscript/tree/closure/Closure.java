@@ -96,7 +96,7 @@ public class Closure implements Compilation {
       }
       
       @Override
-      public Value evaluate(Scope scope, Object left) throws Exception {
+      public Value evaluate(Scope scope, Value left) throws Exception {
          FunctionBody handle = reference.get();
          Scope capture = extractor.extract(scope);
          Function function = handle.create(capture);

@@ -67,7 +67,7 @@ public class ConstructSet implements Compilation {
       } 
       
       @Override
-      public Value evaluate(Scope scope, Object left) throws Exception { 
+      public Value evaluate(Scope scope, Value left) throws Exception { 
          Set result = new LinkedHashSet();
          
          if(arguments != null) {

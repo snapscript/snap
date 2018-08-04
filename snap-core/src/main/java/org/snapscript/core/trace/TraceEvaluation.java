@@ -35,7 +35,7 @@ public class TraceEvaluation extends Evaluation {
    }
    
    @Override
-   public Value evaluate(Scope scope, Object left) throws Exception {
+   public Value evaluate(Scope scope, Value left) throws Exception {
       try {
          interceptor.traceBefore(scope, trace);
          return evaluation.evaluate(scope, left); 

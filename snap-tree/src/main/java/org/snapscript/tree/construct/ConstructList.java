@@ -67,7 +67,7 @@ public class ConstructList implements Compilation {
       }
       
       @Override
-      public Value evaluate(Scope scope, Object left) throws Exception { // this is rubbish
+      public Value evaluate(Scope scope, Value left) throws Exception { // this is rubbish
          List result = new ArrayList();
          
          if(arguments != null) {

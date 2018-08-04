@@ -1,5 +1,7 @@
 package org.snapscript.tree.define;
 
+import static org.snapscript.core.variable.Value.NULL;
+
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.constraint.StaticConstraint;
@@ -33,7 +35,8 @@ public class SuperInvocation extends Evaluation {
 
    @Override
    public Constraint compile(Scope scope, Constraint left) throws Exception {
-      FunctionDispatcher dispatcher = holder.get(scope, type);  
+      Value value = Value.getTransient(type);
+      FunctionDispatcher dispatcher = holder.get(scope, value);  
       
       if(arguments != null) {
          Scope outer = scope.getScope();
@@ -46,19 +49,20 @@ public class SuperInvocation extends Evaluation {
    }
    
    @Override
-   public Value evaluate(Scope scope, Object left) throws Exception {
+   public Value evaluate(Scope scope, Value left) throws Exception {
       Type real = scope.getType();  
       Scope instance = builder.create(scope, left);
-      FunctionDispatcher dispatcher = holder.get(instance, null);  
+      Value value = Value.getTransient(instance);
+      FunctionDispatcher dispatcher = holder.get(instance, NULL);  
       
       if(arguments != null) {
          Scope outer = real.getScope();
          Scope compound = extractor.extract(scope, outer);
          Object[] list = arguments.create(compound, real); // arguments have no left hand side
 
-         return dispatcher.dispatch(instance, instance, list);
+         return dispatcher.dispatch(instance, value, list);
       }
-      return dispatcher.dispatch(instance, instance, real);
+      return dispatcher.dispatch(instance, value, real);
    }
    
 

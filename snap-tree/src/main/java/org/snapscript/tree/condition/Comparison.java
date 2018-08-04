@@ -1,6 +1,7 @@
 package org.snapscript.tree.condition;
 
 import static org.snapscript.core.constraint.Constraint.BOOLEAN;
+import static org.snapscript.core.variable.Value.NULL;
 
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.constraint.Constraint;
@@ -42,13 +43,13 @@ public class Comparison extends Evaluation {
    }
    
    @Override
-   public Value evaluate(Scope scope, Object context) throws Exception {
+   public Value evaluate(Scope scope, Value context) throws Exception {
       if(right != null) {
-         Value leftResult = left.evaluate(scope, null);
-         Value rightResult = right.evaluate(scope, null);
+         Value leftResult = left.evaluate(scope, NULL);
+         Value rightResult = right.evaluate(scope, NULL);
          
          return operator.operate(scope, leftResult, rightResult);
       }
-      return left.evaluate(scope, null);
+      return left.evaluate(scope, NULL);
    }      
 }

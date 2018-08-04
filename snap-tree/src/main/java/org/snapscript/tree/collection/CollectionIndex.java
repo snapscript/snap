@@ -1,6 +1,7 @@
 package org.snapscript.tree.collection;
 
 import static org.snapscript.core.constraint.Constraint.NONE;
+import static org.snapscript.core.variable.Value.NULL;
 
 import java.util.List;
 import java.util.Map;
@@ -49,24 +50,25 @@ public class CollectionIndex extends Evaluation {
    }
    
    @Override
-   public Value evaluate(Scope scope, Object left) throws Exception {
-      Value index = argument.evaluate(scope, null);
-
+   public Value evaluate(Scope scope, Value left) throws Exception {
+      Value index = argument.evaluate(scope, NULL);
+      Object object = left.getValue();
+      
       if(index == null) {
          throw new InternalArgumentException("Illegal index with null");
       }
-      if(left == null) {
+      if(object == null) {
          throw new InternalArgumentException("Illegal index of null");
       }
-      return index(scope, left, index);
+      return index(scope, object, index);
    }
    
-   private Value index(Scope scope, Object left, Value index) throws Exception {
+   private Value index(Scope scope, Object object, Value index) throws Exception {
       Module module = scope.getModule();
       Context context = module.getContext();
       ProxyWrapper wrapper = context.getWrapper();
-      Object source = converter.convert(left);
-      Class type = left.getClass();
+      Object source = converter.convert(object);
+      Class type = object.getClass();
       
       if(List.class.isInstance(source)) {
          int number = index.getInteger();
@@ -81,7 +83,7 @@ public class CollectionIndex extends Evaluation {
          return new MapValue(wrapper, map, key);
       }
       if(Type.class.isInstance(type)) {
-         throw new InternalArgumentException("Illegal index of type " + left);
+         throw new InternalArgumentException("Illegal index of type " + object);
       }
       throw new InternalArgumentException("Illegal index of " + type);
    }

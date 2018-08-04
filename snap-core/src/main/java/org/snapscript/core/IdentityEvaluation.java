@@ -26,7 +26,7 @@ public class IdentityEvaluation extends Evaluation {
    }
 
    @Override
-   public Value evaluate(Scope scope, Object left) throws Exception {
+   public Value evaluate(Scope scope, Value left) throws Exception {
       return Value.getTransient(value, type);
    }
 }

@@ -66,7 +66,7 @@ public class CreateObject extends Evaluation {
    }   
    
    @Override
-   public Value evaluate(Scope scope, Object left) throws Exception { 
+   public Value evaluate(Scope scope, Value left) throws Exception { 
       Type type = constraint.getType(scope);
       FunctionCall call = bind(scope, type);
            

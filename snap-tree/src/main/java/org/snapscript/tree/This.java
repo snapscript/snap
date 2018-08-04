@@ -27,7 +27,7 @@ public class This extends Evaluation {
    }
    
    @Override
-   public Value evaluate(Scope scope, Object left) throws Exception {
+   public Value evaluate(Scope scope, Value left) throws Exception {
       Scope instance = binder.bind(scope, scope);
       Type type = instance.getType();
       Constraint constraint = Constraint.getConstraint(type);

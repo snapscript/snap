@@ -35,9 +35,10 @@ public class SuperState extends TypeState {
 
    @Override
    public Result execute(Scope instance, Type real) throws Exception {
-      Value reference = expression.evaluate(instance, real); 
-      Scope value = reference.getValue();
-      Scope base = builder.create(value, real);
+      Value value = Value.getTransient(real);
+      Value reference = expression.evaluate(instance, value); 
+      Scope scope = reference.getValue();
+      Scope base = builder.create(scope, value);
       
       return Result.getNormal(base);
    }

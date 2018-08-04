@@ -35,7 +35,7 @@ public class Super extends Evaluation {
    }
    
    @Override
-   public Value evaluate(Scope scope, Object left) throws Exception {
+   public Value evaluate(Scope scope, Value left) throws Exception {
       Module module = scope.getModule();
       Context context = module.getContext();
       ThreadStack stack = context.getStack();
