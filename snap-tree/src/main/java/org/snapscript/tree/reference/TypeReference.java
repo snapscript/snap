@@ -53,8 +53,8 @@ public class TypeReference extends TypeNavigation {
    }
    
    private Value create(Scope scope, Value result) throws Exception {
+      String name = result.getName();
       Object value = result.getValue();
-      String name = result.getName(scope);
       Constraint constraint = mapper.toConstraint(value);
       
       if(name != null) {
@@ -63,7 +63,8 @@ public class TypeReference extends TypeNavigation {
          String actual = formatter.formatInnerName(defined);
          
          if(!name.equals(actual)) { 
-            return Local.getConstant(value, name, constraint);
+            Constraint parameter = mapper.toConstraint(value, name);
+            return Local.getConstant(value, name, parameter);
          }                 
       }
       return Local.getConstant(value, null, constraint);

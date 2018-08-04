@@ -3,6 +3,7 @@ package org.snapscript.core.function.index;
 import java.util.List;
 
 import org.snapscript.core.ModifierType;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.Score;
 import org.snapscript.core.function.ArgumentConverter;
 import org.snapscript.core.function.Function;
@@ -29,7 +30,8 @@ public class LocalIndexer {
       Value value = finder.findFunction(scope, name);
       
       if(value != null) {
-         Type type = value.getType(scope);
+         Constraint constraint = value.getConstraint();
+         Type type = constraint.getType(scope);
          
          if(type != null) {
             List<Function> functions = type.getFunctions();

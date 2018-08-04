@@ -1,9 +1,7 @@
 package org.snapscript.core.property;
 
-import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Type;
-import org.snapscript.core.variable.Value;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.variable.Value;
 
 public class PropertyValue extends Value {
 
@@ -23,13 +21,8 @@ public class PropertyValue extends Value {
    }
    
    @Override
-   public Type getType(Scope scope) {
-      Constraint constraint = property.getConstraint();      
-      
-      if(constraint != null) {
-         return constraint.getType(scope);
-      }
-      return null;
+   public Constraint getConstraint() {
+      return property.getConstraint();
    }
    
    @Override

@@ -2,6 +2,7 @@ package org.snapscript.tree.function;
 
 import java.util.List;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.TypeInspector;
 import org.snapscript.core.error.InternalStateException;
@@ -96,6 +97,7 @@ public class ParameterExtractor {
       return create(scope, value, parameter);   
    }
    
+   @Bug
    private Local create(Scope scope, Object value, Parameter parameter) throws Exception {
       Constraint constraint = parameter.getConstraint();
       Type type = constraint.getType(scope);

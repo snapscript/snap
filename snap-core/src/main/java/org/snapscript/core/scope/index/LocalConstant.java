@@ -1,26 +1,24 @@
 package org.snapscript.core.scope.index;
 
-import java.util.List;
+import static org.snapscript.core.constraint.Constraint.NONE;
 
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.InternalStateException;
-import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Type;
 
 public class LocalConstant extends Local {
 
-   private final Constraint type;
+   private final Constraint constraint;
    private final Object value;
    private final String name;
    
    public LocalConstant(Object value, String name) {
-      this(value, name, null);
+      this(value, name, NONE);
    }
 
-   public LocalConstant(Object value, String name, Constraint type) {
+   public LocalConstant(Object value, String name, Constraint constraint) {
+      this.constraint = constraint;
       this.value = value;
       this.name = name;
-      this.type = type;
    }
    
    @Override
@@ -29,17 +27,12 @@ public class LocalConstant extends Local {
    }
    
    @Override
-   public List<Constraint> getGenerics(Scope scope) {
-      return type.getGenerics(scope);
+   public Constraint getConstraint() {
+      return constraint;
    }
    
    @Override
-   public Type getType(Scope scope) {
-      return type.getType(scope);
-   }
-   
-   @Override
-   public String getName(Scope scope) {
+   public String getName() {
       return name;
    }
    

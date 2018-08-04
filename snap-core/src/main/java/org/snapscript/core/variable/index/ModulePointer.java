@@ -49,7 +49,7 @@ public class ModulePointer implements VariablePointer<Module> {
             }
             return Constraint.getConstraint(type, CONSTANT.mask);
          }
-         return value;
+         return value.getConstraint();
       } 
       return result.getConstraint(left);
    }

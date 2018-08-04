@@ -1,39 +1,32 @@
 package org.snapscript.core.scope.index;
 
-import java.util.List;
+import static org.snapscript.core.constraint.Constraint.NONE;
 
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Type;
 
 public class LocalReference extends Local {
 
-   private Constraint type;
+   private Constraint constraint;
    private Object value;
    private String name;
    
    public LocalReference(Object value, String name) {
-      this(value, name, null);
+      this(value, name, NONE);
    }
    
-   public LocalReference(Object value, String name, Constraint type) {
+   public LocalReference(Object value, String name, Constraint constraint) {
+      this.constraint = constraint; 
       this.value = value;
       this.name = name;
-      this.type = type; 
    }
    
    @Override
-   public List<Constraint> getGenerics(Scope scope) {
-      return type.getGenerics(scope);
+   public Constraint getConstraint() {
+      return constraint;
    }
    
    @Override
-   public Type getType(Scope scope) {
-      return type.getType(scope);
-   }
-   
-   @Override
-   public String getName(Scope scope) {
+   public String getName() {
       return name;
    }
    

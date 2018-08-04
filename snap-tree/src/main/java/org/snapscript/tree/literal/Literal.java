@@ -1,15 +1,14 @@
 package org.snapscript.tree.literal;
 
 import org.snapscript.core.Evaluation;
-import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Type;
-import org.snapscript.core.variable.Value;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.variable.Value;
 
-public abstract class Literal extends Evaluation {
+public abstract class Literal extends Evaluation {   
    
-   private volatile Value value;
+   private volatile LiteralValue value;
    
    protected Literal() {
       super();
@@ -20,7 +19,7 @@ public abstract class Literal extends Evaluation {
       if(value == null) {
          value = create(scope);
       }
-      return value;
+      return value.constraint;
    }
    
    @Override
@@ -44,14 +43,14 @@ public abstract class Literal extends Evaluation {
       }
       
       @Override
-      public Type getType(Scope scope) {
-         return constraint.getType(scope);
-      }
-      
-      @Override
       public boolean isConstant() {
          return true;
-      }      
+      }   
+      
+      @Override
+      public Constraint getConstraint() {
+         return constraint;
+      }     
       
       @Override
       public <T> T getValue() {

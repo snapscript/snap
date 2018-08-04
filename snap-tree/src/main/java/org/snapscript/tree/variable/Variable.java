@@ -73,7 +73,7 @@ public class Variable implements Compilation {
          if(value == null) {
             return binder.compile(scope);
          }
-         return value;
+         return value.getConstraint();
       } 
       
       @Override

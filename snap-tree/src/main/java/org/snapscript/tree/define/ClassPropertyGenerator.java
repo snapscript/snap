@@ -1,8 +1,9 @@
 package org.snapscript.tree.define;
 
+import static org.snapscript.core.ModifierType.CONSTANT;
 import static org.snapscript.core.Reserved.TYPE_CLASS;
 import static org.snapscript.core.Reserved.TYPE_THIS;
-import static org.snapscript.core.constraint.Constraint.TYPE;
+import static org.snapscript.core.variable.Constant.TYPE;
 
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
@@ -20,8 +21,8 @@ public class ClassPropertyGenerator {
    }
 
    public void generate(TypeBody body, Scope scope, Type type) throws Exception {
-      Constraint constraint = Constraint.getConstraint(type);
-      Value value = Value.getConstant(type);
+      Constraint constraint = Constraint.getConstraint(type, CONSTANT.mask);
+      Value value = Value.getConstant(type, TYPE);
       Scope outer = type.getScope();
       State state = outer.getState();
       

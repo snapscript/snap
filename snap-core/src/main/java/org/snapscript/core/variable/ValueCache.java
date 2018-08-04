@@ -1,83 +1,84 @@
 package org.snapscript.core.variable;
 
-
+import static org.snapscript.core.variable.Constant.BYTE;
+import static org.snapscript.core.variable.Constant.CHARACTER;
+import static org.snapscript.core.variable.Constant.DOUBLE;
+import static org.snapscript.core.variable.Constant.FLOAT;
+import static org.snapscript.core.variable.Constant.INTEGER;
+import static org.snapscript.core.variable.Constant.LONG;
+import static org.snapscript.core.variable.Constant.SHORT;
 
 public class ValueCache {
 
    private static final Value[][] CONSTANTS = new Value[5][2050];
    private static final int HIGH = 1024;
-   private static final int LOW = -1024;
-   private static final int BYTE = 0;
-   private static final int SHORT = 1;
-   private static final int INTEGER = 2;
-   private static final int LONG = 3;
-   private static final int CHARACTER = 4;
-   
+   private static final int LOW = -1024; 
+
    static {
       for(int i = 0, j = LOW; j <= HIGH; j++, i++) {
-         CONSTANTS[BYTE][i] = Value.getTransient((byte)j);
+         CONSTANTS[0][i] = Value.getTransient((byte)j, BYTE);
       }
       for(int i = 0, j = LOW; j <= HIGH; j++, i++) {
-         CONSTANTS[SHORT][i] = Value.getTransient((short)j);
+         CONSTANTS[1][i] = Value.getTransient((short)j, SHORT);
       }
       for(int i = 0, j = LOW; j <= HIGH; j++, i++) {
-         CONSTANTS[INTEGER][i] = Value.getTransient(j);
+         CONSTANTS[2][i] = Value.getTransient(j, INTEGER);
       }
       for(int i = 0, j = LOW; j <= HIGH; j++, i++) {
-         CONSTANTS[LONG][i] = Value.getTransient((long)j);
+         CONSTANTS[3][i] = Value.getTransient((long)j, LONG);
       }
       for(int i = 0, j = LOW; j <= HIGH; j++, i++) {
-         CONSTANTS[CHARACTER][i] = Value.getTransient((char)j);
+         CONSTANTS[4][i] = Value.getTransient((char)j, CHARACTER);
       }
    }
    
    public static Value getByte(int value) {
       if (value >= LOW && value <= HIGH) {
-         return CONSTANTS[BYTE][value + -LOW];
+         return CONSTANTS[0][value + -LOW];
       }
-      return Value.getTransient((byte)value);
+      return Value.getTransient((byte)value, BYTE);
    }
    
    public static Value getShort(int value) {
       if (value >= LOW && value <= HIGH) {
-         return CONSTANTS[SHORT][value + -LOW];
+         return CONSTANTS[1][value + -LOW];
       }
-      return Value.getTransient((short)value);
+      return Value.getTransient((short)value, SHORT);
    }
    
    public static Value getInteger(int value) {
       if (value >= LOW && value <= HIGH) {
-         return CONSTANTS[INTEGER][value + -LOW];
+         return CONSTANTS[2][value + -LOW];
       }
-      return Value.getTransient(value);
+      return Value.getTransient(value, INTEGER);
    }
    
    public static Value getLong(long value) {
       if (value >= LOW && value <= HIGH) {
-         return CONSTANTS[LONG][(int)value + -LOW];
+         return CONSTANTS[3][(int)value + -LOW];
       }
-      return Value.getTransient(value);
+      return Value.getTransient(value, LONG);
    }
    
    public static Value getCharacter(char value){
       if (value >= LOW && value <= HIGH) {
-         return CONSTANTS[CHARACTER][value + -LOW];
+         return CONSTANTS[4][value + -LOW];
       }
-      return Value.getTransient(value);
+      return Value.getTransient(value, CHARACTER);
    }
    
    public static Value getCharacter(int value){
       if (value >= LOW && value <= HIGH) {
-         return CONSTANTS[CHARACTER][value + -LOW];
+         return CONSTANTS[4][value + -LOW];
       }
-      return Value.getTransient((char)value);
+      return Value.getTransient((char)value, CHARACTER);
    }
    
    public static Value getFloat(float value) {
-      return Value.getTransient(value);
+      return Value.getTransient(value, FLOAT);
    }
    
    public static Value getDouble(double value) {
-      return Value.getTransient(value);
+      return Value.getTransient(value, DOUBLE);
    }
 }

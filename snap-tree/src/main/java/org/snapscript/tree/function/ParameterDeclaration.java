@@ -1,13 +1,10 @@
 package org.snapscript.tree.function;
 
-import static org.snapscript.core.constraint.Constraint.NONE;
-
 import org.snapscript.core.Evaluation;
-import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.constraint.DeclarationConstraint;
 import org.snapscript.core.function.Parameter;
+import org.snapscript.core.scope.Scope;
 import org.snapscript.tree.Modifier;
 import org.snapscript.tree.ModifierChecker;
 import org.snapscript.tree.ModifierList;
@@ -16,10 +13,10 @@ import org.snapscript.tree.annotation.AnnotationList;
 
 public class ParameterDeclaration {
    
+   private DeclarationConstraint constraint;
    private AnnotationList annotations;
    private ModifierChecker checker;
    private NameReference reference;
-   private Constraint constraint;
    private Parameter parameter;
    private Modifier modifier;
    
@@ -36,10 +33,10 @@ public class ParameterDeclaration {
    }
    
    public ParameterDeclaration(AnnotationList annotations, ModifierList modifiers, Evaluation identifier, Modifier modifier, Constraint constraint){
+      this.constraint = new DeclarationConstraint(constraint);
       this.reference = new NameReference(identifier);
       this.checker = new ModifierChecker(modifiers);
       this.annotations = annotations;
-      this.constraint = constraint;
       this.modifier = modifier;
    }
 
@@ -55,17 +52,11 @@ public class ParameterDeclaration {
    }
    
    private Parameter create(Scope scope) throws Exception {
-      String name = reference.getName(scope);
       boolean constant = checker.isConstant();
-      
-      if(constraint != null && name != null) {
-         Type type = constraint.getType(scope);
-         
-         if(type == null) {
-            throw new InternalStateException("Constraint for '" +name + "' has not been imported");
-         }
-         return new Parameter(name, constraint, constant, modifier != null);
-      }
-      return new Parameter(name, NONE, constant, modifier != null);
+      int modifiers = checker.getModifiers();
+      Constraint declare = constraint.getConstraint(scope, modifiers);
+      String name = reference.getName(scope);
+
+      return new Parameter(name, declare, constant, modifier != null);
    }
 }

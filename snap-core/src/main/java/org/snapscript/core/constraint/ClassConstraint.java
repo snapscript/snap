@@ -21,6 +21,10 @@ public class ClassConstraint extends Constraint {
       this(require, EMPTY_LIST);
    }
    
+   public ClassConstraint(Class require, int modifiers) {
+      this(require, EMPTY_LIST, modifiers);
+   }
+   
    public ClassConstraint(Class require, List<Constraint> generics) {
       this(require, generics, 0);
    }

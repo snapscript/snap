@@ -76,8 +76,9 @@ public class GenericDeclaration {
             int modifiers = entity.getModifiers();
                   
             if(!ModifierType.isModule(modifiers)) {
-               String name = value.getName(scope);
-               Type type = value.getType(scope);
+               Constraint constraint = value.getConstraint();
+               String name = constraint.getName(scope);
+               Type type = constraint.getType(scope);
                
                if(list != null) {
                   List<Constraint> generics = list.getConstraints(scope);    
@@ -88,24 +89,58 @@ public class GenericDeclaration {
                }
                return new TypeParameterConstraint(type, name);
             }
-            return value;
+            return value.getConstraint();
          }catch(Exception cause) {
             interceptor.traceCompileError(scope, trace, cause);
          }
          return OBJECT;
       }   
-   }   
+   }  
    
    private static class ConstraintConstant extends Value {
       
       private final Constraint constraint;
-      private final List<String> imports; 
       private final Scope scope;
       
       public ConstraintConstant(Evaluation evaluation, Set<String> imports, Scope scope) {
-         this.constraint = new TypeConstraint(evaluation);
-         this.imports = new ArrayList<String>(imports);
+         this.constraint = new ConstraintEvaluation(evaluation, imports);
          this.scope = scope;        
+      }
+      
+      @Override
+      public boolean isConstant() {
+         return true;
+      }
+      
+      @Override
+      public Constraint getConstraint() {
+         return constraint;
+      }
+      
+      @Override
+      public <T> T getValue() {
+         return (T)constraint.getType(scope);            
+      }
+      
+      @Override
+      public void setValue(Object value){
+         throw new InternalStateException("Illegal modification of literal '" + value + "'");
+      } 
+      
+      @Override
+      public String toString() {
+         return String.valueOf(constraint);
+      }
+   }   
+   
+   private static class ConstraintEvaluation extends Constraint {
+         
+      private final Constraint constraint;
+      private final List<String> imports; 
+      
+      public ConstraintEvaluation(Evaluation evaluation, Set<String> imports) {
+         this.constraint = new TypeConstraint(evaluation);
+         this.imports = new ArrayList<String>(imports);      
       }     
       
       @Override
@@ -122,12 +157,7 @@ public class GenericDeclaration {
       public String getName(Scope scope) {
          return constraint.getName(scope);
       }
-      
-      @Override
-      public <T> T getValue() {
-         return (T)constraint.getType(scope);            
-      }
-      
+
       @Override
       public List<Constraint> getGenerics(Scope scope) {
          return constraint.getGenerics(scope);
@@ -137,11 +167,6 @@ public class GenericDeclaration {
       public Type getType(Scope scope) {
          return constraint.getType(scope);
       }  
-      
-      @Override
-      public void setValue(Object value){
-         throw new InternalStateException("Illegal modification of literal '" + value + "'");
-      } 
       
       @Override
       public String toString() {

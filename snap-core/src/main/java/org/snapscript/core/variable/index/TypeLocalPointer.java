@@ -28,7 +28,7 @@ public class TypeLocalPointer implements VariablePointer<Scope> {
       if(value == null) {
          return pointer.getConstraint(instance, left);
       }
-      return value;
+      return value.getConstraint();
    }
    
    @Override

@@ -23,6 +23,7 @@ public abstract class Constraint {
    public static final Constraint BYTE = new ClassConstraint(Byte.class);
    public static final Constraint STRING = new ClassConstraint(String.class);
    public static final Constraint BOOLEAN = new ClassConstraint(Boolean.class);
+   public static final Constraint CHARACTER = new ClassConstraint(Character.class);
    public static final Constraint SET = new ClassConstraint(Set.class);
    public static final Constraint LIST = new ClassConstraint(List.class);
    public static final Constraint MAP = new ClassConstraint(Map.class);
@@ -44,6 +45,10 @@ public abstract class Constraint {
    
    public static Constraint getConstraint(Class value) {
       return new ClassConstraint(value);
+   }
+   
+   public static Constraint getConstraint(Class value, int modifiers) {
+      return new ClassConstraint(value, modifiers);
    }
 
    public static Constraint getConstraint(Object value) {

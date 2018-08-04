@@ -1,10 +1,10 @@
 package org.snapscript.core.variable;
 
-import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Type;
+import static org.snapscript.core.constraint.Constraint.NONE;
 
-public abstract class Value extends Constraint {
+import org.snapscript.core.constraint.Constraint;
+
+public abstract class Value {
    
    public static final Value NULL = new Null();
    
@@ -111,12 +111,15 @@ public abstract class Value extends Constraint {
       return null;
    }     
    
-   @Override
-   public Type getType(Scope scope){
-      return null; 
+   public Constraint getConstraint(){
+      return NONE; 
    }   
    
    public boolean isProperty() {
+      return false;
+   }
+   
+   public boolean isConstant() {
       return false;
    }
    
@@ -124,6 +127,16 @@ public abstract class Value extends Constraint {
       return -1;
    }
 
+   public Data getData() {
+      return DataMapper.toData(this);
+   }
+   
+   public String getName() {
+      return null;
+   }
+   
    public abstract <T> T getValue();
    public abstract void setValue(Object value);
+   
+   
 }

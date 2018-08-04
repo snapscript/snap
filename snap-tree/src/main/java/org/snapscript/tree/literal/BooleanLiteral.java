@@ -1,6 +1,6 @@
 package org.snapscript.tree.literal;
 
-import static org.snapscript.core.constraint.Constraint.BOOLEAN;
+import static org.snapscript.core.variable.Constant.BOOLEAN;
 
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.scope.Scope;

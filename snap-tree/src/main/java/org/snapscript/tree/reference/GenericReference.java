@@ -3,6 +3,7 @@ package org.snapscript.tree.reference;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.Scope;
@@ -44,9 +45,10 @@ public class GenericReference implements Compilation {
       @Override
       protected ConstraintValue create(Scope scope) throws Exception {        
          Value value = declaration.declare(scope);
+         Constraint constraint = value.getConstraint();
          Module module = scope.getModule();
       
-         return new ConstraintValue(value, value, module);
+         return new ConstraintValue(constraint, value, module);
       }      
    }
 }

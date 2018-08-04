@@ -104,13 +104,14 @@ public class FunctionInvocation implements Compilation {
          Value value = finder.findFunction(scope, name, depth);
  
          if(value != null) { 
-            Type type = value.getType(scope);
+            Constraint constraint = value.getConstraint();
+            Type type = constraint.getType(scope);
             
             if(type == null) {
                arguments.compile(scope); 
                return NONE;
             }
-            return compile(scope, name, value);            
+            return compile(scope, name, constraint);            
          }
          return compile(scope, name);         
       }

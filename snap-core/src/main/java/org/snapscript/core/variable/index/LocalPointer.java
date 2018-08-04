@@ -37,7 +37,7 @@ public class LocalPointer implements VariablePointer<Object> {
             }
             return null;
          }
-         return variable;
+         return variable.getConstraint();
       }
       return result.getConstraint(left);
    }

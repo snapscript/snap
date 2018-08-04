@@ -1,14 +1,15 @@
 package org.snapscript.tree.operation;
 
 import org.snapscript.core.Context;
-import org.snapscript.core.module.Module;
-import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Type;
-import org.snapscript.core.variable.Value;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.ConstraintConverter;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.Score;
 import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Type;
+import org.snapscript.core.variable.Value;
 import org.snapscript.parse.StringToken;
 import org.snapscript.tree.math.NumericOperator;
 
@@ -36,7 +37,8 @@ public enum AssignmentOperator {
    }
    
    public Value operate(Scope scope, Value left, Value right) throws Exception {
-      Type type = left.getType(scope);
+      Constraint constraint = left.getConstraint();
+      Type type = constraint.getType(scope);
       Value result = operator.operate(left, right);
       Object value = result.getValue();
       

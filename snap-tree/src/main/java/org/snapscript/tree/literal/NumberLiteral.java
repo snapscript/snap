@@ -1,12 +1,12 @@
 package org.snapscript.tree.literal;
 
-import static org.snapscript.core.constraint.Constraint.BYTE;
-import static org.snapscript.core.constraint.Constraint.DOUBLE;
-import static org.snapscript.core.constraint.Constraint.FLOAT;
-import static org.snapscript.core.constraint.Constraint.INTEGER;
-import static org.snapscript.core.constraint.Constraint.LONG;
-import static org.snapscript.core.constraint.Constraint.NUMBER;
-import static org.snapscript.core.constraint.Constraint.SHORT;
+import static org.snapscript.core.variable.Constant.BYTE;
+import static org.snapscript.core.variable.Constant.DOUBLE;
+import static org.snapscript.core.variable.Constant.FLOAT;
+import static org.snapscript.core.variable.Constant.INTEGER;
+import static org.snapscript.core.variable.Constant.LONG;
+import static org.snapscript.core.variable.Constant.NUMBER;
+import static org.snapscript.core.variable.Constant.SHORT;
 
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.scope.Scope;

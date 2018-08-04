@@ -24,7 +24,7 @@ public abstract class ConstraintReference extends Evaluation {
       if(value == null) {
          value = create(scope);
       }
-      return value;
+      return value.constraint;
    }
    
    @Override
@@ -36,21 +36,50 @@ public abstract class ConstraintReference extends Evaluation {
    }
    
    protected abstract ConstraintValue create(Scope scope) throws Exception;
-
+   
    protected static class ConstraintValue extends Value {
+      
+      private final Constraint constraint;
+      private final Value value;
+      
+      public ConstraintValue(Constraint constraint, Value value, Entity entity) {
+         this.constraint = new ConstraintDefinition(constraint, entity);
+         this.value = value;       
+      }
+      
+      @Override
+      public Constraint getConstraint() {
+         return constraint;
+      }
+      
+      @Override
+      public <T> T getValue() {
+         return value.getValue();
+      }
+      
+      @Override
+      public void setValue(Object value){
+         throw new InternalStateException("Illegal modification of literal '" + value + "'");
+      }    
+      
+      @Override
+      public String toString() {
+         return value.toString();
+      }      
+   }   
+
+   protected static class ConstraintDefinition extends Constraint {
       
       private ConstraintDescription description;
       private List<Constraint> generics;
       private List<String> imports;
       private Constraint constraint;
-      private Value value;
       private Type type;
       private String name;
       
-      public ConstraintValue(Constraint constraint, Value value, Entity entity) {
+      public ConstraintDefinition(Constraint constraint, Entity entity) {
          this.description = new ConstraintDescription(constraint, entity);
-         this.constraint = constraint;
-         this.value = value;       
+         this.constraint = constraint;      
       }
       
       @Override
@@ -83,18 +112,8 @@ public abstract class ConstraintReference extends Evaluation {
             name = constraint.getName(scope);
          }
          return name;
-      }       
-      
-      @Override
-      public <T> T getValue() {
-         return value.getValue();
-      }
-      
-      @Override
-      public void setValue(Object value){
-         throw new InternalStateException("Illegal modification of literal '" + value + "'");
-      } 
-      
+      }      
+
       @Override
       public String toString() {
          return description.toString();

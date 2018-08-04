@@ -11,8 +11,8 @@ import org.snapscript.core.constraint.DeclarationConstraint;
 
 public class DeclarationAllocator {
 
+   private final DeclarationConstraint constraint;
    private final DeclarationConverter converter;
-   private final Constraint constraint;
    private final Evaluation expression;
    
    public DeclarationAllocator(Constraint constraint, Evaluation expression) {      
@@ -23,6 +23,7 @@ public class DeclarationAllocator {
    
    public <T extends Value> T compile(Scope scope, String name, int modifiers) throws Exception {
       Type type = constraint.getType(scope);
+      Constraint declare = constraint.getConstraint(scope, modifiers);
       
       if(expression != null) {
          Constraint object = expression.compile(scope, null);
@@ -31,9 +32,9 @@ public class DeclarationAllocator {
          if(real != null) {
             object = converter.compile(scope, real, constraint, name);        
          }
-         return assign(scope, name, null, object, modifiers);
+         return assign(scope, name, null, declare, modifiers);
       }
-      return declare(scope, name, constraint, modifiers); // nothing assigned yet
+      return declare(scope, name, declare, modifiers); // nothing assigned yet
    }
    
    
