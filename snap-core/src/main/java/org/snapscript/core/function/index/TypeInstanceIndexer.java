@@ -16,7 +16,7 @@ public class TypeInstanceIndexer {
    }
    
    public FunctionPointer index(Value value, String name, Object... values) throws Exception {
-      Type type = value.getType();      
+      Type type = value.getData().getType();      
       return indexer.index(type, name, values);
    }
 }

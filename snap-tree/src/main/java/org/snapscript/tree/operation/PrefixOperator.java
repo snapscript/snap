@@ -20,7 +20,7 @@ public enum PrefixOperator {
    COMPLEMENT("~"){
       @Override
       public Value operate(Scope scope, Value right) {
-         Number value = right.getNumber(); 
+         Number value = right.getData().getNumber(); 
          NumericConverter converter = NumericConverter.resolveConverter(value);   
          long number = value.longValue();
          
@@ -30,7 +30,7 @@ public enum PrefixOperator {
    PLUS("+"){
       @Override
       public Value operate(Scope scope, Value right) {
-         Number value = right.getNumber(); 
+         Number value = right.getData().getNumber(); 
          NumericConverter converter = NumericConverter.resolveConverter(value);   
          double number = value.doubleValue();
          
@@ -40,7 +40,7 @@ public enum PrefixOperator {
    MINUS("-"){
       @Override
       public Value operate(Scope scope, Value right) { 
-         Number value = right.getNumber(); 
+         Number value = right.getData().getNumber(); 
          NumericConverter converter = NumericConverter.resolveConverter(value);   
          double number = value.doubleValue();
          

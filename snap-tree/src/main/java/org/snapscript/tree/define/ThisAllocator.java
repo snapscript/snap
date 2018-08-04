@@ -2,12 +2,15 @@ package org.snapscript.tree.define;
 
 import static org.snapscript.core.Reserved.TYPE_THIS;
 
+import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.function.Invocation;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
 import org.snapscript.core.scope.instance.Instance;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.function.Invocation;
 import org.snapscript.core.type.TypeBody;
+import org.snapscript.core.variable.Data;
+import org.snapscript.core.variable.PrimitiveValue;
 import org.snapscript.core.variable.Value;
 
 public class ThisAllocator implements TypeAllocator {
@@ -30,7 +33,7 @@ public class ThisAllocator implements TypeAllocator {
       Value value = state.get(TYPE_THIS);
       
       if(instance != base) { // false if this(...) is called
-         value.setValue(instance); // set the 'this' variable
+         value.setData(new PrimitiveValue(instance, real, Constraint.getConstraint(real))); // set the 'this' variable
          body.execute(instance, real);
          invocation.invoke(instance, instance, list);
          

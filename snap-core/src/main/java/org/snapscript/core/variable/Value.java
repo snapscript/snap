@@ -49,61 +49,7 @@ public abstract class Value implements Attribute {
    
    public static Value getTransient(Object value, Entity source, Constraint type) {
       return new Transient(value, source, type);
-   }
-
-   public double getDouble() {
-      Number number = getNumber();
-
-      if (number != null) {
-         return number.doubleValue();
-      }
-      return 0;
-   }
-
-   public long getLong() {
-      Number number = getNumber();
-
-      if (number != null) {
-         return number.longValue();
-      }
-      return 0;
-   }
-
-   public int getInteger() {
-      Number number = getNumber();
-
-      if (number != null) {
-         return number.intValue();
-      }
-      return 0;
-   }
-
-   public Number getNumber() {
-      Object value = getValue();
-
-      if (value != null) {
-         return ValueMapper.toNumber(value); 
-      }
-      return null;
-   }
-   
-   public char getCharacter() {
-      Object value = getValue();
-
-      if (value != null) {
-         return ValueMapper.toCharacter(value); 
-      }
-      return 0;
-   }
-   
-   public String getString() {
-      Object value = getValue();
-
-      if (value != null) {
-         return value.toString();
-      }
-      return null;
-   }      
+   }     
    
    public Constraint getConstraint(){
       return NONE; 
@@ -127,20 +73,12 @@ public abstract class Value implements Attribute {
    
    public Type getHandle() {
       return null;
-   }   
-   
-   public Type getType() {
-      Object value = getValue();
-
-      if (value != null) {
-         return getSource().getScope().getModule().getContext().getExtractor().getType(value);
-      }
-      return null;
    }  
    
+   
+   public abstract <T> T getValue();   
    public abstract Data getData();
-   public abstract <T> T getValue();
-   public abstract void setValue(Object value);
+   public abstract void setData(Data value);
    
    
 }

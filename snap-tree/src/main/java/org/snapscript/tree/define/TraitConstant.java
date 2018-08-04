@@ -73,7 +73,7 @@ public class TraitConstant implements Compilation {
          TypeState declare = declaration.declare(body, type);
          List<Property> properties = type.getProperties();
          Value value = identifier.evaluate(scope, null);
-         String name = value.getString();
+         String name = value.getData().getString();
          
          if(!checker.isConstant()) {
             throw new InternalStateException("Variable '" + name + "' for '" + type + "' must be constant");

@@ -60,7 +60,7 @@ public class AnnotationDeclaration extends Evaluation {
          }
       }
       Value value = name.evaluate(scope, left);
-      String name = value.getString();
+      String name = value.getData().getString();
       
       return new MapAnnotation(name, attributes);
    }

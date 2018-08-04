@@ -30,6 +30,7 @@ public class TypeExtractor {
    
    public Type getType(Object value) {
       if(value != null) {
+         //new Exception("Extracting type for "+value).printStackTrace();
          Class type = value.getClass();
          
          if(Handle.class.isAssignableFrom(type)) {

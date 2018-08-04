@@ -6,8 +6,8 @@ public enum ValueComparator {
    NUMERIC_NUMERIC {
       @Override
       public int compare(Value left, Value right) {
-         double primary = left.getDouble();
-         double secondary = right.getDouble();
+         double primary = left.getData().getDouble();
+         double secondary = right.getData().getDouble();
 
          return Double.compare(primary, secondary);
       }
@@ -15,8 +15,8 @@ public enum ValueComparator {
    NUMERIC_CHARACTER {
       @Override
       public int compare(Value left, Value right) {
-         int primary = left.getInteger();
-         char secondary = right.getCharacter();
+         int primary = left.getData().getInteger();
+         char secondary = right.getData().getCharacter();
  
          return Integer.compare(primary, secondary);
       }
@@ -24,8 +24,8 @@ public enum ValueComparator {
    CHARACTER_NUMERIC {
       @Override
       public int compare(Value left, Value right) {
-         char primary = left.getCharacter();
-         int secondary = right.getInteger();
+         char primary = left.getData().getCharacter();
+         int secondary = right.getData().getInteger();
      
          return Integer.compare(primary, secondary);
       }
@@ -33,11 +33,11 @@ public enum ValueComparator {
    STRING_CHARACTER {
       @Override
       public int compare(Value left, Value right) {
-         String primary = left.getString();
+         String primary = left.getData().getString();
          int length = primary.length();
          
          if(length > 0) {
-            char secondary = right.getCharacter();
+            char secondary = right.getData().getCharacter();
             char value = primary.charAt(0);
             
             return Character.compare(value, secondary);
@@ -48,11 +48,11 @@ public enum ValueComparator {
    CHARACTER_STRING {
       @Override
       public int compare(Value left, Value right) {
-         String secondary = right.getString();
+         String secondary = right.getData().getString();
          int length = secondary.length();
          
          if(length > 0) {
-            char primary = left.getCharacter();
+            char primary = left.getData().getCharacter();
             char value = secondary.charAt(0);
             
             return Character.compare(primary, value);
@@ -63,8 +63,8 @@ public enum ValueComparator {
    COMPARABLE_COMPARABLE{
       @Override
       public int compare(Value left, Value right) {
-         Comparable primary = left.getValue();
-         Comparable secondary = right.getValue();
+         Comparable primary = left.getData().getValue();
+         Comparable secondary = right.getData().getValue();
 
          return primary.compareTo(secondary);
       }
@@ -72,8 +72,8 @@ public enum ValueComparator {
    OBJECT_OBJECT{
       @Override
       public int compare(Value left, Value right) {
-         Object primary = left.getValue();
-         Object secondary = right.getValue();
+         Object primary = left.getData().getValue();
+         Object secondary = right.getData().getValue();
 
          if(primary != secondary) {
             if(primary != null && secondary != null) {
@@ -91,8 +91,8 @@ public enum ValueComparator {
    public abstract int compare(Value left, Value right);
    
    public static ValueComparator resolveComparator(Value left, Value right) {
-      Object primary = left.getValue();
-      Object secondary = right.getValue();
+      Object primary = left.getData().getValue();
+      Object secondary = right.getData().getValue();
 
       if(primary != null && secondary != null) {
          if(Number.class.isInstance(primary)) {

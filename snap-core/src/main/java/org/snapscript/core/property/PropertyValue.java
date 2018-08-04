@@ -1,12 +1,13 @@
 package org.snapscript.core.property;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.Entity;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Data;
-import org.snapscript.core.variable.Value;
+import org.snapscript.core.variable.DataValue;
 
-public class PropertyValue extends Value implements Data {
+public class PropertyValue extends DataValue {
 
    private final Property property;
    private final Object object;   
@@ -57,9 +58,11 @@ public class PropertyValue extends Value implements Data {
       return (T)property.getValue(object);
    }
 
+   @Bug
    @Override
-   public void setValue(Object value) {
-      property.setValue(object, value);
+   public void setData(Data value) {
+      Object x = value.getValue();
+      property.setValue(object, x);
    }
    
    @Override

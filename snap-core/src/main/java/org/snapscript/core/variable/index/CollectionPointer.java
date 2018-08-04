@@ -11,7 +11,7 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.variable.Value;
 import org.snapscript.core.variable.bind.VariableFinder;
 
-public class CollectionPointer implements VariablePointer<Collection> {
+public class CollectionPointer implements VariablePointer {
    
    private final TypeInstancePointer pointer;
    private final String name;
@@ -30,10 +30,11 @@ public class CollectionPointer implements VariablePointer<Collection> {
    }
    
    @Override
-   public Value getValue(Scope scope, Collection left) {
+   public Value getValue(Scope scope, Value left) {
       if(name.equals(PROPERTY_LENGTH)) {
          Module module = scope.getModule();
-         int length = left.size();
+         Collection list = left.getValue();
+         int length = list.size();
          
          return Value.getConstant(length, module);
       }

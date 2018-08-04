@@ -3,25 +3,31 @@ package org.snapscript.tree.collection;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
+import org.snapscript.core.Bug;
+import org.snapscript.core.Entity;
 import org.snapscript.core.convert.proxy.ProxyWrapper;
+import org.snapscript.core.variable.Data;
+import org.snapscript.core.variable.ValueData;
 
-public class ProxyIterable implements Iterable {
+public class ProxyIterable implements Iterable<Data> {
 
    private final ProxyWrapper wrapper;
    private final Iterable iterable;
+   private final Entity source;
    
-   public ProxyIterable(ProxyWrapper wrapper, Iterable iterable) {
+   public ProxyIterable(ProxyWrapper wrapper, Iterable iterable, Entity source) {
       this.iterable = iterable;
       this.wrapper = wrapper;
+      this.source = source;
    }
    
    @Override
-   public Iterator iterator() {
+   public Iterator<Data> iterator() {
       Iterator iterator = iterable.iterator();
       return new ProxyIterator(iterator);
    }
    
-   private class ProxyIterator implements Iterator {
+   private class ProxyIterator implements Iterator<Data> {
       
       private final Iterator iterator;
       
@@ -33,9 +39,15 @@ public class ProxyIterable implements Iterable {
       public boolean hasNext() {
          return iterator.hasNext();
       }
-
+      
+      @Bug
       @Override
-      public Object next() {
+      public Data next() {
+         Object object = create();
+         return new ValueData(object, source);
+      }
+
+      private Object create() {
          Object value = iterator.next();
          
          if(value != null) {

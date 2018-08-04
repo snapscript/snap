@@ -3,6 +3,7 @@ package org.snapscript.tree.operation;
 import org.snapscript.core.Entity;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.scope.Scope;
+import org.snapscript.core.variable.Data;
 import org.snapscript.core.variable.Value;
 import org.snapscript.parse.Token;
 import org.snapscript.tree.math.NumericConverter;
@@ -17,12 +18,12 @@ public class PostfixDecrement extends NumericOperation {
    public Value evaluate(Scope scope, Value left) throws Exception { // this is rubbish
       Value reference = evaluation.evaluate(scope, left);
       Entity source = reference.getSource();
-      Number number = reference.getNumber();
+      Number number = reference.getData().getNumber();
       NumericConverter converter = NumericConverter.resolveConverter(number);
       Value value = converter.decrement(scope, number);
-      Number result = value.getNumber();
+      Data result = value.getData();
       
-      reference.setValue(result);
+      reference.setData(result);
 
       return Value.getTransient(number, source);
    }

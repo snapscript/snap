@@ -6,7 +6,7 @@ import org.snapscript.core.Entity;
 import org.snapscript.core.convert.proxy.ProxyWrapper;
 import org.snapscript.core.type.Type;
 
-public class MapValue extends Value implements Data {
+public class MapValue extends DataValue {
    
    private final ProxyWrapper wrapper;
    private final Entity source;
@@ -49,10 +49,11 @@ public class MapValue extends Value implements Data {
    }
    
    @Override
-   public void setValue(Object value){
-      Object proxy = wrapper.toProxy(value);
+   public void setData(Data value){
+      Object object = value.getValue();
+      Object proxy = wrapper.toProxy(object);
       
-      if(value != null) {
+      if(object != null) {
          map.put(key, proxy);
       } else {
          map.remove(key);

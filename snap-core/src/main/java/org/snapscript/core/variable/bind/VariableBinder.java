@@ -1,6 +1,7 @@
 package org.snapscript.core.variable.bind;
 
 import static org.snapscript.core.error.Reason.REFERENCE;
+import static org.snapscript.core.variable.Value.NULL;
 
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.proxy.ProxyWrapper;
@@ -48,7 +49,7 @@ public class VariableBinder {
    
    public Value bind(Scope scope) throws Exception {
       VariablePointer pointer = resolver.index(scope);
-      Value value = pointer.getValue(scope, null);
+      Value value = pointer.getValue(scope, NULL);
       
       if(value == null) {
          handler.handleRuntimeError(REFERENCE, scope, name);
@@ -57,13 +58,13 @@ public class VariableBinder {
    }
    
    public Value bind(Scope scope, Value left) throws Exception {
-      Object original = left.getValue();
-      Object object = wrapper.fromProxy(original); // what about double wrapping?
-      VariablePointer pointer = resolver.index(scope, object);
-      Value value = pointer.getValue(scope, object);
+//      Object original = left.getValue();
+//      Object object = wrapper.fromProxy(original); // what about double wrapping?
+      VariablePointer pointer = resolver.index(scope, left);
+      Value value = pointer.getValue(scope, left);
       
       if(value == null) {
-         handler.handleRuntimeError(REFERENCE, scope, object, name);
+         handler.handleRuntimeError(REFERENCE, scope, left.getValue(), name);
       }
       return value;
    }

@@ -9,7 +9,7 @@ import org.snapscript.core.variable.Value;
 import org.snapscript.core.variable.bind.VariableFinder;
 import org.snapscript.core.variable.bind.VariableResult;
 
-public class LocalPointer implements VariablePointer<Object> {
+public class LocalPointer implements VariablePointer {
    
    private final AtomicReference<VariableResult> reference;
    private final VariableFinder finder;
@@ -43,7 +43,8 @@ public class LocalPointer implements VariablePointer<Object> {
    }
    
    @Override
-   public Value getValue(Scope scope, Object left) {
+   public Value getValue(Scope scope, Value left) {
+      Object object = left.getValue();
       VariableResult result = reference.get();
       
       if(result == null) {
@@ -55,7 +56,7 @@ public class LocalPointer implements VariablePointer<Object> {
             
             if(match != null) {
                reference.set(match);
-               return match.getValue(left);
+               return match.getValue(object);
             }
          }
          return variable;

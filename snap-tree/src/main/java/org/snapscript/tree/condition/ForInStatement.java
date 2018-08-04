@@ -23,6 +23,7 @@ import org.snapscript.core.scope.index.Table;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.trace.TraceStatement;
+import org.snapscript.core.variable.Data;
 import org.snapscript.core.variable.Value;
 import org.snapscript.core.yield.Resume;
 import org.snapscript.core.yield.Yield;
@@ -99,7 +100,7 @@ public class ForInStatement implements Compilation {
       }
    }
    
-   private static class CompileExecution extends SuspendStatement<Iterator> {
+   private static class CompileExecution extends SuspendStatement<Iterator<Data>> {
       
       private final IterationConverter converter;
       private final Declaration declaration;
@@ -121,21 +122,21 @@ public class ForInStatement implements Compilation {
          Value value = declaration.declare(scope, VARIABLE.mask);
          Object object = list.getValue();
          Iteration iteration = converter.convert(scope, object);
-         Iterable iterable = iteration.getIterable(scope);
-         Iterator iterator = iterable.iterator();
+         Iterable<Data> iterable = iteration.getIterable(scope);
+         Iterator<Data> iterator = iterable.iterator();
          
          return resume(scope, iterator);
       }
 
       @Override
-      public Result resume(Scope scope, Iterator iterator) throws Exception {
+      public Result resume(Scope scope, Iterator<Data> iterator) throws Exception {
          Table table = scope.getTable();
          Local local = table.get(depth);
          
          while (iterator.hasNext()) {
-            Object entry = iterator.next();
+            Data entry = iterator.next();
 
-            local.setValue(entry);
+            local.setData(entry);
             
             Result result = body.execute(scope);   
    
@@ -153,7 +154,7 @@ public class ForInStatement implements Compilation {
       }
 
       @Override
-      public Resume suspend(Result result, Resume resume, Iterator value) throws Exception {
+      public Resume suspend(Result result, Resume resume, Iterator<Data> value) throws Exception {
          Yield yield = result.getValue();
          Resume child = yield.getResume();
          

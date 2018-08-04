@@ -18,6 +18,7 @@ public class LinkedListIteratorTest extends TestCase {
    "\n"+
    "for(var i = 0; i < 10000; i++){\n"+
    "   list.add(new Item(i));\n"+
+//   "   list.add(i);\n"+   
    "}\n"+
    "\n"+
    "for(var n in 0..10){\n"+

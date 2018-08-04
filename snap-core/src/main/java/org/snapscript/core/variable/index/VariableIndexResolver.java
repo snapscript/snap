@@ -1,10 +1,8 @@
 package org.snapscript.core.variable.index;
 
-import org.snapscript.core.Context;
-import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.type.TypeExtractor;
+import org.snapscript.core.variable.Value;
 
 public class VariableIndexResolver {
    
@@ -12,12 +10,9 @@ public class VariableIndexResolver {
       super();
    }
    
-   public int resolve(Scope scope, Object left){
-      if(left != null) {
-         Module module = scope.getModule();
-         Context context = module.getContext();
-         TypeExtractor extractor = context.getExtractor();
-         Type type = extractor.getType(left);
+   public int resolve(Scope scope, Value left){
+      if(left != null && left.getData() != null) {
+         Type type = left.getData().getType();
          
          if(type != null) {
             return type.getOrder();

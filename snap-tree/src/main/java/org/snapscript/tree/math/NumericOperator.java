@@ -110,8 +110,8 @@ public enum NumericOperator {
    }   
    
    public Value operate(Scope scope, Value left, Value right) {
-      Class primary = left.getType().getType();
-      Class secondary = right.getType().getType();
+      Class primary = left.getData().getType().getType();
+      Class secondary = right.getData().getType().getType();
       
       if(Double.class == primary || Double.class == secondary) {
          return operate(scope, left, right, DOUBLE);

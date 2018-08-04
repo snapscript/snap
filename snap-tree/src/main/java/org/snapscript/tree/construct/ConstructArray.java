@@ -79,7 +79,7 @@ public class ConstructArray implements Compilation {
             for(int i = 0; i < arguments.length; i++){
                Argument argument = arguments[i];
                Value index = argument.evaluate(scope, left);
-               int number = index.getInteger();
+               int number = index.getData().getInteger();
             
                dimensions[i] = number;
             }

@@ -9,12 +9,13 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.snapscript.core.Context;
-import org.snapscript.core.module.Module;
-import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Type;
+import org.snapscript.core.Entity;
 import org.snapscript.core.array.ArrayBuilder;
 import org.snapscript.core.convert.proxy.ProxyWrapper;
 import org.snapscript.core.error.InternalArgumentException;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Type;
 
 public class IterationConverter {
 
@@ -31,19 +32,19 @@ public class IterationConverter {
       Class type = value.getClass();
    
       if(type.isArray()) {
-         return new ArrayIteration(wrapper, value);
+         return new ArrayIteration(wrapper, value, module);
       } 
       if(Sequence.class.isInstance(value)) {
-         return new SequenceIteration(value);
+         return new SequenceIteration(value, module);
       }
       if(Iterable.class.isInstance(value)) {
-         return new IterableIteration(wrapper, value);
+         return new IterableIteration(wrapper, value, module);
       } 
       if(Map.class.isInstance(value)) {
-         return new MapIteration(wrapper, value);
+         return new MapIteration(wrapper, value, module);
       }
       if(Enumeration.class.isInstance(value)) {
-         return new EnumerationIteration(wrapper, value);
+         return new EnumerationIteration(wrapper, value, module);
       }
       throw new InternalArgumentException("Iteration for " + type + " is not possible");
    }
@@ -51,10 +52,12 @@ public class IterationConverter {
    private class ArrayIteration implements Iteration {
       
       private final ProxyWrapper wrapper;
+      private final Entity source;
       private final Object value;
       
-      public ArrayIteration(ProxyWrapper wrapper, Object value) {
+      public ArrayIteration(ProxyWrapper wrapper, Object value, Entity source) {
          this.wrapper = wrapper;
+         this.source = source;
          this.value = value;
       }
       
@@ -72,7 +75,7 @@ public class IterationConverter {
          List list = builder.convert(value);
          
          if(!list.isEmpty()) {
-            return new ProxyIterable(wrapper, list);
+            return new ProxyIterable(wrapper, list, source);
          }
          return list;
       }
@@ -81,10 +84,12 @@ public class IterationConverter {
    private class MapIteration implements Iteration {
       
       private final ProxyWrapper wrapper;
+      private final Entity source;
       private final Object value;
       
-      public MapIteration(ProxyWrapper wrapper, Object value) {
+      public MapIteration(ProxyWrapper wrapper, Object value, Entity source) {
          this.wrapper = wrapper;
+         this.source = source;
          this.value = value;
       }
       
@@ -100,7 +105,7 @@ public class IterationConverter {
          Set set = map.entrySet();
          
          if(!set.isEmpty()) {
-            return new ProxyIterable(wrapper, set);
+            return new ProxyIterable(wrapper, set, source);
          }
          return set;
       }
@@ -108,9 +113,11 @@ public class IterationConverter {
    
    private class SequenceIteration implements Iteration {
       
+      private final Entity source;
       private final Object value;
       
-      public SequenceIteration(Object value) {
+      public SequenceIteration(Object value, Entity source) {
+         this.source = source;
          this.value = value;
       }
       
@@ -132,10 +139,12 @@ public class IterationConverter {
    private class IterableIteration implements Iteration {
       
       private final ProxyWrapper wrapper;
+      private final Entity source;
       private final Object value;
       
-      public IterableIteration(ProxyWrapper wrapper, Object value) {
+      public IterableIteration(ProxyWrapper wrapper, Object value, Entity source) {
          this.wrapper = wrapper;
+         this.source = source;
          this.value = value;
       }
       
@@ -150,7 +159,7 @@ public class IterationConverter {
          Iterable iterable = (Iterable)value;
          
          if(value != null) {
-            return new ProxyIterable(wrapper, iterable);
+            return new ProxyIterable(wrapper, iterable, source);
          }
          return Collections.emptyList();
       }
@@ -159,10 +168,12 @@ public class IterationConverter {
    private class EnumerationIteration implements Iteration {
       
       private final ProxyWrapper wrapper;
+      private final Entity source;
       private final Object value;
       
-      public EnumerationIteration(ProxyWrapper wrapper, Object value) {
+      public EnumerationIteration(ProxyWrapper wrapper, Object value, Entity source) {
          this.wrapper = wrapper;
+         this.source = source;
          this.value = value;
       }
       
@@ -178,7 +189,7 @@ public class IterationConverter {
          
          if(list != null) {
             EnumerationIterable iterable = new EnumerationIterable(list);
-            ProxyIterable proxy = new ProxyIterable(wrapper, iterable);
+            ProxyIterable proxy = new ProxyIterable(wrapper, iterable, source);
             
             return proxy;
          }

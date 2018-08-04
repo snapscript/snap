@@ -2,10 +2,11 @@ package org.snapscript.core.variable;
 
 import java.lang.reflect.Array;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.Entity;
 import org.snapscript.core.type.Type;
 
-public class ArrayValue extends Value implements Data {
+public class ArrayValue extends DataValue {
    
    private final Entity source;
    private final Object array;
@@ -37,9 +38,10 @@ public class ArrayValue extends Value implements Data {
       return Array.get(array, index);
    }
    
+   @Bug
    @Override
-   public void setValue(Object value){
-      Array.set(array, index, value);
+   public void setData(Data value){
+      Array.set(array, index, value.getValue());
    }       
    
    @Override

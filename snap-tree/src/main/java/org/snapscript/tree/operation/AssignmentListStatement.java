@@ -17,6 +17,7 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.trace.TraceStatement;
+import org.snapscript.core.variable.Data;
 import org.snapscript.core.variable.Value;
 
 public class AssignmentListStatement implements Compilation {
@@ -95,21 +96,21 @@ public class AssignmentListStatement implements Compilation {
          Value[] values = left.evaluate(scope);
          
          if(values.length > 0) {
-            Object[] results = new Object[values.length];
+            Data[] results = new Data[values.length];
             
             for(int i = 0; i < right.length; i++) {
                Value result = right[i].evaluate(scope, null);
-               Object object = result.getValue();
+               Data object = result.getData();
                
                if(i < results.length) {
                   results[i] = object;
                }
             }
             for(int i = 0; i < results.length; i++) {
-               Object object = results[i];
+               Data object = results[i];
                Value value = values[i];
                
-               value.setValue(object);
+               value.setData(object);
             }            
          }
          return NORMAL;

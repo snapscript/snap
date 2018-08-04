@@ -13,7 +13,7 @@ import org.snapscript.core.variable.Value;
 import org.snapscript.core.variable.bind.VariableFinder;
 import org.snapscript.core.variable.bind.VariableResult;
 
-public class ClosurePointer implements VariablePointer<Function> {
+public class ClosurePointer implements VariablePointer {
 
    private final AtomicReference<VariableResult> reference;
    private final VariableFinder finder;
@@ -46,7 +46,8 @@ public class ClosurePointer implements VariablePointer<Function> {
    }
    
    @Override
-   public Value getValue(Scope scope, Function left) {
+   public Value getValue(Scope scope, Value left) {  
+      Function function = left.getValue();
       VariableResult result = reference.get();
       
       if(result == null) {
@@ -58,10 +59,10 @@ public class ClosurePointer implements VariablePointer<Function> {
          
          if(match != null) {
             reference.set(match);
-            return match.getValue(left);
+            return match.getValue(function);
          }
          return null;
       }
-      return result.getValue(left);
+      return result.getValue(function);
    }
 }

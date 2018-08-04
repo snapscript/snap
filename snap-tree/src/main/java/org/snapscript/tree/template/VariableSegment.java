@@ -1,5 +1,7 @@
 package org.snapscript.tree.template;
 
+import static org.snapscript.core.variable.Value.NULL;
+
 import java.io.Writer;
 
 import org.snapscript.core.convert.proxy.ProxyWrapper;
@@ -26,7 +28,7 @@ public class VariableSegment implements Segment {
    
    @Override
    public void process(Scope scope, Writer writer) throws Exception {
-      Value value = pointer.getValue(scope, null);
+      Value value = pointer.getValue(scope, NULL);
       
       if(value == null) {
          throw new InternalStateException("Variable '" + variable + "' not found");

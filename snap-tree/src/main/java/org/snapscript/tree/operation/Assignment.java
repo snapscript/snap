@@ -7,7 +7,9 @@ import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.StringBuilder;
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.scope.Scope;
+import org.snapscript.core.variable.Data;
 import org.snapscript.core.variable.Value;
+import org.snapscript.core.variable.ValueCache;
 import org.snapscript.parse.StringToken;
 
 public class Assignment extends Evaluation {
@@ -55,8 +57,10 @@ public class Assignment extends Evaluation {
             String leftText = StringBuilder.create(scope, leftValue);
             String rightText = StringBuilder.create(scope, rightValue);
             String text = leftText.concat(rightText);
+            Value value = ValueCache.getString(scope, text);
+            Data data = value.getData();
             
-            leftResult.setValue(text);
+            leftResult.setData(data);
             return leftResult;
          }
       }

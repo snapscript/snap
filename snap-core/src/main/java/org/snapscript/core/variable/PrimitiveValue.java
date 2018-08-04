@@ -5,7 +5,7 @@ import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.type.Type;
 
-public class PrimitiveValue extends Value implements Data {   
+public class PrimitiveValue extends DataValue {   
 
    private final Constraint constraint;
    private final Object value;
@@ -43,7 +43,7 @@ public class PrimitiveValue extends Value implements Data {
    }
    
    @Override
-   public void setValue(Object value){
+   public void setData(Data value){
       throw new InternalStateException("Illegal modification of value");
    }
    

@@ -8,6 +8,7 @@ import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.proxy.ProxyWrapper;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
+import org.snapscript.core.variable.Value;
 
 public class VariableIndexer {
    
@@ -34,17 +35,6 @@ public class VariableIndexer {
       }
       return pointer;
    }
-
-   public VariablePointer index(Scope scope, Object left) throws Exception {
-      int index = resolver.resolve(scope, left);
-      VariablePointer pointer = cache.fetch(index);
-
-      if(pointer == null) { 
-         pointer = builder.create(scope, left);
-         cache.cache(index, pointer);
-      }
-      return pointer;
-   }
    
    public VariablePointer index(Scope scope, Constraint left) throws Exception {
       Type type = left.getType(scope);
@@ -53,5 +43,16 @@ public class VariableIndexer {
          return builder.create(scope, left);
       }
       return empty;
+   }
+
+   public VariablePointer index(Scope scope, Value left) throws Exception {
+      int index = resolver.resolve(scope, left);
+      VariablePointer pointer = cache.fetch(index);
+
+      if(pointer == null) { 
+         pointer = builder.create(scope, left);
+         cache.cache(index, pointer);
+      }
+      return pointer;
    }
 }

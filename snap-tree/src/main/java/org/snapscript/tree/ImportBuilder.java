@@ -47,7 +47,7 @@ public class ImportBuilder {
          if(alias != null) {
             Scope scope = module.getScope();
             Value value = alias.evaluate(scope, null);
-            String alias = value.getString();
+            String alias = value.getData().getString();
             
             return new CompileResult(library, path, location, target, alias);
          } 

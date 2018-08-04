@@ -13,7 +13,7 @@ import org.snapscript.core.variable.Value;
 import org.snapscript.core.variable.bind.VariableFinder;
 import org.snapscript.core.variable.bind.VariableResult;
 
-public class ModulePointer implements VariablePointer<Module> {
+public class ModulePointer implements VariablePointer {
    
    private final AtomicReference<VariableResult> reference;
    private final VariableFinder finder;
@@ -55,31 +55,32 @@ public class ModulePointer implements VariablePointer<Module> {
    }
    
    @Override
-   public Value getValue(Scope scope, Module left) {
+   public Value getValue(Scope scope, Value left) {
+      Module module = left.getValue();
       VariableResult result = reference.get();
       
       if(result == null) {
-         Scope inner = left.getScope();
+         Scope inner = module.getScope();
          State state = inner.getState();
          Value value = state.get(name);
          
          if(value == null) {
-            Type type = left.getType(name);
+            Type type = module.getType(name);
             
             if(type == null) {            
-               VariableResult match = finder.findAll(scope, left, name);
+               VariableResult match = finder.findAll(scope, module, name);
                
                if(match != null) {
                   reference.set(match);
-                  return match.getValue(left);
+                  return match.getValue(module);
                }
                return null;
             }
-            return Value.getTransient(type, left);
+            return Value.getTransient(type, module);
          }
          return value;
       } 
-      return result.getValue(left);
+      return result.getValue(module);
    }
    
 }

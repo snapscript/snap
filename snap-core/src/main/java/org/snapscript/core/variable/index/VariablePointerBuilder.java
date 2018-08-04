@@ -11,6 +11,7 @@ import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.instance.Instance;
 import org.snapscript.core.type.Type;
+import org.snapscript.core.variable.Value;
 import org.snapscript.core.variable.bind.VariableFinder;
 
 public class VariablePointerBuilder {
@@ -30,22 +31,23 @@ public class VariablePointerBuilder {
       return new LocalPointer(finder, name);
    }
    
-   public VariablePointer create(Scope scope, Object left) throws Exception {
-      Class type = left.getClass();
+   public VariablePointer create(Scope scope, Value left) throws Exception {
+      Object object = left.getValue();
+      Class type = object.getClass();
       
-      if(Module.class.isInstance(left)) {
+      if(Module.class.isInstance(object)) {
          return new ModulePointer(finder, name);
       }
-      if(Map.class.isInstance(left)) {
+      if(Map.class.isInstance(object)) {
          return new MapPointer(finder, name);
       }         
-      if(Type.class.isInstance(left)) {
+      if(Type.class.isInstance(object)) {
          return new TypeStaticPointer(finder, name); // could be either static or instance
       }
-      if(Collection.class.isInstance(left)) {
+      if(Collection.class.isInstance(object)) {
          return new CollectionPointer(finder, name);
       }
-      if(Function.class.isInstance(left)) {
+      if(Function.class.isInstance(object)) {
          return new ClosurePointer(finder, name);
       }
       if(type.isArray()) {

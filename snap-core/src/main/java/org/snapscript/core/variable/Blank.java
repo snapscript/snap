@@ -56,11 +56,11 @@ public class Blank extends Value {
    }
    
    @Override
-   public void setValue(Object value){
+   public void setData(Data value){
       if(this.value.getValue()!=null) {
          throw new InternalStateException("Illegal modification of constant");
       }
-      this.value = new ValueData(value, source);
+      this.value = value;
    } 
    
    @Override

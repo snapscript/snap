@@ -8,6 +8,7 @@ import static org.snapscript.core.variable.Constant.FLOAT;
 import static org.snapscript.core.variable.Constant.INTEGER;
 import static org.snapscript.core.variable.Constant.LONG;
 import static org.snapscript.core.variable.Constant.SHORT;
+import static org.snapscript.core.variable.Constant.STRING;
 
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeLoader;
@@ -42,8 +43,8 @@ public class ConstantTable {
    
    private ConstantCache getCache(int high, int low) {
       if(cache == null) {
-         Value[][] constants = new Value[5][2050];
-         Value[] bools = new Value[2];
+         PrimitiveValue[][] constants = new PrimitiveValue[5][2050];
+         PrimitiveValue[] bools = new PrimitiveValue[2];
          Type[] types = new Type[9]; 
    
          types[BOOLEAN_TYPE] = loader.loadType(Boolean.class);
@@ -79,51 +80,55 @@ public class ConstantTable {
       return cache;
    }
    
-   public Value getByte(int value) {
+   public PrimitiveValue getByte(int value) {
       return getCache().getByte(value);
    }
    
-   public Value getShort(int value) {
+   public PrimitiveValue getShort(int value) {
       return getCache().getShort(value);
    }
    
-   public Value getInteger(int value) {
+   public PrimitiveValue getInteger(int value) {
       return getCache().getInteger(value);
    }
    
-   public Value getLong(long value) {
+   public PrimitiveValue getLong(long value) {
       return getCache().getLong(value);
    }
    
-   public Value getCharacter(char value){
+   public PrimitiveValue getCharacter(char value){
       return getCache().getCharacter(value);
    }
    
-   public Value getCharacter(int value){
+   public PrimitiveValue getCharacter(int value){
       return getCache().getCharacter(value);
    }
    
-   public Value getFloat(float value) {
+   public PrimitiveValue getFloat(float value) {
       return getCache().getFloat(value);
    }
    
-   public Value getDouble(double value) {
+   public PrimitiveValue getDouble(double value) {
       return getCache().getDouble(value);
    }
    
-   public Value getBoolean(boolean value) {
+   public PrimitiveValue getBoolean(boolean value) {
       return getCache().getBoolean(value);
+   }
+   
+   public PrimitiveValue getString(String value) {
+      return getCache().getString(value);
    }
    
    private static class ConstantCache {
       
-      private final Value[][] constants;
-      private final Value[] flags;
+      private final PrimitiveValue[][] constants;
+      private final PrimitiveValue[] flags;
       private final Type[] types;      
       private final int high;
       private final int low;
 
-      public ConstantCache(Value[][] constants, Value[] flags, Type[] types, int high, int low) {
+      public ConstantCache(PrimitiveValue[][] constants, PrimitiveValue[] flags, Type[] types, int high, int low) {
          this.constants = constants;
          this.flags = flags;
          this.types = types;
@@ -131,58 +136,62 @@ public class ConstantTable {
          this.low = low;
       }
       
-      public Value getBoolean(boolean value) {
+      public PrimitiveValue getBoolean(boolean value) {
          return flags[value ? 1 : 0];
       }
       
-      public Value getByte(int value) {
+      public PrimitiveValue getByte(int value) {
           if (value >= low && value <= high) {
              return constants[BYTE_TYPE][value + -low];
           }
          return new PrimitiveValue((byte)value, types[BYTE_TYPE], BYTE);
       }
       
-      public Value getShort(int value) {
+      public PrimitiveValue getShort(int value) {
          if (value >= low && value <= high) {
             return constants[SHORT_TYPE][value + -low];
          }
         return new PrimitiveValue((short)value, types[SHORT_TYPE], SHORT);
       }
       
-      public Value getInteger(int value) {
+      public PrimitiveValue getInteger(int value) {
          if (value >= low && value <= high) {
             return constants[INTEGER_TYPE][value + -low];
          }
         return new PrimitiveValue(value, types[INTEGER_TYPE], INTEGER);
       }
       
-      public Value getLong(long value) {
+      public PrimitiveValue getLong(long value) {
          if (value >= low && value <= high) {
             return constants[LONG_TYPE][(int)value + -low];
          }
         return new PrimitiveValue(value, types[LONG_TYPE], LONG);
       }
       
-      public Value getCharacter(char value){
+      public PrimitiveValue getCharacter(char value){
          if (value >= low && value <= high) {
             return constants[CHARACTER_TYPE][value + -low];
          }
         return new PrimitiveValue((char)value, types[CHARACTER_TYPE], CHARACTER);
       }
       
-      public Value getCharacter(int value){
+      public PrimitiveValue getCharacter(int value){
          if (value >= low && value <= high) {
             return constants[CHARACTER_TYPE][value + -low];
          }
         return new PrimitiveValue((char)value, types[CHARACTER_TYPE], CHARACTER);
       }
       
-      public Value getFloat(float value) {
+      public PrimitiveValue getFloat(float value) {
          return new PrimitiveValue(value, types[FLOAT_TYPE], FLOAT);
       }
       
-      public Value getDouble(double value) {
+      public PrimitiveValue getDouble(double value) {
          return new PrimitiveValue(value, types[DOUBLE_TYPE], DOUBLE);
+      }
+      
+      public PrimitiveValue getString(String value) {
+         return new PrimitiveValue(value, types[STRING_TYPE], STRING);
       }
    }
    

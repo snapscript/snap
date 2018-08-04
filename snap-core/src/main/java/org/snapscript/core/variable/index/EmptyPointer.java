@@ -19,7 +19,7 @@ public class EmptyPointer implements VariablePointer {
    }
 
    @Override
-   public Value getValue(Scope scope, Object left) {
+   public Value getValue(Scope scope, Value left) {
       return NULL;
    }
    

@@ -12,7 +12,7 @@ import org.snapscript.core.variable.Value;
 import org.snapscript.core.variable.bind.VariableFinder;
 import org.snapscript.core.variable.bind.VariableResult;
 
-public class MapPointer implements VariablePointer<Map> {
+public class MapPointer implements VariablePointer {
    
    private final AtomicReference<VariableResult> reference;
    private final VariableFinder finder;
@@ -42,18 +42,19 @@ public class MapPointer implements VariablePointer<Map> {
    }
    
    @Override
-   public Value getValue(Scope scope, Map left) {
+   public Value getValue(Scope scope, Value left) {
+      Map map = left.getValue();
       VariableResult result = reference.get();
       
       if(result == null) {
-         VariableResult match = finder.findProperty(scope, left, name);
+         VariableResult match = finder.findProperty(scope, map, name);
          
          if(match != null) {
             reference.set(match);
-            return match.getValue(left);
+            return match.getValue(map);
          }
          return null;
       }
-      return result.getValue(left);
+      return result.getValue(map);
    }
 }

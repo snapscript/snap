@@ -9,7 +9,7 @@ import org.snapscript.core.variable.Value;
 import org.snapscript.core.variable.bind.VariableFinder;
 import org.snapscript.core.variable.bind.VariableResult;
 
-public class TypeStaticPointer implements VariablePointer<Type> {
+public class TypeStaticPointer implements VariablePointer {
    
    private final AtomicReference<VariableResult> reference;
    private final VariableFinder finder;
@@ -39,21 +39,22 @@ public class TypeStaticPointer implements VariablePointer<Type> {
    }
    
    @Override
-   public Value getValue(Scope scope, Type left) {
+   public Value getValue(Scope scope, Value left) {
+      Type type = left.getValue();
       VariableResult result = reference.get();
       
       if(result == null) {
-         VariableResult match = finder.findAll(scope, left, name);
+         VariableResult match = finder.findAll(scope, type, name);
          
          if(match == null) {
-            match = finder.findAll(scope, (Object)left, name); // find on the type
+            match = finder.findAll(scope, (Object)type, name); // find on the type
          }         
          if(match != null) {
             reference.set(match);
-            return match.getValue(left);
+            return match.getValue(type);
          }
          return null;
       } 
-      return result.getValue(left);
+      return result.getValue(type);
    }   
 }

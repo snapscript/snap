@@ -1,5 +1,6 @@
 package org.snapscript.tree.operation;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.Context;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.ConstraintConverter;
@@ -9,7 +10,9 @@ import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
+import org.snapscript.core.variable.Data;
 import org.snapscript.core.variable.Value;
+import org.snapscript.core.variable.ValueData;
 import org.snapscript.parse.StringToken;
 import org.snapscript.tree.math.NumericOperator;
 
@@ -36,27 +39,28 @@ public enum AssignmentOperator {
       this.symbol = symbol;
    }
    
+   @Bug
    public Value operate(Scope scope, Value left, Value right) throws Exception {
       Constraint constraint = left.getConstraint();
       Type type = constraint.getType(scope);
       Value result = operator.operate(scope, left, right);
-      Object value = result.getValue();
+      Data value = result.getData();
       
       if(type != null) {
          Module module = scope.getModule();
          Context context = module.getContext();
          ConstraintMatcher matcher = context.getMatcher();
          ConstraintConverter converter = matcher.match(type);
-         Score score = converter.score(value);
+         Score score = converter.score(value.getValue());
          
          if(score.isInvalid()) {
             throw new InternalStateException("Illegal assignment to variable of type '" + type + "'");
          }
          if(value != null) {
-            value = converter.assign(value);
+            value = new ValueData(converter.assign(value.getValue()), result.getSource());
          }
       }
-      left.setValue(value);
+      left.setData(value);
       return left;
    }
    

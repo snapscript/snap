@@ -12,7 +12,7 @@ import org.snapscript.core.variable.Value;
 import org.snapscript.core.variable.bind.VariableFinder;
 import org.snapscript.core.variable.bind.VariableResult;
 
-public class TypeInstancePointer implements VariablePointer<Object> {
+public class TypeInstancePointer implements VariablePointer {
    
    private final AtomicReference<VariableResult> reference;
    private final VariableFinder finder;
@@ -45,23 +45,24 @@ public class TypeInstancePointer implements VariablePointer<Object> {
    }
    
    @Override
-   public Value getValue(Scope scope, Object left) {
+   public Value getValue(Scope scope, Value left) {
+      Object object = left.getValue();
       VariableResult result = reference.get();
       
       if(result == null) {
          Module module = scope.getModule();
          Context context = module.getContext();
          TypeExtractor extractor = context.getExtractor();
-         Type type = extractor.getType(left);
+         Type type = extractor.getType(object);
          VariableResult match = finder.findAll(scope, type, name);
          
          if(match != null) {
             reference.set(match);
-            return match.getValue(left);
+            return match.getValue(object);
          }
          return null;
       }
-      return result.getValue(left);
+      return result.getValue(object);
    }
 
 }

@@ -5,10 +5,12 @@ import static org.snapscript.core.ModifierType.CONSTANT;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Constant;
+import org.snapscript.core.variable.ValueData;
 
 public class ConstantProperty implements Property<Object> {
 
@@ -63,9 +65,10 @@ public class ConstantProperty implements Property<Object> {
       return constant.getValue();
    }
 
+   @Bug
    @Override
    public void setValue(Object source, Object value) {
-      constant.setValue(value);
+      constant.setData(new ValueData(value,this.source));
    }
    
    @Override

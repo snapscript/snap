@@ -55,8 +55,8 @@ public class LocalReference extends Local {
    }
 
    @Override
-   public void setValue(Object value) {
-      this.value = new ValueData(value, source);
+   public void setData(Data value) {
+      this.value = value;
    }
    
    @Override

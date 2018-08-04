@@ -17,7 +17,7 @@ public class NameReference {
    public String getName(Scope scope) throws Exception {
       if(name == null) {
          Value value = identifier.evaluate(scope, null);
-         String identifier = value.getString();
+         String identifier = value.getData().getString();
          
          if(identifier == null) {
             throw new InternalStateException("Name evaluated to null");
