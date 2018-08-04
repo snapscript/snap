@@ -28,7 +28,7 @@ public class FunctionResolver {
    private final LocalIndexer scopes;
    
    public FunctionResolver(TypeExtractor extractor, ThreadStack stack, FunctionIndexer indexer) {
-      this.instances = new TypeInstanceIndexer(extractor, indexer);
+      this.instances = new TypeInstanceIndexer(indexer);
       this.statics = new TypeStaticIndexer(extractor, stack);
       this.delegates = new DelegateIndexer(extractor, stack);
       this.modules = new ModuleIndexer(extractor, stack);

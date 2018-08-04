@@ -13,6 +13,7 @@ import org.snapscript.core.stack.ThreadStack;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.type.TypeExtractor;
 import org.snapscript.core.type.TypeLoader;
+import org.snapscript.core.variable.ConstantTable;
 
 public interface Context extends Any {
    ThreadStack getStack();
@@ -30,6 +31,7 @@ public interface Context extends Any {
    PackageLinker getLinker();
    ProxyWrapper getWrapper();
    FunctionBinder getBinder();
+   ConstantTable getTable();
    TypeLoader getLoader();
 
    

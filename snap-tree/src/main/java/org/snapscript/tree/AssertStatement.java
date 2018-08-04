@@ -18,6 +18,7 @@ import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.trace.TraceStatement;
 import org.snapscript.core.variable.Value;
+import org.snapscript.tree.condition.BooleanChecker;
 
 public class AssertStatement implements Compilation {
    
@@ -71,7 +72,7 @@ public class AssertStatement implements Compilation {
          Value value = evaluation.evaluate(scope, null);
          Object object = value.getValue();
 
-         if(!TRUE.equals(object)) {
+         if(!BooleanChecker.isTrue(object)) {
             throw new AssertException("Assertion failed");
          }
          return NORMAL;

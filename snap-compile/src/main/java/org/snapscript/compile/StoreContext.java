@@ -7,8 +7,8 @@ import org.snapscript.compile.assemble.ExecutorLinker;
 import org.snapscript.compile.assemble.OperationEvaluator;
 import org.snapscript.compile.validate.ExecutableValidator;
 import org.snapscript.compile.verify.ExecutableVerifier;
-import org.snapscript.core.ContextValidator;
 import org.snapscript.core.Context;
+import org.snapscript.core.ContextValidator;
 import org.snapscript.core.ExpressionEvaluator;
 import org.snapscript.core.ResourceManager;
 import org.snapscript.core.StoreManager;
@@ -26,6 +26,7 @@ import org.snapscript.core.stack.ThreadStack;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.type.TypeExtractor;
 import org.snapscript.core.type.TypeLoader;
+import org.snapscript.core.variable.ConstantTable;
 
 public class StoreContext implements Context {
 
@@ -45,6 +46,7 @@ public class StoreContext implements Context {
    private final ErrorHandler handler;
    private final ProxyWrapper wrapper;
    private final PackageLinker linker;
+   private final ConstantTable table;
    private final ThreadStack stack;
    private final TypeLoader loader; 
    
@@ -71,6 +73,12 @@ public class StoreContext implements Context {
       this.evaluator = new OperationEvaluator(this, verifier, executor);
       this.provider = new PlatformProvider(extractor, wrapper, stack);
       this.binder = new FunctionBinder(resolver, handler);
+      this.table = new ConstantTable(loader);
+   }
+   
+   @Override
+   public ConstantTable getTable(){
+      return table;
    }
    
    @Override

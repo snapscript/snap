@@ -1,6 +1,5 @@
 package org.snapscript.core.variable;
 
-import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 
 public class DataMapper {
@@ -12,19 +11,22 @@ public class DataMapper {
    private static class ValueData implements Data {
       
       private final Value value;
+      private Type type;
       
       public ValueData(Value value) {
          this.value = value;
       }
 
       @Override
-      public Type getType(Scope scope) {
-         Object object = value.getValue();
-         
-         if(object != null) {
-            return scope.getModule().getContext().getExtractor().getType(object);
+      public Type getType() {
+         if(type == null) {
+            Object object = value.getValue();
+            
+            if(object != null) {
+               type = value.getSource().getScope().getModule().getContext().getExtractor().getType(object);
+            }
          }
-         return null;
+         return type;
       }
 
       @Override

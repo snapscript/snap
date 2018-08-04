@@ -24,6 +24,7 @@ import org.snapscript.core.stack.ThreadStack;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.type.TypeExtractor;
 import org.snapscript.core.type.TypeLoader;
+import org.snapscript.core.variable.ConstantTable;
 
 public class MockContext implements Context {
    
@@ -40,6 +41,7 @@ public class MockContext implements Context {
    private final PackageLinker linker;
    private final ErrorHandler handler;
    private final FunctionBinder table;
+   private final ConstantTable constants;
    private final Store store;
    
    public MockContext(){
@@ -57,7 +59,13 @@ public class MockContext implements Context {
       this.matcher = new ConstraintMatcher(loader, wrapper);
       this.handler = new ErrorHandler(extractor, stack);
       this.table = new FunctionBinder(resolver, handler);
+      this.constants = new ConstantTable(loader);
    }
+   
+   @Override
+   public ConstantTable getTable(){
+      return constants;
+   } 
 
    @Override
    public ThreadStack getStack() {
