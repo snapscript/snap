@@ -5,7 +5,10 @@ import org.snapscript.core.Evaluation;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.scope.Scope;
+import org.snapscript.core.variable.Data;
+import org.snapscript.core.variable.DataMapper;
 import org.snapscript.core.variable.Value;
+import org.snapscript.core.variable.ValueData;
 
 public abstract class Literal extends Evaluation {   
    
@@ -37,12 +40,12 @@ public abstract class Literal extends Evaluation {
       
       private final Constraint constraint;
       private final Entity source;
-      private final Object value;
+      private final Data value;
       
       public LiteralValue(Object value, Entity source, Constraint constraint) {
+         this.value = new ValueData(value, source);
          this.constraint = constraint;
-         this.source = source;
-         this.value = value;       
+         this.source = source;     
       }
       
       @Override
@@ -56,13 +59,18 @@ public abstract class Literal extends Evaluation {
       }
       
       @Override
+      public Data getData() {
+         return value;
+      }   
+      
+      @Override
       public Constraint getConstraint() {
          return constraint;
       }     
       
       @Override
       public <T> T getValue() {
-         return (T)value;
+         return value.getValue();
       }
       
       @Override

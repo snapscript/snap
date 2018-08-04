@@ -5,7 +5,7 @@ import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.type.Type;
 
-public class PrimitiveValue extends Value {   
+public class PrimitiveValue extends Value implements Data {   
 
    private final Constraint constraint;
    private final Object value;
@@ -26,6 +26,11 @@ public class PrimitiveValue extends Value {
    public Entity getSource() {
       return type;
    }
+   
+   @Override
+   public Data getData() {
+      return this;
+   }   
    
    @Override
    public Constraint getConstraint() {

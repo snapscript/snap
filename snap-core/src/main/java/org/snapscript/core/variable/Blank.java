@@ -8,13 +8,13 @@ import org.snapscript.core.error.InternalStateException;
 
 public class Blank extends Value {
    
-   private final AtomicReference<Object> reference;
-   private final Constraint constraint;
-   private final Entity source;
-   private final int modifiers;
+   private Constraint constraint;
+   private Entity source;
+   private Data value;
+   private int modifiers;
    
-   public Blank(Object value, Entity source, Constraint constraint, int modifiers) {
-      this.reference = new AtomicReference<Object>(value);
+   public Blank(Object object, Entity source, Constraint constraint, int modifiers) {
+      this.value = new ValueData(object, source);
       this.constraint = constraint;
       this.modifiers = modifiers;
       this.source = source;
@@ -22,7 +22,7 @@ public class Blank extends Value {
    
    @Override
    public boolean isConstant() {
-      return reference.get() != null;
+      return value.getValue() != null;
    }
    
    @Override
@@ -36,6 +36,11 @@ public class Blank extends Value {
    }
    
    @Override
+   public Data getData() {
+      return value;
+   }   
+   
+   @Override
    public Entity getSource() {
       return source;
    }
@@ -47,18 +52,19 @@ public class Blank extends Value {
    
    @Override
    public <T> T getValue() {
-      return (T)reference.get();
+      return value.getValue();
    }
    
    @Override
    public void setValue(Object value){
-      if(!reference.compareAndSet(null, value)) {
+      if(this.value.getValue()!=null) {
          throw new InternalStateException("Illegal modification of constant");
       }
+      this.value = new ValueData(value, source);
    } 
    
    @Override
    public String toString() {
-      return String.valueOf(reference);
+      return String.valueOf(value);
    }
 }

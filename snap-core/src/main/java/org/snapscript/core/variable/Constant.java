@@ -28,7 +28,7 @@ public class Constant extends Value {
    
    private final Constraint constraint;
    private final Entity source;
-   private final Object value;
+   private final Data value;
    private final int modifiers;
    
    public Constant(Object value, Entity source) {
@@ -43,10 +43,10 @@ public class Constant extends Value {
       if(source == null){
          throw new IllegalStateException();
       }
+      this.value = new ValueData(value, source);
       this.constraint = constraint;
       this.modifiers = modifiers;
-      this.source = source;
-      this.value = value;
+      this.source = source;     
    }
    
    @Override
@@ -65,6 +65,11 @@ public class Constant extends Value {
    }
    
    @Override
+   public Data getData() {
+      return value;
+   }   
+   
+   @Override
    public Entity getSource() {
       return source;
    }
@@ -76,7 +81,7 @@ public class Constant extends Value {
    
    @Override
    public <T> T getValue() {
-      return (T)value;
+      return value.getValue();
    }
    
    @Override

@@ -9,25 +9,25 @@ public class Reference extends Value {
    
    private Constraint constraint;
    private Entity source;
-   private Object value;
+   private Data value;
    private int modifiers;
    
-   public Reference(Object value, Entity source) {
-      this(value, source, NONE);
+   public Reference(Object object, Entity source) {
+      this(object, source, NONE);
    }
    
-   public Reference(Object value, Entity source, Constraint constraint) {
-      this(value, source, constraint, -1);
+   public Reference(Object object, Entity source, Constraint constraint) {
+      this(object, source, constraint, -1);
    }
    
-   public Reference(Object value, Entity source, Constraint constraint, int modifiers) {
+   public Reference(Object object, Entity source, Constraint constraint, int modifiers) {
       if(source == null){
          throw new IllegalStateException();
       }
+      this.value = new ValueData(object, source);
       this.constraint = constraint; 
       this.modifiers = modifiers;
       this.source = source;
-      this.value = value;
    }
    
    @Override
@@ -41,6 +41,11 @@ public class Reference extends Value {
    }
    
    @Override
+   public Data getData() {
+      return value;
+   }   
+   
+   @Override
    public Entity getSource(){
       return source;
    }
@@ -52,12 +57,12 @@ public class Reference extends Value {
    
    @Override
    public <T> T getValue() {
-      return (T)value;
+      return value.getValue();
    }
 
    @Override
    public void setValue(Object value) {
-      this.value = value;
+      this.value = new ValueData(value, source);
    }
    
    @Override

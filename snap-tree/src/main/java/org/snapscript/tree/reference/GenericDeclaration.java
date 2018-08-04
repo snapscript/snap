@@ -19,6 +19,8 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.type.Type;
+import org.snapscript.core.variable.Data;
+import org.snapscript.core.variable.DataMapper;
 import org.snapscript.core.variable.Value;
 import org.snapscript.tree.constraint.TypeConstraint;
 
@@ -111,6 +113,11 @@ public class GenericDeclaration {
       public boolean isConstant() {
          return true;
       }
+      
+      @Override
+      public Data getData() {
+         return DataMapper.toData(this);
+      }   
       
       @Override
       public Entity getSource() {

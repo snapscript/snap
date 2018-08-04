@@ -10,6 +10,11 @@ public class Null extends Value {
    }
    
    @Override
+   public Data getData() {
+      return DataMapper.toData(this);
+   }   
+   
+   @Override
    public Entity getSource() {
       return null;
    }

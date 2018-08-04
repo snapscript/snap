@@ -9,6 +9,8 @@ import org.snapscript.core.constraint.ConstraintDescription;
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
+import org.snapscript.core.variable.Data;
+import org.snapscript.core.variable.DataMapper;
 import org.snapscript.core.variable.Value;
 
 public abstract class ConstraintReference extends Evaluation {
@@ -53,6 +55,11 @@ public abstract class ConstraintReference extends Evaluation {
       public Entity getSource() {
          return source;
       }  
+      
+      @Override
+      public Data getData() {
+         return DataMapper.toData(this);
+      }   
       
       @Override
       public Constraint getConstraint() {

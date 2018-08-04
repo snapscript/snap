@@ -4,8 +4,9 @@ import java.util.List;
 
 import org.snapscript.core.Entity;
 import org.snapscript.core.convert.proxy.ProxyWrapper;
+import org.snapscript.core.type.Type;
 
-public class ListValue extends Value {
+public class ListValue extends Value implements Data {
    
    private final ProxyWrapper wrapper;
    private final Entity source;
@@ -26,6 +27,16 @@ public class ListValue extends Value {
    public Entity getSource() {
       return source;
    }
+   
+   @Override
+   public Type getType() {         
+      return source.getScope().getModule().getContext().getExtractor().getType(getValue());
+   }
+
+   @Override
+   public Data getData() {
+      return this;
+   }  
    
    @Override
    public Object getValue(){

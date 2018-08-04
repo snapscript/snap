@@ -2,9 +2,11 @@ package org.snapscript.core.property;
 
 import org.snapscript.core.Entity;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.type.Type;
+import org.snapscript.core.variable.Data;
 import org.snapscript.core.variable.Value;
 
-public class PropertyValue extends Value {
+public class PropertyValue extends Value implements Data {
 
    private final Property property;
    private final Object object;   
@@ -25,6 +27,16 @@ public class PropertyValue extends Value {
    public Entity getSource() {
       return property.getSource();
    }
+   
+   @Override
+   public Type getType() {         
+      return property.getSource().getScope().getModule().getContext().getExtractor().getType(getValue());
+   }
+
+   @Override
+   public Data getData() {
+      return this;
+   }  
    
    @Override
    public Constraint getConstraint() {

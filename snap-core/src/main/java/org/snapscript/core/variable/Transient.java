@@ -10,7 +10,7 @@ public class Transient extends Value {
    
    private final Constraint constraint;
    private final Entity source;
-   private final Object object;
+   private final Data value;
    
    public Transient(Object object, Entity source) {
       this(object, source, NONE);
@@ -20,9 +20,9 @@ public class Transient extends Value {
       if(source == null){
          throw new IllegalStateException();
       }
+      this.value = new ValueData(object, source);
       this.constraint = constraint;
       this.source = source;
-      this.object = object;
    }
    
    @Override
@@ -31,13 +31,18 @@ public class Transient extends Value {
    }
    
    @Override
+   public Data getData() {
+      return value;
+   }   
+   
+   @Override
    public Constraint getConstraint(){
       return constraint;
    }
    
    @Override
    public <T> T getValue(){
-      return (T)object;
+      return value.getValue();
    }
    
    @Override
@@ -47,6 +52,6 @@ public class Transient extends Value {
    
    @Override
    public String toString() {
-      return String.valueOf(object);
+      return String.valueOf(value);
    }
 }

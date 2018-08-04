@@ -5,25 +5,27 @@ import static org.snapscript.core.constraint.Constraint.NONE;
 import org.snapscript.core.Entity;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.variable.Data;
+import org.snapscript.core.variable.ValueData;
 
 public class LocalConstant extends Local {
 
    private final Constraint constraint;
    private final Entity source;
-   private final Object value;
+   private final Data value;
    private final String name;
    
-   public LocalConstant(Object value, Entity source, String name) {
-      this(value, source, name, NONE);
+   public LocalConstant(Object object, Entity source, String name) {
+      this(object, source, name, NONE);
    }
 
-   public LocalConstant(Object value, Entity source, String name, Constraint constraint) {
+   public LocalConstant(Object object, Entity source, String name, Constraint constraint) {
       if(source == null){
          throw new IllegalStateException();
       }
+      this.value = new ValueData(object, source);
       this.constraint = constraint;
       this.source = source;
-      this.value = value;
       this.name = name;
    }
    
@@ -31,6 +33,11 @@ public class LocalConstant extends Local {
    public boolean isConstant(){
       return true;
    }
+   
+   @Override
+   public Data getData() {
+      return value;
+   }   
    
    @Override
    public Entity getSource() {
@@ -49,7 +56,7 @@ public class LocalConstant extends Local {
    
    @Override
    public <T> T getValue() {
-      return (T)value;
+      return value.getValue();
    }
    
    @Override
