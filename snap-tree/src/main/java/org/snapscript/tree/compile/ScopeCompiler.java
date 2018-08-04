@@ -46,12 +46,13 @@ public abstract class ScopeCompiler {
 
    protected Value compileProperty(Scope scope, Property property) {
       Constraint constraint = property.getConstraint();
+      Module module = scope.getModule();
       Type result = constraint.getType(scope);
 
       if(constraint.isConstant()) {
-         return Value.getConstant(property, constraint);  
+         return Value.getConstant(property, module, constraint);  
       }
-      return Local.getReference(property, constraint);      
+      return Local.getReference(property, module, constraint);      
    }
    
    protected void compileParameters(Scope scope, Function function) {
@@ -73,15 +74,16 @@ public abstract class ScopeCompiler {
    
    protected Local compileParameter(Scope scope, Parameter parameter) {
       String name = parameter.getName();
+      Module module = scope.getModule();
       Constraint constraint = parameter.getConstraint();
       
       if(parameter.isVariable()) {
          constraint = compileArray(scope, constraint);
       }
       if(parameter.isConstant()) {
-         return Local.getConstant(parameter, name, constraint);  
+         return Local.getConstant(parameter, module, name, constraint);  
       }
-      return Local.getReference(parameter, name, constraint);      
+      return Local.getReference(parameter, module, name, constraint);      
    }
    
    protected Constraint compileArray(Scope scope, Constraint constraint) {

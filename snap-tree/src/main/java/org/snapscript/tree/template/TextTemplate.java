@@ -1,6 +1,6 @@
 package org.snapscript.tree.template;
 
-import static org.snapscript.core.constraint.Constraint.STRING;
+import static org.snapscript.core.variable.Constant.STRING;
 
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -77,7 +77,9 @@ public class TextTemplate implements Compilation {
             }
          }
          String result = writer.toString();
-         return Value.getTransient(result);
+         Module module = scope.getModule();
+         
+         return Value.getTransient(result, module, STRING);
       }
    }
 

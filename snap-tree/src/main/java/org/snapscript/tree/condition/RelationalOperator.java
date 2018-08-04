@@ -2,8 +2,8 @@ package org.snapscript.tree.condition;
 
 import org.snapscript.core.convert.InstanceOfChecker;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.variable.BooleanValue;
 import org.snapscript.core.variable.Value;
+import org.snapscript.core.variable.ValueCache;
 import org.snapscript.parse.StringToken;
 
 public enum RelationalOperator {
@@ -14,9 +14,9 @@ public enum RelationalOperator {
          Object second = right.getValue();
          
          if(first == second) {
-            return BooleanValue.TRUE;
+            return ValueCache.getBoolean(scope, true);
          }
-         return BooleanValue.FALSE;
+         return ValueCache.getBoolean(scope, false);
       }      
    },   
    NOT_SAME("!=="){
@@ -26,9 +26,9 @@ public enum RelationalOperator {
          Object second = right.getValue();
          
          if(first != second) {
-            return BooleanValue.TRUE;
+            return ValueCache.getBoolean(scope, true);
          }
-         return BooleanValue.FALSE;
+         return ValueCache.getBoolean(scope, false);
       }      
    },   
    EQUALS("=="){
@@ -37,9 +37,9 @@ public enum RelationalOperator {
          ValueComparator comparator = ValueComparator.resolveComparator(left, right);
          
          if(comparator.compare(left, right) == 0){
-            return BooleanValue.TRUE;
+            return ValueCache.getBoolean(scope, true);
          }
-         return BooleanValue.FALSE;
+         return ValueCache.getBoolean(scope, false);
       }      
    },  
    NOT_EQUALS("!="){
@@ -48,9 +48,9 @@ public enum RelationalOperator {
          ValueComparator comparator = ValueComparator.resolveComparator(left, right);
          
          if(comparator.compare(left, right) != 0){
-            return BooleanValue.TRUE;
+            return ValueCache.getBoolean(scope, true);
          }
-         return BooleanValue.FALSE;
+         return ValueCache.getBoolean(scope, false);
       }      
    },  
    GREATER(">"){
@@ -59,9 +59,9 @@ public enum RelationalOperator {
          ValueComparator comparator = ValueComparator.resolveComparator(left, right);
          
          if(comparator.compare(left, right) > 0){
-            return BooleanValue.TRUE;
+            return ValueCache.getBoolean(scope, true);
          }
-         return BooleanValue.FALSE;
+         return ValueCache.getBoolean(scope, false);
       }      
    },  
    GREATER_OR_EQUALS(">="){
@@ -70,9 +70,9 @@ public enum RelationalOperator {
          ValueComparator comparator = ValueComparator.resolveComparator(left, right);
          
          if(comparator.compare(left, right) >= 0){
-            return BooleanValue.TRUE;
+            return ValueCache.getBoolean(scope, true);
          }
-         return BooleanValue.FALSE;
+         return ValueCache.getBoolean(scope, false);
       }      
    }, 
    LESS("<"){
@@ -81,9 +81,9 @@ public enum RelationalOperator {
          ValueComparator comparator = ValueComparator.resolveComparator(left, right);
          
          if(comparator.compare(left, right) < 0){
-            return BooleanValue.TRUE;
+            return ValueCache.getBoolean(scope, true);
          }
-         return BooleanValue.FALSE;
+         return ValueCache.getBoolean(scope, false);
       }      
    }, 
    LESS_OR_EQUALS("<="){
@@ -92,9 +92,9 @@ public enum RelationalOperator {
          ValueComparator comparator = ValueComparator.resolveComparator(left, right);
          
          if(comparator.compare(left, right) <= 0){
-            return BooleanValue.TRUE;
+            return ValueCache.getBoolean(scope, true);
          }
-         return BooleanValue.FALSE;
+         return ValueCache.getBoolean(scope, false);
       }      
    },
    INSTANCE_OF("instanceof"){
@@ -104,9 +104,9 @@ public enum RelationalOperator {
          Object second = right.getValue();
          
          if(checker.isInstanceOf(scope, first, second)){
-            return BooleanValue.TRUE;
+            return ValueCache.getBoolean(scope, true);
          }
-         return BooleanValue.FALSE;
+         return ValueCache.getBoolean(scope, false);
       }      
    },
    NOT_INSTANCE_OF("!instanceof"){
@@ -116,9 +116,9 @@ public enum RelationalOperator {
          Object second = right.getValue();
          
          if(!checker.isInstanceOf(scope, first, second)){
-            return BooleanValue.TRUE;
+            return ValueCache.getBoolean(scope, true);
          }
-         return BooleanValue.FALSE;
+         return ValueCache.getBoolean(scope, false);
       }      
    };
    

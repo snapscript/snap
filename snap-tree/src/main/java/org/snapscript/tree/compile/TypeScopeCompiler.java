@@ -21,7 +21,7 @@ public class TypeScopeCompiler extends ScopeCompiler{
       Scope inner = outer.getStack();
       State state = inner.getState();
       Constraint constraint = Constraint.getConstraint(type);
-      Value value = Value.getConstant(scope, constraint);
+      Value value = Value.getConstant(scope, type, constraint);
       
       compileParameters(inner, function);
       compileProperties(inner, type);

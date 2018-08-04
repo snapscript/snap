@@ -71,7 +71,7 @@ public class ConstructMap implements Compilation {
          if(list != null) {
             return list.evaluate(scope, left);
          }
-         return Value.getTransient(map);
+         return Value.getTransient(map, scope.getModule());
       }
    }
 }

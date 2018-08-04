@@ -17,7 +17,7 @@ public class PrefixDecrement extends NumericOperation {
       Value reference = evaluation.evaluate(scope, left);
       Number number = reference.getNumber();
       NumericConverter converter = NumericConverter.resolveConverter(number);
-      Value value = converter.decrement(number);
+      Value value = converter.decrement(scope, number);
       Number result = value.getNumber();
       
       reference.setValue(result);

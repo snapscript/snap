@@ -6,6 +6,7 @@ import org.snapscript.core.Context;
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.resolve.FunctionCall;
 import org.snapscript.core.function.resolve.FunctionResolver;
+import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.variable.Value;
 
@@ -26,9 +27,11 @@ public class ScopeProxyHandler implements ProxyHandler {
    @Override
    public Object invoke(Object proxy, Method method, Object[] arguments) throws Throwable {
       String name = method.getName();
+      Module module = scope.getModule();
+      Value target = Value.getTransient(scope, module);
       FunctionResolver resolver = context.getResolver();  
       Object[] convert = extractor.extract(arguments);
-      FunctionCall call = resolver.resolveInstance(scope, scope, name, convert); // here arguments can be null!!!
+      FunctionCall call = resolver.resolveInstance(scope, target, name, convert); // here arguments can be null!!!
       
       if(call == null) {
          throw new InternalStateException("Method '" + name + "' not found");

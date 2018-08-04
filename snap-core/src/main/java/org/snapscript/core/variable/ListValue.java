@@ -2,23 +2,29 @@ package org.snapscript.core.variable;
 
 import java.util.List;
 
+import org.snapscript.core.Entity;
 import org.snapscript.core.convert.proxy.ProxyWrapper;
 
 public class ListValue extends Value {
    
    private final ProxyWrapper wrapper;
+   private final Entity source;
    private final Integer index;
    private final List list;
    
-   public ListValue(ProxyWrapper wrapper, List list, int index) {
+   public ListValue(ProxyWrapper wrapper, List list, Entity source, int index) {
+      if(source == null){
+         throw new IllegalStateException();
+      }
       this.wrapper = wrapper;
+      this.source = source;
       this.index = index;
       this.list = list;
    }
    
    @Override
-   public Class getType() {
-      return Object.class;
+   public Entity getSource() {
+      return source;
    }
    
    @Override

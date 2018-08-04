@@ -43,7 +43,7 @@ public class EnumInstance extends StaticBlock {
       Value result = call.call();
       Instance instance = result.getValue();
       Object object = wrapper.toProxy(instance);
-      Value value = Value.getConstant(instance);      
+      Value value = Value.getConstant(instance, type);      
       Value values = state.get(ENUM_VALUES);
       List list = values.getValue();
       

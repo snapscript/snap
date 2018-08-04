@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.Context;
 import org.snapscript.core.convert.proxy.ProxyWrapper;
 import org.snapscript.core.module.Module;
@@ -97,11 +98,13 @@ public class VariableFinder {
       return null;
    }
    
+   @Bug
    public VariableResult findProperty(Scope scope, Map left, String name) {
       VariableResult property = findProperty(scope, (Object)left, name);
    
       if(property == null) {
-         return new MapResult(wrapper, NONE, name);
+         Module module = scope.getModule();
+         return new MapResult(wrapper, module, NONE, name);
       }
       return property;
    }

@@ -31,7 +31,7 @@ public class ArrayReference extends ConstraintReference {
          String name = entry.getName();         
          Type array = loader.loadArrayType(prefix, name, bounds.length);
          Constraint constraint = Constraint.getConstraint(array);
-         Value reference = Value.getReference(array);
+         Value reference = Value.getReference(array, array, constraint);
          
          return new ConstraintValue(constraint, reference, array);
       } catch(Exception e) {

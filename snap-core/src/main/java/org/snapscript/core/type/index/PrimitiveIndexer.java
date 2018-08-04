@@ -92,7 +92,7 @@ public class PrimitiveIndexer{
          Constraint constraint = Constraint.getConstraint(real);
          Instance instance = constructor.create(scope, real);
          State state = instance.getState();
-         Value value = Value.getProperty(object, constraint, PUBLIC.mask | CONSTANT.mask); // this needs to be a blank
+         Value value = Value.getProperty(object, real, constraint, PUBLIC.mask | CONSTANT.mask); // this needs to be a blank
          
          state.add(TYPE_THIS, value); // reference to 'this'
          

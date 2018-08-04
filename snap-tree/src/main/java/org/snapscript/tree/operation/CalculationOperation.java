@@ -5,6 +5,7 @@ import static org.snapscript.core.variable.Value.NULL;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.StringBuilder;
+import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.variable.Value;
 import org.snapscript.tree.math.NumericChecker;
@@ -48,10 +49,11 @@ public class CalculationOperation extends Evaluation {
             String leftText = StringBuilder.create(scope, leftValue);
             String rightText = StringBuilder.create(scope, rightValue);            
             String text = leftText.concat(rightText);
+            Module module = scope.getModule();
             
-            return Value.getTransient(text);
+            return Value.getTransient(text, module);
          }
       }
-      return operator.operate(leftResult, rightResult);
+      return operator.operate(scope, leftResult, rightResult);
    }
 }

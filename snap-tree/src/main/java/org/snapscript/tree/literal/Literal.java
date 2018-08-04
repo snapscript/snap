@@ -1,5 +1,6 @@
 package org.snapscript.tree.literal;
 
+import org.snapscript.core.Entity;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.InternalStateException;
@@ -35,10 +36,12 @@ public abstract class Literal extends Evaluation {
    protected static class LiteralValue extends Value {
       
       private final Constraint constraint;
+      private final Entity source;
       private final Object value;
       
-      public LiteralValue(Object value, Constraint constraint) {
+      public LiteralValue(Object value, Entity source, Constraint constraint) {
          this.constraint = constraint;
+         this.source = source;
          this.value = value;       
       }
       
@@ -46,6 +49,11 @@ public abstract class Literal extends Evaluation {
       public boolean isConstant() {
          return true;
       }   
+      
+      @Override
+      public Entity getSource() {
+         return source;
+      }
       
       @Override
       public Constraint getConstraint() {

@@ -1,5 +1,7 @@
 package org.snapscript.core;
 
+import static org.snapscript.core.constraint.Constraint.MAP;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,6 +32,7 @@ import org.snapscript.core.stack.ThreadStack;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.type.TypeExtractor;
 import org.snapscript.core.type.TypeLoader;
+import org.snapscript.core.variable.Value;
 
 public class FunctionBinderTest extends TestCase {
    
@@ -43,30 +46,30 @@ public class FunctionBinderTest extends TestCase {
       Module module = new ContextModule(context, null, path, Reserved.DEFAULT_PACKAGE, "");
       Scope scope = new ModelScope(model, module);
       
-      context.getResolver().resolveInstance(scope, map, "put", "x", 11).call();
-      context.getResolver().resolveInstance(scope, map, "put", "y", 21).call();
-      context.getResolver().resolveInstance(scope, map, "put", "z", 441).call();
+      context.getResolver().resolveInstance(scope, Value.getTransient(map, module, MAP), "put", "x", 11).call();
+      context.getResolver().resolveInstance(scope, Value.getTransient(map, module, MAP), "put", "y", 21).call();
+      context.getResolver().resolveInstance(scope, Value.getTransient(map, module, MAP), "put", "z", 441).call();
       
       assertEquals(map.get("x"), 11);
       assertEquals(map.get("y"), 21);
       assertEquals(map.get("z"), 441);
       
-      context.getResolver().resolveInstance(scope, map, "put", "x", 22).call();
-      context.getResolver().resolveInstance(scope, map, "remove", "y").call();
-      context.getResolver().resolveInstance(scope, map, "put", "z", "x").call();
+      context.getResolver().resolveInstance(scope, Value.getTransient(map, module, MAP), "put", "x", 22).call();
+      context.getResolver().resolveInstance(scope, Value.getTransient(map, module, MAP), "remove", "y").call();
+      context.getResolver().resolveInstance(scope, Value.getTransient(map, module, MAP), "put", "z", "x").call();
       
       assertEquals(map.get("x"), 22);
       assertEquals(map.get("y"), null);
       assertEquals(map.get("z"), "x");
       
-      assertEquals(context.getResolver().resolveInstance(scope, map, "put", "x", 44).call().getValue(), 22);
-      assertEquals(context.getResolver().resolveInstance(scope, map, "put", "y", true).call().getValue(), null);
-      assertEquals(context.getResolver().resolveInstance(scope, map, "put", "z", "x").call().getValue(), "x");
+      assertEquals(context.getResolver().resolveInstance(scope, Value.getTransient(map, module, MAP), "put", "x", 44).call().getValue(), 22);
+      assertEquals(context.getResolver().resolveInstance(scope, Value.getTransient(map, module, MAP), "put", "y", true).call().getValue(), null);
+      assertEquals(context.getResolver().resolveInstance(scope, Value.getTransient(map, module, MAP), "put", "z", "x").call().getValue(), "x");
       
       long start = System.currentTimeMillis();
       
       for(int i = 0; i < ITERATIONS; i++) {
-         context.getResolver().resolveInstance(scope, map, "put", "x", 44);
+         context.getResolver().resolveInstance(scope, Value.getTransient(map, module, MAP), "put", "x", 44);
       }
       long finish = System.currentTimeMillis();
       double milliseconds = finish - start;

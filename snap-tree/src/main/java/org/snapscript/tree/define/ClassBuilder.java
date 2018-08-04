@@ -43,7 +43,7 @@ public class ClassBuilder {
          String name = type.getName();
          String prefix = enclosing.getName();
          String key = name.replace(prefix + '$', ""); // get the class name
-         Value value = Value.getConstant(type);
+         Value value = Value.getConstant(type, enclosing);
          State state = outer.getState();
          
          builder.createStaticProperty(body, key, enclosing, NONE);

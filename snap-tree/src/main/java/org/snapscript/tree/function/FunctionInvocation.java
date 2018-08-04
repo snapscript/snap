@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
+import org.snapscript.core.Entity;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.InternalStateException;
@@ -151,7 +152,8 @@ public class FunctionInvocation implements Compilation {
             
          if(value != null) { 
             Object object = value.getValue();
-            Value constant = Constant.getConstant(value);
+            Entity source = value.getSource();
+            Value constant = Constant.getConstant(value, source);
             
             if(Function.class.isInstance(object)) {
                return evaluate(scope, name, constant);

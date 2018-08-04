@@ -1,5 +1,7 @@
 package org.snapscript.tree.reference;
 
+import org.snapscript.core.Bug;
+import org.snapscript.core.Entity;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.variable.Value;
@@ -29,14 +31,16 @@ public enum ReferenceOperator {
       } 
    },
    EXISTENTIAL("?."){
+      @Bug("efficient transfer of value")
       @Override
       public Value operate(Scope scope, Evaluation next, Value value) throws Exception {
          Object object = value.getValue();
+         Entity source = value.getSource();
          
          if(object != null) {
             return next.evaluate(scope, value);
          }
-         return Value.getTransient(object);
+         return Value.getTransient(object, source);
       }
    };   
    

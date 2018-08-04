@@ -1,22 +1,22 @@
 package org.snapscript.core.variable;
 
+import org.snapscript.core.Entity;
 import org.snapscript.core.error.InternalStateException;
 
 public class BooleanValue extends Value {   
-   
-   public static final BooleanValue TRUE = new BooleanValue(true);
-   public static final BooleanValue FALSE = new BooleanValue(false); 
 
    private final Boolean value;
+   private final Entity source;
    
-   public BooleanValue(Boolean value) {
+   public BooleanValue(Boolean value, Entity source) {
+      this.source = source;
       this.value = value;
    }
    
    @Override
-   public Class getType() {
-      return Boolean.class;
-   }     
+   public Entity getSource() {
+      return source;
+   }
    
    @Override
    public Boolean getValue(){

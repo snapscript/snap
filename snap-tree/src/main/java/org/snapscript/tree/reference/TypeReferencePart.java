@@ -81,16 +81,16 @@ public class TypeReferencePart implements Compilation {
          if(result == null) {
             throw new InternalStateException("No type found for '" + name + "' in '" + source + "'"); // class not found
          }
-         return Local.getConstant(result, name);
+         return Local.getConstant(result, parent, name);
       }
       
       private Value create(Scope scope, Module module) throws Exception {
-         Object result = module.getType(name);
+         Type result = module.getType(name);
          
          if(result == null) {
             throw new InternalStateException("No type found for '" + name + "' in '" + module + "'"); // class not found
          }
-         return Local.getConstant(result, name);
+         return Local.getConstant(result, module, name);
       }
       
       private Value create(Scope scope, Type type) throws Exception {
@@ -101,7 +101,7 @@ public class TypeReferencePart implements Compilation {
          if(result == null) {
             throw new InternalStateException("No type found for '" + parent + "." + name + "' in '" + module + "'"); // class not found
          }
-         return Local.getConstant(result, parent + "$"+name);
+         return Local.getConstant(result, module, parent + "$"+name);
       }
    }
 }

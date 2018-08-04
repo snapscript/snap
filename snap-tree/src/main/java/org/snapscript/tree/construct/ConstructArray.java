@@ -87,14 +87,14 @@ public class ConstructArray implements Compilation {
                int size = dimensions[0];   
                Object array = builder.create(entry, size);
                
-               return Value.getTransient(array);
+               return Value.getTransient(array, type);
             }
             if(arguments.length == 2) {
                int first = dimensions[0]; 
                int second = dimensions[1];
                Object array = builder.create(entry, first, second);
                
-               return Value.getTransient(array);
+               return Value.getTransient(array, type);
             }
             if(arguments.length == 3) {
                int first = dimensions[0]; 
@@ -102,12 +102,12 @@ public class ConstructArray implements Compilation {
                int third = dimensions[2];
                Object array = builder.create(entry, first, second, third);
                
-               return Value.getTransient(array);
+               return Value.getTransient(array, type);
             }
             throw new InternalArgumentException("Maximum of three dimensions exceeded");
          }
          Object array = builder.create(entry, 0);
-         return Value.getTransient(array);
+         return Value.getTransient(array, type);
       }
    }
 }

@@ -113,6 +113,11 @@ public class GenericDeclaration {
       }
       
       @Override
+      public Entity getSource() {
+         return scope.getModule();
+      }
+      
+      @Override
       public Constraint getConstraint() {
          return constraint;
       }

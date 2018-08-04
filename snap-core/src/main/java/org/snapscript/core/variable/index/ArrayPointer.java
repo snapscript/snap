@@ -8,6 +8,7 @@ import static org.snapscript.core.constraint.Constraint.TYPE;
 import java.lang.reflect.Array;
 
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.variable.Value;
 import org.snapscript.core.variable.bind.VariableFinder;
@@ -36,8 +37,10 @@ public class ArrayPointer implements VariablePointer<Object> {
    @Override
    public Value getValue(Scope scope, Object left) {
       if(name.equals(PROPERTY_LENGTH)) {
+         Module module = scope.getModule();
          int length = Array.getLength(left);
-         return Value.getConstant(length);
+         
+         return Value.getConstant(length, module);
       }
       return pointer.getValue(scope, left);
    }

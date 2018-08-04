@@ -1,5 +1,7 @@
 package org.snapscript.core.function.dispatch;
 
+import static org.snapscript.core.constraint.Constraint.LIST;
+import static org.snapscript.core.constraint.Constraint.MAP;
 import static org.snapscript.core.constraint.Constraint.NONE;
 import static org.snapscript.core.error.Reason.INVOKE;
 
@@ -42,7 +44,7 @@ public class MapDispatcher implements FunctionDispatcher {
    @Override
    public Value dispatch(Scope scope, Value value, Object... arguments) throws Exception {
       Map map = value.getValue();
-      FunctionCall call = bind(scope, map, arguments);
+      FunctionCall call = bind(scope, value, arguments);
       
       if(call == null) {
          handler.handleRuntimeError(INVOKE, scope, map, name, arguments);
@@ -50,20 +52,21 @@ public class MapDispatcher implements FunctionDispatcher {
       return call.call();
    }
    
-   private FunctionCall bind(Scope scope, Map map, Object... arguments) throws Exception {
+   private FunctionCall bind(Scope scope, Value value, Object... arguments) throws Exception {
       Module module = scope.getModule();
-      FunctionCall local = resolver.resolveInstance(scope, map, name, arguments);
+      FunctionCall local = resolver.resolveInstance(scope, value, name, arguments);
       
       if(local == null) {
-         Object value = map.get(name);
+         Map map = value.getValue();
+         Object object = map.get(name);
          
-         if(value != null) {
+         if(object != null) {
             Context context = module.getContext();
             ProxyWrapper wrapper = context.getWrapper();
-            Object function = wrapper.fromProxy(value);
-            Value reference = Value.getTransient(function);
+            Object function = wrapper.fromProxy(object);
+            Value reference = Value.getTransient(function, module);
             
-            return resolver.resolveValue(reference, arguments);
+            return resolver.resolveValue(scope, reference, arguments);
          }
       }
       return local;

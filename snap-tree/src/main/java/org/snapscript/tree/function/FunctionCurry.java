@@ -50,7 +50,7 @@ public class FunctionCurry implements Compilation {
       @Override
       public Value evaluate(Scope scope, Value left) throws Exception {         
          Object[] array = arguments.create(scope); 
-         FunctionCall call = resolver.resolveValue(left, array);
+         FunctionCall call = resolver.resolveValue(scope, left, array);
          int width = array.length;
          
          if(call == null) {

@@ -2,12 +2,13 @@ package org.snapscript.tree;
 
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.ModifierType;
+import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.constraint.DeclarationConstraint;
+import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.index.Local;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
-import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.constraint.DeclarationConstraint;
 
 public class DeclarationAllocator {
 
@@ -57,16 +58,20 @@ public class DeclarationAllocator {
    }   
    
    protected <T extends Value> T declare(Scope scope, String name, Constraint type, int modifiers) throws Exception {
+      Module module = scope.getModule();
+      
       if(ModifierType.isConstant(modifiers)) {
-         return (T)Local.getConstant(null, name, type);
+         return (T)Local.getConstant(null, module, name, type);
       }
-      return (T)Local.getReference(null, name, type);
+      return (T)Local.getReference(null, module, name, type);
    }
    
    protected <T extends Value> T assign(Scope scope, String name, Object value, Constraint type, int modifiers) throws Exception {
+      Module module = scope.getModule();
+      
       if(ModifierType.isConstant(modifiers)) {
-         return (T)Local.getConstant(value, name, type);
+         return (T)Local.getConstant(value, module, name, type);
       }
-      return (T)Local.getReference(value, name, type);
+      return (T)Local.getReference(value, module, name, type);
    }
 }

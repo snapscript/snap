@@ -1,18 +1,19 @@
 package org.snapscript.tree.math;
 
+import org.snapscript.core.scope.Scope;
 import org.snapscript.core.variable.Value;
 
 public interface NumericCalculator {
-   Value power(Number left, Number right);
-   Value add(Number left, Number right);
-   Value subtract(Number left, Number right);
-   Value divide(Number left, Number right);
-   Value multiply(Number left, Number right);
-   Value modulus(Number left, Number right);
-   Value shiftLeft(Number left, Number right);
-   Value shiftRight(Number left, Number right);
-   Value unsignedShiftRight(Number left, Number right);
-   Value and(Number left, Number right);
-   Value or(Number left, Number right);
-   Value xor(Number left, Number right);
+   Value power(Scope scope, Number left, Number right);
+   Value add(Scope scope, Number left, Number right);
+   Value subtract(Scope scope, Number left, Number right);
+   Value divide(Scope scope, Number left, Number right);
+   Value multiply(Scope scope, Number left, Number right);
+   Value modulus(Scope scope, Number left, Number right);
+   Value shiftLeft(Scope scope, Number left, Number right);
+   Value shiftRight(Scope scope, Number left, Number right);
+   Value unsignedShiftRight(Scope scope, Number left, Number right);
+   Value and(Scope scope, Number left, Number right);
+   Value or(Scope scope, Number left, Number right);
+   Value xor(Scope scope, Number left, Number right);
 }

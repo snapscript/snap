@@ -6,6 +6,7 @@ import static org.snapscript.core.constraint.Constraint.INTEGER;
 import java.util.Collection;
 
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.variable.Value;
 import org.snapscript.core.variable.bind.VariableFinder;
@@ -31,8 +32,10 @@ public class CollectionPointer implements VariablePointer<Collection> {
    @Override
    public Value getValue(Scope scope, Collection left) {
       if(name.equals(PROPERTY_LENGTH)) {
+         Module module = scope.getModule();
          int length = left.size();
-         return Value.getConstant(length);
+         
+         return Value.getConstant(length, module);
       }
       return pointer.getValue(scope, left);
    }

@@ -22,7 +22,7 @@ public class ClassPropertyGenerator {
 
    public void generate(TypeBody body, Scope scope, Type type) throws Exception {
       Constraint constraint = Constraint.getConstraint(type, CONSTANT.mask);
-      Value value = Value.getConstant(type, TYPE);
+      Value value = Value.getConstant(type, type, TYPE);
       Scope outer = type.getScope();
       State state = outer.getState();
       

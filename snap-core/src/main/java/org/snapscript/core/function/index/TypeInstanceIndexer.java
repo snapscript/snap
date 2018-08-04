@@ -2,6 +2,7 @@ package org.snapscript.core.function.index;
 
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeExtractor;
+import org.snapscript.core.variable.Value;
 
 public class TypeInstanceIndexer {
    
@@ -17,8 +18,10 @@ public class TypeInstanceIndexer {
       return indexer.index(type, name, values);
    }
    
-   public FunctionPointer index(Object value, String name, Object... values) throws Exception { 
-      Type type = extractor.getType(value);
+   public FunctionPointer index(Value value, String name, Object... values) throws Exception {
+      Object object = value.getValue();
+      Type type = extractor.getType(object);
+      
       return indexer.index(type, name, values);
    }
 }

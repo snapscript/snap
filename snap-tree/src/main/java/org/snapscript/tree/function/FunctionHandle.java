@@ -55,7 +55,7 @@ public class FunctionHandle implements Compilation {
          Module module = scope.getModule(); // is this the correct module?
          Function function = builder.create(module, left, name); 
          
-         return Value.getTransient(function);
+         return Value.getTransient(function, module);
       }
    }
 }

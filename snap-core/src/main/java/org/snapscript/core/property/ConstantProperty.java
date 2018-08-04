@@ -21,7 +21,7 @@ public class ConstantProperty implements Property<Object> {
    
    public ConstantProperty(String name, Type source, Constraint constraint, Object value, int modifiers){
       this.annotations = new ArrayList<Annotation>();
-      this.constant = new Constant(value);
+      this.constant = new Constant(value, source);
       this.constraint = constraint;
       this.modifiers = modifiers;
       this.source = source;

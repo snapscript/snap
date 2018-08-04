@@ -31,6 +31,6 @@ public class PrefixOperation extends Evaluation {
    @Override
    public Value evaluate(Scope scope, Value left) throws Exception {
       Value reference = evaluation.evaluate(scope, NULL);
-      return operator.operate(reference);
+      return operator.operate(scope, reference);
    } 
 }

@@ -1,9 +1,8 @@
 package org.snapscript.tree.operation;
 
-import static org.snapscript.core.variable.BooleanValue.FALSE;
-import static org.snapscript.core.variable.BooleanValue.TRUE;
-
+import org.snapscript.core.scope.Scope;
 import org.snapscript.core.variable.Value;
+import org.snapscript.core.variable.ValueCache;
 import org.snapscript.parse.StringToken;
 import org.snapscript.tree.condition.BooleanChecker;
 import org.snapscript.tree.math.NumericConverter;
@@ -11,41 +10,41 @@ import org.snapscript.tree.math.NumericConverter;
 public enum PrefixOperator {
    NOT("!"){
       @Override
-      public Value operate(Value right) { 
+      public Value operate(Scope scope, Value right) { 
          Object result = right.getValue();         
          boolean value = !BooleanChecker.isTrue(result);
          
-         return value ? TRUE : FALSE;
+         return ValueCache.getBoolean(scope, value);
       }      
    }, 
    COMPLEMENT("~"){
       @Override
-      public Value operate(Value right) {
+      public Value operate(Scope scope, Value right) {
          Number value = right.getNumber(); 
          NumericConverter converter = NumericConverter.resolveConverter(value);   
          long number = value.longValue();
          
-         return converter.convert(~number);
+         return converter.convert(scope, ~number);
       }      
    },
    PLUS("+"){
       @Override
-      public Value operate(Value right) {
+      public Value operate(Scope scope, Value right) {
          Number value = right.getNumber(); 
          NumericConverter converter = NumericConverter.resolveConverter(value);   
          double number = value.doubleValue();
          
-         return converter.convert(+number);
+         return converter.convert(scope, +number);
       }      
    },
    MINUS("-"){
       @Override
-      public Value operate(Value right) { 
+      public Value operate(Scope scope, Value right) { 
          Number value = right.getNumber(); 
          NumericConverter converter = NumericConverter.resolveConverter(value);   
          double number = value.doubleValue();
          
-         return converter.convert(-number);
+         return converter.convert(scope, -number);
       }      
    };
    
@@ -55,7 +54,7 @@ public enum PrefixOperator {
       this.operator = operator;
    }
    
-   public abstract Value operate(Value right);   
+   public abstract Value operate(Scope scope, Value right);   
    
    public static PrefixOperator resolveOperator(StringToken token) {
       if(token != null) {

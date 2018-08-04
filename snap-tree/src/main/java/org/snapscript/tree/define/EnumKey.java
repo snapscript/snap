@@ -1,7 +1,10 @@
 package org.snapscript.tree.define;
 
+import static org.snapscript.core.variable.Constant.STRING;
+
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 import org.snapscript.tree.literal.TextLiteral;
 
@@ -17,7 +20,8 @@ public class EnumKey extends Evaluation {
    public Value evaluate(Scope scope, Value left) throws Exception{
       Value value = literal.evaluate(scope, left);
       String name = value.getValue();
+      Type type = scope.getType();
 
-      return Value.getTransient(name);
+      return Value.getConstant(name, type, STRING);
    }  
 }

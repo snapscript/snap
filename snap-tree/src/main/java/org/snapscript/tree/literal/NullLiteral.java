@@ -19,6 +19,6 @@ public class NullLiteral extends Literal {
 
    @Override
    protected LiteralValue create(Scope scope) throws Exception {
-      return new LiteralValue(null, NONE);
+      return new LiteralValue(null, null, NONE);
    }
 }

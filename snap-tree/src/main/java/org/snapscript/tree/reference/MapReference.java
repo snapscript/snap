@@ -18,7 +18,7 @@ public class MapReference extends ConstraintReference {
    protected ConstraintValue create(Scope scope) {
       try {
          Type type = MAP.getType(scope);
-         Value reference = Value.getReference(type);
+         Value reference = Value.getReference(type, type, MAP);
          
          return new ConstraintValue(MAP, reference, type);
       } catch(Exception e) {

@@ -36,7 +36,7 @@ public class TypeInstanceDispatcher implements FunctionDispatcher {
    @Override
    public Value dispatch(Scope scope, Value value, Object... arguments) throws Exception {
       Object object = value.getValue();
-      FunctionCall call = resolver.resolveInstance(scope, object, name, arguments);
+      FunctionCall call = resolver.resolveInstance(scope, value, name, arguments);
       
       if(call == null) {
          handler.handleRuntimeError(INVOKE, scope, object, name, arguments);

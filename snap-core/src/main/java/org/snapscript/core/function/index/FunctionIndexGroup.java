@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.snapscript.common.Cache;
 import org.snapscript.common.CopyOnWriteCache;
+import org.snapscript.core.Entity;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Origin;
@@ -84,7 +85,7 @@ public class FunctionIndexGroup {
 
    public void index(FunctionPointer pointer) {
       Function function = pointer.getFunction();
-      Type source = function.getSource();
+      Entity source = function.getSource();
       Signature signature = function.getSignature();
       List<Parameter> parameters = signature.getParameters();
       

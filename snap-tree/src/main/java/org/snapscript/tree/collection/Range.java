@@ -4,6 +4,7 @@ import static org.snapscript.core.constraint.Constraint.ITERABLE;
 
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.variable.Value;
 
@@ -31,7 +32,9 @@ public class Range extends Evaluation {
    @Override
    public Value evaluate(Scope scope, Value left) throws Exception {
       Iterable<Number> range = create(scope, left);
-      return Value.getTransient(range);
+      Module module = scope.getModule();
+      
+      return Value.getTransient(range, module);
    }
    
    private Sequence create(Scope scope, Value left) throws Exception {

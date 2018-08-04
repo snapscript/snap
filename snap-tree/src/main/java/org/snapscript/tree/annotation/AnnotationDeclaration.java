@@ -4,10 +4,12 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.annotation.MapAnnotation;
 import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.variable.Value;
 import org.snapscript.tree.construct.MapEntryList;
@@ -27,6 +29,7 @@ public class AnnotationDeclaration extends Evaluation {
       this.name = name;
    }
 
+   @Bug
    @Override
    public Value evaluate(Scope scope, Value left) throws Exception {
       if(value == null) {
@@ -35,7 +38,8 @@ public class AnnotationDeclaration extends Evaluation {
          if(annotation == null) {
             throw new InternalStateException("Could not create annotation");
          }
-         value = Value.getTransient(annotation);
+         Module module = scope.getModule();
+         value = Value.getTransient(annotation, module);
       }
       return value;
    }

@@ -2,25 +2,31 @@ package org.snapscript.core.variable;
 
 import static org.snapscript.core.constraint.Constraint.NONE;
 
+import org.snapscript.core.Entity;
 import org.snapscript.core.constraint.Constraint;
 
 public class Reference extends Value {
    
    private Constraint constraint;
+   private Entity source;
    private Object value;
    private int modifiers;
    
-   public Reference(Object value) {
-      this(value, NONE);
+   public Reference(Object value, Entity source) {
+      this(value, source, NONE);
    }
    
-   public Reference(Object value, Constraint constraint) {
-      this(value, constraint, -1);
+   public Reference(Object value, Entity source, Constraint constraint) {
+      this(value, source, constraint, -1);
    }
    
-   public Reference(Object value, Constraint constraint, int modifiers) {
+   public Reference(Object value, Entity source, Constraint constraint, int modifiers) {
+      if(source == null){
+         throw new IllegalStateException();
+      }
       this.constraint = constraint; 
       this.modifiers = modifiers;
+      this.source = source;
       this.value = value;
    }
    
@@ -32,6 +38,11 @@ public class Reference extends Value {
    @Override
    public int getModifiers(){
       return modifiers;
+   }
+   
+   @Override
+   public Entity getSource(){
+      return source;
    }
    
    @Override

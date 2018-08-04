@@ -1,47 +1,48 @@
 package org.snapscript.tree.math;
 
+import org.snapscript.core.scope.Scope;
 import org.snapscript.core.variable.Value;
 import org.snapscript.core.variable.ValueCache;
 
 public class DoubleCalculator extends LongCalculator {
 
    @Override
-   public Value add(Number left, Number right) {
+   public Value add(Scope scope, Number left, Number right) {
       double first = left.doubleValue();
       double second = right.doubleValue();
       
-      return ValueCache.getDouble(first + second);
+      return ValueCache.getDouble(scope, first + second);
    }
 
    @Override
-   public Value subtract(Number left, Number right) {
+   public Value subtract(Scope scope, Number left, Number right) {
       double first = left.doubleValue();
       double second = right.doubleValue();
       
-      return ValueCache.getDouble(first - second);
+      return ValueCache.getDouble(scope, first - second);
    }
 
    @Override
-   public Value divide(Number left, Number right) {
+   public Value divide(Scope scope, Number left, Number right) {
       double first = left.doubleValue();
       double second = right.doubleValue();
       
-      return ValueCache.getDouble(first / second);
+      return ValueCache.getDouble(scope, first / second);
    }
 
    @Override
-   public Value multiply(Number left, Number right) {
+   public Value multiply(Scope scope, Number left, Number right) {
       double first = left.doubleValue();
       double second = right.doubleValue();
       
-      return ValueCache.getDouble(first * second);
+      return ValueCache.getDouble(scope, first * second);
    }
 
    @Override
-   public Value modulus(Number left, Number right) {
+   public Value modulus(Scope scope, Number left, Number right) {
       double first = left.doubleValue();
       double second = right.doubleValue();
       
-      return ValueCache.getDouble(first % second);
+      return ValueCache.getDouble(scope, first % second);
    }
 }

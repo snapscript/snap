@@ -3,6 +3,7 @@ package org.snapscript.tree.literal;
 import static org.snapscript.core.variable.Constant.STRING;
 
 import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.parse.StringToken;
 
@@ -17,10 +18,11 @@ public class TextLiteral extends Literal {
    @Override
    protected LiteralValue create(Scope scope) throws Exception {
       String text = token.getValue();
+      Module module = scope.getModule();
       
       if(text == null) {
          throw new InternalStateException("Text value was null");
       }
-      return new LiteralValue(text, STRING);
+      return new LiteralValue(text, module, STRING);
    }
 }

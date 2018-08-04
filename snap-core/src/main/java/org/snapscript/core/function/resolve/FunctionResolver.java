@@ -1,5 +1,7 @@
 package org.snapscript.core.function.resolve;
 
+import static org.snapscript.core.variable.Value.NULL;
+
 import org.snapscript.core.convert.proxy.Delegate;
 import org.snapscript.core.function.index.DelegateIndexer;
 import org.snapscript.core.function.index.FunctionIndexer;
@@ -38,12 +40,12 @@ public class FunctionResolver {
       FunctionPointer pointer = instances.index(source, name, list);
       
       if(pointer != null) {
-         return new FunctionCall(pointer, scope, source, list);
+         return new FunctionCall(pointer, scope, Value.getTransient(source, source), list);
       }
       return null;
    }
 
-   public FunctionCall resolveInstance(Scope scope, Object source, String name, Object... list) throws Exception {
+   public FunctionCall resolveInstance(Scope scope, Value source, String name, Object... list) throws Exception {
       FunctionPointer pointer = instances.index(source, name, list);
       
       if(pointer != null) {
@@ -56,7 +58,7 @@ public class FunctionResolver {
       FunctionPointer pointer = statics.index(type, name, list);
       
       if(pointer != null) {
-         return new FunctionCall(pointer, scope, null, list);
+         return new FunctionCall(pointer, scope, NULL, list);
       }
       return null;
    }
@@ -65,7 +67,7 @@ public class FunctionResolver {
       FunctionPointer pointer = statics.index(type, name, list);
       
       if(pointer != null) {
-         return new FunctionCall(pointer, scope, null, list);
+         return new FunctionCall(pointer, scope, NULL, list);
       }
       return null;
    }
@@ -74,7 +76,7 @@ public class FunctionResolver {
       FunctionPointer pointer = modules.index(module, name, list);
       
       if(pointer != null) {
-         return new FunctionCall(pointer, scope, module, list);
+         return new FunctionCall(pointer, scope, Value.getTransient(module, module), list);
       }
       return null;
    }
@@ -83,7 +85,7 @@ public class FunctionResolver {
       FunctionPointer pointer = modules.index(module, name, list);
 
       if(pointer != null) {
-         return new FunctionCall(pointer, scope, module, list);
+         return new FunctionCall(pointer, scope, Value.getTransient(module, module), list);
       }
       return null;
    }
@@ -92,12 +94,12 @@ public class FunctionResolver {
       FunctionPointer pointer = delegates.match(delegate, name, list);
       
       if(pointer != null) {
-         return new FunctionCall(pointer, scope, delegate, list);
+         return new FunctionCall(pointer, scope, Value.getTransient(delegate, delegate), list);
       }
       return null;
    }
    
-   public FunctionCall resolveFunction(Scope scope, Delegate delegate, String name, Object... list) throws Exception {
+   public FunctionCall resolveFunction(Scope scope, Value delegate, String name, Object... list) throws Exception {
       FunctionPointer pointer = delegates.match(delegate, name, list);
       
       if(pointer != null) {
@@ -110,7 +112,7 @@ public class FunctionResolver {
       FunctionPointer pointer = scopes.index(scope, name, list);
       
       if(pointer != null) {
-         return new FunctionCall(pointer, scope, scope, list);
+         return new FunctionCall(pointer, scope, Value.getTransient(scope, scope.getModule()), list);
       }
       return null;
    }
@@ -119,16 +121,16 @@ public class FunctionResolver {
       FunctionPointer pointer = scopes.index(scope, name, list);
       
       if(pointer != null) {
-         return new FunctionCall(pointer, scope, scope, list);
+         return new FunctionCall(pointer, scope, Value.getTransient(scope, scope.getModule()), list);
       }
       return null;
    }
    
-   public FunctionCall resolveValue(Value value, Object... list) throws Exception { // closures
+   public FunctionCall resolveValue(Scope scope, Value value, Object... list) throws Exception { // closures
       FunctionPointer pointer = values.index(value, list);
       
       if(pointer != null) {
-         return new FunctionCall(pointer, null, null, list);
+         return new FunctionCall(pointer, scope, NULL, list);
       }
       return null;
    }

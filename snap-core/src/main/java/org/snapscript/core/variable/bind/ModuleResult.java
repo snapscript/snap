@@ -13,7 +13,7 @@ public class ModuleResult implements VariableResult {
    
    public ModuleResult(Module module) {
       this.constraint = new ModuleConstraint(module);
-      this.value = new Constant(module);
+      this.value = new Constant(module, module);
    }
 
    @Override

@@ -18,7 +18,7 @@ public class ListReference extends ConstraintReference {
    protected ConstraintValue create(Scope scope) {
       try {
          Type type = LIST.getType(scope);
-         Value reference = Value.getReference(type);
+         Value reference = Value.getReference(type, type, LIST);
          
          return new ConstraintValue(LIST, reference, type);
       } catch(Exception e) {

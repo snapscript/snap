@@ -6,6 +6,7 @@ import static org.snapscript.core.error.Reason.INVOKE;
 import java.util.List;
 
 import org.snapscript.core.Any;
+import org.snapscript.core.Bug;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
@@ -38,7 +39,7 @@ public class ClosureDispatcher implements FunctionDispatcher {
    @Override
    public Value dispatch(Scope scope, Value value, Object... arguments) throws Exception {
       Function function = value.getValue();
-      FunctionCall call = bind(scope, function, arguments); // this is not used often
+      FunctionCall call = bind(scope, value, arguments); // this is not used often
       
       if(call == null) {
          handler.handleRuntimeError(INVOKE, scope, function, name, arguments);
@@ -46,13 +47,16 @@ public class ClosureDispatcher implements FunctionDispatcher {
       return call.call();
    }
    
-   private FunctionCall bind(Scope scope, Function function, Object... arguments) throws Exception {
-      FunctionCall call = resolver.resolveInstance(scope, function, name, arguments); // this is not used often
+   @Bug
+   private FunctionCall bind(Scope scope, Value value, Object... arguments) throws Exception {
+      FunctionCall call = resolver.resolveInstance(scope, value, name, arguments); // this is not used often
       
       if(call == null) {
+         Function function = value.getValue();
          Object adapter = new FunctionAdapter(function);
+         Value v = Value.getTransient(adapter, scope.getModule());
          
-         return resolver.resolveInstance(scope, adapter, name, arguments);
+         return resolver.resolveInstance(scope, v, name, arguments);
       }
       return call;
    }

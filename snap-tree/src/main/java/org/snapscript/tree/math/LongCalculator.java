@@ -1,95 +1,96 @@
 package org.snapscript.tree.math;
 
+import org.snapscript.core.scope.Scope;
 import org.snapscript.core.variable.Value;
 import org.snapscript.core.variable.ValueCache;
 
 public class LongCalculator extends IntegerCalculator {
 
    @Override
-   public Value add(Number left, Number right) {
+   public Value add(Scope scope, Number left, Number right) {
       long first = left.longValue();
       long second = right.longValue();
       
-      return ValueCache.getLong(first + second);
+      return ValueCache.getLong(scope, first + second);
    }
 
    @Override
-   public Value subtract(Number left, Number right) {
+   public Value subtract(Scope scope, Number left, Number right) {
       long first = left.longValue();
       long second = right.longValue();
       
-      return ValueCache.getLong(first - second);
+      return ValueCache.getLong(scope, first - second);
    }
 
    @Override
-   public Value divide(Number left, Number right) {
+   public Value divide(Scope scope, Number left, Number right) {
       long first = left.longValue();
       long second = right.longValue();
       
-      return ValueCache.getLong(first / second);
+      return ValueCache.getLong(scope, first / second);
    }
 
    @Override
-   public Value multiply(Number left, Number right) {
+   public Value multiply(Scope scope, Number left, Number right) {
       long first = left.longValue();
       long second = right.longValue();
       
-      return ValueCache.getLong(first * second);
+      return ValueCache.getLong(scope, first * second);
    }
 
    @Override
-   public Value modulus(Number left, Number right) {
+   public Value modulus(Scope scope, Number left, Number right) {
       long first = left.longValue();
       long second = right.longValue();
       
-      return ValueCache.getLong(first % second);
+      return ValueCache.getLong(scope, first % second);
    }
 
    @Override
-   public Value shiftLeft(Number left, Number right) {
+   public Value shiftLeft(Scope scope, Number left, Number right) {
       long first = left.longValue();
       long second = right.longValue();
       
-      return ValueCache.getDouble(first << second);
+      return ValueCache.getLong(scope, first << second);
    }
 
    @Override
-   public Value shiftRight(Number left, Number right) {
+   public Value shiftRight(Scope scope, Number left, Number right) {
       long first = left.longValue();
       long second = right.longValue();
       
-      return ValueCache.getDouble(first >> second);
+      return ValueCache.getLong(scope, first >> second);
    }
 
    @Override
-   public Value unsignedShiftRight(Number left, Number right) {
+   public Value unsignedShiftRight(Scope scope, Number left, Number right) {
       long first = left.longValue();
       long second = right.longValue();
       
-      return ValueCache.getDouble(first >>> second);
+      return ValueCache.getLong(scope, first >>> second);
    }
 
    @Override
-   public Value and(Number left, Number right) {
+   public Value and(Scope scope, Number left, Number right) {
       long first = left.longValue();
       long second = right.longValue();
       
-      return ValueCache.getDouble(first & second);
+      return ValueCache.getLong(scope, first & second);
    }
 
    @Override
-   public Value or(Number left, Number right) {
+   public Value or(Scope scope, Number left, Number right) {
       long first = left.longValue();
       long second = right.longValue();
       
-      return ValueCache.getDouble(first | second);
+      return ValueCache.getLong(scope, first | second);
    }
 
    @Override
-   public Value xor(Number left, Number right) {
+   public Value xor(Scope scope, Number left, Number right) {
       long first = left.longValue();
       long second = right.longValue();
       
-      return ValueCache.getDouble(first ^ second);
+      return ValueCache.getLong(scope, first ^ second);
    }
 }

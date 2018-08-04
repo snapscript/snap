@@ -97,11 +97,12 @@ public class Closure implements Compilation {
       
       @Override
       public Value evaluate(Scope scope, Value left) throws Exception {
+         Module module = scope.getModule();
          FunctionBody handle = reference.get();
          Scope capture = extractor.extract(scope);
          Function function = handle.create(capture);
          
-         return Value.getTransient(function);
+         return Value.getTransient(function, module);
       }
    }
 }

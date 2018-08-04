@@ -31,7 +31,7 @@ public class ValueDispatcher implements FunctionDispatcher {
    @Override
    public Value dispatch(Scope scope, Value value, Object... list) throws Exception {
       Value reference = value.getValue();
-      FunctionCall closure = resolver.resolveValue(reference, list); // function variable
+      FunctionCall closure = resolver.resolveValue(scope, reference, list); // function variable
       
       if(closure == null) {
          handler.handleRuntimeError(INVOKE, scope, name, list);

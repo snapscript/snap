@@ -73,7 +73,7 @@ public class ModuleDefinition implements Compilation {
       public boolean define(Scope scope) throws Exception {
          Module module = reference.get();
          Progress<Phase> progress = module.getProgress();
-         Value value = Value.getTransient(module);
+         Value value = Value.getTransient(module, module);
          Scope inner = module.getScope();
          State state = inner.getState();
          

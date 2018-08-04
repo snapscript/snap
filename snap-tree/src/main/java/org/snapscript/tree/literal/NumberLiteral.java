@@ -9,6 +9,7 @@ import static org.snapscript.core.variable.Constant.NUMBER;
 import static org.snapscript.core.variable.Constant.SHORT;
 
 import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.variable.Value;
 import org.snapscript.parse.NumberToken;
@@ -36,7 +37,7 @@ public class NumberLiteral extends Literal {
       if(number == null) {
          throw new InternalStateException("Number value was null");
       }
-      Value value = operator.operate(number);
+      Value value = operator.operate(scope, number);
       Number result = value.getValue();
       
       return create(scope, result);
@@ -44,25 +45,26 @@ public class NumberLiteral extends Literal {
 
    private LiteralValue create(Scope scope, Number result) throws Exception {
       Class type = result.getClass();
+      Module module = scope.getModule();
       
       if(type == Integer.class) {
-         return new LiteralValue(result, INTEGER);
+         return new LiteralValue(result, module, INTEGER);
       }
       if(type == Double.class) {
-         return new LiteralValue(result, DOUBLE);
+         return new LiteralValue(result, module, DOUBLE);
       }
       if(type == Float.class) {
-         return new LiteralValue(result, FLOAT);
+         return new LiteralValue(result, module, FLOAT);
       }
       if(type == Byte.class) {
-         return new LiteralValue(result, BYTE);
+         return new LiteralValue(result, module, BYTE);
       }
       if(type == Short.class) {
-         return new LiteralValue(result, SHORT);
+         return new LiteralValue(result, module, SHORT);
       }
       if(type == Long.class) {
-         return new LiteralValue(result, LONG);
+         return new LiteralValue(result, module, LONG);
       }
-      return new LiteralValue(result, NUMBER);
+      return new LiteralValue(result, module, NUMBER);
    }
 }

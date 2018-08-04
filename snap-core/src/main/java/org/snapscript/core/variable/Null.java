@@ -1,11 +1,17 @@
 package org.snapscript.core.variable;
 
+import org.snapscript.core.Entity;
 import org.snapscript.core.error.InternalStateException;
 
 public class Null extends Value {
 
    public Null() {
       super();
+   }
+   
+   @Override
+   public Entity getSource() {
+      return null;
    }
    
    @Override

@@ -39,7 +39,7 @@ public enum AssignmentOperator {
    public Value operate(Scope scope, Value left, Value right) throws Exception {
       Constraint constraint = left.getConstraint();
       Type type = constraint.getType(scope);
-      Value result = operator.operate(left, right);
+      Value result = operator.operate(scope, left, right);
       Object value = result.getValue();
       
       if(type != null) {

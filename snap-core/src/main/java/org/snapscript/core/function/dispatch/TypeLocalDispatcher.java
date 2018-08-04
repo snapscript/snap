@@ -2,6 +2,7 @@ package org.snapscript.core.function.dispatch;
 
 import static org.snapscript.core.error.Reason.INVOKE;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.function.resolve.FunctionCall;
@@ -40,10 +41,10 @@ public class TypeLocalDispatcher implements FunctionDispatcher {
       return match.check(constraint);   
    }
 
+   @Bug
    @Override
    public Value dispatch(Scope scope, Value value, Object... arguments) throws Exception {
-      Scope object = value.getValue();
-      FunctionCall match = bind(scope, object, arguments);
+      FunctionCall match = bind(scope, Value.getTransient(scope, scope.getModule()), arguments);
       
       if(match == null) {
          Type type = scope.getType();
@@ -77,8 +78,8 @@ public class TypeLocalDispatcher implements FunctionDispatcher {
       return local;  
    }
    
-   private FunctionCall bind(Scope scope, Scope object, Object... arguments) throws Exception {
-      FunctionCall local = resolver.resolveInstance(scope, scope, name, arguments);
+   private FunctionCall bind(Scope scope, Value value, Object... arguments) throws Exception {
+      FunctionCall local = resolver.resolveInstance(scope, value, name, arguments);
       
       if(local == null) {
          Module module = scope.getModule();

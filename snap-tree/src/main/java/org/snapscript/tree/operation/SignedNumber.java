@@ -2,6 +2,7 @@ package org.snapscript.tree.operation;
 
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.variable.Value;
 import org.snapscript.parse.StringToken;
@@ -30,10 +31,11 @@ public class SignedNumber extends Literal {
       if(number == null) {
          throw new InternalStateException("Number value was null");
       }
-      Value result = operator.operate(number);
+      Value result = operator.operate(scope, number);
       Constraint constraint = result.getConstraint();
+      Module module = scope.getModule();
       Number signed = result.getValue();
       
-      return new LiteralValue(signed, constraint);           
+      return new LiteralValue(signed, module, constraint);           
    }
 }

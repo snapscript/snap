@@ -3,6 +3,7 @@ package org.snapscript.tree.construct;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
 import org.snapscript.core.scope.index.Index;
@@ -32,6 +33,7 @@ public class MapKey extends Evaluation {
    @Override
    public Value evaluate(Scope scope, Value left) throws Exception{
       String name = reference.getName(scope);
+      Module module = scope.getModule();
       int depth = offset.get();
       
       if(depth == -1){
@@ -49,6 +51,6 @@ public class MapKey extends Evaluation {
             return value;
          }
       }
-      return Value.getTransient(name);
+      return Value.getTransient(name, module);
    }
 }

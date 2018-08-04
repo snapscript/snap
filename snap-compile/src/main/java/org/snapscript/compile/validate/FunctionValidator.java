@@ -3,6 +3,7 @@ package org.snapscript.compile.validate;
 import java.util.List;
 import java.util.Set;
 
+import org.snapscript.core.Entity;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.ConstraintMatcher;
@@ -31,7 +32,7 @@ public class FunctionValidator {
    }
    
    public void validate(Function function) throws Exception {
-      Type source = function.getSource();
+      Entity source = function.getSource();
       
       if(source == null) {
          throw new ValidateException("Function '" + function + "' does not have a declaring type");
@@ -41,7 +42,7 @@ public class FunctionValidator {
    }
    
    public void validate(Function function, Type type) throws Exception {
-      Type source = function.getSource();
+      Entity source = function.getSource();
       
       if(source == type) {
          throw new ValidateException("Function '" + function + "' is abstract but '" + type + "' is not");

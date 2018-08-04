@@ -85,7 +85,7 @@ public class ImportStatic implements Compilation {
                String name = property.getName();
                Object value = property.getValue(null); // its static
                Constraint constraint = property.getConstraint();
-               Local local = Local.getConstant(value, name, constraint);
+               Local local = Local.getConstant(value, type, name, constraint);
    
                try {
                   state.add(name, local);

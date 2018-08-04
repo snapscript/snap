@@ -3,12 +3,13 @@ package org.snapscript.core.function.index;
 import java.util.List;
 
 import org.snapscript.core.EntityCache;
-import org.snapscript.core.type.Type;
 import org.snapscript.core.convert.TypeInspector;
 import org.snapscript.core.convert.proxy.Delegate;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.stack.ThreadStack;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeExtractor;
+import org.snapscript.core.variable.Value;
 
 public class DelegateIndexer {
    
@@ -56,8 +57,9 @@ public class DelegateIndexer {
       return match.resolve(name, values);
    }
    
-   public FunctionPointer match(Delegate value, String name, Object... values) throws Exception { 
-      Type type = extractor.getType(value);
+   public FunctionPointer match(Value value, String name, Object... values) throws Exception {
+      Delegate delegate = value.getValue();
+      Type type = extractor.getType(delegate);
       FunctionIndex match = indexes.fetch(type);
       
       if(match == null) {

@@ -30,8 +30,8 @@ public class EnumPropertyGenerator {
    
    public void generate(TypeBody body, Scope scope, Type type, List values) throws Exception {
       Constraint constraint = Constraint.getConstraint(type, CONSTANT.mask);
-      Value value = Value.getConstant(type, TYPE);
-      Value list = Value.getConstant(values, LIST);
+      Value value = Value.getConstant(type, type, TYPE);
+      Value list = Value.getConstant(values, type, LIST);
       Scope outer = type.getScope();
       State state = outer.getState();
 

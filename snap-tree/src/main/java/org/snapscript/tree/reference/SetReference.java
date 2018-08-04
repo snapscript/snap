@@ -18,7 +18,7 @@ public class SetReference extends ConstraintReference {
    protected ConstraintValue create(Scope scope) {
       try {
          Type type = SET.getType(scope);
-         Value reference = Value.getReference(type);
+         Value reference = Value.getReference(type, type, SET);
          
          return new ConstraintValue(SET, reference, type);
       } catch(Exception e) {

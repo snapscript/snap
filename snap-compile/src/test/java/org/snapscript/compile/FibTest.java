@@ -48,16 +48,16 @@ public class FibTest extends TestCase {
    }
    
    
-   public void testNumericConverter() throws Exception {
-      Timer.timeExecution("testNumericConverter", new Runnable() {
-         @Override
-         public void run() {
-            for(int i = 0; i < 2692537; i++) {
-               NumericOperator.MULTIPLY.operate(Value.getTransient(i), Value.getTransient(i));
-            }
-         }
-      });
-   }
+//   public void testNumericConverter() throws Exception {
+//      Timer.timeExecution("testNumericConverter", new Runnable() {
+//         @Override
+//         public void run() {
+//            for(int i = 0; i < 2692537; i++) {
+//               NumericOperator.MULTIPLY.operate(Value.getTransient(i), Value.getTransient(i));
+//            }
+//         }
+//      });
+//   }
    
    public void testMemoryAllocate() throws Exception {
       Timer.timeExecution("testMemoryAllocate", new Runnable() {
@@ -84,7 +84,7 @@ public class FibTest extends TestCase {
 //   }
 
    public static void main(String[] list) throws Exception {
-      new FibTest().testNumericConverter();
+      //new FibTest().testNumericConverter();
       new FibTest().testFib();
       new FibTest().testMemoryAllocate();
    }

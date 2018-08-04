@@ -53,6 +53,6 @@ public class MapEntryList extends Evaluation{
          
          map.put(keyProxy, valueProxy);
       }
-      return Value.getTransient(map);
+      return Value.getTransient(map, scope.getModule());
    }
 }

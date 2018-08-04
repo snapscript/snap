@@ -7,24 +7,19 @@ import org.snapscript.common.Cache;
 import org.snapscript.common.CompoundIterator;
 import org.snapscript.common.HashCache;
 import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.module.Module;
 import org.snapscript.core.variable.Value;
 
 public class ModelState implements State {
    
    private final Cache<String, Value> values;
+   private final Module module;
    private final Scope scope;
    private final Model model;
-   
-   public ModelState() {
-      this(null);
-   }
-  
-   public ModelState(Model model) {
-      this(model, null);
-   }
 
-   public ModelState(Model model, Scope scope) {
+   public ModelState(Model model, Module module, Scope scope) {
       this.values = new HashCache<String, Value>();
+      this.module = module;
       this.model = model;
       this.scope = scope;
    }
@@ -59,7 +54,7 @@ public class ModelState implements State {
          Object object = model.getAttribute(name);
          
          if(object != null) {
-            return Value.getConstant(object);
+            return Value.getConstant(object, module);
          }
       }
       return value;

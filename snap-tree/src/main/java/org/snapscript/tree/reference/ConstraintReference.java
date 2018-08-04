@@ -40,12 +40,19 @@ public abstract class ConstraintReference extends Evaluation {
    protected static class ConstraintValue extends Value {
       
       private final Constraint constraint;
+      private final Entity source;
       private final Value value;
       
-      public ConstraintValue(Constraint constraint, Value value, Entity entity) {
-         this.constraint = new ConstraintDefinition(constraint, entity);
+      public ConstraintValue(Constraint constraint, Value value, Entity source) {
+         this.constraint = new ConstraintDefinition(constraint, source);
+         this.source = source;
          this.value = value;       
-      }
+      }      
+
+      @Override
+      public Entity getSource() {
+         return source;
+      }  
       
       @Override
       public Constraint getConstraint() {
@@ -65,7 +72,7 @@ public abstract class ConstraintReference extends Evaluation {
       @Override
       public String toString() {
          return value.toString();
-      }      
+      }    
    }   
 
    protected static class ConstraintDefinition extends Constraint {
@@ -77,8 +84,8 @@ public abstract class ConstraintReference extends Evaluation {
       private Type type;
       private String name;
       
-      public ConstraintDefinition(Constraint constraint, Entity entity) {
-         this.description = new ConstraintDescription(constraint, entity);
+      public ConstraintDefinition(Constraint constraint, Entity source) {
+         this.description = new ConstraintDescription(constraint, source);
          this.constraint = constraint;      
       }
       

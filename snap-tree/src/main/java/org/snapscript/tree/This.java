@@ -32,6 +32,6 @@ public class This extends Evaluation {
       Type type = instance.getType();
       Constraint constraint = Constraint.getConstraint(type, CONSTANT.mask);
       
-      return Value.getConstant(instance, constraint);
+      return Value.getConstant(instance, type, constraint);
    }  
 }

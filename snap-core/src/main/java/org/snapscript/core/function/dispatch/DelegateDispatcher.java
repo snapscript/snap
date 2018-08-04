@@ -37,7 +37,7 @@ public class DelegateDispatcher implements FunctionDispatcher {
    @Override
    public Value dispatch(Scope scope, Value value, Object... arguments) throws Exception {
       Delegate object = value.getValue();
-      FunctionCall call = resolver.resolveFunction(scope, object, name, arguments);
+      FunctionCall call = resolver.resolveFunction(scope, value, name, arguments);
       
       if(call == null) {
          handler.handleRuntimeError(INVOKE, scope, object, name, arguments);

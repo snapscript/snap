@@ -19,7 +19,7 @@ public class ModelScope implements Scope {
    }
    
    public ModelScope(Model model, Module module, Scope scope) {
-      this.state = new ModelState(model, scope);
+      this.state = new ModelState(model, module, scope);
       this.table = new ArrayTable();
       this.index = new StackIndex();
       this.module = module;

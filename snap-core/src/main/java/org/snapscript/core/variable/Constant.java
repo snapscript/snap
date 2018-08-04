@@ -5,6 +5,7 @@ import static org.snapscript.core.constraint.Constraint.NONE;
 
 import java.util.List;
 
+import org.snapscript.core.Entity;
 import org.snapscript.core.constraint.ClassConstraint;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.InternalStateException;
@@ -26,20 +27,25 @@ public class Constant extends Value {
    public static final Constraint TYPE = new ClassConstraint(Type.class, CONSTANT.mask);
    
    private final Constraint constraint;
+   private final Entity source;
    private final Object value;
    private final int modifiers;
    
-   public Constant(Object value) {
-      this(value, NONE);
+   public Constant(Object value, Entity source) {
+      this(value, source, NONE);
    }
 
-   public Constant(Object value, Constraint constraint) {
-      this(value, constraint, 0);
+   public Constant(Object value, Entity source, Constraint constraint) {
+      this(value, source, constraint, 0);
    }
    
-   public Constant(Object value, Constraint constraint, int modifiers) {
+   public Constant(Object value, Entity source, Constraint constraint, int modifiers) {
+      if(source == null){
+         throw new IllegalStateException();
+      }
       this.constraint = constraint;
       this.modifiers = modifiers;
+      this.source = source;
       this.value = value;
    }
    
@@ -56,6 +62,11 @@ public class Constant extends Value {
    @Override
    public int getModifiers(){
       return modifiers;
+   }
+   
+   @Override
+   public Entity getSource() {
+      return source;
    }
    
    @Override

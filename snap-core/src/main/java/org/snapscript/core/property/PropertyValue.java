@@ -1,5 +1,6 @@
 package org.snapscript.core.property;
 
+import org.snapscript.core.Entity;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.variable.Value;
 
@@ -18,6 +19,11 @@ public class PropertyValue extends Value {
    @Override
    public boolean isProperty() {
       return true;
+   }
+   
+   @Override
+   public Entity getSource() {
+      return property.getSource();
    }
    
    @Override

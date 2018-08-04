@@ -1,5 +1,6 @@
 package org.snapscript.core.function.dispatch;
 
+import static org.snapscript.core.constraint.Constraint.LIST;
 import static org.snapscript.core.error.Reason.INVOKE;
 
 import java.util.List;
@@ -9,6 +10,7 @@ import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.function.resolve.FunctionCall;
 import org.snapscript.core.function.resolve.FunctionResolver;
+import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
@@ -42,8 +44,10 @@ public class ArrayDispatcher implements FunctionDispatcher {
    @Override
    public Value dispatch(Scope scope, Value value, Object... arguments) throws Exception {
       Object object = value.getValue();
+      Module module = scope.getModule();
       List list = builder.convert(object);
-      FunctionCall call = resolver.resolveInstance(scope, list, name, arguments);
+      Value array = Value.getTransient(list, module, LIST);
+      FunctionCall call = resolver.resolveInstance(scope, array, name, arguments);
       
       if(call == null) {
          handler.handleRuntimeError(INVOKE, scope, object, name, arguments);

@@ -48,6 +48,6 @@ public class SuperDispatcher implements FunctionDispatcher {
       Invocation invocation = platform.createSuperConstructor(real, type);
       Object instance = invocation.invoke(scope, real, copy);
       
-      return Value.getTransient(instance, constraint);
+      return Value.getTransient(instance, type, constraint);
    }
 }

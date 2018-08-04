@@ -81,7 +81,7 @@ public class ConstructSet implements Compilation {
                result.add(proxy);
             }         
          }   
-         return Value.getTransient(result);
+         return Value.getTransient(result, scope.getModule());
       }
    }
 }

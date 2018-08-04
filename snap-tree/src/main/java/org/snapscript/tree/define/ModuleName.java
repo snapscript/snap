@@ -1,6 +1,7 @@
 package org.snapscript.tree.define;
 
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.variable.Value;
 import org.snapscript.tree.literal.TextLiteral;
@@ -16,8 +17,9 @@ public class ModuleName extends Evaluation {
    @Override
    public Value evaluate(Scope scope, Value left) throws Exception{
       Value value = literal.evaluate(scope, left);
+      Module module = scope.getModule();
       String name = value.getValue();
       
-      return Value.getTransient(name);
+      return Value.getTransient(name, module);
    }  
 }

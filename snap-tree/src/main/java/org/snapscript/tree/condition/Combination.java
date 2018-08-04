@@ -1,13 +1,12 @@
 package org.snapscript.tree.condition;
 
 import static org.snapscript.core.constraint.Constraint.BOOLEAN;
-import static org.snapscript.core.variable.BooleanValue.FALSE;
-import static org.snapscript.core.variable.BooleanValue.TRUE;
 
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.variable.Value;
+import org.snapscript.core.variable.ValueCache;
 import org.snapscript.parse.StringToken;
 
 public class Combination extends Evaluation {
@@ -48,8 +47,9 @@ public class Combination extends Evaluation {
    @Override
    public Value evaluate(Scope scope, Value context) throws Exception { 
       Value first = evaluate(scope, left);
+      Object result = first.getValue();
       
-      if(first == TRUE) {
+      if(BooleanChecker.isTrue(result)) {
          if(operator != null) {
             if(operator.isAnd()) {
                return evaluate(scope, right);
@@ -70,8 +70,8 @@ public class Combination extends Evaluation {
       Object result = value.getValue();
       
       if(BooleanChecker.isTrue(result)) {
-         return TRUE;
+         return ValueCache.getBoolean(scope, true);
       }
-      return FALSE;
+      return ValueCache.getBoolean(scope, false);
    } 
 }

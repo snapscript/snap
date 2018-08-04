@@ -15,7 +15,7 @@ public class TypeResult implements VariableResult {
    
    public TypeResult(Type type) {
       this.constraint = new StaticConstraint(type, CLASS.mask);
-      this.value = new Constant(type);
+      this.value = new Constant(type, type);
    }
 
    @Override

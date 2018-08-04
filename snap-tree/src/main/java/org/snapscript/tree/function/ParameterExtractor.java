@@ -8,6 +8,7 @@ import org.snapscript.core.convert.TypeInspector;
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.Signature;
+import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
 import org.snapscript.core.scope.index.Index;
@@ -101,11 +102,12 @@ public class ParameterExtractor {
    private Local create(Scope scope, Object value, Parameter parameter) throws Exception {
       Constraint constraint = parameter.getConstraint();
       Type type = constraint.getType(scope);
+      Module module = scope.getModule();
       String name = parameter.getName();
       
       if(parameter.isConstant()) {
-         return Local.getConstant(value, name, constraint);
+         return Local.getConstant(value, module, name, constraint);
       }
-      return Local.getReference(value, name, constraint);       
+      return Local.getReference(value, module, name, constraint);       
    }
 }

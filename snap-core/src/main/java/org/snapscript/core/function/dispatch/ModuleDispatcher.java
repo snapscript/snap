@@ -2,6 +2,7 @@ package org.snapscript.core.function.dispatch;
 
 import static org.snapscript.core.error.Reason.INVOKE;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.function.resolve.FunctionCall;
@@ -38,7 +39,7 @@ public class ModuleDispatcher implements FunctionDispatcher {
    @Override
    public Value dispatch(Scope scope, Value value, Object... arguments) throws Exception {
       Module module = value.getValue();
-      FunctionCall call = bind(scope, module, arguments);
+      FunctionCall call = bind(scope, value, arguments);
       
       if(call == null) {
          handler.handleRuntimeError(INVOKE, scope, module, name, arguments);
@@ -51,17 +52,19 @@ public class ModuleDispatcher implements FunctionDispatcher {
       FunctionCall call = resolver.resolveModule(inner, module, name, arguments);
       
       if(call == null) {
-         return resolver.resolveInstance(inner, (Object)module, name, arguments);
+         Type type = module.getType(Module.class);
+         return resolver.resolveInstance(inner, type, name, arguments);
       }
       return call;
    }
-   
-   private FunctionCall bind(Scope scope, Module module, Object... arguments) throws Exception {
+   @Bug   
+   private FunctionCall bind(Scope scope, Value value, Object... arguments) throws Exception {
+      Module module = value.getValue();
       Scope inner = module.getScope();
       FunctionCall call = resolver.resolveModule(inner, module, name, arguments);
       
       if(call == null) {
-         return resolver.resolveInstance(inner, (Object)module, name, arguments);
+         return resolver.resolveInstance(inner, value, name, arguments);
       }
       return call;
    }

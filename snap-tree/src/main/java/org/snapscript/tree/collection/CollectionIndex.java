@@ -74,13 +74,13 @@ public class CollectionIndex extends Evaluation {
          int number = index.getInteger();
          List list = (List)source;
          
-         return new ListValue(wrapper, list, number);
+         return new ListValue(wrapper, list, module, number);
       }
       if(Map.class.isInstance(source)) {
          Object key = index.getValue();
          Map map = (Map)source;
          
-         return new MapValue(wrapper, map, key);
+         return new MapValue(wrapper, map, module, key);
       }
       if(Type.class.isInstance(type)) {
          throw new InternalArgumentException("Illegal index of type " + object);

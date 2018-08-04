@@ -1,115 +1,116 @@
 package org.snapscript.tree.math;
 
+import org.snapscript.core.scope.Scope;
 import org.snapscript.core.variable.Value;
 import org.snapscript.core.variable.ValueCache;
 
 public enum NumericConverter {
    DOUBLE {
       @Override
-      public Value convert(Number number) {
+      public Value convert(Scope scope, Number number) {
          double value = number.doubleValue();
-         return ValueCache.getDouble(value);
+         return ValueCache.getDouble(scope, value);
       }
       @Override
-      public Value increment(Number number) {
+      public Value increment(Scope scope, Number number) {
          double value = number.doubleValue();
-         return ValueCache.getDouble(value + 1.0d);
+         return ValueCache.getDouble(scope, value + 1.0d);
       }
       @Override
-      public Value decrement(Number number) {
+      public Value decrement(Scope scope, Number number) {
          double value = number.doubleValue();
-         return ValueCache.getDouble(value - 1.0d);
+         return ValueCache.getDouble(scope, value - 1.0d);
       }
    },
    LONG {
       @Override
-      public Value convert(Number number) {
+      public Value convert(Scope scope, Number number) {
          long value = number.longValue();
-         return ValueCache.getLong(value);
+         return ValueCache.getLong(scope, value);
       }
       @Override
-      public Value increment(Number number) {
+      public Value increment(Scope scope, Number number) {
          long value = number.longValue();
-         return ValueCache.getLong(value + 1L);
+         return ValueCache.getLong(scope, value + 1L);
       }
       @Override
-      public Value decrement(Number number) {
+      public Value decrement(Scope scope, Number number) {
          long value = number.longValue();
-         return ValueCache.getLong(value - 1L);
+         return ValueCache.getLong(scope, value - 1L);
       }
    },
    FLOAT {
       @Override
-      public Value convert(Number number) {
+      public Value convert(Scope scope, Number number) {
          float value = number.floatValue();
-         return ValueCache.getFloat(value);
+         return ValueCache.getFloat(scope, value);
       }
       @Override
-      public Value increment(Number number) {
+      public Value increment(Scope scope, Number number) {
          float value = number.floatValue();
-         return ValueCache.getFloat(value + 1.0f);
+         return ValueCache.getFloat(scope, value + 1.0f);
       }
       @Override
-      public Value decrement(Number number) {
+      public Value decrement(Scope scope, Number number) {
          float value = number.floatValue();
-         return ValueCache.getFloat(value - 1.0f);
+         return ValueCache.getFloat(scope, value - 1.0f);
       }
    },
    INTEGER {
       @Override
-      public Value convert(Number number) {
+      public Value convert(Scope scope, Number number) {
          int value = number.intValue();
-         return ValueCache.getInteger(value);
+         return ValueCache.getInteger(scope, value);
       }
       @Override
-      public Value increment(Number number) {
+      public Value increment(Scope scope, Number number) {
          int value = number.intValue();
-         return ValueCache.getInteger(value + 1);
+         return ValueCache.getInteger(scope, value + 1);
       }
       @Override
-      public Value decrement(Number number) {
+      public Value decrement(Scope scope, Number number) {
          int value = number.intValue();
-         return ValueCache.getInteger(value - 1);
+         return ValueCache.getInteger(scope, value - 1);
       }
    },
    SHORT {
       @Override
-      public Value convert(Number number) {
+      public Value convert(Scope scope, Number number) {
          short value = number.shortValue();
-         return ValueCache.getShort(value);
+         return ValueCache.getShort(scope, value);
       }
       @Override
-      public Value increment(Number number) {
+      public Value increment(Scope scope, Number number) {
          short value = number.shortValue();
-         return ValueCache.getShort(value + 1);
+         return ValueCache.getShort(scope, value + 1);
       }
       @Override
-      public Value decrement(Number number) {
+      public Value decrement(Scope scope, Number number) {
          short value = number.shortValue();
-         return ValueCache.getShort(value - 1);
+         return ValueCache.getShort(scope, value - 1);
       }
    },
    BYTE {
       @Override
-      public Value convert(Number number) {
+      public Value convert(Scope scope, Number number) {
          byte value = number.byteValue();
-         return ValueCache.getByte(value);
+         return ValueCache.getByte(scope, value);
       }
       @Override
-      public Value increment(Number number) {
+      public Value increment(Scope scope, Number number) {
          byte value = number.byteValue();
-         return ValueCache.getByte(value + 1);
+         return ValueCache.getByte(scope, value + 1);
       }
       @Override
-      public Value decrement(Number number) {
+      public Value decrement(Scope scope, Number number) {
          byte value = number.byteValue();
-         return ValueCache.getByte(value - 1);
+         return ValueCache.getByte(scope, value - 1);
       }
    };
    
-   public abstract Value convert(Number number);
-   public abstract Value increment(Number number);
-   public abstract Value decrement(Number number);
+   public abstract Value convert(Scope scope, Number number);
+   public abstract Value increment(Scope scope, Number number);
+   public abstract Value decrement(Scope scope, Number number);
    
    public static NumericConverter resolveConverter(Number number) {
       Class type = number.getClass();
@@ -136,8 +137,8 @@ public enum NumericConverter {
    }
    
    public static NumericConverter resolveConverter(Value left, Value right) {
-      Class primary = left.getType();
-      Class secondary = right.getType();
+      Class primary = left.getType().getType();
+      Class secondary = right.getType().getType();
 
       if (Double.class == primary || Double.class == secondary) {
          return DOUBLE;

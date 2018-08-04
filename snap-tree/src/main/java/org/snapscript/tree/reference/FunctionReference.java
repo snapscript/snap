@@ -22,7 +22,7 @@ public class FunctionReference extends ConstraintReference {
          Signature signature = list.create(scope);
          Type type = signature.getDefinition();
          Constraint constraint = Constraint.getConstraint(type);
-         Value reference = Value.getReference(type);
+         Value reference = Value.getReference(type, type, constraint);
          
          return new ConstraintValue(constraint, reference, type);
       } catch(Exception e) {

@@ -1,5 +1,7 @@
 package org.snapscript.core.scope.index;
 
+import org.snapscript.core.Bug;
+import org.snapscript.core.Entity;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
@@ -24,6 +26,7 @@ public class LocalScopeExtractor {
       return extract(outer, outer); // can't see callers scope
    }
    
+   @Bug("we could be more efficient in copy values")
    public Scope extract(Scope original, Scope outer) {
       Scope capture = new LocalScope(original, outer);
       
@@ -38,8 +41,9 @@ public class LocalScopeExtractor {
                inner.add(name, local); // enable modification of local
             } else {
                Object value = local.getValue();
+               Entity source = local.getSource();
                Constraint constraint = local.getConstraint();
-               Value constant = Value.getConstant(value, constraint);
+               Value constant = Value.getConstant(value, source, constraint);
                
                inner.add(name, constant); // local is a visible constant
             }

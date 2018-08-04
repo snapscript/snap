@@ -2,6 +2,7 @@ package org.snapscript.core.variable;
 
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.snapscript.core.Entity;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.InternalStateException;
 
@@ -9,12 +10,14 @@ public class Blank extends Value {
    
    private final AtomicReference<Object> reference;
    private final Constraint constraint;
+   private final Entity source;
    private final int modifiers;
    
-   public Blank(Object value, Constraint constraint, int modifiers) {
+   public Blank(Object value, Entity source, Constraint constraint, int modifiers) {
       this.reference = new AtomicReference<Object>(value);
       this.constraint = constraint;
       this.modifiers = modifiers;
+      this.source = source;
    }
    
    @Override
@@ -30,6 +33,11 @@ public class Blank extends Value {
    @Override
    public int getModifiers() {
       return modifiers;
+   }
+   
+   @Override
+   public Entity getSource() {
+      return source;
    }
    
    @Override

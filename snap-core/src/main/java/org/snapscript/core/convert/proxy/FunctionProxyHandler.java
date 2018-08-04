@@ -6,14 +6,15 @@ import static org.snapscript.core.Reserved.METHOD_TO_STRING;
 
 import java.lang.reflect.Method;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.Context;
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.resolve.FunctionCall;
 import org.snapscript.core.function.resolve.FunctionResolver;
+import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.variable.Transient;
 import org.snapscript.core.variable.Value;
 
 public class FunctionProxyHandler implements ProxyHandler { 
@@ -22,11 +23,9 @@ public class FunctionProxyHandler implements ProxyHandler {
    private final ProxyWrapper wrapper;
    private final Function function;
    private final Context context;
-   private final Value value;
    
    public FunctionProxyHandler(ProxyWrapper wrapper, Context context, Function function) {
       this.extractor = new ProxyArgumentExtractor(wrapper);
-      this.value = new Transient(function);
       this.function = function;
       this.wrapper = wrapper;
       this.context = context;
@@ -75,19 +74,23 @@ public class FunctionProxyHandler implements ProxyHandler {
       return wrapper.toProxy(data);  
    }
    
+   @Bug
    private FunctionCall resolve(Object proxy, String name, Object[] convert, Object[] arguments) throws Throwable {
       Type source = function.getSource();
       FunctionResolver resolver = context.getResolver();  
-
+      
       if(source != null) {
          Scope scope = source.getScope();
-         FunctionCall call = resolver.resolveInstance(scope, proxy, name, arguments); 
+         Module module = scope.getModule();
+         Value value = Value.getTransient(proxy, module);
+         FunctionCall call = resolver.resolveInstance(scope, value, name, arguments); 
          
          if(call != null) {
             return call;
          }
       }
-      return resolver.resolveValue(value, convert); // here arguments can be null!!! 
+      Value value = Value.getTransient(function, source);
+      return resolver.resolveValue(source.getScope(), value, convert); // here arguments can be null!!! 
    }
    
    @Override

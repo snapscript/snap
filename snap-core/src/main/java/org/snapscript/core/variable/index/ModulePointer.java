@@ -75,7 +75,7 @@ public class ModulePointer implements VariablePointer<Module> {
                }
                return null;
             }
-            return Value.getTransient(type);
+            return Value.getTransient(type, left);
          }
          return value;
       } 

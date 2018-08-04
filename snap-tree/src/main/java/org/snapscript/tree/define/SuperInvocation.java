@@ -35,7 +35,7 @@ public class SuperInvocation extends Evaluation {
 
    @Override
    public Constraint compile(Scope scope, Constraint left) throws Exception {
-      Value value = Value.getTransient(type);
+      Value value = Value.getTransient(type, type);
       FunctionDispatcher dispatcher = holder.get(scope, value);  
       
       if(arguments != null) {
@@ -52,7 +52,7 @@ public class SuperInvocation extends Evaluation {
    public Value evaluate(Scope scope, Value left) throws Exception {
       Type real = scope.getType();  
       Scope instance = builder.create(scope, left);
-      Value value = Value.getTransient(instance);
+      Value value = Value.getTransient(instance, real);
       FunctionDispatcher dispatcher = holder.get(instance, NULL);  
       
       if(arguments != null) {

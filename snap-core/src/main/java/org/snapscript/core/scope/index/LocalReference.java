@@ -2,22 +2,33 @@ package org.snapscript.core.scope.index;
 
 import static org.snapscript.core.constraint.Constraint.NONE;
 
+import org.snapscript.core.Entity;
 import org.snapscript.core.constraint.Constraint;
 
 public class LocalReference extends Local {
 
    private Constraint constraint;
+   private Entity source;
    private Object value;
    private String name;
    
-   public LocalReference(Object value, String name) {
-      this(value, name, NONE);
+   public LocalReference(Object value, Entity source, String name) {
+      this(value, source, name, NONE);
    }
    
-   public LocalReference(Object value, String name, Constraint constraint) {
+   public LocalReference(Object value, Entity source, String name, Constraint constraint) {
+      if(source == null){
+         throw new IllegalStateException();
+      }
       this.constraint = constraint; 
+      this.source = source;
       this.value = value;
       this.name = name;
+   }
+   
+   @Override
+   public Entity getSource() {
+      return source;
    }
    
    @Override

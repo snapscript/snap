@@ -2,21 +2,23 @@ package org.snapscript.core.variable;
 
 import java.lang.reflect.Array;
 
+import org.snapscript.core.Entity;
+
 public class ArrayValue extends Value {
    
+   private final Entity source;
    private final Object array;
    private final Integer index;
-   private final Class type;
    
-   public ArrayValue(Object array, Integer index) {
-      this.type = array.getClass();
+   public ArrayValue(Object array, Entity source, Integer index) {
+      this.source = source;
       this.array = array;
       this.index = index;
    }
    
    @Override
-   public Class getType() {
-      return type.getComponentType();
+   public Entity getSource() {
+      return source;
    }
    
    @Override

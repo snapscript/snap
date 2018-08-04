@@ -5,19 +5,20 @@ import java.util.concurrent.Callable;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.index.FunctionPointer;
+import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.variable.Value;
 
 public class FunctionCall implements Callable<Value> {
    
    private final FunctionPointer pointer;
-   private final Object source;
+   private final Value value;
    private final Scope scope;
    private final Object[] list;
    
-   public FunctionCall(FunctionPointer pointer, Scope scope, Object source, Object... list) {
+   public FunctionCall(FunctionPointer pointer, Scope scope, Value value, Object... list) {
       this.pointer = pointer;
-      this.source = source;
+      this.value = value;
       this.scope = scope;
       this.list = list;
    }
@@ -28,9 +29,11 @@ public class FunctionCall implements Callable<Value> {
    
    @Override
    public Value call() throws Exception {
+      Object source = value.getValue();
+      Module module = scope.getModule();
       Invocation invocation = pointer.getInvocation();
       Object result = invocation.invoke(scope, source, list);
       
-      return Value.getTransient(result);
+      return Value.getTransient(result, module);
    }
 }

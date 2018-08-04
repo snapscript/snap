@@ -17,7 +17,7 @@ public class PrefixIncrement extends NumericOperation {
       Value reference = evaluation.evaluate(scope, left);
       Number number = reference.getNumber();
       NumericConverter converter = NumericConverter.resolveConverter(number);
-      Value value = converter.increment(number);
+      Value value = converter.increment(scope, number);
       Number result = value.getNumber();
       
       reference.setValue(result);

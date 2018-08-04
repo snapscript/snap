@@ -3,6 +3,7 @@ package org.snapscript.tree.construct;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
@@ -66,6 +67,7 @@ public class ConstructList implements Compilation {
          return Constraint.LIST;
       }
       
+      @Bug
       @Override
       public Value evaluate(Scope scope, Value left) throws Exception { // this is rubbish
          List result = new ArrayList();
@@ -81,7 +83,7 @@ public class ConstructList implements Compilation {
                result.add(proxy);
             }         
          }   
-         return Value.getTransient(result);
+         return Value.getTransient(result, scope.getModule());
       }
    }
 }

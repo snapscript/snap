@@ -3,6 +3,7 @@ package org.snapscript.tree;
 import static org.snapscript.core.ModifierType.CONSTANT;
 import static org.snapscript.core.Reserved.TYPE_THIS;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.constraint.Constraint;
@@ -34,6 +35,7 @@ public class Super extends Evaluation {
       return Constraint.getConstraint(type, CONSTANT.mask);
    }
    
+   @Bug
    @Override
    public Value evaluate(Scope scope, Value left) throws Exception {
       Module module = scope.getModule();
@@ -49,14 +51,16 @@ public class Super extends Evaluation {
       
       if(value == null) {
          throw new InternalStateException("No enclosing type for 'super' reference");
-      }
+      }      
       Instance instance = value.getValue();
       Instance base = resolve(instance, function);
       
       if(base == null) {
          throw new InternalStateException("Illegal reference to 'super'"); // closure?
       }
-      return Value.getTransient(base);
+      Type type = base.getType();
+      
+      return Value.getTransient(base, type);
    }  
    
    private Instance resolve(Instance instance, Function function) {
