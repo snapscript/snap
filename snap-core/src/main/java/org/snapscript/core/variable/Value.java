@@ -126,10 +126,6 @@ public abstract class Value {
    public int getModifiers(){
       return -1;
    }
-
-   public Data getData() {
-      return DataMapper.toData(this);
-   }
    
    public String getName() {
       return null;
