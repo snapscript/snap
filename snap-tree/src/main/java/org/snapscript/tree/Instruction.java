@@ -66,6 +66,7 @@ import org.snapscript.tree.define.TraitName;
 import org.snapscript.tree.function.FunctionCurry;
 import org.snapscript.tree.function.FunctionHandle;
 import org.snapscript.tree.function.FunctionInvocation;
+import org.snapscript.tree.function.ParameterBlank;
 import org.snapscript.tree.function.ParameterDeclaration;
 import org.snapscript.tree.function.ParameterList;
 import org.snapscript.tree.literal.BooleanLiteral;
@@ -212,6 +213,7 @@ public enum Instruction {
    PARAMETER_MODIFIER_LIST(ModifierList.class, "parameter-modifier-list"),
    PARAMETER(ParameterDeclaration.class, "parameter-declaration"),
    PARAMETER_LIST(ParameterList.class, "parameter-list"),
+   PARAMETER_BLANK(ParameterBlank.class, "parameter-blank"),  
    CLOSURE_PARAMETER_LIST(ClosureParameterList.class, "closure-parameter-list"),
    CLOSURE(Closure.class, "closure"),
    THROW_STATEMENT(ThrowStatement.class, "throw-statement"),  
