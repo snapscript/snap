@@ -28,9 +28,10 @@ public class ImportList implements Compilation {
       Context context = module.getContext();
       TraceInterceptor interceptor = context.getInterceptor();
       Trace trace = Trace.getImport(module, path, line);
+      String prefix = qualifier.getQualifier();
 
       for(int i = 0; i < names.length; i++) {
-         EntryQualifier entry = new EntryQualifier(qualifier, names[i]);
+         EntryQualifier entry = new EntryQualifier(prefix, names[i]);
          ImportBuilder builder = new ImportBuilder(entry, null);
 
          try {
@@ -45,22 +46,22 @@ public class ImportList implements Compilation {
 
    private static class EntryQualifier implements Qualifier {
 
-      private final Qualifier qualifier;
       private final Qualifier target;
+      private final String prefix;
 
-      public EntryQualifier(Qualifier qualifier, Qualifier target) {
-         this.qualifier = qualifier;
+      public EntryQualifier(String prefix, Qualifier target) {
+         this.prefix = prefix;
          this.target = target;
       }
 
       @Override
       public String getQualifier() {
-         return qualifier.getQualifier();
+         return prefix;
       }
 
       @Override
       public String getLocation() {
-         return qualifier.getQualifier();
+         return prefix;
       }
 
       @Override
