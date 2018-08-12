@@ -46,12 +46,12 @@ public class ImportList implements Compilation {
 
    private static class EntryQualifier implements Qualifier {
 
-      private final Qualifier target;
+      private final String target;
       private final String prefix;
 
       public EntryQualifier(String prefix, Qualifier target) {
+         this.target = target.getQualifier();
          this.prefix = prefix;
-         this.target = target;
       }
 
       @Override
@@ -66,12 +66,12 @@ public class ImportList implements Compilation {
 
       @Override
       public String getTarget() {
-         return target.getQualifier();
+         return target;
       }
 
       @Override
       public String getName() {
-         return target.getQualifier();
+         return target;
       }
    }
 }
