@@ -1,5 +1,7 @@
 package org.snapscript.core.scope.index;
 
+import org.snapscript.common.EmptyIterator;
+
 import java.util.Arrays;
 import java.util.Iterator;
 
@@ -17,7 +19,10 @@ public class ArrayTable implements Table {
 
    @Override
    public Iterator<Local> iterator() {
-      return new LocalIterator(table);
+      if(table.length > 0) {
+         return new LocalIterator(table);
+      }
+      return new EmptyIterator<Local>();
    }
 
    @Override
