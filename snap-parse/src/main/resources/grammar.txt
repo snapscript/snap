@@ -330,6 +330,7 @@ wild-qualifier = [qualifier]*('.'[qualifier])'.*';
 
 import-static = 'import static'_(<full-qualifier> | <wild-qualifier>)';';
 import = 'import'_(<full-qualifier> | <wild-qualifier>)?(_'as'_[type])';';
+import-list = 'import'_<full-qualifier>'.' '{' <full-qualifier>*(','<full-qualifier>) '}' ';';
    
 module-name = [identifier];
 module-import = <import>;
@@ -340,7 +341,7 @@ module-statement = {<try-statement> | <synchronized-statement> | <conditional-st
 module-part = {<module-import> | <module-function> | <module-declaration> | <module-statement>};
 module-definition = ?<annotation-list>'module'_<module-name>{'{}' | '{'*<module-part>'}'};
  
-script-import = <import-static> | <import>;
+script-import = <import-static> | <import> | <import-list>;
 script-function = {'function'|'func'}_<function>'('<parameter-list>')'?(':'<constraint>)<group-statement>;
 script-statement = { <try-statement> | 
 				     <synchronized-statement> |

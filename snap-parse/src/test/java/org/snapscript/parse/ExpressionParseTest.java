@@ -10,6 +10,8 @@ public class ExpressionParseTest extends TestCase {
       SyntaxParser tree = LexerBuilder.create(GRAMMAR_FILE);
 
       assertNotNull(tree);
+      analyze(tree, "import org.cef.{CefApp, CefBrowser};", "import-list");
+      analyze(tree, "import lang.{Double, Integer, Short};", "import-list");
       analyze(tree, "List<String>[]", "array-reference"); 
       analyze(tree, "(a, b, c)", "assignment-list");  
       analyze(tree, "(a.x, b, c)", "assignment-list");   

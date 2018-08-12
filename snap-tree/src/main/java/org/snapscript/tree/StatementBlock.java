@@ -20,11 +20,16 @@ public class StatementBlock extends Statement {
    public StatementBlock(Statement... statements) {
       this.builder = new StatementBuilder(statements);
    }
+
+   @Override
+   public void create(Scope scope) throws Exception {
+      builder.create(scope);
+   }
    
    @Override
    public boolean define(Scope scope) throws Exception {
       if(compiler == null) {
-         compiler = builder.create(scope);
+         compiler = builder.define(scope);
       }
       return true;
    }
@@ -46,8 +51,18 @@ public class StatementBlock extends Statement {
          this.executable = new Statement[statements.length];
          this.statements = statements;
       }
+
+      public void create(Scope scope) throws Exception {
+         for(int i = 0; i < statements.length; i++){
+            Statement statement = statements[i];
+
+            if(statement != null) {
+               statement.create(scope);
+            }
+         }
+      }
       
-      public StatementCompiler create(Scope scope) throws Exception {
+      public StatementCompiler define(Scope scope) throws Exception {
          Index index = scope.getIndex();
          int size = index.size();
          

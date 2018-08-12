@@ -11,16 +11,6 @@ public class FullQualifier implements Qualifier {
       this.count = tokens.length;
       this.tokens = tokens;
    }
-   
-   @Override
-   public String[] getSegments() {
-      String[] segments = new String[count];
-
-      for (int i = 0; i < count; i++) {
-         segments[i] = tokens[i].getValue();
-      }
-      return segments;
-   }
 
    @Override
    public String getQualifier() {
