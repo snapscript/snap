@@ -1,4 +1,4 @@
-package org.snapscript.tree.define;
+package org.snapscript.tree.constraint;
 
 import static org.snapscript.core.ModifierType.ABSTRACT;
 import static org.snapscript.core.ModifierType.TRAIT;

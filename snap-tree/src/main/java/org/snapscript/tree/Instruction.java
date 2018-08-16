@@ -21,6 +21,7 @@ import org.snapscript.tree.condition.SwitchStatement;
 import org.snapscript.tree.condition.ValueCase;
 import org.snapscript.tree.condition.WhileStatement;
 import org.snapscript.tree.constraint.ClassConstraint;
+import org.snapscript.tree.constraint.FunctionName;
 import org.snapscript.tree.constraint.TraitConstraint;
 import org.snapscript.tree.constraint.TypeConstraint;
 import org.snapscript.tree.construct.ConstructArray;
@@ -36,16 +37,16 @@ import org.snapscript.tree.define.AbstractClassName;
 import org.snapscript.tree.define.ClassConstructor;
 import org.snapscript.tree.define.ClassDefinition;
 import org.snapscript.tree.define.ClassHierarchy;
-import org.snapscript.tree.define.ClassName;
+import org.snapscript.tree.constraint.ClassName;
 import org.snapscript.tree.define.EnumConstructor;
 import org.snapscript.tree.define.EnumDefinition;
 import org.snapscript.tree.define.EnumHierarchy;
 import org.snapscript.tree.define.EnumKey;
 import org.snapscript.tree.define.EnumList;
-import org.snapscript.tree.define.EnumName;
+import org.snapscript.tree.constraint.EnumName;
 import org.snapscript.tree.define.EnumValue;
-import org.snapscript.tree.define.GenericList;
-import org.snapscript.tree.define.GenericParameter;
+import org.snapscript.tree.constraint.GenericList;
+import org.snapscript.tree.constraint.GenericParameter;
 import org.snapscript.tree.define.InnerTypeDefinition;
 import org.snapscript.tree.define.MemberField;
 import org.snapscript.tree.define.MemberFieldDeclaration;
@@ -62,7 +63,7 @@ import org.snapscript.tree.define.TraitConstant;
 import org.snapscript.tree.define.TraitDefinition;
 import org.snapscript.tree.define.TraitFunction;
 import org.snapscript.tree.define.TraitHierarchy;
-import org.snapscript.tree.define.TraitName;
+import org.snapscript.tree.constraint.TraitName;
 import org.snapscript.tree.function.FunctionCurry;
 import org.snapscript.tree.function.FunctionHandle;
 import org.snapscript.tree.function.FunctionInvocation;
@@ -222,6 +223,7 @@ public enum Instruction {
    TRY_STATEMENT(TryStatement.class, "try-statement"),
    GENERIC_PARAMETER(GenericParameter.class, "generic-parameter"),
    GENERIC_LIST(GenericList.class, "generic-list"),
+   FUNCTION_NAME(FunctionName.class, "function-name"),
    CLASS_NAME(ClassName.class, "class-name"),
    TRAIT_NAME(TraitName.class, "trait-name"),     
    TRAIT_HIERARCHY(TraitHierarchy.class, "trait-hierarchy"),

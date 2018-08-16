@@ -13,6 +13,7 @@ import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeBody;
 import org.snapscript.core.variable.Value;
 import org.snapscript.tree.annotation.AnnotationList;
+import org.snapscript.tree.constraint.ClassName;
 
 public class ClassBuilder {   
    
@@ -21,7 +22,7 @@ public class ClassBuilder {
    private final ConstantPropertyBuilder builder;
    private final AnnotationList annotations;
    private final TypeHierarchy hierarchy;
-   private final ClassName name;  
+   private final ClassName name;
    
    public ClassBuilder(AnnotationList annotations, ClassName name, TypeHierarchy hierarchy) {
       this.reference = new AtomicReference<Type>();

@@ -1,4 +1,4 @@
-package org.snapscript.tree.define;
+package org.snapscript.tree.constraint;
 
 import static org.snapscript.core.ModifierType.CLASS;
 
@@ -10,6 +10,7 @@ import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.tree.NameReference;
+import org.snapscript.tree.define.TypeName;
 import org.snapscript.tree.literal.TextLiteral;
 
 public class ClassName implements TypeName {

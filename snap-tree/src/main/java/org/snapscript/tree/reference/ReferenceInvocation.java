@@ -2,8 +2,6 @@ package org.snapscript.tree.reference;
 
 import static org.snapscript.core.error.Reason.ACCESS;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
@@ -22,18 +20,19 @@ import org.snapscript.core.trace.TraceEvaluation;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
-import org.snapscript.tree.ModifierAccessVerifier;
 import org.snapscript.tree.ArgumentList;
-import org.snapscript.tree.NameReference;
+import org.snapscript.tree.ModifierAccessVerifier;
+import org.snapscript.tree.constraint.FunctionName;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ReferenceInvocation implements Compilation {
 
    private final Evaluation[] evaluations;
-   private final NameReference reference;
+   private final FunctionName identifier;
    private final ArgumentList arguments;
    
-   public ReferenceInvocation(Evaluation function, ArgumentList arguments, Evaluation... evaluations) {
-      this.reference = new NameReference(function);
+   public ReferenceInvocation(FunctionName identifier, ArgumentList arguments, Evaluation... evaluations) {
+      this.identifier = identifier;
       this.evaluations = evaluations;
       this.arguments = arguments;
    }
@@ -51,7 +50,7 @@ public class ReferenceInvocation implements Compilation {
    private Evaluation create(Module module, Path path, int line) throws Exception {
       Scope scope = module.getScope();
       Context context = module.getContext();
-      String name = reference.getName(scope);
+      String name = identifier.getName(scope);
       FunctionBinder binder = context.getBinder();   
       FunctionMatcher matcher = binder.bind(name);
       

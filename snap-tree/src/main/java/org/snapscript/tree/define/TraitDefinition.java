@@ -26,6 +26,7 @@ import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypePart;
 import org.snapscript.core.type.TypeState;
 import org.snapscript.tree.annotation.AnnotationList;
+import org.snapscript.tree.constraint.TraitName;
 
 public class TraitDefinition implements Compilation {
    

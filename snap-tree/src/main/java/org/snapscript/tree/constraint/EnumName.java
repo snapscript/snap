@@ -1,4 +1,4 @@
-package org.snapscript.tree.define;
+package org.snapscript.tree.constraint;
 
 import static java.util.Collections.EMPTY_LIST;
 import static org.snapscript.core.ModifierType.ENUM;
@@ -9,6 +9,7 @@ import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.tree.NameReference;
+import org.snapscript.tree.define.TypeName;
 import org.snapscript.tree.literal.TextLiteral;
 
 public class EnumName implements TypeName {

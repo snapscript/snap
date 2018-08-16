@@ -1,12 +1,8 @@
 package org.snapscript.tree.define;
 
-import java.util.List;
-
-import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
+import org.snapscript.tree.constraint.GenericName;
 
-public interface TypeName {
+public interface TypeName extends GenericName {
    int getModifiers(Scope scope) throws Exception;
-   String getName(Scope scope) throws Exception;
-   List<Constraint> getGenerics(Scope scope) throws Exception;
 }

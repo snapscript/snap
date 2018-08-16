@@ -7,24 +7,23 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 
 public class AttributeTypeBuilder {
-   
+
    private final Attribute attribute;
-   
+
    public AttributeTypeBuilder(Attribute attribute) {
       this.attribute = attribute;
    }
-   
+
    public AttributeType create(Scope scope) {
       Constraint returns = attribute.getConstraint();
       List<Constraint> constraints = returns.getGenerics(scope);
       String name = returns.getName(scope);
       Type source = attribute.getSource();
       int count = constraints.size();
-      
+
       if(name != null || count > 0) {
          return new GenericAttributeType(returns, source);
       }
       return new StaticAttributeType(returns);
    }
-
 }

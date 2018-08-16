@@ -27,16 +27,16 @@ import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Constant;
 import org.snapscript.core.variable.Value;
 import org.snapscript.tree.ArgumentList;
-import org.snapscript.tree.NameReference;
+import org.snapscript.tree.constraint.FunctionName;
 
 public class FunctionInvocation implements Compilation {
 
    private final Evaluation[] evaluations;
-   private final NameReference reference;
+   private final FunctionName identifier;
    private final ArgumentList arguments;
    
-   public FunctionInvocation(Evaluation function, ArgumentList arguments, Evaluation... evaluations) {
-      this.reference = new NameReference(function);
+   public FunctionInvocation(FunctionName identifier, ArgumentList arguments, Evaluation... evaluations) {
+      this.identifier = identifier;
       this.evaluations = evaluations;
       this.arguments = arguments;
    }
@@ -54,7 +54,7 @@ public class FunctionInvocation implements Compilation {
    private Evaluation create(Module module, Path path, int line) throws Exception {
       Scope scope = module.getScope();
       Context context = module.getContext();
-      String name = reference.getName(scope); 
+      String name = identifier.getName(scope);
       FunctionBinder binder = context.getBinder();   
       FunctionMatcher matcher = binder.bind(name);
       

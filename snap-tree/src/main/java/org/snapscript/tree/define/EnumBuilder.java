@@ -13,6 +13,7 @@ import org.snapscript.core.scope.State;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeBody;
 import org.snapscript.core.variable.Value;
+import org.snapscript.tree.constraint.EnumName;
 
 public class EnumBuilder {
 

@@ -1,4 +1,4 @@
-package org.snapscript.tree.define;
+package org.snapscript.tree.constraint;
 
 import java.util.ArrayList;
 import java.util.List;

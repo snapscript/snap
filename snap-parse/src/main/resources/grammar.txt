@@ -43,12 +43,13 @@ range = <argument>'..'<argument>;
 constructor = 'new';
 
 function = {<constructor> | [identifier]};
+function-name = [identifier] <generic-list>;
 function-argument-list = ?<argument>*(','<argument>);
-function-invocation = <function> ( '(' <function-argument-list> ')' ) *{ '(' <function-curry>')' | '['<collection-index>']' }; 
+function-invocation = <function-name> ( '(' <function-argument-list> ')' ) *{ '(' <function-curry>')' | '['<collection-index>']' };
 function-curry = <function-argument-list>;
 function-handle = <function>;
 
-reference-invocation = <function> ( '(' <function-argument-list> ')' ) *{ '(' <function-curry>')' | '['<collection-index>']' }; 
+reference-invocation = <function-name> ( '(' <function-argument-list> ')' ) *{ '(' <function-curry>')' | '['<collection-index>']' };
 reference-property = { <class> | 
 					  [identifier] *( '[' <collection-index> ']' ) ?('::' <function-handle>) | 
 					  [type] };
@@ -290,7 +291,7 @@ this-constructor = 'this''('?<argument-list>')';
 class-name = [type] <generic-list>;
 class-field-declaration = <assignment-variable>?(':'<constraint>)?('='<assignment-expression>);
 class-field = <annotation-list><field-modifier-list><class-field-declaration>*(','<class-field-declaration>)';';
-class-function = <annotation-list><function-modifier-list><function>'('<parameter-list>')'?(':'<constraint>){';' | <group-statement>};
+class-function = <annotation-list><function-modifier-list><function-name>'('<parameter-list>')'?(':'<constraint>){';' | <group-statement>};
 class-constructor = <annotation-list><access-modifier-list>'new''('<parameter-list>')'?(':'{<this-constructor> | <super-constructor>})<group-statement>;
 class-part = {<class-field> | <class-constructor> | <class-function> | <inner-class-definition> | <inner-abstract-class-definition> | <inner-enum-definition> | <inner-trait-definition> };
 class-hierarchy = ?{?_'extends'_<class-constraint> | ?_'with'_<trait-constraint>}*(?_'with'_<trait-constraint>);
@@ -302,7 +303,7 @@ abstract-class-definition = ?<annotation-list>'abstract'_'class'_<abstract-class
 trait-name = [type] <generic-list>;
 trait-constant = <annotation-list><field-modifier-list><assignment-variable>?(':'<constraint>)'='<assignment-expression>';';
 trait-hierarchy = *(?_'extends'_<trait-constraint>);
-trait-function = ?<annotation-list><function-modifier-list><function>'('<parameter-list>')'?(':'<constraint>){';' | <group-statement>};
+trait-function = ?<annotation-list><function-modifier-list><function-name>'('<parameter-list>')'?(':'<constraint>){';' | <group-statement>};
 trait-part = {<trait-constant> | <trait-function> | <inner-class-definition> | <inner-abstract-class-definition> | <inner-enum-definition> | <inner-trait-definition>};
 trait-definition = ?<annotation-list>'trait'_<trait-name>?<trait-hierarchy>{'{}' | '{'*<trait-part>'}'};
 
@@ -314,7 +315,7 @@ enum-list = <enum-value>*(','<enum-value>);
 enum-constructor = <annotation-list><access-modifier-list>'new''('<parameter-list>')'<group-statement>;
 enum-field-declaration = <assignment-variable>?(':'<constraint>)?('='<assignment-expression>);
 enum-field = <annotation-list><field-modifier-list><enum-field-declaration>*(','<enum-field-declaration>)';';
-enum-function = <annotation-list><function-modifier-list><function>'('<parameter-list>')'?(':'<constraint>){';' | <group-statement>};
+enum-function = <annotation-list><function-modifier-list><function-name>'('<parameter-list>')'?(':'<constraint>){';' | <group-statement>};
 enum-part = {<enum-field> | <enum-constructor> | <enum-function>};
 enum-definition = ?<annotation-list>'enum'_<enum-name>?<enum-hierarchy>'{'<enum-list>?(';'*<enum-part>)'}';
    
@@ -336,13 +337,13 @@ module-name = [identifier];
 module-import = <import>;
 module-property = <assignment-variable>?(':'<constraint>)?('='<assignment-expression>);
 module-declaration = <field-modifier-list><module-property>*(','<module-property>)';';
-module-function = <annotation-list><access-modifier-list><function>'('<parameter-list>')'?(':'<constraint>)<group-statement>;
+module-function = <annotation-list><access-modifier-list><function-name>'('<parameter-list>')'?(':'<constraint>)<group-statement>;
 module-statement = {<try-statement> | <synchronized-statement> | <conditional-statement> | <type-definition> | <assignment-statement> | <expression-statement>};
 module-part = {<module-import> | <module-function> | <module-declaration> | <module-statement>};
 module-definition = ?<annotation-list>'module'_<module-name>{'{}' | '{'*<module-part>'}'};
  
 script-import = <import-static> | <import> | <import-list>;
-script-function = {'function'|'func'}_<function>'('<parameter-list>')'?(':'<constraint>)<group-statement>;
+script-function = {'function'|'func'}_<function-name>'('<parameter-list>')'?(':'<constraint>)<group-statement>;
 script-statement = { <try-statement> | 
 				     <synchronized-statement> |
 				     <declaration-statement> |

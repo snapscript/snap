@@ -1,6 +1,5 @@
 package org.snapscript.tree.define;
 
-import org.snapscript.core.Evaluation;
 import org.snapscript.core.Statement;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.constraint.DeclarationConstraint;
@@ -9,7 +8,7 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.tree.ModifierChecker;
 import org.snapscript.tree.ModifierList;
-import org.snapscript.tree.NameReference;
+import org.snapscript.tree.constraint.FunctionName;
 import org.snapscript.tree.function.ParameterList;
 
 public class MemberFunctionAssembler {
@@ -17,14 +16,14 @@ public class MemberFunctionAssembler {
    private final DeclarationConstraint constraint;
    private final ParameterList parameters;
    private final ModifierChecker checker;
-   private final NameReference identifier;
+   private final FunctionName identifier;
    private final ModifierList list;
    private final Statement body;
    
-   public MemberFunctionAssembler(ModifierList list, Evaluation identifier, ParameterList parameters, Constraint constraint, Statement body){ 
+   public MemberFunctionAssembler(ModifierList list, FunctionName identifier, ParameterList parameters, Constraint constraint, Statement body){
       this.constraint = new DeclarationConstraint(constraint);
-      this.identifier = new NameReference(identifier);
       this.checker = new ModifierChecker(list);
+      this.identifier = identifier;
       this.parameters = parameters;
       this.list = list;
       this.body = body;

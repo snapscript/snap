@@ -5,23 +5,22 @@ import static org.snapscript.core.result.Result.NORMAL;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.snapscript.core.Evaluation;
 import org.snapscript.core.Execution;
 import org.snapscript.core.ModifierValidator;
 import org.snapscript.core.NoExecution;
 import org.snapscript.core.Statement;
-import org.snapscript.core.module.Module;
-import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.constraint.DeclarationConstraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionBody;
 import org.snapscript.core.function.Signature;
+import org.snapscript.core.module.Module;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Type;
 import org.snapscript.tree.ModifierList;
-import org.snapscript.tree.NameReference;
 import org.snapscript.tree.annotation.AnnotationList;
 import org.snapscript.tree.compile.TypeScopeCompiler;
+import org.snapscript.tree.constraint.FunctionName;
 import org.snapscript.tree.function.ParameterList;
 
 public class ModuleFunction implements ModulePart {
@@ -29,18 +28,18 @@ public class ModuleFunction implements ModulePart {
    private final DeclarationConstraint constraint;
    private final AnnotationList annotations;
    private final ParameterList parameters;
-   private final NameReference reference;
+   private final FunctionName identifier;
    private final ModifierList modifiers;
    private final Statement statement;
    
-   public ModuleFunction(AnnotationList annotations, ModifierList modifiers, Evaluation identifier, ParameterList parameters, Statement statement){  
+   public ModuleFunction(AnnotationList annotations, ModifierList modifiers, FunctionName identifier, ParameterList parameters, Statement statement){
       this(annotations, modifiers, identifier, parameters, null, statement);
    }
    
-   public ModuleFunction(AnnotationList annotations, ModifierList modifiers, Evaluation identifier, ParameterList parameters, Constraint constraint, Statement statement){  
+   public ModuleFunction(AnnotationList annotations, ModifierList modifiers, FunctionName identifier, ParameterList parameters, Constraint constraint, Statement statement){
       this.constraint = new DeclarationConstraint(constraint);
-      this.reference = new NameReference(identifier);
       this.annotations = annotations;
+      this.identifier = identifier;
       this.parameters = parameters;
       this.statement = statement;
       this.modifiers = modifiers;
@@ -49,7 +48,7 @@ public class ModuleFunction implements ModulePart {
    @Override
    public Statement define(ModuleBody body, Module module) throws Exception {
       Scope scope = module.getScope();
-      String name = reference.getName(scope);
+      String name = identifier.getName(scope);
       int mask = modifiers.getModifiers();
       
       return new DefineResult(body, statement, name, mask);

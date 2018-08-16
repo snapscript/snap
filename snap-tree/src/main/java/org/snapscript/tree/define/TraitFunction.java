@@ -10,23 +10,24 @@ import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.type.TypeBody;
 import org.snapscript.tree.ModifierList;
 import org.snapscript.tree.annotation.AnnotationList;
+import org.snapscript.tree.constraint.FunctionName;
 import org.snapscript.tree.function.ParameterList;
 
 public class TraitFunction extends MemberFunction {
  
-   public TraitFunction(AnnotationList annotations, ModifierList list, Evaluation identifier, ParameterList parameters){
+   public TraitFunction(AnnotationList annotations, ModifierList list, FunctionName identifier, ParameterList parameters){
       super(annotations, list, identifier, parameters);
    }
    
-   public TraitFunction(AnnotationList annotations, ModifierList list, Evaluation identifier, ParameterList parameters, Constraint constraint){
+   public TraitFunction(AnnotationList annotations, ModifierList list, FunctionName identifier, ParameterList parameters, Constraint constraint){
       super(annotations, list, identifier, parameters, constraint);
    }
    
-   public TraitFunction(AnnotationList annotations, ModifierList list, Evaluation identifier, ParameterList parameters, Statement body){  
+   public TraitFunction(AnnotationList annotations, ModifierList list, FunctionName identifier, ParameterList parameters, Statement body){
       super(annotations, list, identifier, parameters, body);
    }
    
-   public TraitFunction(AnnotationList annotations, ModifierList list, Evaluation identifier, ParameterList parameters, Constraint constraint, Statement body){  
+   public TraitFunction(AnnotationList annotations, ModifierList list, FunctionName identifier, ParameterList parameters, Constraint constraint, Statement body){
       super(annotations, list, identifier, parameters, constraint, body);
    } 
    

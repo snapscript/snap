@@ -10,10 +10,10 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 
 public class GenericAttributeType implements AttributeType {
-   
+
    private final Constraint returns;
    private final Type declared;
-   
+
    public GenericAttributeType(Constraint returns, Type declared) {
       this.declared = declared;
       this.returns = returns;
@@ -22,15 +22,15 @@ public class GenericAttributeType implements AttributeType {
    @Override
    public Constraint getConstraint(Scope scope, Constraint left) {
       Type constraint = left.getType(scope);
-      
+
       if(declared != null && constraint != null) {
          Module module = scope.getModule();
-         Context context = module.getContext();         
+         Context context = module.getContext();
          ConstraintTransformer transformer = context.getTransformer();
          ConstraintTransform transform = transformer.transform(constraint, declared);
          ConstraintRule rule = transform.apply(left);
-         
-         return rule.getResult(returns);     
+
+         return rule.getResult(returns);
       }
       return returns;
    }

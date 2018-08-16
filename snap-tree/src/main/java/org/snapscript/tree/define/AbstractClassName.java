@@ -4,6 +4,8 @@ import static org.snapscript.core.ModifierType.ABSTRACT;
 import static org.snapscript.core.ModifierType.CLASS;
 
 import org.snapscript.core.scope.Scope;
+import org.snapscript.tree.constraint.ClassName;
+import org.snapscript.tree.constraint.GenericList;
 import org.snapscript.tree.literal.TextLiteral;
 
 public class AbstractClassName extends ClassName {

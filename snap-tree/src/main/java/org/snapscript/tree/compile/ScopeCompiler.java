@@ -22,21 +22,21 @@ import org.snapscript.core.type.TypeLoader;
 import org.snapscript.core.variable.Value;
 
 public abstract class ScopeCompiler {
-   
+
    protected void compileProperties(Scope scope, Type type) {
       Module module = scope.getModule();
       Context context = module.getContext();
-      TypeExtractor extractor = context.getExtractor();      
-      Set<Property> properties = extractor.getProperties(type); 
+      TypeExtractor extractor = context.getExtractor();
+      Set<Property> properties = extractor.getProperties(type);
       State state = scope.getState();
-      
+
       for(Property property : properties) {
          String name = property.getName();
-         
+
          if(!name.equals(TYPE_THIS)) {
             Value field = compileProperty(scope, property);
             Value current = state.get(name);
-            
+
             if(current == null) {
                state.add(name, field);
             }
@@ -49,56 +49,56 @@ public abstract class ScopeCompiler {
       Type result = constraint.getType(scope);
 
       if(constraint.isConstant()) {
-         return Value.getConstant(property, constraint);  
+         return Value.getConstant(property, constraint);
       }
-      return Local.getReference(property, constraint);      
+      return Local.getReference(property, constraint);
    }
-   
+
    protected void compileParameters(Scope scope, Function function) {
       Signature signature = function.getSignature();
       State state = scope.getState();
       Table table = scope.getTable();
       List<Parameter> parameters = signature.getParameters();
       int count = parameters.size();
-      
+
       for(int i = 0; i < count; i++) {
          Parameter parameter = parameters.get(i);
          String name = parameter.getName();
          Local local = compileParameter(scope, parameter);
-         
+
          state.add(name, local);
          table.add(i, local);
       }
    }
-   
+
    protected Local compileParameter(Scope scope, Parameter parameter) {
       String name = parameter.getName();
       Constraint constraint = parameter.getConstraint();
-      
+
       if(parameter.isVariable()) {
          constraint = compileArray(scope, constraint);
       }
       if(parameter.isConstant()) {
-         return Local.getConstant(parameter, name, constraint);  
+         return Local.getConstant(parameter, name, constraint);
       }
-      return Local.getReference(parameter, name, constraint);      
+      return Local.getReference(parameter, name, constraint);
    }
-   
+
    protected Constraint compileArray(Scope scope, Constraint constraint) {
       Type type = constraint.getType(scope);
-      
+
       if(type != null) {
          Module module = type.getModule();
          Context context = module.getContext();
          TypeLoader loader = context.getLoader();
          String prefix = module.getName();
-         String name = type.getName();         
+         String name = type.getName();
          Type array = loader.loadArrayType(prefix, name, 1);
-         
+
          return Constraint.getConstraint(array);
       }
       return constraint;
-   }   
-   
-   public abstract Scope compile(Scope local, Type type, Function function) throws Exception; 
+   }
+
+   public abstract Scope compile(Scope local, Type type, Function function) throws Exception;
 }

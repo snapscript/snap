@@ -17,6 +17,7 @@ import org.snapscript.core.type.TypePart;
 import org.snapscript.core.type.TypeState;
 import org.snapscript.tree.ModifierList;
 import org.snapscript.tree.annotation.AnnotationList;
+import org.snapscript.tree.constraint.FunctionName;
 import org.snapscript.tree.function.ParameterList;
 
 public class MemberFunction extends TypePart {
@@ -26,19 +27,19 @@ public class MemberFunction extends TypePart {
    protected final AnnotationList annotations;
    protected final Statement statement;
    
-   public MemberFunction(AnnotationList annotations, ModifierList modifiers, Evaluation identifier, ParameterList parameters){
+   public MemberFunction(AnnotationList annotations, ModifierList modifiers, FunctionName identifier, ParameterList parameters){
       this(annotations, modifiers, identifier, parameters, null, null);
    }
    
-   public MemberFunction(AnnotationList annotations, ModifierList modifiers, Evaluation identifier, ParameterList parameters, Constraint constraint){
+   public MemberFunction(AnnotationList annotations, ModifierList modifiers, FunctionName identifier, ParameterList parameters, Constraint constraint){
       this(annotations, modifiers, identifier, parameters, constraint, null);
    }
    
-   public MemberFunction(AnnotationList annotations, ModifierList modifiers, Evaluation identifier, ParameterList parameters, Statement body){  
+   public MemberFunction(AnnotationList annotations, ModifierList modifiers, FunctionName identifier, ParameterList parameters, Statement body){
       this(annotations, modifiers, identifier, parameters, null, body);
    }
    
-   public MemberFunction(AnnotationList annotations, ModifierList modifiers, Evaluation identifier, ParameterList parameters, Constraint constraint, Statement statement){  
+   public MemberFunction(AnnotationList annotations, ModifierList modifiers, FunctionName identifier, ParameterList parameters, Constraint constraint, Statement statement){
       this.assembler = new MemberFunctionAssembler(modifiers, identifier, parameters, constraint, statement);
       this.validator = new ModifierValidator();
       this.annotations = annotations;
