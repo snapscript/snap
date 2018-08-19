@@ -19,10 +19,10 @@ public class GenericAttributeType implements AttributeType {
 
    @Override
    public Constraint getConstraint(Scope scope, Constraint left) {
-      Type constraint = left.getType(scope);
-      Constraint returns = attribute.getConstraint();
       Module module = scope.getModule();
-      Context context = module.getContext();         
+      Context context = module.getContext();  
+      Type constraint = left.getType(scope);
+      Constraint returns = attribute.getConstraint();       
       ConstraintTransformer transformer = context.getTransformer();
       ConstraintTransform transform = transformer.transform(constraint, attribute);
       ConstraintRule rule = transform.apply(left);

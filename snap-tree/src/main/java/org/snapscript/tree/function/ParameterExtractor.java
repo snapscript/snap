@@ -53,11 +53,11 @@ public class ParameterExtractor {
    public Scope extract(Scope scope, Object[] arguments) throws Exception {
       List<Parameter> parameters = signature.getParameters();
       List<Constraint> generics = signature.getGenerics();
+      Scope inner = scope.getStack();    
       int required = parameters.size();
       int optional = generics.size();
 
-      if(optional + required > 0) {
-         Scope inner = scope.getStack();      
+      if(optional + required > 0) {  
          Table table = inner.getTable();
          State state = inner.getState();
          
@@ -76,9 +76,8 @@ public class ParameterExtractor {
             }
             table.addLocal(i, local);
          }   
-         return inner;
       }
-      return scope;
+      return inner;
    }
 
    private Local create(Scope scope, Object value, int index) throws Exception {

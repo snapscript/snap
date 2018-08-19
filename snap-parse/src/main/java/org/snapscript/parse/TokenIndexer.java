@@ -227,7 +227,8 @@ public class TokenIndexer {
       switch(value) {
       case ')': case '(':
       case '.': case '?':
-      case ',': 
+      case ',': case '=':
+      case ';':
          return true;
       }
       return false;
