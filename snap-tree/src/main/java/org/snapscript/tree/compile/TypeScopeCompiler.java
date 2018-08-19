@@ -11,26 +11,26 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
-import org.snapscript.tree.constraint.FunctionName;
+import org.snapscript.tree.constraint.GenericList;
 
 public class TypeScopeCompiler extends ScopeCompiler{
    
-   private final FunctionName identifier;
+   protected final GenericList generics;
    
-   public TypeScopeCompiler(FunctionName identifier) {
-      this.identifier = identifier;
+   public TypeScopeCompiler(GenericList generics) {
+      this.generics = generics;
    }
    
    @Bug
    public Scope define(Scope scope, Type type) throws Exception{
-      List<Constraint> generics = identifier.getGenerics(scope);
+      List<Constraint> constraints = generics.getGenerics(scope);
       Scope outer = type.getScope();
       Scope inner = outer.getStack();
       State state = inner.getState();
-      int size = generics.size();
+      int size = constraints.size();
 
       for(int i = 0; i < size; i++) {
-         Constraint constraint = generics.get(i);    
+         Constraint constraint = constraints.get(i);    
          String name = constraint.getName(inner);
 
          state.addConstraint(name, constraint);
@@ -38,20 +38,19 @@ public class TypeScopeCompiler extends ScopeCompiler{
       return inner;
    }
 
-   @Bug
    @Override
    public Scope compile(Scope scope, Type type, Function function) throws Exception {
-      List<Constraint> generics = identifier.getGenerics(scope);
+      List<Constraint> constraints = generics.getGenerics(scope);
       Scope outer = type.getScope();
       Scope inner = outer.getStack();
       State state = inner.getState();
-      int size = generics.size();
+      int size = constraints.size();
 
       compileParameters(inner, function);
       compileProperties(inner, type);    
 
       for(int i = 0; i < size; i++) {
-         Constraint constraint = generics.get(i);    
+         Constraint constraint = constraints.get(i);    
          String name = constraint.getName(inner);
 
          state.addConstraint(name, constraint);

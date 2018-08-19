@@ -2,6 +2,7 @@ package org.snapscript.tree.closure;
 
 import static org.snapscript.core.constraint.Constraint.NONE;
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.Compilation;
@@ -58,6 +59,7 @@ public class Closure implements Compilation {
       private final ClosureParameterList parameters;
       private final ClosureScopeCompiler compiler;
       private final ClosureBuilder builder;
+      private final GenericList generics;
       private final Module module;
 
       public CompileResult(GenericList generics, ClosureParameterList parameters, Statement closure, Module module){
@@ -65,14 +67,15 @@ public class Closure implements Compilation {
          this.builder = new ClosureBuilder(closure, module);
          this.compiler = new ClosureScopeCompiler(generics);
          this.parameters = parameters;
+         this.generics = generics;
          this.module = module;
       }
       
       @Override
       public void define(Scope scope) throws Exception {
-         Scope parent = module.getScope();
-         Signature signature = parameters.create(parent);
          Scope capture = compiler.define(scope, null);
+         List<Constraint> constraints = generics.getGenerics(capture);
+         Signature signature = parameters.create(capture, constraints);
          FunctionBody body = builder.create(signature, capture); // creating new function each time
          
          body.define(capture);

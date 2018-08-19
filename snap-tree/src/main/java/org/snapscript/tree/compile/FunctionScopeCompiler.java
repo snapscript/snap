@@ -8,28 +8,28 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
 import org.snapscript.core.scope.index.LocalScopeExtractor;
 import org.snapscript.core.type.Type;
-import org.snapscript.tree.constraint.FunctionName;
+import org.snapscript.tree.constraint.GenericList;
 
 public class FunctionScopeCompiler extends ScopeCompiler {
    
-   private final LocalScopeExtractor extractor;
-   private final FunctionName identifier;
+   protected final LocalScopeExtractor extractor;
+   protected final GenericList generics;
    
-   public FunctionScopeCompiler(FunctionName identifier) {
+   public FunctionScopeCompiler(GenericList generics) {
       this.extractor = new LocalScopeExtractor(false, true);
-      this.identifier = identifier;
+      this.generics = generics;
    }
 
    @Override
    public Scope define(Scope local, Type type) throws Exception{
-      List<Constraint> generics = identifier.getGenerics(local);
+      List<Constraint> constraints = generics.getGenerics(local);
       Scope scope = extractor.extract(local);
       Scope stack = scope.getStack();
       State state = stack.getState();
-      int size = generics.size();
+      int size = constraints.size();
       
       for(int i = 0; i < size; i++) {
-         Constraint constraint = generics.get(i);    
+         Constraint constraint = constraints.get(i);    
          String name = constraint.getName(stack);
 
          state.addConstraint(name, constraint);
@@ -39,16 +39,16 @@ public class FunctionScopeCompiler extends ScopeCompiler {
    
    @Override
    public Scope compile(Scope local, Type type, Function function) throws Exception {
-      List<Constraint> generics = identifier.getGenerics(local);
+      List<Constraint> constraints = generics.getGenerics(local);
       Scope scope = extractor.extract(local);
       Scope stack = scope.getStack();
       State state = stack.getState();
-      int size = generics.size();
+      int size = constraints.size();
       
       compileParameters(stack, function);
       
       for(int i = 0; i < size; i++) {
-         Constraint constraint = generics.get(i);    
+         Constraint constraint = constraints.get(i);    
          String name = constraint.getName(stack);
 
          state.addConstraint(name, constraint);

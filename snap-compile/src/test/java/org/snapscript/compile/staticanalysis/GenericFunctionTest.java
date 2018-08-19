@@ -33,7 +33,11 @@ public class GenericFunctionTest extends CompileTestCase {
    "   return [['a','b']];\n"+
    "}\n"+
    "let u = fun<List<String>, Number>(11).get(0).get(0).toUpperCase();\n"+
-   "println(u);\n";  
+   "println(u);\n";    
+   
+   private static final String SUCCESS_6 =
+   "let x = <T: Runnable>(a: T) -> a.run();\n"+
+   "println(x);\n";
    
    private static final String FAILURE_1 =
    "func fun<T: Number>(a: T): T {\n"+
@@ -68,6 +72,7 @@ public class GenericFunctionTest extends CompileTestCase {
       assertCompileAndExecuteSuccess(SUCCESS_3);
       assertCompileAndExecuteSuccess(SUCCESS_4);
       assertCompileAndExecuteSuccess(SUCCESS_5);
+      assertCompileAndExecuteSuccess(SUCCESS_6);
       assertCompileError(FAILURE_1, "Function 'substring(lang.Integer)' not found for 'lang.Double' in /default.snap at line 4");
       assertCompileError(FAILURE_2, "Function 'substring(lang.Integer)' not found for 'lang.Integer' in /default.snap at line 6");
       assertCompileError(FAILURE_3, "Function 'substring(lang.Integer)' not found for 'lang.Integer' in /default.snap at line 4");

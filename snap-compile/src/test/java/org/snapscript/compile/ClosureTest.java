@@ -5,6 +5,14 @@ import java.text.DecimalFormat;
 
 import junit.framework.TestCase;
 
+import org.snapscript.common.store.ClassPathStore;
+import org.snapscript.common.store.Store;
+import org.snapscript.core.Context;
+import org.snapscript.core.Reserved;
+import org.snapscript.parse.SyntaxCompiler;
+import org.snapscript.parse.SyntaxNode;
+import org.snapscript.tree.Instruction;
+
 import com.sun.management.ThreadMXBean;
 
 public class ClosureTest extends TestCase {
@@ -35,6 +43,11 @@ public class ClosureTest extends TestCase {
    "var f = -> {\n"+
    "   expression(10);\n"+
    "};\n";
+   
+   private static final String SOURCE_5=
+   "let x: (a) -> a.run();\n"+
+    "println(x);\n";
+
 
    public void testClosure() throws Exception {
       DecimalFormat format = new DecimalFormat("###,###,###,###,###");
@@ -100,6 +113,15 @@ public class ClosureTest extends TestCase {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
       Executable executable = compiler.compile(SOURCE_4);
       System.err.println(SOURCE_4);
+      executable.execute();
+   }
+   
+   public void testClosureParameters() throws Exception {
+      SyntaxNode node = new SyntaxCompiler(Reserved.GRAMMAR_FILE).compile().parse("/path.snap", SOURCE_5, Instruction.SCRIPT.name);
+      System.out.println(SyntaxPrinter.print(node));
+      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
+      Executable executable = compiler.compile(SOURCE_5);
+      System.err.println(SOURCE_5);
       executable.execute();
    }
 }
