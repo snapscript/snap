@@ -15,11 +15,13 @@ public class AttributeTypeBuilder {
 
    public AttributeType create(Scope scope) {
       Constraint returns = attribute.getConstraint();
+      List<Constraint> generics = attribute.getGenerics();
       List<Constraint> constraints = returns.getGenerics(scope);
       String name = returns.getName(scope);
-      int count = constraints.size();
+      int require = constraints.size();
+      int optional = generics.size();
 
-      if(name != null || count > 0) {
+      if(name != null || optional + require > 0) {
          return new GenericAttributeType(attribute);
       }
       return new StaticAttributeType(attribute);

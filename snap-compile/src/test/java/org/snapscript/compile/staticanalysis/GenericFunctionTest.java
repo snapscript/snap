@@ -38,7 +38,13 @@ public class GenericFunctionTest extends CompileTestCase {
    private static final String SUCCESS_6 =
    "let x = <T: Runnable>(a: T) -> a.run();\n"+
    "println(x);\n";
-   
+
+   private static final String SUCCESS_7 =
+   "func test<T: List<?>>(a: T, b: T): T {\n"+
+   "   return [];\n"+
+   "}\n"+
+   "test([], []);\n";
+
    private static final String FAILURE_1 =
    "func fun<T: Number>(a: T): T {\n"+
    "  return a;\n"+
@@ -65,7 +71,13 @@ public class GenericFunctionTest extends CompileTestCase {
    "   return [['a','b']];\n"+
    "}\n"+
    "let u = fun<List<String>, Number>(11).get(0).get(0).intValue();\n";
-   
+
+   private static final String FAILURE_5 =
+   "func go<T: Runnable>(a: T){\n"+
+   "   a.run();\n"+
+   "}\n"+
+   "go<String>(()->println('x'));\n";
+
    public void testGenericFunction() throws Exception {
       assertCompileAndExecuteSuccess(SUCCESS_1);
       assertCompileAndExecuteSuccess(SUCCESS_2);
@@ -73,9 +85,11 @@ public class GenericFunctionTest extends CompileTestCase {
       assertCompileAndExecuteSuccess(SUCCESS_4);
       assertCompileAndExecuteSuccess(SUCCESS_5);
       assertCompileAndExecuteSuccess(SUCCESS_6);
+      assertCompileAndExecuteSuccess(SUCCESS_7);
       assertCompileError(FAILURE_1, "Function 'substring(lang.Integer)' not found for 'lang.Double' in /default.snap at line 4");
       assertCompileError(FAILURE_2, "Function 'substring(lang.Integer)' not found for 'lang.Integer' in /default.snap at line 6");
       assertCompileError(FAILURE_3, "Function 'substring(lang.Integer)' not found for 'lang.Integer' in /default.snap at line 4");
       assertCompileError(FAILURE_4, "Function 'intValue()' not found for 'lang.String' in /default.snap at line 4");
+      assertCompileError(FAILURE_5, "Generic parameter 'T' is does not match 'lang.Runnable' in /default.snap at line 4");
    }
 }

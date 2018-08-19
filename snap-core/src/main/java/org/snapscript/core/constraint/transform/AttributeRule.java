@@ -2,7 +2,6 @@ package org.snapscript.core.constraint.transform;
 
 import java.util.List;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.attribute.Attribute;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.InstanceOfChecker;
@@ -23,8 +22,7 @@ public class AttributeRule implements ConstraintRule {
       this.attribute = attribute;
       this.rule = rule;
    }
-   
-   @Bug
+
    @Override
    public Constraint getResult(Scope scope, Constraint returns) {
       List<Constraint> defaults = attribute.getGenerics();

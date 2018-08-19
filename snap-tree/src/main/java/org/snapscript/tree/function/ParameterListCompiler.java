@@ -14,6 +14,7 @@ import org.snapscript.core.function.ParameterBuilder;
 import org.snapscript.core.function.Signature;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Type;
 
 public class ParameterListCompiler {
    
@@ -48,6 +49,9 @@ public class ParameterListCompiler {
          
          if(declaration != null) {
             Parameter parameter = declaration.get(scope);
+            Constraint constraint = parameter.getConstraint();
+
+            constraint.getType(scope);
             parameters.add(parameter);
          }
       }

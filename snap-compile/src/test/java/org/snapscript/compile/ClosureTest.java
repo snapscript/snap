@@ -45,8 +45,8 @@ public class ClosureTest extends TestCase {
    "};\n";
    
    private static final String SOURCE_5=
-   "let x: (a) -> a.run();\n"+
-    "println(x);\n";
+   "let x = (a) -> a.run();\n"+
+   "println(x);\n";
 
 
    public void testClosure() throws Exception {
