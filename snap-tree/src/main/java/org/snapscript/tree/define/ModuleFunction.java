@@ -80,14 +80,14 @@ public class ModuleFunction implements ModulePart {
          Type type = module.getType(); // ???
          Scope combined = compiler.define(scope, type);
          List<Function> functions = module.getFunctions();
-         List<Constraint> generics = identifier.getGenerics(scope);
-         Signature signature = parameters.create(scope, generics);
-         Constraint require = constraint.getConstraint(scope, modifiers);
+         List<Constraint> generics = identifier.getGenerics(combined);
+         Signature signature = parameters.create(combined, generics);
+         Constraint require = constraint.getConstraint(combined, modifiers);
          FunctionBody body = builder.create(signature, module, require, name);
-         Function function = body.create(scope);    
+         Function function = body.create(combined);
          
          validator.validate(module, function, modifiers);
-         annotations.apply(scope, function);
+         annotations.apply(combined, function);
          functions.add(function);
          body.define(combined); // count stack
          cache.set(body);

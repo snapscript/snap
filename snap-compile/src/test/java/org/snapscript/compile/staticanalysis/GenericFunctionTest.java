@@ -45,6 +45,20 @@ public class GenericFunctionTest extends CompileTestCase {
    "}\n"+
    "test([], []);\n";
 
+   private static final String SUCCESS_8 =
+   "module Mod {\n"+
+    "   fib<T: Number>(n: T): Iterable<T> {\n"+
+    "      return [n];\n"+
+    "   }\n"+
+    "}\n";
+
+   private static final String SUCCESS_9 =
+   "class Typ {\n"+
+   "   fib<T: Number>(n: T): Iterable<T> {\n"+
+   "      return [n];\n"+
+   "   }\n"+
+   "}\n";
+
    private static final String FAILURE_1 =
    "func fun<T: Number>(a: T): T {\n"+
    "  return a;\n"+
@@ -86,6 +100,8 @@ public class GenericFunctionTest extends CompileTestCase {
       assertCompileAndExecuteSuccess(SUCCESS_5);
       assertCompileAndExecuteSuccess(SUCCESS_6);
       assertCompileAndExecuteSuccess(SUCCESS_7);
+      assertCompileAndExecuteSuccess(SUCCESS_8);
+      assertCompileAndExecuteSuccess(SUCCESS_9);
       assertCompileError(FAILURE_1, "Function 'substring(lang.Integer)' not found for 'lang.Double' in /default.snap at line 4");
       assertCompileError(FAILURE_2, "Function 'substring(lang.Integer)' not found for 'lang.Integer' in /default.snap at line 6");
       assertCompileError(FAILURE_3, "Function 'substring(lang.Integer)' not found for 'lang.Integer' in /default.snap at line 4");

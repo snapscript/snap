@@ -59,10 +59,10 @@ public class MemberFunction extends TypePart {
    
    @Bug
    protected TypeState assemble(TypeBody parent, Type type, Scope scope, int mask) throws Exception {
-      MemberFunctionBuilder builder = assembler.assemble(type, mask);
-      FunctionBody body = builder.create(parent, scope, type);
-      Function function = body.create(scope);
       Scope composite = compiler.define(scope, type);
+      MemberFunctionBuilder builder = assembler.assemble(composite, mask);
+      FunctionBody body = builder.create(parent, composite, type);
+      Function function = body.create(composite);
       List<Function> functions = type.getFunctions();
       int modifiers = function.getModifiers();
 

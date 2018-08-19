@@ -39,10 +39,10 @@ public abstract class MemberConstructor extends TypePart {
    
    protected TypeState assemble(TypeBody parent, Type type, Scope scope, boolean compile) throws Exception {
       int modifiers = list.getModifiers();
-      ConstructorBuilder builder = assembler.assemble(parent, type, scope);
-      FunctionBody body = builder.create(parent, type, modifiers, compile);
-      Function constructor = body.create(scope);
       Scope composite = compiler.define(scope, type);
+      ConstructorBuilder builder = assembler.assemble(parent, type, composite);
+      FunctionBody body = builder.create(parent, type, modifiers, compile);
+      Function constructor = body.create(composite);
       List<Function> functions = type.getFunctions();
       
       annotations.apply(composite, constructor);
