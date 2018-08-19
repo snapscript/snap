@@ -16,6 +16,10 @@ public class ParameterBuilder {
       return new Parameter(name, type, false);
    }
 
+   public Parameter create(Constraint type, String name, boolean variable) {
+      return new Parameter(name, type, variable);
+   }
+
    public Parameter create(Constraint type, int index) {
       return create(type, index, false);
    }

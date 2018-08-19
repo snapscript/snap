@@ -6,12 +6,15 @@ import org.snapscript.core.attribute.Attribute;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.InstanceOfChecker;
 import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.function.Function;
+import org.snapscript.core.function.Parameter;
+import org.snapscript.core.function.Signature;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
 import org.snapscript.core.scope.index.Table;
 import org.snapscript.core.type.Type;
 
-public class AttributeRule implements ConstraintRule {
+public class AttributeRule extends ConstraintRule {
    
    private final InstanceOfChecker checker;
    private final Attribute attribute;
@@ -24,37 +27,48 @@ public class AttributeRule implements ConstraintRule {
    }
 
    @Override
+   public List<Parameter> getParameters(Scope scope, Function function) {
+      Scope updated = getScope(scope);
+      return rule.getParameters(updated, function);
+   }
+
+   @Override
    public Constraint getResult(Scope scope, Constraint returns) {
+      Scope updated = getScope(scope);
+      return rule.getResult(updated, returns);
+   }
+
+   protected Scope getScope(Scope scope) {
       List<Constraint> defaults = attribute.getGenerics();
       int count = defaults.size();
-      
-      if(count > 0) {     
+
+      if(count > 0) {
          Table table = scope.getTable();
          State state = scope.getState();
-         Constraint first = table.getConstraint(0);    
-            
+         Constraint first = table.getConstraint(0);
+
          for(int i = 0; i < count; i++) {
             Constraint parameter = table.getConstraint(i);
             Constraint constraint = defaults.get(i);
-            String name = constraint.getName(scope);               
-            
+            String name = constraint.getName(scope);
+
             if(parameter != null) {
                Type require = constraint.getType(scope);
                Type actual = parameter.getType(scope);
-            
+
                if(!checker.isInstanceOf(scope, actual, require)) {
                   throw new InternalStateException("Generic parameter '" + name +"' is does not match '" + constraint + "'");
                }
                state.addConstraint(name, parameter);
             } else {
-               if(first != null) {               
+               if(first != null) {
                   throw new InternalStateException("Generic parameter '" + name +"' not specified");
                }
                state.addConstraint(name, constraint);
             }
          }
       }
-      return rule.getResult(scope, returns);
+      return scope;
    }
 
    @Override

@@ -24,7 +24,7 @@ public class LocalTransform implements ConstraintTransform {
       return new AttributeRule(rule, attribute);
    }
    
-   private static class LocalRule implements ConstraintRule {
+   private static class LocalRule extends ConstraintRule {
       
       private final ConstraintIndex index;
       private final Constraint left;

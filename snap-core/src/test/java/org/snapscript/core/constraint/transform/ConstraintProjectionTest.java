@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import junit.framework.TestCase;
-
 import org.snapscript.core.Context;
 import org.snapscript.core.MockContext;
 import org.snapscript.core.Reserved;
@@ -14,6 +13,11 @@ import org.snapscript.core.attribute.Attribute;
 import org.snapscript.core.constraint.ClassConstraint;
 import org.snapscript.core.constraint.ClassParameterConstraint;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.function.EmptyFunction;
+import org.snapscript.core.function.FunctionSignature;
+import org.snapscript.core.function.Origin;
+import org.snapscript.core.function.Parameter;
+import org.snapscript.core.function.Signature;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.index.Local;
 import org.snapscript.core.scope.index.Table;
@@ -38,7 +42,37 @@ public class ConstraintProjectionTest extends TestCase {
    }
    
    private Context context = new MockContext();
-   
+
+   public void testGenericFunctionSignatureProjection() {
+
+      Constraint left = createConstraint(null, Map.class, GenericPair.of("X", String.class), GenericPair.of("Y", Integer.class));
+      // public <F> Map<F, Integer> thisMethod()
+      Scope scopeMap_FasString_String = context.getRegistry().addModule(Reserved.DEFAULT_PACKAGE).getScope().getStack();
+      //Scope scope, GenericPair[] typeParams, GenericPair[] functionParams, Map<String, GenericPair> params
+      Map<String, GenericPair> params=new HashMap<String, GenericPair>();
+      params.put("a", GenericPair.of("A", Object.class));
+      Signature signature = createSignature(
+              scopeMap_FasString_String,
+              new GenericPair[]{GenericPair.of("F", Object.class), GenericPair.of(null, Integer.class)},
+              new GenericPair[]{GenericPair.of("F", String.class), GenericPair.of("A", String.class)},
+              params);
+
+      Attribute returnsMap_FasString_String = createAttribute(
+              scopeMap_FasString_String,
+              GenericFuncBase.class,
+              null,
+              Map.class,
+              new GenericPair[]{GenericPair.of("F", Object.class), GenericPair.of(null, Integer.class)},
+              new GenericPair[]{GenericPair.of("F", String.class), GenericPair.of("A", String.class)});
+
+      ConstraintTransform transformMap_FasString_String = createTransform(GenericRoot.class, returnsMap_FasString_String);
+      List<Parameter> parametersMap_FasString_String = transformMap_FasString_String.apply(left).getParameters(scopeMap_FasString_String, new EmptyFunction(signature));
+
+      assertEquals(parametersMap_FasString_String.get(0).getName(), "a");
+      assertEquals(parametersMap_FasString_String.get(0).getConstraint().getName(scopeMap_FasString_String), "A");
+      assertEquals(parametersMap_FasString_String.get(0).getConstraint().getType(scopeMap_FasString_String).getType(), String.class);
+   }
+
    public void testGenericFunctionProjection() {
 
       Constraint left = createConstraint(null, Map.class, GenericPair.of("X", String.class), GenericPair.of("Y", Integer.class));
@@ -123,7 +157,22 @@ public class ConstraintProjectionTest extends TestCase {
             context.getLoader().loadType(from),
             attribute);
    }
-   
+
+   private Signature createSignature(Scope scope, GenericPair[] typeParams, GenericPair[] functionParams, Map<String, GenericPair> params){
+      List<Constraint> generics = createConstraintList(functionParams);
+      List<Parameter> parameters = createParameterList(params);
+      Table table = scope.getTable();
+
+      for(int i = 0; i < generics.size(); i++){
+         Constraint generic = generics.get(i);
+         String key = generic.getName(scope);
+         Local value = Local.getConstant(generic, key);
+
+         table.addLocal(i, value);
+      }
+       return new FunctionSignature(parameters, generics, scope.getModule(), null, Origin.DEFAULT, true);
+   }
+
    private Attribute createAttribute(Scope scope, Class owner, String name, Class type, GenericPair[] typeParams, GenericPair... functionParams){
       Type source = context.getLoader().loadType(owner);
       Constraint constraint = createConstraint(name, type, typeParams);
@@ -147,8 +196,24 @@ public class ConstraintProjectionTest extends TestCase {
          return new ClassParameterConstraint(type, name);
       }
       return new ClassConstraint(type, parameters);            
-   }   
-   
+   }
+   private static List<Parameter> createParameterList(Map<String, GenericPair> params){
+      List<Parameter> parameters = new ArrayList<Parameter>();
+
+      for(Map.Entry<String, GenericPair> entry : params.entrySet()) {
+         String name = entry.getKey();
+         GenericPair pair = entry.getValue();
+         Constraint constraint = null;
+
+         if(pair.name != null) {
+            constraint= new ClassParameterConstraint(pair.type, pair.name);
+         } else {
+            constraint = new ClassConstraint(pair.type);
+         }
+         parameters.add(new Parameter(name, constraint, false));
+      }
+      return parameters;
+   }
    private static List<Constraint> createConstraintList(GenericPair... generics){
       List<Constraint> parameters = new ArrayList<Constraint>();
       

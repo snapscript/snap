@@ -5,6 +5,7 @@ import java.util.List;
 import org.snapscript.compile.verify.Verifier;
 import org.snapscript.core.Context;
 import org.snapscript.core.ContextValidator;
+import org.snapscript.core.constraint.transform.ConstraintTransformer;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.function.index.FunctionIndexer;
 import org.snapscript.core.module.Module;
@@ -18,8 +19,8 @@ public class ExecutableValidator implements ContextValidator {
    private final TypeValidator types;
    private final Verifier verifier;
    
-   public ExecutableValidator(ConstraintMatcher matcher, TypeExtractor extractor, FunctionIndexer indexer, Verifier verifier) {
-      this.types = new TypeValidator(matcher, extractor, indexer);
+   public ExecutableValidator(ConstraintMatcher matcher, ConstraintTransformer transformer, TypeExtractor extractor, FunctionIndexer indexer, Verifier verifier) {
+      this.types = new TypeValidator(matcher, transformer, extractor, indexer);
       this.modules = new ModuleValidator(types);
       this.verifier = verifier;
    }

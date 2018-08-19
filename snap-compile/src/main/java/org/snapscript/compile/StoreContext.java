@@ -67,7 +67,7 @@ public class StoreContext implements Context {
       this.transformer = new ConstraintTransformer(extractor);
       this.handler = new ErrorHandler(extractor, stack);
       this.indexer = new FunctionIndexer(extractor, stack);
-      this.validator = new ExecutableValidator(matcher, extractor, indexer, verifier);
+      this.validator = new ExecutableValidator(matcher, transformer, extractor, indexer, verifier);
       this.resolver = new FunctionResolver(extractor, stack, indexer);
       this.evaluator = new OperationEvaluator(this, verifier, executor);
       this.provider = new PlatformProvider(extractor, wrapper, stack);

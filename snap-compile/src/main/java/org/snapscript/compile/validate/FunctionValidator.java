@@ -5,9 +5,9 @@ import java.util.Set;
 
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.constraint.transform.ConstraintTransformer;
 import org.snapscript.core.convert.ConstraintMatcher;
-import org.snapscript.core.convert.FunctionComparator;
-import org.snapscript.core.convert.Score;
+import org.snapscript.core.convert.FunctionOverrideMatcher;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Origin;
 import org.snapscript.core.function.Parameter;
@@ -20,12 +20,12 @@ import org.snapscript.core.type.TypeExtractor;
 
 public class FunctionValidator {
    
-   private final FunctionComparator comparator;
+   private final FunctionOverrideMatcher matcher;
    private final FunctionIndexer indexer;
    private final TypeExtractor extractor;
    
-   public FunctionValidator(ConstraintMatcher matcher, TypeExtractor extractor, FunctionIndexer indexer) {
-      this.comparator = new FunctionComparator(matcher);
+   public FunctionValidator(ConstraintMatcher matcher, ConstraintTransformer transformer, TypeExtractor extractor, FunctionIndexer indexer) {
+      this.matcher = new FunctionOverrideMatcher(matcher, transformer);
       this.extractor = extractor;
       this.indexer = indexer;
    }
@@ -106,10 +106,10 @@ public class FunctionValidator {
                   String match = available.getName();
                   
                   if(name.equals(match)) {
-                     Score compare = comparator.compare(scope, available, function);
+                     List<Parameter> parameters = matcher.match(scope, function, available);
                      
-                     if(compare.isSimilar()) {
-                        validateModifiers(available, function);
+                     if(parameters != null) {
+                        validateModifiers(function, parameters);
                         matches++;
                      }
                   }
@@ -122,13 +122,12 @@ public class FunctionValidator {
       }
    }
    
-   private void validateModifiers(Function actual, Function require) throws Exception {
-      Signature signature = actual.getSignature();
-      List<Parameter> parameters = signature.getParameters();
+   private void validateModifiers(Function override, List<Parameter> parameters) throws Exception {
+      Signature signature = override.getSignature();
       Origin origin = signature.getOrigin();
-      Type source = require.getSource();
+      Type source = override.getSource();
       Scope scope = source.getScope();
-      String name = actual.getName();
+      String name = override.getName();
       int length = parameters.size();
       
       if(!origin.isSystem()) {
@@ -144,12 +143,12 @@ public class FunctionValidator {
          FunctionPointer match = indexer.index(source, name, types);
          
          if(match == null) {
-            throw new ValidateException("Function '" + require +"' does not match override");
+            throw new ValidateException("Function '" + override +"' is not an override");
          }
          Function function = match.getFunction();
          
-         if(function != require) {
-            throw new ValidateException("Function '" + require +"' does not match override");
+         if(function != override) {
+            throw new ValidateException("Function '" + override +"' is not an override");
          }
       }
    }
