@@ -72,10 +72,9 @@ public class GenericDeclaration {
       public Constraint compile(Scope scope, Constraint left) { 
          try {
             Value value = reference.evaluate(scope, NULL);
-            Entity entity = value.getValue();
-            int modifiers = entity.getModifiers();
+            Object object = value.getValue();
                   
-            if(!ModifierType.isModule(modifiers)) {
+            if(!Module.class.isInstance(object)) {
                Constraint constraint = value.getConstraint();
                String name = constraint.getName(scope);
                Type type = constraint.getType(scope);

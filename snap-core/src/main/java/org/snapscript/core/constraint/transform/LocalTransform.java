@@ -9,7 +9,6 @@ import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
-import org.snapscript.core.scope.index.Local;
 import org.snapscript.core.scope.index.Table;
 
 public class LocalTransform implements ConstraintTransform {
@@ -57,15 +56,12 @@ public class LocalTransform implements ConstraintTransform {
                String name = constraint.getName(scope);               
                
                if(parameter != null) {
-                  Local local = Local.getConstant(parameter, name);
-                  state.add(name, local);
+                  state.addConstraint(name, parameter);
                } else {
-                  Local local = Local.getConstant(constraint, name);
-                  
                   if(first != null) {               
                      throw new InternalStateException("Generic parameter '" + name +"' not specified");
                   }
-                  state.add(name, local);
+                  state.addConstraint(name, constraint);
                }
             }
          }

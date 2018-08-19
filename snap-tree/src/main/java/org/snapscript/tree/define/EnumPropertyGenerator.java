@@ -40,7 +40,7 @@ public class EnumPropertyGenerator {
       builder.createInstanceProperty(TYPE_THIS, type, constraint);      
       builder.createInstanceProperty(ENUM_NAME, type, STRING); // might declare name as property many times
       builder.createInstanceProperty(ENUM_ORDINAL, type, INTEGER);
-      state.add(TYPE_CLASS, value);
-      state.add(ENUM_VALUES, list);
+      state.addValue(TYPE_CLASS, value);
+      state.addValue(ENUM_VALUES, list);
    }
 }

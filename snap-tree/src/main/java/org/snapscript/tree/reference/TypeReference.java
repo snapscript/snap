@@ -55,10 +55,10 @@ public class TypeReference extends TypeNavigation {
    private Value create(Scope scope, Value result) throws Exception {
       String name = result.getName();
       Object value = result.getValue();
-      Constraint constraint = mapper.toConstraint(value);
+      Constraint constraint = mapper.toConstraint(value);  
       
-      if(Constraint.class.isInstance(value)){
-         return result;
+      if(value == constraint) {
+         return Local.getConstant(value, name, constraint);
       }
       if(name != null) {
          Type type = constraint.getType(scope);
@@ -70,6 +70,6 @@ public class TypeReference extends TypeNavigation {
             return Local.getConstant(value, name, parameter);
          }                 
       }
-      return Local.getConstant(value, null, constraint);
+      return Local.getConstant(value, null, constraint);      
    }
 }

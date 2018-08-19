@@ -6,7 +6,6 @@ import java.util.List;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.variable.Value;
 
 public class ConstraintMapper {
    
@@ -16,16 +15,12 @@ public class ConstraintMapper {
    
    public Constraint map(Scope scope, String name) {    
       State state = scope.getState();
-      Value value = state.get(name);
+      Constraint constraint = state.getConstraint(name);
       
-      if(value != null) {
-         Object constraint = value.getValue();
-         
-         if(constraint != null) {
-            return (Constraint)constraint;
-         }         
+      if(constraint == null) {
+         return new TypeParameterConstraint(null, name);
       }
-      return new TypeParameterConstraint(null, name);
+      return constraint;
    }
    
    public Constraint map(Scope scope, Constraint constraint) {    

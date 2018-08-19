@@ -44,11 +44,11 @@ public class EnumInstance extends StaticBlock {
       Instance instance = result.getValue();
       Object object = wrapper.toProxy(instance);
       Value value = Value.getConstant(instance);      
-      Value values = state.get(ENUM_VALUES);
+      Value values = state.getValue(ENUM_VALUES);
       List list = values.getValue();
       
       generator.generate(instance, type);
-      state.add(name, value);
+      state.addValue(name, value);
       list.add(object);
    }
 }

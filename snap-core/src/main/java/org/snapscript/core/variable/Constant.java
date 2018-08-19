@@ -5,6 +5,7 @@ import static org.snapscript.core.constraint.Constraint.NONE;
 
 import java.util.List;
 
+import org.snapscript.core.ModifierType;
 import org.snapscript.core.constraint.ClassConstraint;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.InternalStateException;
@@ -38,8 +39,8 @@ public class Constant extends Value {
    }
    
    public Constant(Object value, Constraint constraint, int modifiers) {
+      this.modifiers = modifiers |= CONSTANT.mask;
       this.constraint = constraint;
-      this.modifiers = modifiers;
       this.value = value;
    }
    

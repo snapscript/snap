@@ -36,7 +36,7 @@ public class MapKey extends Evaluation {
       
       if(depth == -1){
          State state = scope.getState(); 
-         Value value = state.get(name);
+         Value value = state.getValue(name);
          
          if(value != null) { 
             return value;

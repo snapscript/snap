@@ -2,7 +2,9 @@ package org.snapscript.tree.reference;
 
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
+import org.snapscript.core.Entity;
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
@@ -70,7 +72,7 @@ public class TypeReferencePart implements Compilation {
       
       private Value create(Scope scope) throws Exception {
          Module parent = scope.getModule();
-         Object result = parent.getType(name);
+         Entity result = parent.getType(name);
          Type type = scope.getType();
 
          if(result == null) {
@@ -81,18 +83,18 @@ public class TypeReferencePart implements Compilation {
          }
          if(result == null) {
             State state = scope.getState();
-            Value value = state.get(name);
+            Constraint constraint = state.getConstraint(name);
             
-            if(value == null) {                         
+            if(constraint == null) {                         
                throw new InternalStateException("No type found for '" + name + "' in '" + source + "'"); // class not found
             }
-            return value;
+            return Local.getConstant(constraint, name);
          }
          return Local.getConstant(result, name);
       }
       
       private Value create(Scope scope, Module module) throws Exception {
-         Object result = module.getType(name);
+         Entity result = module.getType(name);
          
          if(result == null) {
             throw new InternalStateException("No type found for '" + name + "' in '" + module + "'"); // class not found

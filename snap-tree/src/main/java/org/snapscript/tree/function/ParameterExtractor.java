@@ -72,7 +72,7 @@ public class ParameterExtractor {
             Local local = create(inner, argument, i);
             
             if(closure) {
-               state.add(name, local); 
+               state.addValue(name, local); 
             }
             table.addLocal(i, local);
          }   

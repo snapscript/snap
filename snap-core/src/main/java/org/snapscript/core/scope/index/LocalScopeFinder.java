@@ -19,7 +19,7 @@ public class LocalScopeFinder {
    public Value findValue(Scope scope, String name, int depth) {
       if(depth == -1){
          State state = scope.getState();
-         Value value = state.get(name);
+         Value value = state.getValue(name);
          
          if(checker.isValid(value)) { 
             return value;
@@ -42,7 +42,7 @@ public class LocalScopeFinder {
    public Value findFunction(Scope scope, String name, int depth) {
       if(depth == -1){
          State state = scope.getState();
-         Value value = state.get(name);
+         Value value = state.getValue(name);
          
          if(!checker.isGenerated(value)) { 
             return value;

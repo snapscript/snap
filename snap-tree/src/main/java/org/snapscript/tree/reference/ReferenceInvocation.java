@@ -25,9 +25,8 @@ import org.snapscript.core.variable.Value;
 import org.snapscript.tree.ArgumentList;
 import org.snapscript.tree.ModifierAccessVerifier;
 import org.snapscript.tree.NameReference;
-import org.snapscript.tree.compile.GenericScopeCompiler;
-import org.snapscript.tree.compile.ScopeCompiler;
 import org.snapscript.tree.constraint.GenericList;
+import org.snapscript.tree.constraint.GenericParameterExtractor;
 import org.snapscript.tree.literal.TextLiteral;
 
 public class ReferenceInvocation implements Compilation {
@@ -66,16 +65,16 @@ public class ReferenceInvocation implements Compilation {
    
    private static class CompileResult extends Evaluation {
    
+      private final GenericParameterExtractor extractor;
       private final ModifierAccessVerifier verifier;
       private final Evaluation[] evaluations; // func()[1][x]
       private final FunctionMatcher matcher;
-      private final ScopeCompiler compiler;
       private final ArgumentList arguments;
       private final AtomicInteger offset;
       private final String name;
       
       public CompileResult(FunctionMatcher matcher, GenericList generics, ArgumentList arguments, Evaluation[] evaluations, String name) {
-         this.compiler = new GenericScopeCompiler(generics);
+         this.extractor = new GenericParameterExtractor(generics);
          this.verifier = new ModifierAccessVerifier();
          this.offset = new AtomicInteger();
          this.evaluations = evaluations;
@@ -101,7 +100,7 @@ public class ReferenceInvocation implements Compilation {
       public Constraint compile(Scope scope, Constraint left) throws Exception {
          Type type = left.getType(scope);         
          Type[] array = arguments.compile(scope); 
-         Scope composite = compiler.compile(scope, type, null);
+         Scope composite = extractor.extract(scope);
          FunctionDispatcher dispatcher = matcher.match(composite, left);
          Constraint result = dispatcher.compile(composite, left, array);
 

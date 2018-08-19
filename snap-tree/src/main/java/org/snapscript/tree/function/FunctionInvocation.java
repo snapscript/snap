@@ -28,9 +28,8 @@ import org.snapscript.core.variable.Constant;
 import org.snapscript.core.variable.Value;
 import org.snapscript.tree.ArgumentList;
 import org.snapscript.tree.NameReference;
-import org.snapscript.tree.compile.GenericScopeCompiler;
-import org.snapscript.tree.compile.ScopeCompiler;
 import org.snapscript.tree.constraint.GenericList;
+import org.snapscript.tree.constraint.GenericParameterExtractor;
 import org.snapscript.tree.literal.TextLiteral;
 
 public class FunctionInvocation implements Compilation {
@@ -69,17 +68,17 @@ public class FunctionInvocation implements Compilation {
    
    private static class CompileResult extends Evaluation {   
 
+      private final GenericParameterExtractor extractor;
       private final Evaluation[] evaluations; // func()[1][x]
       private final ImplicitImportLoader loader;
       private final LocalScopeFinder finder;
       private final FunctionMatcher matcher;
-      private final ScopeCompiler compiler;
       private final ArgumentList arguments;      
       private final AtomicInteger offset;    
       private final String name;
       
       public CompileResult(FunctionMatcher matcher, GenericList generics, ArgumentList arguments, Evaluation[] evaluations, String name) {
-         this.compiler = new GenericScopeCompiler(generics);
+         this.extractor = new GenericParameterExtractor(generics);
          this.loader = new ImplicitImportLoader();
          this.finder = new LocalScopeFinder();
          this.offset = new AtomicInteger(-1);
@@ -126,8 +125,8 @@ public class FunctionInvocation implements Compilation {
       
       private Constraint compile(Scope scope, String name) throws Exception {
          Type[] array = arguments.compile(scope); 
+         Scope composite = extractor.extract(scope);
          FunctionDispatcher dispatcher = matcher.match(scope);
-         Scope composite = compiler.compile(scope, null, null);
          Constraint result = dispatcher.compile(composite, NONE, array);
          
          for(Evaluation evaluation : evaluations) {
@@ -141,8 +140,8 @@ public class FunctionInvocation implements Compilation {
       
       private Constraint compile(Scope scope, String name, Constraint local) throws Exception {
          Type[] array = arguments.compile(scope); 
+         Scope composite = extractor.extract(scope);
          FunctionDispatcher dispatcher = matcher.match(scope);
-         Scope composite = compiler.compile(scope, null, null);
          Constraint result = dispatcher.compile(composite, local, array);
          
          for(Evaluation evaluation : evaluations) {

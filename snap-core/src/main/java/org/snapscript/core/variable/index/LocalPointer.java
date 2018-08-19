@@ -27,7 +27,7 @@ public class LocalPointer implements VariablePointer<Object> {
       
       if(result == null) {
          State state = scope.getState();
-         Value variable = state.get(name);
+         Value variable = state.getValue(name);
          
          if(variable == null) { 
             VariableResult match = finder.findType(scope, name);
@@ -48,7 +48,7 @@ public class LocalPointer implements VariablePointer<Object> {
       
       if(result == null) {
          State state = scope.getState();
-         Value variable = state.get(name);
+         Value variable = state.getValue(name);
          
          if(variable == null) { 
             VariableResult match = finder.findType(scope, name);

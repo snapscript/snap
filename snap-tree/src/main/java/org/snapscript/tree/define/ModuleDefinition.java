@@ -78,7 +78,7 @@ public class ModuleDefinition implements Compilation {
          State state = inner.getState();
          
          try {
-            state.add(TYPE_THIS, value);
+            state.addValue(TYPE_THIS, value);
             body.define(inner); // must be module scope
          } finally {
             progress.done(DEFINE);

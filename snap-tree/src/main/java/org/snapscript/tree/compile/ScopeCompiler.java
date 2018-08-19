@@ -39,10 +39,10 @@ public abstract class ScopeCompiler {
 
          if(!name.equals(TYPE_THIS)) {
             Value field = compileProperty(scope, property);
-            Value current = state.get(name);
+            Value current = state.getValue(name);
 
             if(current == null) {
-               state.add(name, field);
+               state.addValue(name, field);
             }
          }
       }
@@ -70,7 +70,7 @@ public abstract class ScopeCompiler {
          String name = parameter.getName();
          Local local = compileParameter(scope, parameter);
 
-         state.add(name, local);
+         state.addValue(name, local);
          table.addLocal(i, local);
       }
    }
@@ -104,5 +104,6 @@ public abstract class ScopeCompiler {
       return constraint;
    }
    
+   public abstract Scope define(Scope local, Type type) throws Exception;
    public abstract Scope compile(Scope local, Type type, Function function) throws Exception;
 }

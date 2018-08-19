@@ -24,7 +24,7 @@ public class EnumConstantGenerator extends TypeState {
       Value key = Value.getConstant(name);
       Value ordinal = Value.getConstant(index);
       
-      state.add(ENUM_NAME, key);
-      state.add(ENUM_ORDINAL, ordinal);
+      state.addValue(ENUM_NAME, key);
+      state.addValue(ENUM_ORDINAL, ordinal);
    }
 }

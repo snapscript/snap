@@ -25,7 +25,7 @@ public class ImplicitImportLoader {
          Module module = scope.getModule();
          ImportManager manager = module.getManager();
          State state = scope.getState();
-         Value value = state.get(name);         
+         Value value = state.getValue(name);         
          
          if(value == null) {
             return manager.getImport(name) != null;

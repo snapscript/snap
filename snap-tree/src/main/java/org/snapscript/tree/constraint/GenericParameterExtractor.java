@@ -1,29 +1,23 @@
-package org.snapscript.tree.compile;
+package org.snapscript.tree.constraint;
 
 import java.util.List;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.function.Function;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.index.LocalScopeExtractor;
 import org.snapscript.core.scope.index.Table;
-import org.snapscript.core.type.Type;
-import org.snapscript.tree.constraint.GenericList;
 
-public class GenericScopeCompiler extends ScopeCompiler {
+public class GenericParameterExtractor {
    
    private final LocalScopeExtractor extractor;
    private final GenericList generics;
    
-   public GenericScopeCompiler(GenericList generics) {
+   public GenericParameterExtractor(GenericList generics) {
       this.extractor = new LocalScopeExtractor(false, true);
       this.generics = generics;
    }
 
-   @Override
-   @Bug("generic loss of data")
-   public Scope compile(Scope local, Type type, Function function) throws Exception {
+   public Scope extract(Scope local) throws Exception {
       List<Constraint> constraints = generics.getGenerics(local);
       Scope scope = extractor.extract(local);    
       Scope inner = scope.getStack();
@@ -37,3 +31,4 @@ public class GenericScopeCompiler extends ScopeCompiler {
       return inner;
    }
 }
+

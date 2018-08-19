@@ -28,7 +28,7 @@ public class ModuleAccessor implements Accessor {
    public Object getValue(Object source) {
       try {
          State state = scope.getState();
-         Value field = state.get(name);
+         Value field = state.getValue(name);
          
          if(field == null) {
             Execution execution = body.compile(scope, null);
@@ -44,7 +44,7 @@ public class ModuleAccessor implements Accessor {
    public void setValue(Object source, Object value) {
       try {
          State state = scope.getState();
-         Value field = state.get(name);
+         Value field = state.getValue(name);
          
          if(field == null) {
             Execution execution = body.compile(scope, null);

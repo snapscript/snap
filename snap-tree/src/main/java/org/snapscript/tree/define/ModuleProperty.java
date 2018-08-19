@@ -56,7 +56,7 @@ public class ModuleProperty {
       State state = scope.getState();
       
       try {
-         state.add(name, value);
+         state.addValue(name, value);
       }catch(Exception e) {
          throw new InternalStateException("Declaration of variable '" + name +"' failed", e);
       }
@@ -69,7 +69,7 @@ public class ModuleProperty {
       State state = scope.getState();
      
       try {
-         state.add(name, value);
+         state.addValue(name, value);
       }catch(Exception e) {
          throw new InternalStateException("Declaration of variable '" + name +"' failed", e);
       } 

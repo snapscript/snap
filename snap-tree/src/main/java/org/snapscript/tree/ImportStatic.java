@@ -88,7 +88,7 @@ public class ImportStatic implements Compilation {
                Local local = Local.getConstant(value, name, constraint);
    
                try {
-                  state.add(name, local);
+                  state.addValue(name, local);
                }catch(Exception e) {
                   throw new InternalStateException("Import of static property '" + name +"' failed", e);
                }  

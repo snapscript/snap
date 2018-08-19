@@ -49,12 +49,12 @@ public class GenericFunctionTest extends CompileTestCase {
    "fun(1.0).substring(1);\n"; // no qualifier so default
    
    public void testGenericFunction() throws Exception {
-//      assertCompileAndExecuteSuccess(SUCCESS_1);
-//      assertCompileAndExecuteSuccess(SUCCESS_2);
-//      assertCompileAndExecuteSuccess(SUCCESS_3);
-//      assertCompileAndExecuteSuccess(SUCCESS_4);
-//      assertCompileAndExecuteSuccess(SUCCESS_4);
-//      assertCompileError(FAILURE_1, "Function 'substring(lang.Integer)' not found for 'lang.Double' in /default.snap at line 4");
+      assertCompileAndExecuteSuccess(SUCCESS_1);
+      assertCompileAndExecuteSuccess(SUCCESS_2);
+      assertCompileAndExecuteSuccess(SUCCESS_3);
+      assertCompileAndExecuteSuccess(SUCCESS_4);
+      assertCompileAndExecuteSuccess(SUCCESS_4);
+      assertCompileError(FAILURE_1, "Function 'substring(lang.Integer)' not found for 'lang.Double' in /default.snap at line 4");
       assertCompileError(FAILURE_2, "Function 'substring(lang.Integer)' not found for 'lang.Integer' in /default.snap at line 6");
       assertCompileError(FAILURE_3, "Function 'substring(lang.Integer)' not found for 'lang.Integer' in /default.snap at line 4");
    }

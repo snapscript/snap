@@ -35,17 +35,17 @@ public class LocalScopeExtractor {
          
          for(Local local : table){
             String name = local.getName();
-            Value existing = inner.get(name);
+            Value existing = inner.getValue(name);
             
             if(existing == null) {
                if(reference) {
-                  inner.add(name, local); // enable modification of local
+                  inner.addValue(name, local); // enable modification of local
                } else {
                   Object value = local.getValue();
                   Constraint constraint = local.getConstraint();
                   Value constant = Value.getConstant(value, constraint);
                   
-                  inner.add(name, constant); // local is a visible constant
+                  inner.addValue(name, constant); // local is a visible constant
                }
             }
          }

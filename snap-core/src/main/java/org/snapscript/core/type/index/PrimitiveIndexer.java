@@ -94,7 +94,7 @@ public class PrimitiveIndexer{
          State state = instance.getState();
          Value value = Value.getProperty(object, constraint, PUBLIC.mask | CONSTANT.mask); // this needs to be a blank
          
-         state.add(TYPE_THIS, value); // reference to 'this'
+         state.addValue(TYPE_THIS, value); // reference to 'this'
          
          return instance;
       }

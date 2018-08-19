@@ -23,7 +23,7 @@ public class TypeLocalPointer implements VariablePointer<Scope> {
    public Constraint getConstraint(Scope scope, Constraint left) {
       Scope instance = binder.bind(scope, scope);
       State state = instance.getState();
-      Value value = state.get(name);
+      Value value = state.getValue(name);
       
       if(value == null) {
          return pointer.getConstraint(instance, left);
@@ -35,7 +35,7 @@ public class TypeLocalPointer implements VariablePointer<Scope> {
    public Value getValue(Scope scope, Scope left) {
       Scope instance = binder.bind(scope, scope);
       State state = instance.getState();
-      Value value = state.get(name);
+      Value value = state.getValue(name);
       
       if(value == null) {
          return pointer.getValue(instance, instance);

@@ -47,7 +47,7 @@ public class StaticConstantCollector {
                      PropertyValue value = new PropertyValue(property, null, name);
                      
                      if(names.add(name)) { // ensure only supers are added
-                        state.add(name, value);
+                        state.addValue(name, value);
                      }
                   }
                }

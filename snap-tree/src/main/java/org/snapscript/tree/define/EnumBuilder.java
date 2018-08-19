@@ -47,7 +47,7 @@ public class EnumBuilder {
          State state = outer.getState();
          
          builder.createStaticProperty(body, key, enclosing, NONE);
-         state.add(key, value);
+         state.addValue(key, value);
       }
       reference.set(type);
       

@@ -28,6 +28,6 @@ public class ClassPropertyGenerator {
       
       builder.createInstanceProperty(TYPE_THIS, type, constraint);
       builder.createStaticProperty(body, TYPE_CLASS, type, TYPE);
-      state.add(TYPE_CLASS, value);
+      state.addValue(TYPE_CLASS, value);
    }
 }
