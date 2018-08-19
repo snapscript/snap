@@ -5,11 +5,11 @@ import junit.framework.TestCase;
 public class ArrayLengthTest extends TestCase {
 
    private static final String SOURCE =
-   "var arr=new Byte[10];\n"+
+   "var a=new Byte[10];\n"+
    "function f(arr){\n"+
    "  for(var i = 0; i < arr.length; i++){};\n"+
    "}\n"+
-   "f(arr);\n";
+   "f(a);\n";
    
    public void testLength() throws Exception {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();

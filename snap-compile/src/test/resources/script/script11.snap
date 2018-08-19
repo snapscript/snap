@@ -21,12 +21,12 @@ function sort (a) {//shellsort
     }
 }
 var random=new SecureRandom();
-var a = [];
+var l = [];
 for(var i = 0; i < 10; i++){
 	var value = random.nextInt(100);	
-	a.add(value);
+	l.add(value);
 }
-sort(a);
-for(var i in a){
-	out.println("shell="+i+" length="+a.size());
+sort(l);
+for(var i in l){
+	out.println("shell="+i+" length="+l.size());
 }

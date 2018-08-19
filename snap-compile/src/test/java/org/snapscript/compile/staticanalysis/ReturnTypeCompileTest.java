@@ -51,8 +51,8 @@ public class ReturnTypeCompileTest extends CompileTestCase {
    "}\n";
    
    private static final String FAILURE_5 =
-   "var x = `text`;\n"+
-   "foo(x);\n"+         
+   "var x1 = `text`;\n"+
+   "foo(x1);\n"+
    "function foo(x: Map): List{\n"+
    "   return x;\n"+
    "}\n";

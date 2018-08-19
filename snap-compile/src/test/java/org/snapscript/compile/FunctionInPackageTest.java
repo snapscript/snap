@@ -4,12 +4,12 @@ public class FunctionInPackageTest extends ScriptTestCase {
    
    private static final String SOURCE_1 =
    "import blah.Bar;\n"+
-   "const b: Bar = new Bar(1,2);\n"+
+   "const bb: Bar = new Bar(1,2);\n"+
    "\n"+
    "function blah(a, b){\n"+
    "  return \"wrong!\";\n"+   
    "}"+   
-   "assert b.get() == 'blah(1,2)';\n";
+   "assert bb.get() == 'blah(1,2)';\n";
          
    private static final String SOURCE_2 =
    "class Bar{\n"+

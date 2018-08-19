@@ -1,6 +1,5 @@
 package org.snapscript.core.scope.index;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
@@ -24,8 +23,7 @@ public class LocalScopeExtractor {
       }
       return extract(outer, outer); // can't see callers scope
    }
-   
-   @Bug("ModelScope keeps all the table variables... bad")
+
    public Scope extract(Scope original, Scope outer) {
       Scope capture = new LocalScope(original, outer);
       

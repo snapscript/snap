@@ -7,8 +7,8 @@ public class FunctionCallCompileTest extends CompileTestCase {
    "function foo(x: Integer){\n"+
    "   return x.toString();\n"+
    "}\n"+
-   "var x: Integer[] = [1,2,3];\n"+
-   "foo(x);\n";
+   "var x1: Integer[] = [1,2,3];\n"+
+   "foo(x1);\n";
    
    public static final String FAILURE_2 =
    "class Blah{\n"+
