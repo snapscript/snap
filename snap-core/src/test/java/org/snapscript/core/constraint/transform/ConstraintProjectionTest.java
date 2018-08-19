@@ -15,12 +15,10 @@ import org.snapscript.core.constraint.ClassConstraint;
 import org.snapscript.core.constraint.ClassParameterConstraint;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.State;
 import org.snapscript.core.scope.index.Local;
 import org.snapscript.core.scope.index.Table;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeExtractor;
-import org.snapscript.core.variable.Value;
 
 public class ConstraintProjectionTest extends TestCase {
    

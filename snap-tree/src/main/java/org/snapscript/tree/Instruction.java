@@ -20,6 +20,7 @@ import org.snapscript.tree.condition.NullCoalesce;
 import org.snapscript.tree.condition.SwitchStatement;
 import org.snapscript.tree.condition.ValueCase;
 import org.snapscript.tree.condition.WhileStatement;
+import org.snapscript.tree.constraint.AliasName;
 import org.snapscript.tree.constraint.ClassConstraint;
 import org.snapscript.tree.constraint.ClassName;
 import org.snapscript.tree.constraint.EnumName;
@@ -39,6 +40,7 @@ import org.snapscript.tree.construct.MapEntryList;
 import org.snapscript.tree.construct.MapKey;
 import org.snapscript.tree.define.AbstractClassDefinition;
 import org.snapscript.tree.define.AbstractClassName;
+import org.snapscript.tree.define.AliasDefinition;
 import org.snapscript.tree.define.ClassConstructor;
 import org.snapscript.tree.define.ClassDefinition;
 import org.snapscript.tree.define.ClassHierarchy;
@@ -223,8 +225,8 @@ public enum Instruction {
    TRY_STATEMENT(TryStatement.class, "try-statement"),
    GENERIC_PARAMETER(GenericParameter.class, "generic-parameter"),
    GENERIC_PARAMETER_LIST(GenericParameterList.class, "generic-parameter-list"),
-   FUNCTION_NAME(FunctionName.class, "function-name"),
-   CLASS_NAME(ClassName.class, "class-name"),
+   ALIAS_NAME(AliasName.class, "alias-name"),
+   ALIAS_DEFINITION(AliasDefinition.class, "alias-definition"),
    TRAIT_NAME(TraitName.class, "trait-name"),     
    TRAIT_HIERARCHY(TraitHierarchy.class, "trait-hierarchy"),
    TRAIT_CONSTANT(TraitConstant.class, "trait-constant"),   
@@ -239,7 +241,8 @@ public enum Instruction {
    ENUM_DEFINITION(EnumDefinition.class, "enum-definition"), 
    ENUM_CONSTRUCTOR(EnumConstructor.class, "enum-constructor"), 
    ENUM_VALUE(EnumValue.class, "enum-value"),
-   ENUM_LIST(EnumList.class, "enum-list"),     
+   ENUM_LIST(EnumList.class, "enum-list"),
+   CLASS_NAME(ClassName.class, "class-name"),
    CLASS_HIERARCHY(ClassHierarchy.class, "class-hierarchy"),
    CLASS_DEFINITION(ClassDefinition.class, "class-definition"),
    CLASS_FIELD_DECLARATION(MemberFieldDeclaration.class, "class-field-declaration"),
@@ -247,7 +250,8 @@ public enum Instruction {
    CLASS_FUNCTION(MemberFunction.class, "class-function"),   
    CLASS_CONSTRUCTOR(ClassConstructor.class, "class-constructor"), 
    ABSTRACT_CLASS_NAME(AbstractClassName.class, "abstract-class-name"),
-   ABSTRACT_CLASS_DEFINITION(AbstractClassDefinition.class, "abstract-class-definition"),   
+   ABSTRACT_CLASS_DEFINITION(AbstractClassDefinition.class, "abstract-class-definition"),
+   INNER_ALIAS_DEFINITION(InnerTypeDefinition.class, "inner-alias-definition"),
    INNER_CLASS_DEFINITION(InnerTypeDefinition.class, "inner-class-definition"),
    INNER_ENUM_DEFINITION(InnerTypeDefinition.class, "inner-enum-definition"),
    INNER_TRAIT_DEFINITION(InnerTypeDefinition.class, "inner-trait-definition"),
@@ -257,6 +261,7 @@ public enum Instruction {
    ANNOTATION_DECLARATION(AnnotationDeclaration.class, "annotation-declaration"),
    FIELD_MODIFIER(Modifier.class, "field-modifier"),
    FIELD_MODIFIER_LIST(ModifierList.class, "field-modifier-list"),
+   FUNCTION_NAME(FunctionName.class, "function-name"),
    FUNCTION_MODIFIER(Modifier.class, "function-modifier"),
    FUNCTION_MODIFIER_LIST(ModifierList.class, "function-modifier-list"),
    ACCESS_MODIFIER(Modifier.class, "access-modifier"),

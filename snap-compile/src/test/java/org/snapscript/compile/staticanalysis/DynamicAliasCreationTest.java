@@ -18,11 +18,11 @@ public class DynamicAliasCreationTest extends TestCase {
    "      `Foo(${x},${y})`;\n"+
    "   }\n"+
    "}\n"+
-   "var type = Foo.class;\n"+
+   "var t = Foo.class;\n"+
    "var package = Foo.class.getModule();\n"+
    "var context = package.getContext();\n"+
    "var loader = context.getLoader();\n"+
-   "var name = package.getName() +'.' + type.getName();\n"+
+   "var name = package.getName() +'.' + t.getName();\n"+
    "var data = package.getManager().addImport(name, 'X');\n"+
    "\n"+
    "println(name);\n"+
@@ -44,11 +44,11 @@ public class DynamicAliasCreationTest extends TestCase {
    "}\n"+
    "class Test {\n"+
    "   test() {\n"+
-   "     var type = Foo.class;\n"+
+   "     var t = Foo.class;\n"+
    "     var package = Foo.class.getModule();\n"+
    "     var context = package.getContext();\n"+
    "     var loader = context.getLoader();\n"+
-   "     var name = package.getName() +'.' + type.getName();\n"+
+   "     var name = package.getName() +'.' + t.getName();\n"+
    "     var data = package.getManager().addImport(name, 'X');\n"+
    "     \n"+
    "     println(name);\n"+

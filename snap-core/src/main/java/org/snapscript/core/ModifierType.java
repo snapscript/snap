@@ -16,8 +16,7 @@ public enum ModifierType {
    ABSTRACT(0x01000, "abstract"),
    PROXY(0x02000, "proxy"),
    ARRAY(0x04000, "[]"),
-   VARARGS(0x08000, "..."),
-   WILD(0x10000, "?");
+   VARARGS(0x08000, "...");
    
    public final String[] tokens;
    public final int mask;
@@ -89,10 +88,6 @@ public enum ModifierType {
    
    public static boolean isProtected(int modifier) {
       return modifier >= 0 && (PROTECTED.mask & modifier) != 0;
-   }
-   
-   public static boolean isWild(int modifier) {
-      return modifier >= 0 && (WILD.mask & modifier) != 0;
    }
    
    public static boolean isVariableArgument(int modifier) {

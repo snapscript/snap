@@ -8,9 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.snapscript.core.Entity;
 import org.snapscript.core.Evaluation;
-import org.snapscript.core.ModifierType;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.constraint.TypeParameterConstraint;
 import org.snapscript.core.error.InternalStateException;
@@ -73,8 +71,8 @@ public class GenericDeclaration {
          try {
             Value value = reference.evaluate(scope, NULL);
             Object object = value.getValue();
-                  
-            if(!Module.class.isInstance(object)) {
+
+            if(Type.class.isInstance(object)) {
                Constraint constraint = value.getConstraint();
                String name = constraint.getName(scope);
                Type type = constraint.getType(scope);

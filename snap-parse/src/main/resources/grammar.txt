@@ -288,12 +288,15 @@ access-modifier-list = *(<access-modifier>_);
 super-constructor = 'super''('?<argument-list>')';
 this-constructor = 'this''('?<argument-list>')';
 
+alias-name = [type];
+alias-definition = 'type'_ <alias-name> '=' <constraint> ';';
+
 class-name = [type] <generic-parameter-list>;
 class-field-declaration = <assignment-variable>?(':'<constraint>)?('='<assignment-expression>);
 class-field = <annotation-list><field-modifier-list><class-field-declaration>*(','<class-field-declaration>)';';
 class-function = <annotation-list><function-modifier-list><function-name>'('<parameter-list>')'?(':'<constraint>){';' | <group-statement>};
 class-constructor = <annotation-list><access-modifier-list>'new''('<parameter-list>')'?(':'{<this-constructor> | <super-constructor>})<group-statement>;
-class-part = {<class-field> | <class-constructor> | <class-function> | <inner-class-definition> | <inner-abstract-class-definition> | <inner-enum-definition> | <inner-trait-definition> };
+class-part = {<class-field> | <class-constructor> | <class-function> |  <inner-definition> };
 class-hierarchy = ?{?_'extends'_<class-constraint> | ?_'with'_<trait-constraint>}*(?_'with'_<trait-constraint>);
 class-definition = ?<annotation-list>'class'_<class-name>?<class-hierarchy>{'{}' | '{'*<class-part>'}'};
 
@@ -304,7 +307,7 @@ trait-name = [type] <generic-parameter-list>;
 trait-constant = <annotation-list><field-modifier-list><assignment-variable>?(':'<constraint>)'='<assignment-expression>';';
 trait-hierarchy = *(?_'extends'_<trait-constraint>);
 trait-function = ?<annotation-list><function-modifier-list><function-name>'('<parameter-list>')'?(':'<constraint>){';' | <group-statement>};
-trait-part = {<trait-constant> | <trait-function> | <inner-class-definition> | <inner-abstract-class-definition> | <inner-enum-definition> | <inner-trait-definition>};
+trait-part = {<trait-constant> | <trait-function> | <inner-definition> };
 trait-definition = ?<annotation-list>'trait'_<trait-name>?<trait-hierarchy>{'{}' | '{'*<trait-part>'}'};
 
 enum-name = [type];   
@@ -323,8 +326,10 @@ inner-class-definition = <class-definition>;
 inner-abstract-class-definition = <abstract-class-definition>;
 inner-enum-definition = <enum-definition>;
 inner-trait-definition = <trait-definition>;
+inner-alias-definition = <alias-definition>;
+inner-definition = { <inner-class-definition> | <inner-abstract-class-definition> | <inner-enum-definition> | <inner-trait-definition> | <inner-alias-definition> };
  
-type-definition = {<class-definition> | <abstract-class-definition> | <trait-definition> | <enum-definition>};
+type-definition = {<class-definition> | <abstract-class-definition> | <trait-definition> | <enum-definition> | <alias-definition> };
 
 full-qualifier = [qualifier]*('.'[qualifier]);
 wild-qualifier = [qualifier]*('.'[qualifier])'.*';

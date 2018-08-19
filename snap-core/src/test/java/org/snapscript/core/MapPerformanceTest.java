@@ -12,7 +12,7 @@ import junit.framework.TestCase;
 public class MapPerformanceTest extends TestCase {
    
    public void testPerformance() throws Exception {
-      Object[] largeSource = new Object[500000];
+      Object[] largeSource = new Object[50000];
       Object[] smallSource = new Object[30];
       Map<Object, Object> largeConcurrentMap = new ConcurrentHashMap<Object, Object>();
       Map<Object, Object> largeHashMap = new HashMap<Object, Object>();

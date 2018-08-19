@@ -7,5 +7,5 @@ public interface State extends Iterable<String> {
    Value getValue(String name);
    Constraint getConstraint(String name);
    void addValue(String name, Value value);
-   void addConstraint(String name, Constraint value);
+   void addConstraint(String name, Constraint constraint);
 }

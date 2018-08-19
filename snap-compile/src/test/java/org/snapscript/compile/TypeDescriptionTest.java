@@ -19,8 +19,8 @@ public class TypeDescriptionTest extends TestCase {
    "      class InnerInner{}\n"+
    "   }\n"+ 
    "}\n"+
-   "var type = new Outer.Inner.InnerInner().class;\n"+
-   "println(type);\n";
+   "var t = new Outer.Inner.InnerInner().class;\n"+
+   "println(t);\n";
 
    
    public void testScriptTypeDescription() throws Exception {
