@@ -1,6 +1,7 @@
 package org.snapscript.core.type.index;
 
 import java.lang.reflect.GenericArrayType;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
@@ -141,7 +142,7 @@ public class GenericConverterResolver {
          if(bounds.length > 0) {
             Object declaration = variable.getGenericDeclaration();
             
-            if(Class.class.isInstance(declaration)) { // must be class level declaration
+            if(Class.class.isInstance(declaration) || Method.class.isInstance(declaration)) { // must be class level declaration
                String key = variable.getName();
                
                for(int i = 0; i < bounds.length; i++) {

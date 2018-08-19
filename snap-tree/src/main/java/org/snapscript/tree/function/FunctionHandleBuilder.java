@@ -1,5 +1,6 @@
 package org.snapscript.tree.function;
 
+import static java.util.Collections.EMPTY_LIST;
 import static org.snapscript.core.ModifierType.PUBLIC;
 import static org.snapscript.core.Reserved.DEFAULT_PARAMETER;
 import static org.snapscript.core.constraint.Constraint.NONE;
@@ -34,7 +35,7 @@ public class FunctionHandleBuilder {
    
    public Function create(Module module, Value value, String method) throws Exception {
       List<Parameter> parameters = new ArrayList<Parameter>();
-      Signature signature = new FunctionSignature(parameters, module, null, SYSTEM, true, true);
+      Signature signature = new FunctionSignature(parameters, EMPTY_LIST, module, null, SYSTEM, true, true);
       Invocation invocation = new FunctionHandleInvocation(matcher, module, value, constructor);
       Type type = new FunctionType(signature, module, null);
       

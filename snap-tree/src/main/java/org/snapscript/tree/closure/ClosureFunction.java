@@ -2,13 +2,13 @@ package org.snapscript.tree.closure;
 
 import java.util.List;
 
-import org.snapscript.core.type.Type;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.proxy.FunctionProxy;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.Signature;
+import org.snapscript.core.type.Type;
 
 public class ClosureFunction implements Function {
    
@@ -50,6 +50,11 @@ public class ClosureFunction implements Function {
    @Override
    public Constraint getConstraint() {
       return template.getConstraint();
+   }
+   
+   @Override
+   public List<Constraint> getGenerics() {
+      return template.getGenerics();
    }
 
    @Override

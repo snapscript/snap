@@ -12,16 +12,26 @@ public class TypeConstraint extends Constraint {
 
    private Evaluation evaluation;
    private Constraint constraint;
+   private Constraint left;
    
    public TypeConstraint(Evaluation evaluation) {
+      this(evaluation, null);
+   }
+   
+   public TypeConstraint(Evaluation evaluation, Constraint left) {
       this.evaluation = evaluation;
+      this.left = left;
+      
+      if(left != null) {
+         System.err.println();
+      }
    }
    
    @Override
    public List<String> getImports(Scope scope) {
       if(constraint == null) {
          try {
-            constraint = evaluation.compile(scope, null);
+            constraint = evaluation.compile(scope, left);
          } catch (Exception e) {
             throw new InternalStateException("Import not found", e);
          }
@@ -33,7 +43,7 @@ public class TypeConstraint extends Constraint {
    public List<Constraint> getGenerics(Scope scope) {
       if(constraint == null) {
          try {
-            constraint = evaluation.compile(scope, null);
+            constraint = evaluation.compile(scope, left);
          } catch (Exception e) {
             throw new InternalStateException("Import not found", e);
          }
@@ -45,7 +55,7 @@ public class TypeConstraint extends Constraint {
    public Type getType(Scope scope) {
       if(constraint == null) {
          try {
-            constraint = evaluation.compile(scope, null);
+            constraint = evaluation.compile(scope, left);
          } catch (Exception e) {
             throw new InternalStateException("Import not found", e);
          }
@@ -57,7 +67,7 @@ public class TypeConstraint extends Constraint {
    public String getName(Scope scope) {
       if(constraint == null) {
          try {
-            constraint = evaluation.compile(scope, null);
+            constraint = evaluation.compile(scope, left);
          } catch (Exception e) {
             throw new InternalStateException("Import not found", e);
          }

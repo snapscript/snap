@@ -2,6 +2,8 @@ package org.snapscript.tree.reference;
 
 import static org.snapscript.core.error.Reason.ACCESS;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
@@ -22,19 +24,24 @@ import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 import org.snapscript.tree.ArgumentList;
 import org.snapscript.tree.ModifierAccessVerifier;
-import org.snapscript.tree.constraint.FunctionName;
-import java.util.concurrent.atomic.AtomicInteger;
+import org.snapscript.tree.NameReference;
+import org.snapscript.tree.compile.GenericScopeCompiler;
+import org.snapscript.tree.compile.ScopeCompiler;
+import org.snapscript.tree.constraint.GenericList;
+import org.snapscript.tree.literal.TextLiteral;
 
 public class ReferenceInvocation implements Compilation {
 
    private final Evaluation[] evaluations;
-   private final FunctionName identifier;
+   private final NameReference identifier;
    private final ArgumentList arguments;
+   private final GenericList generics;
    
-   public ReferenceInvocation(FunctionName identifier, ArgumentList arguments, Evaluation... evaluations) {
-      this.identifier = identifier;
+   public ReferenceInvocation(TextLiteral identifier, GenericList generics, ArgumentList arguments, Evaluation... evaluations) {
+      this.identifier = new NameReference(identifier);
       this.evaluations = evaluations;
       this.arguments = arguments;
+      this.generics = generics;
    }
    
    @Override
@@ -54,7 +61,7 @@ public class ReferenceInvocation implements Compilation {
       FunctionBinder binder = context.getBinder();   
       FunctionMatcher matcher = binder.bind(name);
       
-      return new CompileResult(matcher, arguments, evaluations, name);     
+      return new CompileResult(matcher, generics, arguments, evaluations, name);     
    }
    
    private static class CompileResult extends Evaluation {
@@ -62,11 +69,13 @@ public class ReferenceInvocation implements Compilation {
       private final ModifierAccessVerifier verifier;
       private final Evaluation[] evaluations; // func()[1][x]
       private final FunctionMatcher matcher;
+      private final ScopeCompiler compiler;
       private final ArgumentList arguments;
       private final AtomicInteger offset;
       private final String name;
       
-      public CompileResult(FunctionMatcher matcher, ArgumentList arguments, Evaluation[] evaluations, String name) {
+      public CompileResult(FunctionMatcher matcher, GenericList generics, ArgumentList arguments, Evaluation[] evaluations, String name) {
+         this.compiler = new GenericScopeCompiler(generics);
          this.verifier = new ModifierAccessVerifier();
          this.offset = new AtomicInteger();
          this.evaluations = evaluations;
@@ -92,23 +101,24 @@ public class ReferenceInvocation implements Compilation {
       public Constraint compile(Scope scope, Constraint left) throws Exception {
          Type type = left.getType(scope);         
          Type[] array = arguments.compile(scope); 
-         FunctionDispatcher dispatcher = matcher.match(scope, left);
-         Constraint result = dispatcher.compile(scope, left, array);
+         Scope composite = compiler.compile(scope, type, null);
+         FunctionDispatcher dispatcher = matcher.match(composite, left);
+         Constraint result = dispatcher.compile(composite, left, array);
 
          if(result.isPrivate()) {
             Module module = scope.getModule();
             Context context = module.getContext();
             ErrorHandler handler = context.getHandler();
             
-            if(!verifier.isAccessible(scope, type)) {
-               handler.handleCompileError(ACCESS, scope, type, name, array);
+            if(!verifier.isAccessible(composite, type)) {
+               handler.handleCompileError(ACCESS, composite, type, name, array);
             }
          }
          for(Evaluation evaluation : evaluations) {
             if(result == null) {
                throw new InternalStateException("Result of '" + name + "' is null"); 
             }
-            result = evaluation.compile(scope, result);
+            result = evaluation.compile(composite, result);
          }
          return result; 
       }

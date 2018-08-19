@@ -7,6 +7,7 @@ import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.State;
 import org.snapscript.core.scope.index.Local;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeExtractor;
@@ -79,7 +80,13 @@ public class TypeReferencePart implements Compilation {
             result = extractor.getType(type, name);
          }
          if(result == null) {
-            throw new InternalStateException("No type found for '" + name + "' in '" + source + "'"); // class not found
+            State state = scope.getState();
+            Value value = state.get(name);
+            
+            if(value == null) {                         
+               throw new InternalStateException("No type found for '" + name + "' in '" + source + "'"); // class not found
+            }
+            return value;
          }
          return Local.getConstant(result, name);
       }

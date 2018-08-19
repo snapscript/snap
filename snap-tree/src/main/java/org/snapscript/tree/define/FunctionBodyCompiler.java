@@ -3,17 +3,18 @@ package org.snapscript.tree.define;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionBody;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.TypeState;
 import org.snapscript.core.type.Type;
+import org.snapscript.core.type.TypeState;
 import org.snapscript.tree.compile.TypeScopeCompiler;
+import org.snapscript.tree.constraint.FunctionName;
 
 public class FunctionBodyCompiler extends TypeState {
 
    private final TypeScopeCompiler compiler;
    private final FunctionBody body;
    
-   public FunctionBodyCompiler(FunctionBody body) {
-      this.compiler = new TypeScopeCompiler();
+   public FunctionBodyCompiler(FunctionName identifier, FunctionBody body) {
+      this.compiler = new TypeScopeCompiler(identifier);
       this.body = body;
    }
    

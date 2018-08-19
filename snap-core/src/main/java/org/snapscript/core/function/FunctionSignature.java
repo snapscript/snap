@@ -3,12 +3,14 @@ package org.snapscript.core.function;
 import java.lang.reflect.Member;
 import java.util.List;
 
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.type.Type;
 
 public class FunctionSignature implements Signature {
    
    private final List<Parameter> parameters;
+   private final List<Constraint> constraints;
    private final SignatureDescription description;
    private final SignatureMatcher matcher;   
    private final Type definition;
@@ -17,14 +19,15 @@ public class FunctionSignature implements Signature {
    private final boolean absolute;
    private final boolean variable;
 
-   public FunctionSignature(List<Parameter> parameters, Module module, Member source, Origin origin, boolean absolute){
-      this(parameters, module, source, origin, absolute, false);
+   public FunctionSignature(List<Parameter> parameters, List<Constraint> constraints, Module module, Member source, Origin origin, boolean absolute){
+      this(parameters, constraints, module, source, origin, absolute, false);
    }
    
-   public FunctionSignature(List<Parameter> parameters, Module module, Member source, Origin origin, boolean absolute, boolean variable){
+   public FunctionSignature(List<Parameter> parameters, List<Constraint> constraints, Module module, Member source, Origin origin, boolean absolute, boolean variable){
       this.description = new SignatureDescription(this, module);
       this.matcher = new SignatureMatcher(this, module);
       this.definition = new FunctionType(this, module);
+      this.constraints = constraints;
       this.parameters = parameters;
       this.absolute = absolute;
       this.variable = variable;
@@ -35,6 +38,11 @@ public class FunctionSignature implements Signature {
    @Override
    public ArgumentConverter getConverter() {
       return matcher.getConverter();
+   }
+   
+   @Override
+   public List<Constraint> getGenerics() {
+      return constraints;
    }
    
    @Override

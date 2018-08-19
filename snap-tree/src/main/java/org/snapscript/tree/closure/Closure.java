@@ -74,11 +74,8 @@ public class Closure implements Compilation {
          Signature signature = parameters.create(parent);
          Scope capture = extractor.extract(scope);
          FunctionBody body = builder.create(signature, capture); // creating new function each time
-         Function function = body.create(capture);  
-         Constraint constraint = function.getConstraint();
          
          body.define(capture);
-         constraint.getType(scope);
          reference.set(body);
       }
       

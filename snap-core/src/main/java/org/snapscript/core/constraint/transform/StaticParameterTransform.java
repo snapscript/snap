@@ -11,7 +11,7 @@ public class StaticParameterTransform implements ConstraintTransform{
    }
    
    @Override
-   public ConstraintRule apply(Constraint source){
+   public ConstraintRule apply(Constraint left){
       return reference;
    }
 }

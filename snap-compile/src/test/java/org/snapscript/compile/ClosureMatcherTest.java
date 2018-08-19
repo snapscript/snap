@@ -1,5 +1,6 @@
 package org.snapscript.compile;
 
+import static java.util.Collections.EMPTY_LIST;
 import static org.snapscript.core.function.Origin.DEFAULT;
 
 import java.util.Arrays;
@@ -19,7 +20,6 @@ import org.snapscript.core.function.EmptyFunction;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionSignature;
 import org.snapscript.core.function.InvocationFunction;
-import org.snapscript.core.function.Origin;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.Signature;
 import org.snapscript.core.module.ContextModule;
@@ -42,7 +42,7 @@ public class ClosureMatcherTest extends TestCase {
       FunctionComparator comparator = new FunctionComparator(matcher);
       ClosureFunctionFinder finder = new ClosureFunctionFinder(comparator, extractor, loader);
       Parameter parameter = new Parameter("n", Constraint.STRING, false);
-      Signature signature = new FunctionSignature(Arrays.asList(parameter), module, null, DEFAULT, false);
+      Signature signature = new FunctionSignature(Arrays.asList(parameter), EMPTY_LIST, module, null, DEFAULT, false);
       Type type = new EmptyFunction(signature).getHandle();
       ConstraintConverter converter = matcher.match(type);
       Function function = new InvocationFunction(signature, null, type, null, "xx");

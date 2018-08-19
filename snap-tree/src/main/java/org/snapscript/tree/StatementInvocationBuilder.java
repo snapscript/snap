@@ -44,12 +44,11 @@ public class StatementInvocationBuilder implements InvocationBuilder {
    
    @Override
    public void define(Scope scope) throws Exception {
-      Scope inner = scope.getStack();
-      
       if(statement != null) {
-         extractor.define(inner); // count parameters
-         statement.define(inner); // start counting from here
+         extractor.define(scope); // count parameters
+         statement.define(scope); // start counting from here
       }
+      constraint.getType(scope);
    }
    
    @Override

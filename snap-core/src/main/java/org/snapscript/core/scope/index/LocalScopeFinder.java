@@ -26,7 +26,7 @@ public class LocalScopeFinder {
          }
       }else {
          Table table = scope.getTable();
-         Value value = table.get(depth);
+         Value value = table.getLocal(depth);
 
          if(checker.isValid(value)) { 
             return value;
@@ -49,7 +49,7 @@ public class LocalScopeFinder {
          }
       }else {
          Table table = scope.getTable();
-         Value value = table.get(depth);
+         Value value = table.getLocal(depth);
 
          if(!checker.isGenerated(value)) { 
             return value;

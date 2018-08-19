@@ -5,14 +5,14 @@ import org.snapscript.core.scope.Scope;
 
 public class StaticAttributeType implements AttributeType {
    
-   private final Constraint constraint;
+   private final Attribute attribute;
 
-   public StaticAttributeType(Constraint constraint) {
-      this.constraint = constraint;
+   public StaticAttributeType(Attribute attribute) {
+      this.attribute = attribute;
    }
 
    @Override
    public Constraint getConstraint(Scope scope, Constraint left) {
-      return constraint;
+      return attribute.getConstraint();
    }
 }

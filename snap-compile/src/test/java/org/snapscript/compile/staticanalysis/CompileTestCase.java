@@ -41,5 +41,16 @@ public abstract class CompileTestCase extends TestCase {
          throw e;
       }
    }
+   
+   public static void assertCompileAndExecuteSuccess(String source) throws Exception {
+      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
+      System.err.println(source);
+      try {;
+         compiler.compile(source).execute(new EmptyModel(), false);
+      } catch(VerifyException e){
+         e.getErrors().get(0).getCause().printStackTrace();
+         throw e;
+      }
+   }
 
 }

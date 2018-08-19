@@ -45,5 +45,5 @@ public class GenericConstraintResolver {
          return constraints;
       }
       return empty;
-   }
+   }   
 }

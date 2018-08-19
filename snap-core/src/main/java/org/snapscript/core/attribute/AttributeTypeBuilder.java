@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Type;
 
 public class AttributeTypeBuilder {
 
@@ -18,12 +17,11 @@ public class AttributeTypeBuilder {
       Constraint returns = attribute.getConstraint();
       List<Constraint> constraints = returns.getGenerics(scope);
       String name = returns.getName(scope);
-      Type source = attribute.getSource();
       int count = constraints.size();
 
       if(name != null || count > 0) {
-         return new GenericAttributeType(returns, source);
+         return new GenericAttributeType(attribute);
       }
-      return new StaticAttributeType(returns);
+      return new StaticAttributeType(attribute);
    }
 }

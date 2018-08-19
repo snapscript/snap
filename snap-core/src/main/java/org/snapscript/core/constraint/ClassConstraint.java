@@ -33,6 +33,7 @@ public class ClassConstraint extends Constraint {
       this.modifiers = modifiers;
       this.generics = generics;
       this.require = require;
+
    }
    
    @Override

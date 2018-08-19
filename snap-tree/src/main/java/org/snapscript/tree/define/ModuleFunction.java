@@ -51,7 +51,7 @@ public class ModuleFunction implements ModulePart {
       String name = identifier.getName(scope);
       int mask = modifiers.getModifiers();
       
-      return new DefineResult(body, statement, name, mask);
+      return new DefineResult(identifier, body, statement, name, mask);
    }
    
    private class DefineResult extends Statement {
@@ -64,12 +64,12 @@ public class ModuleFunction implements ModulePart {
       private final String name;
       private final int modifiers;
       
-      public DefineResult(ModuleBody body, Statement statement, String name, int modifiers) {
+      public DefineResult(FunctionName identifier, ModuleBody body, Statement statement, String name, int modifiers) {
          this.builder = new ModuleFunctionBuilder(body, statement);
+         this.compiler = new TypeScopeCompiler(identifier);
          this.cache = new AtomicReference<FunctionBody>();
          this.execution = new NoExecution(NORMAL);
          this.validator = new ModifierValidator();
-         this.compiler = new TypeScopeCompiler();
          this.modifiers = modifiers;
          this.name = name;
       }
@@ -77,18 +77,19 @@ public class ModuleFunction implements ModulePart {
       @Override
       public boolean define(Scope scope) throws Exception {
          Module module = scope.getModule();
+         Type type = module.getType(); // ???
+         Scope combined = compiler.define(scope, type);
          List<Function> functions = module.getFunctions();
-         Signature signature = parameters.create(scope);
+         List<Constraint> generics = identifier.getGenerics(scope);
+         Signature signature = parameters.create(scope, generics);
          Constraint require = constraint.getConstraint(scope, modifiers);
          FunctionBody body = builder.create(signature, module, require, name);
-         Function function = body.create(scope);
-         Constraint constraint = function.getConstraint();         
+         Function function = body.create(scope);    
          
          validator.validate(module, function, modifiers);
          annotations.apply(scope, function);
          functions.add(function);
-         body.define(scope); // count stack
-         constraint.getType(scope);
+         body.define(combined); // count stack
          cache.set(body);
          
          return false;

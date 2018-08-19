@@ -1,6 +1,7 @@
 package org.snapscript.core.constraint.transform;
 
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.scope.Scope;
 
 public class ConstraintIndexRule implements ConstraintRule {
 
@@ -17,11 +18,11 @@ public class ConstraintIndexRule implements ConstraintRule {
    }
 
    @Override
-   public Constraint getResult(Constraint original) {
+   public Constraint getResult(Scope scope, Constraint returns) {
       if(index != null) {
-         return index.update(constraint, original);
+         return index.update(scope, constraint, returns);
       }
-      return original;
+      return returns;
    }
 
    @Override

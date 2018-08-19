@@ -1,5 +1,6 @@
 package org.snapscript.core.function;
 
+import static java.util.Collections.EMPTY_LIST;
 import static org.snapscript.core.ModifierType.ABSTRACT;
 import static org.snapscript.core.ModifierType.FUNCTION;
 import static org.snapscript.core.Reserved.METHOD_CLOSURE;
@@ -72,6 +73,11 @@ public class EmptyFunction implements Function {
    @Override
    public Signature getSignature(){
       return signature;
+   }
+   
+   @Override
+   public List<Constraint> getGenerics() {
+      return EMPTY_LIST;
    }
    
    @Override

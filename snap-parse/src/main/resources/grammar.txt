@@ -43,13 +43,13 @@ range = <argument>'..'<argument>;
 constructor = 'new';
 
 function = {<constructor> | [identifier]};
-function-name = [identifier] <generic-list>;
+function-name = [identifier] <generic-parameter-list>;
 function-argument-list = ?<argument>*(','<argument>);
-function-invocation = <function-name> ( '(' <function-argument-list> ')' ) *{ '(' <function-curry>')' | '['<collection-index>']' };
+function-invocation = [identifier] <generic-argument-list> ( '(' <function-argument-list> ')' ) *{ '(' <function-curry>')' | '['<collection-index>']' };
 function-curry = <function-argument-list>;
 function-handle = <function>;
 
-reference-invocation = <function-name> ( '(' <function-argument-list> ')' ) *{ '(' <function-curry>')' | '['<collection-index>']' };
+reference-invocation = [identifier] <generic-argument-list> ( '(' <function-argument-list> ')' ) *{ '(' <function-curry>')' | '['<collection-index>']' };
 reference-property = { <class> | 
 					  [identifier] *( '[' <collection-index> ']' ) ?('::' <function-handle>) | 
 					  [type] };
@@ -184,7 +184,7 @@ constraint = {<type-constraint> | <class-constraint> };
 
 generic-reference = <type-reference> ?<generic-argument-list>;
 generic-argument = {'?'|<constraint>};
-generic-argument-list = '<' <generic-argument>*(','<generic-argument>) '>';
+generic-argument-list = ? ('<' <generic-argument>*(','<generic-argument>) '>');
 
 return-statement = 'return' ?(? _ {<cast> | <expression> | <closure>}) ';';
 yield-statement = 'yield' ?(? _ {<cast> | <expression> | <closure>}) ';';
@@ -269,7 +269,7 @@ closure-parameter-list = '('<parameter-list>')' | ?<parameter-declaration>;
 closure = <closure-parameter-list>?_'->'?_{<group-statement> | <expression>};
 
 generic-parameter = [type] ?(':' <constraint>);
-generic-list = ?('<' <generic-parameter> *(',' <generic-parameter>) '>');
+generic-parameter-list = ?('<' <generic-parameter> *(',' <generic-parameter>) '>');
 
 annotation-name = [type];
 annotation-list = *<annotation-declaration>?_;
@@ -288,7 +288,7 @@ access-modifier-list = *(<access-modifier>_);
 super-constructor = 'super''('?<argument-list>')';
 this-constructor = 'this''('?<argument-list>')';
 
-class-name = [type] <generic-list>;
+class-name = [type] <generic-parameter-list>;
 class-field-declaration = <assignment-variable>?(':'<constraint>)?('='<assignment-expression>);
 class-field = <annotation-list><field-modifier-list><class-field-declaration>*(','<class-field-declaration>)';';
 class-function = <annotation-list><function-modifier-list><function-name>'('<parameter-list>')'?(':'<constraint>){';' | <group-statement>};
@@ -297,10 +297,10 @@ class-part = {<class-field> | <class-constructor> | <class-function> | <inner-cl
 class-hierarchy = ?{?_'extends'_<class-constraint> | ?_'with'_<trait-constraint>}*(?_'with'_<trait-constraint>);
 class-definition = ?<annotation-list>'class'_<class-name>?<class-hierarchy>{'{}' | '{'*<class-part>'}'};
 
-abstract-class-name = [type] <generic-list>;
+abstract-class-name = [type] <generic-parameter-list>;
 abstract-class-definition = ?<annotation-list>'abstract'_'class'_<abstract-class-name>?<class-hierarchy>{'{}' | '{'*<class-part>'}'};
 
-trait-name = [type] <generic-list>;
+trait-name = [type] <generic-parameter-list>;
 trait-constant = <annotation-list><field-modifier-list><assignment-variable>?(':'<constraint>)'='<assignment-expression>';';
 trait-hierarchy = *(?_'extends'_<trait-constraint>);
 trait-function = ?<annotation-list><function-modifier-list><function-name>'('<parameter-list>')'?(':'<constraint>){';' | <group-statement>};

@@ -27,7 +27,10 @@ public class ConstraintWrapper {
          }
          if(Value.class.isInstance(value)) {         
             return new ValueConstraint((Value)value);
-         }         
+         } 
+         if(Constraint.class.isInstance(value)) {
+            return (Constraint)value;
+         }
       }
       return new ObjectConstraint(value);
    }

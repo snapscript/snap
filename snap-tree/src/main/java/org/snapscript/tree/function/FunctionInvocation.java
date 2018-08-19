@@ -27,18 +27,24 @@ import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Constant;
 import org.snapscript.core.variable.Value;
 import org.snapscript.tree.ArgumentList;
-import org.snapscript.tree.constraint.FunctionName;
+import org.snapscript.tree.NameReference;
+import org.snapscript.tree.compile.GenericScopeCompiler;
+import org.snapscript.tree.compile.ScopeCompiler;
+import org.snapscript.tree.constraint.GenericList;
+import org.snapscript.tree.literal.TextLiteral;
 
 public class FunctionInvocation implements Compilation {
 
    private final Evaluation[] evaluations;
-   private final FunctionName identifier;
+   private final NameReference identifier;
    private final ArgumentList arguments;
+   private final GenericList generics;
    
-   public FunctionInvocation(FunctionName identifier, ArgumentList arguments, Evaluation... evaluations) {
-      this.identifier = identifier;
+   public FunctionInvocation(TextLiteral identifier, GenericList generics, ArgumentList arguments, Evaluation... evaluations) {
+      this.identifier = new NameReference(identifier);
       this.evaluations = evaluations;
       this.arguments = arguments;
+      this.generics = generics;
    }
    
    @Override
@@ -58,7 +64,7 @@ public class FunctionInvocation implements Compilation {
       FunctionBinder binder = context.getBinder();   
       FunctionMatcher matcher = binder.bind(name);
       
-      return new CompileResult(matcher, arguments, evaluations, name);     
+      return new CompileResult(matcher, generics, arguments, evaluations, name);     
    }
    
    private static class CompileResult extends Evaluation {   
@@ -67,11 +73,13 @@ public class FunctionInvocation implements Compilation {
       private final ImplicitImportLoader loader;
       private final LocalScopeFinder finder;
       private final FunctionMatcher matcher;
-      private final ArgumentList arguments;
+      private final ScopeCompiler compiler;
+      private final ArgumentList arguments;      
       private final AtomicInteger offset;    
       private final String name;
       
-      public CompileResult(FunctionMatcher matcher, ArgumentList arguments, Evaluation[] evaluations, String name) {
+      public CompileResult(FunctionMatcher matcher, GenericList generics, ArgumentList arguments, Evaluation[] evaluations, String name) {
+         this.compiler = new GenericScopeCompiler(generics);
          this.loader = new ImplicitImportLoader();
          this.finder = new LocalScopeFinder();
          this.offset = new AtomicInteger(-1);
@@ -119,13 +127,14 @@ public class FunctionInvocation implements Compilation {
       private Constraint compile(Scope scope, String name) throws Exception {
          Type[] array = arguments.compile(scope); 
          FunctionDispatcher dispatcher = matcher.match(scope);
-         Constraint result = dispatcher.compile(scope, NONE, array);
+         Scope composite = compiler.compile(scope, null, null);
+         Constraint result = dispatcher.compile(composite, NONE, array);
          
          for(Evaluation evaluation : evaluations) {
             if(result == null) {
                throw new InternalStateException("Result of '" + name + "' is null"); 
             }
-            result = evaluation.compile(scope, result);
+            result = evaluation.compile(composite, result);
          }
          return result; 
       }
@@ -133,13 +142,14 @@ public class FunctionInvocation implements Compilation {
       private Constraint compile(Scope scope, String name, Constraint local) throws Exception {
          Type[] array = arguments.compile(scope); 
          FunctionDispatcher dispatcher = matcher.match(scope);
-         Constraint result = dispatcher.compile(scope, local, array);
+         Scope composite = compiler.compile(scope, null, null);
+         Constraint result = dispatcher.compile(composite, local, array);
          
          for(Evaluation evaluation : evaluations) {
             if(result == null) {
                throw new InternalStateException("Result of '" + name + "' is null"); 
             }
-            result = evaluation.compile(scope, result);
+            result = evaluation.compile(composite, result);
          }
          return result; 
       }

@@ -2,8 +2,8 @@ package org.snapscript.tree;
 
 import org.snapscript.common.store.ClassPathStore;
 import org.snapscript.common.store.Store;
-import org.snapscript.core.ContextValidator;
 import org.snapscript.core.Context;
+import org.snapscript.core.ContextValidator;
 import org.snapscript.core.ExpressionEvaluator;
 import org.snapscript.core.ResourceManager;
 import org.snapscript.core.StoreManager;
@@ -22,6 +22,7 @@ import org.snapscript.core.module.Path;
 import org.snapscript.core.platform.PlatformProvider;
 import org.snapscript.core.stack.ThreadStack;
 import org.snapscript.core.trace.TraceInterceptor;
+import org.snapscript.core.type.CacheTypeLoader;
 import org.snapscript.core.type.TypeExtractor;
 import org.snapscript.core.type.TypeLoader;
 
@@ -49,7 +50,7 @@ public class MockContext implements Context {
       this.wrapper = new ProxyWrapper(this);
       this.manager = new StoreManager(store);
       this.registry = new ModuleRegistry(this, null);
-      this.loader = new TypeLoader(linker, registry, manager, wrapper, stack);
+      this.loader = new CacheTypeLoader(linker, registry, manager, wrapper, stack);
       this.extractor = new TypeExtractor(loader);
       this.transformer = new ConstraintTransformer(extractor);
       this.indexer = new FunctionIndexer(extractor, stack);

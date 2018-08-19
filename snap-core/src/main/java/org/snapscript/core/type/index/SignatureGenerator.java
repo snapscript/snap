@@ -1,5 +1,6 @@
 package org.snapscript.core.type.index;
 
+import static java.util.Collections.EMPTY_LIST;
 import static org.snapscript.core.function.Origin.PLATFORM;
 
 import java.lang.reflect.Constructor;
@@ -10,12 +11,14 @@ import java.util.List;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.annotation.AnnotationConverter;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.constraint.ConstraintMapper;
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.FunctionSignature;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.ParameterBuilder;
 import org.snapscript.core.function.Signature;
 import org.snapscript.core.module.Module;
+import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 
 public class SignatureGenerator {
@@ -23,25 +26,36 @@ public class SignatureGenerator {
    private final GenericConstraintExtractor extractor;
    private final AnnotationConverter converter;
    private final ParameterBuilder builder;
+   private final ConstraintMapper mapper;
    
    public SignatureGenerator() {
       this.extractor = new GenericConstraintExtractor();
       this.converter = new AnnotationConverter();
       this.builder = new ParameterBuilder();
+      this.mapper = new ConstraintMapper();
    }
 
    public Signature generate(Type type, Method method) {
-      Constraint[] constraints = extractor.extractParameters(method);
+      Constraint[] generics = extractor.extractGenerics(method);
+      Constraint[] parameters = extractor.extractParameters(method);
       Object[][] annotations = method.getParameterAnnotations();
+      Scope scope = type.getScope();
       Module module = type.getModule();
       boolean variable = method.isVarArgs();      
       
       try {
-         List<Parameter> parameters = new ArrayList<Parameter>();
+         List<Parameter> signature = new ArrayList<Parameter>();
+         List<Constraint> constraints = new ArrayList<Constraint>();
    
-         for(int i = 0; i < constraints.length; i++){
-            boolean last = i + 1 == constraints.length;
-            Constraint constraint = constraints[i];
+         for(int i = 0; i < generics.length; i++) {
+            Constraint constraint = generics[i];
+            Constraint match = mapper.map(scope, constraint);
+            
+            constraints.add(match);
+         }
+         for(int i = 0; i < parameters.length; i++){
+            boolean last = i + 1 == parameters.length;
+            Constraint constraint = parameters[i];
             Parameter parameter = builder.create(constraint, i, variable && last);
             Object[] list = annotations[i];
             
@@ -56,9 +70,9 @@ public class SignatureGenerator {
                   actual.add(annotation);
                }
             }
-            parameters.add(parameter);
+            signature.add(parameter);
          }
-         return new FunctionSignature(parameters, module, method, PLATFORM, true, variable);
+         return new FunctionSignature(signature, constraints, module, method, PLATFORM, true, variable);
       } catch(Exception e) {
          throw new InternalStateException("Could not create function for " + method, e);
       }
@@ -92,7 +106,7 @@ public class SignatureGenerator {
             }
             parameters.add(parameter);
          }
-         return new FunctionSignature(parameters, module, constructor, PLATFORM, true, variable);
+         return new FunctionSignature(parameters, EMPTY_LIST, module, constructor, PLATFORM, true, variable);
       } catch(Exception e) {
          throw new InternalStateException("Could not create constructor for " + constructor, e);
       }

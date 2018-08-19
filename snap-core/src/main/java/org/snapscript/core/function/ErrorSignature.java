@@ -6,8 +6,9 @@ import java.lang.reflect.Member;
 import java.util.Collections;
 import java.util.List;
 
-import org.snapscript.core.type.Type;
+import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.NoArgumentConverter;
+import org.snapscript.core.type.Type;
 
 public class ErrorSignature implements Signature {
 
@@ -20,6 +21,11 @@ public class ErrorSignature implements Signature {
    @Override
    public ArgumentConverter getConverter() {
       return converter;
+   }
+   
+   @Override
+   public List<Constraint> getGenerics() {
+      return Collections.emptyList();
    }
 
    @Override

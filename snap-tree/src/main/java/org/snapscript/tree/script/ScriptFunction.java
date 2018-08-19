@@ -17,7 +17,6 @@ import org.snapscript.core.function.Signature;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.tree.compile.FunctionScopeCompiler;
-import org.snapscript.tree.compile.ScopeCompiler;
 import org.snapscript.tree.constraint.FunctionName;
 import org.snapscript.tree.function.FunctionBuilder;
 import org.snapscript.tree.function.ParameterList;
@@ -25,7 +24,7 @@ import org.snapscript.tree.function.ParameterList;
 public class ScriptFunction extends Statement {
    
    private final AtomicReference<FunctionBody> reference;
-   private final ScopeCompiler compiler;
+   private final FunctionScopeCompiler compiler;
    private final ParameterList parameters;
    private final FunctionBuilder builder;
    private final FunctionName identifier;
@@ -39,8 +38,8 @@ public class ScriptFunction extends Statement {
    public ScriptFunction(FunctionName identifier, ParameterList parameters, Constraint constraint, Statement body){
       this.reference = new AtomicReference<FunctionBody>();
       this.constraint = new DeclarationConstraint(constraint);
+      this.compiler = new FunctionScopeCompiler(identifier);
       this.builder = new ScriptFunctionBuilder(body);
-      this.compiler = new FunctionScopeCompiler();
       this.execution = new NoExecution(NORMAL);
       this.identifier = identifier;
       this.parameters = parameters;
@@ -49,16 +48,16 @@ public class ScriptFunction extends Statement {
    @Override
    public boolean define(Scope scope) throws Exception {
       Module module = scope.getModule();
-      List<Function> functions = module.getFunctions();
-      Signature signature = parameters.create(scope);
       String name = identifier.getName(scope);
+      Scope combined = compiler.define(scope, null);
+      List<Function> functions = module.getFunctions();
+      List<Constraint> generics = identifier.getGenerics(combined);
+      Signature signature = parameters.create(combined, generics);
       FunctionBody body = builder.create(signature, module, constraint, name);
-      Function function = body.create(scope);
-      Constraint constraint = function.getConstraint();
+      Function function = body.create(combined);
       
       functions.add(function);
-      body.define(scope); // count stack
-      constraint.getType(scope);
+      body.define(combined); // count stack
       reference.set(body);
       
       return false;

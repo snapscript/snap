@@ -1,12 +1,31 @@
 package org.snapscript.core.constraint;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.State;
 import org.snapscript.core.type.Type;
+import org.snapscript.core.variable.Value;
 
 public class ConstraintMapper {
    
    public ConstraintMapper() {
       super();
+   }
+   
+   public Constraint map(Scope scope, String name) {    
+      State state = scope.getState();
+      Value value = state.get(name);
+      
+      if(value != null) {
+         Object constraint = value.getValue();
+         
+         if(constraint != null) {
+            return (Constraint)constraint;
+         }         
+      }
+      return new TypeParameterConstraint(null, name);
    }
    
    public Constraint map(Scope scope, Constraint constraint) {    
@@ -24,6 +43,21 @@ public class ConstraintMapper {
          }
       }
       return constraint;
+   }
+   
+   public List<Constraint> map(Scope scope, List<Constraint> constraints) {  
+      int count = constraints.size();
+      
+      if(count > 0) {
+         List<Constraint> matches = new ArrayList<Constraint>(count);
+         
+         for(Constraint constraint : constraints) {
+            Constraint match = map(scope, constraint);
+            matches.add(match);
+         }
+         return matches;
+      }
+      return constraints;
    }
 }
 

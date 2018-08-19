@@ -43,7 +43,7 @@ public class MapKey extends Evaluation {
          }
       }else {
          Table table = scope.getTable(); // here we use the stack
-         Value value = table.get(depth);
+         Value value = table.getLocal(depth);
          
          if(value != null) { 
             return value;

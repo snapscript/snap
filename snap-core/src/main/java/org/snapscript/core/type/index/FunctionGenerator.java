@@ -38,7 +38,7 @@ public class FunctionGenerator {
          } else {
             invocation = new MethodInvocation(invocation, method);
          }
-         Constraint constraint = extractor.extractMethod(method, modifiers);
+         Constraint constraint = extractor.extractReturn(method, modifiers);
          
          if(!method.isAccessible()) {
             method.setAccessible(true);

@@ -23,6 +23,11 @@ public class ClassProperty implements Property {
    }
    
    @Override
+   public List<Constraint> getGenerics() {
+      return EMPTY_LIST;
+   }
+   
+   @Override
    public List<Annotation> getAnnotations(){
       return EMPTY_LIST;
    }

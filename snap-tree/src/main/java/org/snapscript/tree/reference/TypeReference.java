@@ -57,6 +57,9 @@ public class TypeReference extends TypeNavigation {
       Object value = result.getValue();
       Constraint constraint = mapper.toConstraint(value);
       
+      if(Constraint.class.isInstance(value)){
+         return result;
+      }
       if(name != null) {
          Type type = constraint.getType(scope);
          String defined = type.getName();

@@ -7,8 +7,8 @@ import org.snapscript.compile.assemble.ExecutorLinker;
 import org.snapscript.compile.assemble.OperationEvaluator;
 import org.snapscript.compile.validate.ExecutableValidator;
 import org.snapscript.compile.verify.ExecutableVerifier;
-import org.snapscript.core.ContextValidator;
 import org.snapscript.core.Context;
+import org.snapscript.core.ContextValidator;
 import org.snapscript.core.ExpressionEvaluator;
 import org.snapscript.core.ResourceManager;
 import org.snapscript.core.StoreManager;
@@ -24,6 +24,7 @@ import org.snapscript.core.module.ModuleRegistry;
 import org.snapscript.core.platform.PlatformProvider;
 import org.snapscript.core.stack.ThreadStack;
 import org.snapscript.core.trace.TraceInterceptor;
+import org.snapscript.core.type.CacheTypeLoader;
 import org.snapscript.core.type.TypeExtractor;
 import org.snapscript.core.type.TypeLoader;
 
@@ -60,7 +61,7 @@ public class StoreContext implements Context {
       this.manager = new StoreManager(store);
       this.registry = new ModuleRegistry(this, executor);
       this.linker = new ExecutorLinker(this, executor);      
-      this.loader = new TypeLoader(linker, registry, manager, wrapper, stack);
+      this.loader = new CacheTypeLoader(linker, registry, manager, wrapper, stack);
       this.matcher = new ConstraintMatcher(loader, wrapper);
       this.extractor = new TypeExtractor(loader);
       this.transformer = new ConstraintTransformer(extractor);

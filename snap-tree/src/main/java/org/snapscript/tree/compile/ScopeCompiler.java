@@ -23,6 +23,10 @@ import org.snapscript.core.variable.Value;
 
 public abstract class ScopeCompiler {
 
+   protected ScopeCompiler() {
+      super();
+   }
+
    protected void compileProperties(Scope scope, Type type) {
       Module module = scope.getModule();
       Context context = module.getContext();
@@ -67,7 +71,7 @@ public abstract class ScopeCompiler {
          Local local = compileParameter(scope, parameter);
 
          state.add(name, local);
-         table.add(i, local);
+         table.addLocal(i, local);
       }
    }
 
@@ -99,6 +103,6 @@ public abstract class ScopeCompiler {
       }
       return constraint;
    }
-
+   
    public abstract Scope compile(Scope local, Type type, Function function) throws Exception;
 }

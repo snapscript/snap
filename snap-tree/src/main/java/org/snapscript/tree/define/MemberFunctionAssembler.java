@@ -1,5 +1,7 @@
 package org.snapscript.tree.define;
 
+import java.util.List;
+
 import org.snapscript.core.Statement;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.constraint.DeclarationConstraint;
@@ -33,7 +35,8 @@ public class MemberFunctionAssembler {
       int modifiers = list.getModifiers();
       Scope scope = type.getScope();
       String name = identifier.getName(scope);
-      Signature signature = parameters.create(scope);
+      List<Constraint> generics = identifier.getGenerics(scope);
+      Signature signature = parameters.create(scope, generics);
       Constraint require = constraint.getConstraint(scope, modifiers | mask);
       
       if(checker.isStatic()) {

@@ -1,5 +1,6 @@
 package org.snapscript.core.scope.index;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
@@ -24,6 +25,7 @@ public class LocalScopeExtractor {
       return extract(outer, outer); // can't see callers scope
    }
    
+   @Bug("ModelScope keeps all the table variables... bad")
    public Scope extract(Scope original, Scope outer) {
       Scope capture = new LocalScope(original, outer);
       
@@ -33,15 +35,18 @@ public class LocalScopeExtractor {
          
          for(Local local : table){
             String name = local.getName();
+            Value existing = inner.get(name);
             
-            if(reference) {
-               inner.add(name, local); // enable modification of local
-            } else {
-               Object value = local.getValue();
-               Constraint constraint = local.getConstraint();
-               Value constant = Value.getConstant(value, constraint);
-               
-               inner.add(name, constant); // local is a visible constant
+            if(existing == null) {
+               if(reference) {
+                  inner.add(name, local); // enable modification of local
+               } else {
+                  Object value = local.getValue();
+                  Constraint constraint = local.getConstraint();
+                  Value constant = Value.getConstant(value, constraint);
+                  
+                  inner.add(name, constant); // local is a visible constant
+               }
             }
          }
       }

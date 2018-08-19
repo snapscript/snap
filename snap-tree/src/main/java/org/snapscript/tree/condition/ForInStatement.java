@@ -130,7 +130,7 @@ public class ForInStatement implements Compilation {
       @Override
       public Result resume(Scope scope, Iterator iterator) throws Exception {
          Table table = scope.getTable();
-         Local local = table.get(depth);
+         Local local = table.getLocal(depth);
          
          while (iterator.hasNext()) {
             Object entry = iterator.next();

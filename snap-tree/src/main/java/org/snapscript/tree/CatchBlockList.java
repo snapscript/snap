@@ -73,7 +73,7 @@ public class CatchBlockList {
             Local local = Local.getConstant(null, name, constraint);
             int index = offset.get();
             
-            table.add(index, local);
+            table.addLocal(index, local);
    
             list[i] = statement.compile(scope, null);
          }
@@ -100,7 +100,7 @@ public class CatchBlockList {
                Local local = Local.getConstant(cause, name);
                int index = offset.get();
                
-               table.add(index, local);
+               table.addLocal(index, local);
 
                return list[i].execute(scope);
             }

@@ -1,8 +1,10 @@
 package org.snapscript.core.property;
 
+import static java.util.Collections.EMPTY_LIST;
 import static org.snapscript.core.ModifierType.CONSTANT;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.snapscript.core.annotation.Annotation;
@@ -26,6 +28,11 @@ public class ConstantProperty implements Property<Object> {
       this.modifiers = modifiers;
       this.source = source;
       this.name = name;
+   }
+   
+   @Override
+   public List<Constraint> getGenerics() {
+      return EMPTY_LIST;
    }
    
    @Override

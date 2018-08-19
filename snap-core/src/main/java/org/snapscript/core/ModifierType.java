@@ -1,22 +1,23 @@
 package org.snapscript.core;
 
 public enum ModifierType {
-   VARIABLE(0x0001, "var", "let"),
-   CONSTANT(0x0002, "const"),
-   FUNCTION(0x0004, "function", "func"),  
-   CLASS(0x0008, "class"),   
-   TRAIT(0x0010, "trait"),
-   ENUM(0x0020, "enum"),
-   MODULE(0x0040, "module"),
-   OVERRIDE(0x0080, "override"),
-   PRIVATE(0x0100, "private"),
-   PUBLIC(0x0200, "public"),
-   PROTECTED(0x0400, "protected"), // java only
-   STATIC(0x0800, "static"),
-   ABSTRACT(0x1000, "abstract"),
-   PROXY(0x2000, "proxy"),
-   ARRAY(0x4000, "[]"),
-   VARARGS(0x8000, "...");
+   VARIABLE(0x00001, "var", "let"),
+   CONSTANT(0x00002, "const"),
+   FUNCTION(0x00004, "function", "func"),  
+   CLASS(0x00008, "class"),   
+   TRAIT(0x00010, "trait"),
+   ENUM(0x00020, "enum"),
+   MODULE(0x00040, "module"),
+   OVERRIDE(0x00080, "override"),
+   PRIVATE(0x00100, "private"),
+   PUBLIC(0x00200, "public"),
+   PROTECTED(0x00400, "protected"), // java only
+   STATIC(0x00800, "static"),
+   ABSTRACT(0x01000, "abstract"),
+   PROXY(0x02000, "proxy"),
+   ARRAY(0x04000, "[]"),
+   VARARGS(0x08000, "..."),
+   WILD(0x10000, "?");
    
    public final String[] tokens;
    public final int mask;
@@ -90,9 +91,13 @@ public enum ModifierType {
       return modifier >= 0 && (PROTECTED.mask & modifier) != 0;
    }
    
+   public static boolean isWild(int modifier) {
+      return modifier >= 0 && (WILD.mask & modifier) != 0;
+   }
+   
    public static boolean isVariableArgument(int modifier) {
       return modifier >= 0 && (VARARGS.mask & modifier) != 0;
-   }
+   }   
    
    public static ModifierType resolveModifier(String token) {
       if(token != null) {

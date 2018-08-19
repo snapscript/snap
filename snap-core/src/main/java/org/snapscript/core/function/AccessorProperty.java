@@ -1,12 +1,15 @@
 package org.snapscript.core.function;
 
+import static java.util.Collections.EMPTY_LIST;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import org.snapscript.core.type.Type;
 import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.property.Property;
+import org.snapscript.core.type.Type;
 
 public class AccessorProperty<T> implements Property<T> {
 
@@ -24,6 +27,11 @@ public class AccessorProperty<T> implements Property<T> {
       this.accessor = accessor;
       this.source = source;
       this.name = name;
+   }
+   
+   @Override
+   public List<Constraint> getGenerics() {
+      return EMPTY_LIST;
    }
    
    @Override

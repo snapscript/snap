@@ -1,5 +1,6 @@
 package org.snapscript.core.function;
 
+import static java.util.Collections.EMPTY_LIST;
 import static org.snapscript.core.ModifierType.FUNCTION;
 
 import java.util.ArrayList;
@@ -80,6 +81,11 @@ public class InvocationFunction implements Function {
    @Override
    public Signature getSignature(){
       return signature;
+   }
+   
+   @Override
+   public List<Constraint> getGenerics() {
+      return signature.getGenerics();
    }
    
    @Override

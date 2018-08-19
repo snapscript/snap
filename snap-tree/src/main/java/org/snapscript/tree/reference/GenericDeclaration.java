@@ -25,24 +25,24 @@ import org.snapscript.tree.constraint.TypeConstraint;
 public class GenericDeclaration { 
 
    private final ConstraintCompilation compilation;
-   private final GenericArgumentList list;
-   private final TypeReference type; 
+   private final GenericArgumentList generics;
+   private final TypeReference reference; 
    private final Set<String> imports;
    
-   public GenericDeclaration(TypeReference type, GenericArgumentList list, TraceInterceptor interceptor, Trace trace) {
-      this.compilation = new ConstraintCompilation(type, list, interceptor, trace);
+   public GenericDeclaration(TypeReference reference, GenericArgumentList generics, TraceInterceptor interceptor, Trace trace) {
+      this.compilation = new ConstraintCompilation(reference, generics, interceptor, trace);
       this.imports = new HashSet<String>();
-      this.list = list;
-      this.type = type;
+      this.reference = reference;
+      this.generics = generics;
    }
    
-   public Value declare(Scope scope) throws Exception {      
+   public Value declare(Scope scope) throws Exception {
       Module module = scope.getModule();
       Scope outer = module.getScope();
-      String name = type.qualify(scope, null);        
+      String name = reference.qualify(scope, null);  
       
-      if(list != null) {
-         List<String> other = list.getImports(scope);
+      if(generics != null) {
+         List<String> other = generics.getImports(scope);
          
          if(other != null) {
             imports.addAll(other);
@@ -51,27 +51,27 @@ public class GenericDeclaration {
       if(name != null) {
          imports.add(name);
       }
-      return new ConstraintConstant(compilation, imports, outer);
+      return new ConstraintConstant(compilation, outer, imports);
    }
    
    private static class ConstraintCompilation extends Evaluation {
 
       private final TraceInterceptor interceptor;
-      private final GenericArgumentList list;
-      private final TypeReference type;
+      private final GenericArgumentList generics;
+      private final TypeReference reference;
       private final Trace trace;
 
-      public ConstraintCompilation(TypeReference type, GenericArgumentList list, TraceInterceptor interceptor, Trace trace) {
+      public ConstraintCompilation(TypeReference reference, GenericArgumentList generics, TraceInterceptor interceptor, Trace trace) {
          this.interceptor = interceptor;
+         this.reference = reference;
+         this.generics = generics;
          this.trace = trace;
-         this.type = type;
-         this.list = list;
       }
 
       @Override
       public Constraint compile(Scope scope, Constraint left) { 
          try {
-            Value value = type.evaluate(scope, NULL);
+            Value value = reference.evaluate(scope, NULL);
             Entity entity = value.getValue();
             int modifiers = entity.getModifiers();
                   
@@ -80,11 +80,11 @@ public class GenericDeclaration {
                String name = constraint.getName(scope);
                Type type = constraint.getType(scope);
                
-               if(list != null) {
-                  List<Constraint> generics = list.getConstraints(scope);    
+               if(generics != null) {
+                  List<Constraint> arguments = generics.getGenerics(scope);    
                   
-                  if(!generics.isEmpty()) {
-                     return new TypeParameterConstraint(type, generics, name);
+                  if(!arguments.isEmpty()) {
+                     return new TypeParameterConstraint(type, arguments, name);
                   }
                }
                return new TypeParameterConstraint(type, name);
@@ -102,7 +102,7 @@ public class GenericDeclaration {
       private final Constraint constraint;
       private final Scope scope;
       
-      public ConstraintConstant(Evaluation evaluation, Set<String> imports, Scope scope) {
+      public ConstraintConstant(Evaluation evaluation, Scope scope, Set<String> imports) {
          this.constraint = new ConstraintEvaluation(evaluation, imports);
          this.scope = scope;        
       }

@@ -39,10 +39,9 @@ public class StaticInvocationBuilder implements InvocationBuilder {
    
    @Override
    public void define(Scope scope) throws Exception {
-      Scope inner = scope.getStack();
-      
-      extractor.define(inner); // count parameters
-      statement.define(scope);     
+      extractor.define(scope); // count parameters
+      statement.define(scope);   
+      constraint.getType(scope);
    }
    
    @Override

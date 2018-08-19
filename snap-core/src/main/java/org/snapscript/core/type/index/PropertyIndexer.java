@@ -162,7 +162,7 @@ public class PropertyIndexer {
                if(write == null) {
                   modifiers |= CONSTANT.mask;
                }
-               Constraint constraint = generics.extractMethod(method, modifiers);
+               Constraint constraint = generics.extractReturn(method, modifiers);
                Property property = generator.generate(method, write, type, constraint, name, modifiers);                
                List<Annotation> extracted = extractor.extract(method);
                List<Annotation> actual = property.getAnnotations();

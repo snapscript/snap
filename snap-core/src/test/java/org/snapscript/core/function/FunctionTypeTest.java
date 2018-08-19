@@ -1,8 +1,10 @@
 package org.snapscript.core.function;
 
+import static java.util.Collections.EMPTY_LIST;
 import static org.snapscript.core.function.Origin.DEFAULT;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -32,6 +34,6 @@ public class FunctionTypeTest extends TestCase {
    
    public static Signature createSignature(String functionName, Module module){
       List<Parameter> parameters = new ArrayList<Parameter>();
-      return new FunctionSignature(parameters, module, null, DEFAULT, true);
+      return new FunctionSignature(parameters, EMPTY_LIST, module, null, DEFAULT, true);
    }
 }

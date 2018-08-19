@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.snapscript.common.Cache;
 import org.snapscript.core.EntityTree;
+import org.snapscript.core.attribute.Attribute;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.constraint.TypeConstraint;
 import org.snapscript.core.error.InternalStateException;
@@ -22,6 +23,22 @@ public class ConstraintTransformer {
       this.tree = new EntityTree<Integer, ConstraintTransform>();
       this.indexer = new ConstraintIndexBuilder();
       this.extractor = extractor;
+   }
+   
+   public ConstraintTransform transform(Type constraint, Attribute attribute) {
+      Type require = attribute.getSource();
+      List<Constraint> generics = attribute.getGenerics();
+      int count = generics.size();
+      
+      if(require == null || constraint == null) {
+         return new LocalTransform(attribute); // global scope
+      }
+      ConstraintTransform transform = transform(constraint, require); 
+      
+      if(count > 0) {
+         return new AttributeTransform(transform, attribute);      
+      }
+      return transform;
    }
 
    public ConstraintTransform transform(Type constraint, Type require) {
@@ -76,7 +93,7 @@ public class ConstraintTransformer {
 
          return new StaticTransform(result, index);
       }
-      return new EmptyTransform(require); // already parameterized
+      return new TypeTransform(require); // already parameterized
    }
 
    private ConstraintTransform resolveType(Type constraint, Type require) {
@@ -102,7 +119,7 @@ public class ConstraintTransformer {
          }
          return new ChainTransform(transforms);
       }
-      return new EmptyTransform(require);
+      return new TypeTransform(require);
    }
 
    private ConstraintTransform resolveType(Constraint constraint, Type require) {
@@ -133,12 +150,12 @@ public class ConstraintTransformer {
 
          for(int i = 0; i < count; i++){
             Constraint generic = generics.get(i);
-            Constraint parameter = originIndex.update(constraint, generic);
+            Constraint parameter = originIndex.update(scope, constraint, generic);
 
             if(parameter == generic) {
                transforms[i] = new StaticParameterTransform(generic); // its already got a class
             }else {
-               transforms[i] = new GenericParameterTransform(originIndex, generic);
+               transforms[i] = new GenericParameterTransform(originIndex, generic, origin);
             }
          }
          return new GenericTransform(destination, requireIndex, transforms);

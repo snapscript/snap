@@ -1,57 +1,84 @@
 package org.snapscript.core.scope.index;
 
-import org.snapscript.common.EmptyIterator;
-
 import java.util.Arrays;
 import java.util.Iterator;
 
+import org.snapscript.common.EmptyIterator;
+import org.snapscript.core.constraint.Constraint;
+
 public class ArrayTable implements Table {
-   
-   private Local[] table;
+
+   private Constraint[] constraints;
+   private Local[] locals;
 
    public ArrayTable() {
       this(0);
    }
    
    public ArrayTable(int count) {
-      this.table = new Local[count];
+      this.constraints = new Constraint[count];
+      this.locals = new Local[count];
    }
 
    @Override
    public Iterator<Local> iterator() {
-      if(table.length > 0) {
-         return new LocalIterator(table);
+      if(locals.length > 0) {
+         return new LocalIterator(locals);
       }
       return new EmptyIterator<Local>();
    }
 
    @Override
-   public Local get(int index) {
-      if(index < table.length && index >= 0) {
-         return table[index];
+   public Local getLocal(int index) {
+      if(index < locals.length && index >= 0) {
+         return locals[index];
       }
       return null;
    }
    
    @Override
-   public void add(int index, Local local) {
+   public void addLocal(int index, Local local) {
       if(local == null) {
          throw new IllegalStateException("Local at index " + index + " is null");
       }
-      if(index >= table.length) {
+      if(index >= locals.length) {
          Local[] copy = new Local[index == 0 ? 2 : index * 2];
          
-         for(int i = 0; i < table.length; i++) {
-            copy[i] = table[i];
+         for(int i = 0; i < locals.length; i++) {
+            copy[i] = locals[i];
          }
-         table = copy;
+         locals = copy;
       }
-      table[index] = local;
+      locals[index] = local;
+   }
+
+   @Override
+   public Constraint getConstraint(int index) {
+      if(index < constraints.length && index >= 0) {
+         return constraints[index];
+      }
+      return null;
+   }
+   
+   @Override
+   public void addConstraint(int index, Constraint constraint) {
+      if(constraint == null) {
+         throw new IllegalStateException("Constraint at index " + index + " is null");
+      }
+      if(index >= constraints.length) {
+         Constraint[] copy = new Constraint[index == 0 ? 2 : index * 2];
+         
+         for(int i = 0; i < constraints.length; i++) {
+            copy[i] = constraints[i];
+         }
+         constraints = copy;
+      }
+      constraints[index] = constraint;
    }
    
    @Override
    public String toString() {
-      return Arrays.toString(table);
+      return Arrays.toString(locals);
    }
    
    private static class LocalIterator implements Iterator<Local> {

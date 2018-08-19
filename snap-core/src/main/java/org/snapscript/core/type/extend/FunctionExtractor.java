@@ -72,6 +72,7 @@ public class FunctionExtractor {
    private Function extract(Module module, Class extend, Object value, Function function) {
       Invocation invocation = function.getInvocation();
       Signature signature = function.getSignature();
+      List<Constraint> generics = signature.getGenerics();
       List<Parameter> parameters = signature.getParameters();
       Member member = signature.getSource();
       boolean variable = signature.isVariable();
@@ -79,7 +80,7 @@ public class FunctionExtractor {
    
       if(length > 0) {
          List<Parameter> copy = new ArrayList<Parameter>();
-         Signature reduced = new FunctionSignature(copy, module, member, origin, true, variable);
+         Signature reduced = new FunctionSignature(copy, generics, module, member, origin, true, variable);
          Invocation adapter = new ExportInvocation(invocation, value, extend);
          
          for(int i = 1; i < length; i++) {

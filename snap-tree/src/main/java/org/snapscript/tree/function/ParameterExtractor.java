@@ -33,30 +33,39 @@ public class ParameterExtractor {
    
    public void define(Scope scope) throws Exception {
       List<Parameter> parameters = signature.getParameters();
-      int size = parameters.size();
-      
-      if(size > 0) {
+      int required = parameters.size();
+
+      if(required > 0) {     
          Index index = scope.getIndex();
          
-         for(int i = 0; i < size; i++) {
+         for(int i = 0; i < required; i++) {
             Parameter parameter = parameters.get(i);
             String name = parameter.getName();
-
-            index.index(name);
+            int depth = index.get(name);
+            
+            if(depth == -1) {
+               index.index(name);
+            }
          }
       }
    }
 
    public Scope extract(Scope scope, Object[] arguments) throws Exception {
       List<Parameter> parameters = signature.getParameters();
-      Scope inner = scope.getStack();
-      int size = parameters.size();
-      
-      if(size > 0) {
-         State state = inner.getState();
+      List<Constraint> generics = signature.getGenerics();
+      int required = parameters.size();
+      int optional = generics.size();
+
+      if(optional + required > 0) {
+         Scope inner = scope.getStack();      
          Table table = inner.getTable();
+         State state = inner.getState();
          
-         for(int i = 0; i < size; i++) {
+         for(int i = 0; i < optional; i++) {
+            Constraint constraint = generics.get(i);
+            table.addConstraint(i, constraint);
+         }
+         for(int i = 0; i < required; i++) {
             Parameter parameter = parameters.get(i);
             String name = parameter.getName();
             Object argument = arguments[i];
@@ -65,11 +74,11 @@ public class ParameterExtractor {
             if(closure) {
                state.add(name, local); 
             }
-            table.add(i, local);
-         }
+            table.addLocal(i, local);
+         }   
          return inner;
       }
-      return inner;
+      return scope;
    }
 
    private Local create(Scope scope, Object value, int index) throws Exception {

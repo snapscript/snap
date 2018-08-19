@@ -1,5 +1,7 @@
 package org.snapscript.tree.closure;
 
+import static java.util.Collections.EMPTY_LIST;
+
 import org.snapscript.core.function.Signature;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.tree.function.ParameterDeclaration;
@@ -29,8 +31,8 @@ public class ClosureParameterList {
    
    public Signature create(Scope scope) throws Exception{
       if(multiple != null) {
-         return multiple.create(scope);
+         return multiple.create(scope, EMPTY_LIST);
       }
-      return single.create(scope);
+      return single.create(scope, EMPTY_LIST);
    }
 }

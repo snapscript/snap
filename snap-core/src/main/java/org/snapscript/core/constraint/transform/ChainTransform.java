@@ -11,12 +11,12 @@ public class ChainTransform implements ConstraintTransform {
    }
 
    @Override
-   public ConstraintRule apply(Constraint constraint){
+   public ConstraintRule apply(Constraint left){
       ConstraintRule rule = null;
 
       for(ConstraintTransform transform : path) {
-         rule = transform.apply(constraint);
-         constraint = rule.getSource();
+         rule = transform.apply(left);
+         left = rule.getSource();
       }
       return rule;
    }

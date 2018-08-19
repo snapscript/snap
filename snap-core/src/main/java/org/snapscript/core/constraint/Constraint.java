@@ -79,6 +79,10 @@ public abstract class Constraint {
       return false;
    }   
    
+   public boolean isWild() {
+      return false;
+   }   
+   
    public List<Constraint> getGenerics(Scope scope) {
       return EMPTY_LIST;
    }

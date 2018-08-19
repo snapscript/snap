@@ -7,8 +7,9 @@ import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
+import org.snapscript.tree.constraint.GenericList;
 
-public class GenericArgumentList {
+public class GenericArgumentList implements GenericList {
 
    private final GenericArgument[] arguments;
 
@@ -28,7 +29,8 @@ public class GenericArgumentList {
       return result;
    }
    
-   public List<Constraint> getConstraints(Scope scope) throws Exception {
+   @Override
+   public List<Constraint> getGenerics(Scope scope) throws Exception {
       List<Constraint> result = new ArrayList<Constraint>();
       
       for(GenericArgument argument : arguments) {

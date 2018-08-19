@@ -13,16 +13,13 @@ import org.snapscript.core.type.Type;
 public class PositionIndex implements ConstraintIndex {
 
    private final PositionMapper mapper;
-   private final Type type;
 
-   public PositionIndex(Type type, Map<String, Integer> positions) {
-      this.mapper = new PositionMapper(type, positions);
-      this.type = type;
+   public PositionIndex(ConstraintSource source, Map<String, Integer> positions) {
+      this.mapper = new PositionMapper(source, positions);
    }
-
+   
    @Override
-   public Constraint update(Constraint source, Constraint change) {
-      Scope scope = type.getScope();
+   public Constraint update(Scope scope, Constraint source, Constraint change) {
       String name = change.getName(scope);
 
       if(name == null) {
@@ -35,7 +32,7 @@ public class PositionIndex implements ConstraintIndex {
             AtomicBoolean touch = new AtomicBoolean();
 
             for(Constraint generic : generics) {
-               Constraint update = update(source, generic);
+               Constraint update = update(scope, source, generic);
 
                touch.compareAndSet(false, update!= generic); // has anything at all changed
                updated.add(update);
@@ -46,6 +43,6 @@ public class PositionIndex implements ConstraintIndex {
          }
          return change;
       }
-      return mapper.resolve(source, name);
+      return mapper.resolve(scope, source, name);
    }
 }

@@ -1,6 +1,7 @@
 package org.snapscript.core.constraint.transform;
 
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.scope.Scope;
 
 public class EmptyIndex implements ConstraintIndex {
    
@@ -9,8 +10,7 @@ public class EmptyIndex implements ConstraintIndex {
    }
 
    @Override
-   public Constraint update(Constraint source, Constraint change) {
+   public Constraint update(Scope scope, Constraint source, Constraint change) {
       return change;
    }
-
 }

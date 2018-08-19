@@ -26,7 +26,17 @@ public class GenericConstraintExtractor {
       }
    }
    
-   public Constraint extractMethod(Method method,int modifiers) {
+   public Constraint[] extractGenerics(Method method) {
+      Type[] generics = method.getTypeParameters();
+      
+      try {
+         return resolver.resolve(generics);
+      } catch(Exception e) {
+         throw new InternalStateException("Could not create constraint for " + method, e);
+      }
+   }
+   
+   public Constraint extractReturn(Method method,int modifiers) {
       Type type = method.getGenericReturnType();
       
       try {

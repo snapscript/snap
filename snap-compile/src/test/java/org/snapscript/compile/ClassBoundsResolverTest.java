@@ -65,8 +65,8 @@ public class ClassBoundsResolverTest extends TestCase {
       assertEquals(resolver.resolve(getList.getGenericReturnType()).getType(scope).getType(), List.class);
       
       assertNotNull(doIt);
-      assertNull(resolver.resolve(doIt.getGenericReturnType()).getName(scope)); // its a method level generic, so ignore
-      assertNull(resolver.resolve(doIt.getGenericReturnType()).getType(scope));
+      assertEquals(resolver.resolve(doIt.getGenericReturnType()).getName(scope), "T");
+      assertEquals(resolver.resolve(doIt.getGenericReturnType()).getType(scope).getType(), String.class);
       
       assertNotNull(goForIt);
       assertEquals(resolver.resolve(goForIt.getGenericReturnType()).getName(scope), "X");

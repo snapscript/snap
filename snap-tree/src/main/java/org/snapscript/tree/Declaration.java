@@ -58,7 +58,7 @@ public class Declaration {
       int depth = offset.get();
       
       try { 
-         table.add(depth, local);
+         table.addLocal(depth, local);
       }catch(Exception e) {
          throw new InternalStateException("Declaration of variable '" + name +"' failed", e);
       }  
@@ -72,7 +72,7 @@ public class Declaration {
       int depth = offset.get();
       
       try { 
-         table.add(depth, local);
+         table.addLocal(depth, local);
       }catch(Exception e) {
          throw new InternalStateException("Declaration of variable '" + name +"' failed", e);
       }  

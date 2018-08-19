@@ -34,7 +34,8 @@ public class ConstraintIndexBuilder {
 
       if(count > 0) {
          Map<String, Integer> positions = new HashMap<String,Integer>();
-
+         ConstraintSource source = new TypeSource(type);
+         
          for(int i = 0; i < count; i++){
             Constraint constraint = generics.get(i);
             String name = constraint.getName(scope);
@@ -43,7 +44,7 @@ public class ConstraintIndexBuilder {
                positions.put(name, i);
             }
          }
-         return new PositionIndex(type, positions);
+         return new PositionIndex(source, positions);
       }
       return new EmptyIndex();
    }

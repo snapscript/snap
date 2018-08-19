@@ -28,10 +28,8 @@ public class TypeInvocationBuilder implements InvocationBuilder {
    
    @Override
    public void define(Scope scope) throws Exception {
-      Scope inner = scope.getStack();
-      
-      extractor.define(inner); // count parameters
-      state.define(inner, type); // start counting from here 
+      extractor.define(scope); // count parameters
+      state.define(scope, type); // start counting from here 
    }
    
    @Override
