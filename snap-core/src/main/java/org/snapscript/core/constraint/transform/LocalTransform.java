@@ -2,14 +2,9 @@ package org.snapscript.core.constraint.transform;
 
 import static java.util.Collections.EMPTY_MAP;
 
-import java.util.List;
-
 import org.snapscript.core.attribute.Attribute;
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.State;
-import org.snapscript.core.scope.index.Table;
 
 public class LocalTransform implements ConstraintTransform {
    
@@ -25,46 +20,22 @@ public class LocalTransform implements ConstraintTransform {
    
    @Override
    public ConstraintRule apply(Constraint left){
-      return new LocalRule(index, attribute, left);
+      ConstraintRule rule = new LocalRule(index, attribute, left);
+      return new AttributeRule(rule, attribute);
    }
    
    private static class LocalRule implements ConstraintRule {
       
       private final ConstraintIndex index;
-      private final Attribute attribute;
       private final Constraint left;
       
       public LocalRule(ConstraintIndex index, Attribute attribute, Constraint left) {
-         this.attribute = attribute;
          this.index = index;
          this.left = left;
       }
 
       @Override
       public Constraint getResult(Scope scope, Constraint returns) {
-         List<Constraint> defaults = attribute.getGenerics();
-         int count = defaults.size();
-         
-         if(count > 0) {     
-            Table table = scope.getTable();
-            State state = scope.getState();
-            Constraint first = table.getConstraint(0);    
-               
-            for(int i = 0; i < count; i++) {
-               Constraint parameter = table.getConstraint(i);
-               Constraint constraint = defaults.get(i);
-               String name = constraint.getName(scope);               
-               
-               if(parameter != null) {
-                  state.addConstraint(name, parameter);
-               } else {
-                  if(first != null) {               
-                     throw new InternalStateException("Generic parameter '" + name +"' not specified");
-                  }
-                  state.addConstraint(name, constraint);
-               }
-            }
-         }
          return index.update(scope, left, returns);
       }
 

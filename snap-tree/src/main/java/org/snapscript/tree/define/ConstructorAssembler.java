@@ -28,7 +28,7 @@ public class ConstructorAssembler {
    
    public ConstructorBuilder assemble(TypeBody body, Type type, Scope scope) throws Exception {
       TypeState internal = delegate.define(body, type, scope);
-      List<Constraint> generics = type.getConstraints();
+      List<Constraint> generics = type.getGenerics();
       Signature signature = parameters.create(scope, generics, TYPE_CLASS);
       
       return new ConstructorBuilder(internal, signature, statement);

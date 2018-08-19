@@ -13,7 +13,7 @@ public class ArrayToStreamTest extends CompileTestCase {
    "\n"+
    "var x: String[] = ['x', 'y', 'z'];\n"+
    "var v = x.stream()\n"+
-   "    .map(x -> x.toUpperCase())\n"+
+   "    .map(e -> e.toUpperCase())\n"+
    "    .collect(Collectors.toList())\n"+
    "    .stream()\n"+
    "    .findFirst()\n"+
@@ -33,11 +33,11 @@ public class ArrayToStreamTest extends CompileTestCase {
 
    private static final String SUCCESS_4 =
    "var x: Integer[] = [1,2,3];\n"+
-   "x.forEach(x -> println(x));\n";
+   "x.forEach(e -> println(e));\n";
 
    private static final String SUCCESS_5 =
    "var x: Integer[] = [1,2,3];\n"+
-   "x.iterator().forEachRemaining(x -> println(x));\n";
+   "x.iterator().forEachRemaining(e -> println(e));\n";
 
    private static final String SUCCESS_6 =
    "var x: Integer[] = [1,2,3];\n"+

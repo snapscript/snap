@@ -20,15 +20,14 @@ public class GenericParameterExtractor {
    public Scope extract(Scope local) throws Exception {
       List<Constraint> constraints = generics.getGenerics(local);
       Scope scope = extractor.extract(local);    
-      Scope inner = scope.getStack();
-      Table table = inner.getTable();
+      Table table = scope.getTable();
       int size = constraints.size();
 
       for(int i = 0; i < size; i++) {
          Constraint constraint = constraints.get(i);
          table.addConstraint(i, constraint);
       }
-      return inner;
+      return scope;
    }
 }
 

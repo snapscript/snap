@@ -70,7 +70,7 @@ public class NamedGenericParamsTest extends TestCase {
       assertNotNull(type);
       assertNotNull(string);      
       
-      List<Constraint> constraints = type.getConstraints();
+      List<Constraint> constraints = type.getGenerics();
       Scope scope = type.getScope();
       
       assertFalse(constraints.isEmpty());
@@ -127,7 +127,7 @@ public class NamedGenericParamsTest extends TestCase {
       assertNotNull(type);
       assertNotNull(string);      
       
-      List<Constraint> constraints = type.getConstraints();
+      List<Constraint> constraints = type.getGenerics();
       Scope scope = type.getScope();
       
       assertFalse(constraints.isEmpty());

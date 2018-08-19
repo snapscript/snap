@@ -51,7 +51,7 @@ public class FunctionType implements Type {
    }
    
    @Override
-   public List<Constraint> getConstraints() {
+   public List<Constraint> getGenerics() {
       return Collections.emptyList();
    }
 

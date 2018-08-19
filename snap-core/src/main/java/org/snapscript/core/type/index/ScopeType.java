@@ -59,7 +59,7 @@ public class ScopeType implements Type {
    }
    
    @Override
-   public List<Constraint> getConstraints() {
+   public List<Constraint> getGenerics() {
       return constraints;
    }
    

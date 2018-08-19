@@ -6,7 +6,6 @@ import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
-import org.snapscript.core.scope.index.Local;
 import org.snapscript.core.scope.index.LocalScopeExtractor;
 import org.snapscript.core.type.Type;
 import org.snapscript.tree.constraint.FunctionName;

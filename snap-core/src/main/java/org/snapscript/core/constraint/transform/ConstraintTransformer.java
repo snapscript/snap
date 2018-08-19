@@ -83,7 +83,7 @@ public class ConstraintTransformer {
 
    private ConstraintTransform resolveArray(Constraint constraint, Type require) { // String[] -> List
       ConstraintIndex index = indexer.index(require);
-      List<Constraint> constraints = require.getConstraints();
+      List<Constraint> constraints = require.getGenerics();
 
       if(!constraints.isEmpty()) {
          List<Constraint> generics = new ArrayList<Constraint>();
@@ -97,7 +97,7 @@ public class ConstraintTransformer {
    }
 
    private ConstraintTransform resolveType(Type constraint, Type require) {
-      List<Constraint> constraints = require.getConstraints();
+      List<Constraint> constraints = require.getGenerics();
 
       if(!constraints.isEmpty()) {
          List<Constraint> path = extractor.getTypes(constraint, require);

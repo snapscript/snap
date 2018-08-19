@@ -19,7 +19,7 @@ public class TypeSource implements ConstraintSource {
    public List<Constraint> getConstraints(Constraint constraint) {
       Scope scope = type.getScope();
       List<Constraint> generics = constraint.getGenerics(scope);
-      List<Constraint> constraints = type.getConstraints();
+      List<Constraint> constraints = type.getGenerics();
       int require = constraints.size();
       int actual = generics.size();
 

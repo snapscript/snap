@@ -266,7 +266,7 @@ parameter-declaration = ?<annotation-list><parameter-modifier-list>?_<parameter-
 parameter-list = ?(<parameter-declaration>*(','<parameter-declaration>));
 
 closure-parameter-list = '('<parameter-list>')' | ?<parameter-declaration>;
-closure = <closure-parameter-list>?_'->'?_{<group-statement> | <expression>};
+closure = <generic-parameter-list> <closure-parameter-list>?_'->'?_{<group-statement> | <expression>};
 
 generic-parameter = [type] ?(':' <constraint>);
 generic-parameter-list = ?('<' <generic-parameter> *(',' <generic-parameter>) '>');

@@ -57,7 +57,7 @@ public class MockType implements Type {
    }
    
    @Override
-   public List<Constraint> getConstraints() {
+   public List<Constraint> getGenerics() {
       return constraints;
    }
    

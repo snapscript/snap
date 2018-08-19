@@ -10,7 +10,7 @@ import org.snapscript.core.module.Module;
 import org.snapscript.core.property.Property;
 
 public interface Type extends Entity {
-   List<Constraint> getConstraints();
+   List<Constraint> getGenerics();
    List<Annotation> getAnnotations();
    List<Property> getProperties();
    List<Function> getFunctions();

@@ -14,30 +14,32 @@ import org.snapscript.core.function.Signature;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.index.LocalScopeExtractor;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 import org.snapscript.tree.ExpressionStatement;
 import org.snapscript.tree.compile.ClosureScopeCompiler;
+import org.snapscript.tree.constraint.GenericList;
 
 public class Closure implements Compilation {
    
    private final ClosureParameterList parameters;
    private final ExpressionStatement compilation;
+   private final GenericList generics;
    private final Statement statement;
    
-   public Closure(ClosureParameterList parameters, Statement statement){  
-      this(parameters, statement, null);
+   public Closure(GenericList generics, ClosureParameterList parameters, Statement statement){  
+      this(generics, parameters, statement, null);
    }  
    
-   public Closure(ClosureParameterList parameters, Evaluation expression){
-      this(parameters, null, expression);
+   public Closure(GenericList generics, ClosureParameterList parameters, Evaluation expression){
+      this(generics, parameters, null, expression);
    }
    
-   public Closure(ClosureParameterList parameters, Statement statement, Evaluation expression){
+   public Closure(GenericList generics, ClosureParameterList parameters, Statement statement, Evaluation expression){
       this.compilation = new ExpressionStatement(expression);
       this.parameters = parameters;
       this.statement = statement;
+      this.generics = generics;
    }
    
    @Override
@@ -47,23 +49,21 @@ public class Closure implements Compilation {
       if(closure == null) {
          closure = compilation.compile(module, path, line);
       }
-      return new CompileResult(parameters, closure, module);
+      return new CompileResult(generics, parameters, closure, module);
    }
   
    private static class CompileResult extends Evaluation {
    
       private final AtomicReference<FunctionBody> reference;
-      private final LocalScopeExtractor extractor;
       private final ClosureParameterList parameters;
       private final ClosureScopeCompiler compiler;
       private final ClosureBuilder builder;
       private final Module module;
 
-      public CompileResult(ClosureParameterList parameters, Statement closure, Module module){
+      public CompileResult(GenericList generics, ClosureParameterList parameters, Statement closure, Module module){
          this.reference = new AtomicReference<FunctionBody>();
-         this.extractor = new LocalScopeExtractor(false, true);
          this.builder = new ClosureBuilder(closure, module);
-         this.compiler = new ClosureScopeCompiler();
+         this.compiler = new ClosureScopeCompiler(generics);
          this.parameters = parameters;
          this.module = module;
       }
@@ -72,7 +72,7 @@ public class Closure implements Compilation {
       public void define(Scope scope) throws Exception {
          Scope parent = module.getScope();
          Signature signature = parameters.create(parent);
-         Scope capture = extractor.extract(scope);
+         Scope capture = compiler.define(scope, null);
          FunctionBody body = builder.create(signature, capture); // creating new function each time
          
          body.define(capture);
@@ -83,9 +83,8 @@ public class Closure implements Compilation {
       public Constraint compile(Scope scope, Constraint left) throws Exception {
          Type type = scope.getType();
          FunctionBody body = reference.get();
-         Scope capture = extractor.extract(scope);
-         Function function = body.create(capture);   
-         Scope combined = compiler.compile(capture, type, function);
+         Function function = body.create(scope);   
+         Scope combined = compiler.compile(scope, type, function);
          
          body.compile(combined);
         
@@ -95,7 +94,7 @@ public class Closure implements Compilation {
       @Override
       public Value evaluate(Scope scope, Value left) throws Exception {
          FunctionBody handle = reference.get();
-         Scope capture = extractor.extract(scope);
+         Scope capture = compiler.extract(scope, null);
          Function function = handle.create(capture);
          
          return Value.getTransient(function);

@@ -105,7 +105,7 @@ public class TypeReferencePart implements Compilation {
       private Value create(Scope scope, Type type) throws Exception {
          Module module = type.getModule();
          String parent = type.getName();
-         Type result = module.getType(parent + "$"+name);
+         Entity result = module.getType(parent + "$"+name);
          
          if(result == null) {
             throw new InternalStateException("No type found for '" + parent + "." + name + "' in '" + module + "'"); // class not found

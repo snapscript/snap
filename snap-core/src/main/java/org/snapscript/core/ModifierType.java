@@ -49,7 +49,7 @@ public enum ModifierType {
    public static boolean isEnum(int modifier){
       return modifier >= 0 && (ENUM.mask & modifier) != 0;
    }
-   
+
    public static boolean isProxy(int modifier){
       return modifier >= 0 && (PROXY.mask & modifier) != 0;
    }

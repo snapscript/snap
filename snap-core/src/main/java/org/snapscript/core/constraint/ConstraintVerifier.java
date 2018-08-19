@@ -19,7 +19,7 @@ public class ConstraintVerifier {
       Type type = constraint.getType(scope);
       
       if(type != null) {
-         List<Constraint> generics = type.getConstraints();
+         List<Constraint> generics = type.getGenerics();
          List<Constraint> constraints = constraint.getGenerics(scope);
          int constraintCount = constraints.size();
          int genericCount = generics.size();

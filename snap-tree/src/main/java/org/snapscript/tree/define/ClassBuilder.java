@@ -59,7 +59,7 @@ public class ClassBuilder {
       Type type = reference.get();
       Scope scope = type.getScope();
       List<Constraint> generics = name.getGenerics(scope);
-      List<Constraint> constraints = type.getConstraints();      
+      List<Constraint> constraints = type.getGenerics();      
      
       constraints.addAll(generics);
       annotations.apply(scope, type);

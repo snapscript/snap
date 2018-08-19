@@ -29,7 +29,7 @@ public class ConstraintIndexBuilder {
 
    private ConstraintIndex create(Type type) {
       Scope scope = type.getScope();
-      List<Constraint> generics = type.getConstraints();
+      List<Constraint> generics = type.getGenerics();
       int count = generics.size();
 
       if(count > 0) {

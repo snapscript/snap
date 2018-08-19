@@ -35,9 +35,9 @@ public class InstanceOfChecker {
             return false;
          }
       }
-      return false;
+      return constraint == null;
    }
-
+   
    public boolean isInstanceOf(Scope scope, Object instance, Object constraint) {
       if (constraint != null && instance != null) {
          try {
@@ -75,5 +75,5 @@ public class InstanceOfChecker {
          }
       }
       return constraint == Object.class;
-   }
+   }   
 }

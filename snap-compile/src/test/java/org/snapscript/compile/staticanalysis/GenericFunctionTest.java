@@ -3,7 +3,7 @@ package org.snapscript.compile.staticanalysis;
 public class GenericFunctionTest extends CompileTestCase {
 
    private static final String SUCCESS_1 =
-   "func fun<T: Integer>(a: T): T {\n"+
+   "func fun<T: Number>(a: T): T {\n"+
    "  return a;\n"+
    "}\n"+
    "fun<Double>(1.0).intValue();\n";
@@ -28,8 +28,15 @@ public class GenericFunctionTest extends CompileTestCase {
    "}\n"+
    "fun(1.0).intValue();\n"; // no qualification at all
    
+   private static final String SUCCESS_5 =
+   "func fun<F, B>(b: B): List<F> {\n"+
+   "   return [['a','b']];\n"+
+   "}\n"+
+   "let u = fun<List<String>, Number>(11).get(0).get(0).toUpperCase();\n"+
+   "println(u);\n";  
+   
    private static final String FAILURE_1 =
-   "func fun<T: Integer>(a: T): T {\n"+
+   "func fun<T: Number>(a: T): T {\n"+
    "  return a;\n"+
    "}\n"+
    "fun<Double>(1.0).substring(1);\n";
@@ -48,14 +55,22 @@ public class GenericFunctionTest extends CompileTestCase {
    "}\n"+
    "fun(1.0).substring(1);\n"; // no qualifier so default
    
+   
+   private static final String FAILURE_4 =
+   "func fun<F, B>(b: B): List<F> {\n"+
+   "   return [['a','b']];\n"+
+   "}\n"+
+   "let u = fun<List<String>, Number>(11).get(0).get(0).intValue();\n";
+   
    public void testGenericFunction() throws Exception {
       assertCompileAndExecuteSuccess(SUCCESS_1);
       assertCompileAndExecuteSuccess(SUCCESS_2);
       assertCompileAndExecuteSuccess(SUCCESS_3);
       assertCompileAndExecuteSuccess(SUCCESS_4);
-      assertCompileAndExecuteSuccess(SUCCESS_4);
+      assertCompileAndExecuteSuccess(SUCCESS_5);
       assertCompileError(FAILURE_1, "Function 'substring(lang.Integer)' not found for 'lang.Double' in /default.snap at line 4");
       assertCompileError(FAILURE_2, "Function 'substring(lang.Integer)' not found for 'lang.Integer' in /default.snap at line 6");
       assertCompileError(FAILURE_3, "Function 'substring(lang.Integer)' not found for 'lang.Integer' in /default.snap at line 4");
+      assertCompileError(FAILURE_4, "Function 'intValue()' not found for 'lang.String' in /default.snap at line 4");
    }
 }
