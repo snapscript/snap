@@ -1,25 +1,16 @@
 package org.snapscript.tree.reference;
 
-import org.snapscript.core.NameFormatter;
-import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.constraint.ConstraintWrapper;
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.index.Local;
-import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 
 public class TypeReference extends TypeNavigation {
-   
-   private ConstraintWrapper mapper;
-   private NameFormatter formatter;
+
    private TypeNavigation[] list;
    private TypeNavigation root;
    private Value type;
    
    public TypeReference(TypeNavigation root, TypeNavigation... list) {
-      this.mapper = new ConstraintWrapper();
-      this.formatter = new NameFormatter();
       this.root = root;
       this.list = list;
    }
@@ -47,29 +38,8 @@ public class TypeReference extends TypeNavigation {
             }
             result = list[i].evaluate(scope, result);
          }
-         type = create(scope, result);
+         type = result;
       }
       return type;
-   }
-   
-   private Value create(Scope scope, Value result) throws Exception {
-      String name = result.getName();
-      Object value = result.getValue();
-      Constraint constraint = mapper.toConstraint(value);  
-      
-      if(value == constraint) {
-         return Local.getConstant(value, name, constraint);
-      }
-      if(name != null) {
-         Type type = constraint.getType(scope);
-         String defined = type.getName();
-         String actual = formatter.formatInnerName(defined);
-         
-         if(!name.equals(actual)) { 
-            Constraint parameter = mapper.toConstraint(value, name);
-            return Local.getConstant(value, name, parameter);
-         }                 
-      }
-      return Local.getConstant(value, null, constraint);      
    }
 }

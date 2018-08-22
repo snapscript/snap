@@ -36,11 +36,13 @@ public class TypeReferencePart implements Compilation {
    
    private static class CompileResult extends TypeNavigation {
 
+      private final TypeReferenceWrapper mapper;
       private final TypeExtractor extractor;
       private final Module source;
       private final String name;
    
       public CompileResult(TypeExtractor extractor, Module source, String name) {
+         this.mapper = new TypeReferenceWrapper();
          this.extractor = extractor;
          this.source = source;
          this.name = name;
@@ -88,9 +90,9 @@ public class TypeReferencePart implements Compilation {
             if(constraint == null) {                         
                throw new InternalStateException("No type found for '" + name + "' in '" + source + "'"); // class not found
             }
-            return Local.getConstant(constraint, name);
+            return mapper.toValue(scope, constraint, name);
          }
-         return Local.getConstant(result, name);
+         return mapper.toValue(scope, result, name);
       }
       
       private Value create(Scope scope, Module module) throws Exception {
@@ -99,7 +101,7 @@ public class TypeReferencePart implements Compilation {
          if(result == null) {
             throw new InternalStateException("No type found for '" + name + "' in '" + module + "'"); // class not found
          }
-         return Local.getConstant(result, name);
+         return mapper.toValue(scope, result, name);
       }
       
       private Value create(Scope scope, Type type) throws Exception {
@@ -110,7 +112,7 @@ public class TypeReferencePart implements Compilation {
          if(result == null) {
             throw new InternalStateException("No type found for '" + parent + "." + name + "' in '" + module + "'"); // class not found
          }
-         return Local.getConstant(result, parent + "$"+name);
+         return mapper.toValue(scope, result, parent + "$"+name);
       }
    }
 }

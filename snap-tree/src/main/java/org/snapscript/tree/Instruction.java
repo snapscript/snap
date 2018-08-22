@@ -41,6 +41,7 @@ import org.snapscript.tree.construct.MapKey;
 import org.snapscript.tree.define.AbstractClassDefinition;
 import org.snapscript.tree.define.AbstractClassName;
 import org.snapscript.tree.define.AliasDefinition;
+import org.snapscript.tree.define.AliasHierarchy;
 import org.snapscript.tree.define.ClassConstructor;
 import org.snapscript.tree.define.ClassDefinition;
 import org.snapscript.tree.define.ClassHierarchy;
@@ -226,6 +227,7 @@ public enum Instruction {
    GENERIC_PARAMETER(GenericParameter.class, "generic-parameter"),
    GENERIC_PARAMETER_LIST(GenericParameterList.class, "generic-parameter-list"),
    ALIAS_NAME(AliasName.class, "alias-name"),
+   ALIAS_HIERARCHY(AliasHierarchy.class, "alias-hierarchy"),
    ALIAS_DEFINITION(AliasDefinition.class, "alias-definition"),
    TRAIT_NAME(TraitName.class, "trait-name"),     
    TRAIT_HIERARCHY(TraitHierarchy.class, "trait-hierarchy"),
