@@ -25,7 +25,7 @@ public class DefaultImportReaderTest extends TestCase {
    "   Collection,\n"+
    "   *\n"+
    "}\n"+
-   "rmi=java.rmi{}\n"+
+   "rmi=java.rmi,javax.rmi{}\n"+
    "awt=java.awt{}";
 
    public void testImportHintReader() throws Exception {
@@ -53,10 +53,10 @@ public class DefaultImportReaderTest extends TestCase {
          String name = hint.getAlias();
          map.put(name, hint);
       }
-      assertEquals("java.lang", map.get("lang").getPackage());
-      assertEquals("java.util", map.get("util").getPackage());
-      assertEquals("java.rmi", map.get("rmi").getPackage());
-      assertEquals("java.awt", map.get("awt").getPackage());
+      assertEquals("java.lang", map.get("lang").getModules().iterator().next());
+      assertEquals("java.util", map.get("util").getModules().iterator().next());
+      assertEquals("java.rmi", map.get("rmi").getModules().iterator().next());
+      assertEquals("java.awt", map.get("awt").getModules().iterator().next());
       
       assertEquals(map.get("lang").getImports().size(), 2);
       assertEquals(map.get("util").getImports().size(), 4);

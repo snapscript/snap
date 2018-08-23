@@ -65,9 +65,9 @@ net = java.net {
 }
    
 nio = java.nio {}
-rmi = java.rmi {}
-security = java.security {}
-sql = java.sql {}
+rmi = java.rmi, javax.rmi {}
+security = java.security, javax.security {}
+sql = java.sql, javax.security {}
 text = java.text {}
 time = java.time {}
 
@@ -103,10 +103,8 @@ imageio = javax.imageio {}
 management = javax.management {}
 naming = javax.naming {}
 print = javax.print {}
-rmi = javax.rmi {}
 script = javax.script {}
 sound = javax.sound {}
-sql = javax.sql {}
 swing = javax.swing {}
 tools = javax.tools {}
 xml = javax.xml {}
