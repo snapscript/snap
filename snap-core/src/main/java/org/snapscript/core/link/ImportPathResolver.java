@@ -54,7 +54,7 @@ public class ImportPathResolver {
             List<String> list = new ArrayList<String>();
             StringBuilder builder = new StringBuilder();
 
-            for (Object module : modules) {
+            for (String module : modules) {
                builder.append(module);
                builder.append(remainder);
 
@@ -83,7 +83,7 @@ public class ImportPathResolver {
             List<String> list = new ArrayList<String>();
             StringBuilder builder = new StringBuilder();
 
-            for(Object module : modules) {
+            for(String module : modules) {
                builder.append(module);
                builder.append(".");
                builder.append(resource);
