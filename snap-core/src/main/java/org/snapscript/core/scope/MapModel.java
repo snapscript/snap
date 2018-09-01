@@ -2,8 +2,6 @@ package org.snapscript.core.scope;
 
 import java.util.Map;
 
-import org.snapscript.core.scope.Model;
-
 public class MapModel implements Model {
    
    private final Map<String, Object> model;
