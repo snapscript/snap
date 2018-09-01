@@ -6,7 +6,6 @@ import static org.snapscript.core.Reserved.METHOD_TO_STRING;
 
 import java.lang.reflect.Method;
 
-import org.snapscript.core.Context;
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.resolve.FunctionCall;
@@ -19,17 +18,17 @@ import org.snapscript.core.variable.Value;
 public class FunctionProxyHandler implements ProxyHandler { 
    
    private final ProxyArgumentExtractor extractor;
+   private final FunctionResolver resolver;
    private final ProxyWrapper wrapper;
    private final Function function;
-   private final Context context;
    private final Value value;
    
-   public FunctionProxyHandler(ProxyWrapper wrapper, Context context, Function function) {
+   public FunctionProxyHandler(ProxyWrapper wrapper, FunctionResolver resolver, Function function) {
       this.extractor = new ProxyArgumentExtractor(wrapper);
       this.value = new Transient(function);
+      this.resolver = resolver;
       this.function = function;
       this.wrapper = wrapper;
-      this.context = context;
    }
    
    @Override
@@ -77,7 +76,6 @@ public class FunctionProxyHandler implements ProxyHandler {
    
    private FunctionCall resolve(Object proxy, String name, Object[] convert, Object[] arguments) throws Throwable {
       Type source = function.getSource();
-      FunctionResolver resolver = context.getResolver();  
 
       if(source != null) {
          Scope scope = source.getScope();
@@ -94,5 +92,4 @@ public class FunctionProxyHandler implements ProxyHandler {
    public Function extract() {
       return function;
    }
-   
 }

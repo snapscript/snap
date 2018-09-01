@@ -39,7 +39,7 @@ public class InterfaceCollector {
       
       if(interfaces == null) {
          Set<Class> types = traverse(type);
-         Class[] result = types.toArray(empty);
+         Class[] result = convert(types);
          
          cache.cache(type, result);
          return result;
@@ -47,7 +47,7 @@ public class InterfaceCollector {
       return interfaces;
    }
    
-   public Class[] filter(Class... types) {
+   public Class[] collect(Class... types) {
       if(types.length > 0) {
          Set<Class> interfaces = new HashSet<Class>();
          
@@ -58,7 +58,7 @@ public class InterfaceCollector {
                }
             }
          }
-         return interfaces.toArray(empty);
+         return convert(interfaces);
       }
       return empty;
    }
@@ -90,5 +90,20 @@ public class InterfaceCollector {
          return interfaces;
       }
       return Collections.<Class>singleton(Any.class);
+   }
+
+   private Class[] convert(Set<Class> types) {
+      int size = types.size();
+
+      if(size > 0) {
+         Class[] array = new Class[size];
+         int index = 0;
+
+         for(Class type : types) {
+            array[index++] = type;
+         }
+         return array;
+      }
+      return empty;
    }
 }
