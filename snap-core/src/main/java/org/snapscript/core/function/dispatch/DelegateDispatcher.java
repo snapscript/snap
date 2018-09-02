@@ -31,7 +31,7 @@ public class DelegateDispatcher implements FunctionDispatcher {
       if(call == null) {
          handler.handleCompileError(INVOKE, scope, object, name, arguments);
       }
-      return call.check(constraint);
+      return call.check(constraint, arguments);
    }
    
    @Override

@@ -5,13 +5,18 @@ public enum Reason {
    REFERENCE,
    INVOKE,
    CAST,
+   GENERIC,
    CONSTRUCTION,
    THROW;
    
    public boolean isAccess() {
       return this == ACCESS;
    }
-   
+
+   public boolean isGeneric() {
+      return this == GENERIC;
+   }
+
    public boolean isConstruction() {
       return this == CONSTRUCTION;
    }

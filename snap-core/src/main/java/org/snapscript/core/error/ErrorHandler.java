@@ -52,12 +52,18 @@ public class ErrorHandler {
       if(reason.isAccess()) {
          return compile.handleAccessError(scope, name, list);          
       }
+      if(reason.isGeneric()) {
+         return compile.handleGenericError(scope, name, list);
+      }
       return compile.handleInvokeError(scope, name, list); 
    }
 
    public Result handleCompileError(Reason reason, Scope scope, Type type, String name, Type[] list) {
       if(reason.isAccess()) {
          return compile.handleAccessError(scope, type, name, list);          
+      }
+      if(reason.isGeneric()) {
+         return compile.handleGenericError(scope, type, name, list);
       }
       return compile.handleInvokeError(scope, type, name, list); 
    }

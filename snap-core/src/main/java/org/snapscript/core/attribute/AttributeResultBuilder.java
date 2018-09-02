@@ -5,15 +5,15 @@ import java.util.List;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
 
-public class AttributeTypeBuilder {
+public class AttributeResultBuilder {
 
    private final Attribute attribute;
 
-   public AttributeTypeBuilder(Attribute attribute) {
+   public AttributeResultBuilder(Attribute attribute) {
       this.attribute = attribute;
    }
 
-   public AttributeType create(Scope scope) {
+   public AttributeResult create(Scope scope) {
       Constraint returns = attribute.getConstraint();
       List<Constraint> generics = attribute.getGenerics();
       List<Constraint> constraints = returns.getGenerics(scope);
@@ -22,8 +22,8 @@ public class AttributeTypeBuilder {
       int optional = generics.size();
 
       if(name != null || optional + require > 0) {
-         return new GenericAttributeType(attribute);
+         return new GenericAttributeResult(attribute);
       }
-      return new StaticAttributeType(attribute);
+      return new StaticAttributeResult(attribute);
    }
 }

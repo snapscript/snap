@@ -86,8 +86,8 @@ public class LocalFunctionIndexer {
       }
 
       @Override
-      public Constraint getConstraint(Scope scope, Constraint left) {
-         return pointer.getConstraint(scope, left);
+      public ReturnType getType(Scope scope) {
+         return pointer.getType(scope);
       }
 
       @Override

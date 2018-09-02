@@ -34,7 +34,7 @@ public class MapDispatcher implements FunctionDispatcher {
       FunctionCall local = resolver.resolveInstance(scope, map, name, arguments);
       
       if(local != null) {
-         return local.check(constraint);
+         return local.check(constraint, arguments);
       }
       return NONE;      
    }

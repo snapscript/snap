@@ -8,7 +8,6 @@ import org.snapscript.core.convert.InstanceOfChecker;
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Parameter;
-import org.snapscript.core.function.Signature;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
 import org.snapscript.core.scope.index.Table;
@@ -51,6 +50,7 @@ public class AttributeRule extends ConstraintRule {
             Constraint parameter = table.getConstraint(i);
             Constraint constraint = defaults.get(i);
             String name = constraint.getName(scope);
+            Constraint existing = state.getConstraint(name);
 
             if(parameter != null) {
                Type require = constraint.getType(scope);
@@ -59,12 +59,29 @@ public class AttributeRule extends ConstraintRule {
                if(!checker.isInstanceOf(scope, actual, require)) {
                   throw new InternalStateException("Generic parameter '" + name +"' is does not match '" + constraint + "'");
                }
-               state.addConstraint(name, parameter);
+               if(existing != null) {
+                  Type current = existing.getType(scope);
+
+                  if(current != actual) {
+                     throw new InternalStateException("Generic parameter '" + name +"' has already been declared");
+                  }
+               } else {
+                  state.addConstraint(name, parameter);
+               }
             } else {
                if(first != null) {
                   throw new InternalStateException("Generic parameter '" + name +"' not specified");
                }
-               state.addConstraint(name, constraint);
+               if(existing != null) {
+                  Type require = constraint.getType(scope);
+                  Type current = existing.getType(scope);
+
+                  if (current != require) {
+                     throw new InternalStateException("Generic parameter '" + name + "' has already been declared");
+                  }
+               } else {
+                  state.addConstraint(name, constraint);
+               }
             }
          }
       }

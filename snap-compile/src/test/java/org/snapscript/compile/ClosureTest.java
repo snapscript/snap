@@ -3,17 +3,12 @@ package org.snapscript.compile;
 import java.lang.management.ManagementFactory;
 import java.text.DecimalFormat;
 
+import com.sun.management.ThreadMXBean;
 import junit.framework.TestCase;
-
-import org.snapscript.common.store.ClassPathStore;
-import org.snapscript.common.store.Store;
-import org.snapscript.core.Context;
 import org.snapscript.core.Reserved;
 import org.snapscript.parse.SyntaxCompiler;
 import org.snapscript.parse.SyntaxNode;
 import org.snapscript.tree.Instruction;
-
-import com.sun.management.ThreadMXBean;
 
 public class ClosureTest extends TestCase {
 

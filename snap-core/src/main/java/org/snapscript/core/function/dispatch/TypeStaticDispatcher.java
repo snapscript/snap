@@ -30,7 +30,7 @@ public class TypeStaticDispatcher implements FunctionDispatcher {
       if(call == null) {
          handler.handleCompileError(INVOKE, scope, type, name, arguments);
       }
-      return call.check(constraint);
+      return call.check(constraint, arguments);
    } 
 
    @Override

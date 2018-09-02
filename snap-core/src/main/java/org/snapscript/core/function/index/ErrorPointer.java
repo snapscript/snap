@@ -9,6 +9,7 @@ import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.Signature;
 import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Type;
 
 public class ErrorPointer implements FunctionPointer {
 
@@ -19,10 +20,10 @@ public class ErrorPointer implements FunctionPointer {
       this.signature = new ErrorSignature();
       this.function = new EmptyFunction(signature);
    }
-   
+
    @Override
-   public Constraint getConstraint(Scope scope, Constraint left) {
-      return NONE;
+   public ReturnType getType(Scope scope) {
+      return new ReturnType(null, scope);
    }
 
    @Override
