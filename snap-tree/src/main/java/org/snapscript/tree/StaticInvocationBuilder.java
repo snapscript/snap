@@ -5,8 +5,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.snapscript.core.Context;
 import org.snapscript.core.Execution;
 import org.snapscript.core.Statement;
-import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Type;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.ConstraintConverter;
 import org.snapscript.core.convert.ConstraintMatcher;
@@ -17,6 +15,8 @@ import org.snapscript.core.function.Signature;
 import org.snapscript.core.function.SignatureAligner;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.result.Result;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Type;
 import org.snapscript.tree.function.ParameterExtractor;
 
 public class StaticInvocationBuilder implements InvocationBuilder {
@@ -81,13 +81,11 @@ public class StaticInvocationBuilder implements InvocationBuilder {
          this.matcher = matcher;
          this.compile = compile;
       }
-      
+
       @Override
       public Object invoke(Scope scope, Object object, Object... list) throws Exception {
          Object[] arguments = aligner.align(list);
          Scope inner = extractor.extract(scope, arguments);
-         Type type = constraint.getType(scope);
-         ConstraintConverter converter = matcher.match(type);
          
          if(execute.compareAndSet(false, true)) {
             compile.execute(inner); // could be a static block
@@ -96,7 +94,10 @@ public class StaticInvocationBuilder implements InvocationBuilder {
          Object value = result.getValue();
          
          if(value != null) {
-            value = converter.assign(value);
+            Type type = constraint.getType(scope);
+            ConstraintConverter converter = matcher.match(type);
+
+            return converter.assign(value);
          }
          return value;
       }
