@@ -1,15 +1,11 @@
 package org.snapscript.core.function.index;
 
-import static org.snapscript.core.constraint.Constraint.NONE;
-
-import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.EmptyFunction;
 import org.snapscript.core.function.ErrorSignature;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.Signature;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.Type;
 
 public class ErrorPointer implements FunctionPointer {
 
@@ -34,6 +30,11 @@ public class ErrorPointer implements FunctionPointer {
    @Override
    public Invocation getInvocation() {
       return null;
+   }
+
+   @Override
+   public boolean isCachable() {
+      return false;
    }
    
    @Override

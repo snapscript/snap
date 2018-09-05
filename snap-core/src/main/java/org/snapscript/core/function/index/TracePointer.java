@@ -41,7 +41,12 @@ public class TracePointer implements FunctionPointer {
    @Override
    public Invocation getInvocation() {
       return invocation;
-   }   
+   }
+
+   @Override
+   public boolean isCachable() {
+      return false;
+   }
    
    @Override
    public String toString() {

@@ -71,8 +71,8 @@ public class ScopeFunctionIndex implements FunctionIndex {
    }
 
    @Override
-   public void index(FunctionPointer call) throws Exception {
-      Function function = call.getFunction();
+   public void index(FunctionPointer pointer) throws Exception {
+      Function function = pointer.getFunction();
       Signature signature = function.getSignature();
       List<Parameter> parameters = signature.getParameters();
       int size = parameters.size();
@@ -82,14 +82,14 @@ public class ScopeFunctionIndex implements FunctionIndex {
          int minimum = size -1; // vargs with no value
          
          for(int i = maximum; i >= minimum; i--) { // limit variable arguments
-            index(call, i);
+            index(pointer, i);
          }
       } else {
-         index(call, size);
+         index(pointer, size);
       }
    }
    
-   private void index(FunctionPointer call, int size) throws Exception {
+   private void index(FunctionPointer pointer, int size) throws Exception {
       if(size >= partitions.length) {
          FunctionIndexPartition[] copy = new FunctionIndexPartition[size + 1];
          
@@ -103,6 +103,6 @@ public class ScopeFunctionIndex implements FunctionIndex {
       if(cache == null) {
          cache = partitions[size] = new FunctionIndexPartition(reducer, builder);
       }
-      cache.index(call);
+      cache.index(pointer);
    }
 }
