@@ -16,6 +16,7 @@ import org.snapscript.core.function.resolve.FunctionCall;
 import org.snapscript.core.scope.EmptyModel;
 import org.snapscript.core.scope.Model;
 import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Type;
 
 public class FunctionOverloadCheckTest extends TestCase {
 
@@ -48,21 +49,29 @@ public class FunctionOverloadCheckTest extends TestCase {
       Model model = new EmptyModel();
 
       executable.execute(model, false);
-      assertTrue(getFunction(context,"Fun", "foo", 1).isCachable());
-      assertTrue(getFunction(context,"Foo", "foo", 1).isCachable());
-      assertFalse(getFunction(context,"Foo", "blah", 1).isCachable());
-      assertFalse(getFunction(context,"Foo", "blah", "xx").isCachable());
-      assertTrue(getFunction(context,"Foo", "blah", 1, "xx").isCachable());
-      assertTrue(getFunction(context,"Fun", "toString").isCachable());
-      assertTrue(getFunction(context,"Fun", "hashCode").isCachable());
+      assertTrue(getFunction(context,"new Fun()", "foo", 1).isCachable());
+      assertTrue(getFunction(context,"new Foo()", "foo", 1).isCachable());
+      assertFalse(getFunction(context,"new Foo()", "blah", 1).isCachable());
+      assertFalse(getFunction(context,"new Foo()", "blah", "xx").isCachable());
+      assertTrue(getFunction(context,"new Foo()", "blah", 1, "xx").isCachable());
+      assertTrue(getFunction(context,"new Fun()", "toString").isCachable());
+      assertTrue(getFunction(context,"new Fun()", "hashCode").isCachable());
+      assertTrue(getFunction(context,"new String()", "substring", 1).isCachable());
+      assertTrue(getFunction(context,"new String()", "charAt", 1).isCachable());
+      assertFalse(getFunction(context,"Integer", "valueOf", 1).isCachable());
+      assertFalse(getFunction(context,"new PrintStream(System.out)", "println", 1).isCachable());
+      assertTrue(getFunction(context,"new PrintStream(System.out)", "flush").isCachable());
    }
 
    private FunctionPointer getFunction(Context context, String type, String method, Object... args) throws Exception {
       Scope scope = context.getRegistry().addModule(Reserved.DEFAULT_PACKAGE).getScope();
-      Object object = context.getEvaluator().evaluate(scope, "new " + type + "()");
-      FunctionCall substring = context.getResolver().resolveInstance(scope, object, method, args);
-      Field field = substring.getClass().getDeclaredField("pointer");
+      Object object = context.getEvaluator().evaluate(scope, type);
+      FunctionCall call = context.getResolver().resolveInstance(scope, object, method, args);
+      if(call == null && object instanceof Type) {
+         call = context.getResolver().resolveStatic(scope, (Type)object, method, args);
+      }
+      Field field = call.getClass().getDeclaredField("pointer");
       field.setAccessible(true);
-      return (FunctionPointer)field.get(substring);
+      return (FunctionPointer)field.get(call);
    }
 }
