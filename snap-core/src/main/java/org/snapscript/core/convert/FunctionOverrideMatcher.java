@@ -55,10 +55,10 @@ public class FunctionOverrideMatcher {
       List<Parameter> left = signature.getParameters();
       List<Parameter> right = rule.getParameters(scope, function);
       Score score = comparator.compare(scope, left, right);
-      boolean similar = score.isSimilar();
+      boolean exact = score.isExact();
       int length = left.size();
 
-      if(similar) {
+      if(exact) {
          Type[] types = new Type[length];
 
          for(int i = 0; i < length; i++){
