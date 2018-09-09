@@ -15,7 +15,7 @@ public class FunctionPointerCollector {
    }
 
    public void collect(Object key, FunctionPointer pointer) {
-      FunctionPointer overload = new OverloadPointer(pointer, overrides);
+      FunctionPointer overload = new CachePointer(pointer, overrides);
 
       pointers.add(overload);
       overrides.add(key);

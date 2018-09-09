@@ -6,12 +6,12 @@ import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.scope.Scope;
 
-public class OverloadPointer implements FunctionPointer {
+public class CachePointer implements FunctionPointer {
 
    private final FunctionPointer pointer;
    private final Set keys;
 
-   public OverloadPointer(FunctionPointer pointer, Set keys) {
+   public CachePointer(FunctionPointer pointer, Set keys) {
       this.pointer = pointer;
       this.keys = keys;
    }
