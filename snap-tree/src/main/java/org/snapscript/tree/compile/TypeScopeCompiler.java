@@ -4,7 +4,6 @@ import static org.snapscript.core.Reserved.TYPE_THIS;
 
 import java.util.List;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.scope.Scope;
@@ -21,7 +20,7 @@ public class TypeScopeCompiler extends ScopeCompiler{
       this.generics = generics;
    }
    
-   @Bug
+   @Override
    public Scope define(Scope scope, Type type) throws Exception{
       List<Constraint> constraints = generics.getGenerics(scope);
       Scope outer = type.getScope();

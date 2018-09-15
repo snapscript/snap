@@ -3,7 +3,7 @@ package org.snapscript.core.constraint.transform;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
 
-public class ConstraintIndexRule implements ConstraintRule {
+public class ConstraintIndexRule extends ConstraintRule {
 
    private final ConstraintIndex index;
    private final Constraint constraint;

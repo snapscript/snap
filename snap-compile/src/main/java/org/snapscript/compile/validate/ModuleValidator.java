@@ -36,10 +36,9 @@ public class ModuleValidator {
       List<Type> types = module.getTypes();
       String name = module.getName();
       
-      
       for(Type type : types) {
          Progress<Phase> progress = type.getProgress();
-         
+
          if(!progress.wait(COMPILE, wait)) {
             throw new ValidateException("Type '" + type +"' was not compiled");
          }

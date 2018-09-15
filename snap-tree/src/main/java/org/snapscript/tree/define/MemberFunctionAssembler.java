@@ -31,9 +31,8 @@ public class MemberFunctionAssembler {
       this.body = body;
    } 
 
-   public MemberFunctionBuilder assemble(Type type, int mask) throws Exception {
+   public MemberFunctionBuilder assemble(Scope scope, int mask) throws Exception {
       int modifiers = list.getModifiers();
-      Scope scope = type.getScope();
       String name = identifier.getName(scope);
       List<Constraint> generics = identifier.getGenerics(scope);
       Signature signature = parameters.create(scope, generics);

@@ -37,7 +37,7 @@ public class TypeLocalDispatcher implements FunctionDispatcher {
             handler.handleCompileError(INVOKE, scope, name, arguments);
          }
       }
-      return match.check(constraint);   
+      return match.check(constraint, arguments);
    }
 
    @Override

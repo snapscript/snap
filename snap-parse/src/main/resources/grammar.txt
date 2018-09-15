@@ -288,8 +288,9 @@ access-modifier-list = *(<access-modifier>_);
 super-constructor = 'super''('?<argument-list>')';
 this-constructor = 'this''('?<argument-list>')';
 
-alias-name = [type];
-alias-definition = 'type'_ <alias-name> '=' <constraint> ';';
+alias-name = [type] <generic-parameter-list>;
+alias-hierarchy = <constraint>;
+alias-definition = ?<annotation-list>'type'_ <alias-name> '=' <alias-hierarchy> ';';
 
 class-name = [type] <generic-parameter-list>;
 class-field-declaration = <assignment-variable>?(':'<constraint>)?('='<assignment-expression>);

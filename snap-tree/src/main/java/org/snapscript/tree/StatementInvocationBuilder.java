@@ -96,7 +96,7 @@ public class StatementInvocationBuilder implements InvocationBuilder {
          this.execution = execution;
          this.matcher = matcher;
       }
-      
+
       @Override
       public Object invoke(Scope scope, Object object, Object... list) throws Exception {
          Object[] arguments = aligner.align(list);

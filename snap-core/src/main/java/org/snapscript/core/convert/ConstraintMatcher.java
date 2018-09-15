@@ -20,6 +20,7 @@ public class ConstraintMatcher {
    private final ConstraintInspector inspector;
    private final ConstraintConverter converter;   
    private final TypeExtractor extractor;
+   private final AliasResolver resolver;
    private final CastChecker checker;
    private final ProxyWrapper wrapper;
    
@@ -29,6 +30,7 @@ public class ConstraintMatcher {
       this.checker = new CastChecker(this, extractor, loader);
       this.inspector = new ConstraintInspector(loader, checker);
       this.converter = new NullConverter();
+      this.resolver = new AliasResolver();
       this.wrapper = wrapper;
    }
    
@@ -45,7 +47,9 @@ public class ConstraintMatcher {
       return converter;
    }
    
-   private ConstraintConverter resolve(Type type) throws Exception {
+   private ConstraintConverter resolve(Type declare) throws Exception {
+      Type type = resolver.resolve(declare);
+
       if(inspector.isSame(type, Object.class)) {
          return new AnyConverter(wrapper);
       }

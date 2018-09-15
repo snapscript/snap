@@ -9,6 +9,7 @@ import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.constraint.CompileConstraint;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.convert.AliasResolver;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.resolve.FunctionCall;
@@ -23,6 +24,7 @@ import org.snapscript.tree.ArgumentList;
 public class CreateObject extends Evaluation {   
    
    private final ImplicitImportLoader loader;
+   private final AliasResolver resolver;
    private final ArgumentList arguments;
    private final Constraint constraint;
    private final int violation; // what modifiers are illegal
@@ -30,6 +32,7 @@ public class CreateObject extends Evaluation {
    public CreateObject(Constraint constraint, ArgumentList arguments, int violation) {
       this.constraint = new CompileConstraint(constraint);
       this.loader = new ImplicitImportLoader();
+      this.resolver = new AliasResolver();
       this.violation = violation;
       this.arguments = arguments;
    }      
@@ -50,17 +53,18 @@ public class CreateObject extends Evaluation {
    @Override
    public Constraint compile(Scope scope, Constraint left) throws Exception {
       Type type = constraint.getType(scope);
-      int modifiers = type.getModifiers();
+      Type actual = resolver.resolve(type);
+      int modifiers = actual.getModifiers();
       
       if((violation & modifiers) != 0) {
-         Module module = type.getModule();
+         Module module = actual.getModule();
          Context context = module.getContext();
          ErrorHandler handler = context.getHandler();
          
-         handler.handleCompileError(CONSTRUCTION, scope, type);
+         handler.handleCompileError(CONSTRUCTION, scope, actual);
       }
       if(arguments != null) {
-         arguments.compile(scope, type);
+         arguments.compile(scope, actual);
       }
       return constraint;
    }   
@@ -68,10 +72,11 @@ public class CreateObject extends Evaluation {
    @Override
    public Value evaluate(Scope scope, Value left) throws Exception { 
       Type type = constraint.getType(scope);
-      FunctionCall call = bind(scope, type);
+      Type actual = resolver.resolve(type);
+      FunctionCall call = bind(scope, actual);
            
       if(call == null){
-         throw new InternalStateException("No constructor for '" + type + "'");
+         throw new InternalStateException("No constructor for '" + actual + "'");
       }
       return call.call();
    }

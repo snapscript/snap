@@ -9,10 +9,10 @@ import junit.framework.TestCase;
 public class ArrayCoercionTest extends TestCase {
 
    private static final String SOURCE_1 =
-   "var s : String[][] = [['a','b'],[]];\n"+
+   "var z : String[][] = [['a','b'],[]];\n"+
    "var i : Integer[][] = [['1','2', 3.0d, 11L],[2]];\n"+
    "\n"+
-   "func(s);\n"+
+   "func(z);\n"+
    "func(i);\n"+
    "\n"+
    "function func(s: String[][]){\n"+

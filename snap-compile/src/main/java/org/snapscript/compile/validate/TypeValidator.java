@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.snapscript.core.ModifierType;
+import org.snapscript.core.constraint.transform.ConstraintTransformer;
+import org.snapscript.core.convert.AliasResolver;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.index.FunctionIndexer;
@@ -28,22 +30,25 @@ public class TypeValidator {
    private final FunctionValidator functions;
    private final TypeExtractor extractor;
    private final FunctionIndexer indexer;
+   private final AliasResolver resolver;
    
-   public TypeValidator(ConstraintMatcher matcher, TypeExtractor extractor, FunctionIndexer indexer) {
-      this.functions = new FunctionValidator(matcher, extractor, indexer);
+   public TypeValidator(ConstraintMatcher matcher, ConstraintTransformer transformer, TypeExtractor extractor, FunctionIndexer indexer) {
+      this.functions = new FunctionValidator(matcher, transformer, extractor, indexer);
       this.properties = new PropertyValidator(matcher);
+      this.resolver = new AliasResolver();
       this.extractor = extractor;
       this.indexer = indexer;
    }
    
    public void validate(Type type) throws Exception {
-      Class real = type.getType();
+      Type actual = resolver.resolve(type);
+      Class real = actual.getType();
       
       if(real == null) {
-         validateModule(type);
-         validateHierarchy(type);
-         validateFunctions(type);
-         validateProperties(type);
+         validateModule(actual);
+         validateHierarchy(actual);
+         validateFunctions(actual);
+         validateProperties(actual);
       }
    }
    

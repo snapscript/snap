@@ -8,5 +8,4 @@ public class AbstractClassDefinition extends ClassDefinition {
    public AbstractClassDefinition(AnnotationList annotations, AbstractClassName name, TypeHierarchy hierarchy, TypePart... parts) {
       super(annotations, name, hierarchy, parts);
    }
-
 }

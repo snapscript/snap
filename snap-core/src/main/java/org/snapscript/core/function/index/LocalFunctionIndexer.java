@@ -3,6 +3,8 @@ package org.snapscript.core.function.index;
 import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
 import static org.snapscript.core.type.Phase.DEFINE;
 
+import java.util.List;
+
 import org.snapscript.common.Progress;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
@@ -86,8 +88,8 @@ public class LocalFunctionIndexer {
       }
 
       @Override
-      public Constraint getConstraint(Scope scope, Constraint left) {
-         return pointer.getConstraint(scope, left);
+      public ReturnType getType(Scope scope) {
+         return pointer.getType(scope);
       }
 
       @Override
@@ -98,6 +100,11 @@ public class LocalFunctionIndexer {
       @Override
       public Invocation getInvocation() {
          return invocation;
+      }
+
+      @Override
+      public boolean isCachable() {
+         return pointer.isCachable();
       }
    }
    

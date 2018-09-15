@@ -26,26 +26,29 @@ public class ConstraintDescription {
       if(constraint != null && entity != null) {
          Scope scope = entity.getScope();
          Type type = constraint.getType(scope);
-         List<Constraint> generics = constraint.getGenerics(scope);
-         int length = generics.size();
-         
-         builder.append(type);
-         
-         if(length > 0) {
-            builder.append("<");
-            
-            for(int i = 0; i < length; i++){
-               Constraint generic = generics.get(i);
-               String entry = getDescription(generic);
-               
-               if(i > 0) {
-                  builder.append(", ");
+
+         if(type != null) {
+            List<Constraint> generics = constraint.getGenerics(scope);
+            int length = generics.size();
+
+            builder.append(type);
+
+            if (length > 0) {
+               builder.append("<");
+
+               for (int i = 0; i < length; i++) {
+                  Constraint generic = generics.get(i);
+                  String entry = getDescription(generic);
+
+                  if (i > 0) {
+                     builder.append(", ");
+                  }
+                  builder.append(entry);
                }
-               builder.append(entry);
+               builder.append(">");
             }
-            builder.append(">");
+            return builder.toString();
          }
-         return builder.toString();
       }
       return "?";
    }

@@ -2,7 +2,6 @@ package org.snapscript.tree.function;
 
 import java.util.List;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.TypeInspector;
 import org.snapscript.core.error.InternalStateException;
@@ -16,7 +15,7 @@ import org.snapscript.core.scope.index.Table;
 import org.snapscript.core.type.Type;
 
 public class ParameterExtractor {
-   
+
    private final TypeInspector inspector;
    private final Signature signature;
    private final boolean closure;
@@ -83,13 +82,13 @@ public class ParameterExtractor {
    private Local create(Scope scope, Object value, int index) throws Exception {
       List<Parameter> parameters = signature.getParameters();
       Parameter parameter = parameters.get(index);
-      Constraint constraint = parameter.getConstraint();
-      Type type = constraint.getType(scope);
-      String name = parameter.getName();
       int length = parameters.size();
       
       if(index >= length -1) {
          if(signature.isVariable()) {
+            Constraint constraint = parameter.getConstraint();
+            Type type = constraint.getType(scope);
+            String name = parameter.getName();
             Object[] list = (Object[])value;
             
             for(int i = 0; i < list.length; i++) {
@@ -104,8 +103,7 @@ public class ParameterExtractor {
       }
       return create(scope, value, parameter);   
    }
-   
-   @Bug
+
    private Local create(Scope scope, Object value, Parameter parameter) throws Exception {
       Constraint constraint = parameter.getConstraint();
       Type type = constraint.getType(scope);

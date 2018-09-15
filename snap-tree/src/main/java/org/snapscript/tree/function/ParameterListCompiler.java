@@ -6,7 +6,6 @@ import static org.snapscript.core.function.Origin.DEFAULT;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.FunctionSignature;
 import org.snapscript.core.function.Parameter;
@@ -30,8 +29,7 @@ public class ParameterListCompiler {
    public Signature compile(Scope scope, List<Constraint> generics) throws Exception{
       return compile(scope, generics, null);
    }
-   
-   @Bug
+
    public Signature compile(Scope scope, List<Constraint> generics, String prefix) throws Exception{
       List<Parameter> parameters = new ArrayList<Parameter>();
       
@@ -48,6 +46,9 @@ public class ParameterListCompiler {
          
          if(declaration != null) {
             Parameter parameter = declaration.get(scope);
+            Constraint constraint = parameter.getConstraint();
+
+            constraint.getType(scope);
             parameters.add(parameter);
          }
       }

@@ -29,14 +29,14 @@ public class ProxyWrapper {
    
    public Object asProxy(Function function) {
       if(function != null) {
-         return factory.create(function, Delegate.class);
+         return factory.create(function, null);
       }
       return null;
    }
    
    public Object asProxy(Function function, Class require) {
       if(function != null) {
-         return factory.create(function, require, Delegate.class);
+         return factory.create(function, require);
       }
       return null;
    }

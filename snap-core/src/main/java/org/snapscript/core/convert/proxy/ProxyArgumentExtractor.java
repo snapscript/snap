@@ -11,7 +11,7 @@ public class ProxyArgumentExtractor {
    }
    
    public Object[] extract(Object[] arguments) {
-      if(arguments != null) {
+      if(arguments != null && arguments.length > 0) {
          Object[] convert = new Object[arguments.length];
          
          for(int i = 0; i < arguments.length; i++) {

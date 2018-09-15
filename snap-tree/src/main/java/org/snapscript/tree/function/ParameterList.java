@@ -2,7 +2,6 @@ package org.snapscript.tree.function;
 
 import java.util.List;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.constraint.ConstraintMapper;
 import org.snapscript.core.function.Signature;
@@ -22,8 +21,7 @@ public class ParameterList {
    public Signature create(Scope scope, List<Constraint> generics) throws Exception{
       return create(scope, generics, null);
    }
-   
-   @Bug
+
    public Signature create(Scope scope, List<Constraint> generics, String prefix) throws Exception{
       if(signature == null) {
          List<Constraint> constraints = mapper.map(scope, generics);

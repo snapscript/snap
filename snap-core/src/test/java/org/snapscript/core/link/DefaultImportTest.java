@@ -57,7 +57,7 @@ public class DefaultImportTest extends TestCase {
       StringBuilder builder = new StringBuilder();
 
       for(DefaultImport hint : reader){
-         String prefix = hint.getPackage();
+         String prefix = hint.getModules().iterator().next();
          Set<String> types = hint.getImports();
          Iterator<String> iterator = types.iterator();
          
@@ -74,7 +74,7 @@ public class DefaultImportTest extends TestCase {
       builder.append("# default imports\n");
       for(DefaultImport hint : reader){
          String alias = hint.getAlias();
-         String prefix = hint.getPackage();
+         String prefix = hint.getModules().iterator().next();
          Set<String> types = hint.getImports();
          
          if(!types.isEmpty()) {
@@ -119,7 +119,7 @@ public class DefaultImportTest extends TestCase {
       System.out.println(builder);
       
       for(DefaultImport hint : reader){
-         String prefix = hint.getPackage();
+         String prefix = hint.getModules().iterator().next();
          Set<String> types = hint.getImports();
          
          for(String type : types) {

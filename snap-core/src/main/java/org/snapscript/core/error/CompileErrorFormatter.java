@@ -90,7 +90,41 @@ public class CompileErrorFormatter {
       
       return builder.toString();
    }
-   
+
+   public String formatGenericError(String name, Type[] list) {
+      StringBuilder builder = new StringBuilder();
+
+      if(name.equals(TYPE_CONSTRUCTOR)) {
+         builder.append("Constructor '");
+      } else {
+         builder.append("Function '");
+      }
+      String signature = formatter.formatFunction(name, list);
+
+      builder.append(signature);
+      builder.append("' hidden by generics");
+
+      return builder.toString();
+   }
+
+   public String formatGenericError(Type type, String name, Type[] list) {
+      StringBuilder builder = new StringBuilder();
+
+      if(name.equals(TYPE_CONSTRUCTOR)) {
+         builder.append("Constructor '");
+      } else {
+         builder.append("Function '");
+      }
+      String signature = formatter.formatFunction(name, list);
+
+      builder.append(signature);
+      builder.append("' for '");
+      builder.append(type);
+      builder.append("' hidden by generics");
+
+      return builder.toString();
+   }
+
    public String formatInvokeError(String name, Type[] list) {
       StringBuilder builder = new StringBuilder();
       

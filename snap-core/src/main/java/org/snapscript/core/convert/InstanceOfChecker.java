@@ -11,22 +11,25 @@ import org.snapscript.core.type.TypeExtractor;
 public class InstanceOfChecker {
 
    private final PrimitivePromoter promoter;
+   private final AliasResolver resolver;
 
    public InstanceOfChecker() {
       this.promoter = new PrimitivePromoter();
+      this.resolver = new AliasResolver();
    }
    
    public boolean isInstanceOf(Scope scope, Type instance, Type constraint) {
       if (constraint != null && instance != null) {
          try {
+            Type actual = resolver.resolve(constraint);
             Module module = scope.getModule();
             Context context = module.getContext();
             TypeExtractor extractor = context.getExtractor();
             Set<Type> types = extractor.getTypes(instance);
 
-            if (!types.contains(constraint)) {
+            if (!types.contains(actual)) {
                Class actualType = instance.getType();
-               Class requireType = constraint.getType();
+               Class requireType = actual.getType();
 
                return isInstanceOf(scope, actualType, requireType);
             }

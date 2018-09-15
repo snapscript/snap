@@ -2,7 +2,6 @@ package org.snapscript.tree.define;
 
 import java.util.List;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.ModifierType;
 import org.snapscript.core.ModifierValidator;
 import org.snapscript.core.Statement;
@@ -18,7 +17,6 @@ import org.snapscript.core.type.TypeState;
 import org.snapscript.tree.ModifierList;
 import org.snapscript.tree.annotation.AnnotationList;
 import org.snapscript.tree.compile.FunctionScopeCompiler;
-import org.snapscript.tree.compile.ScopeCompiler;
 import org.snapscript.tree.constraint.FunctionName;
 import org.snapscript.tree.function.ParameterList;
 
@@ -56,13 +54,12 @@ public class MemberFunction extends TypePart {
    public TypeState define(TypeBody parent, Type type, Scope scope) throws Exception {
       return assemble(parent, type, scope, 0);
    }
-   
-   @Bug
+
    protected TypeState assemble(TypeBody parent, Type type, Scope scope, int mask) throws Exception {
-      MemberFunctionBuilder builder = assembler.assemble(type, mask);
-      FunctionBody body = builder.create(parent, scope, type);
-      Function function = body.create(scope);
       Scope composite = compiler.define(scope, type);
+      MemberFunctionBuilder builder = assembler.assemble(composite, mask);
+      FunctionBody body = builder.create(parent, composite, type);
+      Function function = body.create(composite);
       List<Function> functions = type.getFunctions();
       int modifiers = function.getModifiers();
 

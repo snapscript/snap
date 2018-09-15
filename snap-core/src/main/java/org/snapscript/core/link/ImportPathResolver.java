@@ -16,14 +16,16 @@ public class ImportPathResolver {
    
    public String resolveName(String resource) {
       ImportPath path = source.getPath();
-      Map<String, String> aliases = path.getAliases();
+      Map<String, Set<String>> aliases = path.getAliases();
       Set<String> names = aliases.keySet();
       
       for(String name : names) {
-         String prefix = aliases.get(name);
-         
-         if(resource.startsWith(prefix)) {
-            return resource.replace(prefix, name);
+         Set<String> modules = aliases.get(name);
+
+         for(String module : modules) {
+            if (resource.startsWith(module)) {
+               return resource.replace(module, name);
+            }
          }
       }
       return resource;
@@ -40,47 +42,60 @@ public class ImportPathResolver {
    
    private List<String> resolveAliasPath(String resource, int index) {
       ImportPath path = source.getPath();
-      Map<String, String> aliases = path.getAliases();
+      Map<String, Set<String>> aliases = path.getAliases();
       String token = resource.substring(0, index);
-      String prefix = aliases.get(token); // lang -> java.lang. 
+      Set<String> modules = aliases.get(token); // 'sql' -> { 'java.sql.', 'javax.sql.' }
       
-      if(prefix != null) {
-         List<String> list = new ArrayList<String>();
-         StringBuilder builder = new StringBuilder();
-         
+      if(modules != null) {
          String remainder = resource.substring(index);
-         
-         builder.append(prefix);
-         builder.append(remainder);
-         
-         String absolute = builder.toString();
-         
-         list.add(absolute);
-         list.add(resource);
-         
-         return list; // lang.String -> [java.lang.String, lang.String]
+         int count = modules.size();
+
+         if(count > 0) {
+            List<String> list = new ArrayList<String>();
+            StringBuilder builder = new StringBuilder();
+
+            for (String module : modules) {
+               builder.append(module);
+               builder.append(remainder);
+
+               String absolute = builder.toString();
+
+               list.add(absolute);
+               builder.setLength(0);
+            }
+            list.add(resource);
+            return list; // lang.String -> [java.lang.String, lang.String]
+         }
+         return Collections.emptyList();
       }
       return Collections.singletonList(resource); // com.w3c.Document -> [com.w3c.Document]
    }
    
    private List<String> resolveTypePath(String resource) {
       ImportPath path = source.getPath();
-      Map<String, String> types = path.getTypes();
-      String module = types.get(resource); // String -> java.lang.
+      Map<String, Set<String>> types = path.getTypes();
+      Set<String> modules = types.get(resource); // String -> java.lang.
       
-      if(module != null) {
-         List<String> list = new ArrayList<String>();
-         StringBuilder builder = new StringBuilder();
-         
-         builder.append(module);
-         builder.append(".");
-         builder.append(resource);
-         
-         String absolute = builder.toString();
-         
-         list.add(absolute);
-         
-         return list; // String -> java.lang.String
+      if(modules != null) {
+         int count = modules.size();
+
+         if(count > 0) {
+            List<String> list = new ArrayList<String>();
+            StringBuilder builder = new StringBuilder();
+
+            for(String module : modules) {
+               builder.append(module);
+               builder.append(".");
+               builder.append(resource);
+
+               String absolute = builder.toString();
+
+               list.add(absolute);
+               builder.setLength(0);
+            }
+            return list; // Connection -> [ java.sql.Connection, javax.sql.Connection ]
+         }
+         return Collections.emptyList();
       }
       return resolveDefaultPath(resource);
    }

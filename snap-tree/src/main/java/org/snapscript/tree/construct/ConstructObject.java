@@ -36,5 +36,4 @@ public class ConstructObject implements Compilation {
       
       return new TraceEvaluation(interceptor, construct, trace);
    }
-
 }

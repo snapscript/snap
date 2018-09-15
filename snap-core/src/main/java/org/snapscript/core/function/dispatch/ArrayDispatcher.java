@@ -36,7 +36,7 @@ public class ArrayDispatcher implements FunctionDispatcher {
       if(call == null) {
          handler.handleCompileError(INVOKE, scope, actual, name, arguments);
       }
-      return call.check(constraint);
+      return call.check(constraint, arguments);
    }
 
    @Override

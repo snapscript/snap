@@ -24,7 +24,7 @@ public class ArgumentList {
       return list.length;
    }
    
-   public Type[] compile(Scope scope) throws Exception{
+   public Type[] compile(Scope scope, Constraint left) throws Exception{
       if(list.length > 0) {
          return compile(scope, none);
       }

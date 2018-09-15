@@ -79,7 +79,7 @@ public class GenericTransformerTest extends TestCase {
       
       Scope scope = fromType.getScope();
       Constraint constraint = Constraint.getConstraint(fromType);
-      Constraint duhResult = context.getResolver().resolveInstance(scope, toType, "duh").check(constraint);
+      Constraint duhResult = context.getResolver().resolveInstance(scope, toType, "duh").check(constraint, new Type[]{});
       
       assertNotNull(duhResult);
       assertNotNull(duhResult.getType(scope));
@@ -104,7 +104,7 @@ public class GenericTransformerTest extends TestCase {
 
       Scope scope3 = type3.getScope();
       Constraint constraint3 = Constraint.getConstraint(type3);
-      Constraint result3 = context.getResolver().resolveInstance(scope3, type1, "func").check(constraint3);
+      Constraint result3 = context.getResolver().resolveInstance(scope3, type1, "func").check(constraint3, new Type[]{});
       
       assertNotNull(result3);
       assertNotNull(result3.getType(scope3));
@@ -112,7 +112,7 @@ public class GenericTransformerTest extends TestCase {
       
       Scope scope4 = type4.getScope();
       Constraint constraint4 = Constraint.getConstraint(type4);
-      Constraint result4 = context.getResolver().resolveInstance(scope4, type1, "func").check(constraint4);
+      Constraint result4 = context.getResolver().resolveInstance(scope4, type1, "func").check(constraint4, new Type[]{});
       
       assertNotNull(result4);
       assertNotNull(result4.getType(scope4));
@@ -139,7 +139,7 @@ public class GenericTransformerTest extends TestCase {
       
       Scope scope = type3.getScope();
       Constraint constraint = Constraint.getConstraint(type3);
-      Constraint funcResult = context.getResolver().resolveInstance(scope, type1, "func").check(constraint);
+      Constraint funcResult = context.getResolver().resolveInstance(scope, type1, "func").check(constraint, new Type[]{});
       
       assertNotNull(funcResult);
       assertNotNull(funcResult.getType(scope));
@@ -149,7 +149,7 @@ public class GenericTransformerTest extends TestCase {
       assertEquals(funcResult.getGenerics(scope).get(0).getGenerics(scope).size(), 1);
       assertEquals(funcResult.getGenerics(scope).get(0).getGenerics(scope).get(0).getType(scope), typeInteger);
 
-      Constraint booResult = context.getResolver().resolveInstance(scope, type1, "boo").check(constraint);
+      Constraint booResult = context.getResolver().resolveInstance(scope, type1, "boo").check(constraint, new Type[]{});
       
       assertNotNull(booResult);
       assertNotNull(booResult.getType(scope));
@@ -162,7 +162,7 @@ public class GenericTransformerTest extends TestCase {
       assertEquals(booResult.getGenerics(scope).get(1).getGenerics(scope).get(0).getGenerics(scope).size(), 1);         
       assertEquals(booResult.getGenerics(scope).get(1).getGenerics(scope).get(0).getGenerics(scope).get(0).getType(scope), typeInteger);    
       
-      Constraint basicResult = context.getResolver().resolveInstance(scope, type1, "basic").check(constraint);
+      Constraint basicResult = context.getResolver().resolveInstance(scope, type1, "basic").check(constraint, new Type[]{});
       
       assertNotNull(basicResult);
       assertNotNull(basicResult.getType(scope));

@@ -11,10 +11,10 @@ import org.snapscript.core.type.Type;
 import org.snapscript.tree.constraint.GenericList;
 
 public class FunctionScopeCompiler extends ScopeCompiler {
-   
+
    protected final LocalScopeExtractor extractor;
    protected final GenericList generics;
-   
+
    public FunctionScopeCompiler(GenericList generics) {
       this.extractor = new LocalScopeExtractor(false, true);
       this.generics = generics;
@@ -24,35 +24,33 @@ public class FunctionScopeCompiler extends ScopeCompiler {
    public Scope define(Scope local, Type type) throws Exception{
       List<Constraint> constraints = generics.getGenerics(local);
       Scope scope = extractor.extract(local);
-      Scope stack = scope.getStack();
-      State state = stack.getState();
+      State state = scope.getState();
       int size = constraints.size();
-      
+
       for(int i = 0; i < size; i++) {
-         Constraint constraint = constraints.get(i);    
-         String name = constraint.getName(stack);
+         Constraint constraint = constraints.get(i);
+         String name = constraint.getName(scope);
 
          state.addConstraint(name, constraint);
       }
-      return stack;
+      return scope;
    }
-   
+
    @Override
    public Scope compile(Scope local, Type type, Function function) throws Exception {
       List<Constraint> constraints = generics.getGenerics(local);
       Scope scope = extractor.extract(local);
-      Scope stack = scope.getStack();
-      State state = stack.getState();
+      State state = scope.getState();
       int size = constraints.size();
-      
-      compileParameters(stack, function);
-      
+
+      compileParameters(scope, function);
+
       for(int i = 0; i < size; i++) {
-         Constraint constraint = constraints.get(i);    
-         String name = constraint.getName(stack);
+         Constraint constraint = constraints.get(i);
+         String name = constraint.getName(scope);
 
          state.addConstraint(name, constraint);
-      }      
-      return stack;
+      }
+      return scope;
    }
 }

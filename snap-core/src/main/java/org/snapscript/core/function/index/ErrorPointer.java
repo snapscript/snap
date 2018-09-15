@@ -1,8 +1,5 @@
 package org.snapscript.core.function.index;
 
-import static org.snapscript.core.constraint.Constraint.NONE;
-
-import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.EmptyFunction;
 import org.snapscript.core.function.ErrorSignature;
 import org.snapscript.core.function.Function;
@@ -19,10 +16,10 @@ public class ErrorPointer implements FunctionPointer {
       this.signature = new ErrorSignature();
       this.function = new EmptyFunction(signature);
    }
-   
+
    @Override
-   public Constraint getConstraint(Scope scope, Constraint left) {
-      return NONE;
+   public ReturnType getType(Scope scope) {
+      return new ReturnType(null, scope);
    }
 
    @Override
@@ -33,6 +30,11 @@ public class ErrorPointer implements FunctionPointer {
    @Override
    public Invocation getInvocation() {
       return null;
+   }
+
+   @Override
+   public boolean isCachable() {
+      return false;
    }
    
    @Override

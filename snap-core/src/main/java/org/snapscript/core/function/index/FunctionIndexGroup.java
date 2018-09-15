@@ -6,36 +6,37 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.snapscript.common.Cache;
 import org.snapscript.common.CopyOnWriteCache;
-import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Origin;
-import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.Signature;
-import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 
 public class FunctionIndexGroup {
-   
-   private final Cache<Object, FunctionPointer> cache;
+
    private final List<FunctionPointer> group;
-   private final AtomicBoolean constraints;
+   private final Cache<Object, FunctionPointer> cache;
+   private final FunctionPointerCollector collector;
+   private final ParameterTypeExtractor extractor;
    private final FunctionKeyBuilder builder;
    private final FunctionReducer searcher;
+   private final AtomicBoolean types;
    private final String name;
    
    public FunctionIndexGroup(FunctionReducer searcher, FunctionKeyBuilder builder, String name) {
       this.cache = new CopyOnWriteCache<Object, FunctionPointer>();
       this.group = new ArrayList<FunctionPointer>();
-      this.constraints = new AtomicBoolean();
+      this.collector = new FunctionPointerCollector(group);
+      this.extractor = new ParameterTypeExtractor();
+      this.types = new AtomicBoolean();
       this.searcher = searcher;
       this.builder = builder;
       this.name = name;
    }
 
    public FunctionPointer resolve(Type... list) throws Exception {
-      int size = group.size();
+      int count = group.size();
       
-      if(constraints.get()) {
+      if(types.get()) {
          Object key = builder.create(name, list);
          FunctionPointer pointer = cache.fetch(key);
          
@@ -51,16 +52,16 @@ public class FunctionIndexGroup {
          }
          return validate(pointer);
       }
-      if(size > 0) {
-         return group.get(size -1);
+      if(count > 0) {
+         return group.get(count -1);
       }
       return null;
    }
    
    public FunctionPointer resolve(Object... list) throws Exception {
-      int size = group.size();
-      
-      if(constraints.get()) {
+      int count = group.size();
+
+      if(types.get()) {
          Object key = builder.create(name, list);
          FunctionPointer pointer = cache.fetch(key);
          
@@ -76,34 +77,29 @@ public class FunctionIndexGroup {
          }
          return validate(pointer);
       }
-      if(size > 0) {
-         return group.get(size -1);
+      if(count > 0) {
+         return group.get(count -1);
       }
       return null;
    }
 
-   public void index(FunctionPointer pointer) {
-      Function function = pointer.getFunction();
-      Type source = function.getSource();
-      Signature signature = function.getSignature();
-      List<Parameter> parameters = signature.getParameters();
-      
-      if(source != null) {
-         Scope scope = source.getScope();
-         
-         for(Parameter parameter : parameters) {
-            Constraint constraint = parameter.getConstraint();
-            Type type = constraint.getType(scope);
-            
-            if(type != null) {
-               constraints.set(true);
-            }
+   public void index(FunctionPointer pointer) throws Exception {
+      Type[] list = extractor.extract(pointer);
+      Object key = builder.create(name, list);
+      int count = 0;
+
+      for(int i = 0; i < list.length; i++) {
+         Type type = list[i];
+
+         if (type != null) {
+            count++;
          }
       }
-      group.add(pointer);
+      collector.collect(key, pointer);
+      types.set(count > 0);
    }
-   
-   private FunctionPointer validate(FunctionPointer pointer) {
+
+   private FunctionPointer validate(FunctionPointer pointer) throws Exception {
       Function function = pointer.getFunction();
       Signature signature = function.getSignature();
       Origin origin = signature.getOrigin();

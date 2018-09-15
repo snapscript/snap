@@ -115,6 +115,7 @@ try-statement = org.snapscript.tree.TryStatement
 generic-parameter = org.snapscript.tree.constraint.GenericParameter
 generic-parameter-list = org.snapscript.tree.constraint.GenericParameterList
 alias-name = org.snapscript.tree.constraint.AliasName
+alias-hierarchy = org.snapscript.tree.define.AliasHierarchy
 alias-definition = org.snapscript.tree.define.AliasDefinition
 trait-name = org.snapscript.tree.constraint.TraitName
 trait-hierarchy = org.snapscript.tree.define.TraitHierarchy
@@ -173,4 +174,3 @@ module-definition = org.snapscript.tree.define.ModuleDefinition
 script-function = org.snapscript.tree.script.ScriptFunction
 script-package = org.snapscript.tree.script.ScriptPackage
 script = org.snapscript.tree.script.Script
-

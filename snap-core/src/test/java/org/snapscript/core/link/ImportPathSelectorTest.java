@@ -21,9 +21,9 @@ public class ImportPathSelectorTest extends TestCase {
    "math = java.math {}\n"+
    "net = java.net {}\n"+
    "nio = java.nio {}\n"+
-   "rmi = java.rmi {}\n"+
-   "security = java.security {}\n"+
-   "sql = java.sql {}\n"+
+   "rmi = java.rmi, javax.rmi {}\n"+
+   "security = java.security, javax.security {}\n"+
+   "sql = java.sql, javax.sql {}\n"+
    "text = java.text {}\n"+
    "time = java.time {}\n"+
    "util = java.util {*}\n"; // default import
@@ -64,6 +64,12 @@ public class ImportPathSelectorTest extends TestCase {
       assertEquals(selector.resolvePath("lang.Boolean").size(), 2);
       assertEquals(selector.resolvePath("lang.Boolean").get(0), "java.lang.Boolean");
       assertEquals(selector.resolvePath("lang.Boolean").get(1), "lang.Boolean");
+
+      assertEquals(selector.resolvePath("java.sql.Connection").size(), 1);
+      assertEquals(selector.resolvePath("java.sql.Connection").get(0), "java.sql.Connection");
+      assertEquals(selector.resolvePath("sql.Connection").get(0), "java.sql.Connection");
+      assertEquals(selector.resolvePath("sql.Connection").get(1), "javax.sql.Connection");
+      assertEquals(selector.resolvePath("sql.Connection").get(2), "sql.Connection");
       
       assertEquals(selector.resolvePath("String").size(), 3);
       assertEquals(selector.resolvePath("String").get(0), "java.lang.String");
@@ -72,6 +78,12 @@ public class ImportPathSelectorTest extends TestCase {
       
       assertEquals(selector.resolveName("java.lang.String"), "lang.String");
       assertEquals(selector.resolveName("java.util.concurrency.ConcurrentHashMap"), "util.concurrency.ConcurrentHashMap");
+
+      assertEquals(selector.resolveName("java.sql.Connection"), "sql.Connection");
+      assertEquals(selector.resolveName("java.sql.ResultSet"), "sql.ResultSet");
+
+      assertEquals(selector.resolveName("javax.sql.PooledConnection"), "sql.PooledConnection");
+      assertEquals(selector.resolveName("javax.sql.XAConnection"), "sql.XAConnection");
    }
 
 }

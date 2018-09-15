@@ -26,8 +26,8 @@ public class MathTest extends TestCase{
    "   //r = ((x / y) * z) + 6;\n"+
    "   r = calc(x,y,z);\n"+
    "}\n"+
-   "function calc(x, y, z){\n"+
-   "   return ((x / y) * z) + 6;\n"+
+   "function calc(x1, y1, z1){\n"+
+   "   return ((x1 / y1) * z1) + 6;\n"+
    "}\n";
          
    public void testMath() throws Exception {

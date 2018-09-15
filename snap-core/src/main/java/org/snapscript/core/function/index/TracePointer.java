@@ -1,8 +1,7 @@
 package org.snapscript.core.function.index;
 
-import org.snapscript.core.attribute.AttributeType;
-import org.snapscript.core.attribute.AttributeTypeBinder;
-import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.attribute.AttributeResult;
+import org.snapscript.core.attribute.AttributeResultBinder;
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.ArgumentConverter;
 import org.snapscript.core.function.Function;
@@ -14,24 +13,24 @@ import org.snapscript.core.stack.ThreadStack;
 
 public class TracePointer implements FunctionPointer {
    
-   private final AttributeTypeBinder binder;
+   private final AttributeResultBinder binder;
    private final Invocation invocation;
    private final Function function;
    
    public TracePointer(Function function, ThreadStack stack) {
-      this.binder = new AttributeTypeBinder(function);
+      this.binder = new AttributeResultBinder(function);
       this.invocation = new TraceInvocation(function, stack);
       this.function = function;
    }
 
    @Override
-   public Constraint getConstraint(Scope scope, Constraint left) {
-      AttributeType type = binder.bind(scope);
-      
-      if(type == null) {
+   public ReturnType getType(Scope scope) {
+      AttributeResult result = binder.bind(scope);
+
+      if(result == null) {
          throw new InternalStateException("No return type for '" + function + "'");
       }
-      return type.getConstraint(scope, left);      
+      return new ReturnType(result, scope);
    }
    
    @Override
@@ -42,7 +41,12 @@ public class TracePointer implements FunctionPointer {
    @Override
    public Invocation getInvocation() {
       return invocation;
-   }   
+   }
+
+   @Override
+   public boolean isCachable() {
+      return false;
+   }
    
    @Override
    public String toString() {

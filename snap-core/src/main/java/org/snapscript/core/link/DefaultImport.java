@@ -3,19 +3,19 @@ package org.snapscript.core.link;
 import java.util.Set;
 
 public class DefaultImport {
-   
+
    private final Set<String> imports;
-   private final String module;
+   private final Set<String> modules;
    private final String alias;
    private final boolean include;
    
-   public DefaultImport(Set<String> imports, String module, String alias) {
-      this(imports, module, alias, false);
+   public DefaultImport(Set<String> imports, Set<String> modules, String alias) {
+      this(imports, modules, alias, false);
    }
    
-   public DefaultImport(Set<String> imports, String module, String alias, boolean include) {
+   public DefaultImport(Set<String> imports, Set<String> modules, String alias, boolean include) {
       this.imports = imports;
-      this.module = module;
+      this.modules = modules;
       this.alias = alias;
       this.include = include;
    }
@@ -24,8 +24,8 @@ public class DefaultImport {
       return imports;
    }
    
-   public String getPackage(){
-      return module;
+   public Set<String> getModules(){
+      return modules;
    }
    
    public String getAlias(){

@@ -19,17 +19,17 @@ public class ImportPathSource {
          DefaultPath local = new DefaultPath();
          
          for(DefaultImport entry : reader) {
-            String module = entry.getPackage();
-            String name = entry.getAlias();
             Set<String> imports = entry.getImports();
+            Set<String> modules = entry.getModules();
+            String name = entry.getAlias();
             
             if(entry.isInclude()) {
-               local.defaults.add(module);
+               local.defaults.addAll(modules);
             }
             for(String type : imports) {
-               local.types.put(type, module);
+               local.types.put(type, modules);
             }
-            local.aliases.put(name, module);
+            local.aliases.put(name, modules);
          }
          path = local;
       }
@@ -38,23 +38,23 @@ public class ImportPathSource {
    
    private static class DefaultPath implements ImportPath {
 
-      private final Map<String, String> aliases;
-      private final Map<String, String> types;
+      private final Map<String, Set<String>> aliases;
+      private final Map<String, Set<String>> types;
       private final Set<String> defaults;
       
       public DefaultPath() {
-         this.aliases = new LinkedHashMap<String, String>();
-         this.types = new LinkedHashMap<String, String>();
+         this.aliases = new LinkedHashMap<String, Set<String>>();
+         this.types = new LinkedHashMap<String, Set<String>>();
          this.defaults = new LinkedHashSet<String>();
       }
       
       @Override
-      public Map<String, String> getAliases() {
+      public Map<String, Set<String>> getAliases() {
          return aliases;
       }
 
       @Override
-      public Map<String, String> getTypes() {
+      public Map<String, Set<String>> getTypes() {
          return types;
       }
 

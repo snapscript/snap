@@ -5,17 +5,12 @@ import static org.snapscript.core.Reserved.GRAMMAR_SCRIPT;
 import java.lang.management.ManagementFactory;
 import java.text.DecimalFormat;
 
+import com.sun.management.ThreadMXBean;
 import junit.framework.TestCase;
-
-import org.snapscript.common.store.ClassPathStore;
-import org.snapscript.common.store.Store;
-import org.snapscript.core.Context;
 import org.snapscript.core.Reserved;
 import org.snapscript.parse.SyntaxCompiler;
 import org.snapscript.parse.SyntaxNode;
 import org.snapscript.tree.Instruction;
-
-import com.sun.management.ThreadMXBean;
 
 public class ClosureTest extends TestCase {
 
@@ -48,7 +43,7 @@ public class ClosureTest extends TestCase {
    
    private static final String SOURCE_5=
    "let x = (a) -> a.run();\n"+
-    "println(x);\n";
+   "println(x);\n";
 
 
    public void testClosure() throws Exception {

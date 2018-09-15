@@ -1,8 +1,8 @@
 package org.snapscript.core.function.index;
 
-import org.snapscript.core.type.Type;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.stack.ThreadStack;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeExtractor;
 
 public class FunctionIndexBuilder {
@@ -22,15 +22,10 @@ public class FunctionIndexBuilder {
    }
    
    public FunctionIndex create(Module module) {
-      return new ScopeFunctionIndex(reducer, builder, limit);
+      return new FunctionIndex(reducer, builder, limit);
    }
    
    public FunctionIndex create(Type type) {
-      Class real = type.getType();
-      
-      if(real == null) {
-         return new ScopeFunctionIndex(reducer, builder, limit);
-      }
-      return new ClassFunctionIndex(reducer, builder); // all functions are typed
+      return new FunctionIndex(reducer, builder, limit);
    }
 }

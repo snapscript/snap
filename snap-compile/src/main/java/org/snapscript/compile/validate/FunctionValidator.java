@@ -4,13 +4,11 @@ import java.util.List;
 import java.util.Set;
 
 import org.snapscript.core.ModifierType;
-import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.constraint.transform.ConstraintTransformer;
 import org.snapscript.core.convert.ConstraintMatcher;
-import org.snapscript.core.convert.FunctionComparator;
-import org.snapscript.core.convert.Score;
+import org.snapscript.core.convert.FunctionOverrideMatcher;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Origin;
-import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.Signature;
 import org.snapscript.core.function.index.FunctionIndexer;
 import org.snapscript.core.function.index.FunctionPointer;
@@ -20,12 +18,12 @@ import org.snapscript.core.type.TypeExtractor;
 
 public class FunctionValidator {
    
-   private final FunctionComparator comparator;
+   private final FunctionOverrideMatcher matcher;
    private final FunctionIndexer indexer;
    private final TypeExtractor extractor;
    
-   public FunctionValidator(ConstraintMatcher matcher, TypeExtractor extractor, FunctionIndexer indexer) {
-      this.comparator = new FunctionComparator(matcher);
+   public FunctionValidator(ConstraintMatcher matcher, ConstraintTransformer transformer, TypeExtractor extractor, FunctionIndexer indexer) {
+      this.matcher = new FunctionOverrideMatcher(matcher, transformer);
       this.extractor = extractor;
       this.indexer = indexer;
    }
@@ -56,24 +54,14 @@ public class FunctionValidator {
       Scope scope = type.getScope();
       int modifiers = function.getModifiers();
       
-      if(ModifierType.isAbstract(modifiers)) { 
-         Signature signature = function.getSignature();                       
-         List<Parameter> parameters = signature.getParameters();
+      if(ModifierType.isAbstract(modifiers)) {
+         Signature signature = function.getSignature();
          Origin origin = signature.getOrigin();
-         String name = function.getName();            
-         int length = parameters.size();
+         String name = function.getName();
          
          if(!origin.isSystem()) {
-            Type[] types = new Type[length];
-            
-            for(int i = 0; i < length; i++){
-               Parameter parameter = parameters.get(i);
-               Constraint constraint = parameter.getConstraint();
-               Type match = constraint.getType(scope);
-               
-               types[i] = match;
-            }
-            FunctionPointer resolved = indexer.index(type, name, types);
+            Type[] parameters = matcher.matchTypes(scope, function, type);
+            FunctionPointer resolved = indexer.index(type, name, parameters);
             
             if(resolved == null) {
                throw new ValidateException("Type '" + type + "' must implement '" + function + "'");
@@ -106,10 +94,10 @@ public class FunctionValidator {
                   String match = available.getName();
                   
                   if(name.equals(match)) {
-                     Score compare = comparator.compare(scope, available, function);
+                     Type[] parameters = matcher.matchTypes(scope, function, available);
                      
-                     if(compare.isSimilar()) {
-                        validateModifiers(available, function);
+                     if(parameters != null) {
+                        validateModifiers(function, parameters);
                         matches++;
                      }
                   }
@@ -122,34 +110,22 @@ public class FunctionValidator {
       }
    }
    
-   private void validateModifiers(Function actual, Function require) throws Exception {
-      Signature signature = actual.getSignature();
-      List<Parameter> parameters = signature.getParameters();
+   private void validateModifiers(Function override, Type[] parameters) throws Exception {
+      Signature signature = override.getSignature();
       Origin origin = signature.getOrigin();
-      Type source = require.getSource();
-      Scope scope = source.getScope();
-      String name = actual.getName();
-      int length = parameters.size();
+      Type source = override.getSource();
+      String name = override.getName();
       
       if(!origin.isSystem()) {
-         Type[] types = new Type[length];
-         
-         for(int i = 0; i < length; i++){
-            Parameter parameter = parameters.get(i);
-            Constraint constraint = parameter.getConstraint();
-            Type type = constraint.getType(scope);
-            
-            types[i] = type;
-         }
-         FunctionPointer match = indexer.index(source, name, types);
+         FunctionPointer match = indexer.index(source, name, parameters);
          
          if(match == null) {
-            throw new ValidateException("Function '" + require +"' does not match override");
+            throw new ValidateException("Function '" + override +"' is not an override");
          }
          Function function = match.getFunction();
          
-         if(function != require) {
-            throw new ValidateException("Function '" + require +"' does not match override");
+         if(function != override) {
+            throw new ValidateException("Function '" + override +"' is not an override");
          }
       }
    }
@@ -160,23 +136,13 @@ public class FunctionValidator {
       
       if(!ModifierType.isAbstract(modifiers)) {
          Signature signature = actual.getSignature();
-         List<Parameter> parameters = signature.getParameters();
          Origin origin = signature.getOrigin();
          Scope scope = source.getScope();
          String name = actual.getName();
-         int length = parameters.size();
          
          if(!origin.isSystem()) {
-            Type[] types = new Type[length];
-            
-            for(int i = 0; i < length; i++){
-               Parameter parameter = parameters.get(i);
-               Constraint constraint = parameter.getConstraint();
-               Type type = constraint.getType(scope);
-               
-               types[i] = type;
-            }
-            FunctionPointer resolved = indexer.index(source, name, types);
+            Type[] parameters = matcher.matchTypes(scope, actual, source);
+            FunctionPointer resolved = indexer.index(source, name, parameters);
             
             if(resolved == actual) {
                throw new ValidateException("Function '" + actual +"' has a duplicate '" + resolved + "'");

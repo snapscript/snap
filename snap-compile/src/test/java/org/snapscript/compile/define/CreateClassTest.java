@@ -133,7 +133,7 @@ public class CreateClassTest extends TestCase{
       execute(SOURCE_2);
 //      execute(SOURCE_3);
 //      execute(SOURCE_4);
-//      
+//
 //      try{
 //         execute(ERROR_1);
 //      }catch(Exception e){

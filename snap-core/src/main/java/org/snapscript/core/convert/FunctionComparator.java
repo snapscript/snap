@@ -21,32 +21,38 @@ public class FunctionComparator {
       this.matcher = matcher;
    }
 
-   public Score compare(Scope scope, Function left, Function right) throws Exception{
+   public Score compare(Scope scope, Function left, Function right) throws Exception {
       Signature leftSignature = left.getSignature();
       Signature rightSignature = right.getSignature();
       List<Parameter> leftParameters = leftSignature.getParameters();
       List<Parameter> rightParameters = rightSignature.getParameters();
-      int leftSize = leftParameters.size();
-      int rightSize = rightParameters.size();
-      boolean leftVariable = leftSignature.isVariable();
-      boolean rightVariable = rightSignature.isVariable();
+
+      return compare(scope, leftParameters, rightParameters);
+   }
+
+   public Score compare(Scope scope, List<Parameter> left, List<Parameter> right) throws Exception{
+      int leftSize = left.size();
+      int rightSize = right.size();
       
       if(leftSize == rightSize) {
-         Score score = compare(scope, leftParameters, rightParameters);
+         Score score = score(scope, left, right);
          
          if(score.isValid()) {
             return score;
          }
       }
+      boolean leftVariable = leftSize > 0 && left.get(leftSize - 1).isVariable();
+      boolean rightVariable = rightSize > 0 && right.get(rightSize - 1).isVariable();
+
       if(leftVariable && leftSize <= rightSize) {
-         Score score = compare(scope, leftParameters, rightParameters); // compare(a...) == compare(a, b)
+         Score score = score(scope, left, right); // compare(a...) == compare(a, b)
          
          if(score.isValid()) {
             return score;
          }
       }
       if(rightVariable && rightSize <= leftSize) {
-         Score score = compare(scope, rightParameters, leftParameters); // compare(a, b) == compare(a...)
+         Score score = score(scope, right, left); // compare(a, b) == compare(a...)
          
          if(score.isValid()) {
             return score;
@@ -55,7 +61,7 @@ public class FunctionComparator {
       return INVALID;
    }
    
-   private Score compare(Scope scope, List<Parameter> left, List<Parameter> right) throws Exception{
+   private Score score(Scope scope, List<Parameter> left, List<Parameter> right) throws Exception{
       int leftSize = left.size();
       
       if(leftSize > 0) {
@@ -64,7 +70,7 @@ public class FunctionComparator {
          for(int i = 0, j = 0; i < leftSize; i++) {
             Parameter leftParameter = left.get(i);
             Parameter rightParameter = right.get(j);
-            Score score = compare(scope, leftParameter, rightParameter);
+            Score score = score(scope, leftParameter, rightParameter);
             
             if(score.isInvalid()) { // must check for numbers
                return INVALID;
@@ -80,7 +86,7 @@ public class FunctionComparator {
       return EXACT;
    }
    
-   private Score compare(Scope scope, Parameter left, Parameter right) throws Exception{
+   private Score score(Scope scope, Parameter left, Parameter right) throws Exception{
       Constraint leftConstraint  = left.getConstraint();
       Constraint rightConstraint = right.getConstraint();
       Type leftType  = leftConstraint.getType(scope);
