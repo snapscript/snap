@@ -1,5 +1,7 @@
 package org.snapscript.tree;
 
+import static org.snapscript.core.Reserved.INSTRUCTION_FILE;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,18 +11,18 @@ import org.snapscript.core.type.TypeLoader;
 
 public class InstructionBuilder {
    
-   private final Instruction[] instructions;
+   private final InstructionReader reader;
    private final Context context;
    
    public InstructionBuilder(Context context) {
-      this.instructions = Instruction.values();
+      this.reader = new InstructionReader(INSTRUCTION_FILE);
       this.context = context;
    }
 
    public Map<String, Operation> create() throws Exception{
       Map<String, Operation> table = new HashMap<String, Operation>();   
       
-      for(Instruction instruction : instructions){
+      for(Instruction instruction : reader){
          Operation operation = create(instruction);
          String grammar = instruction.getName();
          
@@ -31,7 +33,7 @@ public class InstructionBuilder {
    
    private Operation create(Instruction instruction) throws Exception{
       TypeLoader loader = context.getLoader();
-      Class value = instruction.getType();
+      String value = instruction.getType();
       Type type = loader.loadType(value);
       String name = instruction.getName();
       

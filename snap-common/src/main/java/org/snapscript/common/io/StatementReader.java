@@ -23,7 +23,7 @@ public abstract class StatementReader<T> implements Iterable<T> {
    }
    
    @Override
-   public Iterator<T> iterator() {
+   public synchronized Iterator<T> iterator() {
       if(list.isEmpty()) {
          String text = cache.getString(file);
 

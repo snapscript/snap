@@ -28,6 +28,10 @@ public interface Reserved {
    String DEFAULT_PACKAGE = "default";
    String DEFAULT_RESOURCE = "Unknown Source";
    String DEFAULT_PARAMETER = "a";
-   String GRAMMAR_FILE = "grammar.txt";
    String IMPORT_FILE = "import.txt";
+   String INSTRUCTION_FILE = "instruction.txt";
+   String GRAMMAR_FILE = "grammar.txt";
+   String GRAMMAR_SCRIPT = "script";   
+   String GRAMMAR_PACKAGE = "script-package";
+   String GRAMMAR_EXPRESSION = "expression";
 }

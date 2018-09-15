@@ -1,6 +1,6 @@
 package org.snapscript.compile.assemble;
 
-import static org.snapscript.tree.Instruction.SCRIPT_PACKAGE;
+import static org.snapscript.core.Reserved.GRAMMAR_PACKAGE;
 
 import java.util.concurrent.Executor;
 
@@ -23,7 +23,7 @@ public class ApplicationLinker implements PackageLinker {
    
    @Override
    public Package link(Path path, String source) throws Exception {
-      return link(path, source, SCRIPT_PACKAGE.name);
+      return link(path, source, GRAMMAR_PACKAGE);
    }
    
    @Override
