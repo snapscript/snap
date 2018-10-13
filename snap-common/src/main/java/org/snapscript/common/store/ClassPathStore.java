@@ -4,16 +4,16 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 public class ClassPathStore implements Store {
+   
+   private final ClassPathLoader loader;
 
    public ClassPathStore() {
-      super();
+      this.loader = new ClassPathLoader(Store.class);
    }
    
    @Override
    public InputStream getInputStream(String path) {
-      Thread thread = Thread.currentThread();
-      ClassLoader loader = thread.getContextClassLoader();
-      InputStream source = loader.getResourceAsStream(path);
+      InputStream source = loader.loadResource(path);
       
       if(source == null) {
          int index = path.indexOf('/');

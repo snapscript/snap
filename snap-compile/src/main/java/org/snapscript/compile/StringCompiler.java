@@ -1,7 +1,7 @@
 package org.snapscript.compile;
 
 import static org.snapscript.core.Reserved.DEFAULT_PACKAGE;
-import static org.snapscript.tree.Instruction.SCRIPT;
+import static org.snapscript.core.Reserved.GRAMMAR_SCRIPT;
 
 import org.snapscript.compile.assemble.Application;
 import org.snapscript.core.Context;
@@ -34,7 +34,7 @@ public class StringCompiler implements Compiler {
       }
       Path path = converter.createPath(module);
       PackageLinker linker = context.getLinker();
-      Package library = linker.link(path, source, SCRIPT.name);
+      Package library = linker.link(path, source, GRAMMAR_SCRIPT);
       
       return new Application(context, library, module);
    } 

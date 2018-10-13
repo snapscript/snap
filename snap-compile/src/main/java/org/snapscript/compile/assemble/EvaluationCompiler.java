@@ -1,7 +1,7 @@
 package org.snapscript.compile.assemble;
 
 import static org.snapscript.core.Reserved.GRAMMAR_FILE;
-import static org.snapscript.tree.Instruction.EXPRESSION;
+import static org.snapscript.core.Reserved.GRAMMAR_EXPRESSION;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
@@ -11,6 +11,7 @@ import org.snapscript.common.Cache;
 import org.snapscript.common.LeastRecentlyUsedCache;
 import org.snapscript.compile.verify.Verifier;
 import org.snapscript.core.Evaluation;
+import org.snapscript.core.Reserved;
 import org.snapscript.core.module.FilePathConverter;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.module.PathConverter;
@@ -75,7 +76,7 @@ public class EvaluationCompiler {
       @Override
       public Evaluation call() throws Exception {
          SyntaxParser parser = compiler.compile();
-         SyntaxNode node = parser.parse(module, source, EXPRESSION.name);
+         SyntaxNode node = parser.parse(module, source, GRAMMAR_EXPRESSION);
          Path path = converter.createPath(module);
          Evaluation evaluation = assembler.assemble(node, path);
          int length = source.length();

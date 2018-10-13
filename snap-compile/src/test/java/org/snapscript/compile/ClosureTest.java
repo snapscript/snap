@@ -1,5 +1,7 @@
 package org.snapscript.compile;
 
+import static org.snapscript.core.Reserved.GRAMMAR_SCRIPT;
+
 import java.lang.management.ManagementFactory;
 import java.text.DecimalFormat;
 
@@ -112,7 +114,7 @@ public class ClosureTest extends TestCase {
    }
    
    public void testClosureParameters() throws Exception {
-      SyntaxNode node = new SyntaxCompiler(Reserved.GRAMMAR_FILE).compile().parse("/path.snap", SOURCE_5, Instruction.SCRIPT.name);
+      SyntaxNode node = new SyntaxCompiler(Reserved.GRAMMAR_FILE).compile().parse("/path.snap", SOURCE_5, GRAMMAR_SCRIPT);
       System.out.println(SyntaxPrinter.print(node));
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
       Executable executable = compiler.compile(SOURCE_5);
