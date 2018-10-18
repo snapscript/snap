@@ -1,7 +1,5 @@
 package org.snapscript.tree;
 
-import static org.snapscript.core.Reserved.INSTRUCTION_FILE;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,9 +11,9 @@ public class InstructionBuilder {
    
    private final InstructionReader reader;
    private final Context context;
-   
-   public InstructionBuilder(Context context) {
-      this.reader = new InstructionReader(INSTRUCTION_FILE);
+
+   public InstructionBuilder(Context context, String file) {
+      this.reader = new InstructionReader(file);
       this.context = context;
    }
 

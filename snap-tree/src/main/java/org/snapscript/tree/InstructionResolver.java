@@ -8,9 +8,9 @@ public class InstructionResolver implements OperationResolver {
    
    private volatile Map<String, Operation> operations;
    private volatile InstructionBuilder builder;
-
-   public InstructionResolver(Context context) {
-      this.builder = new InstructionBuilder(context);
+   
+   public InstructionResolver(Context context, String file) {
+      this.builder = new InstructionBuilder(context, file);
    }
 
    @Override

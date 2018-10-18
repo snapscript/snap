@@ -1,5 +1,7 @@
 package org.snapscript.compile.assemble;
 
+import static org.snapscript.core.Reserved.INSTRUCTION_FILE;
+
 import java.util.concurrent.Executor;
 
 import org.snapscript.core.Context;
@@ -17,8 +19,12 @@ public class OperationAssembler implements Assembler {
    private final Context context;
 
    public OperationAssembler(Context context, Executor executor) {
+      this(context, executor, INSTRUCTION_FILE);
+   }
+   
+   public OperationAssembler(Context context, Executor executor, String file) {
       this.builder = new OperationBuilder(context, executor);
-      this.resolver = new InstructionResolver(context);
+      this.resolver = new InstructionResolver(context, file);
       this.traverser = new OperationTraverser(builder, resolver);
       this.context = context;
    }
