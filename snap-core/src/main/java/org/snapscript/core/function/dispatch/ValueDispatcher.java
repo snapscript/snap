@@ -40,8 +40,7 @@ public class ValueDispatcher implements FunctionDispatcher {
       return new Call2(call) {
          
          public Object invoke(Scope scope, Object source, Object... arguments) throws Exception{
-            source = ((Value)source).getValue();
-            return call.invoke(scope, source, arguments);
+            return call.invoke(scope, null, arguments);
          }
       };  
    }

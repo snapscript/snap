@@ -41,6 +41,13 @@ public class TypeStaticDispatcher implements FunctionDispatcher {
 
       if(call == null) {
          call = resolver.resolveInstance(scope, (Object)type, name, arguments); // find on the type
+      } else {
+         return new Call2(call) {
+            
+            public Object invoke(Scope scope, Object source, Object... arguments) throws Exception{
+               return call.invoke(scope, null, arguments);
+            }
+         }; 
       }
       if(call == null) {
          handler.handleRuntimeError(INVOKE, scope, type, name, arguments);
