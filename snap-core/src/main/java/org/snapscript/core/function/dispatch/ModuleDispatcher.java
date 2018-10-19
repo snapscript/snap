@@ -4,7 +4,7 @@ import static org.snapscript.core.error.Reason.INVOKE;
 
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
-import org.snapscript.core.function.dispatch.FunctionDispatcher.Call2;
+import org.snapscript.core.function.Connection;
 import org.snapscript.core.function.resolve.FunctionCall;
 import org.snapscript.core.function.resolve.FunctionResolver;
 import org.snapscript.core.module.Module;
@@ -33,13 +33,13 @@ public class ModuleDispatcher implements FunctionDispatcher {
       if(call == null) {
          handler.handleCompileError(INVOKE, scope, type, name, arguments);
       }
-      return call.check(constraint, arguments);
+      return call.check(scope, constraint, arguments);
    }
 
    @Override
-   public Call2 dispatch(Scope scope, Value value, Object... arguments) throws Exception {
-      final Module module = value.getValue();
-      Call2 call = bind(scope, module, arguments);
+   public Connection dispatch(Scope scope, Value value, Object... arguments) throws Exception {
+      Module module = value.getValue();
+      Connection call = bind(scope, module, arguments);
       
       if(call == null) {
          handler.handleRuntimeError(INVOKE, scope, module, name, arguments);
@@ -57,7 +57,7 @@ public class ModuleDispatcher implements FunctionDispatcher {
       return call;
    }
    
-   private Call2 bind(Scope scope, final Module module, Object... arguments) throws Exception {
+   private Connection bind(Scope scope, final Module module, Object... arguments) throws Exception {
       final Scope inner = module.getScope();
       FunctionCall call = resolver.resolveModule(inner, module, name, arguments);
       
@@ -67,11 +67,28 @@ public class ModuleDispatcher implements FunctionDispatcher {
       if(call == null) {
          return null;
       }
-      return new Call2(call) {
-         
-         public Object invoke(Scope scope, Object source, Object... arguments) throws Exception{
-            return call.invoke(inner, module, arguments);
-         }
-      };  
+      return new ModuleConnection(call, module);
+   }
+   
+   private static class ModuleConnection implements Connection<Value> {
+
+      private final FunctionCall call;
+      private final Module module;
+      
+      public ModuleConnection(FunctionCall call, Module module) {
+         this.module = module;
+         this.call = call;
+      }
+
+      @Override
+      public boolean accept(Scope scope, Object object, Object... arguments) throws Exception {
+         return call.match(scope, object, arguments);
+      }
+      
+      @Override
+      public Object invoke(Scope scope, Value value, Object... arguments) throws Exception {
+         Scope inner = module.getScope();
+         return call.invoke(inner, module, arguments);
+      }
    }
 }

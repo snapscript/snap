@@ -5,7 +5,7 @@ import static org.snapscript.core.error.Reason.INVOKE;
 
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
-import org.snapscript.core.function.dispatch.FunctionDispatcher.Call2;
+import org.snapscript.core.function.Connection;
 import org.snapscript.core.function.resolve.FunctionCall;
 import org.snapscript.core.function.resolve.FunctionResolver;
 import org.snapscript.core.scope.Scope;
@@ -30,18 +30,32 @@ public class ValueDispatcher implements FunctionDispatcher {
    }
 
    @Override
-   public Call2 dispatch(Scope scope, Value value, Object... list) throws Exception {
+   public Connection dispatch(Scope scope, Value value, Object... list) throws Exception {
       Value reference = value.getValue();
       FunctionCall call = resolver.resolveValue(reference, list); // function variable
       
       if(call == null) {
          handler.handleRuntimeError(INVOKE, scope, name, list);
       }
-      return new Call2(call) {
-         
-         public Object invoke(Scope scope, Object source, Object... arguments) throws Exception{
-            return call.invoke(scope, null, arguments);
-         }
-      };  
+      return new ValueConnection(call);  
+   }
+   
+   private static class ValueConnection implements Connection {
+
+      private final FunctionCall call;
+      
+      public ValueConnection(FunctionCall call) {
+         this.call = call;
+      }
+      
+      @Override
+      public boolean accept(Scope scope, Object object, Object... arguments) throws Exception {
+         return call.match(scope, object, arguments);
+      }
+      
+      @Override
+      public Object invoke(Scope scope, Object object, Object... arguments) throws Exception {
+         return call.invoke(scope, null, arguments);
+      } 
    }
 }

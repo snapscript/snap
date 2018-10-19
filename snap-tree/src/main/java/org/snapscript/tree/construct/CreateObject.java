@@ -11,7 +11,6 @@ import org.snapscript.core.constraint.CompileConstraint;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.AliasResolver;
 import org.snapscript.core.error.ErrorHandler;
-import org.snapscript.core.function.dispatch.FunctionDispatcher.Call2;
 import org.snapscript.core.function.resolve.FunctionResolver;
 import org.snapscript.core.link.ImplicitImportLoader;
 import org.snapscript.core.module.Module;

@@ -4,8 +4,9 @@ import static org.snapscript.core.error.Reason.INVOKE;
 
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
-import org.snapscript.core.function.dispatch.FunctionDispatcher.Call2;
+import org.snapscript.core.function.Connection;
 import org.snapscript.core.function.resolve.FunctionCall;
+import org.snapscript.core.function.resolve.FunctionConnection;
 import org.snapscript.core.function.resolve.FunctionResolver;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
@@ -31,33 +32,41 @@ public class TypeStaticDispatcher implements FunctionDispatcher {
       if(call == null) {
          handler.handleCompileError(INVOKE, scope, type, name, arguments);
       }
-      return call.check(constraint, arguments);
+      return call.check(scope, constraint, arguments);
    } 
 
    @Override
-   public Call2 dispatch(Scope scope, Value value, Object... arguments) throws Exception { 
+   public Connection dispatch(Scope scope, Value value, Object... arguments) throws Exception { 
       Type type = value.getValue();
       FunctionCall call = resolver.resolveStatic(scope, type, name, arguments);
 
       if(call == null) {
-         call = resolver.resolveInstance(scope, (Object)type, name, arguments); // find on the type
-      } else {
-         return new Call2(call) {
-            
-            public Object invoke(Scope scope, Object source, Object... arguments) throws Exception{
-               return call.invoke(scope, null, arguments);
-            }
-         }; 
-      }
-      if(call == null) {
-         handler.handleRuntimeError(INVOKE, scope, type, name, arguments);
-      }
-      return new Call2(call) {
-         
-         public Object invoke(Scope scope, Object source, Object... arguments) throws Exception{
-            source = ((Value)source).getValue();
-            return call.invoke(scope, source, arguments);
+         FunctionCall instance = resolver.resolveInstance(scope, (Object)type, name, arguments); // find on the type
+      
+         if(instance == null) {
+            handler.handleRuntimeError(INVOKE, scope, type, name, arguments);
          }
-      };      
+         return new FunctionConnection(instance);   
+      }
+      return new TypeStaticConnection(call); 
    } 
+   
+   private static class TypeStaticConnection implements Connection {
+
+      private final FunctionCall call;
+      
+      public TypeStaticConnection(FunctionCall call) {
+         this.call = call;
+      }
+      
+      @Override
+      public boolean accept(Scope scope, Object object, Object... arguments) throws Exception {
+         return call.match(scope, object, arguments);
+      }
+      
+      @Override
+      public Object invoke(Scope scope, Object object, Object... arguments) throws Exception {
+         return call.invoke(scope, null, arguments);
+      } 
+   }
 }

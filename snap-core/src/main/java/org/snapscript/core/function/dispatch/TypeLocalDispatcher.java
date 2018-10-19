@@ -4,7 +4,7 @@ import static org.snapscript.core.error.Reason.INVOKE;
 
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
-import org.snapscript.core.function.dispatch.FunctionDispatcher.Call2;
+import org.snapscript.core.function.Connection;
 import org.snapscript.core.function.resolve.FunctionCall;
 import org.snapscript.core.function.resolve.FunctionResolver;
 import org.snapscript.core.module.Module;
@@ -38,13 +38,13 @@ public class TypeLocalDispatcher implements FunctionDispatcher {
             handler.handleCompileError(INVOKE, scope, name, arguments);
          }
       }
-      return match.check(constraint, arguments);
+      return match.check(scope, constraint, arguments);
    }
 
    @Override
-   public Call2 dispatch(Scope scope, Value value, Object... arguments) throws Exception {
+   public Connection dispatch(Scope scope, Value value, Object... arguments) throws Exception {
       Scope object = value.getValue();
-      Call2 call = bind(scope, object, arguments);
+      Connection call = bind(scope, object, arguments);
       
       if(call == null) {
          Type type = scope.getType();
@@ -78,38 +78,47 @@ public class TypeLocalDispatcher implements FunctionDispatcher {
       return local;  
    }
    
-   private Call2 bind(Scope scope, Scope object, Object... arguments) throws Exception {
-      final FunctionCall local = resolver.resolveInstance(scope, scope, name, arguments);
+   private Connection bind(Scope scope, Scope object, Object... arguments) throws Exception {
+      FunctionCall local = resolver.resolveInstance(scope, scope, name, arguments);
       
       if(local == null) {
-         final Module module = scope.getModule();
-         final FunctionCall external = resolver.resolveModule(scope, module, name, arguments); // maybe closure should be first
+         Module module = scope.getModule();
+         FunctionCall external = resolver.resolveModule(scope, module, name, arguments); // maybe closure should be first
          
          if(external != null) {
-            return new Call2(external) {
-               
-               public Object invoke(Scope scope, Object source, Object... arguments) throws Exception{
-                  return call.invoke(scope, module, arguments);
-               }
-            };
+            return new TypeLocalConnection(external, module);
          }
-         final FunctionCall closure = resolver.resolveScope(scope, name, arguments); // closure
+         FunctionCall closure = resolver.resolveScope(scope, name, arguments); // closure
          
          if(closure != null) {
-            return new Call2(closure) {
-               
-               public Object invoke(Scope scope, Object source, Object... arguments) throws Exception{
-                  return call.invoke(scope, scope, arguments);
-               }
-            }; 
+            return new TypeLocalConnection(closure, null);
          }
          return null;
       }
-      return new Call2(local) {
-         
-         public Object invoke(Scope scope, Object source, Object... arguments) throws Exception{
-            return call.invoke(scope, scope, arguments);
+      return new TypeLocalConnection(local, null);  
+   }
+   
+   private static class TypeLocalConnection implements Connection {
+
+      private final FunctionCall call;
+      private final Module module;
+      
+      public TypeLocalConnection(FunctionCall call, Module module) {
+         this.module = module;
+         this.call = call;
+      }
+      
+      @Override
+      public boolean accept(Scope scope, Object object, Object... arguments) throws Exception {
+         return call.match(scope, object, arguments);
+      }
+      
+      @Override
+      public Object invoke(Scope scope, Object object, Object... arguments) throws Exception {
+         if(module != null) {
+            return call.invoke(scope, module, arguments);
          }
-      };  
+         return call.invoke(scope, scope, arguments);
+      } 
    }
 }

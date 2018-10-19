@@ -42,7 +42,7 @@ public class FunctionResolver {
       FunctionPointer pointer = instances.index(source, name, list);
       
       if(pointer != null) {
-         return new FunctionCall(pointer, scope, source, list);
+         return new FunctionCall(pointer);
       }
       return null;
    }
@@ -51,7 +51,7 @@ public class FunctionResolver {
       FunctionPointer pointer = instances.index(source, name, list);
       
       if(pointer != null) {
-         return new FunctionCall(pointer, scope, source, list);
+         return new FunctionCall(pointer);
       }
       return null;
    }
@@ -60,7 +60,7 @@ public class FunctionResolver {
       FunctionPointer pointer = statics.index(type, name, list);
       
       if(pointer != null) {
-         return new FunctionCall(pointer, scope, null, list);
+         return new FunctionCall(pointer);
       }
       return null;
    }
@@ -69,7 +69,7 @@ public class FunctionResolver {
       FunctionPointer pointer = statics.index(type, name, list);
       
       if(pointer != null) {
-         return new FunctionCall(pointer, scope, null, list);
+         return new FunctionCall(pointer);
       }
       return null;
    }
@@ -78,7 +78,7 @@ public class FunctionResolver {
       FunctionPointer pointer = modules.index(module, name, list);
       
       if(pointer != null) {
-         return new FunctionCall(pointer, scope, module, list);
+         return new FunctionCall(pointer);
       }
       return null;
    }
@@ -87,7 +87,7 @@ public class FunctionResolver {
       FunctionPointer pointer = modules.index(module, name, list);
 
       if(pointer != null) {
-         return new FunctionCall(pointer, scope, module, list);
+         return new FunctionCall(pointer);
       }
       return null;
    }
@@ -96,7 +96,7 @@ public class FunctionResolver {
       FunctionPointer pointer = delegates.match(delegate, name, list);
       
       if(pointer != null) {
-         return new FunctionCall(pointer, scope, delegate, list);
+         return new FunctionCall(pointer);
       }
       return null;
    }
@@ -105,7 +105,7 @@ public class FunctionResolver {
       FunctionPointer pointer = delegates.match(delegate, name, list);
       
       if(pointer != null) {
-         return new FunctionCall(pointer, scope, delegate, list);
+         return new FunctionCall(pointer);
       }
       return null;
    }
@@ -114,7 +114,7 @@ public class FunctionResolver {
       FunctionPointer pointer = scopes.index(scope, name, list);
       
       if(pointer != null) {
-         return new FunctionCall(pointer, scope, scope, list);
+         return new FunctionCall(pointer);
       }
       return null;
    }
@@ -123,7 +123,7 @@ public class FunctionResolver {
       FunctionPointer pointer = scopes.index(scope, name, list);
       
       if(pointer != null) {
-         return new FunctionCall(pointer, scope, scope, list);
+         return new FunctionCall(pointer);
       }
       return null;
    }
@@ -132,7 +132,7 @@ public class FunctionResolver {
       FunctionPointer pointer = values.index(value, list);
       
       if(pointer != null) {
-         return new FunctionCall(pointer, null, null, list);
+         return new FunctionCall(pointer);
       }
       return null;
    }

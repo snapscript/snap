@@ -12,6 +12,10 @@ import org.snapscript.core.type.Type;
 
 public class FunctionAdapter implements Any {
    
+   public static FunctionAdapter wrap(Object object) {
+      return new FunctionAdapter(object);
+   }
+   
    private final Function function;
    
    public FunctionAdapter(Object function) {

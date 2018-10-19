@@ -7,8 +7,8 @@ import static org.snapscript.core.Reserved.METHOD_TO_STRING;
 import java.lang.reflect.Method;
 
 import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.function.Connection;
 import org.snapscript.core.function.Function;
-import org.snapscript.core.function.dispatch.FunctionDispatcher.Call2;
 import org.snapscript.core.function.resolve.FunctionCall;
 import org.snapscript.core.function.resolve.FunctionResolver;
 import org.snapscript.core.scope.Scope;
@@ -63,7 +63,7 @@ public class FunctionProxyHandler implements ProxyHandler {
    }
    
    private Object invoke(Object proxy, String name, Object[] convert, Object[] arguments) throws Throwable {
-      Call2 call = resolve(proxy, name, convert, arguments);  
+      Connection call = resolve(proxy, name, convert, arguments);  
       int width = arguments.length;
       
       if(call == null) {
@@ -74,7 +74,7 @@ public class FunctionProxyHandler implements ProxyHandler {
       return wrapper.toProxy(data);  
    }
    
-   private Call2 resolve(final Object proxy, String name, Object[] convert, Object[] arguments) throws Throwable {
+   private Connection resolve(final Object proxy, String name, Object[] convert, Object[] arguments) throws Throwable {
       Type source = function.getSource();
 
       if(source != null) {
@@ -82,23 +82,13 @@ public class FunctionProxyHandler implements ProxyHandler {
          FunctionCall call = resolver.resolveInstance(scope, proxy, name, arguments); 
          
          if(call != null) {
-            return new Call2(call) {
-               
-               public Object invoke(Scope scope, Object source, Object... arguments) throws Exception{
-                  return call.invoke(scope, proxy, arguments);
-               }
-            };
+            return new ProxyConnection(call, source);
          }
       }
       FunctionCall call = resolver.resolveValue(value, convert); // here arguments can be null!!! 
       
       if(call != null) {
-         return new Call2(call) {
-            
-            public Object invoke(Scope scope, Object source, Object... arguments) throws Exception{
-               return call.invoke(scope, scope, arguments);
-            }
-         };
+         return new ProxyConnection(call, null);
       }
       return null;
    }
@@ -106,5 +96,30 @@ public class FunctionProxyHandler implements ProxyHandler {
    @Override
    public Function extract() {
       return function;
+   }
+   
+   private static class ProxyConnection implements Connection {
+
+      private final FunctionCall call;
+      private final Type type;
+      
+      public ProxyConnection(FunctionCall call, Type type) {
+         this.type = type;
+         this.call = call;
+      }
+      
+      @Override
+      public boolean accept(Scope scope, Object object, Object... arguments) throws Exception {
+         return call.match(scope, object, arguments);
+      }
+      
+      @Override
+      public Object invoke(Scope scope, Object object, Object... arguments) throws Exception {
+         if(type != null) {
+            Scope outer = type.getScope();
+            return call.invoke(outer, object, arguments);
+         }
+         return call.invoke(scope, scope, arguments);
+      }      
    }
 }

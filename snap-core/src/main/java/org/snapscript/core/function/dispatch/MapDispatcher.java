@@ -9,8 +9,9 @@ import org.snapscript.core.Context;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.proxy.ProxyWrapper;
 import org.snapscript.core.error.ErrorHandler;
-import org.snapscript.core.function.dispatch.FunctionDispatcher.Call2;
+import org.snapscript.core.function.Connection;
 import org.snapscript.core.function.resolve.FunctionCall;
+import org.snapscript.core.function.resolve.FunctionConnection;
 import org.snapscript.core.function.resolve.FunctionResolver;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
@@ -35,26 +36,20 @@ public class MapDispatcher implements FunctionDispatcher {
       FunctionCall local = resolver.resolveInstance(scope, type, name, arguments);
       
       if(local != null) {
-         return local.check(constraint, arguments);
+         return local.check(scope, constraint, arguments);
       }
       return NONE;      
    }
    
    @Override
-   public Call2 dispatch(Scope scope, Value value, Object... arguments) throws Exception {
+   public Connection dispatch(Scope scope, Value value, Object... arguments) throws Exception {
       Map map = value.getValue();
       FunctionCall call = bind(scope, map, arguments);
       
       if(call == null) {
          handler.handleRuntimeError(INVOKE, scope, map, name, arguments);
       }
-      return new Call2(call) {
-         
-         public Object invoke(Scope scope, Object source, Object... arguments) throws Exception{
-            source = ((Value)source).getValue();
-            return call.invoke(scope, source, arguments);
-         }
-      };
+      return new FunctionConnection(call);
    }
    
    private FunctionCall bind(Scope scope, Map map, Object... arguments) throws Exception {

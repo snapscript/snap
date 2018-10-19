@@ -4,7 +4,9 @@ import static org.snapscript.core.error.Reason.INVOKE;
 
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
+import org.snapscript.core.function.Connection;
 import org.snapscript.core.function.resolve.FunctionCall;
+import org.snapscript.core.function.resolve.FunctionConnection;
 import org.snapscript.core.function.resolve.FunctionResolver;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
@@ -31,24 +33,18 @@ public class LocalDispatcher implements FunctionDispatcher {
       if(call == null) {
          handler.handleCompileError(INVOKE, scope, name, arguments);
       }
-      return call.check(constraint, arguments);
+      return call.check(scope, constraint, arguments);
    }
    
    @Override
-   public Call2 dispatch(Scope scope, Value value, Object... arguments) throws Exception {
+   public Connection dispatch(Scope scope, Value value, Object... arguments) throws Exception {
       Object object = value.getValue();
       FunctionCall call = bind(scope, object, arguments);
       
       if(call == null) {
          handler.handleRuntimeError(INVOKE, scope, name, arguments);
       }
-      return new Call2(call) {
-         
-         public Object invoke(Scope scope, Object source, Object... arguments) throws Exception{
-            source = ((Value)source).getValue();
-            return call.invoke(scope, source, arguments);
-         }
-      };
+      return new FunctionConnection(call);
    }
    
    private FunctionCall bind(Scope scope, Object object, Object... arguments) throws Exception {
@@ -78,5 +74,4 @@ public class LocalDispatcher implements FunctionDispatcher {
       }
       return local;  
    }
-   
 }

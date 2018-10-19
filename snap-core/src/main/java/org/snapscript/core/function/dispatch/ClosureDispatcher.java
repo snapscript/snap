@@ -5,6 +5,7 @@ import static org.snapscript.core.error.Reason.INVOKE;
 
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
+import org.snapscript.core.function.Connection;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.index.FunctionAdapter;
 import org.snapscript.core.function.resolve.FunctionCall;
@@ -31,9 +32,9 @@ public class ClosureDispatcher implements FunctionDispatcher {
    }
 
    @Override
-   public Call2 dispatch(Scope scope, Value value, Object... arguments) throws Exception {
+   public Connection dispatch(Scope scope, Value value, Object... arguments) throws Exception {
       Function function = value.getValue();
-      Call2 call = bind(scope, function, arguments); // this is not used often
+      Connection call = bind(scope, function, arguments); // this is not used often
       
       if(call == null) {
          handler.handleRuntimeError(INVOKE, scope, function, name, arguments);
@@ -41,32 +42,45 @@ public class ClosureDispatcher implements FunctionDispatcher {
       return call;
    }
    
-   private Call2 bind(Scope scope, Function function, Object... arguments) throws Exception {
+   private Connection bind(Scope scope, Function function, Object... arguments) throws Exception {
       FunctionCall call = resolver.resolveInstance(scope, function, name, arguments); // this is not used often
       
       if(call == null) {
-         Object adapter = new FunctionAdapter(function);
+         Object adapter = FunctionAdapter.wrap(function);
+         FunctionCall instance = resolver.resolveInstance(scope, adapter, name, arguments);
          
-         call = resolver.resolveInstance(scope, adapter, name, arguments);
-         
-         if(call != null) {
-            return new Call2(call) {
-               
-               public Object invoke(Scope scope, Object source, Object... arguments) throws Exception{
-                  Function function = ((Value)source).getValue();
-                  source = new FunctionAdapter(function);
-                  return call.invoke(scope, source, arguments);
-               }
-            };
+         if(instance != null) {
+            return new ClosureConnection(instance, true);
          }
          return null;
       }
-      return new Call2(call) {
-         
-         public Object invoke(Scope scope, Object source, Object... arguments) throws Exception{
-            source = ((Value)source).getValue();
-            return call.invoke(scope, source, arguments);
+      return new ClosureConnection(call, false);
+   }
+   
+   private static class ClosureConnection implements Connection<Value> {
+      
+      private final FunctionCall call;
+      private final boolean wrap;
+      
+      public ClosureConnection(FunctionCall call, boolean wrap) {
+         this.wrap = wrap;
+         this.call = call;
+      }
+
+      @Override
+      public boolean accept(Scope scope, Object object, Object... arguments) throws Exception {
+         return call.match(scope, object, arguments);
+      }
+      
+      @Override
+      public Object invoke(Scope scope, Value value, Object... arguments) throws Exception {
+         Function function = value.getValue();
+
+         if(wrap) {
+            FunctionAdapter adapter = FunctionAdapter.wrap(function);
+            return call.invoke(scope, adapter, arguments);
          }
-      };
+         return call.invoke(scope, function, arguments);
+      }
    }
 }

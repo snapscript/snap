@@ -7,7 +7,6 @@ import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.InternalStateException;
-import org.snapscript.core.function.dispatch.FunctionDispatcher.Call2;
 import org.snapscript.core.function.resolve.FunctionCall;
 import org.snapscript.core.function.resolve.FunctionResolver;
 import org.snapscript.core.module.Module;
@@ -52,18 +51,14 @@ public class FunctionCurry implements Compilation {
       public Value evaluate(Scope scope, Value left) throws Exception {         
          Object[] array = arguments.create(scope); 
          FunctionCall call = resolver.resolveValue(left, array);
+         Object object = left.getValue();
          int width = array.length;
          
          if(call == null) {
             throw new InternalStateException("Result was not a closure of " + width +" arguments");
          }
-         return Value.getTransient(new Call2(call) {
-            
-            public Object invoke(Scope scope, Object source, Object... arguments) throws Exception{
-               source = ((Value)source).getValue();
-               return call.invoke(scope, source, arguments);
-            }
-         }.invoke(scope, left, array));
+         Object result = call.invoke(scope, object, array);
+         return Value.getTransient(result);
          
       }
    }
