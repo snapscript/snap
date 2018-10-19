@@ -4,6 +4,7 @@ import static org.snapscript.core.error.Reason.INVOKE;
 
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
+import org.snapscript.core.function.dispatch.FunctionDispatcher.Call2;
 import org.snapscript.core.function.resolve.FunctionCall;
 import org.snapscript.core.function.resolve.FunctionResolver;
 import org.snapscript.core.scope.Scope;
@@ -34,7 +35,7 @@ public class TypeStaticDispatcher implements FunctionDispatcher {
    } 
 
    @Override
-   public Value dispatch(Scope scope, Value value, Object... arguments) throws Exception { 
+   public Call2 dispatch(Scope scope, Value value, Object... arguments) throws Exception { 
       Type type = value.getValue();
       FunctionCall call = resolver.resolveStatic(scope, type, name, arguments);
 
@@ -44,6 +45,12 @@ public class TypeStaticDispatcher implements FunctionDispatcher {
       if(call == null) {
          handler.handleRuntimeError(INVOKE, scope, type, name, arguments);
       }
-      return call.call();          
+      return new Call2(call) {
+         
+         public Object invoke(Scope scope, Object source, Object... arguments) throws Exception{
+            source = ((Value)source).getValue();
+            return call.invoke(scope, source, arguments);
+         }
+      };      
    } 
 }

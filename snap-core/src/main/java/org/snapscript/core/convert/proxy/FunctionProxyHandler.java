@@ -8,6 +8,7 @@ import java.lang.reflect.Method;
 
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.Function;
+import org.snapscript.core.function.dispatch.FunctionDispatcher.Call2;
 import org.snapscript.core.function.resolve.FunctionCall;
 import org.snapscript.core.function.resolve.FunctionResolver;
 import org.snapscript.core.scope.Scope;
@@ -62,19 +63,18 @@ public class FunctionProxyHandler implements ProxyHandler {
    }
    
    private Object invoke(Object proxy, String name, Object[] convert, Object[] arguments) throws Throwable {
-      FunctionCall call = resolve(proxy, name, convert, arguments);  
+      Call2 call = resolve(proxy, name, convert, arguments);  
       int width = arguments.length;
       
       if(call == null) {
          throw new InternalStateException("Closure not matched with " + width +" arguments");
       }
-      Value value = call.call();
-      Object data  = value.getValue();
+      Object data = call.invoke(function.getSource().getScope(), proxy, arguments);
       
       return wrapper.toProxy(data);  
    }
    
-   private FunctionCall resolve(Object proxy, String name, Object[] convert, Object[] arguments) throws Throwable {
+   private Call2 resolve(final Object proxy, String name, Object[] convert, Object[] arguments) throws Throwable {
       Type source = function.getSource();
 
       if(source != null) {
@@ -82,10 +82,25 @@ public class FunctionProxyHandler implements ProxyHandler {
          FunctionCall call = resolver.resolveInstance(scope, proxy, name, arguments); 
          
          if(call != null) {
-            return call;
+            return new Call2(call) {
+               
+               public Object invoke(Scope scope, Object source, Object... arguments) throws Exception{
+                  return call.invoke(scope, proxy, arguments);
+               }
+            };
          }
       }
-      return resolver.resolveValue(value, convert); // here arguments can be null!!! 
+      FunctionCall call = resolver.resolveValue(value, convert); // here arguments can be null!!! 
+      
+      if(call != null) {
+         return new Call2(call) {
+            
+            public Object invoke(Scope scope, Object source, Object... arguments) throws Exception{
+               return call.invoke(scope, scope, arguments);
+            }
+         };
+      }
+      return null;
    }
    
    @Override

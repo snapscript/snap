@@ -13,6 +13,7 @@ import org.snapscript.core.convert.proxy.ProxyWrapper;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.function.bind.FunctionBinder;
 import org.snapscript.core.function.index.FunctionIndexer;
+import org.snapscript.core.function.resolve.FunctionCall;
 import org.snapscript.core.function.resolve.FunctionResolver;
 import org.snapscript.core.link.NoPackage;
 import org.snapscript.core.link.Package;
@@ -44,25 +45,25 @@ public class FunctionBinderTest extends TestCase {
       Module module = new ContextModule(context, null, path, Reserved.DEFAULT_PACKAGE, "");
       Scope scope = new ModelScope(model, module);
       
-      context.getResolver().resolveInstance(scope, map, "put", "x", 11).call();
-      context.getResolver().resolveInstance(scope, map, "put", "y", 21).call();
-      context.getResolver().resolveInstance(scope, map, "put", "z", 441).call();
+      context.getResolver().resolveInstance(scope, map, "put", "x", 11).invoke(scope, map, "x", 11);
+      context.getResolver().resolveInstance(scope, map, "put", "y", 21).invoke(scope, map, "y", 21);
+      context.getResolver().resolveInstance(scope, map, "put", "z", 441).invoke(scope, map, "z", 441);
       
       assertEquals(map.get("x"), 11);
       assertEquals(map.get("y"), 21);
       assertEquals(map.get("z"), 441);
       
-      context.getResolver().resolveInstance(scope, map, "put", "x", 22).call();
-      context.getResolver().resolveInstance(scope, map, "remove", "y").call();
-      context.getResolver().resolveInstance(scope, map, "put", "z", "x").call();
+      context.getResolver().resolveInstance(scope, map, "put", "x", 22).invoke(scope, map, "x", 22);
+      context.getResolver().resolveInstance(scope, map, "remove", "y").invoke(scope, map, "y");
+      context.getResolver().resolveInstance(scope, map, "put", "z", "x").invoke(scope, map, "z", "x");
       
       assertEquals(map.get("x"), 22);
       assertEquals(map.get("y"), null);
       assertEquals(map.get("z"), "x");
       
-      assertEquals(context.getResolver().resolveInstance(scope, map, "put", "x", 44).call().getValue(), 22);
-      assertEquals(context.getResolver().resolveInstance(scope, map, "put", "y", true).call().getValue(), null);
-      assertEquals(context.getResolver().resolveInstance(scope, map, "put", "z", "x").call().getValue(), "x");
+      assertEquals(context.getResolver().resolveInstance(scope, map, "put", "x", 44).invoke(scope, map, "x", 44), 22);
+      assertEquals(context.getResolver().resolveInstance(scope, map, "put", "y", true).invoke(scope, map, "y", true), null);
+      assertEquals(context.getResolver().resolveInstance(scope, map, "put", "z", "x").invoke(scope, map, "z", "x"), "x");
       
       long start = System.currentTimeMillis();
       

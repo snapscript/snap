@@ -3,6 +3,7 @@ package org.snapscript.core.convert.proxy;
 import java.lang.reflect.Method;
 
 import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.function.dispatch.FunctionDispatcher.Call2;
 import org.snapscript.core.function.resolve.FunctionCall;
 import org.snapscript.core.function.resolve.FunctionResolver;
 import org.snapscript.core.scope.Scope;
@@ -31,9 +32,12 @@ public class ScopeProxyHandler implements ProxyHandler {
       if(call == null) {
          throw new InternalStateException("Method '" + name + "' not found");
       }
-      Value value = call.call();
-      Object result = value.getValue();
-      
+      Object result = new Call2(call) {
+         
+         public Object invoke(Scope scope, Object source, Object... arguments) throws Exception{
+            return call.invoke(scope, scope, arguments);
+         }
+      }.invoke(scope, scope, convert);
       return wrapper.toProxy(result);
    }
    

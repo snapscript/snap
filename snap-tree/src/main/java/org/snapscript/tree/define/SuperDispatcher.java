@@ -7,6 +7,7 @@ import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.dispatch.FunctionDispatcher;
+import org.snapscript.core.function.dispatch.FunctionDispatcher.Call2;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.platform.Platform;
 import org.snapscript.core.platform.PlatformProvider;
@@ -28,7 +29,7 @@ public class SuperDispatcher implements FunctionDispatcher {
    }
    
    @Override
-   public Value dispatch(Scope scope, Value value, Object... list) throws Exception {
+   public Call2 dispatch(Scope scope, Value value, Object... list) throws Exception {
       Type real = (Type)list[0];
       Module module = scope.getModule();
       Context context = module.getContext();
@@ -42,12 +43,23 @@ public class SuperDispatcher implements FunctionDispatcher {
       if(copy.length > 0) {
          System.arraycopy(list, 1, copy, 0, copy.length);
       }
-      Constraint constraint = Constraint.getConstraint(type);
+      final Constraint constraint = Constraint.getConstraint(type);
       PlatformProvider provider = context.getProvider();
       Platform platform = provider.create();
       Invocation invocation = platform.createSuperConstructor(real, type);
-      Object instance = invocation.invoke(scope, real, copy);
+      final Object instance = invocation.invoke(scope, real, copy);
       
-      return Value.getTransient(instance, constraint);
+      return new Call2(null) {
+         
+         public Object invoke(Scope scope, Object source, Object... arguments) throws Exception{
+            return instance;
+         }
+      };
+//      return new Call2() {
+//         @Override
+//         public Value call(Scope scope, Object object, Object... arguments) throws Exception{
+//            return Value.getTransient(instance, constraint);
+//         }
+//      };
    }
 }

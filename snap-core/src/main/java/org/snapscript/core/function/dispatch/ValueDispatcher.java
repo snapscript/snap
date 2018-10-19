@@ -5,6 +5,7 @@ import static org.snapscript.core.error.Reason.INVOKE;
 
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
+import org.snapscript.core.function.dispatch.FunctionDispatcher.Call2;
 import org.snapscript.core.function.resolve.FunctionCall;
 import org.snapscript.core.function.resolve.FunctionResolver;
 import org.snapscript.core.scope.Scope;
@@ -29,13 +30,19 @@ public class ValueDispatcher implements FunctionDispatcher {
    }
 
    @Override
-   public Value dispatch(Scope scope, Value value, Object... list) throws Exception {
+   public Call2 dispatch(Scope scope, Value value, Object... list) throws Exception {
       Value reference = value.getValue();
-      FunctionCall closure = resolver.resolveValue(reference, list); // function variable
+      FunctionCall call = resolver.resolveValue(reference, list); // function variable
       
-      if(closure == null) {
+      if(call == null) {
          handler.handleRuntimeError(INVOKE, scope, name, list);
       }
-      return closure.call();   
+      return new Call2(call) {
+         
+         public Object invoke(Scope scope, Object source, Object... arguments) throws Exception{
+            source = ((Value)source).getValue();
+            return call.invoke(scope, source, arguments);
+         }
+      };  
    }
 }

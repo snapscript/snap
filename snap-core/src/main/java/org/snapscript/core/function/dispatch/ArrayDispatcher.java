@@ -40,7 +40,7 @@ public class ArrayDispatcher implements FunctionDispatcher {
    }
 
    @Override
-   public Value dispatch(Scope scope, Value value, Object... arguments) throws Exception {
+   public Call2 dispatch(Scope scope, Value value, Object... arguments) throws Exception {
       Object object = value.getValue();
       List list = builder.convert(object);
       FunctionCall call = resolver.resolveInstance(scope, list, name, arguments);
@@ -48,6 +48,14 @@ public class ArrayDispatcher implements FunctionDispatcher {
       if(call == null) {
          handler.handleRuntimeError(INVOKE, scope, object, name, arguments);
       }
-      return call.call();
+      return new Call2(call) {
+         
+         public Object invoke(Scope scope, Object source, Object... arguments) throws Exception{
+            if(source instanceof Value) {
+               source = ((Value)source).getValue();
+            }
+            return call.invoke(scope, source, arguments);
+         }
+      };
    }
 }

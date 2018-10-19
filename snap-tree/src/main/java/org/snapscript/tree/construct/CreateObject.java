@@ -11,8 +11,7 @@ import org.snapscript.core.constraint.CompileConstraint;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.AliasResolver;
 import org.snapscript.core.error.ErrorHandler;
-import org.snapscript.core.error.InternalStateException;
-import org.snapscript.core.function.resolve.FunctionCall;
+import org.snapscript.core.function.dispatch.FunctionDispatcher.Call2;
 import org.snapscript.core.function.resolve.FunctionResolver;
 import org.snapscript.core.link.ImplicitImportLoader;
 import org.snapscript.core.module.Module;
@@ -73,15 +72,16 @@ public class CreateObject extends Evaluation {
    public Value evaluate(Scope scope, Value left) throws Exception { 
       Type type = constraint.getType(scope);
       Type actual = resolver.resolve(type);
-      FunctionCall call = bind(scope, actual);
-           
-      if(call == null){
-         throw new InternalStateException("No constructor for '" + actual + "'");
-      }
-      return call.call();
+      
+      Object v = bind(scope, actual);
+      return Value.getTransient(v, constraint);     
+//      if(call == null){
+//         throw new InternalStateException("No constructor for '" + actual + "'");
+//      }
+//      return call.call(scope, actual);
    }
    
-   private FunctionCall bind(Scope scope, Type type) throws Exception {
+   private Object bind(Scope scope, Type type) throws Exception {
       Module module = scope.getModule();
       Context context = module.getContext();
       FunctionResolver resolver = context.getResolver();
@@ -90,14 +90,14 @@ public class CreateObject extends Evaluation {
       if(arguments != null) {
          if(real == null) {
             Object[] array = arguments.create(scope, type); 
-            return resolver.resolveStatic(scope, type, TYPE_CONSTRUCTOR, array);
+            return resolver.resolveStatic(scope, type, TYPE_CONSTRUCTOR, array).invoke(scope, null, array);
          }
          Object[] array = arguments.create(scope); 
-         return resolver.resolveStatic(scope, type, TYPE_CONSTRUCTOR, array);
+         return resolver.resolveStatic(scope, type, TYPE_CONSTRUCTOR, array).invoke(scope, null, array);
       }
       if(real == null) {
-         return resolver.resolveStatic(scope, type, TYPE_CONSTRUCTOR, type);
+         return resolver.resolveStatic(scope, type, TYPE_CONSTRUCTOR, type).invoke(scope, null, type);
       }
-      return resolver.resolveStatic(scope, type, TYPE_CONSTRUCTOR);
+      return resolver.resolveStatic(scope, type, TYPE_CONSTRUCTOR).invoke(scope, null);
    }
 }

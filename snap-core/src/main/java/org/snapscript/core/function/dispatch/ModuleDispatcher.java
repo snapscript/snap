@@ -4,6 +4,7 @@ import static org.snapscript.core.error.Reason.INVOKE;
 
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
+import org.snapscript.core.function.dispatch.FunctionDispatcher.Call2;
 import org.snapscript.core.function.resolve.FunctionCall;
 import org.snapscript.core.function.resolve.FunctionResolver;
 import org.snapscript.core.module.Module;
@@ -36,14 +37,14 @@ public class ModuleDispatcher implements FunctionDispatcher {
    }
 
    @Override
-   public Value dispatch(Scope scope, Value value, Object... arguments) throws Exception {
-      Module module = value.getValue();
-      FunctionCall call = bind(scope, module, arguments);
+   public Call2 dispatch(Scope scope, Value value, Object... arguments) throws Exception {
+      final Module module = value.getValue();
+      Call2 call = bind(scope, module, arguments);
       
       if(call == null) {
          handler.handleRuntimeError(INVOKE, scope, module, name, arguments);
       }
-      return call.call();           
+      return call;     
    }
    
    private FunctionCall bind(Scope scope, Module module, Type... arguments) throws Exception {
@@ -56,13 +57,21 @@ public class ModuleDispatcher implements FunctionDispatcher {
       return call;
    }
    
-   private FunctionCall bind(Scope scope, Module module, Object... arguments) throws Exception {
-      Scope inner = module.getScope();
+   private Call2 bind(Scope scope, final Module module, Object... arguments) throws Exception {
+      final Scope inner = module.getScope();
       FunctionCall call = resolver.resolveModule(inner, module, name, arguments);
       
       if(call == null) {
-         return resolver.resolveInstance(inner, (Object)module, name, arguments);
+         call = resolver.resolveInstance(inner, (Object)module, name, arguments);
       }
-      return call;
+      if(call == null) {
+         return null;
+      }
+      return new Call2(call) {
+         
+         public Object invoke(Scope scope, Object source, Object... arguments) throws Exception{
+            return call.invoke(inner, module, arguments);
+         }
+      };  
    }
 }

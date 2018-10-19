@@ -1,7 +1,6 @@
 package org.snapscript.core.function.dispatch;
 
 import static org.snapscript.core.constraint.Constraint.NONE;
-import static org.snapscript.core.variable.Value.NULL;
 
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
@@ -20,7 +19,11 @@ public class EmptyDispatcher implements FunctionDispatcher {
    }
 
    @Override
-   public Value dispatch(Scope scope, Value value, Object... arguments) throws Exception {
-      return NULL;
+   public Call2 dispatch(Scope scope, Value value, Object... arguments) throws Exception {
+      return new Call2(null){
+         public Object invoke(Scope scope, Object source, Object... arguments) throws Exception{
+            return null;
+         }
+      };
    }
-}
+}      

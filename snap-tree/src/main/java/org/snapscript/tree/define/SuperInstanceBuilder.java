@@ -1,5 +1,6 @@
 package org.snapscript.tree.define;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.instance.Instance;
@@ -15,9 +16,14 @@ public class SuperInstanceBuilder {
       this.type = type;
    }
 
+   @Bug
    public Scope create(Scope scope, Value left) throws Exception {
       Type real = left.getValue();
       Instance instance = (Instance)scope;
+      
+      if(instance == null) {
+         System.err.println();
+      }
       Instance outer = instance.getScope();
       Module module = type.getModule();
 

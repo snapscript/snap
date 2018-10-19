@@ -126,7 +126,7 @@ public class ReferenceInvocation implements Compilation {
       public Value evaluate(Scope scope, Value left) throws Exception {
          Object[] array = arguments.create(scope); 
          FunctionDispatcher dispatcher = matcher.match(scope, left);
-         Value value = dispatcher.dispatch(scope, left, array);
+         Value value = Value.getTransient(dispatcher.dispatch(scope, left, array).invoke(scope, left, array));
          
          for(Evaluation evaluation : evaluations) {
             Object result = value.getValue();

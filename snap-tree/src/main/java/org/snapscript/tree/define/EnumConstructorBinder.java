@@ -3,11 +3,12 @@ package org.snapscript.tree.define;
 import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
 
 import org.snapscript.core.Context;
+import org.snapscript.core.function.resolve.FunctionCall;
+import org.snapscript.core.function.resolve.FunctionResolver;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.function.resolve.FunctionCall;
-import org.snapscript.core.function.resolve.FunctionResolver;
+import org.snapscript.core.variable.Value;
 import org.snapscript.tree.ArgumentList;
 
 public class EnumConstructorBinder {
@@ -18,15 +19,15 @@ public class EnumConstructorBinder {
       this.arguments = arguments;
    }
    
-   public FunctionCall bind(Scope scope, Type type) throws Exception {
+   public Value bind(Scope scope, Type type) throws Exception {
       Module module = scope.getModule();
       Context context = module.getContext();
       FunctionResolver resolver = context.getResolver();
       
       if(arguments != null) {
          Object[] array = arguments.create(scope, type); // arguments have no left hand side
-         return resolver.resolveStatic(scope, type, TYPE_CONSTRUCTOR, array);
+         return Value.getTransient(resolver.resolveStatic(scope, type, TYPE_CONSTRUCTOR, array).invoke(scope, null, array));
       }
-      return resolver.resolveStatic(scope, type, TYPE_CONSTRUCTOR, type);
+      return Value.getTransient(resolver.resolveStatic(scope, type, TYPE_CONSTRUCTOR, type).invoke(scope, null, type));
    }
 }

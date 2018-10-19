@@ -32,15 +32,15 @@ public class EnumInstance extends StaticBlock {
    protected void allocate(Scope scope) throws Exception {
       Type type = scope.getType();
       State state = scope.getState();
-      FunctionCall call = binder.bind(scope, type);
+      Value result = binder.bind(scope, type);
       Module module = scope.getModule();
       Context context = module.getContext();
       ProxyWrapper wrapper = context.getWrapper();
       
-      if(call == null){
-         throw new InternalStateException("No constructor for enum '" + name + "' in '" + type+ "'");
-      }
-      Value result = call.call();
+//      if(call == null){
+//         throw new InternalStateException("No constructor for enum '" + name + "' in '" + type+ "'");
+//      }
+//      Value result = call.create(new FunctionCall.FuncArgConverter()).call(scope, type);
       Instance instance = result.getValue();
       Object object = wrapper.toProxy(instance);
       Value value = Value.getConstant(instance);      

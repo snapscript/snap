@@ -4,6 +4,7 @@ import static org.snapscript.core.error.Reason.INVOKE;
 
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
+import org.snapscript.core.function.dispatch.FunctionDispatcher.Call2;
 import org.snapscript.core.function.resolve.FunctionCall;
 import org.snapscript.core.function.resolve.FunctionResolver;
 import org.snapscript.core.module.Module;
@@ -41,11 +42,11 @@ public class TypeLocalDispatcher implements FunctionDispatcher {
    }
 
    @Override
-   public Value dispatch(Scope scope, Value value, Object... arguments) throws Exception {
+   public Call2 dispatch(Scope scope, Value value, Object... arguments) throws Exception {
       Scope object = value.getValue();
-      FunctionCall match = bind(scope, object, arguments);
+      Call2 call = bind(scope, object, arguments);
       
-      if(match == null) {
+      if(call == null) {
          Type type = scope.getType();
          
          if(type != null) {
@@ -54,7 +55,7 @@ public class TypeLocalDispatcher implements FunctionDispatcher {
             handler.handleRuntimeError(INVOKE, scope, name, arguments);
          }
       }
-      return match.call();          
+      return call;     
    }
    
    private FunctionCall bind(Scope scope, Type object, Type... arguments) throws Exception {
@@ -77,22 +78,38 @@ public class TypeLocalDispatcher implements FunctionDispatcher {
       return local;  
    }
    
-   private FunctionCall bind(Scope scope, Scope object, Object... arguments) throws Exception {
-      FunctionCall local = resolver.resolveInstance(scope, scope, name, arguments);
+   private Call2 bind(Scope scope, Scope object, Object... arguments) throws Exception {
+      final FunctionCall local = resolver.resolveInstance(scope, scope, name, arguments);
       
       if(local == null) {
-         Module module = scope.getModule();
-         FunctionCall external = resolver.resolveModule(scope, module, name, arguments); // maybe closure should be first
+         final Module module = scope.getModule();
+         final FunctionCall external = resolver.resolveModule(scope, module, name, arguments); // maybe closure should be first
          
          if(external != null) {
-            return external;
+            return new Call2(external) {
+               
+               public Object invoke(Scope scope, Object source, Object... arguments) throws Exception{
+                  return call.invoke(scope, module, arguments);
+               }
+            };
          }
-         FunctionCall closure = resolver.resolveScope(scope, name, arguments); // closure
+         final FunctionCall closure = resolver.resolveScope(scope, name, arguments); // closure
          
          if(closure != null) {
-            return closure;
+            return new Call2(closure) {
+               
+               public Object invoke(Scope scope, Object source, Object... arguments) throws Exception{
+                  return call.invoke(scope, scope, arguments);
+               }
+            }; 
          }
+         return null;
       }
-      return local;  
+      return new Call2(local) {
+         
+         public Object invoke(Scope scope, Object source, Object... arguments) throws Exception{
+            return call.invoke(scope, scope, arguments);
+         }
+      };  
    }
 }

@@ -3,15 +3,10 @@ package org.snapscript.core.function.dispatch;
 import static org.snapscript.core.constraint.Constraint.NONE;
 import static org.snapscript.core.error.Reason.INVOKE;
 
-import java.util.List;
-
-import org.snapscript.core.Any;
-import org.snapscript.core.annotation.Annotation;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.function.Function;
-import org.snapscript.core.function.Invocation;
-import org.snapscript.core.function.Signature;
+import org.snapscript.core.function.index.FunctionAdapter;
 import org.snapscript.core.function.resolve.FunctionCall;
 import org.snapscript.core.function.resolve.FunctionResolver;
 import org.snapscript.core.scope.Scope;
@@ -36,74 +31,42 @@ public class ClosureDispatcher implements FunctionDispatcher {
    }
 
    @Override
-   public Value dispatch(Scope scope, Value value, Object... arguments) throws Exception {
+   public Call2 dispatch(Scope scope, Value value, Object... arguments) throws Exception {
       Function function = value.getValue();
-      FunctionCall call = bind(scope, function, arguments); // this is not used often
+      Call2 call = bind(scope, function, arguments); // this is not used often
       
       if(call == null) {
          handler.handleRuntimeError(INVOKE, scope, function, name, arguments);
       }
-      return call.call();
+      return call;
    }
    
-   private FunctionCall bind(Scope scope, Function function, Object... arguments) throws Exception {
+   private Call2 bind(Scope scope, Function function, Object... arguments) throws Exception {
       FunctionCall call = resolver.resolveInstance(scope, function, name, arguments); // this is not used often
       
       if(call == null) {
          Object adapter = new FunctionAdapter(function);
          
-         return resolver.resolveInstance(scope, adapter, name, arguments);
+         call = resolver.resolveInstance(scope, adapter, name, arguments);
+         
+         if(call != null) {
+            return new Call2(call) {
+               
+               public Object invoke(Scope scope, Object source, Object... arguments) throws Exception{
+                  Function function = ((Value)source).getValue();
+                  source = new FunctionAdapter(function);
+                  return call.invoke(scope, source, arguments);
+               }
+            };
+         }
+         return null;
       }
-      return call;
-   }
-   
-   private static class FunctionAdapter implements Any {
-      
-      private final Function function;
-      
-      public FunctionAdapter(Object function) {
-         this.function = (Function)function;
-      }
-      
-      public int getModifiers() {
-         return function.getModifiers();
-      }
-      
-      public Type getSource() {
-         return function.getSource();
-      }
-      
-      public Type getHandle() {
-         return function.getHandle();
-      }
-      
-      public Constraint getConstraint() {
-         return function.getConstraint();
-      }
-      
-      public String getName() {
-         return function.getName();
-      }
-      
-      public Signature getSignature() {
-         return function.getSignature();
-      }
-      
-      public List<Annotation> getAnnotations() {
-         return function.getAnnotations();
-      }
-      
-      public Invocation getInvocation() {
-         return function.getInvocation();
-      }
-      
-      public String getDescription() {
-         return function.getDescription();
-      }
-      
-      @Override
-      public String toString() {
-         return function.toString();
-      }
+      return new Call2(call) {
+         
+         public Object invoke(Scope scope, Object source, Object... arguments) throws Exception{
+            source = ((Value)source).getValue();
+            return call.invoke(scope, source, arguments);
+         }
+      };
    }
 }
