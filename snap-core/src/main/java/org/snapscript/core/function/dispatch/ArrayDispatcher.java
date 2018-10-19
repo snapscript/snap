@@ -54,6 +54,7 @@ public class ArrayDispatcher implements FunctionDispatcher {
             if(source instanceof Value) {
                source = ((Value)source).getValue();
             }
+            source = builder.convert(source);
             return call.invoke(scope, source, arguments);
          }
       };

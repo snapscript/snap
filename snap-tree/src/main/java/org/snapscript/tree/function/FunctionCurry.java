@@ -63,7 +63,7 @@ public class FunctionCurry implements Compilation {
                source = ((Value)source).getValue();
                return call.invoke(scope, source, arguments);
             }
-         }.invoke(scope, left, arguments));
+         }.invoke(scope, left, array));
          
       }
    }
