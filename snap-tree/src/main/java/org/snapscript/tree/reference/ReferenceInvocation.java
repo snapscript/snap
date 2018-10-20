@@ -12,6 +12,7 @@ import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.Connection;
 import org.snapscript.core.function.bind.FunctionBinder;
+import org.snapscript.core.function.bind.FunctionCache;
 import org.snapscript.core.function.bind.FunctionMatcher;
 import org.snapscript.core.function.dispatch.FunctionDispatcher;
 import org.snapscript.core.module.Module;
@@ -22,6 +23,7 @@ import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceEvaluation;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.type.Type;
+import org.snapscript.core.type.TypeExtractor;
 import org.snapscript.core.variable.Value;
 import org.snapscript.tree.ArgumentList;
 import org.snapscript.tree.ModifierAccessVerifier;
@@ -58,10 +60,11 @@ public class ReferenceInvocation implements Compilation {
       Scope scope = module.getScope();
       Context context = module.getContext();
       String name = identifier.getName(scope);
+      TypeExtractor extractor = context.getExtractor();
       FunctionBinder binder = context.getBinder();   
       FunctionMatcher matcher = binder.bind(name);
       
-      return new CompileResult(matcher, generics, arguments, evaluations, name);     
+      return new CompileResult(matcher, extractor, generics, arguments, evaluations, name);     
    }
    
    private static class CompileResult extends Evaluation {
@@ -72,10 +75,12 @@ public class ReferenceInvocation implements Compilation {
       private final FunctionMatcher matcher;
       private final ArgumentList arguments;
       private final AtomicInteger offset;
+      private final FunctionCache cache;
       private final String name;
       
-      public CompileResult(FunctionMatcher matcher, GenericList generics, ArgumentList arguments, Evaluation[] evaluations, String name) {
+      public CompileResult(FunctionMatcher matcher, TypeExtractor extractor, GenericList generics, ArgumentList arguments, Evaluation[] evaluations, String name) {
          this.extractor = new GenericParameterExtractor(generics);
+         this.cache = new FunctionCache(matcher, extractor);
          this.verifier = new ModifierAccessVerifier();
          this.offset = new AtomicInteger();
          this.evaluations = evaluations;
@@ -126,8 +131,7 @@ public class ReferenceInvocation implements Compilation {
       @Override
       public Value evaluate(Scope scope, Value left) throws Exception {
          Object[] array = arguments.create(scope); 
-         FunctionDispatcher dispatcher = matcher.match(scope, left);
-         Connection connection = dispatcher.dispatch(scope, left, array);
+         Connection connection = cache.fetch(scope, left, array);
          Object object = connection.invoke(scope, left, array);
          Value value = Value.getTransient(object);
          

@@ -29,7 +29,7 @@ public class SuperDispatcher implements FunctionDispatcher {
    }
    
    @Override
-   public Connection dispatch(Scope scope, Value value, Object... list) throws Exception {
+   public Connection connect(Scope scope, Value value, Object... list) throws Exception {
       Type real = (Type)list[0];
       Module module = scope.getModule();
       Context context = module.getContext();

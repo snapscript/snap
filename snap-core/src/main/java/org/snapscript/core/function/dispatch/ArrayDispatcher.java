@@ -41,7 +41,7 @@ public class ArrayDispatcher implements FunctionDispatcher {
    }
 
    @Override
-   public Connection dispatch(Scope scope, Value value, Object... arguments) throws Exception {
+   public Connection connect(Scope scope, Value value, Object... arguments) throws Exception {
       Object object = value.getValue();
       List list = builder.convert(object);
       FunctionCall call = resolver.resolveInstance(scope, list, name, arguments);

@@ -30,7 +30,7 @@ public class ValueDispatcher implements FunctionDispatcher {
    }
 
    @Override
-   public Connection dispatch(Scope scope, Value value, Object... list) throws Exception {
+   public Connection connect(Scope scope, Value value, Object... list) throws Exception {
       Value reference = value.getValue();
       FunctionCall call = resolver.resolveValue(reference, list); // function variable
       

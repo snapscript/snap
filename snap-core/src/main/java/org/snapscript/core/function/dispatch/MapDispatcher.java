@@ -42,7 +42,7 @@ public class MapDispatcher implements FunctionDispatcher {
    }
    
    @Override
-   public Connection dispatch(Scope scope, Value value, Object... arguments) throws Exception {
+   public Connection connect(Scope scope, Value value, Object... arguments) throws Exception {
       Map map = value.getValue();
       FunctionCall call = bind(scope, map, arguments);
       

@@ -31,7 +31,7 @@ public class FunctionHandleInvocation implements Invocation {
       Scope actual = module.getScope();
       Object[] arguments = aligner.align(list); // align constructor arguments
       FunctionDispatcher dispatcher = matcher.match(actual, value);
-      Connection connection = dispatcher.dispatch(actual, value, arguments);
+      Connection connection = dispatcher.connect(actual, value, arguments);
       
       return connection.invoke(actual, value, arguments);
    }

@@ -37,7 +37,7 @@ public class ModuleDispatcher implements FunctionDispatcher {
    }
 
    @Override
-   public Connection dispatch(Scope scope, Value value, Object... arguments) throws Exception {
+   public Connection connect(Scope scope, Value value, Object... arguments) throws Exception {
       Module module = value.getValue();
       Connection call = bind(scope, module, arguments);
       

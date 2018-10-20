@@ -60,12 +60,12 @@ public class SuperInvocation extends Evaluation {
          Scope outer = real.getScope();
          Scope compound = extractor.extract(scope, outer);
          Object[] list = arguments.create(compound, real); // arguments have no left hand side
-         Connection connection = dispatcher.dispatch(instance, value, list);
+         Connection connection = dispatcher.connect(instance, value, list);
          Object result = connection.invoke(instance, value, list);
          
          return Value.getTransient(result);
       }
-      Connection connection = dispatcher.dispatch(instance, value, real);
+      Connection connection = dispatcher.connect(instance, value, real);
       Object result = connection.invoke(instance, value, real);
       
       return Value.getTransient(result);

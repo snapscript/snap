@@ -13,6 +13,7 @@ import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.Connection;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.bind.FunctionBinder;
+import org.snapscript.core.function.bind.FunctionCache;
 import org.snapscript.core.function.bind.FunctionMatcher;
 import org.snapscript.core.function.dispatch.FunctionDispatcher;
 import org.snapscript.core.link.ImplicitImportLoader;
@@ -25,6 +26,7 @@ import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceEvaluation;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.type.Type;
+import org.snapscript.core.type.TypeExtractor;
 import org.snapscript.core.variable.Constant;
 import org.snapscript.core.variable.Value;
 import org.snapscript.tree.ArgumentList;
@@ -61,10 +63,11 @@ public class FunctionInvocation implements Compilation {
       Scope scope = module.getScope();
       Context context = module.getContext();
       String name = identifier.getName(scope);
+      TypeExtractor extractor = context.getExtractor();
       FunctionBinder binder = context.getBinder();   
       FunctionMatcher matcher = binder.bind(name);
       
-      return new CompileResult(matcher, generics, arguments, evaluations, name);     
+      return new CompileResult(matcher, extractor, generics, arguments, evaluations, name);     
    }
    
    private static class CompileResult extends Evaluation {   
@@ -74,12 +77,14 @@ public class FunctionInvocation implements Compilation {
       private final ImplicitImportLoader loader;
       private final LocalScopeFinder finder;
       private final FunctionMatcher matcher;
-      private final ArgumentList arguments;      
-      private final AtomicInteger offset;    
+      private final ArgumentList arguments;
+      private final AtomicInteger offset; 
+      private final FunctionCache cache;   
       private final String name;
       
-      public CompileResult(FunctionMatcher matcher, GenericList generics, ArgumentList arguments, Evaluation[] evaluations, String name) {
+      public CompileResult(FunctionMatcher matcher, TypeExtractor extractor, GenericList generics, ArgumentList arguments, Evaluation[] evaluations, String name) {
          this.extractor = new GenericParameterExtractor(generics);
+         this.cache = new FunctionCache(matcher, extractor);
          this.loader = new ImplicitImportLoader();
          this.finder = new LocalScopeFinder();
          this.offset = new AtomicInteger(-1);
@@ -169,11 +174,10 @@ public class FunctionInvocation implements Compilation {
          }
          return evaluate(scope, name);
       }
-      
+
       private Value evaluate(Scope scope, String name) throws Exception {
          Object[] array = arguments.create(scope); 
-         FunctionDispatcher dispatcher = matcher.match(scope);
-         Connection connection = dispatcher.dispatch(scope, NULL, array);
+         Connection connection = cache.fetch(scope, array);
          Object object = connection.invoke(scope, NULL, array);
          Value value = Value.getTransient(object);
          
@@ -189,9 +193,8 @@ public class FunctionInvocation implements Compilation {
       }
       
       private Value evaluate(Scope scope, String name, Value local) throws Exception {
-         Object[] array = arguments.create(scope); 
-         FunctionDispatcher dispatcher = matcher.match(scope, local);
-         Connection connection = dispatcher.dispatch(scope, local, array);
+         Object[] array = arguments.create(scope);
+         Connection connection = cache.fetch(scope, local, array);
          Object object = connection.invoke(scope, local, array);
          Value value = Value.getTransient(object);
          

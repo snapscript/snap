@@ -8,5 +8,5 @@ import org.snapscript.core.variable.Value;
                    
 public interface FunctionDispatcher {
    Constraint compile(Scope scope, Constraint constraint, Type... arguments) throws Exception;
-   Connection dispatch(Scope scope, Value value, Object... arguments) throws Exception;
+   Connection connect(Scope scope, Value value, Object... arguments) throws Exception;
 }
