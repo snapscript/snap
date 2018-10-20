@@ -1,5 +1,6 @@
 package org.snapscript.tree.function;
 
+import org.snapscript.core.function.Connection;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.bind.FunctionMatcher;
 import org.snapscript.core.function.dispatch.FunctionDispatcher;
@@ -30,7 +31,8 @@ public class FunctionHandleInvocation implements Invocation {
       Scope actual = module.getScope();
       Object[] arguments = aligner.align(list); // align constructor arguments
       FunctionDispatcher dispatcher = matcher.match(actual, value);
+      Connection connection = dispatcher.dispatch(actual, value, arguments);
       
-      return dispatcher.dispatch(actual, value, arguments).invoke(actual, value, arguments);
+      return connection.invoke(actual, value, arguments);
    }
 }

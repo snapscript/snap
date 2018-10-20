@@ -10,6 +10,7 @@ import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.function.Connection;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.bind.FunctionBinder;
 import org.snapscript.core.function.bind.FunctionMatcher;
@@ -172,9 +173,9 @@ public class FunctionInvocation implements Compilation {
       private Value evaluate(Scope scope, String name) throws Exception {
          Object[] array = arguments.create(scope); 
          FunctionDispatcher dispatcher = matcher.match(scope);
-         
-         // we need to create a new stack for the call
-         Value value = Value.getTransient(dispatcher.dispatch(scope, NULL, array).invoke(scope, NULL, array));
+         Connection connection = dispatcher.dispatch(scope, NULL, array);
+         Object object = connection.invoke(scope, NULL, array);
+         Value value = Value.getTransient(object);
          
          for(Evaluation evaluation : evaluations) {
             Object result = value.getValue();
@@ -190,10 +191,9 @@ public class FunctionInvocation implements Compilation {
       private Value evaluate(Scope scope, String name, Value local) throws Exception {
          Object[] array = arguments.create(scope); 
          FunctionDispatcher dispatcher = matcher.match(scope, local);
-         
-         
-         // we need to create a new stack for the call
-         Value value = Value.getTransient(dispatcher.dispatch(scope, local, array).invoke(scope, local, array));
+         Connection connection = dispatcher.dispatch(scope, local, array);
+         Object object = connection.invoke(scope, local, array);
+         Value value = Value.getTransient(object);
          
          for(Evaluation evaluation : evaluations) {
             Object result = value.getValue();

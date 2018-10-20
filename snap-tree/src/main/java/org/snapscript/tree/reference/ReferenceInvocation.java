@@ -10,6 +10,7 @@ import org.snapscript.core.Evaluation;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.function.Connection;
 import org.snapscript.core.function.bind.FunctionBinder;
 import org.snapscript.core.function.bind.FunctionMatcher;
 import org.snapscript.core.function.dispatch.FunctionDispatcher;
@@ -126,7 +127,9 @@ public class ReferenceInvocation implements Compilation {
       public Value evaluate(Scope scope, Value left) throws Exception {
          Object[] array = arguments.create(scope); 
          FunctionDispatcher dispatcher = matcher.match(scope, left);
-         Value value = Value.getTransient(dispatcher.dispatch(scope, left, array).invoke(scope, left, array));
+         Connection connection = dispatcher.dispatch(scope, left, array);
+         Object object = connection.invoke(scope, left, array);
+         Value value = Value.getTransient(object);
          
          for(Evaluation evaluation : evaluations) {
             Object result = value.getValue();
