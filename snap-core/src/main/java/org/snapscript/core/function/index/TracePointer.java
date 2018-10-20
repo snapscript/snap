@@ -1,5 +1,7 @@
 package org.snapscript.core.function.index;
 
+import static org.snapscript.core.function.index.Retention.NEVER;
+
 import org.snapscript.core.attribute.AttributeResult;
 import org.snapscript.core.attribute.AttributeResultBinder;
 import org.snapscript.core.error.InternalStateException;
@@ -44,8 +46,8 @@ public class TracePointer implements FunctionPointer {
    }
 
    @Override
-   public boolean isCachable() {
-      return false;
+   public Retention getRetention() {
+      return NEVER;
    }
    
    @Override

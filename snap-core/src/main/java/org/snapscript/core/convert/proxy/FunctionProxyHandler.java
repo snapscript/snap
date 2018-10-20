@@ -109,7 +109,7 @@ public class FunctionProxyHandler implements ProxyHandler {
       }
       
       @Override
-      public boolean accept(Scope scope, Object object, Object... arguments) throws Exception {
+      public boolean match(Scope scope, Object object, Object... arguments) throws Exception {
          return call.match(scope, object, arguments);
       }
       

@@ -1,5 +1,7 @@
 package org.snapscript.core.function.index;
 
+import static org.snapscript.core.function.index.Retention.NEVER;
+
 import org.snapscript.core.function.EmptyFunction;
 import org.snapscript.core.function.ErrorSignature;
 import org.snapscript.core.function.Function;
@@ -33,8 +35,8 @@ public class ErrorPointer implements FunctionPointer {
    }
 
    @Override
-   public boolean isCachable() {
-      return false;
+   public Retention getRetention() {
+      return NEVER;
    }
    
    @Override

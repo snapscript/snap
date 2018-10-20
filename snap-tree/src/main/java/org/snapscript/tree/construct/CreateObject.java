@@ -2,18 +2,18 @@ package org.snapscript.tree.construct;
 
 import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
 import static org.snapscript.core.error.Reason.CONSTRUCTION;
+import static org.snapscript.core.variable.Value.NULL;
 
 import java.util.List;
 
-import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.constraint.CompileConstraint;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.AliasResolver;
 import org.snapscript.core.error.ErrorHandler;
+import org.snapscript.core.function.resolve.FunctionCall;
 import org.snapscript.core.function.resolve.FunctionResolver;
 import org.snapscript.core.link.ImplicitImportLoader;
-import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
@@ -21,18 +21,22 @@ import org.snapscript.tree.ArgumentList;
 
 public class CreateObject extends Evaluation {   
    
+   private final ConstructArgumentList arguments;
    private final ImplicitImportLoader loader;
-   private final AliasResolver resolver;
-   private final ArgumentList arguments;
+   private final FunctionResolver resolver;
+   private final ErrorHandler handler;
+   private final AliasResolver alias;
    private final Constraint constraint;
    private final int violation; // what modifiers are illegal
 
-   public CreateObject(Constraint constraint, ArgumentList arguments, int violation) {
+   public CreateObject(FunctionResolver resolver, ErrorHandler handler, Constraint constraint, ArgumentList arguments, int violation) {
+      this.arguments = new ConstructArgumentList(constraint, arguments);
       this.constraint = new CompileConstraint(constraint);
       this.loader = new ImplicitImportLoader();
-      this.resolver = new AliasResolver();
+      this.alias = new AliasResolver();
       this.violation = violation;
-      this.arguments = arguments;
+      this.resolver = resolver;
+      this.handler = handler;
    }      
 
    @Override
@@ -43,60 +47,36 @@ public class CreateObject extends Evaluation {
       if(count > 0) {
          loader.loadImports(scope, names);
       }
-      if(arguments != null) {
-         arguments.define(scope);
-      }
+      arguments.define(scope);
    }
    
    @Override
    public Constraint compile(Scope scope, Constraint left) throws Exception {
       Type type = constraint.getType(scope);
-      Type actual = resolver.resolve(type);
+      Type actual = alias.resolve(type);
       int modifiers = actual.getModifiers();
       
       if((violation & modifiers) != 0) {
-         Module module = actual.getModule();
-         Context context = module.getContext();
-         ErrorHandler handler = context.getHandler();
-         
          handler.handleCompileError(CONSTRUCTION, scope, actual);
       }
-      if(arguments != null) {
-         arguments.compile(scope, actual);
-      }
-      return constraint;
+      return arguments.compile(scope, actual);
    }   
    
    @Override
    public Value evaluate(Scope scope, Value left) throws Exception { 
       Type type = constraint.getType(scope);
-      Type actual = resolver.resolve(type);
+      Type actual = alias.resolve(type);
+      Object[] list = arguments.create(scope, actual);
+      FunctionCall call = resolver.resolveStatic(scope, actual, TYPE_CONSTRUCTOR, list);
       
-      Object v = bind(scope, actual);
-      return Value.getTransient(v, constraint);     
-//      if(call == null){
-//         throw new InternalStateException("No constructor for '" + actual + "'");
-//      }
-//      return call.call(scope, actual);
-   }
-   
-   private Object bind(Scope scope, Type type) throws Exception {
-      Module module = scope.getModule();
-      Context context = module.getContext();
-      FunctionResolver resolver = context.getResolver();
-      Class real = type.getType();
+      if(call == null){
+         handler.handleRuntimeError(CONSTRUCTION, scope, actual, TYPE_CONSTRUCTOR, list);
+      }
+      Object result = call.invoke(scope, null, list);
       
-      if(arguments != null) {
-         if(real == null) {
-            Object[] array = arguments.create(scope, type); 
-            return resolver.resolveStatic(scope, type, TYPE_CONSTRUCTOR, array).invoke(scope, null, array);
-         }
-         Object[] array = arguments.create(scope); 
-         return resolver.resolveStatic(scope, type, TYPE_CONSTRUCTOR, array).invoke(scope, null, array);
+      if(result != null) {
+         return Value.getTransient(result);
       }
-      if(real == null) {
-         return resolver.resolveStatic(scope, type, TYPE_CONSTRUCTOR, type).invoke(scope, null, type);
-      }
-      return resolver.resolveStatic(scope, type, TYPE_CONSTRUCTOR).invoke(scope, null);
+      return NULL;
    }
 }

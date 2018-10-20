@@ -1,5 +1,8 @@
 package org.snapscript.core.function.index;
 
+import static org.snapscript.core.function.index.Retention.ALWAYS;
+import static org.snapscript.core.function.index.Retention.NEVER;
+
 import java.util.Set;
 
 import org.snapscript.core.function.Function;
@@ -32,7 +35,7 @@ public class CachePointer implements FunctionPointer {
    }
 
    @Override
-   public boolean isCachable() {
-      return 1 == keys.size();
+   public Retention getRetention() {
+      return 1 == keys.size() ? ALWAYS : NEVER;
    }
 }

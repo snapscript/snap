@@ -1,10 +1,12 @@
 package org.snapscript.core.function.resolve;
 
 import static org.snapscript.core.constraint.Constraint.NONE;
+import static org.snapscript.core.function.index.Retention.ALWAYS;
 
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.index.FunctionPointer;
+import org.snapscript.core.function.index.Retention;
 import org.snapscript.core.function.index.ReturnType;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
@@ -18,7 +20,12 @@ public class FunctionCall implements Invocation {
    }
    
    public boolean match(Scope scope, Object object, Object... list) throws Exception {
-      return pointer.isCachable();
+      Retention retention =  pointer.getRetention();
+      
+      if(retention == ALWAYS) {
+         return true;
+      }
+      return false;
    }
 
    public Constraint check(Scope scope, Constraint left, Type... types) throws Exception {

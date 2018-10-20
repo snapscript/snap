@@ -1,10 +1,8 @@
 package org.snapscript.core.link;
 
 import java.util.List;
-import java.util.concurrent.Future;
 
 import org.snapscript.common.BitSet;
-import org.snapscript.core.Entity;
 import org.snapscript.core.NameChecker;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;

@@ -3,6 +3,7 @@ package org.snapscript.compile.staticanalysis;
 import java.lang.reflect.Field;
 
 import junit.framework.TestCase;
+
 import org.snapscript.common.store.ClassPathStore;
 import org.snapscript.common.store.Store;
 import org.snapscript.compile.Compiler;
@@ -12,6 +13,7 @@ import org.snapscript.compile.StringCompiler;
 import org.snapscript.core.Context;
 import org.snapscript.core.Reserved;
 import org.snapscript.core.function.index.FunctionPointer;
+import org.snapscript.core.function.index.Retention;
 import org.snapscript.core.function.resolve.FunctionCall;
 import org.snapscript.core.scope.EmptyModel;
 import org.snapscript.core.scope.Model;
@@ -49,18 +51,18 @@ public class FunctionOverloadCheckTest extends TestCase {
       Model model = new EmptyModel();
 
       executable.execute(model, false);
-      assertTrue(getFunction(context,"new Fun()", "foo", 1).isCachable());
-      assertTrue(getFunction(context,"new Foo()", "foo", 1).isCachable());
-      assertFalse(getFunction(context,"new Foo()", "blah", 1).isCachable());
-      assertFalse(getFunction(context,"new Foo()", "blah", "xx").isCachable());
-      assertTrue(getFunction(context,"new Foo()", "blah", 1, "xx").isCachable());
-      assertTrue(getFunction(context,"new Fun()", "toString").isCachable());
-      assertTrue(getFunction(context,"new Fun()", "hashCode").isCachable());
-      assertTrue(getFunction(context,"new String()", "substring", 1).isCachable());
-      assertTrue(getFunction(context,"new String()", "charAt", 1).isCachable());
-      assertFalse(getFunction(context,"Integer", "valueOf", 1).isCachable());
-      assertFalse(getFunction(context,"new PrintStream(System.out)", "println", 1).isCachable());
-      assertTrue(getFunction(context,"new PrintStream(System.out)", "flush").isCachable());
+      assertEquals(getFunction(context,"new Fun()", "foo", 1).getRetention(), Retention.ALWAYS);
+      assertEquals(getFunction(context,"new Foo()", "foo", 1).getRetention(), Retention.ALWAYS);
+      assertEquals(getFunction(context,"new Foo()", "blah", 1).getRetention(), Retention.NEVER);
+      assertEquals(getFunction(context,"new Foo()", "blah", "xx").getRetention(), Retention.NEVER);
+      assertEquals(getFunction(context,"new Foo()", "blah", 1, "xx").getRetention(), Retention.ALWAYS);
+      assertEquals(getFunction(context,"new Fun()", "toString").getRetention(), Retention.ALWAYS);
+      assertEquals(getFunction(context,"new Fun()", "hashCode").getRetention(), Retention.ALWAYS);
+      assertEquals(getFunction(context,"new String()", "substring", 1).getRetention(), Retention.ALWAYS);
+      assertEquals(getFunction(context,"new String()", "charAt", 1).getRetention(), Retention.ALWAYS);
+      assertEquals(getFunction(context,"Integer", "valueOf", 1).getRetention(), Retention.NEVER);
+      assertEquals(getFunction(context,"new PrintStream(System.out)", "println", 1).getRetention(), Retention.NEVER);
+      assertEquals(getFunction(context,"new PrintStream(System.out)", "flush").getRetention(), Retention.ALWAYS);
    }
 
    private FunctionPointer getFunction(Context context, String type, String method, Object... args) throws Exception {

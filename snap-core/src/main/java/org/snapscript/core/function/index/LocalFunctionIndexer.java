@@ -103,8 +103,8 @@ public class LocalFunctionIndexer {
       }
 
       @Override
-      public boolean isCachable() {
-         return pointer.isCachable();
+      public Retention getRetention() {
+         return pointer.getRetention();
       }
    }
    

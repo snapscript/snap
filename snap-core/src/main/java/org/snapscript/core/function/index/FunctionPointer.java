@@ -8,5 +8,5 @@ public interface FunctionPointer {
    ReturnType getType(Scope scope);
    Function getFunction();
    Invocation getInvocation();
-   boolean isCachable();
+   Retention getRetention();
 }

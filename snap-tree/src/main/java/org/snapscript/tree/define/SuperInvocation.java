@@ -5,6 +5,7 @@ import static org.snapscript.core.variable.Value.NULL;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.constraint.StaticConstraint;
+import org.snapscript.core.function.Connection;
 import org.snapscript.core.function.dispatch.FunctionDispatcher;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.index.LocalScopeExtractor;
@@ -59,10 +60,15 @@ public class SuperInvocation extends Evaluation {
          Scope outer = real.getScope();
          Scope compound = extractor.extract(scope, outer);
          Object[] list = arguments.create(compound, real); // arguments have no left hand side
-
-         return Value.getTransient(dispatcher.dispatch(instance, value, list).invoke(instance, value, list));
+         Connection connection = dispatcher.dispatch(instance, value, list);
+         Object result = connection.invoke(instance, value, list);
+         
+         return Value.getTransient(result);
       }
-      return Value.getTransient(dispatcher.dispatch(instance, value, real).invoke(instance, value, real));
+      Connection connection = dispatcher.dispatch(instance, value, real);
+      Object result = connection.invoke(instance, value, real);
+      
+      return Value.getTransient(result);
    }
    
 
