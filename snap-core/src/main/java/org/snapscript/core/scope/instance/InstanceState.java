@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.snapscript.common.Cache;
 import org.snapscript.common.CompoundIterator;
+import org.snapscript.common.CopyOnWriteCache;
 import org.snapscript.common.HashCache;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.InternalStateException;
@@ -19,7 +20,7 @@ public class InstanceState implements State {
 
    public InstanceState(Instance instance) {
       this.constraints = new HashCache<String, Constraint>();
-      this.values = new HashCache<String, Value>();
+      this.values = new CopyOnWriteCache<String, Value>();
       this.instance = instance;
    }
 
