@@ -60,11 +60,11 @@ public class ErrorMessageFormatter {
       builder.append(name);
       builder.append("(");
 
-      for(int i = 0; i < list.length; i++) {
+      for(int i = start; i < list.length; i++) {
          Object value = list[i];
          Type parameter = extractor.getType(value);
          
-         if(i > 0) {
+         if(i > start) {
             builder.append(", ");
          }
          if(parameter != null) {

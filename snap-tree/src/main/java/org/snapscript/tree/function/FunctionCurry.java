@@ -1,6 +1,7 @@
 package org.snapscript.tree.function;
 
 import static org.snapscript.core.constraint.Constraint.NONE;
+import static org.snapscript.core.variable.Value.NULL;
 
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
@@ -58,7 +59,11 @@ public class FunctionCurry implements Compilation {
             throw new InternalStateException("Result was not a closure of " + width +" arguments");
          }
          Object result = call.invoke(scope, object, array);
-         return Value.getTransient(result);
+         
+         if(result != null) {
+            return Value.getTransient(result);
+         }
+         return NULL;
          
       }
    }

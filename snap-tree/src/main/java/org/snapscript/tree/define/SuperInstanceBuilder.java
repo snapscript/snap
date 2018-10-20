@@ -20,10 +20,6 @@ public class SuperInstanceBuilder {
    public Scope create(Scope scope, Value left) throws Exception {
       Type real = left.getValue();
       Instance instance = (Instance)scope;
-      
-      if(instance == null) {
-         System.err.println();
-      }
       Instance outer = instance.getScope();
       Module module = type.getModule();
 

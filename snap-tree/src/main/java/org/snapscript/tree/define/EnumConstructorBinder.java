@@ -1,33 +1,38 @@
 package org.snapscript.tree.define;
 
 import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
+import static org.snapscript.core.error.Reason.CONSTRUCTION;
 
 import org.snapscript.core.Context;
+import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.function.resolve.FunctionCall;
 import org.snapscript.core.function.resolve.FunctionResolver;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.instance.Instance;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.variable.Value;
 import org.snapscript.tree.ArgumentList;
+import org.snapscript.tree.construct.ConstructArgumentList;
 
 public class EnumConstructorBinder {
 
-   private final ArgumentList arguments;
+   private final ConstructArgumentList arguments;
    
    public EnumConstructorBinder(ArgumentList arguments) {
-      this.arguments = arguments;
+      this.arguments = new ConstructArgumentList(null, arguments);
    }
    
-   public Value bind(Scope scope, Type type) throws Exception {
+   public Instance bind(Scope scope, Type type) throws Exception {
       Module module = scope.getModule();
       Context context = module.getContext();
+      ErrorHandler handler = context.getHandler();
       FunctionResolver resolver = context.getResolver();
+      Object[] array = arguments.create(scope, type);
+      FunctionCall call = resolver.resolveStatic(scope, type, TYPE_CONSTRUCTOR, array);
       
-      if(arguments != null) {
-         Object[] array = arguments.create(scope, type); // arguments have no left hand side
-         return Value.getTransient(resolver.resolveStatic(scope, type, TYPE_CONSTRUCTOR, array).invoke(scope, null, array));
+      if(call == null) {
+         handler.handleRuntimeError(CONSTRUCTION, scope, type, TYPE_CONSTRUCTOR, array);
       }
-      return Value.getTransient(resolver.resolveStatic(scope, type, TYPE_CONSTRUCTOR, type).invoke(scope, null, type));
+      return (Instance)call.invoke(scope, null, array);
    }
 }

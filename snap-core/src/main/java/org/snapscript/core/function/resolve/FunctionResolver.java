@@ -33,10 +33,6 @@ public class FunctionResolver {
       this.scopes = new LocalIndexer(stack, indexer);
       this.values = new ValueIndexer(stack);
    }
-   
-   public interface Target {
-      Object getTarget(Scope scope, Object object);
-   }
 
    public FunctionCall resolveInstance(Scope scope, Type source, String name, Type... list) throws Exception {
       FunctionPointer pointer = instances.index(source, name, list);

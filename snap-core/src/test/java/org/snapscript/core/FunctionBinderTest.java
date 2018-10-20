@@ -13,7 +13,6 @@ import org.snapscript.core.convert.proxy.ProxyWrapper;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.function.bind.FunctionBinder;
 import org.snapscript.core.function.index.FunctionIndexer;
-import org.snapscript.core.function.resolve.FunctionCall;
 import org.snapscript.core.function.resolve.FunctionResolver;
 import org.snapscript.core.link.NoPackage;
 import org.snapscript.core.link.Package;

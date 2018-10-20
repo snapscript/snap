@@ -48,6 +48,18 @@ public class EnumTest extends TestCase{
    "assert Person.TOM.title == 'Tom';\n"+
    "assert Person.BOB.title == 'Bob';\n";
    
+   private static final String SOURCE_3=
+   "enum Rubbish {\n"+
+   "   OK('ok'),\n"+
+   "   ERROR('error', 1);\n"+
+   "   FISH;\n"+
+   "   var code;\n"+
+   "   new(code){\n"+
+   "      this.code=code;\n"+
+   "   }\n"+   
+   "}\n"+
+   "out.println('enum for OK='+Rubbish.OK.name);\n";
+   
    public void testSimpleEnum() throws Exception {
       Map map = new HashMap<String,Value>();
       map.put("out",System.out);
@@ -70,6 +82,26 @@ public class EnumTest extends TestCase{
       System.err.println(SOURCE_2);
       compiler.compile(SOURCE_2).execute(s);
       System.err.println();      
+
+   }
+   
+   public void testBadConstructorEnum() throws Exception {
+      boolean failure = false;
+      try {
+         Map map = new HashMap<String,Value>();
+         map.put("out",System.out);
+         Model s = new MapModel(map);
+         Compiler compiler = ClassPathCompilerBuilder.createCompiler();
+         //compiler.compile(SOURCE_1).execute(s);
+         System.err.println();
+         System.err.println(SOURCE_3);
+         compiler.compile(SOURCE_3).execute(s);
+         System.err.println();
+      }catch(Exception e) {
+         e.printStackTrace();
+         failure = true;
+      }
+      assertTrue(failure);
 
    }
 }

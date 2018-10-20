@@ -2,7 +2,6 @@ package org.snapscript.tree.function;
 
 import java.util.List;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.TypeInspector;
 import org.snapscript.core.error.InternalStateException;
@@ -50,7 +49,6 @@ public class ParameterExtractor {
       }
    }
 
-   @Bug
    public Scope extract(Scope scope, Object[] arguments) throws Exception {
       List<Parameter> parameters = signature.getParameters();
       List<Constraint> generics = signature.getGenerics();
@@ -69,10 +67,6 @@ public class ParameterExtractor {
          for(int i = 0; i < required; i++) {
             Parameter parameter = parameters.get(i);
             String name = parameter.getName();
-            
-            if(arguments.length <= i) {
-               System.err.println();
-            }
             Object argument = arguments[i];
             Local local = create(inner, argument, i);
             

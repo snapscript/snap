@@ -70,6 +70,4 @@ public class SuperInvocation extends Evaluation {
       
       return Value.getTransient(result);
    }
-   
-
 }

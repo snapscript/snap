@@ -31,7 +31,11 @@ public class ScopeProxyHandler implements ProxyHandler {
          throw new InternalStateException("Method '" + name + "' not found");
       }
       Object result = call.invoke(scope, scope, convert);
-      return wrapper.toProxy(result);
+      
+      if(result != null) {
+         return wrapper.toProxy(result);
+      }
+      return null;
    }
    
    @Override

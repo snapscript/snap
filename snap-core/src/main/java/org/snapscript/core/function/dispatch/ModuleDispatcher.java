@@ -57,17 +57,17 @@ public class ModuleDispatcher implements FunctionDispatcher {
       return call;
    }
    
-   private Connection bind(Scope scope, final Module module, Object... arguments) throws Exception {
-      final Scope inner = module.getScope();
+   private Connection bind(Scope scope, Module module, Object... arguments) throws Exception {
+      Scope inner = module.getScope();
       FunctionCall call = resolver.resolveModule(inner, module, name, arguments);
       
       if(call == null) {
          call = resolver.resolveInstance(inner, (Object)module, name, arguments);
       }
-      if(call == null) {
-         return null;
+      if(call != null) {
+         return new ModuleConnection(call, module);
       }
-      return new ModuleConnection(call, module);
+      return null;
    }
    
    private static class ModuleConnection implements Connection<Value> {

@@ -69,12 +69,15 @@ public class FunctionProxyHandler implements ProxyHandler {
       if(call == null) {
          throw new InternalStateException("Closure not matched with " + width +" arguments");
       }
-      Object data = call.invoke(function.getSource().getScope(), proxy, arguments);
+      Object data = call.invoke(null, proxy, arguments);
       
-      return wrapper.toProxy(data);  
+      if(data != null) {
+         return wrapper.toProxy(data);
+      }
+      return null;
    }
    
-   private Connection resolve(final Object proxy, String name, Object[] convert, Object[] arguments) throws Throwable {
+   private Connection resolve(Object proxy, String name, Object[] convert, Object[] arguments) throws Throwable {
       Type source = function.getSource();
 
       if(source != null) {
@@ -82,7 +85,7 @@ public class FunctionProxyHandler implements ProxyHandler {
          FunctionCall call = resolver.resolveInstance(scope, proxy, name, arguments); 
          
          if(call != null) {
-            return new ProxyConnection(call, source);
+            return new ProxyConnection(call, scope);
          }
       }
       FunctionCall call = resolver.resolveValue(value, convert); // here arguments can be null!!! 
@@ -101,10 +104,10 @@ public class FunctionProxyHandler implements ProxyHandler {
    private static class ProxyConnection implements Connection {
 
       private final FunctionCall call;
-      private final Type type;
+      private final Scope outer;
       
-      public ProxyConnection(FunctionCall call, Type type) {
-         this.type = type;
+      public ProxyConnection(FunctionCall call, Scope outer) {
+         this.outer = outer;
          this.call = call;
       }
       
@@ -115,8 +118,7 @@ public class FunctionProxyHandler implements ProxyHandler {
       
       @Override
       public Object invoke(Scope scope, Object object, Object... arguments) throws Exception {
-         if(type != null) {
-            Scope outer = type.getScope();
+         if(outer != null) {
             return call.invoke(outer, object, arguments);
          }
          return call.invoke(scope, scope, arguments);
