@@ -47,7 +47,11 @@ public class InstanceState implements State {
          if(state == null) {
             throw new InternalStateException("Scope for '" + name + "' does not exist");
          }
-         return state.getValue(name);
+         value = state.getValue(name);
+         
+         if(value != null) {
+            values.cache(name, value);
+         }
       }
       return value;
    }
