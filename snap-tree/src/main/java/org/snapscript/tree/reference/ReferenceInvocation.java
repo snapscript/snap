@@ -10,9 +10,9 @@ import org.snapscript.core.Evaluation;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.error.InternalStateException;
-import org.snapscript.core.function.Connection;
+import org.snapscript.core.function.Invocation;
+import org.snapscript.core.function.InvocationCache;
 import org.snapscript.core.function.bind.FunctionBinder;
-import org.snapscript.core.function.bind.FunctionCache;
 import org.snapscript.core.function.bind.FunctionMatcher;
 import org.snapscript.core.function.dispatch.FunctionDispatcher;
 import org.snapscript.core.module.Module;
@@ -75,12 +75,12 @@ public class ReferenceInvocation implements Compilation {
       private final FunctionMatcher matcher;
       private final ArgumentList arguments;
       private final AtomicInteger offset;
-      private final FunctionCache cache;
+      private final InvocationCache cache;
       private final String name;
       
       public CompileResult(FunctionMatcher matcher, TypeExtractor extractor, GenericList generics, ArgumentList arguments, Evaluation[] evaluations, String name) {
          this.extractor = new GenericParameterExtractor(generics);
-         this.cache = new FunctionCache(matcher, extractor);
+         this.cache = new InvocationCache(matcher, extractor);
          this.verifier = new ModifierAccessVerifier();
          this.offset = new AtomicInteger();
          this.evaluations = evaluations;
@@ -131,7 +131,7 @@ public class ReferenceInvocation implements Compilation {
       @Override
       public Value evaluate(Scope scope, Value left) throws Exception {
          Object[] array = arguments.create(scope); 
-         Connection connection = cache.fetch(scope, left, array);
+         Invocation connection = cache.fetch(scope, left, array);
          Object object = connection.invoke(scope, left, array);
          Value value = Value.getTransient(object);
          

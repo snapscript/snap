@@ -1,17 +1,17 @@
-package org.snapscript.core.function.bind;
+package org.snapscript.core.function;
 
 import static org.snapscript.core.variable.Value.NULL;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.snapscript.core.function.Connection;
+import org.snapscript.core.function.bind.FunctionMatcher;
 import org.snapscript.core.function.dispatch.FunctionDispatcher;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeExtractor;
 import org.snapscript.core.variable.Value;
 
-public class FunctionCache {
+public class InvocationCache {
    
    private final TypeExtractor extractor;
    private final FunctionMatcher matcher;
@@ -19,7 +19,7 @@ public class FunctionCache {
    private final Connection[] cache;
    private final Object[] keys;
    
-   public FunctionCache(FunctionMatcher matcher, TypeExtractor extractor) {
+   public InvocationCache(FunctionMatcher matcher, TypeExtractor extractor) {
       this.counter = new AtomicInteger();
       this.cache = new Connection[3];
       this.keys = new Object[3];
@@ -27,7 +27,7 @@ public class FunctionCache {
       this.matcher = matcher;
    }
 
-   public Connection fetch(Scope scope, Object[] array) throws Exception {
+   public Invocation<?> fetch(Scope scope, Object[] array) throws Exception {
       Type type = scope.getType();
       int count = counter.get();
       
@@ -46,7 +46,7 @@ public class FunctionCache {
       return fetch(scope, NULL, array, type);
    }
 
-   public Connection fetch(Scope scope, Value value, Object[] array) throws Exception {
+   public Invocation<?> fetch(Scope scope, Value value, Object[] array) throws Exception {
       Object object = value.getValue();
       Type type = extractor.getType(object);     
       int count = counter.get();
@@ -66,7 +66,7 @@ public class FunctionCache {
       return fetch(scope, value, array, type);
    }
 
-   private Connection fetch(Scope scope, Value value, Object[] array, Type type) throws Exception {
+   private Invocation<?> fetch(Scope scope, Value value, Object[] array, Type type) throws Exception {
       FunctionDispatcher dispatcher = matcher.match(scope, value);
       Connection connection = dispatcher.connect(scope, value, array);
       int count = counter.get();
