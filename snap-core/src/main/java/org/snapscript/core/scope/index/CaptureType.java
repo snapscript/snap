@@ -1,7 +1,7 @@
 package org.snapscript.core.scope.index;
 
 public enum CaptureType {
-   GLOBALS(true, true, true),
+   GLOBALS(true, false, true),
    CLOSURE(false, true, false),
    MEMBER(false, true, false),
    GENERICS(false, true, false),

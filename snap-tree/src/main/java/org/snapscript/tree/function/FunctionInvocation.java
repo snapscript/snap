@@ -3,8 +3,10 @@ package org.snapscript.tree.function;
 import static org.snapscript.core.constraint.Constraint.NONE;
 import static org.snapscript.core.variable.Value.NULL;
 
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
@@ -22,6 +24,7 @@ import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.index.Index;
 import org.snapscript.core.scope.index.LocalScopeFinder;
+import org.snapscript.core.scope.index.LocalValueFinder;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceEvaluation;
 import org.snapscript.core.trace.TraceInterceptor;
@@ -75,9 +78,10 @@ public class FunctionInvocation implements Compilation {
       private final GenericParameterExtractor extractor;
       private final Evaluation[] evaluations; // func()[1][x]
       private final ImplicitImportLoader loader;
-      private final LocalScopeFinder finder;
+      private final LocalValueFinder finder;
       private final FunctionMatcher matcher;
       private final ArgumentList arguments;
+      private final AtomicBoolean closure;
       private final AtomicInteger offset; 
       private final InvocationCache cache;   
       private final String name;
@@ -86,8 +90,9 @@ public class FunctionInvocation implements Compilation {
          this.extractor = new GenericParameterExtractor(generics);
          this.cache = new InvocationCache(matcher, extractor);
          this.loader = new ImplicitImportLoader();
-         this.finder = new LocalScopeFinder();
+         this.finder = new LocalValueFinder(name);
          this.offset = new AtomicInteger(-1);
+         this.closure = new AtomicBoolean();
          this.evaluations = evaluations;
          this.arguments = arguments;
          this.matcher = matcher;
@@ -114,12 +119,12 @@ public class FunctionInvocation implements Compilation {
       @Override
       public Constraint compile(Scope scope, Constraint left) throws Exception {
          int depth = offset.get();
-         Value value = finder.findFunction(scope, name, depth);
+         Value value = finder.findFunction(scope, depth);
  
          if(value != null) { 
             Constraint constraint = value.getConstraint();
             Type type = constraint.getType(scope);
-            
+
             if(type == null) {
                arguments.compile(scope); 
                return NONE;
@@ -158,11 +163,11 @@ public class FunctionInvocation implements Compilation {
          }
          return result; 
       }
-      
+
       @Override
       public Value evaluate(Scope scope, Value left) throws Exception {
          int depth = offset.get();
-         Value value = finder.findFunction(scope, name, depth);
+         Value value = finder.findFunction(scope, depth);
             
          if(value != null) { 
             Object object = value.getValue();

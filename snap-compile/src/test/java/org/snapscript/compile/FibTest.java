@@ -39,6 +39,7 @@ public class FibTest extends TestCase {
    //time=769 memory=1,314,022,936
    //time=703 memory=1,550,965,720 --> cache function connections
    //time=672 memory=1,550,965,720
+   //time=608 memory=1,550,965,744 --> cache result of closure search
    public void testFib() throws Exception {
       System.err.println(SOURCE);
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();

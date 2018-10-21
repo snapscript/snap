@@ -1,6 +1,5 @@
 package org.snapscript.core.function;
 
-import static java.util.Collections.EMPTY_LIST;
 import static org.snapscript.core.ModifierType.FUNCTION;
 
 import java.util.ArrayList;
