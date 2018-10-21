@@ -40,6 +40,7 @@ public class DeclarationAllocator {
    
    public <T extends Value> T allocate(Scope scope, String name, int modifiers) throws Exception {
       Type type = constraint.getType(scope);
+      Constraint declare = constraint.getConstraint(scope, modifiers);
       Object object = null;
       
       if(expression != null) {
@@ -51,9 +52,9 @@ public class DeclarationAllocator {
          } else {
             object = original;
          }
-         return assign(scope, name, object, constraint, modifiers);
+         return assign(scope, name, object, declare, modifiers);
       }
-      return declare(scope, name, constraint, modifiers);
+      return declare(scope, name, declare, modifiers);
    }   
    
    protected <T extends Value> T declare(Scope scope, String name, Constraint type, int modifiers) throws Exception {

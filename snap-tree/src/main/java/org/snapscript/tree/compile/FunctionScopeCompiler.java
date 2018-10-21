@@ -1,28 +1,23 @@
 package org.snapscript.tree.compile;
 
-import static org.snapscript.core.ModifierType.STATIC;
-
 import java.util.List;
 
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
-import org.snapscript.core.scope.index.LocalScopeExtractor;
+import org.snapscript.core.scope.index.CaptureScopeExtractor;
+import org.snapscript.core.scope.index.CaptureType;
 import org.snapscript.core.type.Type;
 import org.snapscript.tree.constraint.GenericList;
 
 public class FunctionScopeCompiler extends ScopeCompiler {
 
-   protected final LocalScopeExtractor extractor;
+   protected final CaptureScopeExtractor extractor;
    protected final GenericList generics;
 
-   public FunctionScopeCompiler(GenericList generics) {
-      this(generics, false);
-   }
-
-   public FunctionScopeCompiler(GenericList generics, boolean globals) {
-      this.extractor = new LocalScopeExtractor(false, true, globals);
+   public FunctionScopeCompiler(GenericList generics, CaptureType type) {
+      this.extractor = new CaptureScopeExtractor(type);
       this.generics = generics;
    }
 

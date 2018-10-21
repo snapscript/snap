@@ -1,5 +1,6 @@
 package org.snapscript.tree.define;
 
+import static org.snapscript.core.scope.index.CaptureType.SUPER;
 import static org.snapscript.core.variable.Value.NULL;
 
 import org.snapscript.core.Evaluation;
@@ -8,7 +9,7 @@ import org.snapscript.core.constraint.StaticConstraint;
 import org.snapscript.core.function.Connection;
 import org.snapscript.core.function.dispatch.FunctionDispatcher;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.index.LocalScopeExtractor;
+import org.snapscript.core.scope.index.CaptureScopeExtractor;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 import org.snapscript.tree.ArgumentList;
@@ -17,7 +18,7 @@ import org.snapscript.tree.NameReference;
 public class SuperInvocation extends Evaluation {
 
    private final SuperInstanceBuilder builder;
-   private final LocalScopeExtractor extractor;
+   private final CaptureScopeExtractor extractor;
    private final SuperFunctionHolder holder;
    private final NameReference reference;
    private final ArgumentList arguments;
@@ -25,7 +26,7 @@ public class SuperInvocation extends Evaluation {
    private final Type type;
    
    public SuperInvocation(Evaluation function, ArgumentList arguments, Type type) {
-      this.extractor = new LocalScopeExtractor(true, false);
+      this.extractor = new CaptureScopeExtractor(SUPER);
       this.reference = new NameReference(function);
       this.holder = new SuperFunctionHolder(reference, type);
       this.constraint = new StaticConstraint(type);

@@ -1,6 +1,7 @@
 package org.snapscript.tree.script;
 
 import static org.snapscript.core.result.Result.NORMAL;
+import static org.snapscript.core.scope.index.CaptureType.GLOBALS;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -38,7 +39,7 @@ public class ScriptFunction extends Statement {
    public ScriptFunction(FunctionName identifier, ParameterList parameters, Constraint constraint, Statement body){
       this.reference = new AtomicReference<FunctionBody>();
       this.constraint = new DeclarationConstraint(constraint);
-      this.compiler = new FunctionScopeCompiler(identifier, true);
+      this.compiler = new FunctionScopeCompiler(identifier, GLOBALS);
       this.builder = new ScriptFunctionBuilder(body);
       this.execution = new NoExecution(NORMAL);
       this.identifier = identifier;

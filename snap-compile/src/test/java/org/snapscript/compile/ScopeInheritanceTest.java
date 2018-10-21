@@ -17,6 +17,8 @@ public class ScopeInheritanceTest extends ScriptTestCase {
     "}\n"+
     "\n"+
     "func fun(i){\n"+
+    "   assert `${i.class}` == 'lang.String';\n"+
+    "   assert i.startsWith('value-');\n" +
     "   println(`${i.class}`);\n"+
     "   println(i.class);\n"+
     "   println(i.substring(1));\n"+

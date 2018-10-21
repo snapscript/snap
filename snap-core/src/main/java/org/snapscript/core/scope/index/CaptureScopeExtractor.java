@@ -8,26 +8,18 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
 import org.snapscript.core.variable.Value;
 
-public class LocalScopeExtractor {
+public class CaptureScopeExtractor {
    
-   private final boolean reference;
-   private final boolean extension;
-   private final boolean globals;
-   
-   public LocalScopeExtractor(boolean reference, boolean extension) {
-      this(reference, extension, false);
-   }
+   private final CaptureType type;
 
-   public LocalScopeExtractor(boolean reference, boolean extension, boolean globals) {
-      this.reference = reference;
-      this.extension = extension;
-      this.globals = globals;
+   public CaptureScopeExtractor(CaptureType type) {
+      this.type = type;
    }
 
    public Scope extract(Scope scope) {
       Scope outer = scope.getScope();
       
-      if(extension) {
+      if(type.isExtension()) {
          return extract(scope, outer); // can see callers scope
       }
       return extract(outer, outer); // can't see callers scope
@@ -35,7 +27,6 @@ public class LocalScopeExtractor {
 
    public Scope extract(Scope original, Scope outer) {
       Scope capture = new LocalScope(original, outer);
-      Set<String> done = new HashSet<String>();
 
       if(original != null) {
          Table table = original.getTable();
@@ -45,9 +36,11 @@ public class LocalScopeExtractor {
             String name = local.getName();
             Constraint constraint = local.getConstraint();
 
-            if(!globals || constraint.isStatic()) {
-               if (done.add(name)) {
-                  if (reference) {
+            if(!type.isGlobals() || constraint.isStatic()) {
+               Value value = inner.getValue(name);
+
+               if(value == null) {
+                  if (type.isReference()) {
                      inner.addValue(name, local); // enable modification of local
                   } else {
                      Object object = local.getValue();

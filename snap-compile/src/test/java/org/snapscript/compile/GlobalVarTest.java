@@ -1,12 +1,18 @@
 package org.snapscript.compile;
 
-import junit.framework.TestCase;
-
-public class GlobalVarTest extends TestCase {
+public class GlobalVarTest extends ScriptTestCase {
 
    private static final String SOURCE_1=
+   "let GLOBAL = 11;\n"+
+   "function fun(n) {\n"+
+   "   GLOBAL++;\n"+
+   "}\n"+
+   "fun(30);\n";
+
+   private static final String SOURCE_2=
    "const GLOBAL = 11;\n"+
    "function fun(n) {\n"+
+   "   println(GLOBAL);\n"+
    "   println(\"global=${GLOBAL}\");\n"+
    "   assert \"global=${GLOBAL}\" == 'global=11';\n"+
    "   return GLOBAL + n;\n"+
@@ -14,7 +20,7 @@ public class GlobalVarTest extends TestCase {
    "var result = fun(30);\n"+
    "println(result);\n";
    
-   private static final String SOURCE_2=
+   private static final String SOURCE_3=
    "const GLOBAL = 11;\n"+
    "class X{\n"+
    "  ff(n) {\n"+
@@ -26,10 +32,8 @@ public class GlobalVarTest extends TestCase {
    "println(result);\n";
 
    public void testGlobalVar() throws Exception {
-      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
-      System.err.println(SOURCE_1);
-      Executable executable = compiler.compile(SOURCE_1);
-      executable.execute();
+      assertScriptExecutes(SOURCE_1);
+      assertScriptExecutes(SOURCE_2);
    }
    
 //   public void testGlobalVarInClass() throws Exception {

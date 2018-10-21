@@ -1,5 +1,7 @@
 package org.snapscript.tree.define;
 
+import static org.snapscript.core.scope.index.CaptureType.MEMBER;
+
 import java.util.List;
 
 import org.snapscript.core.ModifierType;
@@ -10,6 +12,7 @@ import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionBody;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.index.CaptureType;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeBody;
 import org.snapscript.core.type.TypePart;
@@ -43,7 +46,7 @@ public class MemberFunction extends TypePart {
    
    public MemberFunction(AnnotationList annotations, ModifierList modifiers, FunctionName identifier, ParameterList parameters, Constraint constraint, Statement statement){
       this.assembler = new MemberFunctionAssembler(modifiers, identifier, parameters, constraint, statement);
-      this.compiler = new FunctionScopeCompiler(identifier);
+      this.compiler = new FunctionScopeCompiler(identifier, MEMBER);
       this.validator = new ModifierValidator();
       this.annotations = annotations;
       this.identifier = identifier;

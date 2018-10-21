@@ -1,5 +1,7 @@
 package org.snapscript.tree.compile;
 
+import static org.snapscript.core.scope.index.CaptureType.CLOSURE;
+
 import java.util.List;
 
 import org.snapscript.core.constraint.Constraint;
@@ -12,7 +14,7 @@ import org.snapscript.tree.constraint.GenericList;
 public class ClosureScopeCompiler extends FunctionScopeCompiler{
    
    public ClosureScopeCompiler(GenericList generics) {
-      super(generics);
+      super(generics, CLOSURE);
    }
    
    @Override

@@ -1,18 +1,20 @@
 package org.snapscript.tree.script;
 
+import static org.snapscript.core.scope.index.CaptureType.GLOBALS;
+
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationBuilder;
 import org.snapscript.core.function.Signature;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.index.LocalScopeExtractor;
+import org.snapscript.core.scope.index.CaptureScopeExtractor;
 
 public class ScriptInvocation implements Invocation<Object> {
 
-   private final LocalScopeExtractor extractor;
+   private final CaptureScopeExtractor extractor;
    private final InvocationBuilder builder;
    
    public ScriptInvocation(InvocationBuilder builder, Signature signature) {
-      this.extractor = new LocalScopeExtractor(true, false);
+      this.extractor = new CaptureScopeExtractor(GLOBALS);
       this.builder = builder;
    }
    
