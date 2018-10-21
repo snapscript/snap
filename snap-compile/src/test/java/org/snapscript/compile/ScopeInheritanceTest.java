@@ -24,9 +24,18 @@ public class ScopeInheritanceTest extends ScriptTestCase {
     "   println(i.substring(1));\n"+
     "}\n";
 
+   private static final String SOURCE_3 =
+    "let a=1;\n"+
+    "func f(a){\n"+
+    "   assert a == `aaa1`;\n"+
+    "}\n"+
+    "f('aaa'+a);\n";
+
+
    public void testInheritance() throws Exception {
       assertScriptExecutes(SOURCE_1);
       assertScriptExecutes(SOURCE_2);
+      assertScriptExecutes(SOURCE_3);
    }
 
 }

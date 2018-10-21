@@ -60,17 +60,14 @@ public abstract class ScopeCompiler {
 
    protected void compileParameters(Scope scope, Function function) {
       Signature signature = function.getSignature();
-      State state = scope.getState();
       Table table = scope.getTable();
       List<Parameter> parameters = signature.getParameters();
       int count = parameters.size();
 
       for(int i = 0; i < count; i++) {
          Parameter parameter = parameters.get(i);
-         String name = parameter.getName();
          Local local = compileParameter(scope, parameter);
 
-         state.addValue(name, local);
          table.addLocal(i, local);
       }
    }
