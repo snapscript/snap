@@ -1,5 +1,8 @@
 package org.snapscript.core.scope.index;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
@@ -32,7 +35,8 @@ public class LocalScopeExtractor {
 
    public Scope extract(Scope original, Scope outer) {
       Scope capture = new LocalScope(original, outer);
-      
+      Set<String> done = new HashSet<String>();
+
       if(original != null) {
          Table table = original.getTable();
          State inner = capture.getState();
@@ -42,9 +46,7 @@ public class LocalScopeExtractor {
             Constraint constraint = local.getConstraint();
 
             if(!globals || constraint.isStatic()) {
-               Value value = inner.getValue(name);
-
-               if (value == null) {
+               if (done.add(name)) {
                   if (reference) {
                      inner.addValue(name, local); // enable modification of local
                   } else {
