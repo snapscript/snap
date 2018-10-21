@@ -29,11 +29,6 @@ public class CompileErrorHandler {
       String message = formatter.formatAccessError(type, name);
       throw builder.createInternalException(message);
    }
-   
-   public Result handleAccessError(Scope scope, String name, Type[] list) {
-      String message = formatter.formatAccessError(name, list);
-      throw builder.createInternalException(message);
-   }
 
    public Result handleAccessError(Scope scope, Type type, String name, Type[] list) {
       String message = formatter.formatAccessError(type, name, list);
@@ -42,16 +37,6 @@ public class CompileErrorHandler {
 
    public Result handleGenericError(Scope scope, String name, Type[] list) {
       String message = formatter.formatGenericError(name, list);
-      throw builder.createInternalException(message);
-   }
-
-   public Result handleGenericError(Scope scope, Type type, String name, Type[] list) {
-      String message = formatter.formatGenericError(type, name, list);
-      throw builder.createInternalException(message);
-   }
-   
-   public Result handleReferenceError(Scope scope, String name) {
-      String message = formatter.formatReferenceError(name);
       throw builder.createInternalException(message);
    }
    

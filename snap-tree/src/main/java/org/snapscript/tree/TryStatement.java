@@ -1,7 +1,5 @@
 package org.snapscript.tree;
 
-import static org.snapscript.core.error.Reason.THROW;
-
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Execution;
@@ -132,7 +130,7 @@ public class TryStatement implements Compilation {
             if(result.isThrow()) {
                Object value = result.getValue();
                
-               handler.handleInternalError(THROW, scope, value);
+               handler.failInternalError(scope, value);
             }
          } finally {
             if(finish != null) {

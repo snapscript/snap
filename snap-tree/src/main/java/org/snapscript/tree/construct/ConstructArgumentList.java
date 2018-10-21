@@ -7,13 +7,13 @@ import org.snapscript.tree.ArgumentList;
 
 public class ConstructArgumentList {
 
-   private final Constraint constraint;
    private final ArgumentList list;
-   private final Object[] empty;
+   private final Object[] objects;
+   private final Type[] types;
    
-   public ConstructArgumentList(Constraint constraint, ArgumentList list) {
-      this.empty = new Object[]{};
-      this.constraint = constraint;
+   public ConstructArgumentList(ArgumentList list) {
+      this.objects = new Object[]{};
+      this.types = new Type[]{};
       this.list = list;
    }
 
@@ -23,11 +23,19 @@ public class ConstructArgumentList {
       }
    }
    
-   public Constraint compile(Scope scope, Type type) throws Exception {
+   public Type[] compile(Scope scope, Type type) throws Exception {
+      Class real = type.getType();
+
       if(list != null) {
-         list.compile(scope, type);
+         if(real == null) {
+            return list.compile(scope, type);
+         }
+         return list.compile(scope);
       }
-      return constraint;
+      if(real == null) {
+         return new Type[]{type};
+      }
+      return types;
    }
    
    public Object[] create(Scope scope, Type type) throws Exception {
@@ -42,7 +50,7 @@ public class ConstructArgumentList {
       if(real == null) {
          return new Object[]{type};
       }
-      return empty;
+      return objects;
    }
    
 }

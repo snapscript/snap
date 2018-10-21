@@ -1,7 +1,5 @@
 package org.snapscript.tree.reference;
 
-import static org.snapscript.core.error.Reason.ACCESS;
-
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.snapscript.core.Compilation;
@@ -116,7 +114,7 @@ public class ReferenceInvocation implements Compilation {
             ErrorHandler handler = context.getHandler();
             
             if(!verifier.isAccessible(composite, type)) {
-               handler.handleCompileError(ACCESS, composite, type, name, array);
+               handler.failCompileAccess(composite, type, name, array);
             }
          }
          for(Evaluation evaluation : evaluations) {

@@ -1,7 +1,5 @@
 package org.snapscript.core.function.dispatch;
 
-import static org.snapscript.core.error.Reason.INVOKE;
-
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.function.Connection;
@@ -31,7 +29,7 @@ public class ModuleDispatcher implements FunctionDispatcher {
       FunctionCall call = bind(scope, module, arguments);
       
       if(call == null) {
-         handler.handleCompileError(INVOKE, scope, type, name, arguments);
+         handler.failCompileInvocation(scope, type, name, arguments);
       }
       return call.check(scope, constraint, arguments);
    }
@@ -42,7 +40,7 @@ public class ModuleDispatcher implements FunctionDispatcher {
       Connection call = bind(scope, module, arguments);
       
       if(call == null) {
-         handler.handleRuntimeError(INVOKE, scope, module, name, arguments);
+         handler.failRuntimeInvocation(scope, module, name, arguments);
       }
       return call;     
    }

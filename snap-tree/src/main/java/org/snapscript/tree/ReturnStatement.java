@@ -1,6 +1,5 @@
 package org.snapscript.tree;
 
-import static org.snapscript.core.error.Reason.CAST;
 import static org.snapscript.core.result.Result.RETURN;
 
 import org.snapscript.core.Compilation;
@@ -93,7 +92,7 @@ public class ReturnStatement implements Compilation {
                   Score score = converter.score(actual);
                   
                   if(score.isInvalid()) {
-                     handler.handleCompileError(CAST, scope, require, actual);
+                     handler.failCompileCast(scope, require, actual);
                   }                  
                }
             }                       

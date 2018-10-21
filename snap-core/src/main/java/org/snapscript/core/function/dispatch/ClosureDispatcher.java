@@ -1,7 +1,6 @@
 package org.snapscript.core.function.dispatch;
 
 import static org.snapscript.core.constraint.Constraint.NONE;
-import static org.snapscript.core.error.Reason.INVOKE;
 
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
@@ -37,7 +36,7 @@ public class ClosureDispatcher implements FunctionDispatcher {
       Connection call = bind(scope, function, arguments); // this is not used often
       
       if(call == null) {
-         handler.handleRuntimeError(INVOKE, scope, function, name, arguments);
+         handler.failRuntimeInvocation(scope, function, name, arguments);
       }
       return call;
    }

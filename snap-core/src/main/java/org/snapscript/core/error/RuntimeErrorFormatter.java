@@ -27,14 +27,14 @@ public class RuntimeErrorFormatter {
    
    public String formatReferenceError(Object object, String name) {
       StringBuilder builder = new StringBuilder();
-      
+
       builder.append("Property '");
       builder.append(name);
       builder.append("' not found");
-      
+
       if(object != null) {
          Type type = extractor.getType(object);
-         
+
          builder.append(" for '");
          builder.append(type);
          builder.append("'");
@@ -50,7 +50,7 @@ public class RuntimeErrorFormatter {
       } else {
          builder.append("Function '");
       }  
-      String signature = formatter.formatFunction(name, list);
+      String signature = formatter.formatFunction(null, name, list);
       
       builder.append(signature);
       builder.append("' not found in scope");
@@ -66,7 +66,7 @@ public class RuntimeErrorFormatter {
       } else {
          builder.append("Function '");
       }  
-      String signature = formatter.formatFunction(name, list);
+      String signature = formatter.formatFunction(null, name, list);
       
       builder.append(signature);
       builder.append("' not found");
@@ -89,7 +89,7 @@ public class RuntimeErrorFormatter {
       } else {
          builder.append("Function '");
       }  
-      String signature = formatter.formatFunction(name, list);
+      String signature = formatter.formatFunction(type, name, list);
       
       builder.append(signature);
       builder.append("' not found for '");

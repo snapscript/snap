@@ -35,16 +35,6 @@ public class CompileErrorFormatter {
       return builder.toString();
    }
    
-   public String formatReferenceError(String name) {
-      StringBuilder builder = new StringBuilder();
-      
-      builder.append("Variable '");
-      builder.append(name);
-      builder.append("' not found in scope");
-      
-      return builder.toString();
-   }
-   
    public String formatReferenceError(Type type, String name) {
       StringBuilder builder = new StringBuilder();
       
@@ -57,22 +47,6 @@ public class CompileErrorFormatter {
       return builder.toString();
    }
    
-   public String formatAccessError(String name, Type[] list) {
-      StringBuilder builder = new StringBuilder();
-      
-      if(name.equals(TYPE_CONSTRUCTOR)) {
-         builder.append("Constructor '");
-      } else {
-         builder.append("Function '");
-      }  
-      String signature = formatter.formatFunction(name, list);
-      
-      builder.append(signature);
-      builder.append("' is not accessible");
-      
-      return builder.toString();
-   }
-   
    public String formatAccessError(Type type, String name, Type[] list) {
       StringBuilder builder = new StringBuilder();
       
@@ -81,7 +55,7 @@ public class CompileErrorFormatter {
       } else {
          builder.append("Function '");
       }      
-      String signature = formatter.formatFunction(name, list);
+      String signature = formatter.formatFunction(type, name, list);
       
       builder.append(signature);
       builder.append("' for '");
@@ -99,27 +73,9 @@ public class CompileErrorFormatter {
       } else {
          builder.append("Function '");
       }
-      String signature = formatter.formatFunction(name, list);
+      String signature = formatter.formatFunction(null, name, list);
 
       builder.append(signature);
-      builder.append("' hidden by generics");
-
-      return builder.toString();
-   }
-
-   public String formatGenericError(Type type, String name, Type[] list) {
-      StringBuilder builder = new StringBuilder();
-
-      if(name.equals(TYPE_CONSTRUCTOR)) {
-         builder.append("Constructor '");
-      } else {
-         builder.append("Function '");
-      }
-      String signature = formatter.formatFunction(name, list);
-
-      builder.append(signature);
-      builder.append("' for '");
-      builder.append(type);
       builder.append("' hidden by generics");
 
       return builder.toString();
@@ -133,7 +89,7 @@ public class CompileErrorFormatter {
       } else {
          builder.append("Function '");
       }  
-      String signature = formatter.formatFunction(name, list);
+      String signature = formatter.formatFunction(null, name, list);
       
       builder.append(signature);
       builder.append("' not found in scope");
@@ -149,7 +105,7 @@ public class CompileErrorFormatter {
       } else {
          builder.append("Function '");
       }  
-      String signature = formatter.formatFunction(name, list);
+      String signature = formatter.formatFunction(type, name, list);
       
       builder.append(signature);
       builder.append("' not found for '");

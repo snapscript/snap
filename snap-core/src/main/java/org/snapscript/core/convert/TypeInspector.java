@@ -33,7 +33,18 @@ public class TypeInspector {
       }
       return false; // null is valid
    }
-   
+
+   public boolean isClass(Type type) {
+      if(type != null) {
+         Class real = type.getType();
+
+         if (real != null) {
+            return true;
+         }
+      }
+      return false; // null is valid
+   }
+
    public boolean isProxy(Type type) {
       Class real = type.getType();
       

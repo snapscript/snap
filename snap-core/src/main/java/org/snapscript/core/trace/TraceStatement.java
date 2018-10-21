@@ -1,6 +1,5 @@
 package org.snapscript.core.trace;
 
-import static org.snapscript.core.error.Reason.THROW;
 import static org.snapscript.core.result.Result.NORMAL;
 
 import org.snapscript.core.Execution;
@@ -78,7 +77,7 @@ public class TraceStatement extends Statement {
             return execution.execute(scope); 
          } catch(Exception cause) {
             interceptor.traceRuntimeError(scope, trace, cause);
-            return handler.handleInternalError(THROW, scope, cause);
+            return handler.failInternalError(scope, cause);
          } finally {
             interceptor.traceAfter(scope, trace);
          }

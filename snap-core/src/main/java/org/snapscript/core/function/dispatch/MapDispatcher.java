@@ -1,7 +1,6 @@
 package org.snapscript.core.function.dispatch;
 
 import static org.snapscript.core.constraint.Constraint.NONE;
-import static org.snapscript.core.error.Reason.INVOKE;
 
 import java.util.Map;
 
@@ -47,7 +46,7 @@ public class MapDispatcher implements FunctionDispatcher {
       FunctionCall call = bind(scope, map, arguments);
       
       if(call == null) {
-         handler.handleRuntimeError(INVOKE, scope, map, name, arguments);
+         handler.failRuntimeInvocation(scope, map, name, arguments);
       }
       return new FunctionConnection(call);
    }

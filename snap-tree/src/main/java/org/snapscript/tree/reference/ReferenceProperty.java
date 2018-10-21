@@ -1,7 +1,5 @@
 package org.snapscript.tree.reference;
 
-import static org.snapscript.core.error.Reason.ACCESS;
-
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
@@ -63,7 +61,7 @@ public class ReferenceProperty implements Compilation {
             Type type = left.getType(scope); // what is the callers type
 
             if(!verifier.isAccessible(scope, type)) {
-               handler.handleCompileError(ACCESS, scope, type, name);
+               handler.failCompileAccess(scope, type, name);
             }
          }
          for(Evaluation evaluation : evaluations) {

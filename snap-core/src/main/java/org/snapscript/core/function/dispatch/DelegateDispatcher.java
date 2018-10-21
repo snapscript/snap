@@ -1,7 +1,5 @@
 package org.snapscript.core.function.dispatch;
 
-import static org.snapscript.core.error.Reason.INVOKE;
-
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.proxy.Delegate;
 import org.snapscript.core.error.ErrorHandler;
@@ -31,7 +29,7 @@ public class DelegateDispatcher implements FunctionDispatcher {
       FunctionCall call = resolver.resolveFunction(scope, object, name, arguments);
       
       if(call == null) {
-         handler.handleCompileError(INVOKE, scope, object, name, arguments);
+         handler.failCompileInvocation(scope, object, name, arguments);
       }
       return call.check(scope, constraint, arguments);
    }
@@ -42,7 +40,7 @@ public class DelegateDispatcher implements FunctionDispatcher {
       FunctionCall call = resolver.resolveFunction(scope, object, name, arguments);
       
       if(call == null) {
-         handler.handleRuntimeError(INVOKE, scope, object, name, arguments);
+         handler.failRuntimeInvocation(scope, object, name, arguments);
       }
       return new FunctionConnection(call);
    }

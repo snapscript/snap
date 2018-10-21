@@ -1,7 +1,5 @@
 package org.snapscript.core.variable.bind;
 
-import static org.snapscript.core.error.Reason.REFERENCE;
-
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.proxy.ProxyWrapper;
 import org.snapscript.core.error.ErrorHandler;
@@ -30,7 +28,7 @@ public class VariableBinder {
       Constraint value = pointer.getConstraint(scope, null);
       
       if(value == null) {
-         handler.handleCompileError(REFERENCE, scope, name);
+         handler.failCompileReference(scope, name);
       }
       return value;
    }
@@ -41,7 +39,7 @@ public class VariableBinder {
       Type type = left.getType(scope);
       
       if(value == null) {
-         handler.handleCompileError(REFERENCE, scope, type, name);
+         handler.failCompileReference(scope, type, name);
       }
       return value;
    }
@@ -51,7 +49,7 @@ public class VariableBinder {
       Value value = pointer.getValue(scope, null);
       
       if(value == null) {
-         handler.handleRuntimeError(REFERENCE, scope, name);
+         handler.failRuntimeReference(scope, name);
       }
       return value;
    }
@@ -63,7 +61,7 @@ public class VariableBinder {
       Value value = pointer.getValue(scope, object);
       
       if(value == null) {
-         handler.handleRuntimeError(REFERENCE, scope, object, name);
+         handler.failRuntimeReference(scope, object, name);
       }
       return value;
    }

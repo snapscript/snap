@@ -1,7 +1,6 @@
 package org.snapscript.compile.assemble;
 
 import static org.snapscript.core.Reserved.DEFAULT_PACKAGE;
-import static org.snapscript.core.error.Reason.THROW;
 
 import java.util.concurrent.Executor;
 
@@ -63,7 +62,7 @@ public class OperationEvaluator implements ExpressionEvaluator {
          
          return (T)reference.getValue();
       } catch(Throwable cause) {
-         return (T)handler.handleExternalError(THROW, scope, cause);
+         return (T)handler.failExternalError(scope, cause);
       }
    }
 }

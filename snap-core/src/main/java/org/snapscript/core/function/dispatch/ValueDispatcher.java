@@ -1,7 +1,6 @@
 package org.snapscript.core.function.dispatch;
 
 import static org.snapscript.core.constraint.Constraint.NONE;
-import static org.snapscript.core.error.Reason.INVOKE;
 
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
@@ -35,7 +34,7 @@ public class ValueDispatcher implements FunctionDispatcher {
       FunctionCall call = resolver.resolveValue(reference, list); // function variable
       
       if(call == null) {
-         handler.handleRuntimeError(INVOKE, scope, name, list);
+         handler.failRuntimeInvocation(scope, name, list);
       }
       return new ValueConnection(call);  
    }

@@ -1,6 +1,5 @@
 package org.snapscript.core.trace;
 
-import static org.snapscript.core.error.Reason.THROW;
 import static org.snapscript.core.type.Category.OTHER;
 
 import org.snapscript.core.error.ErrorHandler;
@@ -48,7 +47,7 @@ public class TraceTypeState extends TypeState {
       try {
          state.allocate(scope, type);
       }catch(Exception cause) {
-         handler.handleInternalError(THROW, scope, cause, trace);
+         handler.failInternalError(scope, cause, trace);
       }
    }
    
@@ -57,7 +56,7 @@ public class TraceTypeState extends TypeState {
       try {
          return state.execute(scope, type);
       }catch(Exception cause) {
-         handler.handleInternalError(THROW, scope, cause, trace);
+         handler.failInternalError(scope, cause, trace);
       }
       return null;
    }

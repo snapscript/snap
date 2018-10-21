@@ -106,11 +106,11 @@ public class TypeTraverser {
 
       findPath(constraint, require, path);
       Collections.reverse(path);
-      
+
       return path;
    }
    
-   public boolean findPath(Type constraint, Type require, List<Constraint> path) {
+   private boolean findPath(Type constraint, Type require, List<Constraint> path) {
       Scope scope = require.getScope();
       
       if(constraint != require) {

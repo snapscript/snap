@@ -1,7 +1,5 @@
 package org.snapscript.tree;
 
-import static org.snapscript.core.error.Reason.THROW;
-
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
@@ -73,7 +71,7 @@ public class ThrowStatement implements Compilation {
          ErrorHandler handler = context.getHandler();
          Object value = reference.getValue();
          
-         return handler.handleInternalError(THROW, scope, value); 
+         return handler.failInternalError(scope, value);
       }
    }
 

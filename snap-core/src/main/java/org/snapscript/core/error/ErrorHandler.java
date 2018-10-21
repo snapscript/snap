@@ -26,87 +26,81 @@ public class ErrorHandler {
       this.external = new ExternalErrorHandler();
    }
    
-   public Result handleCompileError(Reason reason, Scope scope, Type type) {
-      return compile.handleConstructionError(scope, type);          
-   }
-   
-   public Result handleCompileError(Reason reason, Scope scope, String name) {
-      if(reason.isAccess()) {
-         return compile.handleAccessError(scope, name);          
-      }
-      return compile.handleReferenceError(scope, name); 
+   public Result failCompileConstruction(Scope scope, Type type) {
+      return compile.handleConstructionError(scope, type);
    }
 
-   public Result handleCompileError(Reason reason, Scope scope, Type type, String name) {
-      if(reason.isAccess()) {
-         return compile.handleAccessError(scope, type, name);          
-      }
+   public Result failCompileReference(Scope scope, String name) {
+      return compile.handleAccessError(scope, name);
+   }
+
+   public Result failCompileAccess(Scope scope, Type type, String name) {
+      return compile.handleAccessError(scope, type, name);
+   }
+
+   public Result failCompileReference(Scope scope, Type type, String name) {
       return compile.handleReferenceError(scope, type, name); 
    }
    
-   public Result handleCompileError(Reason reason, Scope scope, Type require, Type actual) {
+   public Result failCompileCast(Scope scope, Type require, Type actual) {
       return compile.handleCastError(scope, require, actual); 
    }
-   
-   public Result handleCompileError(Reason reason, Scope scope, String name, Type[] list) {
-      if(reason.isAccess()) {
-         return compile.handleAccessError(scope, name, list);          
-      }
-      if(reason.isGeneric()) {
-         return compile.handleGenericError(scope, name, list);
-      }
-      return compile.handleInvokeError(scope, name, list); 
+
+   public Result failCompileGenerics(Scope scope, String name, Type[] list) {
+      return compile.handleGenericError(scope, name, list);
    }
 
-   public Result handleCompileError(Reason reason, Scope scope, Type type, String name, Type[] list) {
-      if(reason.isAccess()) {
-         return compile.handleAccessError(scope, type, name, list);          
-      }
-      if(reason.isGeneric()) {
-         return compile.handleGenericError(scope, type, name, list);
-      }
+   public Result failCompileInvocation(Scope scope, String name, Type[] list) {
+      return compile.handleInvokeError(scope, name, list);
+   }
+
+   public Result failCompileAccess(Scope scope, Type type, String name, Type[] list) {
+      return compile.handleAccessError(scope, type, name, list);
+   }
+
+   public Result failCompileInvocation(Scope scope, Type type, String name, Type[] list) {
       return compile.handleInvokeError(scope, type, name, list); 
    }
 
-   public Result handleRuntimeError(Reason reason, Scope scope, String name) {
+   public Result failRuntimeReference(Scope scope, String name) {
       return runtime.handleReferenceError(scope, name); 
    }
 
-   public Result handleRuntimeError(Reason reason, Scope scope, Object object, String name) {
+   public Result failRuntimeReference(Scope scope, Object object, String name) {
       return runtime.handleReferenceError(scope, object, name); 
    }
    
-   public Result handleRuntimeError(Reason reason, Scope scope, String name, Object[] list) {
+   public Result failRuntimeInvocation(Scope scope, String name, Object[] list) {
       return runtime.handleInvokeError(scope, name, list); 
    }
    
-   public Result handleRuntimeError(Reason reason, Scope scope, Object object, String name, Object[] list) {
+   public Result failRuntimeInvocation(Scope scope, Object object, String name, Object[] list) {
       return runtime.handleInvokeError(scope, object, name, list); 
    }
    
-   public Result handleRuntimeError(Reason reason, Scope scope, Type type, String name, Object[] list) {
+   public Result failRuntimeInvocation(Scope scope, Type type, String name, Object[] list) {
       return runtime.handleInvokeError(scope, type, name, list); 
    }
    
-   public Result handleRuntimeError(Reason reason, Scope scope, Module module, String name, Object[] list) {
+   public Result failRuntimeInvocation(Scope scope, Module module, String name, Object[] list) {
       return runtime.handleInvokeError(scope, module, name, list); 
    }
    
-   public Result handleInternalError(Reason reason, Scope scope, Object cause) {
+   public Result failInternalError(Scope scope, Object cause) {
       if(InternalError.class.isInstance(cause)) {
          throw (InternalError)cause;
       }
       return internal.handleError(scope, cause); // fill in trace
    }
    
-   public Result handleInternalError(Reason reason, Scope scope, Throwable cause, Trace trace) {
+   public Result failInternalError(Scope scope, Throwable cause, Trace trace) {
       if(InternalError.class.isInstance(cause)) {
          throw (InternalError)cause;
       }
       return internal.handleError(scope, cause, trace); 
    }
    
-   public Result handleExternalError(Reason reason, Scope scope, Throwable cause) throws Exception {
+   public Result failExternalError(Scope scope, Throwable cause) throws Exception {
       if(InternalError.class.isInstance(cause)) {
          InternalError error = (InternalError)cause;
          Object original = error.getValue();

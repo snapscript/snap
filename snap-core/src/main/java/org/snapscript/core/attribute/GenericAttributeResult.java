@@ -1,7 +1,5 @@
 package org.snapscript.core.attribute;
 
-import static org.snapscript.core.error.Reason.GENERIC;
-
 import java.util.List;
 
 import org.snapscript.core.Context;
@@ -48,7 +46,7 @@ public class GenericAttributeResult implements AttributeResult {
          String name = function.getName();
 
          if(score.isInvalid()) {
-            handler.handleCompileError(GENERIC, scope, name, types);
+            handler.failCompileGenerics(scope, name, types);
          }
       }
       return rule.getResult(scope, returns);

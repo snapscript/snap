@@ -1,7 +1,5 @@
 package org.snapscript.core.function.dispatch;
 
-import static org.snapscript.core.error.Reason.INVOKE;
-
 import java.util.List;
 
 import org.snapscript.core.array.ArrayBuilder;
@@ -35,7 +33,7 @@ public class ArrayDispatcher implements FunctionDispatcher {
       FunctionCall call = resolver.resolveInstance(scope, list, name, arguments);
       
       if(call == null) {
-         handler.handleCompileError(INVOKE, scope, actual, name, arguments);
+         handler.failCompileInvocation(scope, actual, name, arguments);
       }
       return call.check(scope, constraint, arguments);
    }
@@ -47,7 +45,7 @@ public class ArrayDispatcher implements FunctionDispatcher {
       FunctionCall call = resolver.resolveInstance(scope, list, name, arguments);
       
       if(call == null) {
-         handler.handleRuntimeError(INVOKE, scope, object, name, arguments);
+         handler.failRuntimeInvocation(scope, object, name, arguments);
       }
       return new ArrayConnection(call, builder);
    }

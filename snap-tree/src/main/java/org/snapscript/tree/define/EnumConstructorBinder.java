@@ -1,7 +1,6 @@
 package org.snapscript.tree.define;
 
 import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
-import static org.snapscript.core.error.Reason.CONSTRUCTION;
 
 import org.snapscript.core.Context;
 import org.snapscript.core.error.ErrorHandler;
@@ -19,7 +18,7 @@ public class EnumConstructorBinder {
    private final ConstructArgumentList arguments;
    
    public EnumConstructorBinder(ArgumentList arguments) {
-      this.arguments = new ConstructArgumentList(null, arguments);
+      this.arguments = new ConstructArgumentList(arguments);
    }
    
    public Instance bind(Scope scope, Type type) throws Exception {
@@ -31,7 +30,7 @@ public class EnumConstructorBinder {
       FunctionCall call = resolver.resolveStatic(scope, type, TYPE_CONSTRUCTOR, array);
       
       if(call == null) {
-         handler.handleRuntimeError(CONSTRUCTION, scope, type, TYPE_CONSTRUCTOR, array);
+         handler.failRuntimeInvocation(scope, type, TYPE_CONSTRUCTOR, array);
       }
       return (Instance)call.invoke(scope, null, array);
    }

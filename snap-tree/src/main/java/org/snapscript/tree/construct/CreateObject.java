@@ -1,7 +1,6 @@
 package org.snapscript.tree.construct;
 
 import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
-import static org.snapscript.core.error.Reason.CONSTRUCTION;
 import static org.snapscript.core.variable.Value.NULL;
 
 import java.util.List;
@@ -30,7 +29,7 @@ public class CreateObject extends Evaluation {
    private final int violation; // what modifiers are illegal
 
    public CreateObject(FunctionResolver resolver, ErrorHandler handler, Constraint constraint, ArgumentList arguments, int violation) {
-      this.arguments = new ConstructArgumentList(constraint, arguments);
+      this.arguments = new ConstructArgumentList(arguments);
       this.constraint = new CompileConstraint(constraint);
       this.loader = new ImplicitImportLoader();
       this.alias = new AliasResolver();
@@ -54,12 +53,17 @@ public class CreateObject extends Evaluation {
    public Constraint compile(Scope scope, Constraint left) throws Exception {
       Type type = constraint.getType(scope);
       Type actual = alias.resolve(type);
+      Type[] list = arguments.compile(scope, actual);
+      FunctionCall call = resolver.resolveStatic(scope, actual, TYPE_CONSTRUCTOR, list);
       int modifiers = actual.getModifiers();
-      
+
       if((violation & modifiers) != 0) {
-         handler.handleCompileError(CONSTRUCTION, scope, actual);
+         handler.failCompileConstruction(scope, actual);
       }
-      return arguments.compile(scope, actual);
+      if(call == null) {
+         handler.failCompileInvocation(scope, actual, TYPE_CONSTRUCTOR, list);
+      }
+      return constraint;
    }   
    
    @Override
@@ -70,7 +74,7 @@ public class CreateObject extends Evaluation {
       FunctionCall call = resolver.resolveStatic(scope, actual, TYPE_CONSTRUCTOR, list);
       
       if(call == null){
-         handler.handleRuntimeError(CONSTRUCTION, scope, actual, TYPE_CONSTRUCTOR, list);
+         handler.failRuntimeInvocation(scope, actual, TYPE_CONSTRUCTOR, list);
       }
       Object result = call.invoke(scope, null, list);
       
