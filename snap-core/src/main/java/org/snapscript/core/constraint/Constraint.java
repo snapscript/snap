@@ -79,7 +79,7 @@ public abstract class Constraint {
       return false;
    }   
    
-   public boolean isWild() {
+   public boolean isStatic() {
       return false;
    }   
    

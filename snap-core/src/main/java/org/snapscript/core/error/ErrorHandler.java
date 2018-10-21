@@ -31,7 +31,7 @@ public class ErrorHandler {
    }
 
    public Result failCompileReference(Scope scope, String name) {
-      return compile.handleAccessError(scope, name);
+      return compile.handleReferenceError(scope, name);
    }
 
    public Result failCompileAccess(Scope scope, Type type, String name) {

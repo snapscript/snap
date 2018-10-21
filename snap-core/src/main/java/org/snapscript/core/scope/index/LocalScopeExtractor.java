@@ -9,10 +9,16 @@ public class LocalScopeExtractor {
    
    private final boolean reference;
    private final boolean extension;
+   private final boolean globals;
    
    public LocalScopeExtractor(boolean reference, boolean extension) {
+      this(reference, extension, false);
+   }
+
+   public LocalScopeExtractor(boolean reference, boolean extension, boolean globals) {
       this.reference = reference;
       this.extension = extension;
+      this.globals = globals;
    }
 
    public Scope extract(Scope scope) {
@@ -33,17 +39,20 @@ public class LocalScopeExtractor {
          
          for(Local local : table){
             String name = local.getName();
-            Value value = inner.getValue(name);
-            
-            if(value == null) {
-               if(reference) {
-                  inner.addValue(name, local); // enable modification of local
-               } else {
-                  Object object = local.getValue();
-                  Constraint constraint = local.getConstraint();
-                  Value constant = Value.getConstant(object, constraint);
-                  
-                  inner.addValue(name, constant); // local is a visible constant
+            Constraint constraint = local.getConstraint();
+
+            if(!globals || constraint.isStatic()) {
+               Value value = inner.getValue(name);
+
+               if (value == null) {
+                  if (reference) {
+                     inner.addValue(name, local); // enable modification of local
+                  } else {
+                     Object object = local.getValue();
+                     Value constant = Value.getConstant(object, constraint);
+
+                     inner.addValue(name, constant); // local is a visible constant
+                  }
                }
             }
          }

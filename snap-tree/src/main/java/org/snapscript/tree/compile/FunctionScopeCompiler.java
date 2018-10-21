@@ -1,5 +1,7 @@
 package org.snapscript.tree.compile;
 
+import static org.snapscript.core.ModifierType.STATIC;
+
 import java.util.List;
 
 import org.snapscript.core.constraint.Constraint;
@@ -16,7 +18,11 @@ public class FunctionScopeCompiler extends ScopeCompiler {
    protected final GenericList generics;
 
    public FunctionScopeCompiler(GenericList generics) {
-      this.extractor = new LocalScopeExtractor(false, true);
+      this(generics, false);
+   }
+
+   public FunctionScopeCompiler(GenericList generics, boolean globals) {
+      this.extractor = new LocalScopeExtractor(false, true, globals);
       this.generics = generics;
    }
 

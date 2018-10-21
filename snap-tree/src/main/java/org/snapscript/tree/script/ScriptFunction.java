@@ -38,7 +38,7 @@ public class ScriptFunction extends Statement {
    public ScriptFunction(FunctionName identifier, ParameterList parameters, Constraint constraint, Statement body){
       this.reference = new AtomicReference<FunctionBody>();
       this.constraint = new DeclarationConstraint(constraint);
-      this.compiler = new FunctionScopeCompiler(identifier);
+      this.compiler = new FunctionScopeCompiler(identifier, true);
       this.builder = new ScriptFunctionBuilder(body);
       this.execution = new NoExecution(NORMAL);
       this.identifier = identifier;

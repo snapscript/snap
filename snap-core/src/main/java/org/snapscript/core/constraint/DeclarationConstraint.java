@@ -92,12 +92,17 @@ public class DeclarationConstraint extends Constraint {
    public boolean isPrivate() {
       return ModifierType.isPrivate(modifiers);
    }
-   
+
    @Override
    public boolean isConstant() {
       return ModifierType.isConstant(modifiers);
    }
-   
+
+   @Override
+   public boolean isStatic() {
+      return ModifierType.isStatic(modifiers);
+   }
+
    @Override
    public String toString() {
       return String.valueOf(constraint);

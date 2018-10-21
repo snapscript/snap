@@ -39,7 +39,12 @@ public class CompileErrorHandler {
       String message = formatter.formatGenericError(name, list);
       throw builder.createInternalException(message);
    }
-   
+
+   public Result handleReferenceError(Scope scope, String name) {
+      String message = formatter.formatReferenceError(name);
+      throw builder.createInternalException(message);
+   }
+
    public Result handleReferenceError(Scope scope, Type type, String name) {
       String message = formatter.formatReferenceError(type, name);
       throw builder.createInternalException(message);

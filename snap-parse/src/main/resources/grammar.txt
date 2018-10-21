@@ -347,12 +347,15 @@ module-function = <annotation-list><access-modifier-list><function-name>'('<para
 module-statement = {<try-statement> | <synchronized-statement> | <conditional-statement> | <type-definition> | <assignment-statement> | <expression-statement>};
 module-part = {<module-import> | <module-function> | <module-declaration> | <module-statement>};
 module-definition = ?<annotation-list>'module'_<module-name>{'{}' | '{'*<module-part>'}'};
- 
+
+global = <assignment-variable>?(':'<constraint>?_)?('='<assignment-expression>);
+global-statement = <declaration-modifier>_<global>*(','<global>)';';
+
 script-import = <import-static> | <import> | <import-list>;
 script-function = {'function'|'func'}_<function-name>'('<parameter-list>')'?(':'<constraint>)<group-statement>;
 script-statement = { <try-statement> | 
 				     <synchronized-statement> |
-				     <declaration-statement> |
+				     <global-statement> |
 				     <assert-statement> |
 				     <debug-statement> | 
 				     <conditional-statement> | 

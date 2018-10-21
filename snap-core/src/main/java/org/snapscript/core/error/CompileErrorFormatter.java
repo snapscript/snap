@@ -34,6 +34,16 @@ public class CompileErrorFormatter {
       
       return builder.toString();
    }
+
+   public String formatReferenceError(String name) {
+      StringBuilder builder = new StringBuilder();
+
+      builder.append("Property '");
+      builder.append(name);
+      builder.append("' not found in scope");
+
+      return builder.toString();
+   }
    
    public String formatReferenceError(Type type, String name) {
       StringBuilder builder = new StringBuilder();
