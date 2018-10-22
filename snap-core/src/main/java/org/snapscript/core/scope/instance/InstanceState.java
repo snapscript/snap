@@ -5,7 +5,6 @@ import java.util.Set;
 
 import org.snapscript.common.Cache;
 import org.snapscript.common.CompoundIterator;
-import org.snapscript.common.CopyOnWriteCache;
 import org.snapscript.common.HashCache;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.InternalStateException;
@@ -15,12 +14,12 @@ import org.snapscript.core.variable.Value;
 public class InstanceState implements State {
    
    private final Cache<String, Constraint> constraints;
-   private final Cache<String, Value> values;   
+   private final Cache<String, Value> values;
    private final Instance instance;
 
    public InstanceState(Instance instance) {
       this.constraints = new HashCache<String, Constraint>();
-      this.values = new CopyOnWriteCache<String, Value>();
+      this.values = new HashCache<String, Value>();
       this.instance = instance;
    }
 
@@ -48,11 +47,7 @@ public class InstanceState implements State {
          if(state == null) {
             throw new InternalStateException("Scope for '" + name + "' does not exist");
          }
-         value = state.getValue(name);
-         
-         if(value != null) {
-            values.cache(name, value);
-         }
+         return state.getValue(name);
       }
       return value;
    }
