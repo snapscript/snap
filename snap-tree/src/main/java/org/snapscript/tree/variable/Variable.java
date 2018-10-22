@@ -13,7 +13,7 @@ import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.index.Index;
-import org.snapscript.core.scope.index.LocalScopeFinder;
+import org.snapscript.core.scope.index.LocalValueFinder;
 import org.snapscript.core.variable.Value;
 import org.snapscript.core.variable.bind.VariableBinder;
 import org.snapscript.tree.NameReference;
@@ -40,15 +40,15 @@ public class Variable implements Compilation {
    private static class CompileResult extends Evaluation {
       
       private final ImplicitImportLoader loader;
-      private final LocalScopeFinder finder;
+      private final LocalValueFinder finder;
       private final VariableBinder binder;
       private final AtomicInteger offset;
       private final String name;
       
       public CompileResult(ErrorHandler handler, ProxyWrapper wrapper, String name) {
          this.binder = new VariableBinder(handler, wrapper, name);
+         this.finder = new LocalValueFinder(name);
          this.loader = new ImplicitImportLoader();
-         this.finder = new LocalScopeFinder();
          this.offset = new AtomicInteger(-1);
          this.name = name;
       }
@@ -68,7 +68,7 @@ public class Variable implements Compilation {
       @Override
       public Constraint compile(Scope scope, Constraint left) throws Exception{
          int depth = offset.get();
-         Value value = finder.findValue(scope, name, depth);
+         Value value = finder.findValue(scope, depth);
          
          if(value == null) {
             return binder.compile(scope);
@@ -79,7 +79,7 @@ public class Variable implements Compilation {
       @Override
       public Value evaluate(Scope scope, Value left) throws Exception{
          int depth = offset.get();
-         Value value = finder.findValue(scope, name, depth);
+         Value value = finder.findValue(scope, depth);
          
          if(value == null) {
             return binder.bind(scope);
