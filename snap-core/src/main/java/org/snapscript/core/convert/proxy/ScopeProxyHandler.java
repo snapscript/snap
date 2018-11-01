@@ -26,12 +26,12 @@ public class ScopeProxyHandler implements ProxyHandler {
       String name = method.getName();
       Object[] convert = extractor.extract(arguments);
       FunctionCall call = resolver.resolveInstance(scope, scope, name, convert); // here arguments can be null!!!
-      
+
       if(call == null) {
          throw new InternalStateException("Method '" + name + "' not found");
       }
       Object result = call.invoke(scope, scope, convert);
-      
+
       if(result != null) {
          return wrapper.toProxy(result);
       }

@@ -101,6 +101,12 @@ public class ProxyWrapper {
             }
             return object;
          }
+         if(AnyProxy.class.isInstance(object)) {
+            AnyProxy proxy = (AnyProxy)object;
+            Object value = proxy.getScope();
+
+            return value;
+         }
          if(Bridge.class.isInstance(object)) {
             Bridge bridge = (Bridge)object;
             Instance instance = bridge.getInstance();

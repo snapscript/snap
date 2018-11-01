@@ -36,6 +36,9 @@ public class ProxyFactory {
       if(interfaces.length == 0) {
          throw new InternalStateException("No interfaces found for instance");
       }
+      if(interfaces.length == 1) {
+         return new AnyProxy(wrapper, resolver, instance);
+      }
       ScopeProxyHandler delegate = new ScopeProxyHandler(wrapper, resolver, instance);
       TraceProxyHandler tracer = new TraceProxyHandler(delegate, interceptor, handler, instance);
 
