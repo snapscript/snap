@@ -21,7 +21,7 @@ public class GenericParameterExtractor {
 
    public Scope extract(Scope local) throws Exception {
       List<Constraint> constraints = generics.getGenerics(local);
-      Scope scope = extractor.extract(local);    
+      Scope scope = extractor.extract(local);
       Table table = scope.getTable();
       int size = constraints.size();
 
