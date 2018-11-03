@@ -1,6 +1,6 @@
 package org.snapscript.tree.define;
 
-import static org.snapscript.core.scope.index.CaptureType.MEMBER;
+import static org.snapscript.core.scope.index.CaptureType.COMPILE_MEMBER;
 
 import java.util.List;
 
@@ -34,7 +34,7 @@ public abstract class MemberConstructor extends TypePart {
    public MemberConstructor(AnnotationList annotations, ModifierList list, ParameterList parameters, TypePart part, Statement body){  
       this.assembler = new ConstructorAssembler(parameters, part, body);
       this.identifier = new ConstructorName();
-      this.compiler = new FunctionScopeCompiler(identifier, MEMBER);
+      this.compiler = new FunctionScopeCompiler(identifier, COMPILE_MEMBER);
       this.annotations = annotations;
       this.list = list;
    } 

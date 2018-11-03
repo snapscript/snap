@@ -1,6 +1,6 @@
 package org.snapscript.tree.script;
 
-import static org.snapscript.core.scope.index.CaptureType.GLOBALS;
+import static org.snapscript.core.scope.index.CaptureType.EXECUTE_SCRIPT;
 
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.function.InvocationBuilder;
@@ -14,7 +14,7 @@ public class ScriptInvocation implements Invocation<Object> {
    private final InvocationBuilder builder;
    
    public ScriptInvocation(InvocationBuilder builder, Signature signature) {
-      this.extractor = new CaptureScopeExtractor(GLOBALS);
+      this.extractor = new CaptureScopeExtractor(EXECUTE_SCRIPT);
       this.builder = builder;
    }
    

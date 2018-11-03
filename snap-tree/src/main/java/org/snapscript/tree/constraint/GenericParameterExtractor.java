@@ -1,6 +1,6 @@
 package org.snapscript.tree.constraint;
 
-import static org.snapscript.core.scope.index.CaptureType.GENERICS;
+import static org.snapscript.core.scope.index.CaptureType.EXECUTE_GENERICS;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public class GenericParameterExtractor {
    private final GenericList generics;
    
    public GenericParameterExtractor(GenericList generics) {
-      this.extractor = new CaptureScopeExtractor(GENERICS);
+      this.extractor = new CaptureScopeExtractor(EXECUTE_GENERICS);
       this.generics = generics;
    }
 

@@ -78,7 +78,6 @@ public class InvocationCache {
             if(next < cache.length) {
                cache[next] = connection;
                keys[next] = type;
-               count = next;
             }
          }
       }

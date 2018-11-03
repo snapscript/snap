@@ -1,7 +1,7 @@
 package org.snapscript.compile.assemble;
 
 import static org.snapscript.core.Reserved.DEFAULT_PACKAGE;
-import static org.snapscript.core.scope.index.CaptureType.EVALUATE;
+import static org.snapscript.core.scope.index.CaptureType.COMPILE_EVALUATE;
 
 import java.util.concurrent.Executor;
 
@@ -30,7 +30,7 @@ public class OperationEvaluator implements ExpressionEvaluator {
    public OperationEvaluator(Context context, Verifier verifier, Executor executor, int limit) {
       this.assembler = new OperationAssembler(context, executor);
       this.compiler = new EvaluationCompiler(assembler, verifier, executor, limit);
-      this.extractor = new CaptureScopeExtractor(EVALUATE);
+      this.extractor = new CaptureScopeExtractor(COMPILE_EVALUATE);
       this.builder = new ModelScopeBuilder(context);
    }
    

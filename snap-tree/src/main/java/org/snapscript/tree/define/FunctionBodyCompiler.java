@@ -1,8 +1,11 @@
 package org.snapscript.tree.define;
 
+import static org.snapscript.core.type.Category.OTHER;
+
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.FunctionBody;
 import org.snapscript.core.scope.Scope;
+import org.snapscript.core.type.Category;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeState;
 import org.snapscript.tree.compile.TypeScopeCompiler;
@@ -17,7 +20,15 @@ public class FunctionBodyCompiler extends TypeState {
       this.compiler = new TypeScopeCompiler(identifier);
       this.body = body;
    }
-   
+
+   @Override
+   public Category define(Scope scope, Type type) throws Exception {
+      Scope outer = compiler.define(scope, type);
+
+      body.define(outer);
+      return OTHER;
+   }
+
    @Override
    public void compile(Scope scope, Type type) throws Exception {
       Function function = body.create(scope);

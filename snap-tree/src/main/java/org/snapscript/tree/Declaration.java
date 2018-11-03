@@ -57,7 +57,7 @@ public class Declaration {
       Table table = scope.getTable();
       int depth = offset.get();
       
-      try { 
+      try {
          table.addLocal(depth, local);
       }catch(Exception e) {
          throw new InternalStateException("Declaration of variable '" + name +"' failed", e);
@@ -71,7 +71,7 @@ public class Declaration {
       Table table = scope.getTable();
       int depth = offset.get();
       
-      try { 
+      try {
          table.addLocal(depth, local);
       }catch(Exception e) {
          throw new InternalStateException("Declaration of variable '" + name +"' failed", e);

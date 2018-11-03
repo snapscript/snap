@@ -12,12 +12,11 @@ public class FibTest extends TestCase {
    private static final String SOURCE=
    "function fib(n) {\n"+
    "   if (n<2) {\n"+
-   "      return 1;\n"+
+   "      return n;\n"+
    "   }\n"+
    "   return fib(n-1) + fib(n-2);\n"+
    "}\n"+
-   "var result = fib(30);\n"+
-   "println(result);\n";
+   "println(fib(30));\n";
 
    //time=1498 memory=1,933,564,016
    //time=1514 memory=1,933,196,408
@@ -40,6 +39,7 @@ public class FibTest extends TestCase {
    //time=703 memory=1,550,965,720 --> cache function connections
    //time=672 memory=1,550,965,720
    //time=608 memory=1,550,965,744 --> cache result of closure search
+   //time=569 memory=925,192,344 --> Create new local scope only if needed
    public void testFib() throws Exception {
       System.err.println(SOURCE);
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();

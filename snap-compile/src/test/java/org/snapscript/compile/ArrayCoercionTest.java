@@ -1,10 +1,7 @@
 package org.snapscript.compile;
 
-import org.snapscript.compile.Compiler;
-import org.snapscript.compile.Executable;
-import org.snapscript.compile.verify.VerifyException;
-
 import junit.framework.TestCase;
+import org.snapscript.compile.verify.VerifyException;
 
 public class ArrayCoercionTest extends TestCase {
 
@@ -75,6 +72,7 @@ public class ArrayCoercionTest extends TestCase {
    public void testArrayCoercion() throws Exception {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
       try {
+         System.err.println(SOURCE_1);
          Executable executable = compiler.compile(SOURCE_1);
          executable.execute();
       }catch(VerifyException e){

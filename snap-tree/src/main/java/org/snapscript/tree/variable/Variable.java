@@ -57,7 +57,7 @@ public class Variable implements Compilation {
       public void define(Scope scope) throws Exception{
          Index index = scope.getIndex();
          int depth = index.get(name);
-   
+         
          if(depth == -1) {
             loader.loadImports(scope, name); // static reference
          } else {

@@ -28,9 +28,9 @@ public class InnerTraitTest extends TestCase {
    "   class StringRow with Row {\n"+
    "      const key;\n"+
    "      const cells;\n"+
-   "      new(key, cells){\n"+
-   "         this.key = key;\n"+
-   "         this.cells = cells;\n"+
+   "      new(x, y){\n"+
+   "         this.key = x;\n"+
+   "         this.cells = y;\n"+
    "      }\n"+
    "      dump(){\n"+
    "         for(var cell in cells){\n"+

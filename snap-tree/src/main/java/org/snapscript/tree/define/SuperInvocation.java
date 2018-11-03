@@ -1,6 +1,6 @@
 package org.snapscript.tree.define;
 
-import static org.snapscript.core.scope.index.CaptureType.SUPER;
+import static org.snapscript.core.scope.index.CaptureType.EXECUTE_SUPER;
 import static org.snapscript.core.variable.Value.NULL;
 
 import org.snapscript.core.Evaluation;
@@ -26,7 +26,7 @@ public class SuperInvocation extends Evaluation {
    private final Type type;
    
    public SuperInvocation(Evaluation function, ArgumentList arguments, Type type) {
-      this.extractor = new CaptureScopeExtractor(SUPER);
+      this.extractor = new CaptureScopeExtractor(EXECUTE_SUPER);
       this.reference = new NameReference(function);
       this.holder = new SuperFunctionHolder(reference, type);
       this.constraint = new StaticConstraint(type);

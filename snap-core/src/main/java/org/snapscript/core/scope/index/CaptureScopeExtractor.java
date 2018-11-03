@@ -1,7 +1,6 @@
 package org.snapscript.core.scope.index;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Iterator;
 
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
@@ -26,20 +25,22 @@ public class CaptureScopeExtractor {
    }
 
    public Scope extract(Scope original, Scope outer) {
-      Scope capture = new LocalScope(original, outer);
+      Table table = original.getTable();
+      Iterator<Local> iterator = table.iterator();
 
-      if(original != null) {
-         Table table = original.getTable();
-         State inner = capture.getState();
-         
-         for(Local local : table){
+      if(iterator.hasNext() || !type.isCompiled()) {
+         Scope capture = new LocalScope(original, outer);
+
+         while(iterator.hasNext()) {
+            Local local = iterator.next();
             String name = local.getName();
             Constraint constraint = local.getConstraint();
 
-            if(!type.isGlobals() || constraint.isStatic()) {
+            if (!type.isGlobals() || constraint.isStatic()) {
+               State inner = capture.getState();
                Value value = inner.getValue(name);
 
-               if(value == null) {
+               if (value == null) {
                   if (type.isReference()) {
                      inner.addValue(name, local); // enable modification of local
                   } else {
@@ -51,7 +52,8 @@ public class CaptureScopeExtractor {
                }
             }
          }
+         return capture;
       }
-      return capture;
+      return original;
    }
 }
