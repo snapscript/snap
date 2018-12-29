@@ -4,7 +4,7 @@ import org.snapscript.core.Evaluation;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.ScopeState;
 import org.snapscript.core.type.TypeState;
 import org.snapscript.core.variable.Value;
 import org.snapscript.tree.DeclarationAllocator;
@@ -63,7 +63,7 @@ public class MemberFieldAssembler {
       @Override
       public Constraint compile(Scope scope, Constraint left) throws Exception {
          Value value = allocator.compile(scope, name, modifiers);
-         State state = scope.getState();
+         ScopeState state = scope.getState();
          
          try { 
             state.addValue(name, value);
@@ -76,7 +76,7 @@ public class MemberFieldAssembler {
       @Override
       public Value evaluate(Scope scope, Value left) throws Exception {
          Value value = allocator.allocate(scope, name, modifiers);
-         State state = scope.getState();
+         ScopeState state = scope.getState();
          
          try { 
             state.addValue(name, value);

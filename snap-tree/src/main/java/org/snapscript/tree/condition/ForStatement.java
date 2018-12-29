@@ -13,7 +13,7 @@ import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.result.Result;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.index.Index;
+import org.snapscript.core.scope.index.ScopeIndex;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.trace.TraceStatement;
@@ -60,7 +60,7 @@ public class ForStatement implements Compilation {
       
       @Override
       public boolean define(Scope scope) throws Exception {
-         Index index = scope.getIndex();
+         ScopeIndex index = scope.getIndex();
          int size = index.size();
          
          try {
@@ -79,7 +79,7 @@ public class ForStatement implements Compilation {
 
       @Override
       public Execution compile(Scope scope, Constraint returns) throws Exception {
-         Index index = scope.getIndex();
+         ScopeIndex index = scope.getIndex();
          int size = index.size();
          
          try {            

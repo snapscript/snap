@@ -3,24 +3,24 @@ package org.snapscript.core.scope.instance;
 import org.snapscript.core.convert.proxy.ScopeProxy;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.platform.Bridge;
-import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.ScopeState;
 import org.snapscript.core.scope.index.ArrayTable;
-import org.snapscript.core.scope.index.Index;
+import org.snapscript.core.scope.index.ScopeIndex;
+import org.snapscript.core.scope.index.ScopeTable;
 import org.snapscript.core.scope.index.StackIndex;
-import org.snapscript.core.scope.index.Table;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 
 public class ObjectInstance implements Instance {
 
+   private final ScopeTable table;
+   private final ScopeIndex index;
+   private final ScopeState state;
    private final ScopeProxy proxy;
    private final Instance base;
    private final Bridge object;
    private final Module module;
    private final Value self;
-   private final Table table;
-   private final Index index;
-   private final State state;
    private final Type type;
    
    public ObjectInstance(Module module, Instance base, Bridge object, Value self, Type type) {
@@ -66,15 +66,20 @@ public class ObjectInstance implements Instance {
    }
    
    @Override
-   public Index getIndex(){
+   public ScopeIndex getIndex(){
       return index;
    }
    
    @Override
-   public Table getTable(){
+   public ScopeTable getTable(){
       return table;
    }
-  
+
+   @Override
+   public ScopeState getState() {
+      return state;
+   }
+   
    @Override
    public Module getModule() {
       return module;
@@ -88,11 +93,6 @@ public class ObjectInstance implements Instance {
    @Override
    public Type getType(){
       return type;
-   }
-
-   @Override
-   public State getState() {
-      return state;
    }
    
    @Override

@@ -3,7 +3,7 @@ package org.snapscript.core.scope.index;
 import static org.snapscript.core.scope.index.AddressType.INSTANCE;
 
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.ScopeState;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 import org.snapscript.core.variable.bind.VariableFinder;
@@ -20,7 +20,7 @@ public class AddressResolver {
    }   
 
    public Address resolve(String name, int offset) {
-      State state = scope.getState();
+      ScopeState state = scope.getState();
       Value value = state.getValue(name);
       
       if(value == null) { 

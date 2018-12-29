@@ -8,7 +8,7 @@ import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.result.Result;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.index.Index;
+import org.snapscript.core.scope.index.ScopeIndex;
 import org.snapscript.core.yield.Resume;
 import org.snapscript.core.yield.Yield;
 
@@ -63,7 +63,7 @@ public class StatementBlock extends Statement {
       }
       
       public StatementCompiler define(Scope scope) throws Exception {
-         Index index = scope.getIndex();
+         ScopeIndex index = scope.getIndex();
          int size = index.size();
          
          try {

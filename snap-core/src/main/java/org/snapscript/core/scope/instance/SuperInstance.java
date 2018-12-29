@@ -2,9 +2,9 @@ package org.snapscript.core.scope.instance;
 
 import org.snapscript.core.module.Module;
 import org.snapscript.core.platform.Bridge;
-import org.snapscript.core.scope.State;
-import org.snapscript.core.scope.index.Index;
-import org.snapscript.core.scope.index.Table;
+import org.snapscript.core.scope.ScopeState;
+import org.snapscript.core.scope.index.ScopeIndex;
+import org.snapscript.core.scope.index.ScopeTable;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 
@@ -53,17 +53,17 @@ public class SuperInstance implements Instance {
    }
    
    @Override
-   public State getState() {
+   public ScopeState getState() {
       return scope.getState();
    }
    
    @Override
-   public Index getIndex(){
+   public ScopeIndex getIndex(){
       return scope.getIndex();
    }
    
    @Override
-   public Table getTable(){
+   public ScopeTable getTable(){
       return scope.getTable();
    }
    

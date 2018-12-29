@@ -11,10 +11,10 @@ import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.ScopeState;
 import org.snapscript.core.scope.index.Address;
 import org.snapscript.core.scope.index.AddressCache;
-import org.snapscript.core.scope.index.Table;
+import org.snapscript.core.scope.index.ScopeTable;
 import org.snapscript.core.type.Type;
 
 public class AttributeRule extends ConstraintRule {
@@ -48,8 +48,8 @@ public class AttributeRule extends ConstraintRule {
       int count = defaults.size();
 
       if(count > 0) {
-         Table table = scope.getTable();
-         State state = scope.getState();
+         ScopeTable table = scope.getTable();
+         ScopeState state = scope.getState();
          Constraint first = table.getConstraint(start);
 
          for(int i = 0; i < count; i++) {

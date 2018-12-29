@@ -11,7 +11,7 @@ import org.snapscript.core.module.Module;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.property.PropertyValue;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.ScopeState;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeExtractor;
 
@@ -32,7 +32,7 @@ public class StaticConstantCollector {
       if(!types.isEmpty()) {
          Set<String> names = indexer.index(type);
          Scope scope = type.getScope();
-         State state = scope.getState();
+         ScopeState state = scope.getState();
    
          for(Type next : types) {
             if(next != type) {

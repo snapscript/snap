@@ -4,21 +4,21 @@ import org.snapscript.core.module.Module;
 import org.snapscript.core.platform.Bridge;
 import org.snapscript.core.scope.MapState;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.ScopeState;
 import org.snapscript.core.scope.index.ArrayTable;
-import org.snapscript.core.scope.index.Index;
+import org.snapscript.core.scope.index.ScopeIndex;
+import org.snapscript.core.scope.index.ScopeTable;
 import org.snapscript.core.scope.index.StackIndex;
-import org.snapscript.core.scope.index.Table;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Reference;
 import org.snapscript.core.variable.Value;
 
 public class PrimitiveInstance implements Instance {   
    
+   private final ScopeIndex index;
+   private final ScopeTable table;
+   private final ScopeState state;
    private final Module module;
-   private final Index index;
-   private final Table table;
-   private final State state;
    private final Value self;
    private final Type type;
    
@@ -62,13 +62,18 @@ public class PrimitiveInstance implements Instance {
    }
    
    @Override
-   public Index getIndex(){
+   public ScopeIndex getIndex(){
       return index;
    }
   
    @Override
-   public Table getTable(){
+   public ScopeTable getTable(){
       return table;
+   }
+
+   @Override
+   public ScopeState getState() {
+      return state;
    }
    
    @Override
@@ -86,11 +91,6 @@ public class PrimitiveInstance implements Instance {
       return type;
    }
 
-   @Override
-   public State getState() {
-      return state;
-   }
-   
    @Override
    public String toString(){
       return type.toString();

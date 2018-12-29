@@ -24,7 +24,7 @@ import org.snapscript.core.function.Signature;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.index.Address;
 import org.snapscript.core.scope.index.Local;
-import org.snapscript.core.scope.index.Table;
+import org.snapscript.core.scope.index.ScopeTable;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeExtractor;
 
@@ -165,7 +165,7 @@ public class ConstraintProjectionTest extends TestCase {
    private Signature createSignature(Scope scope, GenericPair[] typeParams, GenericPair[] functionParams, Map<String, GenericPair> params){
       List<Constraint> generics = createConstraintList(functionParams);
       List<Parameter> parameters = createParameterList(params);
-      Table table = scope.getTable();
+      ScopeTable table = scope.getTable();
 
       for(int i = 0; i < generics.size(); i++){
          Constraint generic = generics.get(i);
@@ -182,7 +182,7 @@ public class ConstraintProjectionTest extends TestCase {
       Type source = context.getLoader().loadType(owner);
       Constraint constraint = createConstraint(name, type, typeParams);
       List<Constraint> generics = createConstraintList(functionParams);
-      Table table = scope.getTable();
+      ScopeTable table = scope.getTable();
       
       for(int i = 0; i < generics.size(); i++){
          Constraint generic = generics.get(i);  

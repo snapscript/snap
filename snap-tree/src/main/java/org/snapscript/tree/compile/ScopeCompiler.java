@@ -11,10 +11,10 @@ import org.snapscript.core.function.Signature;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.ScopeState;
 import org.snapscript.core.scope.index.Address;
 import org.snapscript.core.scope.index.Local;
-import org.snapscript.core.scope.index.Table;
+import org.snapscript.core.scope.index.ScopeTable;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeExtractor;
 import org.snapscript.core.type.TypeLoader;
@@ -31,7 +31,7 @@ public abstract class ScopeCompiler {
       Context context = module.getContext();
       TypeExtractor extractor = context.getExtractor();
       Set<Property> properties = extractor.getProperties(type);
-      State state = scope.getState();
+      ScopeState state = scope.getState();
 
       for(Property property : properties) {
          String name = property.getName();
@@ -56,7 +56,7 @@ public abstract class ScopeCompiler {
 
    protected void compileParameters(Scope scope, Function function) {
       Signature signature = function.getSignature();
-      Table table = scope.getTable();
+      ScopeTable table = scope.getTable();
       List<Parameter> parameters = signature.getParameters();
       int count = parameters.size();
 

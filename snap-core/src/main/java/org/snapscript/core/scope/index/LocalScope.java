@@ -3,15 +3,15 @@ package org.snapscript.core.scope.index;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.CompoundScope;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.ScopeState;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 
 public class LocalScope implements Scope {
    
-   private final Index index;
-   private final Table table;
-   private final State state;
+   private final ScopeIndex index;
+   private final ScopeTable table;
+   private final ScopeState state;
    private final Scope inner;
    private final Scope outer;
    
@@ -54,17 +54,17 @@ public class LocalScope implements Scope {
    }
    
    @Override
-   public Table getTable(){
+   public ScopeTable getTable(){
       return table;
    }
    
    @Override
-   public Index getIndex(){
+   public ScopeIndex getIndex(){
       return index;
    }
 
    @Override
-   public State getState() {
+   public ScopeState getState() {
       return state;
    }
    

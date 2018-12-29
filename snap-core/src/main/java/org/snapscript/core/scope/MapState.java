@@ -10,7 +10,7 @@ import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.variable.Value;
 
-public class MapState implements State {
+public class MapState implements ScopeState {
    
    private final Cache<String, Constraint> constraints;
    private final Cache<String, Value> values;
@@ -32,7 +32,7 @@ public class MapState implements State {
       Iterator<String> inner = keys.iterator();
       
       if(scope != null) {
-         State state = scope.getState();
+         ScopeState state = scope.getState();
          Iterator<String> outer = state.iterator();
          
          return new CompoundIterator<String>(inner, outer);
@@ -45,7 +45,7 @@ public class MapState implements State {
       Value value = values.fetch(name);
       
       if(value == null && scope != null) {
-         State state = scope.getState();
+         ScopeState state = scope.getState();
          
          if(state == null) {
             throw new InternalStateException("Scope for '" + name + "' does not exist");
@@ -69,7 +69,7 @@ public class MapState implements State {
       Constraint constraint = constraints.fetch(name);
       
       if(constraint == null && scope != null) {
-         State state = scope.getState();
+         ScopeState state = scope.getState();
          
          if(state == null) {
             throw new InternalStateException("Scope for '" + name + "' does not exist");

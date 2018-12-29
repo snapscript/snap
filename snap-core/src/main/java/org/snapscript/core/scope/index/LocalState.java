@@ -10,10 +10,10 @@ import org.snapscript.common.HashCache;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.ScopeState;
 import org.snapscript.core.variable.Value;
 
-public class LocalState implements State {
+public class LocalState implements ScopeState {
 
    private final Cache<String, Constraint> constraints;
    private final Cache<String, Value> values;
@@ -35,7 +35,7 @@ public class LocalState implements State {
       Iterator<String> inner = keys.iterator();
       
       if(scope != null) {
-         State state = scope.getState();
+         ScopeState state = scope.getState();
          Iterator<String> outer = state.iterator();
          
          return new CompoundIterator<String>(inner, outer);
@@ -48,7 +48,7 @@ public class LocalState implements State {
       Value value = values.fetch(name);
       
       if(value == null && scope != null) {
-         State state = scope.getState();
+         ScopeState state = scope.getState();
          
          if(state == null) {
             throw new InternalStateException("Scope for '" + name + "' does not exist");
@@ -72,7 +72,7 @@ public class LocalState implements State {
       Constraint constraint = constraints.fetch(name);
       
       if(constraint == null && scope != null) {
-         State state = scope.getState();
+         ScopeState state = scope.getState();
          
          if(state == null) {
             throw new InternalStateException("Scope for '" + name + "' does not exist");

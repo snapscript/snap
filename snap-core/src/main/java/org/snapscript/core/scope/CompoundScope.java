@@ -3,17 +3,17 @@ package org.snapscript.core.scope;
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.index.ArrayTable;
-import org.snapscript.core.scope.index.Index;
+import org.snapscript.core.scope.index.ScopeIndex;
+import org.snapscript.core.scope.index.ScopeTable;
 import org.snapscript.core.scope.index.StackIndex;
-import org.snapscript.core.scope.index.Table;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 
 public class CompoundScope implements Scope {
    
-   private final Index index;
-   private final Table table;
-   private final State state;
+   private final ScopeIndex index;
+   private final ScopeTable table;
+   private final ScopeState state;
    private final Scope outer;
    
    public CompoundScope(Scope inner, Scope outer) {
@@ -54,17 +54,17 @@ public class CompoundScope implements Scope {
    } 
    
    @Override
-   public Index getIndex(){
+   public ScopeIndex getIndex(){
       return index;
    }
    
    @Override
-   public Table getTable(){
+   public ScopeTable getTable(){
       return table;
    }
    
    @Override
-   public State getState() {
+   public ScopeState getState() {
       return state;
    }
    

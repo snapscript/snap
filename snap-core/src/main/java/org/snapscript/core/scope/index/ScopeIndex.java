@@ -1,6 +1,6 @@
 package org.snapscript.core.scope.index;
 
-public interface Index extends Iterable<Address> {
+public interface ScopeIndex extends Iterable<Address> {
    Address get(String name);
    Address index(String name);
    boolean contains(String name);

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.ScopeState;
 import org.snapscript.core.type.Type;
 
 public class ConstraintMapper {
@@ -14,7 +14,7 @@ public class ConstraintMapper {
    }
    
    public Constraint map(Scope scope, String name) {    
-      State state = scope.getState();
+      ScopeState state = scope.getState();
       Constraint constraint = state.getConstraint(name);
       
       if(constraint == null) {

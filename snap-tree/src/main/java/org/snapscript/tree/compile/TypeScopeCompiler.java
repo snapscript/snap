@@ -5,7 +5,7 @@ import java.util.List;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.ScopeState;
 import org.snapscript.core.type.Type;
 import org.snapscript.tree.constraint.GenericList;
 
@@ -22,7 +22,7 @@ public class TypeScopeCompiler extends ScopeCompiler{
       List<Constraint> constraints = generics.getGenerics(scope);
       Scope outer = type.getScope();
       Scope inner = outer.getStack();
-      State state = inner.getState();
+      ScopeState state = inner.getState();
       int size = constraints.size();
 
       for(int i = 0; i < size; i++) {
@@ -39,7 +39,7 @@ public class TypeScopeCompiler extends ScopeCompiler{
       List<Constraint> constraints = generics.getGenerics(scope);
       Scope outer = type.getScope();
       Scope inner = outer.getStack();
-      State state = inner.getState();
+      ScopeState state = inner.getState();
       int size = constraints.size();
 
       compileParameters(inner, function);

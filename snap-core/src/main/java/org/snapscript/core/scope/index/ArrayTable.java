@@ -9,7 +9,7 @@ import org.snapscript.common.EmptyIterator;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.variable.Value;
 
-public class ArrayTable implements Table {
+public class ArrayTable implements ScopeTable {
 
    private Constraint[] constraints;
    private Value[] externals;

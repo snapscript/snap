@@ -6,7 +6,7 @@ import org.snapscript.common.BitSet;
 import org.snapscript.core.NameChecker;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.ScopeState;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 
@@ -22,7 +22,7 @@ public class ImplicitImportLoader {
       if(checker.isEntity(name)) {
          Module module = scope.getModule();
          ImportManager manager = module.getManager();
-         State state = scope.getState();
+         ScopeState state = scope.getState();
          Value value = state.getValue(name);         
          
          if(value == null) {

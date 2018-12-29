@@ -10,15 +10,15 @@ import org.snapscript.core.convert.proxy.ProxyWrapper;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.ScopeState;
 import org.snapscript.core.scope.index.Address;
 import org.snapscript.core.scope.index.AddressType;
 import org.snapscript.core.variable.Value;
 import org.snapscript.core.variable.bind.VariableBinder;
 
-public class TableAllocationBuilder {
+public class ScopeAllocationBuilder {
 
-   public TableAllocation allocate(Scope scope, Address address) throws Exception {
+   public ScopeAllocation allocate(Scope scope, Address address) throws Exception {
       Module module = scope.getModule();
       Context context = module.getContext();
       ErrorHandler handler = context.getHandler();
@@ -27,25 +27,25 @@ public class TableAllocationBuilder {
       String name = address.getName();
 
       if(type == INSTANCE) {
-         VariableMatcher allocator = new LocalMatcher(handler, wrapper, name);
-         return new TableAllocation(allocator, address, false);
+         ScopeMatcher allocator = new LocalMatcher(handler, wrapper, name);
+         return new ScopeAllocation(allocator, address, false);
       }
       if(type == STATIC) {
-         VariableMatcher allocator = new LocalMatcher(handler, wrapper, name);
-         return new TableAllocation(allocator, address, true);
+         ScopeMatcher allocator = new LocalMatcher(handler, wrapper, name);
+         return new ScopeAllocation(allocator, address, true);
       }
       if(type == TYPE) {
-         VariableMatcher allocator = new GlobalMatcher(handler, wrapper, name);
-         return new TableAllocation(allocator, address, true);
+         ScopeMatcher allocator = new GlobalMatcher(handler, wrapper, name);
+         return new ScopeAllocation(allocator, address, true);
       }
       if(type == MODULE) {
-         VariableMatcher allocator = new GlobalMatcher(handler, wrapper, name);
-         return new TableAllocation(allocator, address, true);
+         ScopeMatcher allocator = new GlobalMatcher(handler, wrapper, name);
+         return new ScopeAllocation(allocator, address, true);
       }
       return null;
    }   
 
-   private static class LocalMatcher implements VariableMatcher {
+   private static class LocalMatcher implements ScopeMatcher {
       
       private final VariableBinder binder;   
       private final String name;
@@ -57,7 +57,7 @@ public class TableAllocationBuilder {
       
       @Override
       public Value compile(Scope scope) throws Exception {
-         State state = scope.getState();         
+         ScopeState state = scope.getState();         
          return state.getValue(name);
       }
       
@@ -67,7 +67,7 @@ public class TableAllocationBuilder {
       }
    }
 
-   private static class GlobalMatcher implements VariableMatcher {
+   private static class GlobalMatcher implements ScopeMatcher {
       
       private final VariableBinder binder;   
       

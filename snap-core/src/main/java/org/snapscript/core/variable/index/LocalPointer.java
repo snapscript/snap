@@ -4,7 +4,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.ScopeState;
 import org.snapscript.core.variable.Value;
 import org.snapscript.core.variable.bind.VariableFinder;
 import org.snapscript.core.variable.bind.VariableResult;
@@ -26,7 +26,7 @@ public class LocalPointer implements VariablePointer<Object> {
       VariableResult result = reference.get();
       
       if(result == null) {
-         State state = scope.getState();
+         ScopeState state = scope.getState();
          Value variable = state.getValue(name);
          
          if(variable == null) { 
@@ -47,7 +47,7 @@ public class LocalPointer implements VariablePointer<Object> {
       VariableResult result = reference.get();
       
       if(result == null) {
-         State state = scope.getState();
+         ScopeState state = scope.getState();
          Value variable = state.getValue(name);
          
          if(variable == null) { 

@@ -9,7 +9,7 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.index.Address;
 import org.snapscript.core.scope.index.AddressCache;
 import org.snapscript.core.scope.index.CaptureScopeExtractor;
-import org.snapscript.core.scope.index.Table;
+import org.snapscript.core.scope.index.ScopeTable;
 
 public class GenericParameterExtractor {
    
@@ -24,7 +24,7 @@ public class GenericParameterExtractor {
    public Scope extract(Scope local) throws Exception {
       List<Constraint> constraints = generics.getGenerics(local);
       Scope scope = extractor.extract(local);
-      Table table = scope.getTable();
+      ScopeTable table = scope.getTable();
       int size = constraints.size();
 
       for(int i = 0; i < size; i++) {

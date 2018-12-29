@@ -13,7 +13,7 @@ import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.index.Address;
-import org.snapscript.core.scope.index.Index;
+import org.snapscript.core.scope.index.ScopeIndex;
 import org.snapscript.core.scope.index.LocalValueFinder;
 import org.snapscript.core.variable.Value;
 import org.snapscript.core.variable.bind.VariableBinder;
@@ -56,7 +56,7 @@ public class Variable implements Compilation {
    
       @Override
       public void define(Scope scope) throws Exception{
-         Index index = scope.getIndex();
+         ScopeIndex index = scope.getIndex();
          Address address = index.get(name);
          
          if(address == null) {

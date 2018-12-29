@@ -17,7 +17,7 @@ import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.ScopeState;
 import org.snapscript.core.scope.index.Local;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceInterceptor;
@@ -79,7 +79,7 @@ public class ImportStatic implements Compilation {
             List<Function> functions = matcher.matchFunctions(type, prefix);
             List<Property> properties = matcher.matchProperties(type, prefix);
             Scope outer = module.getScope(); // make sure to use module scope
-            State state = outer.getState(); 
+            ScopeState state = outer.getState(); 
             
             for(Property property : properties) {
                String name = property.getName();

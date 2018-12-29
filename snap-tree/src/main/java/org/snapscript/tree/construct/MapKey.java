@@ -4,10 +4,10 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.ScopeState;
 import org.snapscript.core.scope.index.Address;
-import org.snapscript.core.scope.index.Index;
-import org.snapscript.core.scope.index.Table;
+import org.snapscript.core.scope.index.ScopeIndex;
+import org.snapscript.core.scope.index.ScopeTable;
 import org.snapscript.core.variable.Value;
 import org.snapscript.tree.NameReference;
 
@@ -24,7 +24,7 @@ public class MapKey extends Evaluation {
    @Override
    public void define(Scope scope) throws Exception{
       String name = reference.getName(scope);
-      Index index = scope.getIndex();
+      ScopeIndex index = scope.getIndex();
       Address address = index.get(name);
 
       location.set(address);
@@ -36,14 +36,14 @@ public class MapKey extends Evaluation {
       Address address = location.get();
       
       if(address == null){
-         State state = scope.getState(); 
+         ScopeState state = scope.getState(); 
          Value value = state.getValue(name);
          
          if(value != null) { 
             return value;
          }
       }else {
-         Table table = scope.getTable(); // here we use the stack
+         ScopeTable table = scope.getTable(); // here we use the stack
          Value value = table.getValue(address);
          
          if(value != null) { 

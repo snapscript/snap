@@ -13,9 +13,9 @@ import org.snapscript.core.function.Parameter;
 import org.snapscript.core.result.Result;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.index.Address;
-import org.snapscript.core.scope.index.Index;
+import org.snapscript.core.scope.index.ScopeIndex;
 import org.snapscript.core.scope.index.Local;
-import org.snapscript.core.scope.index.Table;
+import org.snapscript.core.scope.index.ScopeTable;
 import org.snapscript.core.type.Type;
 import org.snapscript.tree.function.ParameterDeclaration;
 
@@ -41,7 +41,7 @@ public class CatchBlockList {
          Statement statement = block.getStatement();
          
          if(statement != null) {
-            Index index = scope.getIndex();
+            ScopeIndex index = scope.getIndex();
             int size = index.size();
             
             try {
@@ -70,7 +70,7 @@ public class CatchBlockList {
             Parameter parameter = declaration.get(scope, 0);
             Constraint constraint = parameter.getConstraint();
             String name = parameter.getName();
-            Table table = scope.getTable();
+            ScopeTable table = scope.getTable();
             Local local = Local.getConstant(null, name, constraint);
             Address address = location.get();
             
@@ -97,7 +97,7 @@ public class CatchBlockList {
             Object cause = extractor.extract(scope, data);
             
             if(inspector.isCompatible(type, cause)) {
-               Table table = scope.getTable();
+               ScopeTable table = scope.getTable();
                Local local = Local.getConstant(cause, name);
                Address address = location.get();
                

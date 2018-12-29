@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.ScopeState;
 import org.snapscript.core.variable.Value;
 
 public class CaptureScopeExtractor {
@@ -25,7 +25,7 @@ public class CaptureScopeExtractor {
    }
 
    public Scope extract(Scope original, Scope outer) {
-      Table table = original.getTable();
+      ScopeTable table = original.getTable();
       Iterator<Value> iterator = table.iterator();
 
       if(iterator.hasNext() || !type.isCompiled()) {
@@ -37,7 +37,7 @@ public class CaptureScopeExtractor {
             Constraint constraint = local.getConstraint();
 
             if (!type.isGlobals() || constraint.isStatic()) {
-               State inner = capture.getState();
+               ScopeState inner = capture.getState();
                Value value = inner.getValue(name);
 
                if (value == null) {

@@ -5,23 +5,23 @@ import java.util.List;
 
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.index.Address;
-import org.snapscript.core.scope.index.Index;
+import org.snapscript.core.scope.index.ScopeIndex;
 
-public class TableBuilder {   
+public class ScopeBuilder {   
 
-   private final List<TableAllocation> allocations;
-   private final TableAllocationBuilder builder;
+   private final List<ScopeAllocation> allocations;
+   private final ScopeAllocationBuilder builder;
    
-   public TableBuilder(){
-      this.allocations = new ArrayList<TableAllocation>();
-      this.builder = new TableAllocationBuilder();
+   public ScopeBuilder(){
+      this.allocations = new ArrayList<ScopeAllocation>();
+      this.builder = new ScopeAllocationBuilder();
    }
 
    public void define(Scope scope) throws Exception {
-      Index index = scope.getIndex();   
+      ScopeIndex index = scope.getIndex();   
       
       for(Address address : index){
-         TableAllocation allocation = builder.allocate(scope, address);
+         ScopeAllocation allocation = builder.allocate(scope, address);
          
          if(allocation != null) {
             allocations.add(allocation);
@@ -30,14 +30,14 @@ public class TableBuilder {
    }
    
    public Scope compile(Scope scope) throws Exception {
-      for(TableAllocation allocation : allocations) {
+      for(ScopeAllocation allocation : allocations) {
          allocation.compile(scope);
       }
       return scope;
    }
    
    public Scope extract(Scope scope) throws Exception {
-      for(TableAllocation allocation : allocations) {
+      for(ScopeAllocation allocation : allocations) {
          allocation.allocate(scope);
       }
       return scope;

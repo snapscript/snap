@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.ScopeState;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 import org.snapscript.core.variable.bind.VariableFinder;
@@ -32,7 +32,7 @@ public class ModulePointer implements VariablePointer<Module> {
       if(result == null) {
          Type parent = left.getType(scope);
          Module module = parent.getModule();
-         State state = scope.getState();
+         ScopeState state = scope.getState();
          Value value = state.getValue(name);
          
          if(value == null) {
@@ -60,7 +60,7 @@ public class ModulePointer implements VariablePointer<Module> {
       
       if(result == null) {
          Scope inner = left.getScope();
-         State state = inner.getState();
+         ScopeState state = inner.getState();
          Value value = state.getValue(name);
          
          if(value == null) {

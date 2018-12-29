@@ -8,12 +8,12 @@ import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.Signature;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.ScopeState;
 import org.snapscript.core.scope.index.Address;
 import org.snapscript.core.scope.index.AddressCache;
-import org.snapscript.core.scope.index.Index;
+import org.snapscript.core.scope.index.ScopeIndex;
 import org.snapscript.core.scope.index.Local;
-import org.snapscript.core.scope.index.Table;
+import org.snapscript.core.scope.index.ScopeTable;
 import org.snapscript.core.type.Type;
 
 public class ParameterExtractor {
@@ -37,7 +37,7 @@ public class ParameterExtractor {
       int required = parameters.size();
 
       if(required > 0) {     
-         Index index = scope.getIndex();
+         ScopeIndex index = scope.getIndex();
          
          for(int i = 0; i < required; i++) {
             Parameter parameter = parameters.get(i);
@@ -65,8 +65,8 @@ public class ParameterExtractor {
       int optional = generics.size();
 
       if(optional + required > 0) {  
-         Table table = inner.getTable();
-         State state = inner.getState();
+         ScopeTable table = inner.getTable();
+         ScopeState state = inner.getState();
          
          for(int i = 0; i < optional; i++) {
             Constraint constraint = generics.get(i);

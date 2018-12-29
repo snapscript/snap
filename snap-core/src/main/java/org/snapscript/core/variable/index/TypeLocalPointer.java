@@ -3,7 +3,7 @@ package org.snapscript.core.variable.index;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.ScopeBinder;
-import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.ScopeState;
 import org.snapscript.core.variable.Value;
 import org.snapscript.core.variable.bind.VariableFinder;
 
@@ -22,7 +22,7 @@ public class TypeLocalPointer implements VariablePointer<Scope> {
    @Override
    public Constraint getConstraint(Scope scope, Constraint left) {
       Scope instance = binder.bind(scope, scope);
-      State state = instance.getState();
+      ScopeState state = instance.getState();
       Value value = state.getValue(name);
       
       if(value == null) {
@@ -34,7 +34,7 @@ public class TypeLocalPointer implements VariablePointer<Scope> {
    @Override
    public Value getValue(Scope scope, Scope left) {
       Scope instance = binder.bind(scope, scope);
-      State state = instance.getState();
+      ScopeState state = instance.getState();
       Value value = state.getValue(name);
       
       if(value == null) {

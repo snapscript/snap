@@ -5,21 +5,21 @@ import org.snapscript.core.module.Module;
 import org.snapscript.core.platform.Bridge;
 import org.snapscript.core.scope.MapState;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.ScopeState;
 import org.snapscript.core.scope.index.ArrayTable;
-import org.snapscript.core.scope.index.Index;
+import org.snapscript.core.scope.index.ScopeIndex;
+import org.snapscript.core.scope.index.ScopeTable;
 import org.snapscript.core.scope.index.StackIndex;
-import org.snapscript.core.scope.index.Table;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 
 public class CompoundInstance implements Instance {
    
+   private final ScopeIndex index;
+   private final ScopeState state;
+   private final ScopeTable table;
    private final Instance instance;
    private final Module module;
-   private final Index index;
-   private final State state;
-   private final Table table;
    private final Scope outer;
    private final Type type;
    
@@ -62,14 +62,19 @@ public class CompoundInstance implements Instance {
    public Object getProxy() {
       return instance.getProxy();
    }
-   
+
    @Override
-   public Index getIndex(){
+   public ScopeState getState() {
+      return state;
+   }
+
+   @Override
+   public ScopeIndex getIndex(){
       return index;
    }
   
    @Override
-   public Table getTable(){
+   public ScopeTable getTable(){
       return table;
    }
    
@@ -87,12 +92,7 @@ public class CompoundInstance implements Instance {
    public Type getType(){
       return type;
    }
-
-   @Override
-   public State getState() {
-      return state;
-   }
-
+   
    @Override
    public String toString(){
       return outer.toString();

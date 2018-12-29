@@ -12,7 +12,7 @@ import static org.snapscript.core.variable.Constant.TYPE;
 import java.util.List;
 
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.ScopeState;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeBody;
 import org.snapscript.core.variable.Value;
@@ -29,7 +29,7 @@ public class EnumPropertyGenerator {
       Value value = Value.getConstant(type, TYPE);
       Value list = Value.getConstant(values, LIST);
       Scope outer = type.getScope();
-      State state = outer.getState();
+      ScopeState state = outer.getState();
 
       builder.createStaticProperty(body, TYPE_CLASS, type, TYPE);
       builder.createStaticProperty(body, ENUM_VALUES, type, LIST);     

@@ -11,7 +11,7 @@ import org.snapscript.common.CompoundIterator;
 import org.snapscript.common.Stack;
 import org.snapscript.core.scope.Scope;
 
-public class StackIndex implements Index {
+public class StackIndex implements ScopeIndex {
 
    private final Map<String, Address> externals;
    private final Map<String, Address> locals;

@@ -9,8 +9,7 @@ import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.State;
-import org.snapscript.core.scope.index.Local;
+import org.snapscript.core.scope.ScopeState;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeExtractor;
 import org.snapscript.core.variable.Value;
@@ -84,7 +83,7 @@ public class TypeReferencePart implements Compilation {
             result = extractor.getType(type, name);
          }
          if(result == null) {
-            State state = scope.getState();
+            ScopeState state = scope.getState();
             Constraint constraint = state.getConstraint(name);
             
             if(constraint == null) {                         

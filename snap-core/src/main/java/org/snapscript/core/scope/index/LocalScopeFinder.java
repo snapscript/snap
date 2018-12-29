@@ -1,7 +1,7 @@
 package org.snapscript.core.scope.index;
 
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.ScopeState;
 import org.snapscript.core.variable.Value;
 
 public class LocalScopeFinder {
@@ -18,14 +18,14 @@ public class LocalScopeFinder {
 
    public Value findValue(Scope scope, String name, Address address) {
       if(address == null){
-         State state = scope.getState();
+         ScopeState state = scope.getState();
          Value value = state.getValue(name);
          
          if(checker.isValid(value)) { 
             return value;
          }
       }else {
-         Table table = scope.getTable();
+         ScopeTable table = scope.getTable();
          Value value = table.getValue(address);
 
          if(checker.isValid(value)) { 
@@ -41,14 +41,14 @@ public class LocalScopeFinder {
    
    public Value findFunction(Scope scope, String name, Address address) {
       if(address == null){
-         State state = scope.getState();
+         ScopeState state = scope.getState();
          Value value = state.getValue(name);
          
          if(!checker.isGenerated(value)) { 
             return value;
          }
       }else {
-         Table table = scope.getTable();
+         ScopeTable table = scope.getTable();
          Value value = table.getValue(address);
 
          if(!checker.isGenerated(value)) { 

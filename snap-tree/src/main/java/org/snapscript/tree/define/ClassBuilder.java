@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.ScopeState;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeBody;
 import org.snapscript.core.variable.Value;
@@ -45,7 +45,7 @@ public class ClassBuilder {
          String prefix = enclosing.getName();
          String key = name.replace(prefix + '$', ""); // get the class name
          Value value = Value.getConstant(type);
-         State state = outer.getState();
+         ScopeState state = outer.getState();
          
          builder.createStaticProperty(body, key, enclosing, NONE);
          state.addValue(key, value);

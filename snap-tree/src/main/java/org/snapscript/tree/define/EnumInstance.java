@@ -8,7 +8,7 @@ import org.snapscript.core.Context;
 import org.snapscript.core.convert.proxy.ProxyWrapper;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.ScopeState;
 import org.snapscript.core.scope.instance.Instance;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
@@ -29,7 +29,7 @@ public class EnumInstance extends StaticBlock {
    @Override
    protected void allocate(Scope scope) throws Exception {
       Type type = scope.getType();
-      State state = scope.getState();
+      ScopeState state = scope.getState();
       Instance instance = binder.bind(scope, type);
       Module module = scope.getModule();
       Context context = module.getContext();

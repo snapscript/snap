@@ -10,7 +10,7 @@ import org.snapscript.core.function.ModuleAccessor;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.ScopeState;
 import org.snapscript.core.variable.Value;
 import org.snapscript.tree.DeclarationAllocator;
 import org.snapscript.tree.NameReference;
@@ -53,7 +53,7 @@ public class ModuleProperty {
    public Value compile(ModuleBody body, Scope scope, int modifiers) throws Exception {
       String name = reference.getName(scope);
       Value value = allocator.compile(scope, name, modifiers);
-      State state = scope.getState();
+      ScopeState state = scope.getState();
       
       try {
          state.addValue(name, value);
@@ -66,7 +66,7 @@ public class ModuleProperty {
    public Value execute(ModuleBody body, Scope scope, int modifiers) throws Exception {
       String name = reference.getName(scope);
       Value value = allocator.allocate(scope, name, modifiers);
-      State state = scope.getState();
+      ScopeState state = scope.getState();
      
       try {
          state.addValue(name, value);

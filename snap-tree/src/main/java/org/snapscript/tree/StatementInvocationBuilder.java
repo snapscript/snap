@@ -19,14 +19,14 @@ import org.snapscript.core.result.Result;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.tree.function.ParameterExtractor;
-import org.snapscript.tree.function.TableBuilder;
+import org.snapscript.tree.function.ScopeBuilder;
 
 public class StatementInvocationBuilder implements InvocationBuilder {
    
    private ParameterExtractor extractor;
    private ResultConverter converter;
    private SignatureAligner aligner;
-   private TableBuilder builder;
+   private ScopeBuilder builder;
    private Constraint constraint;
    private Statement statement;
    private Execution execution;
@@ -39,7 +39,7 @@ public class StatementInvocationBuilder implements InvocationBuilder {
    public StatementInvocationBuilder(Signature signature, Statement statement, Constraint constraint, Type type, boolean closure) {
       this.extractor = new ParameterExtractor(signature, closure);
       this.aligner = new SignatureAligner(signature);
-      this.builder = new TableBuilder();
+      this.builder = new ScopeBuilder();
       this.constraint = constraint;
       this.statement = statement;
       this.type = type;

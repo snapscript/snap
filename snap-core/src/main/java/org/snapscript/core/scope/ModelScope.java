@@ -2,19 +2,19 @@ package org.snapscript.core.scope;
 
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.index.ArrayTable;
-import org.snapscript.core.scope.index.Index;
+import org.snapscript.core.scope.index.ScopeIndex;
+import org.snapscript.core.scope.index.ScopeTable;
 import org.snapscript.core.scope.index.StackIndex;
-import org.snapscript.core.scope.index.Table;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Transient;
 import org.snapscript.core.variable.Value;
 
 public class ModelScope implements Scope {
    
+   private final ScopeIndex index;
+   private final ScopeTable table;
+   private final ScopeState state;
    private final Module module;
-   private final Index index;
-   private final Table table;
-   private final State state;
    
    public ModelScope(Model model, Module module) {
       this(model, module, null);
@@ -43,17 +43,17 @@ public class ModelScope implements Scope {
    } 
    
    @Override
-   public Index getIndex(){
+   public ScopeIndex getIndex(){
       return index;
    }
    
    @Override
-   public Table getTable() {
+   public ScopeTable getTable() {
       return table;
    }
 
    @Override
-   public State getState() {
+   public ScopeState getState() {
       return state;
    }
    

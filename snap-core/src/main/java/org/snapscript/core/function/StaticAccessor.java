@@ -2,7 +2,7 @@ package org.snapscript.core.function;
 
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.ScopeState;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeBody;
 import org.snapscript.core.variable.Value;
@@ -24,7 +24,7 @@ public class StaticAccessor implements Accessor {
    @Override
    public Object getValue(Object source) {
       Scope scope = type.getScope();
-      State state = scope.getState();
+      ScopeState state = scope.getState();
       Value field = state.getValue(name);
       
       try {
@@ -40,7 +40,7 @@ public class StaticAccessor implements Accessor {
    @Override
    public void setValue(Object source, Object value) {
       Scope scope = type.getScope();
-      State state = scope.getState();
+      ScopeState state = scope.getState();
       Value field = state.getValue(name);
       
       try {
