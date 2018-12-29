@@ -1,5 +1,7 @@
 package org.snapscript.core.constraint.transform;
 
+import static org.snapscript.core.scope.index.AddressType.LOCAL;
+
 import java.util.List;
 
 import org.snapscript.core.attribute.Attribute;
@@ -10,6 +12,8 @@ import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.index.Address;
+import org.snapscript.core.scope.index.AddressCache;
 import org.snapscript.core.scope.index.Table;
 import org.snapscript.core.type.Type;
 
@@ -18,8 +22,10 @@ public class AttributeRule extends ConstraintRule {
    private final InstanceOfChecker checker;
    private final Attribute attribute;
    private final ConstraintRule rule;
+   private final Address start;
    
    public AttributeRule(ConstraintRule rule, Attribute attribute) {
+      this.start = new Address(LOCAL, null, 0);
       this.checker = new InstanceOfChecker();
       this.attribute = attribute;
       this.rule = rule;
@@ -44,10 +50,11 @@ public class AttributeRule extends ConstraintRule {
       if(count > 0) {
          Table table = scope.getTable();
          State state = scope.getState();
-         Constraint first = table.getConstraint(0);
+         Constraint first = table.getConstraint(start);
 
          for(int i = 0; i < count; i++) {
-            Constraint parameter = table.getConstraint(i);
+            Address address = AddressCache.getAddress(i);
+            Constraint parameter = table.getConstraint(address);
             Constraint constraint = defaults.get(i);
             String name = constraint.getName(scope);
             Constraint existing = state.getConstraint(name);

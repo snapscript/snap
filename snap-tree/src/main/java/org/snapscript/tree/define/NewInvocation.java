@@ -32,7 +32,7 @@ public class NewInvocation implements Invocation<Instance>{
    public Object invoke(Scope scope, Instance base, Object... list) throws Exception {
       Type real = (Type)list[0];
       Instance inner = builder.create(scope, base, real);
-
+      
       if(compile.compareAndSet(true, false)) {
          body.allocate(scope, type); // static stuff if needed
       }

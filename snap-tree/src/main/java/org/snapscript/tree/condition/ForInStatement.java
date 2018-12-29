@@ -4,7 +4,7 @@ import static org.snapscript.core.ModifierType.VARIABLE;
 import static org.snapscript.core.result.Result.NORMAL;
 
 import java.util.Iterator;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
@@ -17,8 +17,8 @@ import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.result.Result;
 import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.index.Address;
 import org.snapscript.core.scope.index.Index;
-import org.snapscript.core.scope.index.Local;
 import org.snapscript.core.scope.index.Table;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceInterceptor;
@@ -51,13 +51,13 @@ public class ForInStatement implements Compilation {
    
    private static class CompileResult extends Statement {
    
+      private final AtomicReference<Address> location;
       private final Declaration declaration;
       private final Evaluation collection;
-      private final AtomicInteger offset;
       private final Statement body;
    
       public CompileResult(Declaration declaration, Evaluation collection, Statement body) {
-         this.offset = new AtomicInteger();
+         this.location = new AtomicReference<Address>();
          this.declaration = declaration;
          this.collection = collection;
          this.body = body;
@@ -69,11 +69,11 @@ public class ForInStatement implements Compilation {
          int size = index.size();
          
          try {   
-            int depth = declaration.define(scope, VARIABLE.mask);
+            Address address = declaration.define(scope, VARIABLE.mask);
             
             collection.define(scope);            
             body.define(scope);
-            offset.set(depth);
+            location.set(address);
          } finally {
             index.reset(size);
          }
@@ -88,11 +88,11 @@ public class ForInStatement implements Compilation {
          try {  
             Value variable = declaration.compile(scope, VARIABLE.mask);
             Execution execution = body.compile(scope, returns);
-            int depth = offset.get();
+            Address address = location.get();
             
             collection.compile(scope, null);
             
-            return new CompileExecution(declaration, collection, execution, depth);
+            return new CompileExecution(declaration, collection, execution, address);
          } finally {
             index.reset(size);
          }
@@ -105,13 +105,13 @@ public class ForInStatement implements Compilation {
       private final Declaration declaration;
       private final Evaluation collection;
       private final Execution body;
-      private final int depth;
+      private final Address address;
    
-      public CompileExecution(Declaration declaration, Evaluation collection, Execution body, int depth) {
+      public CompileExecution(Declaration declaration, Evaluation collection, Execution body, Address address) {
          this.converter = new IterationConverter();
          this.declaration = declaration;
          this.collection = collection;      
-         this.depth = depth;
+         this.address = address;
          this.body = body;
       }
    
@@ -130,7 +130,7 @@ public class ForInStatement implements Compilation {
       @Override
       public Result resume(Scope scope, Iterator iterator) throws Exception {
          Table table = scope.getTable();
-         Local local = table.getLocal(depth);
+         Value local = table.getValue(address);
          
          while (iterator.hasNext()) {
             Object entry = iterator.next();

@@ -1,11 +1,15 @@
 package org.snapscript.core.property;
 
+import static org.snapscript.core.type.Phase.DEFINE;
+
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.snapscript.common.Progress;
 import org.snapscript.core.EntityCache;
+import org.snapscript.core.type.Phase;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeExtractor;
 
@@ -23,8 +27,13 @@ public class PropertyExtractor {
       Set<Property> properties = cache.fetch(type);
       
       if(properties == null) {
-         properties = findHierarchy(type);
-         cache.cache(type, properties);
+         Progress<Phase> progress = type.getProgress();
+         Set<Property> hierarchy = findHierarchy(type);
+         
+         if(progress.pass(DEFINE)) {
+            cache.cache(type, hierarchy);
+         }
+         return hierarchy;
       }
       return properties;
    }

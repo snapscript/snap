@@ -1,7 +1,5 @@
 package org.snapscript.tree.compile;
 
-import static org.snapscript.core.Reserved.TYPE_THIS;
-
 import java.util.List;
 
 import org.snapscript.core.constraint.Constraint;
@@ -9,7 +7,6 @@ import org.snapscript.core.function.Function;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.variable.Value;
 import org.snapscript.tree.constraint.GenericList;
 
 public class TypeScopeCompiler extends ScopeCompiler{
@@ -54,11 +51,6 @@ public class TypeScopeCompiler extends ScopeCompiler{
 
          state.addConstraint(name, constraint);
       } 
-      Constraint constraint = Constraint.getConstraint(type);
-      Value value = Value.getConstant(scope, constraint);
-      
-      state.addValue(TYPE_THIS, value);
-      
       return inner;
    }
 }

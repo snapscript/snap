@@ -13,11 +13,11 @@ public class LocalScopeFinder {
    }   
 
    public Value findValue(Scope scope, String name) {
-      return findValue(scope, name, -1);
+      return findValue(scope, name, null);
    }
 
-   public Value findValue(Scope scope, String name, int depth) {
-      if(depth == -1){
+   public Value findValue(Scope scope, String name, Address address) {
+      if(address == null){
          State state = scope.getState();
          Value value = state.getValue(name);
          
@@ -26,7 +26,7 @@ public class LocalScopeFinder {
          }
       }else {
          Table table = scope.getTable();
-         Value value = table.getLocal(depth);
+         Value value = table.getValue(address);
 
          if(checker.isValid(value)) { 
             return value;
@@ -36,11 +36,11 @@ public class LocalScopeFinder {
    }
    
    public Value findFunction(Scope scope, String name) {
-      return findFunction(scope, name, -1);
+      return findFunction(scope, name, null);
    }
    
-   public Value findFunction(Scope scope, String name, int depth) {
-      if(depth == -1){
+   public Value findFunction(Scope scope, String name, Address address) {
+      if(address == null){
          State state = scope.getState();
          Value value = state.getValue(name);
          
@@ -49,7 +49,7 @@ public class LocalScopeFinder {
          }
       }else {
          Table table = scope.getTable();
-         Value value = table.getLocal(depth);
+         Value value = table.getValue(address);
 
          if(!checker.isGenerated(value)) { 
             return value;

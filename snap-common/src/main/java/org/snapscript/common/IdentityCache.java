@@ -37,8 +37,8 @@ public class IdentityCache<K, V> implements Cache<K, V> {
    }
 
    @Override
-   public synchronized void cache(K key, V value) {
-      cache.put(key, value);
+   public synchronized V cache(K key, V value) {
+      return cache.put(key, value);
    }
 
    @Override

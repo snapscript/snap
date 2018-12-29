@@ -8,7 +8,6 @@ import java.util.List;
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.property.ClassProperty;
 import org.snapscript.core.property.Property;
-import org.snapscript.core.property.ThisProperty;
 import org.snapscript.core.type.Type;
 
 public class ClassPropertyBuilder {
@@ -26,11 +25,9 @@ public class ClassPropertyBuilder {
          throw new InternalStateException("Could not load type for " + source);
       }
       List<Property> properties = new ArrayList<Property>();
-      Property thisProperty = new ThisProperty(type);
-      Property classProperty = new ClassProperty(type, TYPE);
+      Property property = new ClassProperty(type, TYPE);
       
-      properties.add(thisProperty);
-      properties.add(classProperty);
+      properties.add(property);
       
       return properties;        
    }

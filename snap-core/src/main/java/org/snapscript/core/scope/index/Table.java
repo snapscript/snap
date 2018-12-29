@@ -1,10 +1,11 @@
 package org.snapscript.core.scope.index;
 
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.variable.Value;
 
-public interface Table extends Iterable<Local> {
-   Local getLocal(int index);
-   Constraint getConstraint(int index);
-   void addLocal(int index, Local local);
-   void addConstraint(int index, Constraint constraint);
+public interface Table extends Iterable<Value> {
+   Value getValue(Address address);
+   Constraint getConstraint(Address address);
+   void addValue(Address address, Value value);
+   void addConstraint(Address address, Constraint constraint);
 }

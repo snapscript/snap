@@ -34,7 +34,7 @@ public abstract class ConstraintRule {
             boolean variable = constraint.isVariable();
 
             if(change != constraint) {
-               parameter = builder.create(change, name, variable);
+               parameter = builder.create(change, name, i, variable);
             }
             changed.add(parameter);
          }

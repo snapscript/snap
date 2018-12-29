@@ -1,7 +1,5 @@
 package org.snapscript.tree.compile;
 
-import static org.snapscript.core.Reserved.TYPE_THIS;
-
 import java.util.List;
 import java.util.Set;
 
@@ -14,6 +12,7 @@ import org.snapscript.core.module.Module;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.index.Address;
 import org.snapscript.core.scope.index.Local;
 import org.snapscript.core.scope.index.Table;
 import org.snapscript.core.type.Type;
@@ -36,14 +35,11 @@ public abstract class ScopeCompiler {
 
       for(Property property : properties) {
          String name = property.getName();
+         Value field = compileProperty(scope, property);
+         Value current = state.getValue(name);
 
-         if(!name.equals(TYPE_THIS)) {
-            Value field = compileProperty(scope, property);
-            Value current = state.getValue(name);
-
-            if(current == null) {
-               state.addValue(name, field);
-            }
+         if(current == null) {
+            state.addValue(name, field);
          }
       }
    }
@@ -66,9 +62,10 @@ public abstract class ScopeCompiler {
 
       for(int i = 0; i < count; i++) {
          Parameter parameter = parameters.get(i);
+         Address address = parameter.getAddress();
          Local local = compileParameter(scope, parameter);
 
-         table.addLocal(i, local);
+         table.addValue(address, local);
       }
    }
 

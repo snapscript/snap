@@ -38,4 +38,9 @@ public class CachePointer implements FunctionPointer {
    public Retention getRetention() {
       return 1 == keys.size() ? ALWAYS : NEVER;
    }
+   
+   @Override
+   public String toString() {
+      return pointer.toString();
+   }
 }

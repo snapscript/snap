@@ -16,4 +16,9 @@ public class CompleteProgress<T extends Enum> implements Progress<T> {
    public boolean wait(T phase, long duration) {
       return true;
    }
+
+   @Override
+   public boolean pass(T phase) {
+      return true;
+   }
 }

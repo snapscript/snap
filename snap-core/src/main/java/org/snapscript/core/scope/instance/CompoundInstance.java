@@ -11,6 +11,7 @@ import org.snapscript.core.scope.index.Index;
 import org.snapscript.core.scope.index.StackIndex;
 import org.snapscript.core.scope.index.Table;
 import org.snapscript.core.type.Type;
+import org.snapscript.core.variable.Value;
 
 public class CompoundInstance implements Instance {
    
@@ -23,9 +24,9 @@ public class CompoundInstance implements Instance {
    private final Type type;
    
    public CompoundInstance(Module module, Instance instance, Scope outer, Type type) {
+      this.index = new StackIndex(outer);
       this.state = new MapState(outer);
       this.table = new ArrayTable();
-      this.index = new StackIndex();
       this.instance = instance;
       this.module = module;
       this.outer = outer;
@@ -50,6 +51,11 @@ public class CompoundInstance implements Instance {
    @Override
    public Bridge getBridge() {
       return instance.getBridge();
+   }
+   
+   @Override
+   public Value getThis() {
+      return instance.getThis();
    }
    
    @Override

@@ -6,6 +6,8 @@ import org.snapscript.core.scope.index.Index;
 import org.snapscript.core.scope.index.StackIndex;
 import org.snapscript.core.scope.index.Table;
 import org.snapscript.core.type.Type;
+import org.snapscript.core.variable.Transient;
+import org.snapscript.core.variable.Value;
 
 public class ModelScope implements Scope {
    
@@ -20,8 +22,8 @@ public class ModelScope implements Scope {
    
    public ModelScope(Model model, Module module, Scope scope) {
       this.state = new ModelState(model, scope);
+      this.index = new StackIndex(scope);
       this.table = new ArrayTable();
-      this.index = new StackIndex();
       this.module = module;
    }
    
@@ -29,6 +31,11 @@ public class ModelScope implements Scope {
    public Scope getStack() {
       return new CompoundScope(this, this);
    } 
+   
+   @Override
+   public Value getThis() {
+      return new Transient(this);
+   }
    
    @Override
    public Scope getScope() {

@@ -2,7 +2,7 @@ package org.snapscript.tree;
 
 import static org.snapscript.core.result.Result.NORMAL;
 
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.Execution;
 import org.snapscript.core.Statement;
@@ -12,6 +12,7 @@ import org.snapscript.core.error.ErrorCauseExtractor;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.result.Result;
 import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.index.Address;
 import org.snapscript.core.scope.index.Index;
 import org.snapscript.core.scope.index.Local;
 import org.snapscript.core.scope.index.Table;
@@ -20,16 +21,16 @@ import org.snapscript.tree.function.ParameterDeclaration;
 
 public class CatchBlockList {
    
+   private final AtomicReference<Address> location;
    private final ErrorCauseExtractor extractor;
    private final TypeInspector inspector;
-   private final AtomicInteger offset;
    private final CatchBlock[] blocks;
    private final Execution[] list;
    
    public CatchBlockList(CatchBlock... blocks) {
+      this.location = new AtomicReference<Address>();
       this.extractor = new ErrorCauseExtractor();
       this.inspector = new TypeInspector();
-      this.offset = new AtomicInteger(-1);
       this.list = new Execution[blocks.length];
       this.blocks = blocks;
    }    
@@ -45,11 +46,11 @@ public class CatchBlockList {
             
             try {
                ParameterDeclaration declaration = block.getDeclaration();
-               Parameter parameter = declaration.get(scope);
+               Parameter parameter = declaration.get(scope, 0);
                String name = parameter.getName();
-               int value = index.index(name);
+               Address address = index.index(name);
                
-               offset.set(value);
+               location.set(address);
                statement.define(scope);
             }finally {
                index.reset(size);
@@ -66,14 +67,14 @@ public class CatchBlockList {
          
          if(statement != null) {
             ParameterDeclaration declaration = block.getDeclaration();
-            Parameter parameter = declaration.get(scope);
+            Parameter parameter = declaration.get(scope, 0);
             Constraint constraint = parameter.getConstraint();
             String name = parameter.getName();
             Table table = scope.getTable();
             Local local = Local.getConstant(null, name, constraint);
-            int index = offset.get();
+            Address address = location.get();
             
-            table.addLocal(index, local);
+            table.addValue(address, local);
    
             list[i] = statement.compile(scope, null);
          }
@@ -87,7 +88,7 @@ public class CatchBlockList {
       for(int i = 0; i < blocks.length; i++){
          CatchBlock block = blocks[i];
          ParameterDeclaration declaration = block.getDeclaration();
-         Parameter parameter = declaration.get(scope);
+         Parameter parameter = declaration.get(scope, 0);
          Constraint constraint = parameter.getConstraint();
          Type type = constraint.getType(scope);
          String name = parameter.getName();
@@ -98,9 +99,9 @@ public class CatchBlockList {
             if(inspector.isCompatible(type, cause)) {
                Table table = scope.getTable();
                Local local = Local.getConstant(cause, name);
-               int index = offset.get();
+               Address address = location.get();
                
-               table.addLocal(index, local);
+               table.addValue(address, local);
 
                return list[i].execute(scope);
             }

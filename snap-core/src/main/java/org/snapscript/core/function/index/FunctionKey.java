@@ -50,4 +50,9 @@ public class FunctionKey {
       }
       return hash;
    }
+   
+   @Override
+   public String toString() {
+      return function;
+   }
 }

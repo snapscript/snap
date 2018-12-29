@@ -1,19 +1,18 @@
 package org.snapscript.tree.define;
 
 import static org.snapscript.core.Reserved.TYPE_CLASS;
-import static org.snapscript.core.Reserved.TYPE_THIS;
 
 import java.util.List;
 import java.util.Set;
 
 import org.snapscript.core.Context;
 import org.snapscript.core.ModifierType;
-import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.State;
-import org.snapscript.core.type.Type;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.property.PropertyValue;
+import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.State;
+import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeExtractor;
 
 public class StaticConstantCollector {
@@ -21,7 +20,7 @@ public class StaticConstantCollector {
    private final StaticConstantIndexer indexer;
    
    public StaticConstantCollector() {
-      this.indexer = new StaticConstantIndexer(TYPE_THIS, TYPE_CLASS);
+      this.indexer = new StaticConstantIndexer(TYPE_CLASS);
    }
    
    public void collect(Type type) throws Exception {

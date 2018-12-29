@@ -8,7 +8,7 @@ public interface Cache<K, V> {
    V fetch(K key); 
    boolean isEmpty();
    boolean contains(K key);
-   void cache(K key, V value);
+   V cache(K key, V value);
    void clear();
    int size();
 }

@@ -1,11 +1,14 @@
 package org.snapscript.core.type;
 
+import static org.snapscript.core.type.Phase.DEFINE;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.snapscript.common.Progress;
 import org.snapscript.core.EntityCache;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.InternalStateException;
@@ -24,8 +27,13 @@ public class TypeTraverser {
       Set<Type> list = types.fetch(type);
       
       if(list == null) {
-         list = findHierarchy(type, type);
-         types.cache(type, list);
+         Progress<Phase> progress = type.getProgress();
+         Set<Type> hierarchy = findHierarchy(type, type);
+         
+         if(progress.pass(DEFINE)) {
+            types.cache(type, hierarchy);
+         }
+         return hierarchy;
       }
       return list;
    }

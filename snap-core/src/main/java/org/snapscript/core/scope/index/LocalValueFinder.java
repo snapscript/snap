@@ -18,14 +18,14 @@ public class LocalValueFinder {
    }
 
    public Value findValue(Scope scope) {
-      return findValue(scope, -1);
+      return findValue(scope, null);
    }
 
-   public Value findValue(Scope scope, int depth) {
+   public Value findValue(Scope scope, Address address) {
       boolean ignore = failure.get();
 
       if(!ignore) {
-         Value value = checker.findValue(scope, name, depth);
+         Value value = checker.findValue(scope, name, address);
 
          if(value == null) {
             failure.set(true);
@@ -36,14 +36,14 @@ public class LocalValueFinder {
    }
 
    public Value findFunction(Scope scope) {
-      return findFunction(scope, -1);
+      return findFunction(scope, null);
    }
 
-   public Value findFunction(Scope scope, int depth) {
+   public Value findFunction(Scope scope, Address address) {
       boolean ignore = failure.get();
 
       if(!ignore) {
-         Value value = checker.findFunction(scope, name, depth);
+         Value value = checker.findFunction(scope, name, address);
 
          if(value == null) {
             failure.set(true);

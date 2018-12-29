@@ -4,7 +4,6 @@ import static org.snapscript.core.ModifierType.ABSTRACT;
 import static org.snapscript.core.ModifierType.PUBLIC;
 import static org.snapscript.core.Reserved.ANY_TYPE;
 import static org.snapscript.core.Reserved.TYPE_CLASS;
-import static org.snapscript.core.Reserved.TYPE_THIS;
 
 import java.util.List;
 import java.util.Set;
@@ -23,7 +22,7 @@ import org.snapscript.core.type.TypeExtractor;
 
 public class TypeValidator {
    
-   private static final String[] PROPERTIES = { TYPE_THIS, TYPE_CLASS };
+   private static final String[] PROPERTIES = { TYPE_CLASS };
    private static final String[] TYPES = { ANY_TYPE };
    
    private final PropertyValidator properties;

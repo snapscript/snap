@@ -28,7 +28,7 @@ public class FunctionHandleBuilder {
    private final boolean constructor;
    
    public FunctionHandleBuilder(FunctionMatcher matcher, boolean constructor) {
-      this.parameter = new Parameter(DEFAULT_PARAMETER, NONE, false, true);
+      this.parameter = new Parameter(DEFAULT_PARAMETER, NONE, 0, false, true);
       this.constructor = constructor;
       this.matcher = matcher;
    }

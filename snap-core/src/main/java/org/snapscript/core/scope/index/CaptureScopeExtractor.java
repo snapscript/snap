@@ -26,13 +26,13 @@ public class CaptureScopeExtractor {
 
    public Scope extract(Scope original, Scope outer) {
       Table table = original.getTable();
-      Iterator<Local> iterator = table.iterator();
+      Iterator<Value> iterator = table.iterator();
 
       if(iterator.hasNext() || !type.isCompiled()) {
          Scope capture = new LocalScope(original, outer);
 
          while(iterator.hasNext()) {
-            Local local = iterator.next();
+            Value local = iterator.next();
             String name = local.getName();
             Constraint constraint = local.getConstraint();
 

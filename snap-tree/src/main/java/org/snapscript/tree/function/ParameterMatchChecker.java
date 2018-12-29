@@ -20,7 +20,7 @@ public class ParameterMatchChecker {
          ParameterDeclaration declaration = list[length-1];
          
          if(declaration != null) {
-            Parameter parameter = declaration.get(scope);
+            Parameter parameter = declaration.get(scope, length -1);
             Constraint constraint = parameter.getConstraint();
             Type type = constraint.getType(scope);
             
@@ -43,7 +43,7 @@ public class ParameterMatchChecker {
          ParameterDeclaration declaration = list[i];
          
          if(declaration != null) {
-            Parameter parameter = declaration.get(scope);
+            Parameter parameter = declaration.get(scope, i);
             String name = parameter.getName();
          
             if(parameter.isVariable()) {
@@ -56,7 +56,7 @@ public class ParameterMatchChecker {
          ParameterDeclaration declaration = list[length-1];
          
          if(declaration != null) {
-            Parameter parameter = declaration.get(scope);
+            Parameter parameter = declaration.get(scope, length-1);
             
             if(parameter.isVariable()) {
                return true;

@@ -5,6 +5,7 @@ import org.snapscript.core.scope.CompoundScope;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
 import org.snapscript.core.type.Type;
+import org.snapscript.core.variable.Value;
 
 public class LocalScope implements Scope {
    
@@ -16,8 +17,8 @@ public class LocalScope implements Scope {
    
    public LocalScope(Scope inner, Scope outer) {
       this.state = new LocalState(inner);
+      this.index = new StackIndex(inner);
       this.table = new ArrayTable();
-      this.index = new StackIndex();
       this.inner = inner;
       this.outer = outer;
    }
@@ -30,6 +31,11 @@ public class LocalScope implements Scope {
    @Override
    public Scope getScope() {
       return outer;
+   }
+   
+   @Override
+   public Value getThis() {
+      return outer.getThis();
    }
    
    @Override

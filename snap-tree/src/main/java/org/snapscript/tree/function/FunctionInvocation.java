@@ -4,9 +4,8 @@ import static org.snapscript.core.constraint.Constraint.NONE;
 import static org.snapscript.core.variable.Value.NULL;
 
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
@@ -22,8 +21,8 @@ import org.snapscript.core.link.ImplicitImportLoader;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.index.Address;
 import org.snapscript.core.scope.index.Index;
-import org.snapscript.core.scope.index.LocalScopeFinder;
 import org.snapscript.core.scope.index.LocalValueFinder;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceEvaluation;
@@ -76,23 +75,21 @@ public class FunctionInvocation implements Compilation {
    private static class CompileResult extends Evaluation {   
 
       private final GenericParameterExtractor extractor;
+      private final AtomicReference<Address> location; 
       private final Evaluation[] evaluations; // func()[1][x]
       private final ImplicitImportLoader loader;
       private final LocalValueFinder finder;
       private final FunctionMatcher matcher;
       private final ArgumentList arguments;
-      private final AtomicBoolean closure;
-      private final AtomicInteger offset; 
       private final InvocationCache cache;   
       private final String name;
       
       public CompileResult(FunctionMatcher matcher, TypeExtractor extractor, GenericList generics, ArgumentList arguments, Evaluation[] evaluations, String name) {
          this.extractor = new GenericParameterExtractor(generics);
          this.cache = new InvocationCache(matcher, extractor);
+         this.location = new AtomicReference<Address>();
          this.loader = new ImplicitImportLoader();
          this.finder = new LocalValueFinder(name);
-         this.offset = new AtomicInteger(-1);
-         this.closure = new AtomicBoolean();
          this.evaluations = evaluations;
          this.arguments = arguments;
          this.matcher = matcher;
@@ -102,12 +99,12 @@ public class FunctionInvocation implements Compilation {
       @Override
       public void define(Scope scope) throws Exception {
          Index index = scope.getIndex();
-         int depth = index.get(name);
+         Address address = index.get(name);
 
-         if(depth == -1) {
+         if(address == null) {
             loader.loadImports(scope, name);
          } else {
-            offset.set(depth);
+            location.set(address);
          }
          arguments.define(scope);
          
@@ -118,8 +115,8 @@ public class FunctionInvocation implements Compilation {
       
       @Override
       public Constraint compile(Scope scope, Constraint left) throws Exception {
-         int depth = offset.get();
-         Value value = finder.findFunction(scope, depth);
+         Address address = location.get();
+         Value value = finder.findFunction(scope, address);
  
          if(value != null) { 
             Constraint constraint = value.getConstraint();
@@ -166,8 +163,8 @@ public class FunctionInvocation implements Compilation {
 
       @Override
       public Value evaluate(Scope scope, Value left) throws Exception {
-         int depth = offset.get();
-         Value value = finder.findFunction(scope, depth);
+         Address address = location.get();
+         Value value = finder.findFunction(scope, address);
             
          if(value != null) { 
             Object object = value.getValue();

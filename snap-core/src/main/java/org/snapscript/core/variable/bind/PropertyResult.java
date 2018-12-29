@@ -1,5 +1,7 @@
 package org.snapscript.core.variable.bind;
 
+import static org.snapscript.core.scope.index.AddressType.INSTANCE;
+
 import org.snapscript.core.Entity;
 import org.snapscript.core.attribute.AttributeResult;
 import org.snapscript.core.attribute.AttributeResultBinder;
@@ -8,6 +10,7 @@ import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.property.PropertyValue;
 import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.index.Address;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 
@@ -25,6 +28,11 @@ public class PropertyResult implements VariableResult {
       this.property = property;
       this.entity = entity;
       this.name = name;
+   }
+   
+   @Override
+   public Address getAddress(int offset) {
+      return INSTANCE.getAddress(name, offset);
    }
    
    @Override

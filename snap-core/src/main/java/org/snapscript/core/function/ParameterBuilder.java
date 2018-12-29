@@ -12,12 +12,12 @@ public class ParameterBuilder {
       super();
    }
    
-   public Parameter create(Constraint type, String name) {
-      return new Parameter(name, type, false);
+   public Parameter create(Constraint type, String name, int index) {
+      return new Parameter(name, type, index, false);
    }
 
-   public Parameter create(Constraint type, String name, boolean variable) {
-      return new Parameter(name, type, variable);
+   public Parameter create(Constraint type, String name, int index, boolean variable) {
+      return new Parameter(name, type, index, variable);
    }
 
    public Parameter create(Constraint type, int index) {
@@ -30,6 +30,6 @@ public class ParameterBuilder {
       if(index > PREFIX.length) {
          prefix += index / PREFIX.length;
       }
-      return new Parameter(prefix, type, false, variable);
+      return new Parameter(prefix, type, index, false, variable);
    }
 }

@@ -39,7 +39,7 @@ public class ClosureFunctionFinderTest extends TestCase {
       FunctionComparator comparator = new FunctionComparator(matcher);
       Module module = new ContextModule(context, null, path, "yy", "", 1);
       ClosureFunctionFinder finder = new ClosureFunctionFinder(comparator, extractor, loader);
-      Parameter parameter = new Parameter("n", Constraint.STRING, false);
+      Parameter parameter = new Parameter("n", Constraint.STRING, 0, false);
       Signature signature = new FunctionSignature(Arrays.asList(parameter), EMPTY_LIST, module, null, DEFAULT, false);
       Type type = new InvocationFunction(signature, null, null, null, "xx").getHandle();
       Function function = finder.findFunctional(type);

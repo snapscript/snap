@@ -1,11 +1,14 @@
 package org.snapscript.core.constraint.transform;
 
+import static org.snapscript.core.scope.index.AddressType.LOCAL;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import junit.framework.TestCase;
+
 import org.snapscript.core.Context;
 import org.snapscript.core.MockContext;
 import org.snapscript.core.Reserved;
@@ -19,6 +22,7 @@ import org.snapscript.core.function.Origin;
 import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.Signature;
 import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.index.Address;
 import org.snapscript.core.scope.index.Local;
 import org.snapscript.core.scope.index.Table;
 import org.snapscript.core.type.Type;
@@ -167,8 +171,9 @@ public class ConstraintProjectionTest extends TestCase {
          Constraint generic = generics.get(i);
          String key = generic.getName(scope);
          Local value = Local.getConstant(generic, key);
-
-         table.addLocal(i, value);
+         Address address = LOCAL.getAddress(key, i);
+         
+         table.addValue(address, value);
       }
        return new FunctionSignature(parameters, generics, scope.getModule(), null, Origin.DEFAULT, true);
    }
@@ -183,8 +188,9 @@ public class ConstraintProjectionTest extends TestCase {
          Constraint generic = generics.get(i);  
          String key = generic.getName(scope);
          Local value = Local.getConstant(generic, key);
+         Address address = LOCAL.getAddress(key, i);
          
-         table.addLocal(i, value);
+         table.addValue(address, value);
       }
       return new GenericAttribute(source, generics, constraint);
    }  
@@ -203,6 +209,7 @@ public class ConstraintProjectionTest extends TestCase {
       for(Map.Entry<String, GenericPair> entry : params.entrySet()) {
          String name = entry.getKey();
          GenericPair pair = entry.getValue();
+         int index = parameters.size();
          Constraint constraint = null;
 
          if(pair.name != null) {
@@ -210,7 +217,7 @@ public class ConstraintProjectionTest extends TestCase {
          } else {
             constraint = new ClassConstraint(pair.type);
          }
-         parameters.add(new Parameter(name, constraint, false));
+         parameters.add(new Parameter(name, constraint, index, false));
       }
       return parameters;
    }

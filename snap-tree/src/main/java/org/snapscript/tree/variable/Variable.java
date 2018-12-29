@@ -1,6 +1,6 @@
 package org.snapscript.tree.variable;
 
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
@@ -12,6 +12,7 @@ import org.snapscript.core.link.ImplicitImportLoader;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.index.Address;
 import org.snapscript.core.scope.index.Index;
 import org.snapscript.core.scope.index.LocalValueFinder;
 import org.snapscript.core.variable.Value;
@@ -39,36 +40,36 @@ public class Variable implements Compilation {
    
    private static class CompileResult extends Evaluation {
       
+      private final AtomicReference<Address> location;
       private final ImplicitImportLoader loader;
       private final LocalValueFinder finder;
       private final VariableBinder binder;
-      private final AtomicInteger offset;
       private final String name;
       
       public CompileResult(ErrorHandler handler, ProxyWrapper wrapper, String name) {
          this.binder = new VariableBinder(handler, wrapper, name);
+         this.location = new AtomicReference<Address>();
          this.finder = new LocalValueFinder(name);
          this.loader = new ImplicitImportLoader();
-         this.offset = new AtomicInteger(-1);
          this.name = name;
       }
    
       @Override
       public void define(Scope scope) throws Exception{
          Index index = scope.getIndex();
-         int depth = index.get(name);
+         Address address = index.get(name);
          
-         if(depth == -1) {
+         if(address == null) {
             loader.loadImports(scope, name); // static reference
          } else {
-            offset.set(depth);
+            location.set(address);
          }
       }
       
       @Override
       public Constraint compile(Scope scope, Constraint left) throws Exception{
-         int depth = offset.get();
-         Value value = finder.findValue(scope, depth);
+         Address address = location.get();
+         Value value = finder.findValue(scope, address);
          
          if(value == null) {
             return binder.compile(scope);
@@ -78,8 +79,8 @@ public class Variable implements Compilation {
       
       @Override
       public Value evaluate(Scope scope, Value left) throws Exception{
-         int depth = offset.get();
-         Value value = finder.findValue(scope, depth);
+         Address address = location.get();
+         Value value = finder.findValue(scope, address);
          
          if(value == null) {
             return binder.bind(scope);

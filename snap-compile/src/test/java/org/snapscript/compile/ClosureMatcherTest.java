@@ -41,7 +41,7 @@ public class ClosureMatcherTest extends TestCase {
       TypeExtractor extractor = context.getExtractor();
       FunctionComparator comparator = new FunctionComparator(matcher);
       ClosureFunctionFinder finder = new ClosureFunctionFinder(comparator, extractor, loader);
-      Parameter parameter = new Parameter("n", Constraint.STRING, false);
+      Parameter parameter = new Parameter("n", Constraint.STRING, 0, false);
       Signature signature = new FunctionSignature(Arrays.asList(parameter), EMPTY_LIST, module, null, DEFAULT, false);
       Type type = new EmptyFunction(signature).getHandle();
       ConstraintConverter converter = matcher.match(type);

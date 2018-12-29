@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.index.Address;
+import org.snapscript.core.scope.index.AddressCache;
 import org.snapscript.core.scope.index.CaptureScopeExtractor;
 import org.snapscript.core.scope.index.Table;
 
@@ -27,7 +29,9 @@ public class GenericParameterExtractor {
 
       for(int i = 0; i < size; i++) {
          Constraint constraint = constraints.get(i);
-         table.addConstraint(i, constraint);
+         Address address = AddressCache.getAddress(i);
+         
+         table.addConstraint(address, constraint);
       }
       return scope;
    }

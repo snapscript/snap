@@ -1,15 +1,19 @@
 package org.snapscript.core.scope.index;
 
+import static org.snapscript.core.scope.index.AddressType.LOCAL;
+
 import java.util.Arrays;
 import java.util.Iterator;
 
 import org.snapscript.common.EmptyIterator;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.variable.Value;
 
 public class ArrayTable implements Table {
 
    private Constraint[] constraints;
-   private Local[] locals;
+   private Value[] externals;
+   private Value[] locals;
 
    public ArrayTable() {
       this(0);
@@ -17,43 +21,71 @@ public class ArrayTable implements Table {
    
    public ArrayTable(int count) {
       this.constraints = new Constraint[count];
-      this.locals = new Local[count];
+      this.externals = new Value[count];
+      this.locals = new Value[count];
    }
 
    @Override
-   public Iterator<Local> iterator() {
+   public Iterator<Value> iterator() {
       if(locals.length > 0) {
          return new LocalIterator(locals);
       }
-      return new EmptyIterator<Local>();
+      return new EmptyIterator<Value>();
    }
 
    @Override
-   public Local getLocal(int index) {
-      if(index < locals.length && index >= 0) {
-         return locals[index];
+   public Value getValue(Address address) {
+      AddressType type = address.getType();
+      int index = address.getOffset();
+      
+      if(type == LOCAL) {
+         if(index < locals.length && index >= 0) {
+            return locals[index];
+         }
+      } else {
+         if(index < externals.length && index >= 0) {
+            return externals[index];
+         }
       }
       return null;
    }
    
    @Override
-   public void addLocal(int index, Local local) {
-      if(local == null) {
-         throw new IllegalStateException("Local at index " + index + " is null");
-      }
-      if(index >= locals.length) {
-         Local[] copy = new Local[index == 0 ? 2 : index * 2];
-         
-         for(int i = 0; i < locals.length; i++) {
-            copy[i] = locals[i];
+   public void addValue(Address address, Value value) {
+      AddressType type = address.getType();
+      String name = address.getName();
+      int index = address.getOffset();
+      
+      if(value == null) {
+         throw new IllegalStateException("Value for '" + name + "' at index " + index + " is null");
+      }      
+      if(type == LOCAL) {
+         if(index >= locals.length) {
+            Value[] copy = new Value[index == 0 ? 2 : index * 2];
+            
+            for(int i = 0; i < locals.length; i++) {
+               copy[i] = locals[i];
+            }
+            locals = copy;
          }
-         locals = copy;
+         locals[index] = value;
+      } else {
+         if(index >= externals.length) {
+            Value[] copy = new Value[index == 0 ? 2 : index * 2];
+            
+            for(int i = 0; i < externals.length; i++) {
+               copy[i] = externals[i];
+            }
+            externals = copy;
+         }
+         externals[index] = value;
       }
-      locals[index] = local;
    }
 
    @Override
-   public Constraint getConstraint(int index) {
+   public Constraint getConstraint(Address address) {
+      int index = address.getOffset();
+      
       if(index < constraints.length && index >= 0) {
          return constraints[index];
       }
@@ -61,7 +93,9 @@ public class ArrayTable implements Table {
    }
    
    @Override
-   public void addConstraint(int index, Constraint constraint) {
+   public void addConstraint(Address address, Constraint constraint) {
+      int index = address.getOffset();
+      
       if(constraint == null) {
          throw new IllegalStateException("Constraint at index " + index + " is null");
       }
@@ -81,13 +115,13 @@ public class ArrayTable implements Table {
       return Arrays.toString(locals);
    }
    
-   private static class LocalIterator implements Iterator<Local> {
+   private static class LocalIterator implements Iterator<Value> {
       
-      private Local[] table;
-      private Local local;
+      private Value[] table;
+      private Value local;
       private int index;
 
-      public LocalIterator(Local[] table) {
+      public LocalIterator(Value[] table) {
          this.table = table;
       }
       
@@ -103,8 +137,8 @@ public class ArrayTable implements Table {
       }
 
       @Override
-      public Local next() {
-         Local next = null;
+      public Value next() {
+         Value next = null;
          
          if(hasNext()) {
             next = local;

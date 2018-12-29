@@ -1,8 +1,6 @@
 package org.snapscript.core.type.index;
 
 import static org.snapscript.core.ModifierType.CLASS;
-import static org.snapscript.core.ModifierType.CONSTANT;
-import static org.snapscript.core.ModifierType.PUBLIC;
 import static org.snapscript.core.Reserved.ANY_TYPE;
 import static org.snapscript.core.Reserved.DEFAULT_PACKAGE;
 import static org.snapscript.core.Reserved.METHOD_EQUALS;
@@ -12,7 +10,6 @@ import static org.snapscript.core.Reserved.METHOD_NOTIFY_ALL;
 import static org.snapscript.core.Reserved.METHOD_TO_STRING;
 import static org.snapscript.core.Reserved.METHOD_WAIT;
 import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
-import static org.snapscript.core.Reserved.TYPE_THIS;
 import static org.snapscript.core.constraint.Constraint.BOOLEAN;
 import static org.snapscript.core.constraint.Constraint.INTEGER;
 import static org.snapscript.core.constraint.Constraint.NONE;
@@ -28,11 +25,8 @@ import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
 import org.snapscript.core.result.Result;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.State;
-import org.snapscript.core.scope.instance.Instance;
 import org.snapscript.core.type.Phase;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.variable.Value;
 
 public class PrimitiveIndexer{
    
@@ -90,13 +84,8 @@ public class PrimitiveIndexer{
       public Object invoke(Scope scope, Object object, Object... list) throws Exception {
          Type real = (Type)list[0];
          Constraint constraint = Constraint.getConstraint(real);
-         Instance instance = constructor.create(scope, real);
-         State state = instance.getState();
-         Value value = Value.getProperty(object, constraint, PUBLIC.mask | CONSTANT.mask); // this needs to be a blank
          
-         state.addValue(TYPE_THIS, value); // reference to 'this'
-         
-         return instance;
+         return constructor.create(scope, real);
       }
    }
    

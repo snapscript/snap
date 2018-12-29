@@ -43,8 +43,8 @@ public class LazyCache<K, V> implements Cache<K, V> {
    }
 
    @Override
-   public void cache(K key, V value) {
-      cache.cache(key, value);
+   public V cache(K key, V value) {
+      return cache.cache(key, value);
    }
 
    @Override

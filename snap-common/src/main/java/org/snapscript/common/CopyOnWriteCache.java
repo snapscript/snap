@@ -48,8 +48,8 @@ public class CopyOnWriteCache<K, V> implements Cache<K, V> {
    }
    
    @Override
-   public void cache(K key, V value) {
-      updater.cache(key, value);
+   public V cache(K key, V value) {
+      return updater.cache(key, value);
    }
 
    @Override
@@ -79,7 +79,7 @@ public class CopyOnWriteCache<K, V> implements Cache<K, V> {
          this.size = size;
       }
 
-      public synchronized void cache(K key, V value) {
+      public synchronized V cache(K key, V value) {
          V existing = cache.get(key);
          
          if(existing != value) { // reduce churn
@@ -89,6 +89,7 @@ public class CopyOnWriteCache<K, V> implements Cache<K, V> {
             copy.put(key, value);
             cache = copy;
          }
+         return existing;
       }
       
       public synchronized V take(K key) {

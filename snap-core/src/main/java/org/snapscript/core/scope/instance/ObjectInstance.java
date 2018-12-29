@@ -9,6 +9,7 @@ import org.snapscript.core.scope.index.Index;
 import org.snapscript.core.scope.index.StackIndex;
 import org.snapscript.core.scope.index.Table;
 import org.snapscript.core.type.Type;
+import org.snapscript.core.variable.Value;
 
 public class ObjectInstance implements Instance {
 
@@ -16,20 +17,22 @@ public class ObjectInstance implements Instance {
    private final Instance base;
    private final Bridge object;
    private final Module module;
+   private final Value self;
    private final Table table;
    private final Index index;
    private final State state;
    private final Type type;
    
-   public ObjectInstance(Module module, Instance base, Bridge object, Type type) {
+   public ObjectInstance(Module module, Instance base, Bridge object, Value self, Type type) {
       this.state = new InstanceState(base);
+      this.index = new StackIndex(base);
       this.proxy = new ScopeProxy(this);
       this.table = new ArrayTable();
-      this.index = new StackIndex();
       this.object = object;
       this.module = module;
       this.type = type;
       this.base = base;
+      this.self = self;
    }
    
    @Override
@@ -55,6 +58,11 @@ public class ObjectInstance implements Instance {
    @Override
    public Bridge getBridge() {
       return object;
+   }
+   
+   @Override
+   public Value getThis() {
+      return self;
    }
    
    @Override

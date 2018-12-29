@@ -40,11 +40,11 @@ public class HashCache<K, V> implements Cache<K, V> {
    }
 
    @Override
-   public void cache(K key, V value) {
+   public V cache(K key, V value) {
       if(map == EMPTY_MAP) {
          map = new HashMap<K, V>();
       }
-      map.put(key, value);
+      return map.put(key, value);
    }
 
    @Override

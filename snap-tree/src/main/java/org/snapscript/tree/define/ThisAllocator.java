@@ -1,12 +1,9 @@
 package org.snapscript.tree.define;
 
-import static org.snapscript.core.Reserved.TYPE_THIS;
-
+import org.snapscript.core.function.Invocation;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.State;
 import org.snapscript.core.scope.instance.Instance;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.function.Invocation;
 import org.snapscript.core.type.TypeBody;
 import org.snapscript.core.variable.Value;
 
@@ -26,8 +23,7 @@ public class ThisAllocator implements TypeAllocator {
    public Instance allocate(Scope scope, Instance base, Object... list) throws Exception {
       Type real = (Type)list[0];
       Instance instance = builder.create(scope, base, real); // we need to pass the base type up!
-      State state = instance.getState();
-      Value value = state.getValue(TYPE_THIS);
+      Value value = instance.getThis();
       
       if(instance != base) { // false if this(...) is called
          value.setValue(instance); // set the 'this' variable

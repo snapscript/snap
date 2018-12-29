@@ -14,7 +14,7 @@ public class StaticInstanceBuilder {
       this.type = type;
    }
 
-   public Instance create(Scope scope, Instance base, Type real) throws Exception {
+   public Instance create(Scope scope, Instance base, Type real) throws Exception {      
       if(base == null) {
          Module module = type.getModule();
          Scope inner = real.getScope();

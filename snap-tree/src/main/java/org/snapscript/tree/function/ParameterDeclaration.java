@@ -40,23 +40,23 @@ public class ParameterDeclaration {
       this.modifier = modifier;
    }
 
-   public Parameter get(Scope scope) throws Exception {
+   public Parameter get(Scope scope, int index) throws Exception {
       if(parameter == null) {
-         parameter = create(scope);
+         parameter = create(scope, index);
          
          if(parameter != null) {
             annotations.apply(scope, parameter);
-         }
+         }        
       }
-      return parameter;
+      return parameter.getParameter(index);
    }
    
-   private Parameter create(Scope scope) throws Exception {
+   private Parameter create(Scope scope, int index) throws Exception {
       boolean constant = checker.isConstant();
       int modifiers = checker.getModifiers();
       Constraint declare = constraint.getConstraint(scope, modifiers);
       String name = reference.getName(scope);
 
-      return new Parameter(name, declare, constant, modifier != null);
+      return new Parameter(name, declare, index, constant, modifier != null);
    }
 }

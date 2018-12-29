@@ -1,6 +1,5 @@
 package org.snapscript.tree.define;
 
-import static org.snapscript.core.Reserved.TYPE_THIS;
 import static org.snapscript.core.type.Phase.COMPILE;
 import static org.snapscript.core.type.Phase.CREATE;
 import static org.snapscript.core.type.Phase.DEFINE;
@@ -17,12 +16,10 @@ import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.State;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.trace.TraceStatement;
 import org.snapscript.core.type.Phase;
-import org.snapscript.core.variable.Value;
 import org.snapscript.tree.annotation.AnnotationList;
 
 public class ModuleDefinition implements Compilation { 
@@ -73,12 +70,9 @@ public class ModuleDefinition implements Compilation {
       public boolean define(Scope scope) throws Exception {
          Module module = reference.get();
          Progress<Phase> progress = module.getProgress();
-         Value value = Value.getTransient(module);
          Scope inner = module.getScope();
-         State state = inner.getState();
          
          try {
-            state.addValue(TYPE_THIS, value);
             body.define(inner); // must be module scope
          } finally {
             progress.done(DEFINE);

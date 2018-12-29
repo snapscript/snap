@@ -1,7 +1,5 @@
 package org.snapscript.tree.reference;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
@@ -16,7 +14,6 @@ import org.snapscript.core.function.dispatch.FunctionDispatcher;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.index.Index;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceEvaluation;
 import org.snapscript.core.trace.TraceInterceptor;
@@ -72,7 +69,6 @@ public class ReferenceInvocation implements Compilation {
       private final Evaluation[] evaluations; // func()[1][x]
       private final FunctionMatcher matcher;
       private final ArgumentList arguments;
-      private final AtomicInteger offset;
       private final InvocationCache cache;
       private final String name;
       
@@ -80,7 +76,6 @@ public class ReferenceInvocation implements Compilation {
          this.extractor = new GenericParameterExtractor(generics);
          this.cache = new InvocationCache(matcher, extractor);
          this.verifier = new ModifierAccessVerifier();
-         this.offset = new AtomicInteger();
          this.evaluations = evaluations;
          this.arguments = arguments;
          this.matcher = matcher;
@@ -89,10 +84,6 @@ public class ReferenceInvocation implements Compilation {
       
       @Override
       public void define(Scope scope) throws Exception { 
-         Index index = scope.getIndex();
-         int depth = index.get(name);
-
-         offset.set(depth);
          arguments.define(scope);
          
          for(Evaluation evaluation : evaluations) {

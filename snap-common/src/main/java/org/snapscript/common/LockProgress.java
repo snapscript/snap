@@ -74,4 +74,12 @@ public class LockProgress<T extends Enum> implements Progress<T> {
       }
       return ordinal <= latest;
    }
+   
+   @Override
+   public boolean pass(T phase) {
+      int ordinal = phase.ordinal();
+      int latest = last.get();
+      
+      return latest >= ordinal;
+   }
 }

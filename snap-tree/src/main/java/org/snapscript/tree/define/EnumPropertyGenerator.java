@@ -1,11 +1,9 @@
 package org.snapscript.tree.define;
 
-import static org.snapscript.core.ModifierType.CONSTANT;
 import static org.snapscript.core.Reserved.ENUM_NAME;
 import static org.snapscript.core.Reserved.ENUM_ORDINAL;
 import static org.snapscript.core.Reserved.ENUM_VALUES;
 import static org.snapscript.core.Reserved.TYPE_CLASS;
-import static org.snapscript.core.Reserved.TYPE_THIS;
 import static org.snapscript.core.variable.Constant.INTEGER;
 import static org.snapscript.core.variable.Constant.LIST;
 import static org.snapscript.core.variable.Constant.STRING;
@@ -13,7 +11,6 @@ import static org.snapscript.core.variable.Constant.TYPE;
 
 import java.util.List;
 
-import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
 import org.snapscript.core.type.Type;
@@ -29,15 +26,13 @@ public class EnumPropertyGenerator {
    }
    
    public void generate(TypeBody body, Scope scope, Type type, List values) throws Exception {
-      Constraint constraint = Constraint.getConstraint(type, CONSTANT.mask);
       Value value = Value.getConstant(type, TYPE);
       Value list = Value.getConstant(values, LIST);
       Scope outer = type.getScope();
       State state = outer.getState();
 
       builder.createStaticProperty(body, TYPE_CLASS, type, TYPE);
-      builder.createStaticProperty(body, ENUM_VALUES, type, LIST);
-      builder.createInstanceProperty(TYPE_THIS, type, constraint);      
+      builder.createStaticProperty(body, ENUM_VALUES, type, LIST);     
       builder.createInstanceProperty(ENUM_NAME, type, STRING); // might declare name as property many times
       builder.createInstanceProperty(ENUM_ORDINAL, type, INTEGER);
       state.addValue(TYPE_CLASS, value);

@@ -5,7 +5,6 @@ import static org.snapscript.core.constraint.Constraint.NONE;
 
 import java.util.List;
 
-import org.snapscript.core.ModifierType;
 import org.snapscript.core.constraint.ClassConstraint;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.InternalStateException;

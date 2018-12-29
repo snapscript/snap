@@ -9,6 +9,8 @@ import org.snapscript.core.function.Parameter;
 import org.snapscript.core.function.Signature;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.State;
+import org.snapscript.core.scope.index.Address;
+import org.snapscript.core.scope.index.AddressCache;
 import org.snapscript.core.scope.index.Index;
 import org.snapscript.core.scope.index.Local;
 import org.snapscript.core.scope.index.Table;
@@ -39,11 +41,17 @@ public class ParameterExtractor {
          
          for(int i = 0; i < required; i++) {
             Parameter parameter = parameters.get(i);
+            Address address = parameter.getAddress();
             String name = parameter.getName();
-            int depth = index.get(name);
             
-            if(depth == -1) {
-               index.index(name);
+            if(!index.contains(name)) {
+               Address created = index.index(name);
+               int actual = created.getOffset();
+               int require = address.getOffset();
+               
+               if(actual != require) {
+                  throw new InternalStateException("Parameter '" + name + "' has an invalid address");
+               }
             }
          }
       }
@@ -62,10 +70,13 @@ public class ParameterExtractor {
          
          for(int i = 0; i < optional; i++) {
             Constraint constraint = generics.get(i);
-            table.addConstraint(i, constraint);
+            Address address = AddressCache.getAddress(i);
+            
+            table.addConstraint(address, constraint);
          }
          for(int i = 0; i < required; i++) {
             Parameter parameter = parameters.get(i);
+            Address address = parameter.getAddress();
             String name = parameter.getName();
             Object argument = arguments[i];
             Local local = create(inner, argument, i);
@@ -73,7 +84,7 @@ public class ParameterExtractor {
             if(closure) {
                state.addValue(name, local); 
             }
-            table.addLocal(i, local);
+            table.addValue(address, local);
          }   
       }
       return inner;

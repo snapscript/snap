@@ -1,7 +1,6 @@
 package org.snapscript.tree;
 
 import static org.snapscript.core.ModifierType.CONSTANT;
-import static org.snapscript.core.Reserved.TYPE_THIS;
 
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
@@ -11,7 +10,6 @@ import org.snapscript.core.function.Function;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.ScopeBinder;
-import org.snapscript.core.scope.State;
 import org.snapscript.core.scope.instance.Instance;
 import org.snapscript.core.stack.ThreadStack;
 import org.snapscript.core.type.Type;
@@ -44,8 +42,7 @@ public class Super extends Evaluation {
       if(function == null) {
          throw new InternalStateException("No enclosing function for 'super' reference");
       }
-      State state = scope.getState();
-      Value value = state.getValue(TYPE_THIS);
+      Value value = scope.getThis();
       
       if(value == null) {
          throw new InternalStateException("No enclosing type for 'super' reference");

@@ -34,18 +34,19 @@ public class ParameterListCompiler {
       List<Parameter> parameters = new ArrayList<Parameter>();
       
       if(prefix != null) {
-         Parameter parameter = builder.create(NONE, prefix); // this is constrained by type
+         Parameter parameter = builder.create(NONE, prefix, 0); // this is constrained by type
          parameters.add(parameter);
       }
       Module module = scope.getModule();
       boolean variable = checker.isVariable(scope);
       boolean absolute = checker.isAbsolute(scope);
+      int start = parameters.size();
       
       for(int i = 0; i < list.length; i++) {
          ParameterDeclaration declaration = list[i];
          
          if(declaration != null) {
-            Parameter parameter = declaration.get(scope);
+            Parameter parameter = declaration.get(scope, start + i);
             Constraint constraint = parameter.getConstraint();
 
             constraint.getType(scope);

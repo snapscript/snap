@@ -7,6 +7,7 @@ import org.snapscript.core.scope.index.Index;
 import org.snapscript.core.scope.index.StackIndex;
 import org.snapscript.core.scope.index.Table;
 import org.snapscript.core.type.Type;
+import org.snapscript.core.variable.Value;
 
 public class CompoundScope implements Scope {
    
@@ -16,9 +17,9 @@ public class CompoundScope implements Scope {
    private final Scope outer;
    
    public CompoundScope(Scope inner, Scope outer) {
-      this.state = new MapState(inner);  
+      this.index = new StackIndex(inner);
+      this.state = new MapState(inner);
       this.table = new ArrayTable();
-      this.index = new StackIndex();
       this.outer = outer;
    } 
   
@@ -30,7 +31,12 @@ public class CompoundScope implements Scope {
    @Override
    public Scope getScope() {
       return outer;
-   }  
+   }
+   
+   @Override
+   public Value getThis() {
+      return outer.getThis();
+   }
    
    @Override
    public Type getHandle() {

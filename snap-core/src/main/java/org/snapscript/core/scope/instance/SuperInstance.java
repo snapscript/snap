@@ -6,6 +6,7 @@ import org.snapscript.core.scope.State;
 import org.snapscript.core.scope.index.Index;
 import org.snapscript.core.scope.index.Table;
 import org.snapscript.core.type.Type;
+import org.snapscript.core.variable.Value;
 
 public class SuperInstance implements Instance {
 
@@ -39,6 +40,11 @@ public class SuperInstance implements Instance {
    @Override
    public Bridge getBridge() {
       return scope.getBridge();
+   }
+   
+   @Override
+   public Value getThis() {
+      return scope.getThis();
    }
    
    @Override

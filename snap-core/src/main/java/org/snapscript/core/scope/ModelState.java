@@ -70,12 +70,11 @@ public class ModelState implements State {
    
    @Override
    public void addValue(String name, Value value) {
-      Value variable = values.fetch(name);
+      Value variable = values.cache(name, value);
 
       if(variable != null) {
          throw new InternalStateException("Variable '" + name + "' already exists");
       }
-      values.cache(name, value);
    }
    
    @Override
@@ -95,12 +94,11 @@ public class ModelState implements State {
    
    @Override
    public void addConstraint(String name, Constraint constraint) {
-      Constraint existing = constraints.fetch(name);
+      Constraint existing = constraints.cache(name, constraint);
 
       if(existing != null) {
          throw new InternalStateException("Constraint '" + name + "' already exists");
       }
-      constraints.cache(name, constraint); 
    }
    
    @Override

@@ -5,6 +5,7 @@ import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.index.Index;
 import org.snapscript.core.scope.index.Table;
 import org.snapscript.core.type.Type;
+import org.snapscript.core.variable.Value;
 
 public interface Scope extends Handle {
    Type getType();
@@ -13,5 +14,6 @@ public interface Scope extends Handle {
    Module getModule();  
    Index getIndex();
    Table getTable(); 
-   State getState();
+   State getState();   
+   Value getThis();
 }

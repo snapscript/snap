@@ -61,6 +61,7 @@ public class NoSuperConstructorTest extends ScriptTestCase {
          }
          public void onException(Context context, Exception cause) throws Exception{
             String message = cause.getMessage();
+            cause.printStackTrace();
             assertEquals(message, "Constructor 'new()' not found for 'com.test.foo.Foo'");
          }
       });

@@ -41,12 +41,17 @@ public class SoftCache<K, V> implements Cache<K, V> {
    }
    
    @Override
-   public void cache(K key, V value) {
+   public V cache(K key, V value) {
       SoftReference<V> reference = new SoftReference<V>(value);
       
       if(value != null) {
-         cache.cache(key, reference);
+         SoftReference<V> existing = cache.cache(key, reference);
+         
+         if(existing != null) {
+            return existing.get();
+         }
       }
+      return null;
    }
    
    @Override
