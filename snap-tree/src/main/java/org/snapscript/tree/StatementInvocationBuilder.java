@@ -19,14 +19,14 @@ import org.snapscript.core.result.Result;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.tree.function.ParameterExtractor;
-import org.snapscript.tree.function.ScopeBuilder;
+import org.snapscript.tree.function.ScopeCalculator;
 
 public class StatementInvocationBuilder implements InvocationBuilder {
    
    private ParameterExtractor extractor;
+   private ScopeCalculator calculator;
    private ResultConverter converter;
    private SignatureAligner aligner;
-   private ScopeBuilder builder;
    private Constraint constraint;
    private Statement statement;
    private Execution execution;
@@ -39,7 +39,7 @@ public class StatementInvocationBuilder implements InvocationBuilder {
    public StatementInvocationBuilder(Signature signature, Statement statement, Constraint constraint, Type type, boolean closure) {
       this.extractor = new ParameterExtractor(signature, closure);
       this.aligner = new SignatureAligner(signature);
-      this.builder = new ScopeBuilder();
+      this.calculator = new ScopeCalculator();
       this.constraint = constraint;
       this.statement = statement;
       this.type = type;
@@ -50,7 +50,7 @@ public class StatementInvocationBuilder implements InvocationBuilder {
       if(statement != null) {
          extractor.define(scope); // count parameters
          statement.define(scope); // start counting from here
-         builder.define(scope);
+         calculator.define(scope);
       }
       constraint.getType(scope);
    }
@@ -61,7 +61,7 @@ public class StatementInvocationBuilder implements InvocationBuilder {
          throw new InternalStateException("Function has already been compiled");
       }
       if(execution == null && statement != null) {
-         scope = builder.compile(scope);
+         scope = calculator.compile(scope);
          execution = statement.compile(scope, constraint);
       }
    }
@@ -106,7 +106,7 @@ public class StatementInvocationBuilder implements InvocationBuilder {
       public Object invoke(Scope scope, Object object, Object... list) throws Exception {
          Object[] arguments = aligner.align(list);
          Scope inner = extractor.extract(scope, arguments);
-         Scope stack = builder.extract(inner);
+         Scope stack = calculator.calculate(inner);
          Type type = constraint.getType(scope);
          ConstraintConverter converter = matcher.match(type);
          Result result = execution.execute(stack);

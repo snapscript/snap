@@ -7,12 +7,12 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.index.Address;
 import org.snapscript.core.scope.index.ScopeIndex;
 
-public class ScopeBuilder {   
+public class ScopeCalculator {   
 
    private final List<ScopeAllocation> allocations;
    private final ScopeAllocationBuilder builder;
    
-   public ScopeBuilder(){
+   public ScopeCalculator(){
       this.allocations = new ArrayList<ScopeAllocation>();
       this.builder = new ScopeAllocationBuilder();
    }
@@ -36,7 +36,7 @@ public class ScopeBuilder {
       return scope;
    }
    
-   public Scope extract(Scope scope) throws Exception {
+   public Scope calculate(Scope scope) throws Exception {
       for(ScopeAllocation allocation : allocations) {
          allocation.allocate(scope);
       }

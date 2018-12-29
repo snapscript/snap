@@ -18,14 +18,14 @@ import org.snapscript.core.result.Result;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.tree.function.ParameterExtractor;
-import org.snapscript.tree.function.ScopeBuilder;
+import org.snapscript.tree.function.ScopeCalculator;
 
 public class StaticInvocationBuilder implements InvocationBuilder {
    
    private ParameterExtractor extractor;
+   private ScopeCalculator calculator;
    private ResultConverter converter;
    private SignatureAligner aligner;
-   private ScopeBuilder builder;
    private Constraint constraint;
    private Statement statement;
    private Execution execution;
@@ -34,7 +34,7 @@ public class StaticInvocationBuilder implements InvocationBuilder {
    public StaticInvocationBuilder(Signature signature, Execution compile, Statement statement, Constraint constraint) {
       this.extractor = new ParameterExtractor(signature, true);
       this.aligner = new SignatureAligner(signature);
-      this.builder = new ScopeBuilder();
+      this.calculator = new ScopeCalculator();
       this.constraint = constraint;
       this.statement = statement;
       this.compile = compile;
@@ -44,7 +44,7 @@ public class StaticInvocationBuilder implements InvocationBuilder {
    public void define(Scope scope) throws Exception {
       extractor.define(scope); // count parameters
       statement.define(scope);
-      builder.define(scope);
+      calculator.define(scope);
       constraint.getType(scope);
    }
    
@@ -53,7 +53,7 @@ public class StaticInvocationBuilder implements InvocationBuilder {
       if(execution != null) {
          throw new InternalStateException("Function has already been compiled");
       }
-      scope = builder.compile(scope);
+      scope = calculator.compile(scope);
       execution = statement.compile(scope, constraint);
    }
    
@@ -95,7 +95,7 @@ public class StaticInvocationBuilder implements InvocationBuilder {
          if(execute.compareAndSet(false, true)) {
             compile.execute(inner); // could be a static block
          }
-         Scope stack = builder.extract(inner);
+         Scope stack = calculator.calculate(inner);
          Result result = execution.execute(stack);
          Object value = result.getValue();
          
