@@ -15,7 +15,8 @@ public class ExtensionTest extends TestCase {
    "println(new Date().getYear());\n";
    
    private static final String SOURCE_3 = 
-   "let x = URL('http://www.bbc.co.uk').get().status;\n"+
+   "let x = URL('http://www.google.com').get().response();\n"+
+   "println(x);\n"+
    "println(x);"; 
    
    public void testFileExtension() throws Exception {

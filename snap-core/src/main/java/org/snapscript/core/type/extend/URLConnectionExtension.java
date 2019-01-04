@@ -5,6 +5,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URLConnection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.snapscript.common.Consumer;
 
@@ -62,15 +66,16 @@ public class URLConnectionExtension {
    
    public URLConnection header(URLConnection connection, String name, String value) throws IOException {
       HttpURLConnection request = (HttpURLConnection)connection;
-      
-      request.setRequestProperty(name, value);
-      
+
+      if(name != null) {
+         request.setRequestProperty(name, value);
+      }
       return connection;
    }
    
    public URLConnection success(URLConnection connection, Runnable task) throws IOException {
-      HttpURLConnection request = (HttpURLConnection)connection;
-      int status = request.getResponseCode();
+      URLResponse response = response(connection);
+      int status = response.getStatus();
       
       if(status >= 200 && status < 300) {
          task.run();
@@ -78,19 +83,19 @@ public class URLConnectionExtension {
       return connection;
    }
    
-   public URLConnection success(URLConnection connection, Consumer<URLConnection, ?> consumer) throws IOException {
-      HttpURLConnection request = (HttpURLConnection)connection;
-      int status = request.getResponseCode();
+   public URLConnection success(URLConnection connection, Consumer<URLResponse, ?> consumer) throws IOException {
+      URLResponse response = response(connection);
+      int status = response.getStatus();
       
       if(status >= 200 && status < 300) {
-         consumer.consume(connection);
+         consumer.consume(response);
       }
       return connection;
    }
    
    public URLConnection failure(URLConnection connection, Runnable task) throws IOException {
-      HttpURLConnection request = (HttpURLConnection)connection;
-      int status = request.getResponseCode();
+      URLResponse response = response(connection);
+      int status = response.getStatus();
       
       if(status < 200 || status >= 300) {
          task.run();
@@ -98,32 +103,34 @@ public class URLConnectionExtension {
       return connection;
    }
    
-   public URLConnection failure(URLConnection connection, Consumer<URLConnection, ?> consumer) throws IOException {
-      HttpURLConnection request = (HttpURLConnection)connection;
-      int status = request.getResponseCode();
+   public URLConnection failure(URLConnection connection, Consumer<URLResponse, ?> consumer) throws IOException {
+      URLResponse response = response(connection);
+      int status = response.getStatus();
       
       if(status < 200 || status >= 300) {
-         consumer.consume(connection);
+         consumer.consume(response);
       }
       return connection;
    }
-   
-   public InputStream response(URLConnection connection) throws IOException {
+
+   public URLResponse response(URLConnection connection) throws IOException {
       HttpURLConnection request = (HttpURLConnection)connection;
-     
+      String status = request.getHeaderField(0);
+      int code = request.getResponseCode(); // force write
+
+      return new URLResponse(request, status, code);
+   }
+
+   public InputStream stream(URLConnection connection) throws IOException {
+      HttpURLConnection request = (HttpURLConnection)connection;
+
       try {
          return request.getInputStream();
       } catch(Exception e) {
          return request.getErrorStream();
       }
    }
-   
-   public int status(URLConnection connection) throws IOException {
-      HttpURLConnection request = (HttpURLConnection)connection;
-      
-      return request.getResponseCode();
-   }
-   
+
    private URLConnection execute(URLConnection connection, byte[] data, String method) throws IOException {
       HttpURLConnection request = (HttpURLConnection)connection;
       
@@ -181,5 +188,85 @@ public class URLConnectionExtension {
       }
       request.getResponseCode(); // force write
       return connection;
+   }
+
+   public static class URLResponse {
+
+      private final HttpURLConnection connection;
+      private final String status;
+      private final int code;
+
+      public URLResponse(HttpURLConnection connection, String status, int code) {
+         this.connection = connection;
+         this.status = status;
+         this.code = code;
+      }
+
+      public int getStatus() {
+         return code;
+      }
+
+      public URLConnection getConnection() {
+         return connection;
+      }
+
+      public InputStream getInputStream() {
+         try {
+            return connection.getInputStream();
+         } catch(Exception e) {
+            return connection.getErrorStream();
+         }
+      }
+
+      public String getHeader(String name) {
+         Map<String, List<String>> headers = connection.getHeaderFields();
+         List<String> values = headers.get(name);
+
+         if(values != null) {
+            for (String value : values) {
+               return value;
+            }
+         }
+         return null;
+      }
+
+      public List<String> getHeaders(String name) {
+         Map<String, List<String>> headers = connection.getHeaderFields();
+         List<String> values = headers.get(name);
+
+         if(values == null) {
+            return Collections.emptyList();
+         }
+         return values;
+      }
+
+      @Override
+      public String toString() {
+         StringBuilder builder = new StringBuilder();
+
+         builder.append(status);
+         builder.append("\r\n");
+
+         Map<String, List<String>> headers = connection.getHeaderFields();
+         Set<String> names = headers.keySet();
+
+         for (String name : names) {
+            List<String> values = headers.get(name);
+
+            if (values != null && name != null) {
+               for (String value : values) {
+                  builder.append(name);
+                  builder.append(": ");
+
+                  if (value != null) {
+                     builder.append(value);
+                  }
+                  builder.append("\r\n");
+               }
+            }
+         }
+         builder.append("\r\n");
+         return builder.toString();
+      }
    }
 }
