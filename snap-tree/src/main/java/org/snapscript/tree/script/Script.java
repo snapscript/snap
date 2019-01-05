@@ -10,7 +10,7 @@ import org.snapscript.core.result.Result;
 import org.snapscript.core.scope.Scope;
 
 public class Script extends Statement {
-   
+
    private final Statement[] statements;
    private final Statement[] executable;
    

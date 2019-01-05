@@ -64,7 +64,7 @@ public class AttributeRule extends ConstraintRule {
                Type actual = parameter.getType(scope);
 
                if(!checker.isInstanceOf(scope, actual, require)) {
-                  throw new InternalStateException("Generic parameter '" + name +"' is does not match '" + constraint + "'");
+                  throw new InternalStateException("Generic parameter '" + name +"' does not match '" + constraint + "'");
                }
                if(existing != null) {
                   Type current = existing.getType(scope);

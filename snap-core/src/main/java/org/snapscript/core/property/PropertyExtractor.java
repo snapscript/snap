@@ -61,10 +61,12 @@ public class PropertyExtractor {
          Set<Property> result = new LinkedHashSet<Property>();
          
          for(Property property : properties) {
-            String name = property.getName();
-            
-            if(done.add(name)) {
-               result.add(property);
+            if(property != null) {
+               String name = property.getName();
+
+               if (done.add(name)) {
+                  result.add(property);
+               }
             }
          }
          return result;

@@ -11,7 +11,7 @@ public enum CaptureType {
    COMPILE_MEMBER(COMPILE, false, true, false),
    COMPILE_SCRIPT(COMPILE, true, false, true),
    COMPILE_TEMPLATE(COMPILE, true, true, false),
-   EXECUTE_GENERICS(EXECUTE, false, true, false),
+   COMPILE_GENERICS(COMPILE, false, true, false),
    EXECUTE_MEMBER(EXECUTE, false, true, false),
    EXECUTE_SCRIPT(EXECUTE, true, false, true),
    EXECUTE_SUPER(EXECUTE, true, false, false);

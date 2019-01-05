@@ -1,8 +1,5 @@
 package org.snapscript.compile;
 
-import org.snapscript.compile.Compiler;
-import org.snapscript.compile.Executable;
-
 import junit.framework.TestCase;
 
 public class ExtensionTest extends TestCase {

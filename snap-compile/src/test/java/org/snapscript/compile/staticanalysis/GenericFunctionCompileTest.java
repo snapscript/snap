@@ -1,5 +1,7 @@
 package org.snapscript.compile.staticanalysis;
 
+import org.snapscript.core.Bug;
+
 public class GenericFunctionCompileTest extends CompileTestCase {
    
    private static final String SUCCESS_1 =
@@ -119,8 +121,26 @@ public class GenericFunctionCompileTest extends CompileTestCase {
    "class Three extends Two<Integer, List<Integer>>{\n"+
    "}\n"+
    "var two: Two<Integer, Map<Boolean, String>> = new Two<Integer, Map<Boolean, String>>();\n"+
-   "two.basic().substring(1);\n";   
-   
+   "two.basic().substring(1);\n";
+
+   private static final String SUCCESS_13 =
+   "func foo<T>(a: T) {\n"+
+   "   println(a.class);\n"+
+   "}\n"+
+   "foo<Integer>(1);\n"+
+   "foo<String>('a');\n";
+
+   private static final String SUCCESS_14 =
+   "class Bar{\n"+
+   "   foo<T>(a: T) {\n"+
+   "      println(a.class);\n"+
+   "   }\n"+
+   "}\n"+
+   "let b = new Bar();\n"+
+   "\n"+
+   "b.foo<Integer>(1);\n"+
+   "b.foo<String>('a');\n";
+
    private static final String FAILURE_1 =
    "var m: Map<String, String> = {'x':'x'};\n"+
    "m.get('x').longValue();\n";
@@ -204,12 +224,18 @@ public class GenericFunctionCompileTest extends CompileTestCase {
    private static final String FAILURE_9 =
    "var l: List<Map<?,String>>=new ArrayList<Map<?,String>>();\n"+
    "l.get(1).entrySet().iterator().next().getValue().longValue();\n";
-   
+
+   @Bug("this should fail")
+   private static final String FAILURE_10 =
+   "class Foo<T: List<?>>{}\n"+
+   "let x = new Foo<Locale>();\n"+
+   "println(x.class);\n";
+
    public void testFunctionGenerics() throws Exception {
       assertCompileSuccess(SUCCESS_1);
       assertCompileSuccess(SUCCESS_2);
       assertCompileSuccess(SUCCESS_3);
-      assertCompileSuccess(SUCCESS_4); 
+      assertCompileSuccess(SUCCESS_4);
       assertCompileSuccess(SUCCESS_5);
       assertCompileSuccess(SUCCESS_6);
       assertCompileSuccess(SUCCESS_7);
@@ -217,7 +243,9 @@ public class GenericFunctionCompileTest extends CompileTestCase {
       assertCompileSuccess(SUCCESS_9);
       assertCompileSuccess(SUCCESS_10);
       assertCompileSuccess(SUCCESS_11);
-      assertCompileSuccess(SUCCESS_12);      
+      assertCompileSuccess(SUCCESS_12);
+      assertCompileSuccess(SUCCESS_13);
+      assertCompileSuccess(SUCCESS_14);
       assertCompileError(FAILURE_1, "Function 'longValue()' not found for 'lang.String' in /default.snap at line 2");
       assertCompileError(FAILURE_2, "Function 'substring(lang.Integer)' not found for 'lang.Integer' in /default.snap at line 2");
       assertCompileError(FAILURE_3, "Function 'longValue()' not found for 'lang.String' in /default.snap at line 11");
@@ -225,6 +253,8 @@ public class GenericFunctionCompileTest extends CompileTestCase {
       assertCompileError(FAILURE_5, "Function 'longValue()' not found for 'lang.String' in /default.snap at line 16");
       assertCompileError(FAILURE_6, "Function 'get(lang.Boolean)' not found for 'util.List' in /default.snap at line 16");
       assertCompileError(FAILURE_7, "Function 'longValue()' not found for 'lang.String' in /default.snap at line 2");
-      assertCompileError(FAILURE_8, "Function 'longValue()' not found for 'lang.String' in /default.snap at line 2");       
+      assertCompileError(FAILURE_8, "Function 'longValue()' not found for 'lang.String' in /default.snap at line 2");
+      assertCompileError(FAILURE_9, "Function 'longValue()' not found for 'lang.String' in /default.snap at line 2");
+//      assertCompileError(FAILURE_10, "Function 'longValue()' not found for 'lang.String' in /default.snap at line 2");
    }
 }

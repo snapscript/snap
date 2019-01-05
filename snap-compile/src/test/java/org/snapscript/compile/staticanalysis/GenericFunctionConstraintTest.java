@@ -1,8 +1,5 @@
 package org.snapscript.compile.staticanalysis;
 
-import org.snapscript.compile.ScriptTestCase;
-import org.snapscript.core.Context;
-
 public class GenericFunctionConstraintTest extends CompileTestCase {
 
    private static final String SOURCE_1 =

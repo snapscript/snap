@@ -52,13 +52,15 @@ public class TypeTraverser {
       Scope scope = type.getScope();
       
       if(list.add(type)) {
-         for(Constraint entry : types) {
-            Type match = entry.getType(scope);
-            
-            if(match == root) { 
-               throw new InternalStateException("Hierarchy for '" + type + "' contains a cycle");
+         for(Constraint base : types) {
+            if(base != null) {
+               Type match = base.getType(scope);
+
+               if (match == root) {
+                  throw new InternalStateException("Hierarchy for '" + type + "' contains a cycle");
+               }
+               findHierarchy(root, match, list);
             }
-            findHierarchy(root, match, list);
          }
       }
       return list;
@@ -96,13 +98,15 @@ public class TypeTraverser {
       Scope scope = type.getScope();
       
       for(Constraint base : types) {
-         Type match = base.getType(scope);
-         
-         if(done.add(match)) { // avoid loop
-            Type result = findEnclosing(match, name, done);
-            
-            if(result != null) {
-               return result;
+         if(base != null) {
+            Type match = base.getType(scope);
+
+            if (done.add(match)) { // avoid loop
+               Type result = findEnclosing(match, name, done);
+
+               if (result != null) {
+                  return result;
+               }
             }
          }
       }
@@ -125,11 +129,13 @@ public class TypeTraverser {
          List<Constraint> types = constraint.getTypes();
          
          for(Constraint base : types) {
-            Type next = base.getType(scope);
-            
-            if(findPath(next, require, path)) {
-               path.add(base);
-               return true;
+            if(base != null) {
+               Type match = base.getType(scope);
+
+               if (findPath(match, require, path)) {
+                  path.add(base);
+                  return true;
+               }
             }
          }
          return false;

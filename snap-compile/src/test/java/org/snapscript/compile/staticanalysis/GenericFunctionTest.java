@@ -106,6 +106,6 @@ public class GenericFunctionTest extends CompileTestCase {
       assertCompileError(FAILURE_2, "Function 'substring(lang.Integer)' not found for 'lang.Integer' in /default.snap at line 6");
       assertCompileError(FAILURE_3, "Function 'substring(lang.Integer)' not found for 'lang.Integer' in /default.snap at line 4");
       assertCompileError(FAILURE_4, "Function 'intValue()' not found for 'lang.String' in /default.snap at line 4");
-      assertCompileError(FAILURE_5, "Generic parameter 'T' is does not match 'lang.Runnable' in /default.snap at line 4");
+      assertCompileError(FAILURE_5, "Generic parameter 'T' does not match 'lang.Runnable' in /default.snap at line 4");
    }
 }
