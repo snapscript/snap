@@ -21,10 +21,6 @@ public class TypeConstraint extends Constraint {
    public TypeConstraint(Evaluation evaluation, Constraint left) {
       this.evaluation = evaluation;
       this.left = left;
-      
-      if(left != null) {
-         System.err.println();
-      }
    }
    
    @Override
