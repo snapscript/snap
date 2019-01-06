@@ -8,10 +8,16 @@ import java.util.List;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
 
-public class ConstructorName extends FunctionName {
+public class ConstructorName implements GenericName {
+   
+   private final Constraint type;
 
    public ConstructorName() {
-      super(null, null);
+      this(null);
+   }
+   
+   public ConstructorName(Constraint type) {
+      this.type = type;
    }
 
    @Override
@@ -21,6 +27,9 @@ public class ConstructorName extends FunctionName {
 
    @Override
    public List<Constraint> getGenerics(Scope scope) throws Exception {
+      if(type != null) {
+         return type.getGenerics(scope);
+      }
       return EMPTY_LIST;
    }
 }

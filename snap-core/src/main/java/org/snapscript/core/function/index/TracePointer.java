@@ -32,7 +32,7 @@ public class TracePointer implements FunctionPointer {
       if(result == null) {
          throw new InternalStateException("No return type for '" + function + "'");
       }
-      return new ReturnType(result, scope);
+      return new AttributeType(result, scope);
    }
    
    @Override

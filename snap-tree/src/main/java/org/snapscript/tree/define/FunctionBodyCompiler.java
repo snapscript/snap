@@ -9,15 +9,15 @@ import org.snapscript.core.type.Category;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeState;
 import org.snapscript.tree.compile.TypeScopeCompiler;
-import org.snapscript.tree.constraint.FunctionName;
+import org.snapscript.tree.constraint.GenericList;
 
 public class FunctionBodyCompiler extends TypeState {
 
    private final TypeScopeCompiler compiler;
    private final FunctionBody body;
    
-   public FunctionBodyCompiler(FunctionName identifier, FunctionBody body) {
-      this.compiler = new TypeScopeCompiler(identifier);
+   public FunctionBodyCompiler(GenericList generics, FunctionBody body) {
+      this.compiler = new TypeScopeCompiler(generics);
       this.body = body;
    }
 

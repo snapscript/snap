@@ -6,6 +6,8 @@ public class ImplicitImportTest extends ScriptTestCase {
    "class Nuh{\n"+
    "   const x, y;\n"+
    "   new(x, y){\n"+
+   "      println(x);\n"+
+   "      println(y);\n"+   
    "      this.x =x;\n"+
    "      this.y = y;\n"+
    "   }\n"+
@@ -18,6 +20,7 @@ public class ImplicitImportTest extends ScriptTestCase {
    "class Foo{\n"+
    "   const x: Nuh;\n"+
    "   new(x){\n"+
+   "      println(x);\n"+
    "      this.x = new Nuh(x, 1);\n"+
    "   }\n"+
    "   toString(){\n"+
@@ -33,10 +36,12 @@ public class ImplicitImportTest extends ScriptTestCase {
    "}\n";
 
    private static final String SOURCE_4 =
+   "println(new Blah().func(112).toString());\n"+      
    "assert new Blah().func(112).toString() == 'nuh=(x=112 y=1)';\n";  
          
    private static final String SOURCE_5 =
-   "import example.Blah;\n"+      
+   "import example.Blah;\n"+ 
+   "println(new Blah().func(112).toString());\n"+   
    "assert new Blah().func(112).toString() == 'nuh=(x=112 y=1)';\n";  
    
    public void testImplicitImportFromSameModule() throws Exception {

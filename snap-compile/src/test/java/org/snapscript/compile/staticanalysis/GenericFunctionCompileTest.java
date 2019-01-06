@@ -225,12 +225,6 @@ public class GenericFunctionCompileTest extends CompileTestCase {
    "var l: List<Map<?,String>>=new ArrayList<Map<?,String>>();\n"+
    "l.get(1).entrySet().iterator().next().getValue().longValue();\n";
 
-   @Bug("this should fail")
-   private static final String FAILURE_10 =
-   "class Foo<T: List<?>>{}\n"+
-   "let x = new Foo<Locale>();\n"+
-   "println(x.class);\n";
-
    public void testFunctionGenerics() throws Exception {
       assertCompileSuccess(SUCCESS_1);
       assertCompileSuccess(SUCCESS_2);
@@ -255,6 +249,5 @@ public class GenericFunctionCompileTest extends CompileTestCase {
       assertCompileError(FAILURE_7, "Function 'longValue()' not found for 'lang.String' in /default.snap at line 2");
       assertCompileError(FAILURE_8, "Function 'longValue()' not found for 'lang.String' in /default.snap at line 2");
       assertCompileError(FAILURE_9, "Function 'longValue()' not found for 'lang.String' in /default.snap at line 2");
-//      assertCompileError(FAILURE_10, "Function 'longValue()' not found for 'lang.String' in /default.snap at line 2");
    }
 }

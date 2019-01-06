@@ -16,15 +16,14 @@ import org.snapscript.tree.ModifierList;
 import org.snapscript.tree.annotation.AnnotationList;
 import org.snapscript.tree.compile.FunctionScopeCompiler;
 import org.snapscript.tree.constraint.ConstructorName;
-import org.snapscript.tree.constraint.FunctionName;
 import org.snapscript.tree.function.ParameterList;
 
 public abstract class MemberConstructor extends TypePart {
    
    private final FunctionScopeCompiler compiler;
    private final ConstructorAssembler assembler;
+   private final ConstructorName identifier;
    private final AnnotationList annotations;
-   private final FunctionName identifier;
    private final ModifierList list;
    
    public MemberConstructor(AnnotationList annotations, ModifierList list, ParameterList parameters, Statement body){  

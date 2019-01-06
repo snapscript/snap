@@ -21,7 +21,7 @@ public class ErrorPointer implements FunctionPointer {
 
    @Override
    public ReturnType getType(Scope scope) {
-      return new ReturnType(null, scope);
+      return new AttributeType(null, scope);
    }
 
    @Override

@@ -50,11 +50,7 @@ public class LocalDispatcher implements FunctionDispatcher {
       FunctionCall local = binder.resolveModule(scope, module, name, arguments);
       
       if(local == null) {
-         FunctionCall closure = binder.resolveScope(scope, name, arguments); // function variable
-         
-         if(closure != null) {
-            return closure;   
-         }
+         return binder.resolveScope(scope, name, arguments); // function variable
       }
       return local;  
    }
@@ -64,11 +60,7 @@ public class LocalDispatcher implements FunctionDispatcher {
       FunctionCall local = binder.resolveModule(scope, module, name, arguments);
       
       if(local == null) {
-         FunctionCall closure = binder.resolveScope(scope, name, arguments); // function variable
-         
-         if(closure != null) {
-            return closure;   
-         }
+         return binder.resolveScope(scope, name, arguments); // function variable
       }
       return local;  
    }
