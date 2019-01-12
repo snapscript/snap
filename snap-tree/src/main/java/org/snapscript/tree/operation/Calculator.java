@@ -26,22 +26,21 @@ public class Calculator {
             order.add(top);
          }
       }      
-      for(CalculationPart token : order) {
-         NumericOperator operator = token.getOperator();
+      for(CalculationPart part : order) {
+         NumericOperator operator = part.getOperator();
    
          if(operator != null) {
             Evaluation right = variables.pop();
             Evaluation left = variables.pop();
             
             if(left != null && right != null) {             
-               Evaluation evaluation = new CalculationOperation(operator, left, right);
-               
+               Evaluation evaluation = part.getEvaluation(left, right);               
                variables.push(evaluation);
             }                          
          } else {
-            Evaluation evaluation = token.getEvaluation();
+            Evaluation evaluation = part.getEvaluation(null, null);
             
-            if(token != null) {
+            if(evaluation != null) {
                variables.push(evaluation);
             }
          }               

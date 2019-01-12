@@ -1,7 +1,10 @@
 package org.snapscript.tree.operation;
 
+import static org.snapscript.tree.math.NumericOperator.COALESCE;
+
 import org.snapscript.core.Evaluation;
 import org.snapscript.parse.StringToken;
+import org.snapscript.tree.condition.NullCoalesce;
 import org.snapscript.tree.math.NumericOperator;
 
 public class CalculationOperator implements CalculationPart {   
@@ -13,8 +16,11 @@ public class CalculationOperator implements CalculationPart {
    }
    
    @Override
-   public Evaluation getEvaluation(){
-      return null;
+   public Evaluation getEvaluation(Evaluation left, Evaluation right){
+      if(operator == COALESCE) {
+         return new NullCoalesce(left, right);
+      }
+      return new CalculationOperation(operator, left, right);
    }
    
    @Override

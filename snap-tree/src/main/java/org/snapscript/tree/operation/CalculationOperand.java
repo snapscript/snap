@@ -12,12 +12,12 @@ public class CalculationOperand implements CalculationPart {
    }
    
    @Override
-   public Evaluation getEvaluation(){
+   public Evaluation getEvaluation(Evaluation left, Evaluation right){
       return evaluation;
    }
-   
+
    @Override
-   public NumericOperator getOperator(){
+   public NumericOperator getOperator() {
       return null;
    }
 }
