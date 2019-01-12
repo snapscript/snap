@@ -51,8 +51,8 @@ public class SuperInvocation extends Evaluation {
       Type real = scope.getType();  
       Scope outer = real.getScope();
       Scope instance = builder.create(scope, left);
-      Value value = Value.getTransient(instance);
       Scope compound = extractor.extract(scope, outer);
+      Value value = Value.getTransient(instance);
       Object[] list = arguments.create(compound, real); // arguments have no left hand side
       FunctionDispatcher dispatcher = matcher.match(instance, NULL);  
       Connection connection = dispatcher.connect(instance, value, list);
