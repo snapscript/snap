@@ -17,7 +17,8 @@ public enum ModifierType {
    ABSTRACT(0x02000, "abstract"),
    PROXY(0x04000, "proxy"),
    ARRAY(0x08000, "[]"),
-   VARARGS(0x10000, "...");
+   VARARGS(0x10000, "..."),
+   ANY(0x20000, "?");
    
    public final String[] tokens;
    public final int mask;
@@ -98,6 +99,10 @@ public enum ModifierType {
    public static boolean isVariableArgument(int modifier) {
       return modifier >= 0 && (VARARGS.mask & modifier) != 0;
    }   
+   
+   public static boolean isAny(int modifier) {
+      return modifier >= 0 && (ANY.mask & modifier) != 0;
+   }
    
    public static ModifierType resolveModifier(String token) {
       if(token != null) {

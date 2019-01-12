@@ -1,5 +1,6 @@
 package org.snapscript.core.type.index;
 
+import static org.snapscript.core.ModifierType.ANY;
 import static org.snapscript.core.ModifierType.CLASS;
 import static org.snapscript.core.Reserved.ANY_TYPE;
 import static org.snapscript.core.Reserved.DEFAULT_PACKAGE;
@@ -44,7 +45,7 @@ public class PrimitiveIndexer{
       Type type  = reference.get();
       
       if(type == null) {
-         Type result = indexer.defineType(DEFAULT_PACKAGE, ANY_TYPE, CLASS.mask);
+         Type result = indexer.defineType(DEFAULT_PACKAGE, ANY_TYPE, CLASS.mask | ANY.mask);
          Progress<Phase> progress = result.getProgress();
          List<Function> functions = result.getFunctions();
          Function constructor = generator.generate(result, NONE, TYPE_CONSTRUCTOR, NewInvocation.class, Object.class);

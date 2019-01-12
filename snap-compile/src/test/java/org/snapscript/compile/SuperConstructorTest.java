@@ -1,12 +1,11 @@
 package org.snapscript.compile;
 
-import junit.framework.TestCase;
+public class SuperConstructorTest extends ScriptTestCase  {
 
-import org.snapscript.core.scope.EmptyModel;
-
-public class SuperConstructorTest extends TestCase  {
-
-   private static final String SOURCE =
+   private static final String SOURCE_1 =
+   "class Foo{}";      
+   
+   private static final String SOURCE_2 =
    "enum Color{\n"+
    "   RED,\n"+
    "   GREEN,\n"+
@@ -38,8 +37,7 @@ public class SuperConstructorTest extends TestCase  {
    "assert circle != null;\n";
    
    public void testSuperConstructor() throws Exception {
-      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
-      System.err.println(SOURCE);
-      compiler.compile(SOURCE).execute(new EmptyModel());
+      assertScriptExecutes(SOURCE_1); // Any() default constructor
+      assertScriptExecutes(SOURCE_2);
    }
 }

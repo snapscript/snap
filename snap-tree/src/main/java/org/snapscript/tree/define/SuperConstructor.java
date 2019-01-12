@@ -1,23 +1,21 @@
 package org.snapscript.tree.define;
 
-import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
-
-import org.snapscript.core.Evaluation;
+import org.snapscript.core.ModifierType;
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.instance.SuperExtractor;
 import org.snapscript.core.type.Type;
-import org.snapscript.core.type.TypeState;
 import org.snapscript.core.type.TypeBody;
 import org.snapscript.core.type.TypePart;
+import org.snapscript.core.type.TypeState;
 import org.snapscript.parse.StringToken;
 import org.snapscript.tree.ArgumentList;
-import org.snapscript.tree.literal.TextLiteral;
 
 public class SuperConstructor extends TypePart {
    
+   private final SuperConstructorAssembler assembler;
    private final SuperExtractor extractor;
-   private final ArgumentList arguments;
+   private final TypePart constructor;
    
    public SuperConstructor() {
       this(null, null);
@@ -32,8 +30,9 @@ public class SuperConstructor extends TypePart {
    }
    
    public SuperConstructor(StringToken token, ArgumentList arguments) {
+      this.assembler = new SuperConstructorAssembler(arguments);
+      this.constructor = new AnyConstructor();
       this.extractor = new SuperExtractor();
-      this.arguments = arguments;
    }
 
    @Override
@@ -47,10 +46,12 @@ public class SuperConstructor extends TypePart {
    }
 
    protected TypeState assemble(TypeBody body, Type type, Scope scope) throws Exception {
-      StringToken name = new StringToken(TYPE_CONSTRUCTOR);
-      Evaluation literal = new TextLiteral(name);
-      Evaluation evaluation = new SuperInvocation(literal, arguments, type);
+      int modifiers = type.getModifiers();
       
-      return new SuperState(evaluation, type);
+      if(ModifierType.isAny(modifiers)) {      
+         return constructor.define(body, type, scope);
+      }
+      return assembler.assemble(body, type, scope);
    }
+   
 }
