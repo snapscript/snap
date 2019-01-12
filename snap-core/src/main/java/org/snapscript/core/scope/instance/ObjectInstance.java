@@ -4,18 +4,14 @@ import org.snapscript.core.convert.proxy.ScopeProxy;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.platform.Bridge;
 import org.snapscript.core.scope.ScopeState;
-import org.snapscript.core.scope.index.ArrayTable;
 import org.snapscript.core.scope.index.ScopeIndex;
 import org.snapscript.core.scope.index.ScopeTable;
-import org.snapscript.core.scope.index.StackIndex;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 
 public class ObjectInstance implements Instance {
 
-   private final ScopeTable table;
-   private final ScopeIndex index;
-   private final ScopeState state;
+   private final StateAccessor accessor;
    private final ScopeProxy proxy;
    private final Instance base;
    private final Bridge object;
@@ -24,10 +20,8 @@ public class ObjectInstance implements Instance {
    private final Type type;
    
    public ObjectInstance(Module module, Instance base, Bridge object, Value self, Type type) {
-      this.state = new InstanceState(base);
-      this.index = new StackIndex(base);
+      this.accessor = new StateAccessor(base);
       this.proxy = new ScopeProxy(this);
-      this.table = new ArrayTable();
       this.object = object;
       this.module = module;
       this.type = type;
@@ -67,17 +61,17 @@ public class ObjectInstance implements Instance {
    
    @Override
    public ScopeIndex getIndex(){
-      return index;
+      return accessor.index;
    }
    
    @Override
    public ScopeTable getTable(){
-      return table;
+      return accessor.table;
    }
 
    @Override
    public ScopeState getState() {
-      return state;
+      return accessor.state;
    }
    
    @Override
@@ -98,5 +92,30 @@ public class ObjectInstance implements Instance {
    @Override
    public String toString(){
       return type.toString();
+   }   
+
+   private static class StateAccessor {
+   
+      private final ScopeIndex index;
+      private final ScopeTable table;
+      private final ScopeState state;
+      
+      public StateAccessor(Instance instance) {
+         this.index = instance.getIndex();
+         this.table = instance.getTable();
+         this.state = instance.getState();
+      }   
+      
+      public ScopeIndex getIndex(){
+         return index;
+      }
+      
+      public ScopeTable getTable(){
+         return table;
+      }
+   
+      public ScopeState getState() {
+         return state;
+      }
    }
 }

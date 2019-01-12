@@ -2,10 +2,12 @@ package org.snapscript.core.error;
 
 public class InternalError extends Error {
    
+   private final Throwable cause;
    private final Object original;
    
-   public InternalError(Object original) {
+   public InternalError(Object original, Throwable cause) {
       this.original = original;
+      this.cause = cause;
    }
 
    public Object getValue() {
@@ -14,10 +16,7 @@ public class InternalError extends Error {
    
    @Override
    public Throwable getCause() {
-      if(Throwable.class.isInstance(original)) {
-         return (Throwable)original;
-      }
-      return null;
+      return cause;
    }
    
    @Override

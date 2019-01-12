@@ -21,11 +21,11 @@ public class InternalErrorHandler {
    }
    
    public Result handleError(Scope scope, Object value) {
-      throw builder.createInternalError(value);
+      throw builder.createInternalError(value, null);
    }
    
    public Result handleError(Scope scope, Throwable cause, Trace trace) {
-      String message = formatter.formatInternalError(cause, trace);
-      throw builder.createInternalError(message);
+      Throwable exception = formatter.formatInternalError(cause, trace);
+      throw builder.createInternalError(exception, exception);
    }
 }

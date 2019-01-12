@@ -1,10 +1,43 @@
 package org.snapscript.compile;
 
-import junit.framework.TestCase;
+import org.snapscript.core.Context;
 
-public class ConstructorReferenceToStaticTest extends TestCase {
+public class ConstructorReferenceToStaticTest extends ScriptTestCase {
 
-   private static final String SOURCE =
+   private static final String SUCCESS_1 =
+   "class X{\n"+
+   "   static const BLAH = \"ss\";\n"+
+   "   var a;\n"+
+   "   var b;\n"+
+   "   var c;\n"+
+   "   new(a,b):this(a,b,BLAH){\n"+
+   "   }\n"+
+   "   new(a,b,c){\n"+
+   "      this.a=a;\n"+
+   "      this.b=b;\n"+
+   "      this.c=c;\n"+
+   "   }\n"+
+   "\n"+
+   "   dump(){\n"+
+   "      println(\"a=${a} b=${b} c=${c}\");\n"+
+   "   }\n"+
+   "}\n"+
+   "\n"+
+   "class Y extends X {\n"+
+   "   static const DEFAULT_SIZE = 10;\n"+
+   "   var d;\n"+
+   "   new(a,b) : super(a, DEFAULT_SIZE){\n"+
+   "      this.d=b;\n"+
+   "   }\n"+
+   "   toString(){\n"+
+   "      return \"a=${a}, b=${b}, c=${c}, d=${d}\";\n"+
+   "   }\n"+
+   "}\n"+
+   "var y = new Y(1, 2);\n"+
+   "println(y);\n"+
+   "assert y.toString() == 'a=1, b=10, c=ss, d=2';\n";
+   
+   private static final String FAILURE_1 =
    "class X{\n"+
    "   static const BLAH = \"ss\";\n"+
    "   var a;\n"+
@@ -25,7 +58,7 @@ public class ConstructorReferenceToStaticTest extends TestCase {
    "\n"+
    "class Y extends X {\n"+
    "   static const DEFAULT_SIZE = 10;\n"+
-   "   var a;\n"+
+   "   var a; // <-- this VARIABLE IS A DEFINED IN THE SUPER\n"+
    "   new(a,b) : super(a, DEFAULT_SIZE){\n"+
    "      this.a=b;\n"+
    "   }\n"+
@@ -37,12 +70,17 @@ public class ConstructorReferenceToStaticTest extends TestCase {
    "println(y);\n";
    
    public void testConstructorStaticReference() throws Exception{
-      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
-      Executable executable = compiler.compile(SOURCE);
-      long start = System.currentTimeMillis();
-      
-       executable.execute();
-       System.err.println("time="+(System.currentTimeMillis()-start));
+      assertScriptExecutes(SUCCESS_1);
+      assertScriptExecutes(FAILURE_1, new AssertionCallback() {
+         public void onSuccess(Context context, Object result) throws Exception{
+            throw new IllegalStateException("Should have failed with: Declaration of variable 'a' failed in /default.snap at line 21");
+         }
+         public void onException(Context context, Exception cause) throws Exception{
+            String message = cause.getMessage();
+            System.err.println(message);
+            assertEquals(message, "Declaration of variable 'a' failed in /default.snap at line 21");
+         }
+      });
    }
    
    public static void main(String[] list) throws Exception {

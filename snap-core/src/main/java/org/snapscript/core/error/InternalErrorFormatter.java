@@ -9,7 +9,7 @@ public class InternalErrorFormatter {
       super();
    }
 
-   public String formatInternalError(Throwable cause, Trace trace) {
+   public Throwable formatInternalError(Throwable cause, Trace trace) {
       StringBuilder builder = new StringBuilder();
       
       if(trace != null) {
@@ -23,8 +23,10 @@ public class InternalErrorFormatter {
          builder.append(" at line ");
          builder.append(line);
 
-         return builder.toString();
+         String details = builder.toString();
+         
+         return new InternalStateException(details, cause);
       }
-      return cause.getMessage();
+      return cause;
    }
 }
