@@ -19,7 +19,7 @@ public class SuperInvocation extends Evaluation {
 
    private final SuperInstanceBuilder builder;
    private final CaptureScopeExtractor extractor;
-   private final SuperFunctionHolder holder;
+   private final SuperFunctionMatcher matcher;
    private final NameReference reference;
    private final ArgumentList arguments;
    private final Constraint constraint;
@@ -28,7 +28,7 @@ public class SuperInvocation extends Evaluation {
    public SuperInvocation(Evaluation function, ArgumentList arguments, Type type) {
       this.extractor = new CaptureScopeExtractor(EXECUTE_SUPER);
       this.reference = new NameReference(function);
-      this.holder = new SuperFunctionHolder(reference, type);
+      this.matcher = new SuperFunctionMatcher(reference, type);
       this.constraint = new StaticConstraint(type);
       this.builder = new SuperInstanceBuilder(type);
       this.arguments = arguments;
@@ -38,7 +38,7 @@ public class SuperInvocation extends Evaluation {
    @Override
    public Constraint compile(Scope scope, Constraint left) throws Exception {
       Value value = Value.getTransient(type);
-      FunctionDispatcher dispatcher = holder.get(scope, value);  
+      FunctionDispatcher dispatcher = matcher.match(scope, value);  
       
       if(arguments != null) {
          Scope outer = scope.getScope();
@@ -55,7 +55,7 @@ public class SuperInvocation extends Evaluation {
       Type real = scope.getType();  
       Scope instance = builder.create(scope, left);
       Value value = Value.getTransient(instance);
-      FunctionDispatcher dispatcher = holder.get(instance, NULL);  
+      FunctionDispatcher dispatcher = matcher.match(instance, NULL);  
       
       if(arguments != null) {
          Scope outer = real.getScope();
