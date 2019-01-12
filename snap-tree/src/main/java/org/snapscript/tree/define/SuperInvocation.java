@@ -13,7 +13,6 @@ import org.snapscript.core.scope.index.CaptureScopeExtractor;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 import org.snapscript.tree.ArgumentList;
-import org.snapscript.tree.NameReference;
 import org.snapscript.tree.construct.ConstructArgumentList;
 
 public class SuperInvocation extends Evaluation {
@@ -22,15 +21,13 @@ public class SuperInvocation extends Evaluation {
    private final SuperInstanceBuilder builder;
    private final CaptureScopeExtractor extractor;
    private final SuperFunctionMatcher matcher;
-   private final NameReference reference;
    private final Constraint constraint;
    private final Type type;
    
-   public SuperInvocation(Evaluation function, ArgumentList arguments, Type type) {
+   public SuperInvocation(ArgumentList arguments, Type type) {
       this.arguments = new ConstructArgumentList(arguments);
       this.extractor = new CaptureScopeExtractor(EXECUTE_SUPER);
-      this.reference = new NameReference(function);
-      this.matcher = new SuperFunctionMatcher(reference, type);
+      this.matcher = new SuperFunctionMatcher(type);
       this.constraint = new StaticConstraint(type);
       this.builder = new SuperInstanceBuilder(type);
       this.type = type;

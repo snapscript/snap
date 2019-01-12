@@ -6,19 +6,20 @@ import org.snapscript.core.Evaluation;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.result.Result;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.type.TypeState;
 import org.snapscript.core.type.Category;
 import org.snapscript.core.type.Type;
+import org.snapscript.core.type.TypeState;
 import org.snapscript.core.variable.Value;
+import org.snapscript.tree.ArgumentList;
 
 public class SuperState extends TypeState {
    
    private final SuperInstanceBuilder builder;
    private final Evaluation expression;
    
-   public SuperState(Evaluation expression, Type type) {
+   public SuperState(ArgumentList arguments, Type type) {
+      this.expression = new SuperInvocation(arguments, type);
       this.builder = new SuperInstanceBuilder(type);
-      this.expression = expression;
    }
    
    @Override

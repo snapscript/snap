@@ -1,5 +1,7 @@
 package org.snapscript.tree.define;
 
+import static org.snapscript.core.Reserved.TYPE_CONSTRUCTOR;
+
 import org.snapscript.core.Context;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.bind.FunctionBinder;
@@ -9,16 +11,13 @@ import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
-import org.snapscript.tree.NameReference;
 
 public class SuperFunctionMatcher {
 
    private FunctionDispatcher dispatcher;
-   private NameReference reference;
    private Type type;
    
-   public SuperFunctionMatcher(NameReference reference, Type type) {
-      this.reference = reference;
+   public SuperFunctionMatcher(Type type) {
       this.type = type;
    }
    
@@ -39,9 +38,8 @@ public class SuperFunctionMatcher {
       if(base == null) {
          Module module = scope.getModule();
          Context context = module.getContext();
-         FunctionBinder binder = context.getBinder();
-         String name = reference.getName(scope);         
-         FunctionMatcher matcher = binder.bind(name);
+         FunctionBinder binder = context.getBinder();     
+         FunctionMatcher matcher = binder.bind(TYPE_CONSTRUCTOR);
          
          return matcher.match(scope, left);
       }
@@ -55,8 +53,7 @@ public class SuperFunctionMatcher {
          Module module = scope.getModule();
          Context context = module.getContext();
          FunctionBinder binder = context.getBinder();
-         String name = reference.getName(scope);         
-         FunctionMatcher matcher = binder.bind(name);
+         FunctionMatcher matcher = binder.bind(TYPE_CONSTRUCTOR);
          
          return matcher.match(scope, left);
       }
