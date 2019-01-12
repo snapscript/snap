@@ -7,7 +7,7 @@ import org.snapscript.core.type.Type;
 public class StaticInstance extends PrimitiveInstance {
 
    public StaticInstance(Module module, Scope scope, Type type) {
-      super(module, scope, type);
+      super(module, scope, type, type);
    }
 
 }
