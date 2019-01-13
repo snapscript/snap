@@ -77,7 +77,7 @@ public class TraceStatement extends Statement {
             return execution.execute(scope); 
          } catch(Exception cause) {
             interceptor.traceRuntimeError(scope, trace, cause);
-            return handler.failInternalError(scope, cause);
+            return handler.failInternalError(scope, cause, trace);
          } finally {
             interceptor.traceAfter(scope, trace);
          }
