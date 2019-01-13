@@ -28,7 +28,12 @@ public class EvaluationExtractor implements ScopeExtractor{
       Module module = original.getModule();
       Context context = module.getContext();
       ThreadStack stack = context.getStack();
-      Function function = stack.current(); // we can determine the function type
+      Function function = stack.current(); // we can determine the function type    
+      
+      return extract(original, function);
+   }
+   
+   public Scope extract(Scope original, Function function) {
       Scope extracted = extractor.extract(original);      
       
       if(function != null) {
