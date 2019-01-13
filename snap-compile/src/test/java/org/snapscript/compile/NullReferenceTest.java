@@ -1,8 +1,9 @@
 package org.snapscript.compile;
 
 import org.snapscript.compile.staticanalysis.CompileTestCase;
+import org.snapscript.core.Context;
 
-public class NullReferenceTest extends CompileTestCase {
+public class NullReferenceTest extends ScriptTestCase {
    
    private static final String SOURCE =
    "class Foo{\n"+
@@ -15,7 +16,14 @@ public class NullReferenceTest extends CompileTestCase {
          
    
    public void testNullReference() throws Exception {
-      assertCompileAndExecuteSuccess(SOURCE);
+      assertScriptExecutes(SOURCE, new AssertionCallback() {
+         public void onSuccess(Context context, Object result) throws Exception{
+            throw new IllegalStateException("Should be a null pointer");
+         }
+         public void onException(Context context, Exception cause) throws Exception{
+            cause.printStackTrace();
+         }
+      });
    }
 
 }

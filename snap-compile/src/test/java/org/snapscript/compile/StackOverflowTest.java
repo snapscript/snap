@@ -35,7 +35,7 @@ public class StackOverflowTest extends TestCase {
       boolean failure = true;
       try {
          compiler.compile(SOURCE_1).execute();
-      } catch(StackOverflowException e){
+      } catch(Exception e){
          e.printStackTrace();
          failure = true;
       }
