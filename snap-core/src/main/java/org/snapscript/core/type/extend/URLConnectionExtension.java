@@ -242,31 +242,34 @@ public class URLConnectionExtension {
 
       @Override
       public String toString() {
-         StringBuilder builder = new StringBuilder();
-
-         builder.append(status);
-         builder.append("\r\n");
-
          Map<String, List<String>> headers = connection.getHeaderFields();
          Set<String> names = headers.keySet();
+         
+         if(!names.isEmpty()) {
+            StringBuilder builder = new StringBuilder();
 
-         for (String name : names) {
-            List<String> values = headers.get(name);
+            builder.append(status);
+            builder.append("\r\n");
 
-            if (values != null && name != null) {
-               for (String value : values) {
-                  builder.append(name);
-                  builder.append(": ");
-
-                  if (value != null) {
-                     builder.append(value);
+            for (String name : names) {
+               List<String> values = headers.get(name);
+   
+               if (values != null && name != null) {
+                  for (String value : values) {
+                     builder.append(name);
+                     builder.append(": ");
+   
+                     if (value != null) {
+                        builder.append(value);
+                     }
+                     builder.append("\r\n");
                   }
-                  builder.append("\r\n");
                }
             }
+            builder.append("\r\n");
+            return builder.toString();
          }
-         builder.append("\r\n");
-         return builder.toString();
+         return String.format("%s\r\n", status);
       }
    }
 }

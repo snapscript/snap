@@ -25,8 +25,8 @@ public class TypeHierarchyCompiler {
    }
 
    public void compile(Type type, Type base) {
-      Map<String, Property> all = builder.getProperties(type);
       Map<String, Property> other = builder.getProperties(base);
+      Map<String, Property> all = builder.getProperties(type);
       Set<String> names = other.keySet();
       
       for(String name : names) {
