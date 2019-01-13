@@ -38,14 +38,14 @@ public class PropertyGenerator {
             if(!field.isAccessible()) {
                field.setAccessible(true);
             }
-            return new AccessorProperty(name, type, constraint, accessor, modifiers); 
+            return new AccessorProperty(name, name, type, constraint, accessor, modifiers); 
          }
          FieldAccessor accessor = new FieldAccessor(field);
          
          if(!field.isAccessible()) {
             field.setAccessible(true);
          }
-         return new AccessorProperty(name, type, constraint, accessor, modifiers); 
+         return new AccessorProperty(name, name, type, constraint, accessor, modifiers); 
       } catch(Exception e) {
          throw new InternalStateException("Could not create property from " + field);
       }
@@ -63,7 +63,7 @@ public class PropertyGenerator {
                write.setAccessible(true);
             }
          }
-         return new AccessorProperty(name, type, constraint, accessor, modifiers & ~MODIFIERS);  
+         return new AccessorProperty(name, name, type, constraint, accessor, modifiers & ~MODIFIERS);  
       } catch(Exception e) {
          throw new InternalStateException("Could not create property from " + read);
       }

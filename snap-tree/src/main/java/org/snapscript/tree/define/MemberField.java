@@ -70,19 +70,20 @@ public class MemberField implements Compilation {
          for(MemberFieldDeclaration declaration : declarations) {
             MemberFieldData data = declaration.create(scope, modifiers);
             String name = data.getName();
+            String alias = data.getAlias();
             Constraint constraint = data.getConstraint();
             TypeState declare = assembler.assemble(data);
             
             if (checker.isStatic()) {
-               Accessor accessor = new StaticAccessor(body, type, name);
-               Property property = new AccessorProperty(name, type, constraint, accessor, modifiers);
+               Accessor accessor = new StaticAccessor(body, type, name, alias);
+               Property property = new AccessorProperty(name, alias, type, constraint, accessor, modifiers);
                
                validator.validate(type, property, modifiers);
                annotations.apply(scope, property);
                properties.add(property);
             } else {
-               Accessor accessor = new ScopeAccessor(name);
-               Property property = new AccessorProperty(name, type, constraint, accessor, modifiers); // is this the correct type!!??               
+               Accessor accessor = new ScopeAccessor(name, alias);
+               Property property = new AccessorProperty(name, alias, type, constraint, accessor, modifiers); // is this the correct type!!??               
                
                validator.validate(type, property, modifiers);
                annotations.apply(scope, property);

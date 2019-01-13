@@ -73,12 +73,12 @@ public class ConstructorReferenceToStaticTest extends ScriptTestCase {
       assertScriptExecutes(SUCCESS_1);
       assertScriptExecutes(FAILURE_1, new AssertionCallback() {
          public void onSuccess(Context context, Object result) throws Exception{
-            throw new IllegalStateException("Should have failed with: Declaration of variable 'a' failed in /default.snap at line 21");
+            throw new IllegalStateException("Should have failed with: Type 'default.Y' has a duplicate property 'a'");
          }
          public void onException(Context context, Exception cause) throws Exception{
             String message = cause.getMessage();
             System.err.println(message);
-            assertEquals(message, "Declaration of variable 'a' failed in /default.snap at line 21");
+            assertEquals(message, "Type 'default.Y' has a duplicate property 'a'");
          }
       });
    }

@@ -1,5 +1,6 @@
 package org.snapscript.compile;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.Context;
 
 public class TextTemplateTest extends ScriptTestCase {
@@ -38,6 +39,15 @@ public class TextTemplateTest extends ScriptTestCase {
    "var y = null;\n"+
    "assert `${y} ${x}` == `null 11`;\n";
    
+   private static final String SOURCE_7 =
+   "class Point{\n"+
+   "   private let x = 1;\n"+
+   "   toString() {\n"+
+   "      return `${x}`;\n"+
+   "   }\n"+
+   "}\n"+
+   "assert new Point().toString() == 1\n;";
+   
    public void testTemplate() throws Exception {
       assertScriptExecutes(SOURCE_1);
    }
@@ -68,5 +78,10 @@ public class TextTemplateTest extends ScriptTestCase {
    
    public void testNullVariable() throws Exception {
       assertScriptExecutes(SOURCE_6);
+   }
+   
+   @Bug
+   public void testPrivateProperty() throws Exception {
+     // assertScriptExecutes(SOURCE_7);
    }
 }

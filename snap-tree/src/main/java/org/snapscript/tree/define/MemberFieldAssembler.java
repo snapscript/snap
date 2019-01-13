@@ -31,10 +31,11 @@ public class MemberFieldAssembler {
    private Evaluation create(MemberFieldData data) throws Exception {
       int modifiers = checker.getModifiers();
       String name = data.getName();
+      String alias = data.getAlias();
       Constraint constraint = data.getConstraint();
       Evaluation declare = data.getValue();
       
-      return new Declaration(name, constraint, declare, modifiers);
+      return new Declaration(name, alias, constraint, declare, modifiers);
    }
    
    private static class Declaration extends Evaluation {
@@ -42,14 +43,16 @@ public class MemberFieldAssembler {
       private final DeclarationAllocator allocator;
       private final Constraint constraint;
       private final Evaluation declare;
+      private final String alias; // private name
       private final String name;
       private final int modifiers;
       
-      public Declaration(String name, Constraint constraint, Evaluation declare, int modifiers) {
+      public Declaration(String name, String alias, Constraint constraint, Evaluation declare, int modifiers) {
          this.allocator = new MemberFieldAllocator(constraint, declare);
          this.constraint = constraint;
          this.modifiers = modifiers;
          this.declare = declare;
+         this.alias = alias;
          this.name = name;
       }  
 
@@ -66,7 +69,7 @@ public class MemberFieldAssembler {
          ScopeState state = scope.getState();
          
          try { 
-            state.addValue(name, value);
+            state.addValue(alias, value);
          }catch(Exception e) {
             throw new InternalStateException("Declaration of variable '" + name +"' failed", e);
          }  
@@ -79,7 +82,7 @@ public class MemberFieldAssembler {
          ScopeState state = scope.getState();
          
          try { 
-            state.addValue(name, value);
+            state.addValue(alias, value);
          }catch(Exception e) {
             throw new InternalStateException("Declaration of variable '" + name +"' failed", e);
          }  

@@ -40,13 +40,14 @@ public class StaticConstantCollector {
                
                for(Property property : properties) {
                   String name = property.getName();
+                  String alias = property.getAlias();
                   int modifiers = property.getModifiers();
                   
                   if(ModifierType.isStatic(modifiers)) {
                      PropertyValue value = new PropertyValue(property, null, name);
                      
-                     if(names.add(name)) { // ensure only supers are added
-                        state.addValue(name, value);
+                     if(names.add(alias)) { // ensure only supers are added
+                        state.addValue(alias, value);
                      }
                   }
                }

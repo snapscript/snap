@@ -46,6 +46,11 @@ public class ClassProperty implements Property {
    public Type getSource() {
       return source;
    }
+   
+   @Override
+   public String getAlias() {
+      return TYPE_CLASS;
+   }
 
    @Override
    public String getName() {

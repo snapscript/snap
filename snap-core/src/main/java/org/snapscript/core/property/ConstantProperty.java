@@ -2,6 +2,7 @@ package org.snapscript.core.property;
 
 import static java.util.Collections.EMPTY_LIST;
 import static org.snapscript.core.ModifierType.CONSTANT;
+import static org.snapscript.core.Reserved.TYPE_CLASS;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -53,6 +54,11 @@ public class ConstantProperty implements Property<Object> {
    @Override
    public Type getSource(){
       return source;
+   }
+   
+   @Override
+   public String getAlias() {
+      return name;
    }
    
    @Override

@@ -43,8 +43,8 @@ public class EnumValue {
       if(!ModifierType.isEnum(modifiers)) {
          throw new InternalStateException("Type '" + type + "' is not an enum");
       }
-      Accessor accessor = new StaticAccessor(body, type, name);
-      Property property = new AccessorProperty(name, type, constraint, accessor, STATIC.mask | CONSTANT.mask);
+      Accessor accessor = new StaticAccessor(body, type, name, name);
+      Property property = new AccessorProperty(name, name, type, constraint, accessor, STATIC.mask | CONSTANT.mask);
       
       properties.add(property);
 

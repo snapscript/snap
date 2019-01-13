@@ -47,7 +47,7 @@ public class ModuleProperty {
       Accessor accessor = define(body, scope);
       Constraint require = constraint.getConstraint(scope, modifiers);
       
-      return new AccessorProperty(name, null, require, accessor, modifiers);
+      return new AccessorProperty(name, name, null, require, accessor, modifiers);
    }
 
    public Value compile(ModuleBody body, Scope scope, int modifiers) throws Exception {

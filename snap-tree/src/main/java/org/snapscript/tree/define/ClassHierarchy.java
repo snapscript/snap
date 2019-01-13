@@ -14,6 +14,7 @@ import org.snapscript.tree.constraint.TraitConstraint;
 
 public class ClassHierarchy implements TypeHierarchy {
       
+   private final TypeHierarchyCompiler collector;
    private final ConstraintVerifier verifier;
    private final TraitConstraint[] traits; 
    private final ClassConstraint base;
@@ -24,6 +25,7 @@ public class ClassHierarchy implements TypeHierarchy {
    }
    
    public ClassHierarchy(ClassConstraint base, TraitConstraint... traits) {
+      this.collector = new TypeHierarchyCompiler();
       this.verifier = new ConstraintVerifier();
       this.any = new AnyConstraint();
       this.traits = traits;
@@ -69,6 +71,14 @@ public class ClassHierarchy implements TypeHierarchy {
    public void compile(Scope scope, Type type) throws Exception {
       List<Constraint> types = type.getTypes();
       
+      if(base != null) {
+         Type match = base.getType(scope);
+         
+         if(match == null) {
+            throw new InternalStateException("Invalid super class for type '" + type + "'");
+         }
+         collector.compile(type, match);
+      }
       for(Constraint base : types) {
          try {
             verifier.verify(scope, base);

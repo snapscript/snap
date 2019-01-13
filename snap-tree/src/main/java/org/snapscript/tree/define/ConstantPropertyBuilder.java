@@ -23,8 +23,8 @@ public class ConstantPropertyBuilder {
    
    public Property createStaticProperty(TypeBody body, String name, Type type, Constraint constraint) {
       Constraint constant = new DeclarationConstraint(constraint, STATIC.mask | CONSTANT.mask);
-      Accessor accessor = new StaticAccessor(body, type, name);
-      Property property = new AccessorProperty(name, type, constant, accessor, STATIC.mask | CONSTANT.mask);
+      Accessor accessor = new StaticAccessor(body, type, name, name);
+      Property property = new AccessorProperty(name, name, type, constant, accessor, STATIC.mask | CONSTANT.mask);
       
       if(type != null) {
          List<Property> properties = type.getProperties();
@@ -35,8 +35,8 @@ public class ConstantPropertyBuilder {
 
    public Property createInstanceProperty(String name, Type type, Constraint constraint) {
       Constraint constant = new DeclarationConstraint(constraint, STATIC.mask | CONSTANT.mask);
-      Accessor accessor = new ScopeAccessor(name);
-      Property property = new AccessorProperty(name, type, constant, accessor, CONSTANT.mask); // is this the correct type!!??
+      Accessor accessor = new ScopeAccessor(name, name);
+      Property property = new AccessorProperty(name, name, type, constant, accessor, CONSTANT.mask); // is this the correct type!!??
       
       if(type != null) {
          List<Property> properties = type.getProperties();

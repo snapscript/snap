@@ -1,11 +1,18 @@
 package org.snapscript.compile;
 
+import org.snapscript.core.Context;
+
 public class SuperConstructorTest extends ScriptTestCase  {
 
-   private static final String SOURCE_1 =
-   "class Foo{}";      
+   private static final String SUCCESS_1 =
+   "class Foo{\n"+
+   "   private let x = 2;\n"+
+   "   fun(){\n"+
+   "      x++\n;"+
+   "   }\n"+
+   "}";      
    
-   private static final String SOURCE_2 =
+   private static final String SUCCESS_2 =
    "enum Color{\n"+
    "   RED,\n"+
    "   GREEN,\n"+
@@ -36,8 +43,34 @@ public class SuperConstructorTest extends ScriptTestCase  {
    "const circle = new Circle('x', 11);\n"+
    "assert circle != null;\n";
    
+   public static final String FAILURE_1 = 
+   "class Foo{\n"+
+   "   let x = 1;\n"+
+   "   fun(){\n"+
+   "      println(x);\n"+
+   "   }\n"+
+   "}\n"+
+   "\n"+
+   "class Bar extends Foo{\n"+
+   "   let x = 'aa';\n"+
+   "   override fun(){\n"+
+   "      super.fun();\n"+
+   "   }\n"+
+   "}\n"+
+   "\n"+
+   "new Bar().fun();\n";
+         
+   
    public void testSuperConstructor() throws Exception {
-      assertScriptExecutes(SOURCE_1); // Any() default constructor
-      assertScriptExecutes(SOURCE_2);
+      assertScriptExecutes(SUCCESS_1); // Any() default constructor
+      assertScriptExecutes(SUCCESS_2);
+      assertScriptExecutes(FAILURE_1, new AssertionCallback() {
+         public void onSuccess(Context context, Object result) throws Exception{
+            throw new IllegalStateException("Should have failed");
+         }
+         public void onException(Context context, Exception cause) throws Exception{
+            cause.printStackTrace();
+         }
+      });
    }
 }

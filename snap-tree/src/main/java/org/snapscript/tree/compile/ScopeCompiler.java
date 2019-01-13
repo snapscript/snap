@@ -34,12 +34,12 @@ public abstract class ScopeCompiler {
       ScopeState state = scope.getState();
 
       for(Property property : properties) {
-         String name = property.getName();
+         String alias = property.getAlias();
          Value field = compileProperty(scope, property);
-         Value current = state.getValue(name);
+         Value current = state.getValue(alias);
 
          if(current == null) {
-            state.addValue(name, field);
+            state.addValue(alias, field);
          }
       }
    }

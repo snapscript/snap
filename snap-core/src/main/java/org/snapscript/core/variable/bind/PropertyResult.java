@@ -32,7 +32,8 @@ public class PropertyResult implements VariableResult {
    
    @Override
    public Address getAddress(int offset) {
-      return INSTANCE.getAddress(name, offset);
+      String alias = property.getAlias();
+      return INSTANCE.getAddress(alias, offset);
    }
    
    @Override

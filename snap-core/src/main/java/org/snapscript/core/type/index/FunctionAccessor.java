@@ -2,44 +2,46 @@ package org.snapscript.core.type.index;
 
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.function.Accessor;
-import org.snapscript.core.function.Function;
 import org.snapscript.core.function.Invocation;
-import org.snapscript.core.function.index.FunctionPointer;
-import org.snapscript.core.function.index.TracePointer;
+import org.snapscript.core.function.bind.FunctionMatcher;
+import org.snapscript.core.function.dispatch.FunctionDispatcher;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.stack.ThreadStack;
+import org.snapscript.core.variable.Value;
 
 public class FunctionAccessor implements Accessor {
 
-   private final FunctionPointer pointer;
-   private final Function function;
+   private final FunctionMatcher matcher;
    private final Module module;
+   private final String name;
    
-   public FunctionAccessor(Function function, ThreadStack stack, Module module) {
-      this.pointer = new TracePointer(function, stack);
-      this.function = function;
+   public FunctionAccessor(FunctionMatcher matcher, Module module, String name) {
+      this.matcher = matcher;
       this.module = module;
+      this.name = name;
    }
    
    @Override
    public Object getValue(Object source) {
-      Invocation invocation = pointer.getInvocation();
       Scope scope = module.getScope();
+      Value value = Value.getTransient(source);
       
       try {
+         FunctionDispatcher dispatcher = matcher.match(scope, value);
+         Invocation invocation = dispatcher.connect(scope, value);
+         
          if(Scope.class.isInstance(source)) {
-            return invocation.invoke((Scope)source, source);
+            return invocation.invoke((Scope)source, value);
          }
-         return invocation.invoke(scope, source);
+         return invocation.invoke(scope, value);
       } catch(Exception e) {
-         throw new InternalStateException("Error occured invoking '" + function + "'", e);
+         throw new InternalStateException("Error occured invoking '" + name + "()'", e);
       }
    }
 
    @Override
    public void setValue(Object source, Object value) {
-      throw new InternalStateException("Illegal modification of '" + function + "'");
+      throw new InternalStateException("Illegal modification of '" + name + "()'");
    }
 
 }

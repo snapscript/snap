@@ -78,8 +78,8 @@ public class TraitConstant implements Compilation {
          if(!checker.isConstant()) {
             throw new InternalStateException("Variable '" + name + "' for '" + type + "' must be constant");
          }
-         Accessor accessor = new StaticAccessor(body, type, name);
-         Property property = new AccessorProperty(name, type, constraint, accessor, ModifierType.STATIC.mask | ModifierType.CONSTANT.mask);
+         Accessor accessor = new StaticAccessor(body, type, name, name);
+         Property property = new AccessorProperty(name, name, type, constraint, accessor, ModifierType.STATIC.mask | ModifierType.CONSTANT.mask);
          
          annotations.apply(scope, property);
          properties.add(property);

@@ -1,41 +1,22 @@
 package org.snapscript.compile.validate;
 
-import static org.snapscript.core.Reserved.ENUM_NAME;
-import static org.snapscript.core.Reserved.ENUM_ORDINAL;
-import static org.snapscript.core.Reserved.ENUM_VALUES;
-import static org.snapscript.core.Reserved.TYPE_CLASS;
-
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.property.Property;
 import org.snapscript.core.type.Type;
 
 public class PropertyValidator {
    
-   private final String[] ignores;
+   private final ConstraintMatcher matcher;
    
    public PropertyValidator(ConstraintMatcher matcher) {
-      this(matcher, TYPE_CLASS, ENUM_NAME, ENUM_ORDINAL, ENUM_VALUES);
-   }
-   
-   public PropertyValidator(ConstraintMatcher matcher, String... ignores) {
-      this.ignores = ignores;
+      this.matcher = matcher;
    }
    
    public void validate(Property property) throws Exception {
       Type source = property.getSource();
-      String name = property.getName();
-      int matches = 0;
-      
-      for(String ignore : ignores) {
-         if(ignore.equals(name)) {
-            matches++;
-         }
+
+      if(source == null) {
+         throw new ValidateException("Property '" + property + "' does not have a type");
       }
-      if(matches == 0) {
-         if(source == null) {
-            throw new ValidateException("Property '" + property + "' does not have a type");
-         }
-      }
-   }
-   
+   }   
 }

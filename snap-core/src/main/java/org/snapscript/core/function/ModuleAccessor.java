@@ -17,7 +17,7 @@ public class ModuleAccessor implements Accessor {
    private final String name;
    
    public ModuleAccessor(Module module, Statement body, Scope scope, String name) {
-      this.accessor = new ScopeAccessor(name);
+      this.accessor = new ScopeAccessor(name, name);
       this.module = module;
       this.scope = scope;
       this.name = name;
