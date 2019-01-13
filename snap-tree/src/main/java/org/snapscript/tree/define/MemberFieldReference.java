@@ -22,7 +22,7 @@ public class MemberFieldReference {
       if(real == null) {
          int order = type.getOrder();
          
-         if(ModifierType.isPrivate(modifiers)) {
+         if(ModifierType.isPrivate(modifiers) && ! ModifierType.isStatic(modifiers)) {
             if(order > 0) {
                return name + '@' + order; // private name
             }

@@ -3,6 +3,7 @@ package org.snapscript.core.variable.bind;
 import static org.snapscript.core.scope.index.AddressType.INSTANCE;
 
 import org.snapscript.core.Entity;
+import org.snapscript.core.ModifierType;
 import org.snapscript.core.attribute.AttributeResult;
 import org.snapscript.core.attribute.AttributeResultBinder;
 import org.snapscript.core.constraint.Constraint;
@@ -33,7 +34,12 @@ public class PropertyResult implements VariableResult {
    @Override
    public Address getAddress(int offset) {
       String alias = property.getAlias();
-      return INSTANCE.getAddress(alias, offset);
+      int modifiers = property.getModifiers();
+      
+      if(!ModifierType.isStatic(modifiers)) {
+         return INSTANCE.getAddress(alias, offset);
+      }
+      return null;
    }
    
    @Override

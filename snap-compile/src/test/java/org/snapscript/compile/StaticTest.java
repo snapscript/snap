@@ -1,20 +1,35 @@
 package org.snapscript.compile;
 
-import junit.framework.TestCase;
+import org.snapscript.compile.staticanalysis.CompileTestCase;
 
-public class StaticTest extends TestCase{
+public class StaticTest extends CompileTestCase{
    
-   private static final String SOURCE = 
+   private static final String SOURCE_1 = 
    "class Foo{\n"+
    "   static inc(){\n"+
    "      return 1;\n"+
    "   }\n"+
    "}\n"+
    "Foo.inc();\n";
+   
+   private static final String SOURCE_2 =
+   "class Foo{\n"+
+   "   private static var c =[\n"+
+   "      new String(`check`),\n"+
+   "      new Integer(1)\n"+
+   "   ];\n"+
+   "   public static var turn =\n"+
+   "      c[0].toString();\n"+
+   "\n"+
+   "   public static getTurn(){\n"+
+   "      return turn;\n"+
+   "   }\n"+
+   "}\n"+
+   "println(Foo.turn);\n";
+         
          
    public void testStatic() throws Exception {
-      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
-      Executable executable = compiler.compile(SOURCE);
-      executable.execute();
+      //assertCompileAndExecuteSuccess(SOURCE_1);
+      assertCompileAndExecuteSuccess(SOURCE_2);
    }
 }
