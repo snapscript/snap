@@ -43,7 +43,6 @@ public class DuplicatePropertyTest extends CompileTestCase {
    "   let x = 11;\n"+
    "}\n";
    
-   @Bug
    public void testDuplicateProperty() throws Exception {
       assertCompileSuccess(SUCCESS_1);
       assertCompileAndExecuteSuccess(SUCCESS_2);

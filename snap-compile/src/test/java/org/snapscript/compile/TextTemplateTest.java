@@ -81,7 +81,6 @@ public class TextTemplateTest extends ScriptTestCase {
       assertScriptExecutes(SOURCE_6);
    }
    
-   @Bug
    public void testPrivateProperty() throws Exception {
       assertScriptExecutes(SOURCE_7);
    }
