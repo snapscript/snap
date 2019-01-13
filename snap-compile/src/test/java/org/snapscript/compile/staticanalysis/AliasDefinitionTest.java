@@ -72,6 +72,11 @@ public class AliasDefinitionTest extends CompileTestCase {
    "let x: Typ<Integer> = new Typ<Integer>();\n"+
    "x.foo().keySet().iterator().next().intValue();\n";
 
+   private static final String SUCCESS_8 =
+   "type Num = Double;\n"+
+   "let x: Num = 1;\n"+
+   "println(--x);\n";
+
    private static final String FAILURE_1 =
    "type Foo = Map<String, String>;\n"+
    "let x: Foo = {:};\n"+
@@ -117,6 +122,7 @@ public class AliasDefinitionTest extends CompileTestCase {
       assertCompileSuccess(SUCCESS_5);
       assertCompileSuccess(SUCCESS_6);
       assertCompileSuccess(SUCCESS_7);
+      assertCompileSuccess(SUCCESS_8);
       assertCompileError(FAILURE_1, "Function 'intValue()' not found for 'lang.String' in /default.snap at line 3");
       assertCompileError(FAILURE_2, "Function 'intValue()' not found for 'lang.String' in /default.snap at line 8");
       assertCompileError(FAILURE_3, "Function 'substring(lang.Integer)' not found for 'lang.Integer' in /default.snap at line 7");

@@ -9,13 +9,15 @@ import org.snapscript.core.type.Type;
 import org.snapscript.core.type.TypeExtractor;
 
 public class ObjectConverter extends ConstraintConverter {
-   
-   private final CastChecker checker;
+
    private final TypeExtractor extractor;
+   private final AliasResolver resolver;
    private final ProxyWrapper wrapper;
+   private final CastChecker checker;
    private final Type constraint;
    
    public ObjectConverter(TypeExtractor extractor, CastChecker checker, ProxyWrapper wrapper, Type constraint) {
+      this.resolver = new AliasResolver();
       this.constraint = constraint;
       this.extractor = extractor;
       this.wrapper = wrapper;
@@ -24,9 +26,11 @@ public class ObjectConverter extends ConstraintConverter {
    
    @Override
    public Score score(Type actual) throws Exception {
-      if(actual != null) { 
-         if(actual != constraint) {
-            return checker.toType(actual, constraint);            
+      if(actual != null) {
+         Type type = resolver.resolve(actual);
+
+         if(type != constraint) {
+            return checker.toType(type, constraint);
          }         
       }
       return EXACT;

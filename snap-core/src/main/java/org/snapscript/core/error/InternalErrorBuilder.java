@@ -16,8 +16,8 @@ public class InternalErrorBuilder {
       this.stack = stack;
    }
    
-   public InternalError createInternalError(Object object, Throwable value) {
-      InternalError error = new InternalError(object, value);
+   public InternalError createInternalError(Object value, Throwable original) {
+      InternalError error = new InternalError(value, original);
       
       if(replace) {
          if(Throwable.class.isInstance(value)) {

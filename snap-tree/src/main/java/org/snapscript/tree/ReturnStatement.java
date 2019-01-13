@@ -8,6 +8,7 @@ import org.snapscript.core.Evaluation;
 import org.snapscript.core.Execution;
 import org.snapscript.core.Statement;
 import org.snapscript.core.constraint.Constraint;
+import org.snapscript.core.convert.AliasResolver;
 import org.snapscript.core.convert.ConstraintConverter;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.Score;
@@ -59,12 +60,14 @@ public class ReturnStatement implements Compilation {
    }
    
    private static class CompileResult extends Statement {
-   
+
       private final ConstraintMatcher matcher;
+      private final AliasResolver resolver;
       private final ErrorHandler handler;
       private final Evaluation evaluation;
 
       public CompileResult(ConstraintMatcher matcher, ErrorHandler handler, Evaluation evaluation){
+         this.resolver = new AliasResolver();
          this.evaluation = evaluation;
          this.matcher = matcher;
          this.handler = handler;

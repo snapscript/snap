@@ -97,7 +97,7 @@ public class StreamTest extends TestCase{
       }catch(Exception e) {
          e.printStackTrace();
          failure = true;
-         assertEquals(e.getMessage(), "Function 'range(lang.Integer, default.anonymous)' not found for 'util.stream.IntStream' in /default.snap at line 2");
+         assertEquals(e.getMessage(), "Function 'range(lang.Integer, default.anonymous)' not found for 'util.stream.IntStream'");
       }
       assertTrue("Exception should have been thrown", failure);
    }  

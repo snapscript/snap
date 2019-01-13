@@ -26,6 +26,6 @@ public class InternalErrorHandler {
    
    public Result handleError(Scope scope, Throwable cause, Trace trace) {
       Throwable exception = formatter.formatInternalError(cause, trace);
-      throw builder.createInternalError(exception, exception);
+      throw builder.createInternalError(cause, exception);
    }
 }

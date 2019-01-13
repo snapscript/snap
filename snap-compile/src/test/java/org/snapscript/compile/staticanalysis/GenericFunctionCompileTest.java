@@ -141,6 +141,13 @@ public class GenericFunctionCompileTest extends CompileTestCase {
    "b.foo<Integer>(1);\n"+
    "b.foo<String>('a');\n";
 
+   private static final String SUCCESS_15 =
+   "type Num = Number;\n"+
+   "func fun<T: Num>(n: T): T {\n"+
+   "   return n;\n"+
+   "}\n"+
+   "fun(1);\n";
+
    private static final String FAILURE_1 =
    "var m: Map<String, String> = {'x':'x'};\n"+
    "m.get('x').longValue();\n";
@@ -240,6 +247,7 @@ public class GenericFunctionCompileTest extends CompileTestCase {
       assertCompileSuccess(SUCCESS_12);
       assertCompileSuccess(SUCCESS_13);
       assertCompileSuccess(SUCCESS_14);
+      assertCompileSuccess(SUCCESS_15);
       assertCompileError(FAILURE_1, "Function 'longValue()' not found for 'lang.String' in /default.snap at line 2");
       assertCompileError(FAILURE_2, "Function 'substring(lang.Integer)' not found for 'lang.Integer' in /default.snap at line 2");
       assertCompileError(FAILURE_3, "Function 'longValue()' not found for 'lang.String' in /default.snap at line 11");
