@@ -15,16 +15,16 @@ public class MemberFieldReference {
    }
    
    public String getName(Type type, int modifiers) throws Exception {
+      Class real = type.getType();
       Scope scope = type.getScope();
       String name = identifier.getName(scope);
-      Class real = type.getType();
       
       if(real == null) {
          int order = type.getOrder();
          
          if(ModifierType.isPrivate(modifiers)) {
             if(order > 0) {
-               return "_" + order + "_" + name; // private name
+               return name + '@' + order; // private name
             }
          }
       }
