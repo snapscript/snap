@@ -8,6 +8,8 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.snapscript.common.Consumer;
+
 public class ReaderExtension {
 
    public ReaderExtension() {
@@ -45,6 +47,23 @@ public class ReaderExtension {
                return lines;
             }
             lines.add(line);
+         }
+      } finally {
+         iterator.close();
+      }
+   }
+
+   public void forEachLine(Reader reader, Consumer<String, ?> consumer) throws IOException {
+      LineNumberReader iterator = new LineNumberReader(reader);
+
+      try {
+         while(true) {
+            String line = iterator.readLine();
+
+            if(line == null) {
+               break;
+            }
+            consumer.consume(line);
          }
       } finally {
          iterator.close();

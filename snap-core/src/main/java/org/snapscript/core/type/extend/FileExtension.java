@@ -16,6 +16,8 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.snapscript.common.Consumer;
+
 public class FileExtension {
    
    public FileExtension() {
@@ -203,6 +205,44 @@ public class FileExtension {
                return lines;
             }
             lines.add(line);
+         }
+      } finally {
+         iterator.close();
+      }
+   }
+
+   public void forEachLine(File file, Consumer<String, ?> consumer) throws IOException {
+      InputStream stream = new FileInputStream(file);
+      Reader reader = new InputStreamReader(stream);
+      LineNumberReader iterator = new LineNumberReader(reader);
+
+      try {
+         while(true) {
+            String line = iterator.readLine();
+
+            if(line == null) {
+               break;
+            }
+            consumer.consume(line);
+         }
+      } finally {
+         iterator.close();
+      }
+   }
+
+   public void forEachLine(File file, String encoding, Consumer<String, ?> consumer) throws IOException {
+      InputStream stream = new FileInputStream(file);
+      Reader reader = new InputStreamReader(stream, encoding);
+      LineNumberReader iterator = new LineNumberReader(reader);
+
+      try {
+         while(true) {
+            String line = iterator.readLine();
+
+            if(line == null) {
+               break;
+            }
+            consumer.consume(line);
          }
       } finally {
          iterator.close();
