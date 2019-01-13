@@ -1,6 +1,7 @@
 package org.snapscript.core.variable.bind;
 
 import static org.snapscript.core.scope.index.AddressType.INSTANCE;
+import static org.snapscript.core.scope.index.AddressType.STATIC;
 
 import org.snapscript.core.Entity;
 import org.snapscript.core.ModifierType;
@@ -39,7 +40,7 @@ public class PropertyResult implements VariableResult {
       if(!ModifierType.isStatic(modifiers)) {
          return INSTANCE.getAddress(alias, offset);
       }
-      return null;
+      return STATIC.getAddress(alias, offset);
    }
    
    @Override

@@ -29,7 +29,7 @@ public class StaticTest extends CompileTestCase{
          
          
    public void testStatic() throws Exception {
-      //assertCompileAndExecuteSuccess(SOURCE_1);
+      assertCompileAndExecuteSuccess(SOURCE_1);
       assertCompileAndExecuteSuccess(SOURCE_2);
    }
 }
