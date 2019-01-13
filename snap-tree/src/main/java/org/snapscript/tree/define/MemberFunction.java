@@ -1,6 +1,6 @@
 package org.snapscript.tree.define;
 
-import static org.snapscript.core.scope.index.CaptureType.COMPILE_MEMBER;
+import static org.snapscript.core.scope.extract.ScopePolicy.COMPILE_MEMBER;
 
 import java.util.List;
 

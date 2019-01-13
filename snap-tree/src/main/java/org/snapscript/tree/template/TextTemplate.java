@@ -1,7 +1,6 @@
 package org.snapscript.tree.template;
 
 import static org.snapscript.core.constraint.Constraint.STRING;
-import static org.snapscript.core.scope.index.CaptureType.COMPILE_TEMPLATE;
 
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ import org.snapscript.core.convert.proxy.ProxyWrapper;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.index.CaptureScopeExtractor;
+import org.snapscript.core.scope.extract.EvaluationExtractor;
 import org.snapscript.core.variable.Value;
 import org.snapscript.parse.StringToken;
 
@@ -41,13 +40,13 @@ public class TextTemplate implements Compilation {
    
    private static class CompileResult extends Evaluation {
 
-      private CaptureScopeExtractor extractor;
+      private EvaluationExtractor extractor;
       private SegmentIterator iterator;
       private List<Segment> segments;
 
       public CompileResult(ExpressionEvaluator evaluator, ProxyWrapper wrapper, char[] source) {
          this.iterator = new SegmentIterator(evaluator, wrapper, source);
-         this.extractor = new CaptureScopeExtractor(COMPILE_TEMPLATE);
+         this.extractor = new EvaluationExtractor();
          this.segments = new ArrayList<Segment>();
       }
       

@@ -1,6 +1,6 @@
 package org.snapscript.tree.compile;
 
-import static org.snapscript.core.scope.index.CaptureType.COMPILE_CLOSURE;
+import static org.snapscript.core.scope.extract.ScopePolicy.COMPILE_CLOSURE;
 
 import java.util.List;
 

@@ -45,9 +45,9 @@ public class DuplicatePropertyTest extends CompileTestCase {
    
    @Bug
    public void testDuplicateProperty() throws Exception {
-      //assertCompileSuccess(SUCCESS_1);
-      //assertCompileAndExecuteSuccess(SUCCESS_2);
-      //assertCompileSuccess(SUCCESS_3);
+      assertCompileSuccess(SUCCESS_1);
+      assertCompileAndExecuteSuccess(SUCCESS_2);
+      assertCompileSuccess(SUCCESS_3);
       assertCompileError(FAILURE_1, "Type 'default.Bar' has a duplicate property 'x' in /default.snap at line 4");
    }
          

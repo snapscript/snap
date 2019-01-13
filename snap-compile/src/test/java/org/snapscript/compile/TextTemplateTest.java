@@ -46,7 +46,8 @@ public class TextTemplateTest extends ScriptTestCase {
    "      return `${x}`;\n"+
    "   }\n"+
    "}\n"+
-   "assert new Point().toString() == 1\n;";
+   "println(new Point());\n"+
+   "assert new Point().toString() == `1`;\n";
    
    public void testTemplate() throws Exception {
       assertScriptExecutes(SOURCE_1);
@@ -82,6 +83,6 @@ public class TextTemplateTest extends ScriptTestCase {
    
    @Bug
    public void testPrivateProperty() throws Exception {
-     // assertScriptExecutes(SOURCE_7);
+      assertScriptExecutes(SOURCE_7);
    }
 }

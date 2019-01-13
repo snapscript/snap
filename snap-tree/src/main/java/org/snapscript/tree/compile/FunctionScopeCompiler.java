@@ -6,18 +6,18 @@ import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.function.Function;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.ScopeState;
-import org.snapscript.core.scope.index.CaptureScopeExtractor;
-import org.snapscript.core.scope.index.CaptureType;
+import org.snapscript.core.scope.extract.ScopePolicyExtractor;
+import org.snapscript.core.scope.extract.ScopePolicy;
 import org.snapscript.core.type.Type;
 import org.snapscript.tree.constraint.GenericList;
 
 public class FunctionScopeCompiler extends ScopeCompiler {
 
-   protected final CaptureScopeExtractor extractor;
+   protected final ScopePolicyExtractor extractor;
    protected final GenericList generics;
 
-   public FunctionScopeCompiler(GenericList generics, CaptureType type) {
-      this.extractor = new CaptureScopeExtractor(type);
+   public FunctionScopeCompiler(GenericList generics, ScopePolicy policy) {
+      this.extractor = new ScopePolicyExtractor(policy);
       this.generics = generics;
    }
 

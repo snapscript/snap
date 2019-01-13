@@ -1,17 +1,16 @@
-package org.snapscript.core.scope.index;
+package org.snapscript.core.scope.extract;
 
 import static org.snapscript.core.type.Phase.COMPILE;
 import static org.snapscript.core.type.Phase.EXECUTE;
 
 import org.snapscript.core.type.Phase;
 
-public enum CaptureType {
+public enum ScopePolicy {
    COMPILE_CLOSURE(COMPILE, false, true, false),
    COMPILE_EVALUATE(COMPILE, true, true, false),
    COMPILE_MEMBER(COMPILE, false, true, false),
    COMPILE_SCRIPT(COMPILE, true, false, true),
    COMPILE_GENERICS(COMPILE, false, true, false),
-   COMPILE_TEMPLATE(COMPILE, true, true, false),
    EXECUTE_MEMBER(EXECUTE, false, true, false),
    EXECUTE_SCRIPT(EXECUTE, true, false, true),
    EXECUTE_SUPER(EXECUTE, true, false, false);
@@ -21,7 +20,7 @@ public enum CaptureType {
    private final boolean extension;
    private final boolean globals;
 
-   private CaptureType(Phase phase, boolean reference, boolean extension, boolean globals) {
+   private ScopePolicy(Phase phase, boolean reference, boolean extension, boolean globals) {
       this.reference = reference;
       this.extension = extension;
       this.globals = globals;

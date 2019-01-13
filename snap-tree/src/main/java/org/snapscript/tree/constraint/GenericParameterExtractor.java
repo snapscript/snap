@@ -1,23 +1,23 @@
 package org.snapscript.tree.constraint;
 
-import static org.snapscript.core.scope.index.CaptureType.COMPILE_GENERICS;
+import static org.snapscript.core.scope.extract.ScopePolicy.COMPILE_GENERICS;
 
 import java.util.List;
 
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
+import org.snapscript.core.scope.extract.ScopePolicyExtractor;
 import org.snapscript.core.scope.index.Address;
 import org.snapscript.core.scope.index.AddressCache;
-import org.snapscript.core.scope.index.CaptureScopeExtractor;
 import org.snapscript.core.scope.index.ScopeTable;
 
 public class GenericParameterExtractor {
    
-   private final CaptureScopeExtractor extractor;
+   private final ScopePolicyExtractor extractor;
    private final GenericList generics;
    
    public GenericParameterExtractor(GenericList generics) {
-      this.extractor = new CaptureScopeExtractor(COMPILE_GENERICS);
+      this.extractor = new ScopePolicyExtractor(COMPILE_GENERICS);
       this.generics = generics;
    }
 

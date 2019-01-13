@@ -51,7 +51,7 @@ public class PropertyTableBuilder {
                int modifiers = property.getModifiers();
                String name = property.getName();               
                
-               if(!ModifierType.isFunction(modifiers)) {
+               if(!ModifierType.isFunction(modifiers) && !ModifierType.isPrivate(modifiers)) {
                   index.put(name, property);
                }
             }

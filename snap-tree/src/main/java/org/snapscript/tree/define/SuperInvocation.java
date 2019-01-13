@@ -1,6 +1,6 @@
 package org.snapscript.tree.define;
 
-import static org.snapscript.core.scope.index.CaptureType.EXECUTE_SUPER;
+import static org.snapscript.core.scope.extract.ScopePolicy.EXECUTE_SUPER;
 import static org.snapscript.core.variable.Value.NULL;
 
 import org.snapscript.core.Evaluation;
@@ -9,7 +9,7 @@ import org.snapscript.core.constraint.StaticConstraint;
 import org.snapscript.core.function.Connection;
 import org.snapscript.core.function.dispatch.FunctionDispatcher;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.scope.index.CaptureScopeExtractor;
+import org.snapscript.core.scope.extract.ScopePolicyExtractor;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
 import org.snapscript.tree.ArgumentList;
@@ -19,14 +19,14 @@ public class SuperInvocation extends Evaluation {
 
    private final ConstructArgumentList arguments;
    private final SuperInstanceBuilder builder;
-   private final CaptureScopeExtractor extractor;
+   private final ScopePolicyExtractor extractor;
    private final SuperFunctionMatcher matcher;
    private final Constraint constraint;
    private final Type type;
    
    public SuperInvocation(ArgumentList arguments, Type type) {
       this.arguments = new ConstructArgumentList(arguments);
-      this.extractor = new CaptureScopeExtractor(EXECUTE_SUPER);
+      this.extractor = new ScopePolicyExtractor(EXECUTE_SUPER);
       this.matcher = new SuperFunctionMatcher(type);
       this.constraint = new StaticConstraint(type);
       this.builder = new SuperInstanceBuilder(type);

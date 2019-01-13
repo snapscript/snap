@@ -24,7 +24,7 @@ public class MemberFieldReference {
          
          if(ModifierType.isPrivate(modifiers)) {
             if(order > 0) {
-               return name; // private name should be unique, fix text templates
+               return "_" + order + "_" + name; // private name
             }
          }
       }

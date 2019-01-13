@@ -1,7 +1,7 @@
 package org.snapscript.tree.script;
 
 import static org.snapscript.core.result.Result.NORMAL;
-import static org.snapscript.core.scope.index.CaptureType.COMPILE_SCRIPT;
+import static org.snapscript.core.scope.extract.ScopePolicy.COMPILE_SCRIPT;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
