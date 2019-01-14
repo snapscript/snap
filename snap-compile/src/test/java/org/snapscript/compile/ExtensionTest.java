@@ -17,7 +17,14 @@ public class ExtensionTest extends ScriptTestCase {
    "println(x);";
 
    private static final String SOURCE_4 =
-   "File(`${System.getProperty('user.home')}/.bash_history`).forEachLine(l -> println(l));\n";
+   "let f = File.createTempFile('FileExtensionTest', 'tmp');\n"+
+   "let a = ['line one', 'line two', 'last line'];\n"+
+   "f.writeText('line one\nline two\nlast line\n');\n"+
+   "f.forEachLine(l -> {\n"+
+   "   let next = a.remove(0);\n"+
+   "   println(l);\n" +
+   "   assert next == l;\n"+
+   "});";
 
    public void testFileExtension() throws Exception {
       assertScriptExecutes(SOURCE_1);
