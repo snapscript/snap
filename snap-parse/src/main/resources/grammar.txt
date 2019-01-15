@@ -52,24 +52,24 @@ function-handle = <function>;
 
 reference-invocation = [identifier] <generic-argument-list> ( '(' <function-argument-list> ')' ) *{ '(' <function-curry>')' | '['<collection-index>']' };
 reference-property = { <class> | 
-					  [identifier] *( '[' <collection-index> ']' ) ?('::' <function-handle>) | 
-					  [type] };
-					  
-reference-part = { <reference-invocation> | 
-				   <reference-property> |
-				   <literal> };
-			   				   
+                 [identifier] *( '[' <collection-index> ']' ) ?('::' <function-handle>) |
+                 [type] };
+
+reference-part = { <reference-invocation> |
+               <reference-property> |
+               <literal> };
+
 reference-navigation = <reference-part>*(<reference-operator><reference-navigation>);
-reference-variable = { <array-reference> |					   
-					   <function-invocation> | 
-					   <construct> | 
-					   <closure> |					  
-					   <variable-reference> | 
-					   <literal> |					   
-					   '(' <cast> ')' };
-				   
-reference = <reference-variable>*(<reference-operator><reference-navigation>);				   
-      
+reference-variable = { <array-reference> |
+                  <function-invocation> |
+                  <construct> |
+                  <closure> |
+                  <variable-reference> |
+                  <literal> |
+                  '(' <cast> ')' };
+
+reference = <reference-variable>*(<reference-operator><reference-navigation>);
+
 list-entry = <argument>;
 list-entry-list = <list-entry>*(','<list-entry>);
 list-entry-range = <range>;
@@ -92,23 +92,23 @@ construct-list = '[]' | '['<list-entry-data>']';
 construct-array = 'new'_<type-reference>+('['<argument>']');
 construct-set = '{}' | ('{'<set-entry-data>'}');
 construct-map = '{:}' | ('{'<map-entry-data>'}');
-construct = { <construct-object> | 
-			  <construct-list> | 
-			  <construct-array> | 
-			  <construct-map> | 
-			  <construct-set>
-			};
+construct = { <construct-object> |
+              <construct-list> |
+              <construct-array> |
+              <construct-map> |
+              <construct-set>
+            };
 
-argument = { <literal> | 
-			 <annotation-declaration> | 
-			 <increment-decrement-operand> | 
-			 <prefix-operand> | 
-			 <reference> 
-           } | 
-			 <choice> | 
-			 <conditional> | 
-			 <calculation> |
-			 <cast>;
+argument = { <literal> |
+             <annotation-declaration> |
+             <increment-decrement-operand> |
+             <prefix-operand> |
+             <reference>
+            } |
+            <choice> |
+            <conditional> |
+            <calculation> |
+            <cast>;
 
 argument-list = <argument>*(','<argument>);
 
@@ -136,12 +136,12 @@ value-operand = <increment-decrement-operand> | <literal> | <prefix-operand> | <
 comparison-operand = <value-operand> | <calculation> | <assignment-operand> | <conditional-result> | '('<comparison-operand>')';
 comparison = <comparison-operand>?_<comparison-operator>?_<comparison-operand>;
 
-conditional-operand = <comparison> | 
-					  <value-operand> | 
-					  <assignment-operand> | 
-					  <boolean> | 
-					  <conditional-result> | 
-					  '('<combination>')';
+conditional-operand = <comparison> |
+                      <value-operand> |
+                      <assignment-operand> |
+                      <boolean> |
+                      <conditional-result> |
+                      '('<combination>')';
 conditional-result = '('<conditional-operand>')';
 conditional = {<combination> | <conditional-operand> | '('<conditional>')'};
 
@@ -149,10 +149,10 @@ combination = {<conditional> | <conditional-operand>}?_<conditional-operator>?_<
 
 choice = <conditional>'?'<expression>':'<expression>;
 cast = <reference>?_'as'_<constraint>;
-  
-# ?? is done in calculation 
+
+# ?? is done in calculation
 null-coalesce = <expression>'??'<expression>;
- 
+
 # use this over <choice>?
 substitute = {<choice> | <null-coalesce>};
 
@@ -161,18 +161,16 @@ calculation-operand = <assignment-operand> | <value-operand> | '('<calculation-o
 calculation-list = <calculation-operand>? _ <calculation-operator>? _ <calculation-operand> *(<calculation-operator><calculation-operand>);
 calculation = <calculation-list> | '('<calculation>')';
 
-expression = { <literal> | 
-			   <increment-decrement-operand> | 
-			   <reference> | 
-			   <prefix-operation>} | 
-			   <assignment> | 
-			   <calculation> | 
-			   <choice> | 
-			   <comparison> | 
-			   <conditional> | 
-			   '('<expression>')';
-
-
+expression = { <literal> |
+               <increment-decrement-operand> |
+               <reference> |
+               <prefix-operation>} |
+               <assignment> |
+               <calculation> |
+               <choice> |
+               <comparison> |
+               <conditional> |
+               '('<expression>')';
 
 array-dimension = '[]';
 array-reference = <class-constraint>+<array-dimension>;
@@ -204,32 +202,34 @@ terminal-statement = ';';
 empty-statement = '{}';
 group-statement = {<compound-statement> | <empty-statement>};
 control-statement = {<return-statement> | <yield-statement> | <throw-statement> | <break-statement> | <continue-statement>};
-statement = { <control-statement> | 
-			  <try-statement> | 
-			  <synchronized-statement> | 
-			  <assert-statement> |
-			  <debug-statement> | 
-			  <assignment-statement> |
-			  <expression-statement> | 
-			  <conditional-statement> | 
-			  <declaration-statement> |
-			  <assignment-list-statement> |   
-			  <group-statement> | 
-			  <terminal-statement> };
+statement = { <control-statement> |
+              <try-statement> |
+              <synchronized-statement> |
+              <assert-statement> |
+              <debug-statement> |
+              <assignment-statement> |
+              <expression-statement> |
+              <conditional-statement> |
+              <declaration-statement> |
+              <assignment-list-statement> |
+              <group-statement> |
+              <terminal-statement> };
 
 assignment-variable = [identifier];
 assignment-expression = (<value-operand> | <reference> | <calculation> | <choice> | <conditional> | <cast>);
 assignment-statement = <reference><assignment-operator><assignment-expression>';';
-  
+
 assignment-list = '('<reference>*(','<reference>)')';
 assignment-list-statement = <assignment-list>'=''('<assignment-expression>*(','<assignment-expression>)')'';';
-  
+
 declaration-modifier = {'var' | 'let'| 'const'};
 declaration = <assignment-variable>?(':'<constraint>?_)?('='<assignment-expression>);
 declaration-statement = <declaration-modifier>_<declaration>*(','<declaration>)';';
-   
-if-statement = 'if''('<conditional>')'<statement>?('else'?_<statement>);  
 
+if-statement = 'if''('<conditional>')'<statement>?('else'?_<statement>);
+unless-statement = 'unless''('<conditional>')'<statement>?('else'?_<statement>);
+
+until-statement = 'until''('<conditional>')'<statement>;
 while-statement = 'while''('<conditional>')'<statement>;
 for-assignment = {<assignment> | <increment-decrement> | <reference>};
 for-assignment-list = <for-assignment>*(','<for-assignment>);
@@ -237,13 +237,15 @@ for-statement = 'for''('(<declaration-statement> | <assignment-statement> | <ter
 for-in-declaration = ?({'var' | 'let' }_)<assignment-variable>?(':'<constraint>);
 for-in-statement = 'for''('<for-in-declaration>_'in'?_{<range> | <reference>}')'<statement>;
 loop-statement = {'loop' | 'for(;;)'}<statement>;
-conditional-statement = { <if-statement> | 
-						  <while-statement> | 
-						  <for-statement> | 
-						  <for-in-statement> | 
-						  <loop-statement> | 
-						  <switch-statement> | 
-						  <match-statement> };
+conditional-statement = { <if-statement> |
+                          <unless-statement> |
+                          <until-statement> |
+                          <while-statement> |
+                          <for-statement> |
+                          <for-in-statement> |
+                          <loop-statement> |
+                          <switch-statement> |
+                          <match-statement> };
 
 switch-statement = 'switch''('<reference>')''{'*<switch-case>?<switch-default>'}';
 switch-case = 'case'?_<value-operand>':'*<statement>;
@@ -252,7 +254,7 @@ switch-default = 'default'':'*<statement>;
 match-statement = 'match''('<reference>')''{'*<match-case>?<match-default>'}';
 match-case = 'case'?_<value-operand>':'<expression-statement>;
 match-default = 'default'':'<expression-statement>;
- 
+
 synchronized-statement = 'synchronized' '(' <argument> ')' <compound-statement>;
 
 try-block = 'try'<group-statement>;
@@ -260,7 +262,7 @@ catch-block = 'catch''(' <parameter-declaration> ')' <group-statement>;
 finally-block = 'finally' <group-statement>;
 catch-block-list = +<catch-block>;
 try-statement = <try-block>? <catch-block-list>? <finally-block>};
- 
+
 variable-argument = '...';
 
 parameter-blank = '_';
@@ -280,16 +282,16 @@ annotation-name = [type];
 annotation-list = *<annotation-declaration>?_;
 annotation-declaration = '@'<annotation-name>?<annotation-attributes>;
 annotation-attributes = '('?<map-entry-data>')';
-   
+
 field-modifier = {'var' | 'let' | 'const' | 'static' | 'public' | 'private'};
 field-modifier-list = *(<field-modifier>_);
 
 function-modifier = {'static' | 'public' | 'private' | 'abstract' | 'override'};
 function-modifier-list = *(<function-modifier>_);
-   
+
 access-modifier = {'public' | 'private'};
 access-modifier-list = *(<access-modifier>_);
- 
+
 super-constructor = 'super''('?<argument-list>')';
 this-constructor = 'this''('?<argument-list>')';
 
@@ -316,7 +318,7 @@ trait-function = ?<annotation-list><function-modifier-list><function-name>'('<pa
 trait-part = {<trait-constant> | <trait-function> | <inner-definition> };
 trait-definition = ?<annotation-list>'trait'_<trait-name>?<trait-hierarchy>{'{}' | '{'*<trait-part>'}'};
 
-enum-name = [type];   
+enum-name = [type];
 enum-hierarchy = *(?_'with'_<trait-constraint>)};
 enum-key = [identifier];
 enum-value = <enum-key>?('('<argument-list>')');
@@ -327,14 +329,14 @@ enum-field = <annotation-list><field-modifier-list><enum-field-declaration>*(','
 enum-function = <annotation-list><function-modifier-list><function-name>'('<parameter-list>')'?(':'<constraint>){';' | <group-statement>};
 enum-part = {<enum-field> | <enum-constructor> | <enum-function>};
 enum-definition = ?<annotation-list>'enum'_<enum-name>?<enum-hierarchy>'{'<enum-list>?(';'*<enum-part>)'}';
-   
+
 inner-class-definition = <class-definition>;
 inner-abstract-class-definition = <abstract-class-definition>;
 inner-enum-definition = <enum-definition>;
 inner-trait-definition = <trait-definition>;
 inner-alias-definition = <alias-definition>;
 inner-definition = { <inner-class-definition> | <inner-abstract-class-definition> | <inner-enum-definition> | <inner-trait-definition> | <inner-alias-definition> };
- 
+
 type-definition = {<class-definition> | <abstract-class-definition> | <trait-definition> | <enum-definition> | <alias-definition> };
 
 full-qualifier = [qualifier]*('.'[qualifier]);
@@ -343,7 +345,7 @@ wild-qualifier = [qualifier]*('.'[qualifier])'.*';
 import-static = 'import static'_(<full-qualifier> | <wild-qualifier>)';';
 import = 'import'_(<full-qualifier> | <wild-qualifier>)?(_'as'_[type])';';
 import-list = 'import'_<full-qualifier>'.' '{' <full-qualifier>*(','<full-qualifier>) '}' ';';
-   
+
 module-name = [identifier];
 module-import = <import>;
 module-property = <assignment-variable>?(':'<constraint>)?('='<assignment-expression>);
@@ -358,17 +360,18 @@ global-statement = <declaration-modifier>_<global>*(','<global>)';';
 
 script-import = <import-static> | <import> | <import-list>;
 script-function = {'function'|'func'}_<function-name>'('<parameter-list>')'?(':'<constraint>)<group-statement>;
-script-statement = { <try-statement> | 
-				     <synchronized-statement> |
-				     <global-statement> |
-				     <assert-statement> |
-				     <debug-statement> | 
-				     <conditional-statement> | 
-				     <type-definition> | 
-				     <module-definition> | 
-				     <assignment-statement> |
-				     <assignment-list-statement> |  
-				     <expression-statement> };
-				     
+script-statement = { <try-statement> |
+                     <synchronized-statement> |
+                     <global-statement> |
+                     <assert-statement> |
+                     <debug-statement> |
+                     <conditional-statement> |
+                     <type-definition> |
+                     <module-definition> |
+                     <assignment-statement> |
+                     <assignment-list-statement> |
+                     <expression-statement> };
+
 script-package = *{<script-import> | <script-function> | <type-definition> | <module-definition>};
 script = *{<script-import> | <script-function> | <script-statement>};
+
