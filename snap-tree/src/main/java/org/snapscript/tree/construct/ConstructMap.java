@@ -24,11 +24,11 @@ public class ConstructMap implements Compilation {
       this(null, token);
    }
    
-   public ConstructMap(MapEntryList list) {
+   public ConstructMap(MapEntryData list) {
       this(list, null);
    }
    
-   public ConstructMap(MapEntryList list, StringToken token) {
+   public ConstructMap(MapEntryData list, StringToken token) {
       this.construct = new CompileResult(list);
    }
    
@@ -43,23 +43,23 @@ public class ConstructMap implements Compilation {
    
    private static class CompileResult extends Evaluation {
 
-      private final MapEntryList list;
+      private final MapEntryData entries;
       
-      public CompileResult(MapEntryList list) {
-         this.list = list;
+      public CompileResult(MapEntryData entries) {
+         this.entries = entries;
       }   
       
       @Override
       public void define(Scope scope) throws Exception {
-         if(list != null) {
-            list.define(scope);
+         if(entries != null) {
+            entries.define(scope);
          }
       }
       
       @Override
       public Constraint compile(Scope scope, Constraint left) throws Exception {
-         if(list != null) {
-            list.compile(scope, null);
+         if(entries != null) {
+            entries.compile(scope, null);
          }
          return Constraint.MAP;
       }
@@ -68,8 +68,8 @@ public class ConstructMap implements Compilation {
       public Value evaluate(Scope scope, Value left) throws Exception { 
          Map map = new LinkedHashMap();
          
-         if(list != null) {
-            return list.evaluate(scope, left);
+         if(entries != null) {
+            return entries.evaluate(scope, left);
          }
          return Value.getTransient(map);
       }

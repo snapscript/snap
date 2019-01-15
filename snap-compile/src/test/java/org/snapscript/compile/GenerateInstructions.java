@@ -65,7 +65,7 @@ import org.snapscript.tree.construct.ConstructMap;
 import org.snapscript.tree.construct.ConstructObject;
 import org.snapscript.tree.construct.ConstructSet;
 import org.snapscript.tree.construct.MapEntry;
-import org.snapscript.tree.construct.MapEntryList;
+import org.snapscript.tree.construct.MapEntryData;
 import org.snapscript.tree.construct.MapKey;
 import org.snapscript.tree.define.AbstractClassDefinition;
 import org.snapscript.tree.define.AbstractClassName;
@@ -207,7 +207,7 @@ public class GenerateInstructions {
       LIST_ENTRY(Argument.class, "list-entry"),
       SET_ENRTY_LIST(ArgumentList.class, "set-entry-list"),
       SET_ENTRY(Argument.class, "set-entry"),
-      MAP_ENRTY_LIST(MapEntryList.class, "map-entry-list"),
+      MAP_ENRTY_LIST(MapEntryData.class, "map-entry-list"),
       MAP_ENTRY(MapEntry.class, "map-entry"),
       MAP_KEY(MapKey.class, "map-key"),
       COLLECTION_INDEX(CollectionIndex.class, "collection-index"), 

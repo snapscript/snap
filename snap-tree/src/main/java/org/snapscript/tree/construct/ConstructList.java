@@ -16,7 +16,6 @@ import org.snapscript.core.trace.TraceEvaluation;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.variable.Value;
 import org.snapscript.parse.StringToken;
-import org.snapscript.tree.ArgumentList;
 
 public class ConstructList implements Compilation {
    
@@ -26,12 +25,12 @@ public class ConstructList implements Compilation {
       this(null, token);
    }
    
-   public ConstructList(ArgumentList arguments) {
-      this(arguments, null);
+   public ConstructList(ElementData elements) {
+      this(elements, null);
    }
    
-   public ConstructList(ArgumentList arguments, StringToken token) {
-      this.construct = new CompileResult(arguments);
+   public ConstructList(ElementData elements, StringToken token) {
+      this.construct = new CompileResult(elements);
    }
    
    @Override
@@ -45,23 +44,23 @@ public class ConstructList implements Compilation {
    
    private static class CompileResult extends Evaluation {
       
-      private final ArgumentList arguments;
+      private final ElementData elements;
       
-      public CompileResult(ArgumentList arguments) {
-         this.arguments = arguments;
+      public CompileResult(ElementData elements) {
+         this.elements = elements;
       }
       
       @Override
       public void define(Scope scope) throws Exception { // this is rubbish
-         if(arguments != null) {
-            arguments.define(scope);      
+         if(elements != null) {
+            elements.define(scope);      
          }   
       }
       
       @Override
       public Constraint compile(Scope scope, Constraint left) throws Exception {
-         if(arguments != null) {
-            arguments.compile(scope);      
+         if(elements != null) {
+            elements.compile(scope);      
          }   
          return Constraint.LIST;
       }
@@ -70,14 +69,15 @@ public class ConstructList implements Compilation {
       public Value evaluate(Scope scope, Value left) throws Exception { // this is rubbish
          List result = new ArrayList();
          
-         if(arguments != null) {
-            Object[] array = arguments.create(scope);
+         if(elements != null) {
+            Value value = elements.evaluate(scope);
+            Iterable iterable = value.getValue();
             Module module = scope.getModule();
             Context context = module.getContext();
             ProxyWrapper wrapper = context.getWrapper();
             
-            for(Object value : array) {
-               Object proxy = wrapper.toProxy(value);
+            for(Object element : iterable) {
+               Object proxy = wrapper.toProxy(element);
                result.add(proxy);
             }         
          }   

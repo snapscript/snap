@@ -16,7 +16,6 @@ import org.snapscript.core.trace.TraceEvaluation;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.variable.Value;
 import org.snapscript.parse.StringToken;
-import org.snapscript.tree.ArgumentList;
 
 public class ConstructSet implements Compilation {
    
@@ -26,12 +25,12 @@ public class ConstructSet implements Compilation {
       this(null, token);
    }
    
-   public ConstructSet(ArgumentList arguments) {
-      this(arguments, null);
+   public ConstructSet(ElementData elements) {
+      this(elements, null);
    }
    
-   public ConstructSet(ArgumentList arguments, StringToken token) {
-      this.construct = new CompileResult(arguments);
+   public ConstructSet(ElementData elements, StringToken token) {
+      this.construct = new CompileResult(elements);
    }
    
    @Override
@@ -45,23 +44,23 @@ public class ConstructSet implements Compilation {
    
    private static class CompileResult extends Evaluation {
 
-      private final ArgumentList arguments;
+      private final ElementData elements;
       
-      public CompileResult(ArgumentList arguments) {
-         this.arguments = arguments;
+      public CompileResult(ElementData elements) {
+         this.elements = elements;
       }   
       
       @Override
       public void define(Scope scope) throws Exception { 
-         if(arguments != null) {
-            arguments.define(scope);      
+         if(elements != null) {
+            elements.define(scope);      
          }   
       }
       
       @Override
       public Constraint compile(Scope scope, Constraint left) throws Exception {
-         if(arguments != null) {
-            arguments.compile(scope);      
+         if(elements != null) {
+            elements.compile(scope);      
          }  
          return Constraint.SET;
       } 
@@ -70,16 +69,17 @@ public class ConstructSet implements Compilation {
       public Value evaluate(Scope scope, Value left) throws Exception { 
          Set result = new LinkedHashSet();
          
-         if(arguments != null) {
-            Object[] array = arguments.create(scope);
+         if(elements != null) {
+            Value value = elements.evaluate(scope);
+            Iterable iterable = value.getValue();
             Module module = scope.getModule();
             Context context = module.getContext();
             ProxyWrapper wrapper = context.getWrapper();
-            
-            for(Object value : array) {
-               Object proxy = wrapper.toProxy(value);
+
+            for(Object element : iterable) {
+               Object proxy = wrapper.toProxy(element);
                result.add(proxy);
-            }         
+            }
          }   
          return Value.getTransient(result);
       }

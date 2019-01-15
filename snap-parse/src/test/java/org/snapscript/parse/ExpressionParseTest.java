@@ -10,6 +10,10 @@ public class ExpressionParseTest extends TestCase {
       SyntaxParser tree = LexerBuilder.create(GRAMMAR_FILE);
 
       assertNotNull(tree);
+      analyze(tree, "0 to 10", "list-entry-data");
+      analyze(tree, "0 from 10", "list-entry-data");
+      analyze(tree, "0 to 10", "list-entry-range");
+      analyze(tree, "0 to 10", "set-entry-range");
       analyze(tree, "0 .. 10", "range");
       analyze(tree, "0 to 10", "range");
       analyze(tree, "0 from 10", "range");

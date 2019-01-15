@@ -10,20 +10,20 @@ import org.snapscript.core.annotation.MapAnnotation;
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.variable.Value;
-import org.snapscript.tree.construct.MapEntryList;
+import org.snapscript.tree.construct.MapEntryData;
 
 public class AnnotationDeclaration extends Evaluation {
 
    private AnnotationName name;
-   private MapEntryList list;
+   private MapEntryData entries;
    private Value value;
    
    public AnnotationDeclaration(AnnotationName name) {
       this(name, null);
    }
    
-   public AnnotationDeclaration(AnnotationName name, MapEntryList list) {
-      this.list = list;
+   public AnnotationDeclaration(AnnotationName name, MapEntryData entries) {
+      this.entries = entries;
       this.name = name;
    }
 
@@ -43,8 +43,8 @@ public class AnnotationDeclaration extends Evaluation {
    private Annotation create(Scope scope, Value left) throws Exception {
       Map<String, Object> attributes = new LinkedHashMap<String, Object>();
       
-      if(list != null) {
-         Value value = list.evaluate(scope, left);
+      if(entries != null) {
+         Value value = entries.evaluate(scope, left);
          Map<Object, Object> map = value.getValue();
          Set<Object> keys = map.keySet();
          

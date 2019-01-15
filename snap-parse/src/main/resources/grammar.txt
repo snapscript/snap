@@ -72,22 +72,26 @@ reference = <reference-variable>*(<reference-operator><reference-navigation>);
       
 list-entry = <argument>;
 list-entry-list = <list-entry>*(','<list-entry>);
+list-entry-range = <range>;
+list-entry-data = { <list-entry-range> | <list-entry-list> };
 
 set-entry = <argument>;
 set-entry-list = <set-entry>*(','<set-entry>);
+set-entry-range = <range>;
+set-entry-data = { <set-entry-range> | <set-entry-list>  };
 
 map-key = [identifier];
 map-entry = (<map-key> | <literal>)':'<argument>;
-map-entry-list = <map-entry>*(','<map-entry>);
+map-entry-data = <map-entry>*(','<map-entry>);
 
 type-reference = <type-reference-part>*('.'<type-reference>);
 type-reference-part = [type];
 
 construct-object = 'new'_<class-constraint>'('?<argument-list>')';
-construct-list = '[]' | '['<list-entry-list>']';
+construct-list = '[]' | '['<list-entry-data>']';
 construct-array = 'new'_<type-reference>+('['<argument>']');
-construct-set = '{}' | ('{'<set-entry-list>'}');
-construct-map = '{:}' | ('{'<map-entry-list>'}');
+construct-set = '{}' | ('{'<set-entry-data>'}');
+construct-map = '{:}' | ('{'<map-entry-data>'}');
 construct = { <construct-object> | 
 			  <construct-list> | 
 			  <construct-array> | 
@@ -275,7 +279,7 @@ generic-parameter-list = ?('<' <generic-parameter> *(',' <generic-parameter>) '>
 annotation-name = [type];
 annotation-list = *<annotation-declaration>?_;
 annotation-declaration = '@'<annotation-name>?<annotation-attributes>;
-annotation-attributes = '('?<map-entry-list>')';
+annotation-attributes = '('?<map-entry-data>')';
    
 field-modifier = {'var' | 'let' | 'const' | 'static' | 'public' | 'private'};
 field-modifier-list = *(<field-modifier>_);

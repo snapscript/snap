@@ -14,11 +14,11 @@ import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.variable.Value;
 
-public class MapEntryList extends Evaluation{
+public class MapEntryData extends Evaluation{
    
    private final MapEntry[] list;
    
-   public MapEntryList(MapEntry... list) {
+   public MapEntryData(MapEntry... list) {
       this.list = list;
    }
    
