@@ -28,7 +28,7 @@ public class ModuleExtender {
       
       if(functions.isEmpty()) {
          FunctionExtractor extractor = new FunctionExtractor(loader, SYSTEM);
-         ScopeExtension extension = new ScopeExtension(context);
+         ScopeExtension extension = new ScopeExtension();
          
          try {
             List<Function> list = extractor.extract(module, Scope.class, extension);
@@ -42,5 +42,4 @@ public class ModuleExtender {
       }
       available.addAll(functions);
    }
-
 }

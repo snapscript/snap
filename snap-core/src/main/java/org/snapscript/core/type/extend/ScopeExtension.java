@@ -21,35 +21,38 @@ import org.snapscript.core.type.TypeLoader;
 public class ScopeExtension {
 
    private final CommandBuilder builder;
-   private final Context context;
    
-   public ScopeExtension(Context context) {
+   public ScopeExtension() {
       this.builder = new CommandBuilder();
-      this.context = context;
    }
    
    public <T> T eval(Scope scope, String source) throws Exception {
-      ExpressionEvaluator executor = context.getEvaluator();
       Module module = scope.getModule();
+      Context context = module.getContext();
+      ExpressionEvaluator evaluator = context.getEvaluator();
       String name = module.getName();
       
-      return executor.evaluate(scope, source, name);
+      return evaluator.evaluate(scope, source, name);
    }
    
    public <T> T eval(Scope scope, String source, String name) throws Exception {
-      ExpressionEvaluator executor = context.getEvaluator();
+      Module module = scope.getModule();
+      Context context = module.getContext();
+      ExpressionEvaluator evaluator = context.getEvaluator();
       ModuleRegistry registry = context.getRegistry();
-      Module module = registry.addModule(name);
-      Scope inner = module.getScope();
+      Module parent = registry.addModule(name);
+      Scope inner = parent.getScope();
       
-      return executor.evaluate(inner, source, name);
+      return evaluator.evaluate(inner, source, name);
    }
    
    public Module load(Scope scope, String name) throws Exception {
+      Module module = scope.getModule();
+      Context context = module.getContext();
       ModuleRegistry registry = context.getRegistry();
       TypeLoader loader = context.getLoader();
-      Package module = loader.importPackage(name);
-      PackageDefinition definition = module.create(scope);
+      Package builder = loader.importPackage(name);
+      PackageDefinition definition = builder.create(scope);
       Statement statement = definition.define(scope, null);
       Execution execution = statement.compile(scope, null);
       
