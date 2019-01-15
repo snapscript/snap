@@ -182,7 +182,30 @@ public class YieldTest extends TestCase {
    "assert it.next() == 'B2';\n"+
    "assert it.next() == 'C';\n"+
    "assert it.next() == 'done';\n";
-   
+
+   private static final String SOURCE_10 =
+   "function func(){\n"+
+   "   var i = 0;\n"+
+   "   until(i++ >= 10){\n"+
+   "      for(var j in 0..10){\n"+
+   "         if(j % 2==0) {\n"+
+   "            yield `even j=${j} i=${i}`;\n"+
+   "         } else {\n"+
+   "            yield `odd j=${j} i=${i}`;\n"+
+   "         }\n"+
+   "      }\n"+
+   "   }\n"+
+   "}\n"+
+   "var it = func();\n"+
+   "for(x in it){\n"+
+   "   println(x);\n"+
+   "}\n"+
+   "var x = func().iterator();\n"+
+   "assert x.next() == 'even j=0 i=1';\n"+
+   "assert x.next() == 'odd j=1 i=1';\n"+
+   "assert x.next() == 'even j=2 i=1';\n"+
+   "assert x.next() == 'odd j=3 i=1';\n";
+
    public void testYieldInWhileLoop() throws Exception {
       System.out.println(SOURCE_1);
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
@@ -244,5 +267,12 @@ public class YieldTest extends TestCase {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
       Executable executable = compiler.compile(SOURCE_9);
       executable.execute();
-   }    
+   }
+
+   public void testYieldInUntilStatement() throws Exception {
+      System.out.println(SOURCE_10);
+      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
+      Executable executable = compiler.compile(SOURCE_10);
+      executable.execute();
+   }
 }
