@@ -38,7 +38,8 @@ variable-reference = {<super> | <this> | <variable>} *( '(' <function-curry>')' 
 
 collection-index = <argument>;
 
-range = <argument>'..'<argument>;
+range-operator = {'..' | 'from' | 'to'};
+range = <argument>?_<range-operator>?_<argument>;
  
 constructor = 'new';
 
