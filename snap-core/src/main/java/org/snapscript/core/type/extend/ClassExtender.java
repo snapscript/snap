@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.snapscript.core.function.Function;
+import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.TypeLoader;
 
 public class ClassExtender {
@@ -36,6 +37,7 @@ public class ClassExtender {
          registry.register(URLConnection.class, URLConnectionExtension.class);
          registry.register(URL.class, URLExtension.class);
          registry.register(Iterator.class, IteratorExtension.class);
+         registry.register(Scope.class, ScopeExtension.class);
          done.set(true);
       }
       return registry.extract(type);
