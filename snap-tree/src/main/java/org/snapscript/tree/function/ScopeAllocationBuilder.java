@@ -27,30 +27,30 @@ public class ScopeAllocationBuilder {
       String name = address.getName();
 
       if(type == INSTANCE) {
-         ScopeMatcher allocator = new LocalMatcher(handler, wrapper, name);
+         ScopeMatcher allocator = new StateMatcher(handler, wrapper, name);
          return new ScopeAllocation(allocator, address, false);
       }
       if(type == STATIC) {
-         ScopeMatcher allocator = new LocalMatcher(handler, wrapper, name);
+         ScopeMatcher allocator = new StateMatcher(handler, wrapper, name);
          return new ScopeAllocation(allocator, address, true);
       }
       if(type == TYPE) {
-         ScopeMatcher allocator = new GlobalMatcher(handler, wrapper, name);
+         ScopeMatcher allocator = new StaticMatcher(handler, wrapper, name);
          return new ScopeAllocation(allocator, address, true);
       }
       if(type == MODULE) {
-         ScopeMatcher allocator = new GlobalMatcher(handler, wrapper, name);
+         ScopeMatcher allocator = new StaticMatcher(handler, wrapper, name);
          return new ScopeAllocation(allocator, address, true);
       }
       return null;
    }   
 
-   private static class LocalMatcher implements ScopeMatcher {
+   private static class StateMatcher implements ScopeMatcher {
       
       private final VariableBinder binder;   
       private final String name;
       
-      public LocalMatcher(ErrorHandler handler, ProxyWrapper wrapper, String name) {
+      public StateMatcher(ErrorHandler handler, ProxyWrapper wrapper, String name) {
          this.binder = new VariableBinder(handler, wrapper, name);
          this.name = name;
       }
@@ -67,11 +67,11 @@ public class ScopeAllocationBuilder {
       }
    }
 
-   private static class GlobalMatcher implements ScopeMatcher {
+   private static class StaticMatcher implements ScopeMatcher {
       
       private final VariableBinder binder;   
       
-      public GlobalMatcher(ErrorHandler handler, ProxyWrapper wrapper, String name) {
+      public StaticMatcher(ErrorHandler handler, ProxyWrapper wrapper, String name) {
          this.binder = new VariableBinder(handler, wrapper, name);         
       }
       
