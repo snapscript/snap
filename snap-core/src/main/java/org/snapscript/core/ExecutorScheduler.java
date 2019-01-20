@@ -2,11 +2,11 @@ package org.snapscript.core;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
-import java.util.Set;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
-import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.Executor;
 import java.util.concurrent.FutureTask;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.common.Consumer;
@@ -23,7 +23,7 @@ public class ExecutorScheduler implements TaskScheduler {
 
    @Override
    public <T> Promise<T> schedule(Consumer<Object, T> consumer) {
-      FuturePromise<T> promise = new FuturePromise<T>(consumer);
+      PromiseFuture<T> promise = new PromiseFuture<T>(consumer);
 
       if(consumer != null) {
          promise.execute(executor);
@@ -31,21 +31,15 @@ public class ExecutorScheduler implements TaskScheduler {
       return promise;
    }
 
-   private static class FuturePromise<T> implements Promise<T> {
+   private static class PromiseFuture<T> implements Promise<T> {
 
-      private final Set<Consumer<Throwable, Object>> failures;
-      private final Set<Consumer<T, Object>> listeners;
-      private final AtomicReference<Throwable> error;
-      private final AtomicReference<Value> success;
+      private final PromiseDispatcher<T> dispatcher;
       private final FutureTask<T> future;
-      private final Callable<T> task;
+      private final PromiseTask<T> task;
 
-      public FuturePromise(Consumer<Object, T> consumer) {
-         this.failures = new CopyOnWriteArraySet<Consumer<Throwable, Object>>();
-         this.listeners = new CopyOnWriteArraySet<Consumer<T, Object>>();
-         this.task = new FutureExecution<T>(this, consumer);
-         this.error = new AtomicReference<Throwable>();
-         this.success = new AtomicReference<Value>();
+      public PromiseFuture(Consumer<Object, T> consumer) {
+         this.dispatcher = new PromiseDispatcher<T>();
+         this.task = new PromiseTask<T>(dispatcher, consumer);
          this.future = new FutureTask<T>(task);
       }
 
@@ -68,7 +62,7 @@ public class ExecutorScheduler implements TaskScheduler {
       }
 
       @Override
-      public Promise<T>  block() {
+      public Promise<T>  join() {
          try {
             future.get();
          } catch(Exception e) {
@@ -78,7 +72,7 @@ public class ExecutorScheduler implements TaskScheduler {
       }
 
       @Override
-      public Promise<T>  block(long wait) {
+      public Promise<T>  join(long wait) {
          try {
             future.get(wait, MILLISECONDS);
          } catch(Exception e) {
@@ -88,25 +82,20 @@ public class ExecutorScheduler implements TaskScheduler {
       }
 
       @Override
-      public Promise<T> fail(Consumer<Throwable, Object> consumer) {
-         Throwable value = error.get();
-
-         if(value != null) {
-            consumer.consume(value);
+      public Promise<T> thenCatch(Consumer<Throwable, Object> consumer) {
+         if(consumer != null) {
+            dispatcher.thenCatch(consumer);
+            dispatcher.error();
          }
-         failures.add(consumer);
          return this;
       }
 
       @Override
-      public Promise<T> then(Consumer<T, Object> consumer) {
-         Value value = success.get();
-
-         if(value != null) {
-            T object = value.getValue();
-            consumer.consume(object);
+      public Promise<T> thenAccept(Consumer<T, Object> consumer) {
+         if(consumer != null) {
+            dispatcher.thenAccept(consumer);
+            dispatcher.complete();
          }
-         listeners.add(consumer);
          return this;
       }
 
@@ -117,32 +106,77 @@ public class ExecutorScheduler implements TaskScheduler {
             future.run();
          }
       }
+   }
 
-      public void complete(Value value) {
-         T object = value.getValue();
+   private static class PromiseDispatcher<T> {
 
-         for(Consumer<T, Object> listener : listeners) {
-            listener.consume(object);
+      private final BlockingQueue<Consumer<Throwable, Object>> failures;
+      private final BlockingQueue<Consumer<T, Object>> listeners;
+      private final AtomicReference<Throwable> error;
+      private final AtomicReference<Value> success;
+
+      public PromiseDispatcher() {
+         this.failures = new LinkedBlockingQueue<Consumer<Throwable, Object>>();
+         this.listeners = new LinkedBlockingQueue<Consumer<T, Object>>();
+         this.error = new AtomicReference<Throwable>();
+         this.success = new AtomicReference<Value>();
+      }
+
+      public void complete() {
+         Value value = success.get();
+
+         if (value != null) {
+            T object = value.getValue();
+
+            while (!listeners.isEmpty()) {
+               Consumer<T, Object> listener = listeners.poll();
+
+               if (listener != null) {
+                  listener.consume(object);
+               }
+            }
          }
+      }
+
+      public void error() {
+         Throwable cause = error.get();
+
+         if (cause != null) {
+            while (!failures.isEmpty()) {
+               Consumer<Throwable, Object> failure = failures.poll();
+
+               if (failure != null) {
+                  failure.consume(cause);
+               }
+            }
+         }
+      }
+
+      public void thenAccept(Consumer<T, Object> consumer) {
+         listeners.add(consumer);
+      }
+
+      public void thenCatch(Consumer<Throwable, Object> consumer) {
+         failures.add(consumer);
+      }
+
+      public void result(Value value) {
          success.compareAndSet(null, value);
       }
 
-      public void error(Throwable cause) {
-         for(Consumer<Throwable, Object> failure : failures) {
-            failure.consume(cause);
-         }
+      public void exception(Throwable cause) {
          error.compareAndSet(null, cause);
       }
    }
 
-   private static class FutureExecution<T> implements Callable<T> {
+   private static class PromiseTask<T> implements Callable<T> {
 
+      private final PromiseDispatcher<T> dispatcher;
       private final Consumer<Object, T> consumer;
-      private final FuturePromise<T> promise;
 
-      public FutureExecution(FuturePromise<T> promise, Consumer<Object, T> consumer) {
+      public PromiseTask(PromiseDispatcher<T> dispatcher, Consumer<Object, T> consumer) {
+         this.dispatcher = dispatcher;
          this.consumer = consumer;
-         this.promise = promise;
       }
 
       @Override
@@ -151,12 +185,17 @@ public class ExecutorScheduler implements TaskScheduler {
             T result = consumer.consume(null);
             Value value = Value.getTransient(result);
 
-            promise.complete(value);
+            dispatcher.result(value);
+            dispatcher.complete();
+
             return result;
          } catch(Exception cause) {
-            promise.error(cause);
+            dispatcher.exception(cause);
+            dispatcher.error();
+
             throw cause;
          }
       }
    }
+
 }

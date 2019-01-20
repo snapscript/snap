@@ -69,23 +69,23 @@ public class PromiseWrapper {
       }
 
       @Override
-      public Promise block() {
+      public Promise join() {
          return this;
       }
 
       @Override
-      public Promise block(long wait) {
+      public Promise join(long wait) {
          return this;
       }
 
       @Override
-      public Promise fail(Consumer task) {
-         return this;
-      }
-
-      @Override
-      public Promise then(Consumer task) {
+      public Promise thenAccept(Consumer task) {
          task.consume(object);
+         return this;
+      }
+
+      @Override
+      public Promise thenCatch(Consumer task) {
          return this;
       }
    }

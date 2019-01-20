@@ -119,7 +119,7 @@ public class AwaitTest extends ScriptTestCase {
    "}\n"+
    "let x = fun(1);\n"+
    "println(x.class);\n"+
-   "assert x.then(y -> {\n"+
+   "assert x.thenAccept(y -> {\n"+
    "   println(`RESULT=${y}`);\n"+
    "   assert y == 'result for foo()';\n" +
    "}).get() == 'result for foo()';\n";
@@ -143,7 +143,7 @@ public class AwaitTest extends ScriptTestCase {
    "}\n"+
    "let x = Mod.fun(1);\n"+
    "println(x.class);\n"+
-   "assert x.then(y -> {\n"+
+   "assert x.thenAccept(y -> {\n"+
    "   println(`RESULT=${y}`);\n"+
    "   assert y == 'result for foo()';\n" +
    "}).get() == 'result for foo()';\n";
@@ -167,7 +167,7 @@ public class AwaitTest extends ScriptTestCase {
    "}\n"+
    "let x = Typ.fun(1);\n"+
    "println(x.class);\n"+
-   "assert x.then(y -> {\n"+
+   "assert x.thenAccept(y -> {\n"+
    "   println(`RESULT=${y}`);\n"+
    "   assert y == 'result for foo()';\n" +
    "}).get() == 'result for foo()';\n";
@@ -191,7 +191,7 @@ public class AwaitTest extends ScriptTestCase {
    "}\n"+
    "let x = new Typ().fun(1);\n"+
    "println(x.class);\n"+
-   "assert x.then(y -> {\n"+
+   "assert x.thenAccept(y -> {\n"+
    "   println(`RESULT=${y}`);\n"+
    "   assert y == 'result for foo()';\n" +
    "}).get() == 'result for foo()';\n";
@@ -215,7 +215,7 @@ public class AwaitTest extends ScriptTestCase {
    "}\n"+
    "let x = new Typ().fun(1);\n"+
    "println(x.class);\n"+
-   "assert x.then(y -> {\n"+
+   "assert x.thenAccept(y -> {\n"+
    "   println(`RESULT=${y}`);\n"+
    "   assert y == 'result for foo()';\n" +
    "}).get() == 'result for foo()';\n";
@@ -239,7 +239,7 @@ public class AwaitTest extends ScriptTestCase {
    "}\n"+
    "let x = new Typ().fun(1);\n"+
    "println(x.class);\n"+
-   "assert x.then(y -> {\n"+
+   "assert x.thenAccept(y -> {\n"+
    "   println(`RESULT=${y}`);\n"+
    "   assert y == 'result for foo()';\n" +
    "}).get() == 'result for foo()';\n";
@@ -257,7 +257,7 @@ public class AwaitTest extends ScriptTestCase {
    "}\n"+
    "let x = new Typ().fun(1);\n"+
    "println(x.class);\n"+
-   "assert x.then(y -> {\n"+
+   "assert x.thenAccept(y -> {\n"+
    "   println(`RESULT=${y}`);\n"+
    "   assert y == 'result for fun(1)';\n" +
    "}).get() == 'result for fun(1)';\n";
@@ -279,13 +279,13 @@ public class AwaitTest extends ScriptTestCase {
    "}\n"+
    "let x = new Typ().fun(1);\n"+
    "println(x.class);\n"+
-   "x.fail(y -> {\n"+
+   "x.thenCatch(y -> {\n"+
    "   y.printStackTrace();\n"+
    "   println(`ERROR=${y}`);\n"+
    "   println(`ERROR=${y.class}`);\n"+
    "   println(`ERROR=${y.message}`);\n"+
    "   assert y instanceof Exception;\n" +
-   "}).block();\n";
+   "}).join();\n";
 
    private static final String SUCCESS_15 =
    "class Typ {\n"+

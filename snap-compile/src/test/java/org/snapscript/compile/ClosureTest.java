@@ -55,7 +55,7 @@ public class ClosureTest extends TestCase {
    "   return await System.currentTimeMillis();\n"+
    "};\n" +
    "println(x.class);\n"+
-   "x(1).then(y -> println(y)).block();\n";
+   "x(1).thenAccept(y -> println(y)).join();\n";
 
    public void testClosure() throws Exception {
       DecimalFormat format = new DecimalFormat("###,###,###,###,###");
