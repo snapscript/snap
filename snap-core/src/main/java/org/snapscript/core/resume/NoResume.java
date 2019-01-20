@@ -1,4 +1,4 @@
-package org.snapscript.core.yield;
+package org.snapscript.core.resume;
 
 import static org.snapscript.core.result.Result.NORMAL;
 

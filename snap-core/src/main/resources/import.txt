@@ -111,7 +111,8 @@ xml = javax.xml {}
 
 # snap imports
 
-core = org.snapscript.core {}
+core = org.snapscript.core { Promise }
+resume = org.snapscript.core.resume { Yield }
 compile = org.snapscript.compile {}
 common = org.snapscript.common {}
 

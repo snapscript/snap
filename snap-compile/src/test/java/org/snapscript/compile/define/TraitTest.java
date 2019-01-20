@@ -12,6 +12,7 @@ import org.snapscript.core.scope.Model;
 import org.snapscript.core.variable.Value;
 
 public class TraitTest extends TestCase{
+
    private static final String SOURCE_1=
    "trait Pet {\n"+
    "   speak(out) {\n"+

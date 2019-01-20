@@ -4,8 +4,8 @@ import static org.snapscript.core.result.Result.NORMAL;
 
 import org.snapscript.core.result.Result;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.yield.Resume;
-import org.snapscript.core.yield.Yield;
+import org.snapscript.core.resume.Resume;
+import org.snapscript.core.resume.Yield;
 import org.snapscript.tree.Suspend;
 
 public class WhileResume extends Suspend<Object, Object> {

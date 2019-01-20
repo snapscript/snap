@@ -1,4 +1,4 @@
-package org.snapscript.core.yield;
+package org.snapscript.core.resume;
 
 import org.snapscript.core.scope.Scope;
 

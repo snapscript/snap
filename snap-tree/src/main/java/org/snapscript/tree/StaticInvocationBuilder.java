@@ -30,16 +30,14 @@ public class StaticInvocationBuilder implements InvocationBuilder {
    private Statement statement;
    private Execution execution;
    private Execution compile;
-   private int modifiers;
 
    public StaticInvocationBuilder(Signature signature, Execution compile, Statement statement, Constraint constraint, int modifiers) {
       this.extractor = new ParameterExtractor(signature, modifiers);
+      this.statement = new AsyncStatement(statement, modifiers);
       this.aligner = new SignatureAligner(signature);
       this.calculator = new ScopeCalculator();
       this.constraint = constraint;
-      this.statement = statement;
       this.compile = compile;
-      this.modifiers = modifiers;
    }
    
    @Override
@@ -55,8 +53,12 @@ public class StaticInvocationBuilder implements InvocationBuilder {
       if(execution != null) {
          throw new InternalStateException("Function has already been compiled");
       }
-      scope = calculator.compile(scope);
-      execution = statement.compile(scope, constraint);
+      Scope compound = calculator.compile(scope);
+
+      if(compound == null) {
+         throw new InternalStateException("Function scope could not be calculated");
+      }
+      execution = statement.compile(compound, constraint);
    }
    
    @Override
@@ -72,7 +74,7 @@ public class StaticInvocationBuilder implements InvocationBuilder {
       Context context = module.getContext();
       ConstraintMatcher matcher = context.getMatcher();      
 
-      return new ExecutionInvocation(matcher, compile, execution, modifiers);
+      return new ExecutionInvocation(matcher, compile, execution);
    }
 
    private class ExecutionInvocation implements Invocation<Object> {
@@ -82,9 +84,9 @@ public class StaticInvocationBuilder implements InvocationBuilder {
       private final Execution execution;
       private final Execution compile;
       
-      public ExecutionInvocation(ConstraintMatcher matcher, Execution compile, Execution execution, int modifiers) {
-         this.execution = new AsyncExecution(execution, modifiers);
+      public ExecutionInvocation(ConstraintMatcher matcher, Execution compile, Execution execution) {
          this.execute = new AtomicBoolean(false);
+         this.execution = execution;
          this.matcher = matcher;
          this.compile = compile;
       }

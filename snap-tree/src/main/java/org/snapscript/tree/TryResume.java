@@ -2,7 +2,7 @@ package org.snapscript.tree;
 
 import org.snapscript.core.result.Result;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.yield.Resume;
+import org.snapscript.core.resume.Resume;
 
 public class TryResume extends Suspend<Object, Object> {
    

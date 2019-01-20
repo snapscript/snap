@@ -196,6 +196,97 @@ public class AwaitTest extends ScriptTestCase {
    "   assert y == 'result for foo()';\n" +
    "}).get() == 'result for foo()';\n";
 
+   private static final String SUCCESS_11 =
+   "class Typ {\n"+
+   "   async fun(n): Promise<Integer> {\n"+
+   "      if(n > 0) {\n"+
+   "         const f: String = await foo();\n"+
+   "         println(f);\n"+
+   "         assert f == 'result for foo()';\n"+
+   "         return f;\n"+
+   "      }\n"+
+   "      println('x');\n"+
+   "   }\n"+
+   "   foo() {\n"+
+   "      let n = Thread.currentThread().getName();\n"+
+   "      println(n);\n"+
+   "      return 'result for foo()';\n"+
+   "   }\n"+
+   "}\n"+
+   "let x = new Typ().fun(1);\n"+
+   "println(x.class);\n"+
+   "assert x.then(y -> {\n"+
+   "   println(`RESULT=${y}`);\n"+
+   "   assert y == 'result for foo()';\n" +
+   "}).get() == 'result for foo()';\n";
+
+   private static final String SUCCESS_12 =
+   "class Typ {\n"+
+   "   async fun(n): Promise {\n"+
+   "      if(n > 0) {\n"+
+   "         const f: String = await foo();\n"+
+   "         println(f);\n"+
+   "         assert f == 'result for foo()';\n"+
+   "         return f;\n"+
+   "      }\n"+
+   "      println('x');\n"+
+   "   }\n"+
+   "   foo() {\n"+
+   "      let n = Thread.currentThread().getName();\n"+
+   "      println(n);\n"+
+   "      return 'result for foo()';\n"+
+   "   }\n"+
+   "}\n"+
+   "let x = new Typ().fun(1);\n"+
+   "println(x.class);\n"+
+   "assert x.then(y -> {\n"+
+   "   println(`RESULT=${y}`);\n"+
+   "   assert y == 'result for foo()';\n" +
+   "}).get() == 'result for foo()';\n";
+
+   private static final String SUCCESS_13 =
+   "class Typ {\n"+
+   "   async fun(n): Promise {\n"+
+   "      return `result for fun(${n})`;\n"+
+   "   }\n"+
+   "   foo() {\n"+
+   "      let n = Thread.currentThread().getName();\n"+
+   "      println(n);\n"+
+   "      return 'result for foo()';\n"+
+   "   }\n"+
+   "}\n"+
+   "let x = new Typ().fun(1);\n"+
+   "println(x.class);\n"+
+   "assert x.then(y -> {\n"+
+   "   println(`RESULT=${y}`);\n"+
+   "   assert y == 'result for fun(1)';\n" +
+   "}).get() == 'result for fun(1)';\n";
+
+   private static final String SUCCESS_14 =
+   "class Typ {\n"+
+   "   async fun(n): Promise {\n"+
+   "      if(n > 0) {\n"+
+   "         const f: String = await foo();\n"+
+   "         println(f);\n"+
+   "         assert f == 'result for foo()';\n"+
+   "         return f;\n"+
+   "      }\n"+
+   "      println('x');\n"+
+   "   }\n"+
+   "   foo() {\n"+
+   "      throw new RuntimeException('error occured in foo()');\n"+
+   "   }\n"+
+   "}\n"+
+   "let x = new Typ().fun(1);\n"+
+   "println(x.class);\n"+
+   "x.fail(y -> {\n"+
+   "   y.printStackTrace();\n"+
+   "   println(`ERROR=${y}`);\n"+
+   "   println(`ERROR=${y.class}`);\n"+
+   "   println(`ERROR=${y.message}`);\n"+
+   "   assert y instanceof Exception;\n" +
+   "}).block();\n";
+
    public void testAwait() throws Exception {
       assertScriptExecutes(SUCCESS_1);
       assertScriptExecutes(SUCCESS_2);
@@ -207,6 +298,10 @@ public class AwaitTest extends ScriptTestCase {
       assertScriptExecutes(SUCCESS_8);
       assertScriptExecutes(SUCCESS_9);
       assertScriptExecutes(SUCCESS_10);
+      assertScriptExecutes(SUCCESS_11);
+      assertScriptExecutes(SUCCESS_12);
+      assertScriptExecutes(SUCCESS_13);
+      assertScriptExecutes(SUCCESS_14);
    }
 
    @Override

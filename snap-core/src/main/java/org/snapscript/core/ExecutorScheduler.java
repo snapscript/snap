@@ -7,7 +7,6 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.Executor;
 import java.util.concurrent.FutureTask;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.common.Consumer;
@@ -33,15 +32,19 @@ public class ExecutorScheduler implements TaskScheduler {
 
    private static class FuturePromise<T> implements Promise<T> {
 
-      private final Set<Consumer<T, Object>> consumers;
-      private final AtomicReference<T> result;
+      private final Set<Consumer<Throwable, Object>> failures;
+      private final Set<Consumer<T, Object>> listeners;
+      private final AtomicReference<Throwable> error;
+      private final AtomicReference<T> success;
       private final FutureTask<T> future;
       private final Callable<T> task;
 
       public FuturePromise(Consumer<Object, T> consumer) {
-         this.consumers = new CopyOnWriteArraySet<Consumer<T, Object>>();
-         this.task = new PromiseTask<T>(this, consumer);
-         this.result = new AtomicReference<T>();
+         this.failures = new CopyOnWriteArraySet<Consumer<Throwable, Object>>();
+         this.listeners = new CopyOnWriteArraySet<Consumer<T, Object>>();
+         this.task = new FutureExecution<T>(this, consumer);
+         this.error = new AtomicReference<Throwable>();
+         this.success = new AtomicReference<T>();
          this.future = new FutureTask<T>(task);
       }
 
@@ -63,6 +66,50 @@ public class ExecutorScheduler implements TaskScheduler {
          }
       }
 
+      @Override
+      public Promise<T>  block() {
+         try {
+            future.get();
+         } catch(Exception e) {
+            return this;
+         }
+         return this;
+      }
+
+      @Override
+      public Promise<T>  block(long wait) {
+         try {
+            future.get(wait, MILLISECONDS);
+         } catch(Exception e) {
+            return this;
+         }
+         return this;
+      }
+
+      @Override
+      public Promise<T> fail(Consumer<Throwable, Object> consumer) {
+         if(failures.add(consumer)) {
+            Throwable value = error.get();
+
+            if (value != null) {
+               consumer.consume(value);
+            }
+         }
+         return this;
+      }
+
+      @Override
+      public Promise<T> then(Consumer<T, Object> consumer) {
+         if(listeners.add(consumer)) {
+            T value = success.get();
+
+            if (value != null) {
+               consumer.consume(value);
+            }
+         }
+         return this;
+      }
+
       public void execute(Executor executor) {
          if(executor != null) {
             executor.execute(future);
@@ -72,40 +119,40 @@ public class ExecutorScheduler implements TaskScheduler {
       }
 
       public void complete(T value) {
-         for(Consumer<T, Object> consumer : consumers) {
-            consumer.consume(value);
+         for(Consumer<T, Object> listener : listeners) {
+            listener.consume(value);
          }
-         result.set(value);
+         success.compareAndSet(null, value);
       }
 
-      @Override
-      public Promise<T> then(Consumer<T, Object> consumer) {
-         T value = result.get();
-
-         if(value != null) {
-            consumer.consume(value);
+      public void error(Throwable cause) {
+         for(Consumer<Throwable, Object> failure : failures) {
+            failure.consume(cause);
          }
-         consumers.add(consumer);
-         return this;
+         error.compareAndSet(null, cause);
       }
    }
 
-
-   private static class PromiseTask<T> implements Callable<T> {
+   private static class FutureExecution<T> implements Callable<T> {
 
       private final Consumer<Object, T> consumer;
       private final FuturePromise<T> promise;
 
-      public PromiseTask(FuturePromise<T> promise, Consumer<Object, T> consumer) {
+      public FutureExecution(FuturePromise<T> promise, Consumer<Object, T> consumer) {
          this.consumer = consumer;
          this.promise = promise;
       }
 
       @Override
-      public T call() {
-         T value = consumer.consume(null);
-         promise.complete(value);
-         return value;
+      public T call() throws Exception {
+         try {
+            T value = consumer.consume(null);
+            promise.complete(value);
+            return value;
+         } catch(Exception cause) {
+            promise.error(cause);
+            throw cause;
+         }
       }
    }
 }

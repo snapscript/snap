@@ -4,45 +4,44 @@ import java.util.Iterator;
 
 import org.snapscript.common.Consumer;
 import org.snapscript.core.Bug;
-import org.snapscript.core.Context;
 import org.snapscript.core.Execution;
-import org.snapscript.core.ModifierType;
 import org.snapscript.core.Promise;
+import org.snapscript.core.PromiseWrapper;
 import org.snapscript.core.TaskScheduler;
-import org.snapscript.core.error.InternalStateException;
-import org.snapscript.core.module.Module;
 import org.snapscript.core.result.Result;
+import org.snapscript.core.resume.Yield;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.yield.Yield;
 
 public class AsyncExecution extends Execution {
 
+   private final TaskScheduler scheduler;
+   private final PromiseWrapper wrapper;
    private final Execution execution;
-   private final int modifiers;
 
-   public AsyncExecution(Execution execution, int modifiers) {
+   public AsyncExecution(TaskScheduler scheduler, Execution execution) {
+      this.wrapper = new PromiseWrapper();
+      this.scheduler = scheduler;
       this.execution = execution;
-      this.modifiers = modifiers;
    }
 
    @Override
    public Result execute(Scope scope) throws Exception {
       Result result = execution.execute(scope);
 
-      if(result.isAwait()) {
-         AsyncConsumer consumer = new AsyncConsumer(result);
-
-         if(!ModifierType.isAsync(modifiers)) {
-            throw new InternalStateException("Function is not asynchronous");
-         }
-         Module module = scope.getModule();
-         Context context = module.getContext();
-         TaskScheduler scheduler = context.getScheduler();
-         Promise promise = scheduler.schedule(consumer);
+      if(!result.isAwait()) {
+         Object value = result.getValue();
+         Promise promise = wrapper.toPromise(scope, value);
 
          return Result.getNormal(promise);
       }
-      return result;
+      return execute(scope, result);
+   }
+
+   private Result execute(Scope scope, Result result) throws Exception {
+      AsyncConsumer consumer = new AsyncConsumer(result);
+      Promise promise = scheduler.schedule(consumer);
+
+      return Result.getNormal(promise);
    }
 
    private static class AsyncConsumer implements Consumer<Object, Object> {

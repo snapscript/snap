@@ -15,8 +15,8 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.trace.TraceStatement;
-import org.snapscript.core.yield.Resume;
-import org.snapscript.core.yield.Yield;
+import org.snapscript.core.resume.Resume;
+import org.snapscript.core.resume.Yield;
 import org.snapscript.tree.SuspendStatement;
 
 public class LoopStatement implements Compilation {

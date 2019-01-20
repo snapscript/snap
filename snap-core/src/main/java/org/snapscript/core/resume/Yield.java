@@ -1,12 +1,16 @@
-package org.snapscript.core.yield;
+package org.snapscript.core.resume;
 
 import java.util.Iterator;
 
+import org.snapscript.core.Context;
+import org.snapscript.core.error.ErrorCauseExtractor;
+import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.module.Module;
 import org.snapscript.core.result.Result;
 import org.snapscript.core.scope.Scope;
 
-public class Yield implements Iterable<Object> {
+public class Yield<T> implements Iterable<T> {
 
    private final Resume next;
    private final Object result;
@@ -23,8 +27,8 @@ public class Yield implements Iterable<Object> {
    }
    
    @Override
-   public Iterator<Object> iterator() {
-      return new ResumeIterator(result, scope, next);
+   public Iterator<T> iterator() {
+      return new ResumeIterator<T>(result, scope, next);
    }
    
    public Resume getResume() { // resume statement
@@ -38,13 +42,15 @@ public class Yield implements Iterable<Object> {
       return (T)result;
    }
    
-   private static class ResumeIterator implements Iterator {
+   private static class ResumeIterator<T> implements Iterator<T> {
 
+      private ErrorCauseExtractor extractor;
       private Resume resume;
       private Object value;
       private Scope scope;
       
       public ResumeIterator(Object value, Scope scope, Resume resume) {
+         this.extractor = new ErrorCauseExtractor();
          this.resume = resume;
          this.value = value;
          this.scope = scope;
@@ -59,13 +65,18 @@ public class Yield implements Iterable<Object> {
       }
 
       @Override
-      public Object next() {
+      public T next() {
          if(hasNext()) {
             Object result = value;
             value = null;
-            return result;
+            return (T)result;
          }
          return null;
+      }
+
+      @Override
+      public void remove() {
+         value = null;
       }
 
       private boolean resume() {
@@ -85,9 +96,10 @@ public class Yield implements Iterable<Object> {
                return true;
             }
          }catch(Throwable e){
-            throw new InternalStateException("Could not resume after yield", e);
+            throw new ResumeException("Could not resume after yield", e);
          }
          return false;
       }
+
    }
 }

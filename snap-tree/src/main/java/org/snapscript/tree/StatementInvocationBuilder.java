@@ -31,25 +31,21 @@ public class StatementInvocationBuilder implements InvocationBuilder {
    private Statement statement;
    private Execution execution;
    private Type type;
-   private int modifiers;
 
    public StatementInvocationBuilder(Signature signature, Statement statement, Constraint constraint, Type type, int modifiers) {
       this.extractor = new ParameterExtractor(signature, modifiers);
+      this.statement = new AsyncStatement(statement, modifiers);
       this.aligner = new SignatureAligner(signature);
       this.calculator = new ScopeCalculator();
       this.constraint = constraint;
-      this.statement = statement;
-      this.modifiers = modifiers;
       this.type = type;
    }
    
    @Override
    public void define(Scope scope) throws Exception {
-      if(statement != null) {
-         extractor.define(scope); // count parameters
-         statement.define(scope); // start counting from here
-         calculator.define(scope);
-      }
+      extractor.define(scope); // count parameters
+      statement.define(scope); // start counting from here
+      calculator.define(scope);
       constraint.getType(scope);
    }
    
@@ -58,7 +54,7 @@ public class StatementInvocationBuilder implements InvocationBuilder {
       if(execution != null) {
          throw new InternalStateException("Function has already been compiled");
       }
-      if(execution == null && statement != null) {
+      if(execution == null) {
          Scope compound = calculator.compile(scope);
 
          if(compound == null) {
@@ -73,9 +69,6 @@ public class StatementInvocationBuilder implements InvocationBuilder {
       if(invocation == null) {
          Progress progress = type.getProgress();
 
-         if(statement == null) {
-            throw new InternalStateException("Function is abstract");
-         }
          if (progress.wait(COMPILE)) {
             if (execution == null) {
                throw new InternalStateException("Function has not been compiled");
@@ -91,7 +84,7 @@ public class StatementInvocationBuilder implements InvocationBuilder {
       Context context = module.getContext();
       ConstraintMatcher matcher = context.getMatcher();      
 
-      return new ExecutionInvocation(matcher, execution, modifiers);
+      return new ExecutionInvocation(matcher, execution);
    }
 
    private class ExecutionInvocation implements Invocation<Object> {
@@ -99,8 +92,8 @@ public class StatementInvocationBuilder implements InvocationBuilder {
       private final ConstraintMatcher matcher;
       private final Execution execution;
       
-      public ExecutionInvocation(ConstraintMatcher matcher, Execution execution, int modifiers) {
-         this.execution = new AsyncExecution(execution, modifiers);
+      public ExecutionInvocation(ConstraintMatcher matcher, Execution execution) {
+         this.execution = execution;
          this.matcher = matcher;
       }
 

@@ -9,8 +9,8 @@ import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.result.Result;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.index.ScopeIndex;
-import org.snapscript.core.yield.Resume;
-import org.snapscript.core.yield.Yield;
+import org.snapscript.core.resume.Resume;
+import org.snapscript.core.resume.Yield;
 
 public class StatementBlock extends Statement {
    

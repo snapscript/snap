@@ -10,8 +10,8 @@ import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.result.Result;
 import org.snapscript.core.scope.Scope;
-import org.snapscript.core.yield.Resume;
-import org.snapscript.core.yield.Yield;
+import org.snapscript.core.resume.Resume;
+import org.snapscript.core.resume.Yield;
 
 public class TryStatement implements Compilation {
    
