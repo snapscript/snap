@@ -79,7 +79,7 @@ public class AwaitStatement implements Compilation {
       private final Evaluation left;
 
       public CompileExecution(Evaluation left, Evaluation right){
-         this.right = right;
+         this.right = new AwaitExpression(right);
          this.left = left;
       }
 
