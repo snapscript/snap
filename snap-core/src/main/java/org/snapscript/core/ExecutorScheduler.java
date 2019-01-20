@@ -34,13 +34,13 @@ public class ExecutorScheduler implements TaskScheduler {
    private static class PromiseFuture<T> implements Promise<T> {
 
       private final PromiseDispatcher<T> dispatcher;
+      private final PromiseExecutor<T> executor;
       private final FutureTask<T> future;
-      private final PromiseTask<T> task;
 
       public PromiseFuture(Callable<T> task) {
          this.dispatcher = new PromiseDispatcher<T>();
-         this.task = new PromiseTask<T>(dispatcher, task);
-         this.future = new FutureTask<T>(task);
+         this.executor = new PromiseExecutor<T>(dispatcher, task);
+         this.future = new FutureTask<T>(executor);
       }
 
       @Override
@@ -169,12 +169,12 @@ public class ExecutorScheduler implements TaskScheduler {
       }
    }
 
-   private static class PromiseTask<T> implements Callable<T> {
+   private static class PromiseExecutor<T> implements Callable<T> {
 
       private final PromiseDispatcher<T> dispatcher;
       private final Callable<T> task;
 
-      public PromiseTask(PromiseDispatcher<T> dispatcher, Callable<T> task) {
+      public PromiseExecutor(PromiseDispatcher<T> dispatcher, Callable<T> task) {
          this.dispatcher = dispatcher;
          this.task = task;
       }
