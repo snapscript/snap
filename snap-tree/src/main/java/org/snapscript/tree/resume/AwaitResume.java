@@ -1,8 +1,9 @@
-package org.snapscript.tree;
+package org.snapscript.tree.resume;
 
 import org.snapscript.core.result.Result;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.resume.Resume;
+import org.snapscript.tree.Suspend;
 
 public class AwaitResume extends Suspend<Object, Resume> {
 

@@ -1,4 +1,4 @@
-package org.snapscript.tree;
+package org.snapscript.tree.resume;
 
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
@@ -10,20 +10,25 @@ import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.result.Result;
-import org.snapscript.core.resume.Resume;
-import org.snapscript.core.resume.Yield;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.trace.TraceStatement;
 import org.snapscript.core.variable.Value;
+import org.snapscript.core.resume.Resume;
+import org.snapscript.core.resume.Yield;
+import org.snapscript.tree.SuspendStatement;
 
-public class AwaitReturnStatement implements Compilation {
+public class AwaitStatement implements Compilation {
 
    private final Statement control;
 
-   public AwaitReturnStatement(Evaluation evaluation){
-      this.control = new CompileResult(evaluation);
+   public AwaitStatement(Evaluation right){
+      this(null, right);
+   }
+
+   public AwaitStatement(Evaluation left, Evaluation right){
+      this.control = new CompileResult(left, right);
    }
 
    @Override
@@ -38,35 +43,45 @@ public class AwaitReturnStatement implements Compilation {
 
    private static class CompileResult extends Statement {
 
-      private final Evaluation evaluation;
+      private final Evaluation right;
+      private final Evaluation left;
 
-      public CompileResult(Evaluation evaluation) {
-         this.evaluation = evaluation;
+      public CompileResult(Evaluation left, Evaluation right){
+         this.right = right;
+         this.left = left;
       }
 
       @Override
       public boolean define(Scope scope) throws Exception {
-         if(evaluation != null) {
-            evaluation.define(scope);
+         if(left != null) {
+            left.define(scope);
+         }
+         if(right != null) {
+            right.define(scope);
          }
          return true;
       }
 
       @Override
       public Execution compile(Scope scope, Constraint returns) throws Exception {
-         if(evaluation != null) {
-            evaluation.compile(scope, null);
+         if(left != null) {
+            left.compile(scope, null);
          }
-         return new CompileExecution(evaluation);
+         if(right != null) {
+            right.compile(scope, null);
+         }
+         return new CompileExecution(left, right);
       }
    }
 
    private static class CompileExecution extends SuspendStatement<Object> {
 
-      private final Evaluation evaluation;
+      private final Evaluation right;
+      private final Evaluation left;
 
-      public CompileExecution(Evaluation evaluation){
-         this.evaluation = new AwaitExpression(evaluation);
+      public CompileExecution(Evaluation left, Evaluation right){
+         this.right = new AwaitExpression(right);
+         this.left = left;
       }
 
       @Override
@@ -79,10 +94,17 @@ public class AwaitReturnStatement implements Compilation {
 
       @Override
       public Result resume(Scope scope, Object data) throws Exception {
-         Value value = evaluation.evaluate(scope, null);
+         Value value = right.evaluate(scope, null);
          Object object = value.getValue();
 
-         return Result.getReturn(object);
+         if(left != null) {
+            Value reference = left.evaluate(scope, null);
+
+            if(reference != null) {
+               reference.setValue(object);
+            }
+         }
+         return Result.getNormal(object);
       }
 
       @Override

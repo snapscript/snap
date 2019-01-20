@@ -1,4 +1,4 @@
-package org.snapscript.tree;
+package org.snapscript.tree.resume;
 
 import static org.snapscript.core.constraint.Constraint.NONE;
 
@@ -13,6 +13,10 @@ import org.snapscript.core.scope.index.Local;
 import org.snapscript.core.scope.index.ScopeIndex;
 import org.snapscript.core.scope.index.ScopeTable;
 import org.snapscript.core.variable.Value;
+import org.snapscript.tree.DeclarationAllocator;
+import org.snapscript.tree.Modifier;
+import org.snapscript.tree.ModifierList;
+import org.snapscript.tree.NameReference;
 import org.snapscript.tree.literal.TextLiteral;
 
 public class AwaitDeclaration extends Evaluation {

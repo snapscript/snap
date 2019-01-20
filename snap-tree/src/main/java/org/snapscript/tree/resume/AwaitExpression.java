@@ -1,4 +1,4 @@
-package org.snapscript.tree;
+package org.snapscript.tree.resume;
 
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Promise;

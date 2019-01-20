@@ -1,9 +1,10 @@
-package org.snapscript.tree;
+package org.snapscript.tree.resume;
 
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.index.Local;
 import org.snapscript.core.variable.Value;
+import org.snapscript.tree.DeclarationAllocator;
 
 public class AwaitReferenceAllocator extends DeclarationAllocator {
 

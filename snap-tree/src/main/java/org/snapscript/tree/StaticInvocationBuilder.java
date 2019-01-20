@@ -19,6 +19,7 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.tree.function.ParameterExtractor;
 import org.snapscript.tree.function.ScopeCalculator;
+import org.snapscript.tree.resume.AsyncStatement;
 
 public class StaticInvocationBuilder implements InvocationBuilder {
    

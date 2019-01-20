@@ -1,4 +1,4 @@
-package org.snapscript.tree;
+package org.snapscript.tree.resume;
 
 import static org.snapscript.core.result.Result.NORMAL;
 
