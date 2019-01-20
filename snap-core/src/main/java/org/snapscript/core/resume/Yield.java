@@ -2,11 +2,7 @@ package org.snapscript.core.resume;
 
 import java.util.Iterator;
 
-import org.snapscript.core.Context;
 import org.snapscript.core.error.ErrorCauseExtractor;
-import org.snapscript.core.error.ErrorHandler;
-import org.snapscript.core.error.InternalStateException;
-import org.snapscript.core.module.Module;
 import org.snapscript.core.result.Result;
 import org.snapscript.core.scope.Scope;
 
