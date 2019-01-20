@@ -10,7 +10,6 @@ import junit.framework.TestCase;
 import org.snapscript.core.Reserved;
 import org.snapscript.parse.SyntaxCompiler;
 import org.snapscript.parse.SyntaxNode;
-import org.snapscript.tree.Instruction;
 
 public class ClosureTest extends TestCase {
 
@@ -45,6 +44,18 @@ public class ClosureTest extends TestCase {
    "let x = (a) -> a.run();\n"+
    "println(x);\n";
 
+   private static final String SOURCE_6=
+   "let x = async (a) -> 'x';\n"+
+   "println(x.class);\n"+
+   "println(x(1).class);\n"+
+   "assert x(1) instanceof Promise;\n";
+
+   private static final String SOURCE_7=
+   "let x = async (a) -> {" +
+   "   return await System.currentTimeMillis();\n"+
+   "};\n" +
+   "println(x.class);\n"+
+   "x(1).then(y -> println(y)).block();\n";
 
    public void testClosure() throws Exception {
       DecimalFormat format = new DecimalFormat("###,###,###,###,###");
@@ -119,6 +130,24 @@ public class ClosureTest extends TestCase {
       Compiler compiler = ClassPathCompilerBuilder.createCompiler();
       Executable executable = compiler.compile(SOURCE_5);
       System.err.println(SOURCE_5);
+      executable.execute();
+   }
+
+   public void testAsyncClosure() throws Exception {
+      SyntaxNode node = new SyntaxCompiler(Reserved.GRAMMAR_FILE).compile().parse("/path.snap", SOURCE_6, GRAMMAR_SCRIPT);
+      System.out.println(SyntaxPrinter.print(node));
+      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
+      Executable executable = compiler.compile(SOURCE_6);
+      System.err.println(SOURCE_6);
+      executable.execute();
+   }
+
+   public void testAsyncWithBlockClosure() throws Exception {
+      SyntaxNode node = new SyntaxCompiler(Reserved.GRAMMAR_FILE).compile().parse("/path.snap", SOURCE_7, GRAMMAR_SCRIPT);
+      System.out.println(SyntaxPrinter.print(node));
+      Compiler compiler = ClassPathCompilerBuilder.createCompiler();
+      Executable executable = compiler.compile(SOURCE_7);
+      System.err.println(SOURCE_7);
       executable.execute();
    }
 }

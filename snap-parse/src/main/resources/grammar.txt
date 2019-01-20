@@ -61,9 +61,9 @@ reference-part = { <reference-invocation> |
 
 reference-navigation = <reference-part>*(<reference-operator><reference-navigation>);
 reference-variable = { <array-reference> |
+                  <closure> |
                   <function-invocation> |
                   <construct> |
-                  <closure> |
                   <variable-reference> |
                   <literal> |
                   '(' <cast> ')' };
@@ -288,7 +288,9 @@ parameter-declaration = ?<annotation-list><parameter-modifier-list>?_<parameter-
 parameter-list = ?(<parameter-declaration>*(','<parameter-declaration>));
 
 closure-parameter-list = '('<parameter-list>')' | ?<parameter-declaration>;
-closure = <generic-parameter-list> <closure-parameter-list>?_'->'?_{<group-statement> | <expression>};
+closure-modifier = {'async'};
+closure-modifier-list = *(<closure-modifier>?_);
+closure = <closure-modifier-list><generic-parameter-list><closure-parameter-list>?_'->'?_{<group-statement> | <expression>};
 
 generic-parameter = [type] ?(':' <constraint>);
 generic-parameter-list = ?('<' <generic-parameter> *(',' <generic-parameter>) '>');
@@ -377,7 +379,7 @@ global-statement = <declaration-modifier>_<global>*(','<global>)';';
 
 script-import = <import-static> | <import> | <import-list>;
 script-modifier = {'func' | 'function' | 'async'};
-script-modifier-list = <script-modifier>?(_<script-modifier >);
+script-modifier-list = <script-modifier>?(_<script-modifier>);
 script-function = <script-modifier-list>_<function-name>'('<parameter-list>')'?(':'<constraint>)<group-statement>;
 script-statement = { <try-statement> |
                      <synchronized-statement> |
