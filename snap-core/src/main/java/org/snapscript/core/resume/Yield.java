@@ -61,7 +61,7 @@ public class Yield<T> implements Iterable<T> {
          if(value == null && resume != null) {
             return resume();
          }
-         return true;
+         return value != null;
       }
 
       @Override

@@ -11,6 +11,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.snapscript.common.Consumer;
 import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.variable.Value;
 
 public class ExecutorScheduler implements TaskScheduler {
 
@@ -35,7 +36,7 @@ public class ExecutorScheduler implements TaskScheduler {
       private final Set<Consumer<Throwable, Object>> failures;
       private final Set<Consumer<T, Object>> listeners;
       private final AtomicReference<Throwable> error;
-      private final AtomicReference<T> success;
+      private final AtomicReference<Value> success;
       private final FutureTask<T> future;
       private final Callable<T> task;
 
@@ -44,23 +45,23 @@ public class ExecutorScheduler implements TaskScheduler {
          this.listeners = new CopyOnWriteArraySet<Consumer<T, Object>>();
          this.task = new FutureExecution<T>(this, consumer);
          this.error = new AtomicReference<Throwable>();
-         this.success = new AtomicReference<T>();
+         this.success = new AtomicReference<Value>();
          this.future = new FutureTask<T>(task);
       }
 
       @Override
-      public Object get() {
+      public T get() {
          try {
-            return future.get();
+            return (T)future.get();
          } catch(Exception e) {
             throw new InternalStateException("Could not get value", e);
          }
       }
 
       @Override
-      public Object get(long wait) {
+      public T get(long wait) {
          try {
-            return future.get(wait, MILLISECONDS);
+            return (T)future.get(wait, MILLISECONDS);
          } catch(Exception e) {
             throw new InternalStateException("Could not get value", e);
          }
@@ -99,10 +100,11 @@ public class ExecutorScheduler implements TaskScheduler {
 
       @Override
       public Promise<T> then(Consumer<T, Object> consumer) {
-         T value = success.get();
+         Value value = success.get();
 
          if(value != null) {
-            consumer.consume(value);
+            T object = value.getValue();
+            consumer.consume(object);
          }
          listeners.add(consumer);
          return this;
@@ -116,9 +118,11 @@ public class ExecutorScheduler implements TaskScheduler {
          }
       }
 
-      public void complete(T value) {
+      public void complete(Value value) {
+         T object = value.getValue();
+
          for(Consumer<T, Object> listener : listeners) {
-            listener.consume(value);
+            listener.consume(object);
          }
          success.compareAndSet(null, value);
       }
@@ -144,9 +148,11 @@ public class ExecutorScheduler implements TaskScheduler {
       @Override
       public T call() throws Exception {
          try {
-            T value = consumer.consume(null);
+            T result = consumer.consume(null);
+            Value value = Value.getTransient(result);
+
             promise.complete(value);
-            return value;
+            return result;
          } catch(Exception cause) {
             promise.error(cause);
             throw cause;

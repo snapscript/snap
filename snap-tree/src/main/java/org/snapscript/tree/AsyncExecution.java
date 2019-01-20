@@ -57,11 +57,12 @@ public class AsyncExecution extends Execution {
       public Object consume(Object scope) {
          Yield yield = result.getValue();
          Iterator<Object> iterator = yield.iterator();
+         Object result = null;
 
-         if(iterator.hasNext()) {
-            return iterator.next();
+         while(iterator.hasNext()) {
+            result = iterator.next();
          }
-         return null;
+         return result;
       }
    }
 }

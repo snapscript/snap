@@ -287,6 +287,52 @@ public class AwaitTest extends ScriptTestCase {
    "   assert y instanceof Exception;\n" +
    "}).block();\n";
 
+   private static final String SUCCESS_15 =
+   "class Typ {\n"+
+    "   async fun(n): Promise<Integer> {\n"+
+    "      if(n > 0) {\n"+
+    "         const f: Integer = await foo();\n"+
+    "         println(f);\n"+
+    "         assert f == 11;\n"+
+    "         return f;\n"+
+    "      }\n"+
+    "      println('x');\n"+
+    "   }\n"+
+    "   foo() {\n"+
+    "      let n = Thread.currentThread().getName();\n"+
+    "      println(n);\n"+
+    "      return 11;\n"+
+    "   }\n"+
+    "}\n"+
+    "assert new Typ().fun(1).get().intValue() == 11;\n";
+
+   private static final String SUCCESS_16 =
+   "class Typ {\n"+
+   "   async fun(n): Promise {\n"+
+   "      await foo();\n"+
+   "   }\n"+
+   "   foo() {\n"+
+   "      let n = Thread.currentThread().getName();\n"+
+   "      println(n);\n"+
+   "      return 11;\n"+
+   "   }\n"+
+   "}\n"+
+   "let x = new Typ().fun(1).get();\n" +
+   "println(x);";
+
+   private static final String SUCCESS_17 =
+   "async func foo(): Promise<Integer> {\n"+
+   "   for(i in 0 to 10) {\n"+
+   "      println(i);\n"+
+   "      await i;\n"+
+   "      println('i='+Thread.currentThread().getName());\n"+
+   "   }\n"+
+   "   println('done');\n"+
+   "   return 13356;\n"+
+   "}\n"+
+   "println('x='+Thread.currentThread().getName());\n"+
+   "assert foo().get().intValue() == 13356;\n";
+
    public void testAwait() throws Exception {
       assertScriptExecutes(SUCCESS_1);
       assertScriptExecutes(SUCCESS_2);
@@ -302,6 +348,9 @@ public class AwaitTest extends ScriptTestCase {
       assertScriptExecutes(SUCCESS_12);
       assertScriptExecutes(SUCCESS_13);
       assertScriptExecutes(SUCCESS_14);
+      assertScriptExecutes(SUCCESS_15);
+      assertScriptExecutes(SUCCESS_16);
+      assertScriptExecutes(SUCCESS_17);
    }
 
    @Override
