@@ -6,9 +6,9 @@ import org.snapscript.core.scope.index.Local;
 import org.snapscript.core.variable.Value;
 import org.snapscript.tree.DeclarationAllocator;
 
-public class AwaitReferenceAllocator extends DeclarationAllocator {
+public class AwaitVariableAllocator extends DeclarationAllocator {
 
-   public AwaitReferenceAllocator(Constraint constraint) {
+   public AwaitVariableAllocator(Constraint constraint) {
       super(constraint, null);
    }
 

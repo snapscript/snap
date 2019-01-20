@@ -31,7 +31,7 @@ public class AwaitDeclaration extends Evaluation {
    }
 
    public AwaitDeclaration(Modifier modifier, TextLiteral identifier, Constraint constraint) {
-      this.allocator = new AwaitReferenceAllocator(constraint);
+      this.allocator = new AwaitVariableAllocator(constraint);
       this.reference = new NameReference(identifier);
       this.location = new AtomicReference<Address>();
       this.list = new ModifierList(modifier);
