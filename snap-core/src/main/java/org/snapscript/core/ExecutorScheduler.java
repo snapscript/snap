@@ -22,10 +22,10 @@ public class ExecutorScheduler implements TaskScheduler {
    }
 
    @Override
-   public <T> Promise<T> schedule(Consumer<Object, T> consumer) {
-      PromiseFuture<T> promise = new PromiseFuture<T>(consumer);
+   public <T> Promise<T> schedule(Callable<T> task) {
+      PromiseFuture<T> promise = new PromiseFuture<T>(task);
 
-      if(consumer != null) {
+      if(task != null) {
          promise.execute(executor);
       }
       return promise;
@@ -37,9 +37,9 @@ public class ExecutorScheduler implements TaskScheduler {
       private final FutureTask<T> future;
       private final PromiseTask<T> task;
 
-      public PromiseFuture(Consumer<Object, T> consumer) {
+      public PromiseFuture(Callable<T> task) {
          this.dispatcher = new PromiseDispatcher<T>();
-         this.task = new PromiseTask<T>(dispatcher, consumer);
+         this.task = new PromiseTask<T>(dispatcher, task);
          this.future = new FutureTask<T>(task);
       }
 
@@ -172,17 +172,17 @@ public class ExecutorScheduler implements TaskScheduler {
    private static class PromiseTask<T> implements Callable<T> {
 
       private final PromiseDispatcher<T> dispatcher;
-      private final Consumer<Object, T> consumer;
+      private final Callable<T> task;
 
-      public PromiseTask(PromiseDispatcher<T> dispatcher, Consumer<Object, T> consumer) {
+      public PromiseTask(PromiseDispatcher<T> dispatcher, Callable<T> task) {
          this.dispatcher = dispatcher;
-         this.consumer = consumer;
+         this.task = task;
       }
 
       @Override
       public T call() throws Exception {
          try {
-            T result = consumer.consume(null);
+            T result = task.call();
             Value value = Value.getTransient(result);
 
             dispatcher.result(value);

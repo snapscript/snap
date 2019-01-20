@@ -1,6 +1,7 @@
 package org.snapscript.tree.resume;
 
 import java.util.Iterator;
+import java.util.concurrent.Callable;
 
 import org.snapscript.common.Consumer;
 import org.snapscript.core.Bug;
@@ -38,23 +39,22 @@ public class AsyncExecution extends Execution {
    }
 
    private Result execute(Scope scope, Result result) throws Exception {
-      AsyncConsumer consumer = new AsyncConsumer(result);
-      Promise promise = scheduler.schedule(consumer);
+      ResumeExecution execution = new ResumeExecution(result);
+      Promise promise = scheduler.schedule(execution);
 
       return Result.getNormal(promise);
    }
 
-   private static class AsyncConsumer implements Consumer<Object, Object> {
+   private static class ResumeExecution implements Callable<Object> {
 
       private final Result result;
 
-      public AsyncConsumer(Result result){
+      public ResumeExecution(Result result){
          this.result = result;
       }
 
-      @Bug
       @Override
-      public Object consume(Object scope) {
+      public Object call() {
          Yield yield = result.getValue();
          Iterator<Object> iterator = yield.iterator();
          Object result = null;

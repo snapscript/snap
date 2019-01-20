@@ -1,7 +1,7 @@
 package org.snapscript.core;
 
-import org.snapscript.common.Consumer;
+import java.util.concurrent.Callable;
 
 public interface TaskScheduler {
-   <T> Promise<T> schedule(Consumer<Object, T> consumer);
+   <T> Promise<T> schedule(Callable<T> task);
 }
