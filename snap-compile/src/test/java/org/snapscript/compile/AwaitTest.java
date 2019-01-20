@@ -102,6 +102,28 @@ public class AwaitTest extends ScriptTestCase {
    "println(x.class);\n"+
    "x.get();\n";
 
+   private static final String SUCCESS_7 =
+   "async func fun(n) {\n"+
+   "   if(n > 0) {\n"+
+   "      const f: String = await foo();\n"+
+   "      println(f);\n"+
+   "      assert f == 'result for foo()';\n"+
+   "      return f;\n"+
+   "   }\n"+
+   "   println('x');\n"+
+   "}\n"+
+   "func foo() {\n"+
+   "   let n = Thread.currentThread().getName();\n"+
+   "   println(n);\n"+
+   "   return 'result for foo()';\n"+
+   "}\n"+
+   "let x = fun(1);\n"+
+   "println(x.class);\n"+
+   "x.then(y -> {\n"+
+   "   println(`RESULT=${y}`);\n"+
+   "   assert y == 'result for foo()';\n" +
+   "}).get();\n";
+
    public void testAwait() throws Exception {
       assertScriptExecutes(SUCCESS_1);
       assertScriptExecutes(SUCCESS_2);
@@ -109,6 +131,7 @@ public class AwaitTest extends ScriptTestCase {
       assertScriptExecutes(SUCCESS_4);
       assertScriptExecutes(SUCCESS_5);
       assertScriptExecutes(SUCCESS_6);
+      assertScriptExecutes(SUCCESS_7);
    }
 
    @Override

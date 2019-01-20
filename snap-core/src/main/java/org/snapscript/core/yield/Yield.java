@@ -49,24 +49,11 @@ public class Yield implements Iterable<Object> {
          this.value = value;
          this.scope = scope;
       }
-      
+
       @Override
       public boolean hasNext() {
          if(value == null && resume != null) {
-            try{
-               Result result = resume.resume(scope, null);
-               
-               if(result.isYield()) {
-                  Yield yield = result.getValue();
-                  
-                  resume = yield.getResume();
-                  value = yield.getValue();
-                  return true;
-               }
-            }catch(Throwable e){
-               throw new InternalStateException("Could not resume after yield", e);
-            }
-            return false;
+            return resume();
          }
          return true;
       }
@@ -80,6 +67,27 @@ public class Yield implements Iterable<Object> {
          }
          return null;
       }
-      
+
+      private boolean resume() {
+         try{
+            Result result = resume.resume(scope, null);
+
+            if(result.isYield()) {
+               Yield yield = result.getValue();
+
+               resume = yield.getResume();
+               value = yield.getValue();
+               return true;
+            }
+            if(result.isReturn()) {
+               value = result.getValue();
+               resume = null;
+               return true;
+            }
+         }catch(Throwable e){
+            throw new InternalStateException("Could not resume after yield", e);
+         }
+         return false;
+      }
    }
 }

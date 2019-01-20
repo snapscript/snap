@@ -24,7 +24,10 @@ public class CompoundResume extends Suspend<Object, Integer> {
       if(result.isYield()) {
          return suspend(scope, result, parent, index);
       }
-      return parent.resume(scope, index);
+      if(result.isNormal()) {
+         return parent.resume(scope, index);
+      }
+      return result;
    } 
 
    @Override
