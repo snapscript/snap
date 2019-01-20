@@ -201,17 +201,24 @@ compound-statement = '{'+<statement>'}';
 terminal-statement = ';';
 empty-statement = '{}';
 group-statement = {<compound-statement> | <empty-statement>};
-control-statement = {<return-statement> | <yield-statement> | <await-statement> | <throw-statement> | <break-statement> | <continue-statement>};
+control-statement = { <return-statement> |
+                      <yield-statement> |
+                      <await-statement> |
+                      <await-assignment-statement> |
+                      <await-declaration-statement> |
+                      <await-return-statement> |
+                      <throw-statement> |
+                      <break-statement> |
+                      <continue-statement> };
+
 statement = { <control-statement> |
               <try-statement> |
               <synchronized-statement> |
               <assert-statement> |
               <debug-statement> |
-              <await-assignment-statement> |
               <assignment-statement> |
               <expression-statement> |
               <conditional-statement> |
-              <await-declaration-statement> |
               <declaration-statement> |
               <assignment-list-statement> |
               <group-statement> |
@@ -221,7 +228,8 @@ assignment-variable = [identifier];
 assignment-expression = (<value-operand> | <reference> | <calculation> | <choice> | <conditional> | <cast>);
 assignment-statement = <reference><assignment-operator><assignment-expression>';';
 
-await-statement = 'await' ?(? _ {<cast> | <expression> | <closure>}) ';';
+await-statement = 'await' ? _ {<cast> | <expression> | <closure>} ';';
+await-return-statement = 'return' _ 'await' ? _ {<cast> | <expression> | <closure>} ';';
 await-assignment-statement = <reference>'=''await' ?_ <assignment-expression>';';
 await-declaration = <declaration-modifier>_<assignment-variable>?(':'<constraint>?_);
 await-declaration-statement = <await-declaration>'=''await'?_<assignment-expression>';';

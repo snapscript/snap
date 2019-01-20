@@ -333,6 +333,31 @@ public class AwaitTest extends ScriptTestCase {
    "println('x='+Thread.currentThread().getName());\n"+
    "assert foo().get().intValue() == 13356;\n";
 
+
+   private static final String SUCCESS_18 =
+   "async func fun(): Promise<Integer> {\n"+
+   "   return await foo();\n" +
+   "}\n"+
+   "func foo() {\n"+
+   "  let n = Thread.currentThread().getName();\n"+
+   "  println(n);\n"+
+   "  return 112;\n"+
+   "}\n"+
+   "println('x='+Thread.currentThread().getName());\n"+
+   "assert fun().get().intValue() == 112;\n";
+
+   private static final String SUCCESS_19 =
+   "async func fun(): Promise<String> {\n"+
+   "   for(i in 0 to 10){\n"+
+   "      return await foo(i);\n" +
+   "   }\n"+
+   "}\n"+
+   "func foo(i) {\n"+
+   "   return `foo(${i})`;\n"+
+   "}\n"+
+   "println('x='+Thread.currentThread().getName());\n"+
+   "assert fun().get().toLowerCase() == `foo(0)`;\n";
+
    public void testAwait() throws Exception {
       assertScriptExecutes(SUCCESS_1);
       assertScriptExecutes(SUCCESS_2);
@@ -351,6 +376,8 @@ public class AwaitTest extends ScriptTestCase {
       assertScriptExecutes(SUCCESS_15);
       assertScriptExecutes(SUCCESS_16);
       assertScriptExecutes(SUCCESS_17);
+      assertScriptExecutes(SUCCESS_18);
+      assertScriptExecutes(SUCCESS_19);
    }
 
    @Override

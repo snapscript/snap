@@ -92,6 +92,7 @@ await-declaration = org.snapscript.tree.AwaitDeclaration
 await-statement = org.snapscript.tree.AwaitStatement
 await-assignment-statement = org.snapscript.tree.AwaitStatement
 await-declaration-statement = org.snapscript.tree.AwaitStatement
+await-return-statement = org.snapscript.tree.AwaitReturnStatement
 debug-statement = org.snapscript.tree.DebugStatement
 assert-statement = org.snapscript.tree.AssertStatement
 until-statement = org.snapscript.tree.condition.UntilStatement
