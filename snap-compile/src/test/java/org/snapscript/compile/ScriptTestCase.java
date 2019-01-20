@@ -92,11 +92,21 @@ public abstract class ScriptTestCase extends TestCase {
       }
    }
 
+   protected boolean isThreadPool() {
+      return false;
+   }
+
    protected AssertionContext getContext() {
       if(!scripts.isEmpty()) {
          Store store = new MapStore(scripts);
          Context context = new StoreContext(store, DEFAULT_EXECUTOR);         
          Compiler compiler = new ResourceCompiler(context);
+         return new AssertionContext(compiler, context);
+      }
+      if(isThreadPool()){
+         Store store = new ClassPathStore();
+         Context context = new StoreContext(store, DEFAULT_EXECUTOR);
+         Compiler compiler = new StringCompiler(context);
          return new AssertionContext(compiler, context);
       }
       Store store = new ClassPathStore();

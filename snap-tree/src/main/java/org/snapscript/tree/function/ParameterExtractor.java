@@ -2,6 +2,7 @@ package org.snapscript.tree.function;
 
 import java.util.List;
 
+import org.snapscript.core.ModifierType;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.convert.TypeInspector;
 import org.snapscript.core.error.InternalStateException;
@@ -11,8 +12,8 @@ import org.snapscript.core.scope.Scope;
 import org.snapscript.core.scope.ScopeState;
 import org.snapscript.core.scope.index.Address;
 import org.snapscript.core.scope.index.AddressCache;
-import org.snapscript.core.scope.index.ScopeIndex;
 import org.snapscript.core.scope.index.Local;
+import org.snapscript.core.scope.index.ScopeIndex;
 import org.snapscript.core.scope.index.ScopeTable;
 import org.snapscript.core.type.Type;
 
@@ -20,16 +21,16 @@ public class ParameterExtractor {
 
    private final TypeInspector inspector;
    private final Signature signature;
-   private final boolean closure;
+   private final int modifiers;
    
    public ParameterExtractor(Signature signature) {
-      this(signature, false);
+      this(signature, 0);
    }
    
-   public ParameterExtractor(Signature signature, boolean closure) {
+   public ParameterExtractor(Signature signature, int modifiers) {
       this.inspector = new TypeInspector();
       this.signature = signature;
-      this.closure = closure;
+      this.modifiers = modifiers;
    }
    
    public void define(Scope scope) throws Exception {
@@ -81,7 +82,7 @@ public class ParameterExtractor {
             Object argument = arguments[i];
             Local local = create(inner, argument, i);
             
-            if(closure) {
+            if(ModifierType.isClosure(modifiers)) {
                state.addValue(name, local); 
             }
             table.addValue(address, local);

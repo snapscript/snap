@@ -65,14 +65,14 @@ public class ConstantModificationCompileTest extends CompileTestCase {
    "Integer.MAX_VALUE = 12;\n";
    
    private static final String FAILURE_4 = 
-   "function func(const a, var b){\n"+
+   "function fun(const a, var b){\n"+
    "   b=11;\n"+
    "   a=12;\n"+
    "}\n";
 
    private static final String FAILURE_5 = 
    "module Mod {\n"+
-   "   func(const a, var b){\n"+
+   "   fun(const a, var b){\n"+
    "      b=11;\n"+
    "      a=12;\n"+
    "   }\n"+
@@ -80,7 +80,7 @@ public class ConstantModificationCompileTest extends CompileTestCase {
 
    private static final String FAILURE_6 = 
    "class Typ {\n"+
-   "   func(const a, var b){\n"+
+   "   fun(const a, var b){\n"+
    "      b=11;\n"+
    "      a=12;\n"+
    "   }\n"+
@@ -89,7 +89,7 @@ public class ConstantModificationCompileTest extends CompileTestCase {
    private static final String FAILURE_7 = 
    "module Mod {\n"+
    "   const x =11;\n"+
-   "   func(a, b){\n"+
+   "   fun(a, b){\n"+
    "      x=22;\n"+
    "   }\n"+
    "}";
@@ -97,7 +97,7 @@ public class ConstantModificationCompileTest extends CompileTestCase {
    private static final String FAILURE_8 = 
    "class Typ {\n"+
    "   const x =11;\n"+
-   "   func(a, b){\n"+
+   "   fun(a, b){\n"+
    "      x=22;\n"+
    "   }\n"+
    "}";
@@ -105,28 +105,28 @@ public class ConstantModificationCompileTest extends CompileTestCase {
    private static final String FAILURE_9 = 
    "class Typ {\n"+
    "   static const x =11;\n"+
-   "   func(a, b){\n"+
+   "   fun(a, b){\n"+
    "      x=22;\n"+
    "   }\n"+
    "}";
    
    private static final String FAILURE_10 = 
    "class Typ {\n"+
-   "   func(a, b){\n"+
+   "   fun(a, b){\n"+
    "      this=11;\n"+
    "   }\n"+
    "}";
    
    private static final String FAILURE_11 = 
    "class Typ {\n"+
-   "   func(a, b){\n"+
+   "   fun(a, b){\n"+
    "      class=11;\n"+
    "   }\n"+
    "}";
    
    private static final String FAILURE_12 = 
    "class Typ {\n"+
-   "   func(a, b){\n"+
+   "   fun(a, b){\n"+
    "      super=11;\n"+
    "   }\n"+
    "}";     
@@ -134,7 +134,7 @@ public class ConstantModificationCompileTest extends CompileTestCase {
    private static final String FAILURE_13 = 
    "class Typ {\n"+
    "   const x =11;\n"+
-   "   func(a, b){\n"+
+   "   fun(a, b){\n"+
    "      x-=10;\n"+
    "   }\n"+
    "}";
@@ -142,7 +142,7 @@ public class ConstantModificationCompileTest extends CompileTestCase {
    private static final String FAILURE_14 = 
    "class Typ {\n"+
    "   const x =11;\n"+
-   "   func(a, b){\n"+
+   "   fun(a, b){\n"+
    "      x++;\n"+
    "   }\n"+
    "}";  
@@ -151,7 +151,7 @@ public class ConstantModificationCompileTest extends CompileTestCase {
    private static final String FAILURE_15 = 
    "class Typ {\n"+
    "   const x =11;\n"+
-   "   func(a, b){\n"+
+   "   fun(a, b){\n"+
    "      ++x;\n"+
    "   }\n"+
    "}";   
@@ -159,7 +159,7 @@ public class ConstantModificationCompileTest extends CompileTestCase {
    private static final String FAILURE_16 = 
    "class Typ {\n"+
    "   const x =11;\n"+
-   "   func(a, b){\n"+
+   "   fun(a, b){\n"+
    "      --x;\n"+
    "   }\n"+
    "}";   
@@ -169,7 +169,7 @@ public class ConstantModificationCompileTest extends CompileTestCase {
    "   RED,\n"+
    "   GREEN,\n"+
    "   BLUE;\n"+   
-   "   func(a, b){\n"+
+   "   fun(a, b){\n"+
    "      BLUE=10;\n"+
    "   }\n"+
    "}";  
@@ -179,7 +179,7 @@ public class ConstantModificationCompileTest extends CompileTestCase {
    "   RED,\n"+
    "   GREEN,\n"+
    "   BLUE;\n"+   
-   "   func(a, b){\n"+
+   "   fun(a, b){\n"+
    "      BLUE.name=10;\n"+
    "   }\n"+
    "}";  
@@ -189,7 +189,7 @@ public class ConstantModificationCompileTest extends CompileTestCase {
    "   RED,\n"+
    "   GREEN,\n"+
    "   BLUE;\n"+   
-   "   func(a, b){\n"+
+   "   fun(a, b){\n"+
    "      BLUE.ordinal=10;\n"+
    "   }\n"+
    "}";  
@@ -199,7 +199,7 @@ public class ConstantModificationCompileTest extends CompileTestCase {
    "   RED,\n"+
    "   GREEN,\n"+
    "   BLUE;\n"+   
-   "   func(a, b){\n"+
+   "   fun(a, b){\n"+
    "      values=10;\n"+
    "   }\n"+
    "}";  
@@ -209,7 +209,7 @@ public class ConstantModificationCompileTest extends CompileTestCase {
    "   RED,\n"+
    "   GREEN,\n"+
    "   BLUE;\n"+   
-   "   func(a, b){\n"+
+   "   fun(a, b){\n"+
    "      return 0;\n"+
    "   }\n"+
    "}\n"+
@@ -220,7 +220,7 @@ public class ConstantModificationCompileTest extends CompileTestCase {
    "   RED,\n"+
    "   GREEN,\n"+
    "   BLUE;\n"+   
-   "   func(a, b){\n"+
+   "   fun(a, b){\n"+
    "      return 0;\n"+
    "   }\n"+
    "}\n"+
@@ -231,7 +231,7 @@ public class ConstantModificationCompileTest extends CompileTestCase {
    "   RED,\n"+
    "   GREEN,\n"+
    "   BLUE;\n"+   
-   "   func(a, b){\n"+
+   "   fun(a, b){\n"+
    "      return 0;\n"+
    "   }\n"+
    "}\n"+

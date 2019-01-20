@@ -137,6 +137,7 @@ public class FunctionBinderTest extends TestCase {
       private final ConstraintMatcher matcher;
       private final ResourceManager manager;
       private final ModuleRegistry registry;
+      private final TaskScheduler scheduler;
       private final TypeLoader loader;
       private final TypeExtractor extractor;
       private final ThreadStack stack;
@@ -149,6 +150,7 @@ public class FunctionBinderTest extends TestCase {
       private final Store store;
       
       public TestContext(){
+         this.scheduler = new ExecutorScheduler(null);
          this.linker = new TestLinker();
          this.store = new ClassPathStore();
          this.stack = new ThreadStack();
@@ -168,6 +170,11 @@ public class FunctionBinderTest extends TestCase {
       @Override
       public ThreadStack getStack() {
          return stack;
+      }
+
+      @Override
+      public TaskScheduler getScheduler() {
+         return scheduler;
       }
       
       @Override

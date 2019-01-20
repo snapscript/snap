@@ -12,7 +12,10 @@ public abstract class SuspendStatement<T> extends Execution implements Resume<T,
       Resume parent = suspend(result, child, value);
       Yield yield = result.getValue();
       Object object = yield.getValue();
-      
+
+      if(result.isAwait()) {
+         return Result.getAwait(object, scope, parent);
+      }
       return Result.getYield(object, scope, parent);
    }
 }

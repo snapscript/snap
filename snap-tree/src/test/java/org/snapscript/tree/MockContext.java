@@ -1,12 +1,15 @@
 package org.snapscript.tree;
 
+import javafx.concurrent.Task;
 import org.snapscript.common.store.ClassPathStore;
 import org.snapscript.common.store.Store;
 import org.snapscript.core.Context;
 import org.snapscript.core.ContextValidator;
+import org.snapscript.core.ExecutorScheduler;
 import org.snapscript.core.ExpressionEvaluator;
 import org.snapscript.core.ResourceManager;
 import org.snapscript.core.StoreManager;
+import org.snapscript.core.TaskScheduler;
 import org.snapscript.core.constraint.transform.ConstraintTransformer;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.proxy.ProxyWrapper;
@@ -32,6 +35,7 @@ public class MockContext implements Context {
    private final ConstraintMatcher matcher;
    private final ResourceManager manager;
    private final ModuleRegistry registry;
+   private final TaskScheduler scheduler;
    private final TypeLoader loader;
    private final TypeExtractor extractor;
    private final ThreadStack stack;
@@ -47,6 +51,7 @@ public class MockContext implements Context {
       this.linker = new TestLinker();
       this.store = new ClassPathStore();
       this.stack = new ThreadStack();
+      this.scheduler = new ExecutorScheduler(null);
       this.wrapper = new ProxyWrapper(this);
       this.manager = new StoreManager(store);
       this.registry = new ModuleRegistry(this, null);
@@ -64,7 +69,12 @@ public class MockContext implements Context {
    public ThreadStack getStack() {
       return stack;
    }
-   
+
+   @Override
+   public TaskScheduler getScheduler() {
+      return scheduler;
+   }
+
    @Override
    public FunctionBinder getBinder() {
       return table;

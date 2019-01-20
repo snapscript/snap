@@ -66,14 +66,14 @@ public class FunctionConstraintTest extends TestCase {
    "   }\n"+
    "}\n"+
    "\n"+
-   "func(['a',11,2, new Foo(3)]);\n"+
+   "fun(['a',11,2, new Foo(3)]);\n"+
    "\n"+
-   "function func(a: []) {\n"+
-   "   println('func(a:[])');\n"+
+   "function fun(a: []) {\n"+
+   "   println('fun(a:[])');\n"+
    "}\n"+
    "\n"+
-   "function func(a:Foo[]) {\n"+
-   "   println('func(a:Foo[])');\n"+
+   "function fun(a:Foo[]) {\n"+
+   "   println('fun(a:Foo[])');\n"+
    "}\n";
    
    private static final String SOURCE_7 =
@@ -84,14 +84,14 @@ public class FunctionConstraintTest extends TestCase {
    "   }\n"+
    "}\n"+
    "\n"+
-   "func(new Foo[1]);\n"+
+   "fun(new Foo[1]);\n"+
    "\n"+
-   "function func(a: []) {\n"+
-   "   println('func(a:[])');\n"+
+   "function fun(a: []) {\n"+
+   "   println('fun(a:[])');\n"+
    "}\n"+
    "\n"+
-   "function func(a:Foo[]) {\n"+
-   "   println('func(a:Foo[])');\n"+
+   "function fun(a:Foo[]) {\n"+
+   "   println('fun(a:Foo[])');\n"+
    "}\n";
    
    private static final String SOURCE_8 =

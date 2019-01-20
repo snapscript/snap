@@ -2,6 +2,7 @@ package org.snapscript.compile;
 
 import java.util.concurrent.Executor;
 
+import javafx.concurrent.Task;
 import org.snapscript.common.store.Store;
 import org.snapscript.compile.assemble.ExecutorLinker;
 import org.snapscript.compile.assemble.OperationEvaluator;
@@ -9,9 +10,11 @@ import org.snapscript.compile.validate.ExecutableValidator;
 import org.snapscript.compile.verify.ExecutableVerifier;
 import org.snapscript.core.Context;
 import org.snapscript.core.ContextValidator;
+import org.snapscript.core.ExecutorScheduler;
 import org.snapscript.core.ExpressionEvaluator;
 import org.snapscript.core.ResourceManager;
 import org.snapscript.core.StoreManager;
+import org.snapscript.core.TaskScheduler;
 import org.snapscript.core.constraint.transform.ConstraintTransformer;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.proxy.ProxyWrapper;
@@ -40,6 +43,7 @@ public class StoreContext implements Context {
    private final ResourceManager manager;
    private final FunctionIndexer indexer;
    private final FunctionResolver resolver;
+   private final TaskScheduler scheduler;
    private final TypeExtractor extractor;
    private final ModuleRegistry registry;
    private final FunctionBinder binder;
@@ -55,6 +59,7 @@ public class StoreContext implements Context {
    
    public StoreContext(Store store, Executor executor){
       this.stack = new ThreadStack();
+      this.scheduler = new ExecutorScheduler(executor);
       this.wrapper = new ProxyWrapper(this);
       this.verifier = new ExecutableVerifier();
       this.interceptor = new TraceInterceptor(verifier, stack);
@@ -83,7 +88,12 @@ public class StoreContext implements Context {
    public ThreadStack getStack() {
       return stack;
    }
-   
+
+   @Override
+   public TaskScheduler getScheduler() {
+      return scheduler;
+   }
+
    @Override
    public ProxyWrapper getWrapper() {
       return wrapper;

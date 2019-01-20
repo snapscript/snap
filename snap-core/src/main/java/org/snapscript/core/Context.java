@@ -17,6 +17,7 @@ import org.snapscript.core.type.TypeLoader;
 public interface Context extends Any {
    ThreadStack getStack();
    ErrorHandler getHandler();
+   TaskScheduler getScheduler();
    TypeExtractor getExtractor();
    ResourceManager getManager();
    ModuleRegistry getRegistry();

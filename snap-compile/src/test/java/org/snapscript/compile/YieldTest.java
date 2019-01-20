@@ -5,22 +5,22 @@ import junit.framework.TestCase;
 public class YieldTest extends TestCase {
    
    private static final String SOURCE_1 =
-   "function func(){\n"+
+   "function fun(){\n"+
    "   var i = 0;\n"+
    "   while(i++ < 10){\n"+
    "      yield i;\n"+
    "   }\n"+
    "}\n"+
-   "var it = func();\n"+
+   "var it = fun();\n"+
    "for(x in it){\n"+
    "   println(x);\n"+
    "}\n"+
-   "var x = func().iterator();\n"+
+   "var x = fun().iterator();\n"+
    "assert x.next() == 1;\n"+
    "assert x.next() == 2;\n";      
    
    private static final String SOURCE_2 =
-   "function func(){\n"+
+   "function fun(){\n"+
    "   var i = 0;\n"+
    "   while(i++ < 10){\n"+
    "      if(i %2 == 0) {\n"+
@@ -30,16 +30,16 @@ public class YieldTest extends TestCase {
    "      }\n"+
    "   }\n"+
    "}\n"+
-   "var it = func();\n"+
+   "var it = fun();\n"+
    "for(x in it){\n"+
    "   println(x);\n"+
    "}\n"+
-   "var x = func().iterator();\n"+
+   "var x = fun().iterator();\n"+
    "assert x.next() == 'odd=1';\n"+
    "assert x.next() == 'even=2';\n";   
    
    private static final String SOURCE_3 =
-   "function func(){\n"+
+   "function fun(){\n"+
    "   var i = 0;\n"+
    "   while(i++ < 10){\n"+
    "      for(var j = 0; j < 10; j++){\n"+
@@ -47,18 +47,18 @@ public class YieldTest extends TestCase {
    "      }\n"+
    "   }\n"+
    "}\n"+
-   "var it = func();\n"+
+   "var it = fun();\n"+
    "for(x in it){\n"+
    "   println(x);\n"+
    "}\n"+
-   "var x = func().iterator();\n"+
+   "var x = fun().iterator();\n"+
    "assert x.next() == 'j=0 i=1';\n"+
    "assert x.next() == 'j=1 i=1';\n"+    
    "assert x.next() == 'j=2 i=1';\n"+
    "assert x.next() == 'j=3 i=1';\n";
    
    private static final String SOURCE_4 =
-   "function func(){\n"+
+   "function fun(){\n"+
    "   var i = 0;\n"+
    "   while(i++ < 10){\n"+
    "      for(var j in 0..10){\n"+
@@ -70,42 +70,42 @@ public class YieldTest extends TestCase {
    "      }\n"+
    "   }\n"+
    "}\n"+
-   "var it = func();\n"+
+   "var it = fun();\n"+
    "for(x in it){\n"+
    "   println(x);\n"+
    "}\n"+
-   "var x = func().iterator();\n"+
+   "var x = fun().iterator();\n"+
    "assert x.next() == 'even j=0 i=1';\n"+
    "assert x.next() == 'odd j=1 i=1';\n"+    
    "assert x.next() == 'even j=2 i=1';\n"+
    "assert x.next() == 'odd j=3 i=1';\n";
    
    private static final String SOURCE_5 =
-   "function func(){\n"+
+   "function fun(){\n"+
    "   if(true) {\n"+
    "      yield 'hello';\n"+
    "      yield 'world';\n"+
    "   }\n"+
    "}\n"+
-   "var it = func();\n"+
+   "var it = fun();\n"+
    "for(x in it){\n"+
    "   println(x);\n"+
    "}\n"+
-   "var x = func().iterator();\n"+
+   "var x = fun().iterator();\n"+
    "assert x.next() == 'hello';\n"+
    "assert x.next() == 'world';\n";   
    
    private static final String SOURCE_6 =
-   "function func(a){\n"+
+   "function fun(a){\n"+
    "   for(i in 0..9){\n"+
    "      yield i;\n"+
    "      yield `i=${i} a=${a}`;\n"+
    "   }\n"+
    "}\n"+
-   "for(x in func(11)){\n"+
+   "for(x in fun(11)){\n"+
    "   println(x);\n"+
    "}\n"+
-   "var it = func(11).iterator();\n"+
+   "var it = fun(11).iterator();\n"+
    "assert it.next() == 0;\n"+
    "assert it.next() == 'i=0 a=11';\n"+
    "assert it.next() == 1;\n"+
@@ -118,7 +118,7 @@ public class YieldTest extends TestCase {
    "assert it.next() == 'i=4 a=11';\n";    
    
    private static final String SOURCE_7 = 
-   "function func(a){\n"+
+   "function fun(a){\n"+
    "   yield 'a';\n"+
    "   if(a != null) {\n"+
    "      synchronized(a){\n"+
@@ -128,17 +128,17 @@ public class YieldTest extends TestCase {
    "      }\n"+
    "   }\n"+
    "}\n"+
-   "for(i in func('x')){\n"+
+   "for(i in fun('x')){\n"+
    "   println(i);\n"+
    "}\n"+
-   "var it = func('x').iterator();\n"+
+   "var it = fun('x').iterator();\n"+
    "assert it.next() == 'a';\n"+
    "assert it.next() == 1;\n"+
    "assert it.next() == 2;\n"+
    "assert it.next() == 3;\n"; 
    
    private static final String SOURCE_8 =
-   "function func(a){\n"+
+   "function fun(a){\n"+
    "   try {\n"+
    "      yield `1=${a}`;\n"+
    "      yield `2=${a}`;\n"+
@@ -148,17 +148,17 @@ public class YieldTest extends TestCase {
    "   }\n"+
    "   yield 'done';\n"+
    "}\n"+
-   "for(i in func('y')){\n"+
+   "for(i in fun('y')){\n"+
    "   println(i);\n"+
    "}\n"+
-   "var it = func('y').iterator();\n"+
+   "var it = fun('y').iterator();\n"+
    "assert it.next() == '1=y';\n"+
    "assert it.next() == '2=y';\n"+
    "assert it.next() == '3=y';\n"+   
    "assert it.next() == 'done';\n";
    
    private static final String SOURCE_9 =
-   "function func(a){\n"+
+   "function fun(a){\n"+
    "   switch(a){\n"+
    "      case 'a':\n"+
    "         yield 'A';\n"+
@@ -174,17 +174,17 @@ public class YieldTest extends TestCase {
    "   }\n"+
    "   yield 'done';\n"+
    "}\n"+
-   "for(x in func('b')){\n"+
+   "for(x in fun('b')){\n"+
    "   println(x);\n"+
    "}\n"+
-   "var it = func('b').iterator();\n"+
+   "var it = fun('b').iterator();\n"+
    "assert it.next() == 'B';\n"+
    "assert it.next() == 'B2';\n"+
    "assert it.next() == 'C';\n"+
    "assert it.next() == 'done';\n";
 
    private static final String SOURCE_10 =
-   "function func(){\n"+
+   "function fun(){\n"+
    "   var i = 0;\n"+
    "   until(i++ >= 10){\n"+
    "      for(var j in 0..10){\n"+
@@ -196,11 +196,11 @@ public class YieldTest extends TestCase {
    "      }\n"+
    "   }\n"+
    "}\n"+
-   "var it = func();\n"+
+   "var it = fun();\n"+
    "for(x in it){\n"+
    "   println(x);\n"+
    "}\n"+
-   "var x = func().iterator();\n"+
+   "var x = fun().iterator();\n"+
    "assert x.next() == 'even j=0 i=1';\n"+
    "assert x.next() == 'odd j=1 i=1';\n"+
    "assert x.next() == 'even j=2 i=1';\n"+

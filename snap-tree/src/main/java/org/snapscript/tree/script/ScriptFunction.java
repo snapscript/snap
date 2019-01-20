@@ -17,6 +17,8 @@ import org.snapscript.core.function.FunctionBody;
 import org.snapscript.core.function.Signature;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.scope.Scope;
+import org.snapscript.tree.ModifierChecker;
+import org.snapscript.tree.ModifierList;
 import org.snapscript.tree.compile.FunctionScopeCompiler;
 import org.snapscript.tree.constraint.FunctionName;
 import org.snapscript.tree.function.FunctionBuilder;
@@ -29,18 +31,20 @@ public class ScriptFunction extends Statement {
    private final ParameterList parameters;
    private final FunctionBuilder builder;
    private final FunctionName identifier;
+   private final ModifierChecker checker;
    private final Constraint constraint;
    private final Execution execution;
    
-   public ScriptFunction(FunctionName identifier, ParameterList parameters, Statement body){
-      this(identifier, parameters, null, body);
+   public ScriptFunction(ModifierList list, FunctionName identifier, ParameterList parameters, Statement body){
+      this(list, identifier, parameters, null, body);
    }
    
-   public ScriptFunction(FunctionName identifier, ParameterList parameters, Constraint constraint, Statement body){
+   public ScriptFunction(ModifierList list, FunctionName identifier, ParameterList parameters, Constraint constraint, Statement body){
       this.reference = new AtomicReference<FunctionBody>();
       this.constraint = new DeclarationConstraint(constraint);
       this.compiler = new FunctionScopeCompiler(identifier, COMPILE_SCRIPT);
       this.builder = new ScriptFunctionBuilder(body);
+      this.checker = new ModifierChecker(list);
       this.execution = new NoExecution(NORMAL);
       this.identifier = identifier;
       this.parameters = parameters;
@@ -48,13 +52,14 @@ public class ScriptFunction extends Statement {
    
    @Override
    public boolean define(Scope scope) throws Exception {
+      int modifiers = checker.getModifiers();
       Module module = scope.getModule();
       String name = identifier.getName(scope);
       Scope combined = compiler.define(scope, null);
       List<Function> functions = module.getFunctions();
       List<Constraint> generics = identifier.getGenerics(combined);
       Signature signature = parameters.create(combined, generics);
-      FunctionBody body = builder.create(signature, module, constraint, name);
+      FunctionBody body = builder.create(signature, module, constraint, name, modifiers);
       Function function = body.create(combined);
       
       functions.add(function);

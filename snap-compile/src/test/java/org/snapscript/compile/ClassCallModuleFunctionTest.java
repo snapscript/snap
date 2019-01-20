@@ -7,13 +7,13 @@ public class ClassCallModuleFunctionTest extends TestCase {
    private static final String SOURCE = 
    "class Foo {\n"+
    "   call(){\n"+
-   "      func();\n"+
+   "      fun();\n"+
    "   }\n"+
-   "   func(x){\n"+
+   "   fun(x){\n"+
    "      println('error');\n"+
    "   }\n"+
    "}\n"+
-   "function func(v...){\n"+
+   "function fun(v...){\n"+
    "   println('x');\n"+
    "}\n"+
    "new Foo().call();\n";

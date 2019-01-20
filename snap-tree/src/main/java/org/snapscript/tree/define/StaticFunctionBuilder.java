@@ -33,7 +33,7 @@ public class StaticFunctionBuilder implements MemberFunctionBuilder {
    @Override
    public FunctionBody create(TypeBody body, Scope scope, Type type){
       Execution execution = new StaticBody(body, type); 
-      InvocationBuilder builder = new StaticInvocationBuilder(signature, execution, statement, constraint);
+      InvocationBuilder builder = new StaticInvocationBuilder(signature, execution, statement, constraint, modifiers);
       Invocation invocation = new StaticInvocation(builder, scope);
       Function function = new InvocationFunction(signature, invocation, type, constraint, name, modifiers);
       

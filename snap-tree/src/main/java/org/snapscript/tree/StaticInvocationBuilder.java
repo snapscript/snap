@@ -24,20 +24,22 @@ public class StaticInvocationBuilder implements InvocationBuilder {
    
    private ParameterExtractor extractor;
    private ScopeCalculator calculator;
-   private ResultConverter converter;
    private SignatureAligner aligner;
    private Constraint constraint;
+   private Invocation invocation;
    private Statement statement;
    private Execution execution;
    private Execution compile;
+   private int modifiers;
 
-   public StaticInvocationBuilder(Signature signature, Execution compile, Statement statement, Constraint constraint) {
-      this.extractor = new ParameterExtractor(signature, true);
+   public StaticInvocationBuilder(Signature signature, Execution compile, Statement statement, Constraint constraint, int modifiers) {
+      this.extractor = new ParameterExtractor(signature, modifiers);
       this.aligner = new SignatureAligner(signature);
       this.calculator = new ScopeCalculator();
       this.constraint = constraint;
       this.statement = statement;
       this.compile = compile;
+      this.modifiers = modifiers;
    }
    
    @Override
@@ -59,30 +61,30 @@ public class StaticInvocationBuilder implements InvocationBuilder {
    
    @Override
    public Invocation create(Scope scope) throws Exception {
-      if(converter == null) {
-         converter = build(scope);
+      if(invocation == null) {
+         invocation = build(scope);
       }
-      return converter;
+      return invocation;
    }
    
-   private ResultConverter build(Scope scope) throws Exception {
+   private Invocation build(Scope scope) throws Exception {
       Module module = scope.getModule();
       Context context = module.getContext();
       ConstraintMatcher matcher = context.getMatcher();      
 
-      return new ResultConverter(matcher, compile, execution);
+      return new ExecutionInvocation(matcher, compile, execution, modifiers);
    }
 
-   private class ResultConverter implements Invocation<Object> {
+   private class ExecutionInvocation implements Invocation<Object> {
       
       private final ConstraintMatcher matcher;
       private final AtomicBoolean execute;
       private final Execution execution;
       private final Execution compile;
       
-      public ResultConverter(ConstraintMatcher matcher, Execution compile, Execution execution) {
+      public ExecutionInvocation(ConstraintMatcher matcher, Execution compile, Execution execution, int modifiers) {
+         this.execution = new AsyncExecution(execution, modifiers);
          this.execute = new AtomicBoolean(false);
-         this.execution = execution;
          this.matcher = matcher;
          this.compile = compile;
       }

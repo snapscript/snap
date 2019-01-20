@@ -41,7 +41,7 @@ public class TypeInvocationBuilder implements InvocationBuilder {
    public Invocation create(Scope scope) throws Exception {
       if(invocation == null) {
          try {
-            invocation = new ResultConverter(state);
+            invocation = new TypeStateInvocation(state);
          } finally {
             state.allocate(scope, type);
          }
@@ -49,11 +49,11 @@ public class TypeInvocationBuilder implements InvocationBuilder {
       return invocation;
    }
 
-   private class ResultConverter implements Invocation<Instance> {
+   private class TypeStateInvocation implements Invocation<Instance> {
       
       private final TypeState state;
       
-      public ResultConverter(TypeState state) {
+      public TypeStateInvocation(TypeState state) {
          this.state = state;
       }
 

@@ -12,15 +12,15 @@ public class PrimitiveArrayCoerctionTest extends TestCase {
    "var arr1: %{1}[] = new %{1}[10];\n"+
    "var arr2 = new %{1}[10];\n"+
    "\n"+
-   "func(arr1);\n"+
-   "func(arr2);\n"+
+   "fun(arr1);\n"+
+   "fun(arr2);\n"+
    "\n"+
    "for(var i = 0; i < 10; i++){\n"+
    "   assert arr1[i] == i;\n"+
    "   assert arr2[i] == i;\n"+
    "}\n"+
    "\n"+
-   "function func(arr: %{1}[]){\n"+
+   "function fun(arr: %{1}[]){\n"+
    "   for(var i = 0; i < arr.length; i++){\n"+
    "      arr[i] = i;\n"+
    "   }\n"+

@@ -13,11 +13,11 @@ public class ReturnConstraintTest extends TestCase {
    "      return this;\n"+
    "   }\n"+
    "}\n"+
-   "function func(x: Blah):Blah{\n"+
+   "function fun(x: Blah):Blah{\n"+
    "   return x.get();\n"+
    "}\n"+
    "var b = new Blah();\n"+
-   "func(b);\n";   
+   "fun(b);\n";
    
    private static final String SOURCE_2 =
    "class Blah{\n"+

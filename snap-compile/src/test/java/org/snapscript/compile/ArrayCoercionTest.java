@@ -9,28 +9,28 @@ public class ArrayCoercionTest extends TestCase {
    "var z : String[][] = [['a','b'],[]];\n"+
    "var i : Integer[][] = [['1','2', 3.0d, 11L],[2]];\n"+
    "\n"+
-   "func(z);\n"+
-   "func(i);\n"+
+   "fun(z);\n"+
+   "fun(i);\n"+
    "\n"+
-   "function func(s: String[][]){\n"+
+   "function fun(s: String[][]){\n"+
    "   for(var e in s){\n"+
-   "      func(e);\n"+
+   "      fun(e);\n"+
    "   }\n"+
    "}\n"+
    "\n"+
-   "function func(s: String[]){\n"+
+   "function fun(s: String[]){\n"+
    "   for(var e in s){\n"+
    "      println(\"e=${e}\");\n"+
    "   }\n"+
    "}\n"+
    "\n"+
-   "function func(s: Float[][]){\n"+
+   "function fun(s: Float[][]){\n"+
    "   for(var e in s){\n"+
-   "      func(e);\n"+
+   "      fun(e);\n"+
    "   }\n"+
    "}\n"+
    "\n"+
-   "function func(s: Float[]){\n"+
+   "function fun(s: Float[]){\n"+
    "   for(var e in s){\n"+
    "      println(\"e=${e}\");\n"+
    "   }\n"+

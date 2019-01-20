@@ -7,10 +7,10 @@ public class ReturnValueCoercionTest extends TestCase {
    private static final String SOURCE = 
    "class Foo{}\n"+
    "class Bar{}\n"+
-   "function func(): Bar{\n"+
+   "function fun(): Bar{\n"+
    "   return new Foo();\n"+
    "}\n"+
-   "var f = func();\n"+
+   "var f = fun();\n"+
    "assert f.class == Foo.class;\n";
    
    public void testCoercion() throws Exception{

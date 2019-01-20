@@ -9,9 +9,9 @@ public class ExpressionEvaluationTest extends TestCase {
 
    private static final String SOURCE_1 =
    "function call(){\n"+      
-   "  eval('func()');\n"+
+   "  eval('fun()');\n"+
    "}\n"+      
-   "function func(){\n"+
+   "function fun(){\n"+
    "   try {\n"+
    "        var x = `xx`;\n"+
    "        x++;\n"+
@@ -23,9 +23,9 @@ public class ExpressionEvaluationTest extends TestCase {
 
    private static final String SOURCE_2 =
    "function call(){\n"+      
-   "  eval('func()');\n"+
+   "  eval('fun()');\n"+
    "}\n"+      
-   "function func(){\n"+
+   "function fun(){\n"+
    "   try {\n"+
    "        var x = `xx`;\n"+
    "        x++;\n"+

@@ -8,10 +8,10 @@ public class ClassCallsModuleFunctionTest extends TestCase {
    "import static lang.Math.*;\n"+
    "class Foo {\n"+
    "   call(x){\n"+
-   "      func(x, max(10, 5));\n"+
+   "      fun(x, max(10, 5));\n"+
    "   }\n"+
    "}\n"+
-   "function func(a, b){\n"+
+   "function fun(a, b){\n"+
    "   return a+b;\n"+
    "}\n"+
    "assert new Foo().call(1) == 11;\n"+

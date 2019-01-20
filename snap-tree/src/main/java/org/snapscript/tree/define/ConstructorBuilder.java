@@ -36,7 +36,7 @@ public class ConstructorBuilder {
    
    public FunctionBody create(TypeBody body, Type type, int modifiers, boolean compile) {
       Constraint none = new StaticConstraint(null);
-      InvocationBuilder external = new StatementInvocationBuilder(signature, statement, none, type);
+      InvocationBuilder external = new StatementInvocationBuilder(signature, statement, none, type, modifiers);
       Invocation invocation = new StatementInvocation(external);
       TypeAllocator instance = new ThisAllocator(body, invocation, type);
       InvocationBuilder internal = new TypeInvocationBuilder(delegate, signature, type);

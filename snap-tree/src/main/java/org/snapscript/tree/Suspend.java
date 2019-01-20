@@ -11,7 +11,10 @@ public abstract class Suspend<A, B> implements Resume<A, B> {
       Resume parent = suspend(result, child, value);
       Yield yield = result.getValue();
       Object object = yield.getValue();
-      
+
+      if(result.isAwait()) {
+         return Result.getAwait(object, scope, parent);
+      }
       return Result.getYield(object, scope, parent);
    }
 }

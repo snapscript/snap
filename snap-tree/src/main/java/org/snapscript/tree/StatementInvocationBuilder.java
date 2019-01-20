@@ -22,26 +22,24 @@ import org.snapscript.tree.function.ParameterExtractor;
 import org.snapscript.tree.function.ScopeCalculator;
 
 public class StatementInvocationBuilder implements InvocationBuilder {
-   
+
    private ParameterExtractor extractor;
    private ScopeCalculator calculator;
-   private ResultConverter converter;
    private SignatureAligner aligner;
    private Constraint constraint;
+   private Invocation invocation;
    private Statement statement;
    private Execution execution;
    private Type type;
+   private int modifiers;
 
-   public StatementInvocationBuilder(Signature signature, Statement statement, Constraint constraint, Type type) {
-      this(signature, statement, constraint, type, false);
-   }
-   
-   public StatementInvocationBuilder(Signature signature, Statement statement, Constraint constraint, Type type, boolean closure) {
-      this.extractor = new ParameterExtractor(signature, closure);
+   public StatementInvocationBuilder(Signature signature, Statement statement, Constraint constraint, Type type, int modifiers) {
+      this.extractor = new ParameterExtractor(signature, modifiers);
       this.aligner = new SignatureAligner(signature);
       this.calculator = new ScopeCalculator();
       this.constraint = constraint;
       this.statement = statement;
+      this.modifiers = modifiers;
       this.type = type;
    }
    
@@ -61,14 +59,18 @@ public class StatementInvocationBuilder implements InvocationBuilder {
          throw new InternalStateException("Function has already been compiled");
       }
       if(execution == null && statement != null) {
-         scope = calculator.compile(scope);
-         execution = statement.compile(scope, constraint);
+         Scope compound = calculator.compile(scope);
+
+         if(compound == null) {
+            throw new InternalStateException("Function scope could not be calculated");
+         }
+         execution = statement.compile(compound, constraint);
       }
    }
    
    @Override
    public Invocation create(Scope scope) throws Exception {
-      if(converter == null) {
+      if(invocation == null) {
          Progress progress = type.getProgress();
 
          if(statement == null) {
@@ -78,27 +80,27 @@ public class StatementInvocationBuilder implements InvocationBuilder {
             if (execution == null) {
                throw new InternalStateException("Function has not been compiled");
             }
-            converter = build(scope);
+            invocation = build(scope);
          }
       }
-      return converter;
+      return invocation;
    }
    
-   private ResultConverter build(Scope scope) throws Exception {
+   private Invocation build(Scope scope) throws Exception {
       Module module = scope.getModule();
       Context context = module.getContext();
       ConstraintMatcher matcher = context.getMatcher();      
 
-      return new ResultConverter(matcher, execution);
+      return new ExecutionInvocation(matcher, execution, modifiers);
    }
 
-   private class ResultConverter implements Invocation<Object> {
+   private class ExecutionInvocation implements Invocation<Object> {
       
-      private ConstraintMatcher matcher;
-      private Execution execution;
+      private final ConstraintMatcher matcher;
+      private final Execution execution;
       
-      public ResultConverter(ConstraintMatcher matcher, Execution execution) {
-         this.execution = execution;
+      public ExecutionInvocation(ConstraintMatcher matcher, Execution execution, int modifiers) {
+         this.execution = new AsyncExecution(execution, modifiers);
          this.matcher = matcher;
       }
 

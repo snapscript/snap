@@ -201,15 +201,17 @@ compound-statement = '{'+<statement>'}';
 terminal-statement = ';';
 empty-statement = '{}';
 group-statement = {<compound-statement> | <empty-statement>};
-control-statement = {<return-statement> | <yield-statement> | <throw-statement> | <break-statement> | <continue-statement>};
+control-statement = {<return-statement> | <yield-statement> | <await-statement> | <throw-statement> | <break-statement> | <continue-statement>};
 statement = { <control-statement> |
               <try-statement> |
               <synchronized-statement> |
               <assert-statement> |
               <debug-statement> |
+              <await-assignment-statement> |
               <assignment-statement> |
               <expression-statement> |
               <conditional-statement> |
+              <await-declaration-statement> |
               <declaration-statement> |
               <assignment-list-statement> |
               <group-statement> |
@@ -218,6 +220,11 @@ statement = { <control-statement> |
 assignment-variable = [identifier];
 assignment-expression = (<value-operand> | <reference> | <calculation> | <choice> | <conditional> | <cast>);
 assignment-statement = <reference><assignment-operator><assignment-expression>';';
+
+await-statement = 'await' ?(? _ {<cast> | <expression> | <closure>}) ';';
+await-assignment-statement = <reference>'=''await' ?_ <assignment-expression>';';
+await-declaration = <declaration-modifier>_<assignment-variable>?(':'<constraint>?_);
+await-declaration-statement = <await-declaration>'=''await'?_<assignment-expression>';';
 
 assignment-list = '('<reference>*(','<reference>)')';
 assignment-list-statement = <assignment-list>'=''('<assignment-expression>*(','<assignment-expression>)')'';';
@@ -286,7 +293,7 @@ annotation-attributes = '('?<map-entry-data>')';
 field-modifier = {'var' | 'let' | 'const' | 'static' | 'public' | 'private'};
 field-modifier-list = *(<field-modifier>_);
 
-function-modifier = {'static' | 'public' | 'private' | 'abstract' | 'override'};
+function-modifier = {'static' | 'public' | 'private' | 'abstract' | 'override' | 'async'};
 function-modifier-list = *(<function-modifier>_);
 
 access-modifier = {'public' | 'private'};
@@ -359,7 +366,9 @@ global = <assignment-variable>?(':'<constraint>?_)?('='<assignment-expression>);
 global-statement = <declaration-modifier>_<global>*(','<global>)';';
 
 script-import = <import-static> | <import> | <import-list>;
-script-function = {'function'|'func'}_<function-name>'('<parameter-list>')'?(':'<constraint>)<group-statement>;
+script-modifier = {'func' | 'function' | 'async'};
+script-modifier-list = <script-modifier>?(_<script-modifier >);
+script-function = <script-modifier-list>_<function-name>'('<parameter-list>')'?(':'<constraint>)<group-statement>;
 script-statement = { <try-statement> |
                      <synchronized-statement> |
                      <global-statement> |

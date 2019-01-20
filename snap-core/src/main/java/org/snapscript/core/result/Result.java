@@ -1,6 +1,7 @@
 package org.snapscript.core.result;
 
 import org.snapscript.core.scope.Scope;
+import org.snapscript.core.yield.AwaitResult;
 import org.snapscript.core.yield.Resume;
 import org.snapscript.core.yield.YieldResult;
 
@@ -27,6 +28,14 @@ public abstract class Result {
    public static Result getYield(Object value, Scope scope, Resume next) {
       return new YieldResult(value, scope, next);
    }
+
+   public static Result getAwait(Object value) {
+      return new AwaitResult(value);
+   }
+
+   public static Result getAwait(Object value, Scope scope, Resume next) {
+      return new AwaitResult(value, scope, next);
+   }
    
    public static Result getThrow(Object value) {
       return new ThrowResult(value);
@@ -37,6 +46,10 @@ public abstract class Result {
    }
    
    public boolean isYield() {
+      return false;
+   }
+
+   public boolean isAwait() {
       return false;
    }
    

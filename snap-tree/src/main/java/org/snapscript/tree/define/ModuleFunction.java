@@ -83,7 +83,7 @@ public class ModuleFunction implements ModulePart {
          List<Constraint> generics = identifier.getGenerics(combined);
          Signature signature = parameters.create(combined, generics);
          Constraint require = constraint.getConstraint(combined, modifiers);
-         FunctionBody body = builder.create(signature, module, require, name);
+         FunctionBody body = builder.create(signature, module, require, name, modifiers);
          Function function = body.create(combined);
          
          validator.validate(module, function, modifiers);

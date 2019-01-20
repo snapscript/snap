@@ -15,10 +15,12 @@ public enum ModifierType {
    PROTECTED(0x00800, "protected"), // java only
    STATIC(0x01000, "static"),
    ABSTRACT(0x02000, "abstract"),
-   PROXY(0x04000, "proxy"),
-   ARRAY(0x08000, "[]"),
-   VARARGS(0x10000, "..."),
-   ANY(0x20000, "?");
+   ASYNC(0x04000, "async"),
+   PROXY(0x08000, "proxy"),
+   CLOSURE(0x10000, "->"),
+   ARRAY(0x20000, "[]"),
+   VARARGS(0x40000, "..."),
+   ANY(0x80000, "?");
    
    public final String[] tokens;
    public final int mask;
@@ -98,7 +100,15 @@ public enum ModifierType {
    
    public static boolean isVariableArgument(int modifier) {
       return modifier >= 0 && (VARARGS.mask & modifier) != 0;
-   }   
+   }
+
+   public static boolean isClosure(int modifier) {
+      return modifier >= 0 && (CLOSURE.mask & modifier) != 0;
+   }
+
+   public static boolean isAsync(int modifier) {
+      return modifier >= 0 && (ASYNC.mask & modifier) != 0;
+   }
    
    public static boolean isAny(int modifier) {
       return modifier >= 0 && (ANY.mask & modifier) != 0;
@@ -131,5 +141,6 @@ public enum ModifierType {
       PROTECTED,
       STATIC,
       ABSTRACT,
+      ASYNC
    };
 }
