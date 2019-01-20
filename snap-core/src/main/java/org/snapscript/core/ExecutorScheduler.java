@@ -88,25 +88,23 @@ public class ExecutorScheduler implements TaskScheduler {
 
       @Override
       public Promise<T> fail(Consumer<Throwable, Object> consumer) {
-         if(failures.add(consumer)) {
-            Throwable value = error.get();
+         Throwable value = error.get();
 
-            if (value != null) {
-               consumer.consume(value);
-            }
+         if(value != null) {
+            consumer.consume(value);
          }
+         failures.add(consumer);
          return this;
       }
 
       @Override
       public Promise<T> then(Consumer<T, Object> consumer) {
-         if(listeners.add(consumer)) {
-            T value = success.get();
+         T value = success.get();
 
-            if (value != null) {
-               consumer.consume(value);
-            }
+         if(value != null) {
+            consumer.consume(value);
          }
+         listeners.add(consumer);
          return this;
       }
 
