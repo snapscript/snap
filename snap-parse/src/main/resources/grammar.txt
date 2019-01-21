@@ -230,7 +230,7 @@ assignment-statement = <reference><assignment-operator><assignment-expression>';
 
 await-statement = 'await' ? _ {<cast> | <expression> | <closure>} ';';
 await-return-statement = 'return' _ 'await' ? _ {<cast> | <expression> | <closure>} ';';
-await-assignment-statement = <reference>'=''await' ?_ <assignment-expression>';';
+await-assignment-statement = <reference><assignment-operator>'await' ?_ <assignment-expression>';';
 await-declaration = <declaration-modifier>_<assignment-variable>?(':'<constraint>?_);
 await-declaration-statement = <await-declaration>'=''await'?_<assignment-expression>';';
 

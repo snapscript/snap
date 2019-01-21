@@ -22,19 +22,28 @@ public class AddressResolver {
    public Address resolve(String name, int offset) {
       ScopeState state = scope.getState();
       Value value = state.getValue(name);
-      
-      if(value == null) { 
-         Type type = scope.getType();
-         
-         if(type != null) {
-            VariableResult result = finder.findAll(scope, type, name);
-            
-            if(result != null) {
-               return result.getAddress(offset);
-            }            
+
+      if(value == null) {
+         VariableResult result = resolve(scope, name);
+
+         if(result != null) {
+            return result.getAddress(offset);
          }
          return null;
-      }      
+      }
       return INSTANCE.getAddress(name, offset);
+   }
+
+   private VariableResult resolve(Scope scope, String name) {
+      Type type = scope.getType();
+
+      if(type != null) {
+         VariableResult result = finder.findAll(scope, type, name);
+
+         if(result != null) {
+            return result;
+         }
+      }
+      return finder.findType(scope, name);
    }
 }

@@ -3,8 +3,6 @@ package org.snapscript.tree.resume;
 import java.util.Iterator;
 import java.util.concurrent.Callable;
 
-import org.snapscript.common.Consumer;
-import org.snapscript.core.Bug;
 import org.snapscript.core.Execution;
 import org.snapscript.core.Promise;
 import org.snapscript.core.PromiseWrapper;

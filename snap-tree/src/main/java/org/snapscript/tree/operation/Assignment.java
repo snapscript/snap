@@ -4,7 +4,6 @@ import static org.snapscript.core.variable.Value.NULL;
 
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.constraint.Constraint;
-import org.snapscript.core.convert.StringBuilder;
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.variable.Value;
@@ -12,12 +11,12 @@ import org.snapscript.parse.StringToken;
 
 public class Assignment extends Evaluation {
 
-   private final AssignmentOperator operator;
+   private final AssignmentOperation operation;
    private final Evaluation left;
    private final Evaluation right;
    
    public Assignment(Evaluation left, StringToken operator, Evaluation right) {
-      this.operator = AssignmentOperator.resolveOperator(operator);
+      this.operation = new AssignmentOperation(operator);
       this.left = left;
       this.right = right;
    }
@@ -43,23 +42,6 @@ public class Assignment extends Evaluation {
       Value leftResult = left.evaluate(scope, NULL);
       Value rightResult = right.evaluate(scope, NULL);
       
-      if(operator != AssignmentOperator.EQUAL) {
-         Object leftValue = leftResult.getValue();
-         
-         if(!Number.class.isInstance(leftValue)) { 
-            Object rightValue = rightResult.getValue();
-            
-            if(operator != AssignmentOperator.PLUS_EQUAL) {
-               throw new InternalStateException("Operator " + operator + " is illegal");         
-            }
-            String leftText = StringBuilder.create(scope, leftValue);
-            String rightText = StringBuilder.create(scope, rightValue);
-            String text = leftText.concat(rightText);
-            
-            leftResult.setValue(text);
-            return leftResult;
-         }
-      }
-      return operator.operate(scope, leftResult, rightResult);      
+      return operation.operate(scope, leftResult, rightResult);
    }
 }

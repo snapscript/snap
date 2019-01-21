@@ -34,7 +34,6 @@ public class ClosureParameterList {
       if(multiple != null) {
          return multiple.create(scope, generics);
       }
-      
       return single.create(scope, generics);
    }
 }

@@ -358,6 +358,32 @@ public class AwaitTest extends ScriptTestCase {
    "println('x='+Thread.currentThread().getName());\n"+
    "assert fun().get().toLowerCase() == `foo(0)`;\n";
 
+   private static final String SUCCESS_20 =
+   "async func add() {\n"+
+   "   let a = 10;\n"+
+   "   a += await Math.max(3, 6);\n"+
+   "   return a;\n"+
+   "}\n"+
+   "async func subtract(){\n"+
+   "   let a = 10;\n"+
+   "   a -= await Math.max(3, 6);\n"+
+   "   return a;\n"+
+   "}\n"+
+   "\n"+
+   "assert add().get() == 16;\n"+
+   "assert subtract().get() == 4;\n";
+
+   private static final String SUCCESS_21 =
+   "let n = 10;\n"+
+   "let t = n + ': ' + Thread.currentThread().getName();\n"+
+   "let f = async (a) -> a + ': ' + Thread.currentThread().getName();\n"+
+   "let o = f(n).get();\n"+
+   "\n"+
+   "println(t);\n"+
+   "println(o);\n"+
+   "\n"+
+   "assert t != o;\n";
+
    public void testAwait() throws Exception {
       assertScriptExecutes(SUCCESS_1);
       assertScriptExecutes(SUCCESS_2);
@@ -378,6 +404,8 @@ public class AwaitTest extends ScriptTestCase {
       assertScriptExecutes(SUCCESS_17);
       assertScriptExecutes(SUCCESS_18);
       assertScriptExecutes(SUCCESS_19);
+      assertScriptExecutes(SUCCESS_20);
+      assertScriptExecutes(SUCCESS_21);
    }
 
    @Override

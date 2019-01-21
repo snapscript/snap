@@ -17,7 +17,6 @@ import org.snapscript.core.module.Path;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
 import org.snapscript.core.variable.Value;
-import org.snapscript.tree.ExpressionStatement;
 import org.snapscript.tree.ModifierChecker;
 import org.snapscript.tree.ModifierList;
 import org.snapscript.tree.compile.ClosureScopeCompiler;
@@ -26,10 +25,9 @@ import org.snapscript.tree.constraint.GenericList;
 public class Closure implements Compilation {
    
    private final ClosureParameterList parameters;
-   private final ExpressionStatement compilation;
+   private final ClosureStatement statement;
    private final ModifierList modifiers;
    private final GenericList generics;
-   private final Statement statement;
    
    public Closure(ModifierList modifiers, GenericList generics, ClosureParameterList parameters, Statement statement){
       this(modifiers, generics, parameters, statement, null);
@@ -40,20 +38,16 @@ public class Closure implements Compilation {
    }
    
    public Closure(ModifierList modifiers, GenericList generics, ClosureParameterList parameters, Statement statement, Evaluation expression){
-      this.compilation = new ExpressionStatement(expression);
+      this.statement = new ClosureStatement(modifiers, statement, expression);
       this.parameters = parameters;
-      this.statement = statement;
       this.modifiers = modifiers;
       this.generics = generics;
    }
    
    @Override
    public Evaluation compile(Module module, Path path, int line) throws Exception {
-      Statement closure = statement;
-      
-      if(closure == null) {
-         closure = compilation.compile(module, path, line);
-      }
+      Statement closure = statement.compile(module, path, line);
+
       return new CompileResult(modifiers, generics, parameters, closure, module);
    }
   
@@ -65,7 +59,6 @@ public class Closure implements Compilation {
       private final ClosureBuilder builder;
       private final ModifierChecker checker;
       private final GenericList generics;
-      private final Module module;
 
       public CompileResult(ModifierList modifiers, GenericList generics, ClosureParameterList parameters, Statement closure, Module module){
          this.reference = new AtomicReference<FunctionBody>();
@@ -74,7 +67,6 @@ public class Closure implements Compilation {
          this.checker = new ModifierChecker(modifiers);
          this.parameters = parameters;
          this.generics = generics;
-         this.module = module;
       }
       
       @Override

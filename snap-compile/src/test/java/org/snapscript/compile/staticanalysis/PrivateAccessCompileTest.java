@@ -120,7 +120,7 @@ public class PrivateAccessCompileTest extends CompileTestCase {
    "new Typ2().func();\n";   
    
    public void testModificationOfConstants() throws Exception {
-      assertCompileSuccess(SUCCESS_1); 
+      assertCompileSuccess(SUCCESS_1);
       assertCompileSuccess(SUCCESS_2);
       assertCompileSuccess(SUCCESS_3);
       assertCompileSuccess(SUCCESS_4);

@@ -10,25 +10,31 @@ import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.result.Result;
+import org.snapscript.core.resume.Resume;
+import org.snapscript.core.resume.Yield;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.trace.Trace;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.trace.TraceStatement;
 import org.snapscript.core.variable.Value;
-import org.snapscript.core.resume.Resume;
-import org.snapscript.core.resume.Yield;
+import org.snapscript.parse.StringToken;
 import org.snapscript.tree.SuspendStatement;
+import org.snapscript.tree.operation.AssignmentOperation;
 
 public class AwaitStatement implements Compilation {
 
    private final Statement control;
 
    public AwaitStatement(Evaluation right){
-      this(null, right);
+      this(null, null, right);
    }
 
    public AwaitStatement(Evaluation left, Evaluation right){
-      this.control = new CompileResult(left, right);
+      this(left, null, right);
+   }
+
+   public AwaitStatement(Evaluation left, StringToken token, Evaluation right){
+      this.control = new CompileResult(left, token, right);
    }
 
    @Override
@@ -43,10 +49,12 @@ public class AwaitStatement implements Compilation {
 
    private static class CompileResult extends Statement {
 
+      private final StringToken token;
       private final Evaluation right;
       private final Evaluation left;
 
-      public CompileResult(Evaluation left, Evaluation right){
+      public CompileResult(Evaluation left, StringToken token, Evaluation right){
+         this.token = token;
          this.right = right;
          this.left = left;
       }
@@ -70,16 +78,18 @@ public class AwaitStatement implements Compilation {
          if(right != null) {
             right.compile(scope, null);
          }
-         return new CompileExecution(left, right);
+         return new CompileExecution(left, token, right);
       }
    }
 
    private static class CompileExecution extends SuspendStatement<Object> {
 
+      private final AssignmentOperation operation;
       private final Evaluation right;
       private final Evaluation left;
 
-      public CompileExecution(Evaluation left, Evaluation right){
+      public CompileExecution(Evaluation left, StringToken token, Evaluation right){
+         this.operation = new AssignmentOperation(token);
          this.right = new AwaitExpression(right);
          this.left = left;
       }
@@ -94,14 +104,15 @@ public class AwaitStatement implements Compilation {
 
       @Override
       public Result resume(Scope scope, Object data) throws Exception {
-         Value value = right.evaluate(scope, null);
-         Object object = value.getValue();
+         Value result = right.evaluate(scope, null);
+         Object object = result.getValue();
 
          if(left != null) {
-            Value reference = left.evaluate(scope, null);
+            Value assign = left.evaluate(scope, null);
+            Value value = operation.operate(scope, assign, result);
 
-            if(reference != null) {
-               reference.setValue(object);
+            if(value != null) {
+               object = value.getValue();
             }
          }
          return Result.getNormal(object);

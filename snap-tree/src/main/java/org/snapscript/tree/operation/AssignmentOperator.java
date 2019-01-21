@@ -70,7 +70,7 @@ public enum AssignmentOperator {
             }
          }
       }
-      return null;
+      return EQUAL;
    }
    
    private static final AssignmentOperator[] VALUES = {
