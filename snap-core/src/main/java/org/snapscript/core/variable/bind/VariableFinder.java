@@ -145,11 +145,11 @@ public class VariableFinder {
          Module result = module.getModule(name);
          
          if(result != null) {
-            return new ModuleResult(result);
+            return new ModuleResult(result, name);
          }
          return null;
       }
-      return new TypeResult(inner);
+      return new TypeResult(inner, name);
    }
    
    public VariableResult findType(Scope scope, Type type, String name) {
@@ -159,7 +159,7 @@ public class VariableFinder {
       Type inner =  extractor.getType(type, name);
       
       if(inner != null) {
-         return new TypeResult(inner);
+         return new TypeResult(inner, name);
       }
       return null;          
    }

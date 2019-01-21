@@ -14,17 +14,16 @@ public class TypeResult implements VariableResult {
    
    private final Constraint constraint;
    private final Value value;
+   private final String name;
    
-   public TypeResult(Type type) {
+   public TypeResult(Type type, String name) {
       this.constraint = new StaticConstraint(type, CLASS.mask);
       this.value = new Constant(type, constraint);
+      this.name = name;
    }
    
    @Override
    public Address getAddress(int offset) {
-      Type type = value.getValue();
-      String name = type.getName();
-      
       return TYPE.getAddress(name, offset);
    }
 
