@@ -1,5 +1,6 @@
 package org.snapscript.tree.resume;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
@@ -66,6 +67,7 @@ public class AwaitReturnStatement implements Compilation {
 
       private final Evaluation evaluation;
 
+      @Bug("event an 'return await' statement should not block")
       public CompileExecution(Evaluation evaluation){
          this.evaluation = new AwaitExpression(evaluation);
       }
@@ -78,6 +80,7 @@ public class AwaitReturnStatement implements Compilation {
          return suspend(scope, result, this, null);
       }
 
+      @Bug("this blocks, is that correct?")
       @Override
       public Result resume(Scope scope, Object data) throws Exception {
          Value value = evaluation.evaluate(scope, null);
@@ -88,7 +91,7 @@ public class AwaitReturnStatement implements Compilation {
 
       @Override
       public Resume suspend(Result result, Resume resume, Object value) throws Exception {
-         return new AwaitResume(resume);
+         return new AwaitResume(resume, null);
       }
    }
 }

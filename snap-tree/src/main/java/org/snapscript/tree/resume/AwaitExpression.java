@@ -1,5 +1,6 @@
 package org.snapscript.tree.resume;
 
+import org.snapscript.core.Bug;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Promise;
 import org.snapscript.core.constraint.Constraint;
@@ -24,6 +25,7 @@ public class AwaitExpression extends Evaluation {
       return evaluation.compile(scope, left);
    }
 
+   @Bug("rather than do a blocking get, u should use Promise.thenApply() --> to resume this method when it finishes")
    @Override
    public Value evaluate(Scope scope, Value left) throws Exception {
       Value value = evaluation.evaluate(scope, left);

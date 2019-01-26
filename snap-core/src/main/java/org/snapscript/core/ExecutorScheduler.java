@@ -22,8 +22,8 @@ public class ExecutorScheduler implements TaskScheduler {
    }
 
    @Override
-   public <T> Promise<T> schedule(Callable<T> task) {
-      PromiseFuture<T> promise = new PromiseFuture<T>(task);
+   public Promise schedule(Task task) {
+      PromiseFuture promise = new PromiseFuture(task);
 
       if(task != null) {
          promise.execute(executor);
@@ -31,38 +31,60 @@ public class ExecutorScheduler implements TaskScheduler {
       return promise;
    }
 
-   private static class PromiseFuture<T> implements Promise<T> {
+   private static class PromiseJob implements Runnable {
 
-      private final PromiseDispatcher<T> dispatcher;
-      private final PromiseExecutor<T> executor;
-      private final FutureTask<T> future;
+      private final PromiseAnswer answer;
+      private final Task task;
 
-      public PromiseFuture(Callable<T> task) {
-         this.dispatcher = new PromiseDispatcher<T>();
-         this.executor = new PromiseExecutor<T>(dispatcher, task);
-         this.future = new FutureTask<T>(executor);
+      public PromiseJob(PromiseAnswer answer, Task task) {
+         this.answer = answer;
+         this.task = task;
       }
 
       @Override
-      public T get() {
+      public void run() {
          try {
-            return (T)future.get();
+            task.execute(answer);
+         }catch(Throwable e){
+            e.printStackTrace();
+         }
+      }
+   }
+
+   private static class PromiseFuture implements Promise {
+
+      private final PromiseDispatcher dispatcher;
+      private final PromiseAnswer answer;
+      private final PromiseJob job;
+      private final FutureTask future;
+
+      public PromiseFuture(Task task) {
+         this.dispatcher = new PromiseDispatcher();
+         this.future = new FutureTask(dispatcher);
+         this.answer = new PromiseAnswer(dispatcher, future);
+         this.job = new PromiseJob(answer, task);
+      }
+
+      @Override
+      public Object get() {
+         try {
+            return future.get();
          } catch(Exception e) {
             throw new InternalStateException("Could not get value", e);
          }
       }
 
       @Override
-      public T get(long wait) {
+      public Object get(long wait) {
          try {
-            return (T)future.get(wait, MILLISECONDS);
+            return future.get(wait, MILLISECONDS);
          } catch(Exception e) {
             throw new InternalStateException("Could not get value", e);
          }
       }
 
       @Override
-      public Promise<T>  join() {
+      public Promise  join() {
          try {
             future.get();
          } catch(Exception e) {
@@ -72,7 +94,7 @@ public class ExecutorScheduler implements TaskScheduler {
       }
 
       @Override
-      public Promise<T>  join(long wait) {
+      public Promise  join(long wait) {
          try {
             future.get(wait, MILLISECONDS);
          } catch(Exception e) {
@@ -82,57 +104,65 @@ public class ExecutorScheduler implements TaskScheduler {
       }
 
       @Override
-      public Promise<T> thenCatch(Consumer<Throwable, Object> consumer) {
-         if(consumer != null) {
-            dispatcher.thenCatch(consumer);
-            dispatcher.error();
+      public Promise failure(Task task) {
+         if(task != null) {
+            dispatcher.failure(task);
          }
          return this;
       }
 
       @Override
-      public Promise<T> thenAccept(Consumer<T, Object> consumer) {
-         if(consumer != null) {
-            dispatcher.thenAccept(consumer);
-            dispatcher.complete();
+      public Promise success(Task task) {
+         if(task != null) {
+            dispatcher.success(task);
          }
          return this;
       }
 
       public void execute(Executor executor) {
          if(executor != null) {
-            executor.execute(future);
+            executor.execute(job);
          } else {
-            future.run();
+            job.run();
          }
       }
    }
 
-   private static class PromiseDispatcher<T> {
+   private static class PromiseDispatcher implements Callable {
 
-      private final BlockingQueue<Consumer<Throwable, Object>> failures;
-      private final BlockingQueue<Consumer<T, Object>> listeners;
       private final AtomicReference<Throwable> error;
       private final AtomicReference<Value> success;
+      private final BlockingQueue<Task> listeners;
+      private final BlockingQueue<Task> failures;
 
       public PromiseDispatcher() {
-         this.failures = new LinkedBlockingQueue<Consumer<Throwable, Object>>();
-         this.listeners = new LinkedBlockingQueue<Consumer<T, Object>>();
+         this.failures = new LinkedBlockingQueue<Task>();
+         this.listeners = new LinkedBlockingQueue<Task>();
          this.error = new AtomicReference<Throwable>();
          this.success = new AtomicReference<Value>();
+      }
+
+      @Override
+      public Object call() {
+         Value value = success.get();
+
+         if (value != null) {
+            return value.getValue();
+         }
+         return null;
       }
 
       public void complete() {
          Value value = success.get();
 
          if (value != null) {
-            T object = value.getValue();
+            Object object = value.getValue();
 
             while (!listeners.isEmpty()) {
-               Consumer<T, Object> listener = listeners.poll();
+               Task listener = listeners.poll();
 
                if (listener != null) {
-                  listener.consume(object);
+                  listener.execute(object);
                }
             }
          }
@@ -143,57 +173,70 @@ public class ExecutorScheduler implements TaskScheduler {
 
          if (cause != null) {
             while (!failures.isEmpty()) {
-               Consumer<Throwable, Object> failure = failures.poll();
+               Task failure = failures.poll();
 
                if (failure != null) {
-                  failure.consume(cause);
+                  failure.execute(cause);
                }
             }
          }
       }
 
-      public void thenAccept(Consumer<T, Object> consumer) {
-         listeners.add(consumer);
+      public void success(Task task) {
+         if(listeners.add(task)) {
+            complete();
+         }
       }
 
-      public void thenCatch(Consumer<Throwable, Object> consumer) {
-         failures.add(consumer);
+      public void failure(Task task) {
+         if(failures.add(task)) {
+            error();
+         }
       }
 
-      public void result(Value value) {
+      public void success(Value value) {
          success.compareAndSet(null, value);
       }
 
-      public void exception(Throwable cause) {
+      public void failure(Throwable cause) {
          error.compareAndSet(null, cause);
       }
    }
 
-   private static class PromiseExecutor<T> implements Callable<T> {
+   private static class PromiseAnswer implements Answer {
 
-      private final PromiseDispatcher<T> dispatcher;
-      private final Callable<T> task;
+      private final PromiseDispatcher dispatcher;
+      private final FutureTask task;
 
-      public PromiseExecutor(PromiseDispatcher<T> dispatcher, Callable<T> task) {
+      public PromiseAnswer(PromiseDispatcher dispatcher, FutureTask task) {
          this.dispatcher = dispatcher;
          this.task = task;
       }
 
       @Override
-      public T call() throws Exception {
+      public void success(Object result) {
          try {
-            T result = task.call();
             Value value = Value.getTransient(result);
 
-            dispatcher.result(value);
+            dispatcher.success(value);
+            task.run();
             dispatcher.complete();
-
-            return result;
          } catch(Exception cause) {
-            dispatcher.exception(cause);
+            dispatcher.failure(cause);
             dispatcher.error();
 
-            throw cause;
+            throw new InternalStateException("Could not complete task", cause);
+         }
+      }
+
+      @Override
+      public void failure(Throwable cause) {
+         try {
+            dispatcher.failure(cause);
+            task.run();
+            dispatcher.error();
+         } catch(Exception e) {
+            throw new InternalStateException("Could not complete task", cause);
          }
       }
    }

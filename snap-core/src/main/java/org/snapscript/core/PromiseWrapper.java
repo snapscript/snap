@@ -79,13 +79,13 @@ public class PromiseWrapper {
       }
 
       @Override
-      public Promise thenAccept(Consumer task) {
-         task.consume(object);
+      public Promise success(Task task) {
+         task.execute(object);
          return this;
       }
 
       @Override
-      public Promise thenCatch(Consumer task) {
+      public Promise failure(Task task) {
          return this;
       }
    }

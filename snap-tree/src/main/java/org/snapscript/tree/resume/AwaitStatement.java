@@ -1,9 +1,14 @@
 package org.snapscript.tree.resume;
 
+import java.util.concurrent.Callable;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import org.snapscript.core.Bug;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Execution;
+import org.snapscript.core.Promise;
 import org.snapscript.core.Statement;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
@@ -90,7 +95,7 @@ public class AwaitStatement implements Compilation {
 
       public CompileExecution(Evaluation left, StringToken token, Evaluation right){
          this.operation = new AssignmentOperation(token);
-         this.right = new AwaitExpression(right);
+         this.right = right;
          this.left = left;
       }
 
@@ -102,25 +107,43 @@ public class AwaitStatement implements Compilation {
          return suspend(scope, result, this, null);
       }
 
+      @Bug("clean up")
       @Override
-      public Result resume(Scope scope, Object data) throws Exception {
-         Value result = right.evaluate(scope, null);
-         Object object = result.getValue();
+      public Result resume(final Scope scope, Object state) throws Exception {
+         if(state == null) {
+            Value value = right.evaluate(scope, null);
+            Object object = value.getValue();
 
-         if(left != null) {
+            if (object != null) {
+               if(Promise.class.isInstance(object)) {
+                  Result result = Result.getAwait(object, scope, this);
+                  Promise promise = (Promise)object;
+
+                  return suspend(scope, result, this, promise);
+               }
+            }
+            return execute(scope, object);
+         }
+         return execute(scope, state);
+      }
+
+      private Result execute(final Scope scope, Object state) throws Exception {
+         if (left != null) {
+            Value result = Value.getTransient(state);
             Value assign = left.evaluate(scope, null);
             Value value = operation.operate(scope, assign, result);
 
-            if(value != null) {
-               object = value.getValue();
+            if (value != null) {
+               return Result.getNormal(value.getValue());
             }
          }
-         return Result.getNormal(object);
+         return Result.getNormal(state);
       }
 
+
       @Override
-      public Resume suspend(Result result, Resume resume, Object value) throws Exception {
-         return new AwaitResume(resume);
+      public Resume suspend(Result result, Resume resume, Object object) throws Exception {
+         return new AwaitResume(resume, object);
       }
    }
 }

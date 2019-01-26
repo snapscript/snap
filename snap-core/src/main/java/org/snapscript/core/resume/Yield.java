@@ -70,11 +70,6 @@ public class Yield<T> implements Iterable<T> {
          return null;
       }
 
-      @Override
-      public void remove() {
-         value = null;
-      }
-
       private boolean resume() {
          try{
             Result result = resume.resume(scope, null);
@@ -97,5 +92,9 @@ public class Yield<T> implements Iterable<T> {
          return false;
       }
 
+      @Override
+      public void remove() {
+         value = null;
+      }
    }
 }

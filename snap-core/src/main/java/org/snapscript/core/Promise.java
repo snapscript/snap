@@ -7,6 +7,7 @@ public interface Promise<T> {
    T get(long wait);
    Promise<T> join();
    Promise<T> join(long wait);
-   Promise<T> thenAccept(Consumer<T, Object> task);
-   Promise<T> thenCatch(Consumer<Throwable, Object> task);
+   Promise<T> success(Task<T> task);
+   Promise<T> failure(Task<Throwable> task);
+
 }

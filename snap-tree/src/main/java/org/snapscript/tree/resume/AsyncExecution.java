@@ -1,11 +1,13 @@
 package org.snapscript.tree.resume;
 
 import java.util.Iterator;
-import java.util.concurrent.Callable;
 
+import org.snapscript.core.Answer;
+import org.snapscript.core.Bug;
 import org.snapscript.core.Execution;
 import org.snapscript.core.Promise;
 import org.snapscript.core.PromiseWrapper;
+import org.snapscript.core.Task;
 import org.snapscript.core.TaskScheduler;
 import org.snapscript.core.result.Result;
 import org.snapscript.core.resume.Yield;
@@ -36,31 +38,64 @@ public class AsyncExecution extends Execution {
       return execute(scope, result);
    }
 
+   @Bug("clean this up")
    private Result execute(Scope scope, Result result) throws Exception {
-      ResumeExecution execution = new ResumeExecution(result);
-      Promise promise = scheduler.schedule(execution);
+      Yield yield = result.getValue();
+      Iterator<Object> iterator = yield.iterator();
+      Task<Answer> task = new AnswerTask(iterator);
+      Promise promise = scheduler.schedule(task);
 
       return Result.getNormal(promise);
    }
 
-   private static class ResumeExecution implements Callable<Object> {
+   private static class AnswerTask implements Task<Answer> {
 
-      private final Result result;
+      private final Iterator<Object> iterator;
 
-      public ResumeExecution(Result result){
-         this.result = result;
+      public AnswerTask(Iterator<Object> iterator) {
+         this.iterator = iterator;
       }
 
       @Override
-      public Object call() {
-         Yield yield = result.getValue();
-         Iterator<Object> iterator = yield.iterator();
-         Object result = null;
+      public void execute(Answer answer) {
+         Task<Object> task = new ResumeTask(iterator, answer);
 
-         while(iterator.hasNext()) {
-            result = iterator.next();
+         try {
+            task.execute(null);
+         } catch(Exception e){
+            answer.failure(e);
          }
-         return result;
+      }
+   }
+
+   private static class ResumeTask implements Task<Object> {
+
+      private final Iterator<Object> iterator;
+      private final Answer answer;
+
+      public ResumeTask(Iterator<Object> iterator, Answer answer) {
+         this.iterator = iterator;
+         this.answer = answer;
+      }
+
+      @Override
+      public void execute(Object value) {
+         Object object = null;
+
+         try {
+            while (iterator.hasNext()) {
+               object = iterator.next();
+
+               if (Promise.class.isInstance(object)) {
+                  Promise promise = (Promise) object;
+                  promise.success(this);
+                  return;
+               }
+            }
+            answer.success(object);
+         } catch(Exception cause){
+            answer.failure(cause);
+         }
       }
    }
 }
