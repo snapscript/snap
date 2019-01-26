@@ -67,7 +67,7 @@ public class StatementDefinition implements PackageDefinition {
             
             statement.define(inner);
          } catch(Exception cause) {
-            return new ExceptionStatement("Error occured compiling '" + path + "'", cause);
+            return new ExceptionStatement("Error occurred compiling '" + path + "'", cause);
          }
          return statement;
       }

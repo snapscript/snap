@@ -67,7 +67,7 @@ public class StatementPackage implements Package {
            
             statement.create(inner);
          } catch(Exception cause) {
-            return new ExceptionDefinition("Error occured defining '" + path + "'", cause);
+            return new ExceptionDefinition("Error occurred defining '" + path + "'", cause);
          }
          return definition;
       }

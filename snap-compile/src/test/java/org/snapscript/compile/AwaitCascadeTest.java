@@ -42,9 +42,58 @@ public class AwaitCascadeTest extends ScriptTestCase {
    "}\n"+
    "one(100).join().success(this::println);\n";
 
+   private static final String SOURCE_3 =
+   "async func one(n){\n"+
+   "   if(n > 0) {\n"+
+   "      println(`two(${n}): ` +Thread.currentThread().getName());\n"+
+   "      await two(n-1);\n"+
+   "   }\n"+
+   "   return 'one';\n"+
+   "}\n"+
+   "\n"+
+   "async func two(n){\n"+
+   "   if(n > 0) {\n"+
+   "      println(`one(${n}): ` +Thread.currentThread().getName());\n"+
+   "      await one(n-1);\n"+
+   "   }\n"+
+   "   throw 'x';\n"+
+   "}\n"+
+   "let list = [];\n"+
+   "one(1000).join().failure(e -> list.add(e));\n"+
+   "assert list.length == 1;\n"+
+   "assert list[0] instanceof Exception;\n"+
+   "list[0].printStackTrace();\n";
+
+   private static final String SOURCE_4 =
+   "async func one(n){\n"+
+   "   if(n > 0) {\n"+
+   "      println(`two(${n}): ` +Thread.currentThread().getName());\n"+
+   "      await two(n-1);\n"+
+   "   }\n"+
+   "   return 'one';\n"+
+   "}\n"+
+   "\n"+
+   "async func two(n){\n"+
+   "   if(n > 0) {\n"+
+   "      println(`one(${n}): ` +Thread.currentThread().getName());\n"+
+   "      await one(n-1);\n"+
+   "   }\n"+
+   "   throw 'x';\n"+
+   "}\n"+
+   "let failure = false;\n"+
+   "try {\n"+
+   "   one(100).value;\n"+
+   "} catch(e){\n"+
+   "   e.printStackTrace();\n"+
+   "   failure = true;\n"+
+   "}\n"+
+   "assert failure;\n";
+
    public void testAwaitCascade() throws Exception {
       assertScriptExecutes(SOURCE_1);
       assertScriptExecutes(SOURCE_2);
+      assertScriptExecutes(SOURCE_3);
+      assertScriptExecutes(SOURCE_4);
    }
 
    @Override

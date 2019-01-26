@@ -54,7 +54,7 @@ public class MethodCallBinder {
             String name = method.getName();
             
             if(target != null) {
-               throw new InternalStateException("Error occured invoking '" + name + "'", target);
+               throw new InternalStateException("Error occurred invoking '" + name + "'", target);
             }
             throw cause;
          }

@@ -39,7 +39,7 @@ public class StackOverflowTest extends TestCase {
          e.printStackTrace();
          failure = true;
       }
-      assertTrue("Stack overflow should have occured", failure);
+      assertTrue("Stack overflow should have occurred", failure);
    }
 
    public void testStackOverflowRethrow() throws Exception {
@@ -52,6 +52,6 @@ public class StackOverflowTest extends TestCase {
          e.printStackTrace();
          failure = true;
       }
-      assertTrue("Stack overflow should have occured", failure);
+      assertTrue("Stack overflow should have occurred", failure);
    }
 }

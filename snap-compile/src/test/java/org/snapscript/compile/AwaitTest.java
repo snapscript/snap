@@ -274,7 +274,7 @@ public class AwaitTest extends ScriptTestCase {
    "      println('x');\n"+
    "   }\n"+
    "   foo() {\n"+
-   "      throw new RuntimeException('error occured in foo()');\n"+
+   "      throw new RuntimeException('error occurred in foo()');\n"+
    "   }\n"+
    "}\n"+
    "let x = new Typ().fun(1);\n"+

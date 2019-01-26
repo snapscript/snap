@@ -144,8 +144,8 @@ public class ExecutorScheduler implements TaskScheduler {
       private final AtomicReference<Value> success;
       private final BlockingQueue<Task> listeners;
       private final BlockingQueue<Task> failures;
+      private final FutureTask<Value> task;
       private final ErrorHandler handler;
-      private final FutureTask task;
       private final Scope scope;
 
       public PromiseFuture(ErrorHandler handler, Scope scope) {
@@ -159,27 +159,34 @@ public class ExecutorScheduler implements TaskScheduler {
       }
 
       @Override
-      public Object call() {
-         Value value = success.get();
-
-         if (value != null) {
-            return value.getValue();
-         }
-         return null;
+      public Value call() {
+         return success.get();
       }
 
       public Object get() {
          try {
-            return task.get();
-         } catch(Exception e) {
+            Value value = task.get();
+            Throwable cause = error.get();
+
+            if(cause != null) {
+               return handler.failInternalError(scope, cause);
+            }
+            return value.getValue();
+         } catch (Exception e) {
             return handler.failInternalError(scope, e);
          }
       }
 
       public Object get(long wait, TimeUnit unit) {
          try {
-            return task.get(wait, unit);
-         } catch(Exception e) {
+            Value value = task.get(wait, unit);
+            Throwable cause = error.get();
+
+            if(cause != null) {
+               return handler.failInternalError(scope, cause);
+            }
+            return value.getValue();
+         } catch (Exception e) {
             return handler.failInternalError(scope, e);
          }
       }

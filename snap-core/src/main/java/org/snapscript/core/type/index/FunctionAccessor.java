@@ -35,7 +35,7 @@ public class FunctionAccessor implements Accessor {
          }
          return invocation.invoke(scope, value);
       } catch(Exception e) {
-         throw new InternalStateException("Error occured invoking '" + name + "()'", e);
+         throw new InternalStateException("Error occurred invoking '" + name + "()'", e);
       }
    }
 

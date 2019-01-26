@@ -69,17 +69,17 @@ public class AsyncExecution extends Execution {
    private static class ResumeTask implements Task<Object> {
 
       private final Iterator<Object> iterator;
+      private final Task<Throwable> error;
       private final Answer answer;
 
       public ResumeTask(Iterator<Object> iterator, Answer answer) {
+         this.error = new ExceptionTask(answer);
          this.iterator = iterator;
          this.answer = answer;
       }
 
       @Override
-      public void execute(Object value) {
-         Object object = null;
-
+      public void execute(Object object) {
          try {
             while (iterator.hasNext()) {
                object = iterator.next();
@@ -87,6 +87,7 @@ public class AsyncExecution extends Execution {
                if (Promise.class.isInstance(object)) {
                   Promise promise = (Promise) object;
                   promise.success(this);
+                  promise.failure(error);
                   return;
                }
             }
@@ -94,6 +95,20 @@ public class AsyncExecution extends Execution {
          } catch(Exception cause){
             answer.failure(cause);
          }
+      }
+   }
+
+   private static class ExceptionTask implements Task<Throwable> {
+
+      private final Answer answer;
+
+      public ExceptionTask(Answer answer) {
+         this.answer = answer;
+      }
+
+      @Override
+      public void execute(Throwable cause) {
+         answer.failure(cause);
       }
    }
 }
