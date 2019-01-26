@@ -67,7 +67,7 @@ public class ExecutorScheduler implements TaskScheduler {
       public Promise join() {
          try {
             future.get();
-         } catch(Exception e){
+         } catch(Throwable e){
             return this;
          }
          return this;
@@ -77,7 +77,7 @@ public class ExecutorScheduler implements TaskScheduler {
       public Promise join(long wait) {
          try {
             future.get(wait, MILLISECONDS);
-         } catch(Exception e){
+         } catch(Throwable e){
             return this;
          }
          return this;
@@ -87,7 +87,7 @@ public class ExecutorScheduler implements TaskScheduler {
       public Promise join(long wait, TimeUnit unit) {
          try {
             future.get(wait, unit);
-         } catch(Exception e){
+         } catch(Throwable e){
             return this;
          }
          return this;
