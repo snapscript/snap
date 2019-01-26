@@ -48,14 +48,16 @@ public class ClosureTest extends TestCase {
    "let x = async (a) -> 'x';\n"+
    "println(x.class);\n"+
    "println(x(1).class);\n"+
-   "assert x(1) instanceof Promise;\n";
+   "assert x(1) instanceof Promise;\n"+
+   "assert x(1).value == 'x';\n";
 
    private static final String SOURCE_7=
    "let x = async (a) -> {" +
    "   return await System.currentTimeMillis();\n"+
    "};\n" +
    "println(x.class);\n"+
-   "x(1).success(y -> println(y)).join();\n";
+   "x(1).success(y -> println(y)).join();\n"+
+   "assert x(1).value instanceof Long;\n";
 
    public void testClosure() throws Exception {
       DecimalFormat format = new DecimalFormat("###,###,###,###,###");
