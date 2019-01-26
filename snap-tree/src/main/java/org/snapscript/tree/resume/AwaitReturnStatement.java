@@ -67,7 +67,7 @@ public class AwaitReturnStatement implements Compilation {
       private final Evaluation evaluation;
 
       public CompileExecution(Evaluation evaluation){
-         this.evaluation = new AwaitExpression(evaluation);
+         this.evaluation = evaluation;
       }
 
       @Override
