@@ -25,7 +25,7 @@ public class PromiseWrapper {
    public Object fromPromise(Scope scope, Object object) {
       if(Promise.class.isInstance(object)) {
          Promise promise = (Promise)object;
-         return promise.get();
+         return promise.value();
       }
       return object;
    }
@@ -59,17 +59,17 @@ public class PromiseWrapper {
       }
 
       @Override
-      public Object get() {
+      public Object value() {
          return object;
       }
 
       @Override
-      public Object get(long wait) {
+      public Object value(long wait) {
          return object;
       }
 
       @Override
-      public Object get(long wait, TimeUnit unit) {
+      public Object value(long wait, TimeUnit unit) {
          return object;
       }
 

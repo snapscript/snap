@@ -13,7 +13,7 @@ public class AwaitTest extends ScriptTestCase {
    "}\n"+
    "let x = fun();\n"+
    "println(x.class);\n"+
-   "x.get();\n";
+   "x.value();\n";
 
    private static final String SUCCESS_2 =
    "async func fun(n) {\n"+
@@ -28,7 +28,7 @@ public class AwaitTest extends ScriptTestCase {
    "}\n"+
    "let x = fun(1);\n"+
    "println(x.class);\n"+
-   "x.get();\n";
+   "x.value();\n";
 
    private static final String SUCCESS_3 =
    "async func fun(n) {\n"+
@@ -46,7 +46,7 @@ public class AwaitTest extends ScriptTestCase {
    "}\n"+
    "let x = fun(1);\n"+
    "println(x.class);\n"+
-   "x.get();\n";
+   "x.value();\n";
 
    private static final String SUCCESS_4 =
    "async func fun(n) {\n"+
@@ -64,7 +64,7 @@ public class AwaitTest extends ScriptTestCase {
    "}\n"+
    "let x = fun(1);\n"+
    "println(x.class);\n"+
-   "x.get();\n";
+   "x.value();\n";
 
    private static final String SUCCESS_5 =
    "async func fun(n) {\n"+
@@ -82,7 +82,7 @@ public class AwaitTest extends ScriptTestCase {
     "}\n"+
     "let x = fun(1);\n"+
     "println(x.class);\n"+
-    "x.get();\n";
+    "x.value();\n";
 
    private static final String SUCCESS_6 =
    "async func fun(n) {\n"+
@@ -100,7 +100,7 @@ public class AwaitTest extends ScriptTestCase {
    "}\n"+
    "let x = fun(1);\n"+
    "println(x.class);\n"+
-   "x.get();\n";
+   "x.value();\n";
 
    private static final String SUCCESS_7 =
    "async func fun(n) {\n"+
@@ -122,7 +122,7 @@ public class AwaitTest extends ScriptTestCase {
    "assert x.success(y -> {\n"+
    "   println(`RESULT=${y}`);\n"+
    "   assert y == 'result for foo()';\n" +
-   "}).get() == 'result for foo()';\n";
+   "}).value() == 'result for foo()';\n";
 
    private static final String SUCCESS_8 =
    "module Mod {\n"+
@@ -146,7 +146,7 @@ public class AwaitTest extends ScriptTestCase {
    "assert x.success(y -> {\n"+
    "   println(`RESULT=${y}`);\n"+
    "   assert y == 'result for foo()';\n" +
-   "}).get() == 'result for foo()';\n";
+   "}).value() == 'result for foo()';\n";
 
    private static final String SUCCESS_9 =
    "class Typ {\n"+
@@ -170,7 +170,7 @@ public class AwaitTest extends ScriptTestCase {
    "assert x.success(y -> {\n"+
    "   println(`RESULT=${y}`);\n"+
    "   assert y == 'result for foo()';\n" +
-   "}).get() == 'result for foo()';\n";
+   "}).value() == 'result for foo()';\n";
 
    private static final String SUCCESS_10 =
    "class Typ {\n"+
@@ -194,7 +194,7 @@ public class AwaitTest extends ScriptTestCase {
    "assert x.success(y -> {\n"+
    "   println(`RESULT=${y}`);\n"+
    "   assert y == 'result for foo()';\n" +
-   "}).get() == 'result for foo()';\n";
+   "}).value() == 'result for foo()';\n";
 
    private static final String SUCCESS_11 =
    "class Typ {\n"+
@@ -218,7 +218,7 @@ public class AwaitTest extends ScriptTestCase {
    "assert x.success(y -> {\n"+
    "   println(`RESULT=${y}`);\n"+
    "   assert y == 'result for foo()';\n" +
-   "}).get() == 'result for foo()';\n";
+   "}).value() == 'result for foo()';\n";
 
    private static final String SUCCESS_12 =
    "class Typ {\n"+
@@ -242,7 +242,7 @@ public class AwaitTest extends ScriptTestCase {
    "assert x.success(y -> {\n"+
    "   println(`RESULT=${y}`);\n"+
    "   assert y == 'result for foo()';\n" +
-   "}).get() == 'result for foo()';\n";
+   "}).value() == 'result for foo()';\n";
 
    private static final String SUCCESS_13 =
    "class Typ {\n"+
@@ -260,7 +260,7 @@ public class AwaitTest extends ScriptTestCase {
    "assert x.success(y -> {\n"+
    "   println(`RESULT=${y}`);\n"+
    "   assert y == 'result for fun(1)';\n" +
-   "}).get() == 'result for fun(1)';\n";
+   "}).value() == 'result for fun(1)';\n";
 
    private static final String SUCCESS_14 =
    "class Typ {\n"+
@@ -304,7 +304,7 @@ public class AwaitTest extends ScriptTestCase {
     "      return 11;\n"+
     "   }\n"+
     "}\n"+
-    "assert new Typ().fun(1).get().intValue() == 11;\n";
+    "assert new Typ().fun(1).value().intValue() == 11;\n";
 
    private static final String SUCCESS_16 =
    "class Typ {\n"+
@@ -317,7 +317,7 @@ public class AwaitTest extends ScriptTestCase {
    "      return 11;\n"+
    "   }\n"+
    "}\n"+
-   "let x = new Typ().fun(1).get();\n" +
+   "let x = new Typ().fun(1).value();\n" +
    "println(x);";
 
    private static final String SUCCESS_17 =
@@ -331,7 +331,7 @@ public class AwaitTest extends ScriptTestCase {
    "   return 13356;\n"+
    "}\n"+
    "println('x='+Thread.currentThread().getName());\n"+
-   "assert foo().get().intValue() == 13356;\n";
+   "assert foo().value().intValue() == 13356;\n";
 
 
    private static final String SUCCESS_18 =
@@ -344,7 +344,7 @@ public class AwaitTest extends ScriptTestCase {
    "  return 112;\n"+
    "}\n"+
    "println('x='+Thread.currentThread().getName());\n"+
-   "assert fun().get().intValue() == 112;\n";
+   "assert fun().value().intValue() == 112;\n";
 
    private static final String SUCCESS_19 =
    "async func fun(): Promise<String> {\n"+
@@ -356,7 +356,7 @@ public class AwaitTest extends ScriptTestCase {
    "   return `foo(${i})`;\n"+
    "}\n"+
    "println('x='+Thread.currentThread().getName());\n"+
-   "assert fun().get().toLowerCase() == `foo(0)`;\n";
+   "assert fun().value().toLowerCase() == `foo(0)`;\n";
 
    private static final String SUCCESS_20 =
    "async func add() {\n"+
@@ -370,14 +370,14 @@ public class AwaitTest extends ScriptTestCase {
    "   return a;\n"+
    "}\n"+
    "\n"+
-   "assert add().get() == 16;\n"+
-   "assert subtract().get() == 4;\n";
+   "assert add().value() == 16;\n"+
+   "assert subtract().value() == 4;\n";
 
    private static final String SUCCESS_21 =
    "let n = 10;\n"+
    "let t = n + ': ' + Thread.currentThread().getName();\n"+
    "let f = async (a) -> a + ': ' + Thread.currentThread().getName();\n"+
-   "let o = f(n).get();\n"+
+   "let o = f(n).value();\n"+
    "\n"+
    "println(t);\n"+
    "println(o);\n"+

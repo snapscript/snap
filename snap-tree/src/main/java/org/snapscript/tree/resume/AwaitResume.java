@@ -21,7 +21,7 @@ public class AwaitResume extends Suspend<Object, Resume> {
       if(state != null) {
          if(Promise.class.isInstance(state)) {
             Promise promise = (Promise)state;
-            Object object = promise.get();
+            Object object = promise.value();
 
             return child.resume(scope, object);
          }

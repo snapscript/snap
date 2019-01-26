@@ -48,7 +48,7 @@ public class ExecutorScheduler implements TaskScheduler {
       }
 
       @Override
-      public Object get() {
+      public Object value() {
          try {
             return future.get();
          } catch(Exception e) {
@@ -57,7 +57,7 @@ public class ExecutorScheduler implements TaskScheduler {
       }
 
       @Override
-      public Object get(long wait) {
+      public Object value(long wait) {
          try {
             return future.get(wait, MILLISECONDS);
          } catch(Exception e) {
@@ -66,7 +66,7 @@ public class ExecutorScheduler implements TaskScheduler {
       }
 
       @Override
-      public Object get(long wait, TimeUnit unit) {
+      public Object value(long wait, TimeUnit unit) {
          try {
             return future.get(wait, unit);
          } catch(Exception e) {

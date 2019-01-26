@@ -31,7 +31,7 @@ public class AwaitExpression extends Evaluation {
 
       if(Promise.class.isInstance(object)) {
          Promise promise = (Promise)object;
-         Object result = promise.get();
+         Object result = promise.value();
 
          return Value.getTransient(result);
       }
