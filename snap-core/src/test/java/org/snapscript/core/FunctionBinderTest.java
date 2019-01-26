@@ -22,6 +22,8 @@ import org.snapscript.core.module.Module;
 import org.snapscript.core.module.ModuleRegistry;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.platform.PlatformProvider;
+import org.snapscript.core.resume.ExecutorScheduler;
+import org.snapscript.core.resume.TaskScheduler;
 import org.snapscript.core.scope.EmptyModel;
 import org.snapscript.core.scope.Model;
 import org.snapscript.core.scope.ModelScope;

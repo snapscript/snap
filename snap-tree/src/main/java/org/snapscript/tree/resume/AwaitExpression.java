@@ -2,7 +2,7 @@ package org.snapscript.tree.resume;
 
 import org.snapscript.core.Bug;
 import org.snapscript.core.Evaluation;
-import org.snapscript.core.Promise;
+import org.snapscript.core.resume.Promise;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.variable.Value;

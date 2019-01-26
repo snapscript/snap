@@ -2,13 +2,13 @@ package org.snapscript.tree.resume;
 
 import java.util.Iterator;
 
-import org.snapscript.core.Answer;
+import org.snapscript.core.resume.Answer;
 import org.snapscript.core.Bug;
 import org.snapscript.core.Execution;
-import org.snapscript.core.Promise;
-import org.snapscript.core.PromiseWrapper;
-import org.snapscript.core.Task;
-import org.snapscript.core.TaskScheduler;
+import org.snapscript.core.resume.Promise;
+import org.snapscript.core.resume.PromiseWrapper;
+import org.snapscript.core.resume.Task;
+import org.snapscript.core.resume.TaskScheduler;
 import org.snapscript.core.result.Result;
 import org.snapscript.core.resume.Yield;
 import org.snapscript.core.scope.Scope;

@@ -15,6 +15,8 @@ import org.snapscript.core.link.PackageLinker;
 import org.snapscript.core.module.ModuleRegistry;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.platform.PlatformProvider;
+import org.snapscript.core.resume.ExecutorScheduler;
+import org.snapscript.core.resume.TaskScheduler;
 import org.snapscript.core.stack.ThreadStack;
 import org.snapscript.core.trace.TraceInterceptor;
 import org.snapscript.core.type.CacheTypeLoader;

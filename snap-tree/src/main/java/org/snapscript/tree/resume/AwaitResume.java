@@ -1,6 +1,6 @@
 package org.snapscript.tree.resume;
 
-import org.snapscript.core.Promise;
+import org.snapscript.core.resume.Promise;
 import org.snapscript.core.result.Result;
 import org.snapscript.core.resume.Resume;
 import org.snapscript.core.scope.Scope;

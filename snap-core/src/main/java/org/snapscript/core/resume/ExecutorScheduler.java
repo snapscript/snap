@@ -1,4 +1,4 @@
-package org.snapscript.core;
+package org.snapscript.core.resume;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
@@ -7,9 +7,9 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.snapscript.common.Consumer;
 import org.snapscript.core.error.InternalStateException;
 import org.snapscript.core.variable.Value;
 
@@ -23,46 +23,28 @@ public class ExecutorScheduler implements TaskScheduler {
 
    @Override
    public Promise schedule(Task task) {
-      PromiseFuture promise = new PromiseFuture(task);
+      PromiseFuture promise = new PromiseFuture(executor, task);
 
       if(task != null) {
-         promise.execute(executor);
+         promise.execute();
       }
       return promise;
-   }
-
-   private static class PromiseJob implements Runnable {
-
-      private final PromiseAnswer answer;
-      private final Task task;
-
-      public PromiseJob(PromiseAnswer answer, Task task) {
-         this.answer = answer;
-         this.task = task;
-      }
-
-      @Override
-      public void run() {
-         try {
-            task.execute(answer);
-         }catch(Throwable e){
-            e.printStackTrace();
-         }
-      }
    }
 
    private static class PromiseFuture implements Promise {
 
       private final PromiseDispatcher dispatcher;
       private final PromiseAnswer answer;
-      private final PromiseJob job;
+      private final PromiseTask task;
       private final FutureTask future;
+      private final Executor executor;
 
-      public PromiseFuture(Task task) {
+      public PromiseFuture(Executor executor, Task task) {
          this.dispatcher = new PromiseDispatcher();
          this.future = new FutureTask(dispatcher);
          this.answer = new PromiseAnswer(dispatcher, future);
-         this.job = new PromiseJob(answer, task);
+         this.task = new PromiseTask(answer, task);
+         this.executor = executor;
       }
 
       @Override
@@ -84,7 +66,16 @@ public class ExecutorScheduler implements TaskScheduler {
       }
 
       @Override
-      public Promise  join() {
+      public Object get(long wait, TimeUnit unit) {
+         try {
+            return future.get(wait, unit);
+         } catch(Exception e) {
+            throw new InternalStateException("Could not get value", e);
+         }
+      }
+
+      @Override
+      public Promise join() {
          try {
             future.get();
          } catch(Exception e) {
@@ -94,9 +85,19 @@ public class ExecutorScheduler implements TaskScheduler {
       }
 
       @Override
-      public Promise  join(long wait) {
+      public Promise join(long wait) {
          try {
             future.get(wait, MILLISECONDS);
+         } catch(Exception e) {
+            return this;
+         }
+         return this;
+      }
+
+      @Override
+      public Promise join(long wait, TimeUnit unit) {
+         try {
+            future.get(wait, unit);
          } catch(Exception e) {
             return this;
          }
@@ -112,6 +113,16 @@ public class ExecutorScheduler implements TaskScheduler {
       }
 
       @Override
+      public Promise failure(Runnable task) {
+         Task adapter = new RunnableTask(task);
+
+         if(task != null) {
+            dispatcher.failure(adapter);
+         }
+         return this;
+      }
+
+      @Override
       public Promise success(Task task) {
          if(task != null) {
             dispatcher.success(task);
@@ -119,11 +130,21 @@ public class ExecutorScheduler implements TaskScheduler {
          return this;
       }
 
-      public void execute(Executor executor) {
+      @Override
+      public Promise success(Runnable task) {
+         Task adapter = new RunnableTask(task);
+
+         if(task != null) {
+            dispatcher.success(adapter);
+         }
+         return this;
+      }
+
+      public void execute() {
          if(executor != null) {
-            executor.execute(job);
+            executor.execute(task);
          } else {
-            job.run();
+            task.run();
          }
       }
    }
@@ -241,4 +262,23 @@ public class ExecutorScheduler implements TaskScheduler {
       }
    }
 
+   private static class PromiseTask implements Runnable {
+
+      private final PromiseAnswer answer;
+      private final Task task;
+
+      public PromiseTask(PromiseAnswer answer, Task task) {
+         this.answer = answer;
+         this.task = task;
+      }
+
+      @Override
+      public void run() {
+         try {
+            task.execute(answer);
+         }catch(Throwable cause){
+            answer.failure(cause);
+         }
+      }
+   }
 }

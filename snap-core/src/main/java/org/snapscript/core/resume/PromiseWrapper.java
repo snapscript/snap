@@ -1,10 +1,10 @@
-package org.snapscript.core;
+package org.snapscript.core.resume;
 
 import static org.snapscript.core.constraint.Constraint.NONE;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
-import org.snapscript.common.Consumer;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.type.Type;
@@ -69,6 +69,11 @@ public class PromiseWrapper {
       }
 
       @Override
+      public Object get(long wait, TimeUnit unit) {
+         return object;
+      }
+
+      @Override
       public Promise join() {
          return this;
       }
@@ -79,13 +84,33 @@ public class PromiseWrapper {
       }
 
       @Override
+      public Promise join(long wait, TimeUnit unit) {
+         return this;
+      }
+
+      @Override
       public Promise success(Task task) {
-         task.execute(object);
+         if(task != null) {
+            task.execute(object);
+         }
+         return this;
+      }
+
+      @Override
+      public Promise success(Runnable task) {
+         if(task != null) {
+            task.run();
+         }
          return this;
       }
 
       @Override
       public Promise failure(Task task) {
+         return this;
+      }
+
+      @Override
+      public Promise failure(Runnable task) {
          return this;
       }
    }

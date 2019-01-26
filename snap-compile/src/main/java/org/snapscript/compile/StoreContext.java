@@ -2,7 +2,6 @@ package org.snapscript.compile;
 
 import java.util.concurrent.Executor;
 
-import javafx.concurrent.Task;
 import org.snapscript.common.store.Store;
 import org.snapscript.compile.assemble.ExecutorLinker;
 import org.snapscript.compile.assemble.OperationEvaluator;
@@ -10,11 +9,11 @@ import org.snapscript.compile.validate.ExecutableValidator;
 import org.snapscript.compile.verify.ExecutableVerifier;
 import org.snapscript.core.Context;
 import org.snapscript.core.ContextValidator;
-import org.snapscript.core.ExecutorScheduler;
+import org.snapscript.core.resume.ExecutorScheduler;
 import org.snapscript.core.ExpressionEvaluator;
 import org.snapscript.core.ResourceManager;
 import org.snapscript.core.StoreManager;
-import org.snapscript.core.TaskScheduler;
+import org.snapscript.core.resume.TaskScheduler;
 import org.snapscript.core.constraint.transform.ConstraintTransformer;
 import org.snapscript.core.convert.ConstraintMatcher;
 import org.snapscript.core.convert.proxy.ProxyWrapper;
