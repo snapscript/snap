@@ -84,11 +84,13 @@ public class AsyncExecution extends Execution {
             while (iterator.hasNext()) {
                object = iterator.next();
 
-               if (Promise.class.isInstance(object)) {
-                  Promise promise = (Promise) object;
-                  promise.success(this);
-                  promise.failure(error);
-                  return;
+               if(object != null) {
+                  if (Promise.class.isInstance(object)) {
+                     Promise promise = (Promise) object;
+                     promise.success(this);
+                     promise.failure(error);
+                     return;
+                  }
                }
             }
             answer.success(object);
