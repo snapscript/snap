@@ -1,5 +1,7 @@
 package org.snapscript.tree.resume;
 
+import static org.snapscript.core.result.Result.NORMAL;
+
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
@@ -129,7 +131,12 @@ public class AwaitStatement implements Compilation {
             Value value = operation.operate(scope, assign, result);
 
             if (value != null) {
-               return Result.getNormal(value.getValue());
+               Object object = value.getValue();
+
+               if(object != null) {
+                  return Result.getNormal(object);
+               }
+               return NORMAL;
             }
          }
          return Result.getNormal(state);

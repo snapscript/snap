@@ -152,7 +152,6 @@ public class FunctionBinderTest extends TestCase {
       private final Store store;
       
       public TestContext(){
-         this.scheduler = new ExecutorScheduler(null);
          this.linker = new TestLinker();
          this.store = new ClassPathStore();
          this.stack = new ThreadStack();
@@ -167,6 +166,7 @@ public class FunctionBinderTest extends TestCase {
          this.matcher = new ConstraintMatcher(loader, wrapper);
          this.handler = new ErrorHandler(extractor, stack);
          this.table = new FunctionBinder(resolver, handler);
+         this.scheduler = new ExecutorScheduler(handler,null);
       }
 
       @Override

@@ -384,6 +384,15 @@ public class AwaitTest extends ScriptTestCase {
    "\n"+
    "assert t != o;\n";
 
+   private static final String SUCCESS_22 =
+   "async func foo(){\n"+
+   "   await blah();\n"+
+   "}\n"+
+   "async func blah() {\n"+
+   "   throw new IllegalStateException();\n"+
+   "}\n"+
+   "foo().failure(e -> e.printStackTrace()).join();\n";
+
    public void testAwait() throws Exception {
       assertScriptExecutes(SUCCESS_1);
       assertScriptExecutes(SUCCESS_2);
@@ -406,6 +415,7 @@ public class AwaitTest extends ScriptTestCase {
       assertScriptExecutes(SUCCESS_19);
       assertScriptExecutes(SUCCESS_20);
       assertScriptExecutes(SUCCESS_21);
+      assertScriptExecutes(SUCCESS_22);
    }
 
    @Override

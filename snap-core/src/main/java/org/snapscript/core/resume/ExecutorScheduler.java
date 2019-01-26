@@ -10,20 +10,23 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.snapscript.core.error.InternalStateException;
+import org.snapscript.core.error.ErrorHandler;
+import org.snapscript.core.scope.Scope;
 import org.snapscript.core.variable.Value;
 
 public class ExecutorScheduler implements TaskScheduler {
 
+   private final ErrorHandler handler;
    private final Executor executor;
 
-   public ExecutorScheduler(Executor executor) {
+   public ExecutorScheduler(ErrorHandler handler, Executor executor) {
       this.executor = executor;
+      this.handler = handler;
    }
 
    @Override
-   public Promise schedule(Task task) {
-      PromiseFuture promise = new PromiseFuture(executor, task);
+   public Promise schedule(Scope scope, Task task) {
+      PromiseDelegate promise = new PromiseDelegate(handler, executor, scope, task);
 
       if(task != null) {
          promise.execute();
@@ -31,54 +34,40 @@ public class ExecutorScheduler implements TaskScheduler {
       return promise;
    }
 
-   private static class PromiseFuture implements Promise {
+   private static class PromiseDelegate implements Promise {
 
-      private final PromiseDispatcher dispatcher;
+      private final PromiseFuture future;
       private final PromiseAnswer answer;
       private final PromiseTask task;
-      private final FutureTask future;
       private final Executor executor;
 
-      public PromiseFuture(Executor executor, Task task) {
-         this.dispatcher = new PromiseDispatcher();
-         this.future = new FutureTask(dispatcher);
-         this.answer = new PromiseAnswer(dispatcher, future);
+      public PromiseDelegate(ErrorHandler handler, Executor executor, Scope scope, Task task) {
+         this.future = new PromiseFuture(handler, scope);
+         this.answer = new PromiseAnswer(future, handler, scope);
          this.task = new PromiseTask(answer, task);
          this.executor = executor;
       }
 
       @Override
       public Object value() {
-         try {
-            return future.get();
-         } catch(Exception e) {
-            throw new InternalStateException("Could not get value", e);
-         }
+         return future.get();
       }
 
       @Override
       public Object value(long wait) {
-         try {
-            return future.get(wait, MILLISECONDS);
-         } catch(Exception e) {
-            throw new InternalStateException("Could not get value", e);
-         }
+         return future.get(wait, MILLISECONDS);
       }
 
       @Override
       public Object value(long wait, TimeUnit unit) {
-         try {
-            return future.get(wait, unit);
-         } catch(Exception e) {
-            throw new InternalStateException("Could not get value", e);
-         }
+         return future.get(wait, unit);
       }
 
       @Override
       public Promise join() {
          try {
             future.get();
-         } catch(Exception e) {
+         } catch(Exception e){
             return this;
          }
          return this;
@@ -88,7 +77,7 @@ public class ExecutorScheduler implements TaskScheduler {
       public Promise join(long wait) {
          try {
             future.get(wait, MILLISECONDS);
-         } catch(Exception e) {
+         } catch(Exception e){
             return this;
          }
          return this;
@@ -98,7 +87,7 @@ public class ExecutorScheduler implements TaskScheduler {
       public Promise join(long wait, TimeUnit unit) {
          try {
             future.get(wait, unit);
-         } catch(Exception e) {
+         } catch(Exception e){
             return this;
          }
          return this;
@@ -107,7 +96,7 @@ public class ExecutorScheduler implements TaskScheduler {
       @Override
       public Promise failure(Task task) {
          if(task != null) {
-            dispatcher.failure(task);
+            future.failure(task);
          }
          return this;
       }
@@ -117,7 +106,7 @@ public class ExecutorScheduler implements TaskScheduler {
          Task adapter = new RunnableTask(task);
 
          if(task != null) {
-            dispatcher.failure(adapter);
+            future.failure(adapter);
          }
          return this;
       }
@@ -125,7 +114,7 @@ public class ExecutorScheduler implements TaskScheduler {
       @Override
       public Promise success(Task task) {
          if(task != null) {
-            dispatcher.success(task);
+            future.success(task);
          }
          return this;
       }
@@ -135,7 +124,7 @@ public class ExecutorScheduler implements TaskScheduler {
          Task adapter = new RunnableTask(task);
 
          if(task != null) {
-            dispatcher.success(adapter);
+            future.success(adapter);
          }
          return this;
       }
@@ -149,18 +138,24 @@ public class ExecutorScheduler implements TaskScheduler {
       }
    }
 
-   private static class PromiseDispatcher implements Callable {
+   private static class PromiseFuture implements Callable {
 
       private final AtomicReference<Throwable> error;
       private final AtomicReference<Value> success;
       private final BlockingQueue<Task> listeners;
       private final BlockingQueue<Task> failures;
+      private final ErrorHandler handler;
+      private final FutureTask task;
+      private final Scope scope;
 
-      public PromiseDispatcher() {
+      public PromiseFuture(ErrorHandler handler, Scope scope) {
          this.failures = new LinkedBlockingQueue<Task>();
          this.listeners = new LinkedBlockingQueue<Task>();
          this.error = new AtomicReference<Throwable>();
          this.success = new AtomicReference<Value>();
+         this.task = new FutureTask(this);
+         this.handler = handler;
+         this.scope = scope;
       }
 
       @Override
@@ -171,6 +166,22 @@ public class ExecutorScheduler implements TaskScheduler {
             return value.getValue();
          }
          return null;
+      }
+
+      public Object get() {
+         try {
+            return task.get();
+         } catch(Exception e) {
+            return handler.failInternalError(scope, e);
+         }
+      }
+
+      public Object get(long wait, TimeUnit unit) {
+         try {
+            return task.get(wait, unit);
+         } catch(Exception e) {
+            return handler.failInternalError(scope, e);
+         }
       }
 
       public void complete() {
@@ -216,22 +227,28 @@ public class ExecutorScheduler implements TaskScheduler {
       }
 
       public void success(Value value) {
-         success.compareAndSet(null, value);
+         if(success.compareAndSet(null, value)) {
+            task.run();
+         }
       }
 
       public void failure(Throwable cause) {
-         error.compareAndSet(null, cause);
+         if(error.compareAndSet(null, cause)) {
+            task.run();
+         }
       }
    }
 
    private static class PromiseAnswer implements Answer {
 
-      private final PromiseDispatcher dispatcher;
-      private final FutureTask task;
+      private final PromiseFuture future;
+      private final ErrorHandler handler;
+      private final Scope scope;
 
-      public PromiseAnswer(PromiseDispatcher dispatcher, FutureTask task) {
-         this.dispatcher = dispatcher;
-         this.task = task;
+      public PromiseAnswer(PromiseFuture future, ErrorHandler handler, Scope scope) {
+         this.handler = handler;
+         this.future = future;
+         this.scope = scope;
       }
 
       @Override
@@ -239,25 +256,20 @@ public class ExecutorScheduler implements TaskScheduler {
          try {
             Value value = Value.getTransient(result);
 
-            dispatcher.success(value);
-            task.run();
-            dispatcher.complete();
-         } catch(Exception cause) {
-            dispatcher.failure(cause);
-            dispatcher.error();
-
-            throw new InternalStateException("Could not complete task", cause);
+            future.success(value);
+            future.complete();
+         } catch(Exception e) {
+            handler.failInternalError(scope, e);
          }
       }
 
       @Override
       public void failure(Throwable cause) {
          try {
-            dispatcher.failure(cause);
-            task.run();
-            dispatcher.error();
+            future.failure(cause);
+            future.error();
          } catch(Exception e) {
-            throw new InternalStateException("Could not complete task", cause);
+            handler.failInternalError(scope, e);
          }
       }
    }
@@ -276,7 +288,7 @@ public class ExecutorScheduler implements TaskScheduler {
       public void run() {
          try {
             task.execute(answer);
-         }catch(Throwable cause){
+         }catch(Exception cause){
             answer.failure(cause);
          }
       }

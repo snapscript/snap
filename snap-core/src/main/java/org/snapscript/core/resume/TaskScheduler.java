@@ -1,5 +1,7 @@
 package org.snapscript.core.resume;
 
+import org.snapscript.core.scope.Scope;
+
 public interface TaskScheduler {
-   Promise schedule(Task<Answer> task);
+   Promise schedule(Scope scope, Task<Answer> task);
 }

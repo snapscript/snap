@@ -50,7 +50,6 @@ public class MockContext implements Context {
       this.linker = new TestLinker();
       this.store = new ClassPathStore();
       this.stack = new ThreadStack();
-      this.scheduler = new ExecutorScheduler(null);
       this.wrapper = new ProxyWrapper(this);
       this.manager = new StoreManager(store);
       this.registry = new ModuleRegistry(this, null);
@@ -62,6 +61,7 @@ public class MockContext implements Context {
       this.matcher = new ConstraintMatcher(loader, wrapper);
       this.handler = new ErrorHandler(extractor, stack);
       this.table = new FunctionBinder(resolver, handler);
+      this.scheduler = new ExecutorScheduler(handler, null);
    }
 
    @Override

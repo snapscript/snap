@@ -41,7 +41,7 @@ public class AsyncExecution extends Execution {
       Yield yield = result.getValue();
       Iterator<Object> iterator = yield.iterator();
       Task<Answer> task = new AnswerTask(iterator);
-      Promise promise = scheduler.schedule(task);
+      Promise promise = scheduler.schedule(scope, task);
 
       return Result.getNormal(promise);
    }

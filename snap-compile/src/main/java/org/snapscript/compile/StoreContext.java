@@ -58,7 +58,6 @@ public class StoreContext implements Context {
    
    public StoreContext(Store store, Executor executor){
       this.stack = new ThreadStack();
-      this.scheduler = new ExecutorScheduler(executor);
       this.wrapper = new ProxyWrapper(this);
       this.verifier = new ExecutableVerifier();
       this.interceptor = new TraceInterceptor(verifier, stack);
@@ -76,6 +75,7 @@ public class StoreContext implements Context {
       this.evaluator = new OperationEvaluator(this, verifier, executor);
       this.provider = new PlatformProvider(extractor, wrapper, stack);
       this.binder = new FunctionBinder(resolver, handler);
+      this.scheduler = new ExecutorScheduler(handler, executor);
    }
    
    @Override
