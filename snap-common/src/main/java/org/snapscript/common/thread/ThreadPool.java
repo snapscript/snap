@@ -18,14 +18,18 @@ public class ThreadPool implements Executor {
       this(1);
    }
    
-   public ThreadPool(int threads) {
-      this(threads, 0);
+   public ThreadPool(int core) {
+      this(core, 0);
    }
    
-   public ThreadPool(int threads, int stack) {
+   public ThreadPool(int core, int stack) {
+      this(core, core, stack);
+   }
+
+   public ThreadPool(int core, int maximum, int stack) {
       this.queue = new LinkedBlockingQueue<Runnable>();
       this.factory = new ThreadBuilder(true, stack);
-      this.executor = new ThreadPoolExecutor(threads, threads, 60L, SECONDS, queue, factory);
+      this.executor = new ThreadPoolExecutor(core, maximum, 60L, SECONDS, queue, factory);
    }
 
    @Override
