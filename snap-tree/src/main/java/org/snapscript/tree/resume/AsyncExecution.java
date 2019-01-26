@@ -2,14 +2,13 @@ package org.snapscript.tree.resume;
 
 import java.util.Iterator;
 
-import org.snapscript.core.resume.Answer;
-import org.snapscript.core.Bug;
 import org.snapscript.core.Execution;
+import org.snapscript.core.result.Result;
+import org.snapscript.core.resume.Answer;
 import org.snapscript.core.resume.Promise;
 import org.snapscript.core.resume.PromiseWrapper;
 import org.snapscript.core.resume.Task;
 import org.snapscript.core.resume.TaskScheduler;
-import org.snapscript.core.result.Result;
 import org.snapscript.core.resume.Yield;
 import org.snapscript.core.scope.Scope;
 
@@ -38,7 +37,6 @@ public class AsyncExecution extends Execution {
       return execute(scope, result);
    }
 
-   @Bug("clean this up")
    private Result execute(Scope scope, Result result) throws Exception {
       Yield yield = result.getValue();
       Iterator<Object> iterator = yield.iterator();

@@ -1,17 +1,16 @@
 package org.snapscript.tree.resume;
 
-import org.snapscript.core.Bug;
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
 import org.snapscript.core.Execution;
-import org.snapscript.core.resume.Promise;
 import org.snapscript.core.Statement;
 import org.snapscript.core.constraint.Constraint;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.result.Result;
+import org.snapscript.core.resume.Promise;
 import org.snapscript.core.resume.Resume;
 import org.snapscript.core.resume.Yield;
 import org.snapscript.core.scope.Scope;
@@ -104,7 +103,6 @@ public class AwaitStatement implements Compilation {
          return suspend(scope, result, this, null);
       }
 
-      @Bug("clean up")
       @Override
       public Result resume(final Scope scope, Object state) throws Exception {
          if(state == null) {
