@@ -1,5 +1,7 @@
 package org.snapscript.tree.resume;
 
+import static org.snapscript.core.result.Result.RETURN;
+
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
@@ -10,6 +12,7 @@ import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.module.Module;
 import org.snapscript.core.module.Path;
 import org.snapscript.core.result.Result;
+import org.snapscript.core.resume.Promise;
 import org.snapscript.core.resume.Resume;
 import org.snapscript.core.resume.Yield;
 import org.snapscript.core.scope.Scope;
@@ -62,7 +65,7 @@ public class AwaitReturnStatement implements Compilation {
       }
    }
 
-   private static class CompileExecution extends SuspendStatement<Object> {
+   private static class CompileExecution extends SuspendStatement<Value> {
 
       private final Evaluation evaluation;
 
@@ -79,16 +82,35 @@ public class AwaitReturnStatement implements Compilation {
       }
 
       @Override
-      public Result resume(Scope scope, Object data) throws Exception {
-         Value value = evaluation.evaluate(scope, null);
-         Object object = value.getValue();
+      public Result resume(Scope scope, Value state) throws Exception {
+         if(state == null) {
+            Value value = evaluation.evaluate(scope, null);
+            Object object = value.getValue();
 
-         return Result.getReturn(object);
+            if (object != null) {
+               if(Promise.class.isInstance(object)) {
+                  Result result = Result.getAwait(object, scope, this);
+                  return suspend(scope, result, this, value);
+               }
+            }
+            return execute(scope, value);
+         }
+         return execute(scope, state);
       }
 
+      private Result execute(Scope scope, Value state) throws Exception {
+         Object result = state.getValue();
+
+         if(result != null) {
+            return Result.getReturn(result);
+         }
+         return RETURN;
+      }
+
+
       @Override
-      public Resume suspend(Result result, Resume resume, Object value) throws Exception {
-         return new AwaitResume(resume, null);
+      public Resume suspend(Result result, Resume resume, Value object) throws Exception {
+         return new AwaitResume(resume, object);
       }
    }
 }

@@ -406,6 +406,48 @@ public class AwaitCascadeTest extends ScriptTestCase {
    "assert failure;\n"+
    "assert finals == 2;\n";
 
+   private static final String SOURCE_15 =
+   "async func foo(n){\n"+
+   "   if(n <= 0){\n"+
+   "      throw new Exception('err');\n"+
+   "   }\n"+
+   "   println(n);\n"+
+   "  // let fun = async  -> foo(n-1);\n"+
+   "  // return await fun();\n"+
+   "  return await foo(n-1);\n"+
+   "}\n"+
+   "let failure = false;\n"+
+   "try{\n"+
+   "   foo(1000).value();\n"+
+   "}catch(e){\n"+
+   "   e.printStackTrace();\n"+
+   "   failure = true;\n"+
+   "}\n"+
+   "println(failure);\n"+
+   "assert failure;\n";
+
+   private static final String SOURCE_16 =
+   "async func foo(n){\n"+
+   "   if(n <= 0){\n"+
+   "      return 'finished';\n"+
+   "   }\n"+
+   "   println(n);\n"+
+   "  // let fun = async  -> foo(n-1);\n"+
+   "  // return await fun();\n"+
+   "  return await foo(n-1);\n"+
+   "}\n"+
+   "let failure = false;\n"+
+   "let x = null;\n"+
+   "try{\n"+
+   "   x = foo(1000).value();\n"+
+   "}catch(e){\n"+
+   "   e.printStackTrace();\n"+
+   "   failure = true;\n"+
+   "}\n"+
+   "println('x='+x);\n"+
+   "assert !failure;\n"+
+   "assert x == 'finished';\n";
+
    public void testAwaitCascade() throws Exception {
       assertScriptExecutes(SOURCE_1);
       assertScriptExecutes(SOURCE_2);
@@ -421,6 +463,8 @@ public class AwaitCascadeTest extends ScriptTestCase {
       assertScriptExecutes(SOURCE_12);
       assertScriptExecutes(SOURCE_13);
       assertScriptExecutes(SOURCE_14);
+      assertScriptExecutes(SOURCE_15);
+      assertScriptExecutes(SOURCE_16);
    }
 
    @Override
