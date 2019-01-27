@@ -3,6 +3,9 @@ package org.snapscript.core.resume;
 import static org.snapscript.core.constraint.Constraint.NONE;
 
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
 
 import org.snapscript.core.constraint.Constraint;
@@ -17,7 +20,8 @@ public class PromiseWrapper {
 
    public Promise toPromise(Scope scope, Object object) {
       if(!Promise.class.isInstance(object)) {
-         return new IdentityPromise(object);
+         PromiseDelegate promise = new PromiseDelegate(object);
+         return promise.execute();
       }
       return (Promise)object;
    }
@@ -50,12 +54,21 @@ public class PromiseWrapper {
       return returns;
    }
 
-   private static class IdentityPromise implements Promise {
+   private static class PromiseDelegate implements Promise {
 
-      public final Object object;
+      private final FutureTask<Object> future;
+      private final Callable<Object> value;
+      private final Object object;
 
-      private IdentityPromise(Object object) {
+      private PromiseDelegate(Object object) {
+         this.value = new PromiseValue(object);
+         this.future = new FutureTask<Object>(value);
          this.object = object;
+      }
+
+      @Override
+      public Future future() {
+         return future;
       }
 
       @Override
@@ -112,6 +125,25 @@ public class PromiseWrapper {
       @Override
       public Promise failure(Runnable task) {
          return this;
+      }
+
+      public Promise execute() {
+         future.run();
+         return this;
+      }
+   }
+
+   private static class PromiseValue implements Callable<Object> {
+
+      public final Object object;
+
+      private PromiseValue(Object object) {
+         this.object = object;
+      }
+
+      @Override
+      public Object call() throws Exception {
+         return object;
       }
    }
 }

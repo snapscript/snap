@@ -393,6 +393,23 @@ public class AwaitTest extends ScriptTestCase {
    "}\n"+
    "foo().failure(e -> e.printStackTrace()).join();\n";
 
+   private static final String SUCCESS_23 =
+   "async func add() {\n"+
+   "   let a = 10;\n"+
+   "   a += await Math.max(3, 6);\n"+
+   "   return a;\n"+
+   "}\n"+
+   "async func subtract(){\n"+
+   "   let a = 10;\n"+
+   "   a -= await Math.max(3, 6);\n"+
+   "   return a;\n"+
+   "}\n"+
+   "\n"+
+   "println(add().future().get());\n"+
+   "println(subtract().future().get());\n"+
+   "assert add().future().get() == 16;\n"+
+   "assert subtract().future().get() == 4;\n";
+
    public void testAwait() throws Exception {
       assertScriptExecutes(SUCCESS_1);
       assertScriptExecutes(SUCCESS_2);
@@ -416,6 +433,7 @@ public class AwaitTest extends ScriptTestCase {
       assertScriptExecutes(SUCCESS_20);
       assertScriptExecutes(SUCCESS_21);
       assertScriptExecutes(SUCCESS_22);
+      assertScriptExecutes(SUCCESS_23);
    }
 
    @Override

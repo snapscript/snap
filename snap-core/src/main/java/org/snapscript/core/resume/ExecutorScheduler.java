@@ -5,6 +5,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
+import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -47,6 +48,11 @@ public class ExecutorScheduler implements TaskScheduler {
          this.answer = new PromiseAnswer(future, handler, scope);
          this.task = new PromiseTask(answer, task);
          this.executor = executor;
+      }
+
+      @Override
+      public Future future() {
+         return future.future();
       }
 
       @Override
@@ -130,12 +136,13 @@ public class ExecutorScheduler implements TaskScheduler {
          return this;
       }
 
-      public void execute() {
+      public Promise execute() {
          if(executor != null) {
             executor.execute(task);
          } else {
             task.run();
          }
+         return this;
       }
    }
 
@@ -159,20 +166,29 @@ public class ExecutorScheduler implements TaskScheduler {
          this.scope = scope;
       }
 
+      public Future future() {
+         return task;
+      }
+
       @Override
-      public Value call() {
-         return success.get();
+      public Object call() {
+         Value value = success.get();
+
+         if(value != null) {
+            return value.getValue();
+         }
+         return null;
       }
 
       public Object get() {
          try {
-            Value value = task.get();
+            Object result = task.get();
             Object cause = error.get();
 
             if(cause != null) {
                return handler.failInternalError(scope, cause);
             }
-            return value.getValue();
+            return result;
          } catch (Exception e) {
             return handler.failInternalError(scope, e);
          }
@@ -180,13 +196,13 @@ public class ExecutorScheduler implements TaskScheduler {
 
       public Object get(long wait, TimeUnit unit) {
          try {
-            Value value = task.get(wait, unit);
+            Object result = task.get(wait, unit);
             Object cause = error.get();
 
             if(cause != null) {
                return handler.failInternalError(scope, cause);
             }
-            return value.getValue();
+            return result;
          } catch (Exception e) {
             return handler.failInternalError(scope, e);
          }

@@ -1,5 +1,6 @@
 package org.snapscript.core.resume;
 
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 public interface Promise<T> {
@@ -13,4 +14,5 @@ public interface Promise<T> {
    Promise<T> success(Runnable task);
    Promise<T> failure(Task<Object> task);
    Promise<T> failure(Runnable task);
+   Future<T> future();
 }
