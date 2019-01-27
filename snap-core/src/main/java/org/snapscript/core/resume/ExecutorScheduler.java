@@ -10,6 +10,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.snapscript.core.error.ErrorCauseExtractor;
 import org.snapscript.core.error.ErrorHandler;
 import org.snapscript.core.scope.Scope;
 import org.snapscript.core.variable.Value;
@@ -140,7 +141,7 @@ public class ExecutorScheduler implements TaskScheduler {
 
    private static class PromiseFuture implements Callable {
 
-      private final AtomicReference<Throwable> error;
+      private final AtomicReference<Object> error;
       private final AtomicReference<Value> success;
       private final BlockingQueue<Task> listeners;
       private final BlockingQueue<Task> failures;
@@ -151,8 +152,8 @@ public class ExecutorScheduler implements TaskScheduler {
       public PromiseFuture(ErrorHandler handler, Scope scope) {
          this.failures = new LinkedBlockingQueue<Task>();
          this.listeners = new LinkedBlockingQueue<Task>();
-         this.error = new AtomicReference<Throwable>();
          this.success = new AtomicReference<Value>();
+         this.error = new AtomicReference<Object>();
          this.task = new FutureTask(this);
          this.handler = handler;
          this.scope = scope;
@@ -166,7 +167,7 @@ public class ExecutorScheduler implements TaskScheduler {
       public Object get() {
          try {
             Value value = task.get();
-            Throwable cause = error.get();
+            Object cause = error.get();
 
             if(cause != null) {
                return handler.failInternalError(scope, cause);
@@ -180,7 +181,7 @@ public class ExecutorScheduler implements TaskScheduler {
       public Object get(long wait, TimeUnit unit) {
          try {
             Value value = task.get(wait, unit);
-            Throwable cause = error.get();
+            Object cause = error.get();
 
             if(cause != null) {
                return handler.failInternalError(scope, cause);
@@ -208,7 +209,7 @@ public class ExecutorScheduler implements TaskScheduler {
       }
 
       public void error() {
-         Throwable cause = error.get();
+         Object cause = error.get();
 
          if (cause != null) {
             while (!failures.isEmpty()) {
@@ -239,7 +240,7 @@ public class ExecutorScheduler implements TaskScheduler {
          }
       }
 
-      public void failure(Throwable cause) {
+      public void failure(Object cause) {
          if(error.compareAndSet(null, cause)) {
             task.run();
          }
@@ -248,11 +249,13 @@ public class ExecutorScheduler implements TaskScheduler {
 
    private static class PromiseAnswer implements Answer {
 
+      private final ErrorCauseExtractor extractor;
       private final PromiseFuture future;
       private final ErrorHandler handler;
       private final Scope scope;
 
       public PromiseAnswer(PromiseFuture future, ErrorHandler handler, Scope scope) {
+         this.extractor = new ErrorCauseExtractor();
          this.handler = handler;
          this.future = future;
          this.scope = scope;
@@ -260,9 +263,9 @@ public class ExecutorScheduler implements TaskScheduler {
 
       @Override
       public void success(Object result) {
-         try {
-            Value value = Value.getTransient(result);
+         Value value = Value.getTransient(result);
 
+         try {
             future.success(value);
             future.complete();
          } catch(Exception e) {
@@ -272,8 +275,10 @@ public class ExecutorScheduler implements TaskScheduler {
 
       @Override
       public void failure(Throwable cause) {
+         Object value = extractor.extract(cause);
+
          try {
-            future.failure(cause);
+            future.failure(value);
             future.error();
          } catch(Exception e) {
             handler.failInternalError(scope, e);

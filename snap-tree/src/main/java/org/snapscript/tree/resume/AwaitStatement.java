@@ -85,7 +85,7 @@ public class AwaitStatement implements Compilation {
       }
    }
 
-   private static class CompileExecution extends SuspendStatement<Object> {
+   private static class CompileExecution extends SuspendStatement<Value> {
 
       private final AssignmentOperation operation;
       private final Evaluation right;
@@ -106,7 +106,7 @@ public class AwaitStatement implements Compilation {
       }
 
       @Override
-      public Result resume(final Scope scope, Object state) throws Exception {
+      public Result resume(Scope scope, Value state) throws Exception {
          if(state == null) {
             Value value = right.evaluate(scope, null);
             Object object = value.getValue();
@@ -114,21 +114,20 @@ public class AwaitStatement implements Compilation {
             if (object != null) {
                if(Promise.class.isInstance(object)) {
                   Result result = Result.getAwait(object, scope, this);
-                  Promise promise = (Promise)object;
-
-                  return suspend(scope, result, this, promise);
+                  return suspend(scope, result, this, value);
                }
             }
-            return execute(scope, object);
+            return execute(scope, value);
          }
          return execute(scope, state);
       }
 
-      private Result execute(final Scope scope, Object state) throws Exception {
+      private Result execute(Scope scope, Value state) throws Exception {
+         Object result = state.getValue();
+
          if (left != null) {
-            Value result = Value.getTransient(state);
             Value assign = left.evaluate(scope, null);
-            Value value = operation.operate(scope, assign, result);
+            Value value = operation.operate(scope, assign, state);
 
             if (value != null) {
                Object object = value.getValue();
@@ -139,12 +138,12 @@ public class AwaitStatement implements Compilation {
                return NORMAL;
             }
          }
-         return Result.getNormal(state);
+         return Result.getNormal(result);
       }
 
 
       @Override
-      public Resume suspend(Result result, Resume resume, Object object) throws Exception {
+      public Resume suspend(Result result, Resume resume, Value object) throws Exception {
          return new AwaitResume(resume, object);
       }
    }

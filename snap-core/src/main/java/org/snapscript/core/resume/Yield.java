@@ -2,7 +2,10 @@ package org.snapscript.core.resume;
 
 import java.util.Iterator;
 
-import org.snapscript.core.error.ErrorCauseExtractor;
+import org.snapscript.common.EmptyIterator;
+import org.snapscript.core.Context;
+import org.snapscript.core.error.ErrorHandler;
+import org.snapscript.core.module.Module;
 import org.snapscript.core.result.Result;
 import org.snapscript.core.scope.Scope;
 
@@ -24,7 +27,14 @@ public class Yield<T> implements Iterable<T> {
    
    @Override
    public Iterator<T> iterator() {
-      return new ResumeIterator<T>(result, scope, next);
+      if(scope != null) {
+         Module module = scope.getModule();
+         Context context = module.getContext();
+         ErrorHandler handler = context.getHandler();
+
+         return new ResumeIterator<T>(handler, result, scope, next);
+      }
+      return new EmptyIterator<T>();
    }
    
    public Resume getResume() { // resume statement
@@ -40,13 +50,13 @@ public class Yield<T> implements Iterable<T> {
    
    private static class ResumeIterator<T> implements Iterator<T> {
 
-      private ErrorCauseExtractor extractor;
+      private ErrorHandler handler;
       private Resume resume;
       private Object value;
       private Scope scope;
       
-      public ResumeIterator(Object value, Scope scope, Resume resume) {
-         this.extractor = new ErrorCauseExtractor();
+      public ResumeIterator(ErrorHandler handler, Object value, Scope scope, Resume resume) {
+         this.handler = handler;
          this.resume = resume;
          this.value = value;
          this.scope = scope;
@@ -87,8 +97,9 @@ public class Yield<T> implements Iterable<T> {
                return true;
             }
          }catch(Throwable e){
-            throw new ResumeException("Could not resume after yield", e);
+            handler.failInternalError(scope, e);
          }
+         resume = null;
          return false;
       }
 

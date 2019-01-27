@@ -49,7 +49,7 @@ public class PartialPlatform implements Platform {
          try {
             return method.invoke(value, arguments);
          }catch(Throwable e) {
-            throw new InternalStateException("Could not invoke method " + method, e);
+            throw new InternalStateException("Error occurred invoking " + method, e);
          }
       }
    }
@@ -67,7 +67,7 @@ public class PartialPlatform implements Platform {
          try {
             return constructor.newInstance(arguments);
          }catch(Throwable e) {
-            throw new InternalStateException("Could not invoke constructor " + constructor, e);
+            throw new InternalStateException("Error occurred invoking " + constructor, e);
          }
       }
    }

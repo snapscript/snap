@@ -1,5 +1,7 @@
 package org.snapscript.tree;
 
+import static org.snapscript.core.Reserved.TYPE_NULL;
+
 import org.snapscript.core.Compilation;
 import org.snapscript.core.Context;
 import org.snapscript.core.Evaluation;
@@ -70,7 +72,10 @@ public class ThrowStatement implements Compilation {
          Context context = module.getContext();
          ErrorHandler handler = context.getHandler();
          Object value = reference.getValue();
-         
+
+         if(value == null) {
+            return handler.failInternalError(scope, TYPE_NULL); // don't throw null
+         }
          return handler.failInternalError(scope, value);
       }
    }

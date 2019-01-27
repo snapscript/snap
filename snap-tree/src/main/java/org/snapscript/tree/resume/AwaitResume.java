@@ -4,14 +4,15 @@ import org.snapscript.core.resume.Promise;
 import org.snapscript.core.result.Result;
 import org.snapscript.core.resume.Resume;
 import org.snapscript.core.scope.Scope;
+import org.snapscript.core.variable.Value;
 import org.snapscript.tree.Suspend;
 
 public class AwaitResume extends Suspend<Object, Resume> {
 
-   private final Object state;
    private final Resume child;
+   private final Value state;
 
-   public AwaitResume(Resume child, Object state){
+   public AwaitResume(Resume child, Value state){
       this.child = child;
       this.state = state;
    }
@@ -19,11 +20,14 @@ public class AwaitResume extends Suspend<Object, Resume> {
    @Override
    public Result resume(Scope scope, Object value) throws Exception {
       if(state != null) {
-         if(Promise.class.isInstance(state)) {
-            Promise promise = (Promise)state;
-            Object object = promise.value();
+         Object object = state.getValue();
 
-            return child.resume(scope, object);
+         if(Promise.class.isInstance(object)) {
+            Promise promise = (Promise)object;
+            Object result = promise.value();
+            Value state = Value.getTransient(result);
+
+            return child.resume(scope, state);
          }
          return child.resume(scope, state);
       }

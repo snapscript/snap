@@ -94,7 +94,7 @@ public class CatchBlockList {
          String name = parameter.getName();
 
          if(data != null) {
-            Object cause = extractor.extract(scope, data);
+            Object cause = extractor.extract(data);
             
             if(inspector.isCompatible(type, cause)) {
                ScopeTable table = scope.getTable();

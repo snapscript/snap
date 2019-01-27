@@ -3,7 +3,7 @@
   <groupId>org.snapscript</groupId>
   <artifactId>snap-common</artifactId>
   <packaging>jar</packaging>
-  <version>1.4.5</version>
+  <version>1.4.6</version>
   <url>http://www.snapscript.org</url>
   <dependencies>
     <dependency>

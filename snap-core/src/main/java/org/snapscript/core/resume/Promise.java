@@ -11,6 +11,6 @@ public interface Promise<T> {
    Promise<T> join(long wait, TimeUnit unit);
    Promise<T> success(Task<T> task);
    Promise<T> success(Runnable task);
-   Promise<T> failure(Task<Throwable> task);
+   Promise<T> failure(Task<Object> task);
    Promise<T> failure(Runnable task);
 }
