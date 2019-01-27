@@ -5,7 +5,9 @@ import static java.lang.Boolean.TRUE;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.snapscript.common.Consumer;
 
@@ -35,7 +37,30 @@ public class IteratorExtension {
       }
       return list.iterator();
    }
-   
+
+   public <T> Iterator<T> shuffle(Iterator<T> iterator) {
+      List<T> list = new ArrayList<T>();
+
+      while(iterator.hasNext()) {
+         T value = iterator.next();
+         list.add(value);
+      }
+      if(!list.isEmpty()) {
+         Collections.shuffle(list);
+      }
+      return list.iterator();
+   }
+
+   public <T> Iterator<T> distinct(Iterator<T> iterator) {
+      Set<T> set = new LinkedHashSet<T>();
+
+      while(iterator.hasNext()) {
+         T value = iterator.next();
+         set.add(value);
+      }
+      return set.iterator();
+   }
+
    public <T> List<T> gather(Iterator<T> iterator) {
       List<T> list = new ArrayList<T>();
       
@@ -83,6 +108,11 @@ public class IteratorExtension {
          }
          return null;
       }
+
+      @Override
+      public void remove() {
+         iterator.remove();
+      }
    }
    
    private static class LimitIterator<T> implements Iterator<T> {
@@ -106,6 +136,11 @@ public class IteratorExtension {
             return iterator.next();
          }
          return null;
+      }
+
+      @Override
+      public void remove() {
+         iterator.remove();
       }
    }
 }
