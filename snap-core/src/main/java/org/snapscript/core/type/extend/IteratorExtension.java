@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import org.snapscript.common.Consumer;
@@ -47,6 +48,19 @@ public class IteratorExtension {
       }
       if(!list.isEmpty()) {
          Collections.shuffle(list);
+      }
+      return list.iterator();
+   }
+
+   public <T> Iterator<T> shuffle(Iterator<T> iterator, Random random) {
+      List<T> list = new ArrayList<T>();
+
+      while(iterator.hasNext()) {
+         T value = iterator.next();
+         list.add(value);
+      }
+      if(!list.isEmpty()) {
+         Collections.shuffle(list, random);
       }
       return list.iterator();
    }
