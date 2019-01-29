@@ -35,7 +35,7 @@ public class CastChecker {
          if(list.isEmpty()) {
             return INVALID;
          }
-         if(list.contains(constraint)) {
+         if(list.contains(constraint)) { // this is slow
             return SIMILAR;
          }
          int modifiers = actual.getModifiers(); 
@@ -55,7 +55,7 @@ public class CastChecker {
          if(list.isEmpty()) {
             return INVALID;
          }
-         if(list.contains(constraint)) {
+         if(list.contains(constraint)) { // this is slow
             return SIMILAR;
          }
          int modifiers = actual.getModifiers(); 

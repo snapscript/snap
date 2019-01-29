@@ -104,6 +104,7 @@ public class ExecutorScheduler implements TaskScheduler {
       public Promise failure(Task task) {
          if(task != null) {
             future.failure(task);
+            future.error();
          }
          return this;
       }
@@ -114,6 +115,7 @@ public class ExecutorScheduler implements TaskScheduler {
 
          if(task != null) {
             future.failure(adapter);
+            future.error();
          }
          return this;
       }
@@ -122,6 +124,7 @@ public class ExecutorScheduler implements TaskScheduler {
       public Promise success(Task task) {
          if(task != null) {
             future.success(task);
+            future.complete();
          }
          return this;
       }
@@ -132,6 +135,7 @@ public class ExecutorScheduler implements TaskScheduler {
 
          if(task != null) {
             future.success(adapter);
+            future.complete();
          }
          return this;
       }
@@ -239,27 +243,21 @@ public class ExecutorScheduler implements TaskScheduler {
       }
 
       public void success(Task task) {
-         if(listeners.add(task)) {
-            complete();
-         }
+         listeners.add(task);
       }
 
       public void failure(Task task) {
-         if(failures.add(task)) {
-            error();
-         }
+         failures.add(task);
       }
 
       public void success(Value value) {
-         if(success.compareAndSet(null, value)) {
-            task.run();
-         }
+         success.compareAndSet(null, value);
+         task.run();
       }
 
       public void failure(Object cause) {
-         if(error.compareAndSet(null, cause)) {
-            task.run();
-         }
+         error.compareAndSet(null, cause);
+         task.run();
       }
    }
 

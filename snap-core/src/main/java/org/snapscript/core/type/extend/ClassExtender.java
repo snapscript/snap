@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Date;
@@ -37,6 +39,14 @@ public class ClassExtender {
          registry.register(URLConnection.class, URLConnectionExtension.class);
          registry.register(URL.class, URLExtension.class);
          registry.register(Iterator.class, IteratorExtension.class);
+         registry.register(BigDecimal.class, BigDecimalExtension.class);
+         registry.register(BigInteger.class, BigIntegerExtension.class);
+         registry.register(Integer.class, IntegerExtension.class);
+         registry.register(Long.class, LongExtension.class);
+         registry.register(Double.class, DoubleExtension.class);
+         registry.register(Float.class, FloatExtension.class);
+         registry.register(Byte.class, ByteExtension.class);
+         registry.register(Short.class, ShortExtension.class);
          registry.register(Scope.class, ScopeExtension.class);
          done.set(true);
       }
