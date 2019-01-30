@@ -15,7 +15,7 @@ public class HashCache<K, V> implements Cache<K, V> {
    }
 
    @Override
-   public Set<K> keySet() {      
+   public Set<K> keySet() {
       return map.keySet();
    }
 
