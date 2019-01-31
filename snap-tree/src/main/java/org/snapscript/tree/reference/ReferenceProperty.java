@@ -52,7 +52,14 @@ public class ReferenceProperty implements Compilation {
          this.handler = handler;
          this.name = name;
       }
-      
+
+      @Override
+      public void define(Scope scope) throws Exception{
+         for(Evaluation evaluation : evaluations) {
+            evaluation.define(scope);
+         }
+      }
+
       @Override
       public Constraint compile(Scope scope, Constraint left) throws Exception{
          Constraint result = binder.compile(scope, left);
