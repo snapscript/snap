@@ -25,4 +25,9 @@ public class ByteExtension implements NumberExtension<Byte> {
    public Byte round(Byte number) {
       return number;
    }
+
+   @Override
+   public Byte round(Byte number, int places) {
+      return number;
+   }
 }

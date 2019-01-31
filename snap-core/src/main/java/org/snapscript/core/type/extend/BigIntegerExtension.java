@@ -27,4 +27,9 @@ public class BigIntegerExtension implements NumberExtension<BigInteger> {
    public BigInteger round(BigInteger number) {
       return number;
    }
+
+   @Override
+   public BigInteger round(BigInteger number, int places) {
+      return number;
+   }
 }

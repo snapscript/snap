@@ -1,5 +1,9 @@
 package org.snapscript.core.type.extend;
 
+import static java.math.RoundingMode.HALF_UP;
+
+import java.math.BigDecimal;
+
 public class FloatExtension implements NumberExtension<Float> {
 
    public FloatExtension() {
@@ -24,5 +28,15 @@ public class FloatExtension implements NumberExtension<Float> {
    @Override
    public Integer round(Float number) {
       return Math.round(number);
+   }
+
+   @Override
+   public Double round(Float number, int places) {
+      BigDecimal value = BigDecimal.valueOf(number);
+
+      if(places > 0) {
+         return value.setScale(places, HALF_UP).doubleValue();
+      }
+      return round(number).doubleValue();
    }
 }

@@ -5,4 +5,5 @@ public interface NumberExtension<T extends Number> {
    Number ceil(T number);
    Number floor(T number);
    Number round(T number);
+   Number round(T number, int places);
 }

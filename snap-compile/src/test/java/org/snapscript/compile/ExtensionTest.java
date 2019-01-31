@@ -26,10 +26,51 @@ public class ExtensionTest extends ScriptTestCase {
    "   assert next == l;\n"+
    "});";
 
+   private static final String SOURCE_5 =
+   "let x = 1.230000001d;\n"+
+   "assert x.round() == 1;\n"+
+   "assert x.round(1) == 1.2;\n"+
+   "assert x.round(2) == 1.23;\n"+
+   "assert x.round(3) == 1.23;\n"+
+   "assert x.round(4) == 1.23;\n"+
+   "assert x.round(9) == 1.230000001;\n";
+
+   private static final String SOURCE_6 =
+   "let x = 1.2300001f;\n"+
+   "assert x.round() == 1;\n"+
+   "assert x.round(1) == 1.2;\n"+
+   "assert x.round(2) == 1.23;\n"+
+   "assert x.round(3) == 1.23;\n"+
+   "assert x.round(4) == 1.23;\n"+
+   "assert x.round(7) == 1.2300001;\n";
+
+   private static final String SOURCE_7 =
+   "let x = 1;\n"+
+   "assert x.round() == 1;\n"+
+   "assert x.round(1) == 1;\n"+
+   "assert x.round(2) == 1;\n"+
+   "assert x.round(3) == 1;\n"+
+   "assert x.round(4) == 1;\n"+
+   "assert x.round(9) == 1;\n";
+
+   private static final String SOURCE_8 =
+   "import util.concurrent.atomic.AtomicInteger;\n"+
+   "let x = new AtomicInteger(12);\n"+
+   "assert x.round().get() == 12;\n"+
+   "assert x.round(1).get() == 12;\n"+
+   "assert x.round(2).get() == 12;\n"+
+   "assert x.round(3).get() == 12;\n"+
+   "assert x.round(4).get() == 12;\n"+
+   "assert x.round(9).get() == 12;\n";
+
    public void testFileExtension() throws Exception {
       assertScriptExecutes(SOURCE_1);
       assertScriptExecutes(SOURCE_2);
       assertScriptExecutes(SOURCE_3);
       assertScriptExecutes(SOURCE_4);
+      assertScriptExecutes(SOURCE_5);
+      assertScriptExecutes(SOURCE_6);
+      assertScriptExecutes(SOURCE_7);
+      assertScriptExecutes(SOURCE_8);
    }  
 }

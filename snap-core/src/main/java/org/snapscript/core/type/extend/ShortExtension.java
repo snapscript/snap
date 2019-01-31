@@ -25,4 +25,9 @@ public class ShortExtension implements NumberExtension<Short> {
    public Short round(Short number) {
       return number;
    }
+
+   @Override
+   public Short round(Short number, int places) {
+      return number;
+   }
 }

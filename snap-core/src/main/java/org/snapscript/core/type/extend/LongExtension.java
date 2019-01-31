@@ -25,4 +25,9 @@ public class LongExtension implements NumberExtension<Long> {
    public Long round(Long number) {
       return number;
    }
+
+   @Override
+   public Long round(Long number, int places) {
+      return number;
+   }
 }

@@ -25,4 +25,9 @@ public class IntegerExtension implements NumberExtension<Integer> {
    public Integer round(Integer number) {
       return number;
    }
+
+   @Override
+   public Integer round(Integer number, int places) {
+      return number;
+   }
 }

@@ -13,6 +13,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.snapscript.core.function.Function;
 import org.snapscript.core.scope.Scope;
@@ -41,6 +43,8 @@ public class ClassExtender {
          registry.register(Iterator.class, IteratorExtension.class);
          registry.register(BigDecimal.class, BigDecimalExtension.class);
          registry.register(BigInteger.class, BigIntegerExtension.class);
+         registry.register(AtomicLong.class, AtomicLongExtension.class);
+         registry.register(AtomicInteger.class, AtomicIntegerExtension.class);
          registry.register(Integer.class, IntegerExtension.class);
          registry.register(Long.class, LongExtension.class);
          registry.register(Double.class, DoubleExtension.class);
