@@ -476,6 +476,7 @@ for(let entry in set){
 
 For interfaces that have only a single method a closure can be coerced to that interface type. This makes for a much simpler and concise syntax similar to that offered by Java closures.
 
+```js
 const set = new TreeSet((a,b)->Double.compare(a,b));
 
 set.add(1.2);
@@ -505,9 +506,11 @@ const c = max(a, b); // Math.max(a, b)
 println(c); // prints the maximum random
 ```
 
-Module
+#### Module
+
 A module is collection of types, functions, and variables. It is similar to enclosing a script within a named type. Modules are useful in providing constructs such as singletons.
 
+```js
 module ImageStore {
 
    private const cache = {:};
@@ -520,4 +523,4 @@ module ImageStore {
       cache.put(name, image);
    }
 } 
-
+```
