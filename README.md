@@ -8,67 +8,18 @@ The language is ideal for embedding in to an existing application, and is a frac
       * [Booleans](#booleans)
       * [Numbers](#numbers)
       * [Strings](#strings)
+      * [Arrays](#arrays)
       * [Collections](#collections)
-  * [Overview](#overview)
-  * [Installation](#installation)
-  * [Basic use](#basic-use)
-  * [Language Tour](#language-tour)
-    * [Comments](#comments)
-    * [Data Types](#data-types)
-    * [Constants(Literal)](#constantsliteral)
-    * [Variables](#variables)
-    * [Reserved keywords](#reserved-keywords)
-    * [Type conversion](#type-conversion)
-    * [qw(Quote word) keyword](#qwquote-word-keyword)
-    * [enum keyword](#enum-keyword)
-    * [Meta\-Operators](#meta-operators)
-    * [Control flow](#control-flow)
-    * [using statement](#using-statement)
-    * [User Defined Operator](#user-defined-operator)
-    * [Integer](#integer)
-    * [Float](#float)
-    * [Decimal](#decimal)
-    * [Array](#array)
-    * [String](#string)
-    * [Hash](#hash)
-    * [Tuple](#tuple)
-    * [Extend basic type](#extend-basic-type)
-    * [Optional type](#optional-type)
-    * [class](#class)
-      * [inheritance and polymorphism](#inheritance-and-polymorphism)
-      * [operator overloading](#operator-overloading)
-      * [property(like c\#)](#propertylike-c)
-      * [indexer](#indexer)
-      * [static members/methods/properties](#static-membersmethodsproperties)
-      * [Class Category](#class-category)
-      * [Annotations](#annotations)
-    * [Standard input/output/error](#standard-inputoutputerror)
-    * [Error Handling of standard library](#error-handling-of-standard-library)
-    * [About defer keyword](#about-defer-keyword)
-    * [Concatenation of different types](#concatenation-of-different-types)
-    * [Comprehensions](#comprehensions)
-    * [grep and map](#grep-and-map)
-    * [Function](#function)
-    * [Pipe Operator](#pipe-operator)
-    * [Spawn and channel](#spawn-and-channel)
-  * [Use go language modules](#use-go-language-modules)
-  * [Standard module introduction](#standard-module-introduction)
-      * [fmt module](#fmt-module)
-      * [time module](#time-module)
-      * [logger module](#logger-module)
-      * [flag module(for handling of command line options)](#flag-modulefor-handling-of-command-line-options)
-      * [json module(for json marshal &amp; unmarshal)](#json-modulefor-json-marshal--unmarshal)
-      * [net module](#net-module)
-      * [linq module](#linq-module)
-      * [Linq for file](#linq-for-file)
-      * [csv module](#csv-module)
-      * [template module](#template-module)
-      * [sql module](#sql-module)
-  * [About regular expression](#about-regular-expression)
-  * [Useful Utilities](#useful-utilities)
-  * [Document generator](#document-generator)
-  * [Syntax Highlight](#syntax-highlight)
-  * [Future Plans](#future-plans)
+  * [Operators](#operators)
+      * [Arithmetic Operators](#arithmetic-operators)
+      * [Relational Operators](#relational-operators)
+      * [Bitwise Operators](#bitwise-operators)
+      * [Logical Operators](#logical-operators)    
+  * [Conditions](#conditions)
+      * [Arithmetic Operators](#arithmetic-operators)
+      * [Relational Operators](#relational-operators)
+      * [Bitwise Operators](#bitwise-operators)
+      * [Logical Operators](#logical-operators)                     
   * [License](#license)
 
 ### Basic Types
@@ -77,7 +28,7 @@ For programs to be useful, we need to be able to work with some of the simplest 
 
 In order to reference values they must be associated with a variable. Variables are declared with the keyword var or const. A variable can have an optional constraint by declaring a type. If constrained a variable can only reference values of the declared type.
 
-```js
+```swift
 let v = 22; // v can reference any type
 let i: Integer = 22; // i can only reference integers
 let d: Double = 22.0; // d can only reference doubles
@@ -88,7 +39,7 @@ const c = 1.23; // c is constant, it cannot change
 
 The most basic type is the simple true or false value, which is called a boolean value.
 
-```js
+```swift
 let a = true; // value a is true
 let b = false; // false
 let c = Boolean.FALSE; // type constraint of Boolean
