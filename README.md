@@ -103,128 +103,157 @@ let j = --a; // a is 10 and j is 10
 let k = ++b; // b is 20 as is k
 ```
 
-Relational Operators
+#### Relational Operators
+
 Relational operators are used to make comparisons, such as equal to, not equal to, greater than, less than.
 
-var a = 10;
-var b = 20;
-var c = a == b // equal operator, c is false
-var d = a != b; // not equal operator, d is true
-var e = a > b; // greater than operator, e is false
-var f = a < b; // less than operator, f is true
-var g = a <= b; // g is false
-var h = a >= b; // h is true
+```js
+let a = 10;
+let b = 20;
+let c = a == b // equal operator, c is false
+let d = a != b; // not equal operator, d is true
+let e = a > b; // greater than operator, e is false
+let f = a < b; // less than operator, f is true
+let g = a <= b; // g is false
+let h = a >= b; // h is true
+```
 
-Bitwise Operators
+#### Bitwise Operators
+
 Bitwise operators are used to manipulate numbers, typically integers, at the byte level. They do so by change the binary representation of the value.
 
-var a = 0b00111100;
-var b = 0b00001101;
-var c = a & b; // bitwise and, c is 00001100
-var d = a | b; // bitwise or, d is 00111101
-var e = a & b; // bitwise xor, e is 00110001
-var f = ~a; // f is 11000011
-var g = f >> 2; // f is 00110000
-var h = f << 2; // h is 11000000
-var i = f >>> 2; // unsigned shift, i is 00110000
+```js
+let a = 0b00111100;
+let b = 0b00001101;
+let c = a & b; // bitwise and, c is 00001100
+let d = a | b; // bitwise or, d is 00111101
+let e = a & b; // bitwise xor, e is 00110001
+let f = ~a; // f is 11000011
+let g = f >> 2; // f is 00110000
+let h = f << 2; // h is 11000000
+let i = f >>> 2; // unsigned shift, i is 00110000
+```
 
+#### Logical Operators
 
-Logical Operators
 Logical operators are typically used to combine multiple relational operations in to a single boolean result.
 
-var a = 1;
-var b = 3;
-var c = true;
-var d = false;
-var e = a && b; // e is false
-var f = a || b; // f is true
-var g = !d; // not operator, g is true
-var h = b > a && a == 1; // logical and of, h is true
-var i = b > a && a != 1; // i is false
+```js
+let a = 1;
+let b = 3;
+let c = true;
+let d = false;
+let e = a && b; // e is false
+let f = a || b; // f is true
+let g = !d; // not operator, g is true
+let h = b > a && a == 1; // logical and of, h is true
+let i = b > a && a != 1; // i is false
+```
 
-Conditions
+### Conditions
+
 Conditional statements are used to perform different actions based on different conditions.
 
 
-If Statement
+#### If Statement
+
 The if statement is used to specify a group of statements to execute if a statement is true.
 
-var a = 2;
-var b = 3;
+```js
+const a = 2;
+const b = 3;
 
 if(a < b) { // true
    println("a > b"); // prints as a < b
 }
+```
 
-Else Statement
+#### Else Statement
+
 The else statement is used to specify a group of statements to execute if a statement is false.
 
-var a = 2;
-var b = 3;
+```js
+const a = 2;
+const b = 3;
 
 if(a >= b) { // false
    println("a >= b");
 } else {
    println("a < b"); // prints as a < b
 }
+```
 
-Conditional Operator
+#### Conditional Operator
+
 To make statements more concise there is a conditional operator.
 
-var a = 2;
-var b = 3;
+```js
+let a = 2;
+let b = 3;
 
 println(a >= b ? "a >= b" : "a < b"); // prints a < b
+```
 
-Loops
+### Loops
+
 Loops are used to perform a group of statements a number of times until a condition has been satisfied.
 
+#### While Statement
 
-While Statement
 The while statement is the simplest conditional statement. It repeats a group of statements while the condition it evaluates is false.
 
-var n = 0;
+```js
+let n = 0;
 
 while(n < 10) { // conditional loop
    n++;
 }
+```
 
-For Statement
+#### For Statement
+
 The for statement is typically used to count over a range of numeric values. It contains three parts, a declaration, a condition, and an optional statement which is evaluated at the end of the loop.
 
-for(var i = 0; i < 10; i++){ // loops from 1 to 10
+```js
+for(let i = 0; i < 10; i++){ // loops from 1 to 10
    if(i % 2 == 0) {
       continue; // continue loop
    }
    println(i);  // prints only odd numbers
 }
+```
 
-For In Statement
+#### For In Statement
+
 The for in statement offers a simpler way to iterate over a range of values, a collection, or an array.
 
-var list = [35, 22, 13, 64, 53];
+```js
+let list = [35, 22, 13, 64, 53];
 
-for(var e in list){ // iterates over the list
+for(e in list){ // iterates over the list
    println(e);
 }
 
-for(var e in 0..9) { // iterates from 0 to 9
+for(e in 0..9) { // iterates from 0 to 9
    if(e == 7) {
       break; // exit loop when e is 7
    }
    println(e); // prints from 0 to 6
 }
+```
+#### Loop Statement
 
-Loop Statement
 The loop statement offers a way to specify an infinite loop, it does not evaluate any condition.
 
-var n = 0;
+```js
+let n = 0;
 
 loop { // infinite loop
    if(n++ > 100) {
       break;
    }
 }
+```
 
 Exceptions
 Exceptions are used to indicate an error has occurred. It offers a simple means to return control to a calling function, which can then handle the error. Typically an exception object is thrown, however it is possible to throw any type.
