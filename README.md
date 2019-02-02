@@ -23,52 +23,62 @@ const c = 1.23; // c is constant, it cannot change
 
 The most basic type is the simple true or false value, which is called a boolean value.
 
-    let a = true; // value a is true
-    let b = false; // false
-    let c = Boolean.FALSE; // type constraint of Boolean
-    let d: Boolean = Boolean.TRUE; // like Boolean d = Boolean.TRUE
-    let e = Boolean.FALSE; // like Object e = Boolean.FALSE
+```js
+let a = true; // value a is true
+let b = false; // false
+let c = Boolean.FALSE; // type constraint of Boolean
+let d: Boolean = Boolean.TRUE; // like Boolean d = Boolean.TRUE
+let e = Boolean.FALSE; // like Object e = Boolean.FALSE
+```
 
 #### Numbers
 
 The most basic type is the simple true or false value, which is called a 'boolean' value.
 
-    let binary = 0b0111011; // binary literal
-    let hex = 0xffe16; // hexidecimal literal
-    let int = 11;
-    let long = 11L;
-    let double = 0.5d;
-    let float = 12.9f;
-    let typed: Integer = 22; // integer value 22
-    let coercion: Double = "1.234e2"; // coercion of string to double
+```js
+let binary = 0b0111011; // binary literal
+let hex = 0xffe16; // hexidecimal literal
+let int = 11;
+let long = 11L;
+let double = 0.5d;
+let float = 12.9f;
+let typed: Integer = 22; // integer value 22
+let coercion: Double = "1.234e2"; // coercion of string to double
+```
 
 #### Strings
 
 A fundamental part of creating programs is working with textual data. As in other languages, we use the type string to refer to these textual types. Strings are represented by characters between either a single quote or a double quote. When characters are between double quotes they are interpolated, meaning they have expressions evaluated within them. These expressions start with the dollar character. All strings can span multiple lines.
 
-    let string = 'Hello World!'; // literal string
-    let template = "The sum of 1 and 2 is ${1 + 2}"; // interpolated string
-    let concat = "The sum of 1 and 2 is " + (1 + 2); // concatenation
+```js
+let string = 'Hello World!'; // literal string
+let template = "The sum of 1 and 2 is ${1 + 2}"; // interpolated string
+let concat = "The sum of 1 and 2 is " + (1 + 2); // concatenation
+```
 
 #### Arrays
 
 The most basic type is the simple true or false value, which is called a 'boolean' value.
 
-    let array = new String[10]; // array of strings
-    let bytes = new Byte[11]; // primitive byte[11]
-    let byte = array[1]; // reference element in array
-    let matrix = new Long[10][22]; // multidimensional long[10][22];
-    let long = matrix[2][3]; // reference multidimensional
+```js
+let array = new String[10]; // array of strings
+let bytes = new Byte[11]; // primitive byte[11]
+let byte = array[1]; // reference element in array
+let matrix = new Long[10][22]; // multidimensional long[10][22];
+let long = matrix[2][3]; // reference multidimensional
+```
 
 #### Collections
 
 Complex data structures can be represented with a simple and straight forward syntax. Collection types found in Java such as maps, sets, and lists can be represented as follows.
 
-    let set = {1, 2, "x", "y"}; // creates a LinkedHashSet
-    let list = [1, 2, 3]; // creates an ArrayList
-    let map = {"a": 1, "b": 2}; // creates a LinkedHashSet
-    let empty = {:}; // creates an empty map
-    let mix = [1, 2, {"a": {"a", "b", [55, 66]}}]; // mix collection types
+```js
+let set = {1, 2, "x", "y"}; // creates a LinkedHashSet
+let list = [1, 2, 3]; // creates an ArrayList
+let map = {"a": 1, "b": 2}; // creates a LinkedHashSet
+let empty = {:}; // creates an empty map
+let mix = [1, 2, {"a": {"a", "b", [55, 66]}}]; // mix collection types
+```
 
 ### Operators
 
@@ -79,17 +89,19 @@ Operators are special symbols that perform specific operations on one, two, or t
 
 Arithmetic operators are used in mathematical expressions in the same way that they are used in algebra.
 
-    let a = 10;
-    let b = 20;
-    let c = a + b; // add is 30
-    let d = b - a; // subtract is 10
-    let e = b / a; // divide is 2
-    let f = a * b; // multiply is 200
-    let g = b % a; // modulus is 0
-    let h = a++; // a is 11 and h is 10
-    let i = b--// b is 19 and i is 20
-    let j = --a; // a is 10 and j is 10
-    let k = ++b; // b is 20 as is k
+```js
+let a = 10;
+let b = 20;
+let c = a + b; // add is 30
+let d = b - a; // subtract is 10
+let e = b / a; // divide is 2
+let f = a * b; // multiply is 200
+let g = b % a; // modulus is 0
+let h = a++; // a is 11 and h is 10
+let i = b--// b is 19 and i is 20
+let j = --a; // a is 10 and j is 10
+let k = ++b; // b is 20 as is k
+```
 
 Relational Operators
 Relational operators are used to make comparisons, such as equal to, not equal to, greater than, less than.
