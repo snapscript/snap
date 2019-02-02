@@ -255,22 +255,27 @@ loop { // infinite loop
 }
 ```
 
-Exceptions
+### Exceptions
+
 Exceptions are used to indicate an error has occurred. It offers a simple means to return control to a calling function, which can then handle the error. Typically an exception object is thrown, however it is possible to throw any type.
 
+#### Catch Statement
 
-Catch Statement
 In order to catch an exception the throwing statement needs to be wrapped in a try catch statement. This statement basically allows the program to try to execute a statement or group of statements, if during execution an exception is thrown then an error handling block is executed.
 
+```js
 try {
    throw new IllegalStateException("some error");
 } catch(e: IllegalStateException) {
    e.printStackTrace();
 }
+```
 
-Finally Statement
+#### Finally Statement
+
 The finally statement is a group of statements that are always executed regardless of whether an exception is thrown..
 
+```js
 try {
    throw "throw a string value";
 } catch(e) {
@@ -278,90 +283,105 @@ try {
 } finally {
    println("finally always runs");
 }
+```
 
-Functions
+### Functions
+
 Functions group together control structures, operations, and method calls. These functions can then be called when needed, and the code contained within them will be run. This makes it very easy to reuse code without having to repeat it within your script.
 
+#### Declaration
 
-Declaration
 The most basic type of function is declared with a name and a specific number of parameters. Such a method can then be called using the declared name by passing in a right number of arguments.
 
-var r = max(11, 3, 67); // r is 67
+```js
+let r = max(11, 3, 67); // r is 67
 
-function max(a, b) {
+func max(a, b) {
    return a > b ? a : b;
 }
 
-function max(a, b, c) { // function overloading
+func max(a, b, c) { // function overloading
    return a < b ? max(a, c) : max(b, c);
 }
+```
 
-Type Constraints
+#### Type Constraints
+
 In order to bind invocations to the correct function implementation it can be declared with optional type constraints. These type constraints will ensure that variables of a specific type will be bound to the correct implementation.
 
-var x: Double = 11.2;
-var y: Integer = 11;
-var z: String = "11";
+```js
+let x: Double = 11.2;
+let y: Integer = 11;
+let z: String = "11";
 
 f(x); // prints double 11.2
 f(y); // prints integer 11
 f(z); // prints string 11
 f(true); // type coercion to string, prints string true
 
-function f(x: Integer) {
+func f(x: Integer) {
    println("integer ${x}");
 }
 
-function f(x: Double) {
+func f(x: Double) {
    println("double ${x}");
 }
 
-function f(x: String) {
+func f(x: String) {
    println("string ${x}");
 }
+```
 
-Variable Arguments
+#### Variable Arguments
+
 At times it can be useful to provide a large number of arguments to a function. To achieve this the last parameter can be declared with a variable argument modifier.
 
-var result = sum(0, 13, 44, 234, 1, 3); 
+```js
+let result = sum(0, 13, 44, 234, 1, 3); 
 
-function sum(offset, numbers...){ // variable arguments
-   var size = numbers.size();
-   var sum = 0;
+func sum(offset, numbers...){ // variable arguments
+   let size = numbers.size();
+   let sum = 0;
    
-   for(var i = offset; i < size; i++){
+   for(let i = offset; i < size; i++){
       sum += number;
    }
    return sum;
 }
+```
 
-Closures
+#### Closures
+
 A closure is an anonymous function that captures the current scope and can be assigned to a variable. This variable can then act as a function and can be called in the same manner.
 
-var square = (x) -> x * x;
-var cube = (x) -> square(x) * x;
+```js
+const square = (x) -> x * x;
+const cube = (x) -> square(x) * x;
 
 cube(2); // result is 8
 
-var printAll = (values...) -> {
+const printAll = (values...) -> {
    for(var e in values) {
       println(e);
    }
 }
 
 printAll(1, 2, 3, 4); // print all values
+```
 
-Types
+### Types
+
 In any substantial application types are required. A type is basically a way to define an encapsulate variables and functions within a named scope.
 
+#### Class
 
-Class
 A class is the most basic type. It contains variables and functions that can operate on those variables. Once declared a type can be instantiated by calling a special function called a constructor.
 
+```js
 class Circle {
    
    private static const PI = 3.14; // enclosed variables
-   private var radius;
+   private let radius;
    
    new(radius) { // constructor
       this.radius = radius;
@@ -376,33 +396,37 @@ class Circle {
    }
 }
 
-var circle = new Circle(10);
+let circle = new Circle(10);
 
 circle.area(); // calculate area
+```
 
+#### Enumerations
 
-Enumerations
 An enumeration is a type that specifies a list of constant values. This values are constant and are instances of the enum they are declared in.
 
+```js
 enum Color {
    RED("#ff0000"),
    BLUE("#0000ff"),
    GREEN("#00ff00");
    
-   var rgb;
+   let rgb;
    
    new(rgb) {
       this.rgb = rgb;
    }
 }
 
-var red = Color.RED;
-var blue = Color.BLUE;
+let red = Color.RED;
+let blue = Color.BLUE;
+```
 
+#### Traits
 
-Traits
 A trait is similar to a class in that is specifies a list of functions. However, unlike a class a trait does not declare any variables and does not have a constructor. It can be used to add functions to a class.
 
+```js
 trait Format
    format(a);
 }
@@ -420,10 +444,13 @@ class ItalicFormat with Format {
       return "<i>${a}</i>";
    }
 }
+```
 
-Integration
+#### Integration
+
 To leverage the large array of frameworks and services available on the Java platform any Java type can be instantiated, and any Java interface can be implemented.
 
+```js
 class DoubleComparator with Comparator{
 
    override compare(a,b){
@@ -431,8 +458,8 @@ class DoubleComparator with Comparator{
    }
 }
 
-var comparator = new DoubleComparator();
-var set = new TreeSet(comparator);
+let comparator = new DoubleComparator();
+let set = new TreeSet(comparator);
 
 set.add(1.2);
 set.add(2.3);
@@ -440,14 +467,16 @@ set.add(33.4);
 set.add(4.55);
 set.add(2);
 
-for(var entry in set){
+for(let entry in set){
    println(entry);
 }
+```
 
-Coercion
+#### Coercion
+
 For interfaces that have only a single method a closure can be coerced to that interface type. This makes for a much simpler and concise syntax similar to that offered by Java closures.
 
-var set = new TreeSet((a,b)->Double.compare(a,b));
+const set = new TreeSet((a,b)->Double.compare(a,b));
 
 set.add(1.2);
 set.add(2.3);
@@ -455,22 +484,26 @@ set.add(33.4);
 set.add(4.55);
 set.add(2);
 
-for(var entry in set){
+for(entry in set){
    println(entry);
 }
+```
 
-Import
+#### Import
+
 In order to access the Java types available they can be imported by name. Once imported the type can be instantiated and used as if it was a script object. In addition to importing types, functions can also be imported by using a static import.
 
+```js
 import static lang.Math.*; // import static functions
 import security.SecureRandom;
 
-var random = new SecureRandom(); // create a java type
-var a = random.nextInt(40);
-var b = random.nextInt(40);
-var c = max(a, b); // Math.max(a, b)
+const random = new SecureRandom(); // create a java type
+const a = random.nextInt(40);
+const b = random.nextInt(40);
+const c = max(a, b); // Math.max(a, b)
 
 println(c); // prints the maximum random
+```
 
 Module
 A module is collection of types, functions, and variables. It is similar to enclosing a script within a named type. Modules are useful in providing constructs such as singletons.
