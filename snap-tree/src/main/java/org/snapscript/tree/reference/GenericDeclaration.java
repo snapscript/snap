@@ -76,11 +76,17 @@ public class GenericDeclaration {
                Constraint constraint = value.getConstraint();
                String name = constraint.getName(scope);
                Type type = constraint.getType(scope);
-               
+
                if(generics != null) {
                   List<Constraint> arguments = generics.getGenerics(scope);    
-                  
-                  if(!arguments.isEmpty()) {
+                  List<Constraint> declare = type.getGenerics();
+                  int require = declare.size();
+                  int actual = arguments.size();
+
+                  if(actual > 0) {
+                     if(require != actual) {
+                        throw new IllegalStateException("Generic parameter count for '" + type + "' is invalid");
+                     }
                      return new TypeParameterConstraint(type, arguments, name);
                   }
                }

@@ -18,7 +18,30 @@ import org.snapscript.core.variable.bind.VariableBinder;
 
 public class ScopeAllocationBuilder {
 
+   public ScopeAllocationBuilder() {
+      super();
+   }
+
    public ScopeAllocation allocate(Scope scope, Address address) throws Exception {
+      AddressType type = address.getType();
+      ScopeMatcher matcher = match(scope, address);
+
+      if(type == INSTANCE) {
+         return new ScopeAllocation(matcher, address, false);
+      }
+      if(type == STATIC) {
+         return new ScopeAllocation(matcher, address, true);
+      }
+      if(type == TYPE) {
+         return new ScopeAllocation(matcher, address, true);
+      }
+      if(type == MODULE) {
+         return new ScopeAllocation(matcher, address, true);
+      }
+      return null;
+   }
+
+   private ScopeMatcher match(Scope scope, Address address) throws Exception {
       Module module = scope.getModule();
       Context context = module.getContext();
       ErrorHandler handler = context.getHandler();
@@ -27,23 +50,19 @@ public class ScopeAllocationBuilder {
       String name = address.getName();
 
       if(type == INSTANCE) {
-         ScopeMatcher allocator = new StateMatcher(handler, wrapper, name);
-         return new ScopeAllocation(allocator, address, false);
+         return new StateMatcher(handler, wrapper, name);
       }
       if(type == STATIC) {
-         ScopeMatcher allocator = new StateMatcher(handler, wrapper, name);
-         return new ScopeAllocation(allocator, address, true);
+         return new StateMatcher(handler, wrapper, name);
       }
       if(type == TYPE) {
-         ScopeMatcher allocator = new StaticMatcher(handler, wrapper, name);
-         return new ScopeAllocation(allocator, address, true);
+         return new StaticMatcher(handler, wrapper, name);
       }
       if(type == MODULE) {
-         ScopeMatcher allocator = new StaticMatcher(handler, wrapper, name);
-         return new ScopeAllocation(allocator, address, true);
+         return new StaticMatcher(handler, wrapper, name);
       }
       return null;
-   }   
+   }
 
    private static class StateMatcher implements ScopeMatcher {
       

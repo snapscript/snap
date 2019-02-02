@@ -36,8 +36,7 @@ public class DeclarationConstraint extends Constraint {
       }
       return EMPTY_LIST;
    }
-   
-   
+
    @Override
    public List<Constraint> getGenerics(Scope scope) {
       if(constraint != null) {
@@ -45,8 +44,7 @@ public class DeclarationConstraint extends Constraint {
       }
       return EMPTY_LIST;
    }
-   
-   
+
    @Override
    public Type getType(Scope scope) {
       if(constraint != null) {
@@ -54,8 +52,7 @@ public class DeclarationConstraint extends Constraint {
       }
       return null;
    }
-   
-   
+
    @Override
    public String getName(Scope scope) {
       if(constraint != null) {
