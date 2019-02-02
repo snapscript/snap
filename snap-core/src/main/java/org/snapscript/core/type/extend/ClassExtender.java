@@ -41,6 +41,7 @@ public class ClassExtender {
          registry.register(URLConnection.class, URLConnectionExtension.class);
          registry.register(URL.class, URLExtension.class);
          registry.register(Iterator.class, IteratorExtension.class);
+         registry.register(Number.class, NumberExtension.class);
          registry.register(BigDecimal.class, BigDecimalExtension.class);
          registry.register(BigInteger.class, BigIntegerExtension.class);
          registry.register(AtomicLong.class, AtomicLongExtension.class);

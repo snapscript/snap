@@ -55,11 +55,10 @@ public class ExtensionRegistry {
          
          if(extension != null) {
             try {
-               Object instance = extension.newInstance();
                Type match = loader.loadType(type);
                Module module = match.getModule();
                
-               return extractor.extract(module, type, instance);
+               return extractor.extract(module, type, extension);
             } catch(Exception e) {
                throw new InternalException("Could not extend " + type, e);
             }

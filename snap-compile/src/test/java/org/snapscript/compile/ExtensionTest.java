@@ -63,6 +63,15 @@ public class ExtensionTest extends ScriptTestCase {
    "assert x.round(4).get() == 12;\n"+
    "assert x.round(9).get() == 12;\n";
 
+   private static final String SOURCE_9 =
+   "let x: Number = 12;\n"+
+   "assert x.round() == 12;\n"+
+   "assert x.round(1) == 12;\n"+
+   "assert x.round(2) == 12;\n"+
+   "assert x.round(3) == 12;\n"+
+   "assert x.round(4) == 12;\n"+
+   "assert x.round(9) == 12;\n";
+
    public void testFileExtension() throws Exception {
       assertScriptExecutes(SOURCE_1);
       assertScriptExecutes(SOURCE_2);
@@ -72,5 +81,6 @@ public class ExtensionTest extends ScriptTestCase {
       assertScriptExecutes(SOURCE_6);
       assertScriptExecutes(SOURCE_7);
       assertScriptExecutes(SOURCE_8);
+      assertScriptExecutes(SOURCE_9);
    }  
 }

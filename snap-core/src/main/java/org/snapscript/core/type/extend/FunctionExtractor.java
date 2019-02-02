@@ -1,6 +1,7 @@
 package org.snapscript.core.type.extend;
 
 import java.lang.reflect.Member;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -31,14 +32,8 @@ public class FunctionExtractor {
       this.origin = origin;
    }
 
-   public List<Function> extract(Module module, Class extend, Object value) throws Exception {
-      Class require = value.getClass();
-      Type source = loader.loadType(require);
-      
-      return extract(module, extend, value, source);
-   }
-   
-   private List<Function> extract(Module module, Class extend, Object value, Type source) throws Exception {
+   public List<Function> extract(Module module, Class extend, Class extension) throws Exception {
+      Type source = loader.loadType(extension);
       List<Function> functions = source.getFunctions();
       Scope scope = module.getScope();
       
@@ -56,7 +51,7 @@ public class FunctionExtractor {
                Class real = type.getType();
             
                if(real == extend) {
-                  Function adapter = extract(module, extend, value, function);
+                  Function adapter = extract(module, extend, extension, function);
                   
                   if(adapter != null) {
                      adapters.add(adapter);
@@ -69,7 +64,7 @@ public class FunctionExtractor {
       return Collections.emptyList();
    }
 
-   private Function extract(Module module, Class extend, Object value, Function function) {
+   private Function extract(Module module, Class extend, Class extension, Function function) {
       Invocation invocation = function.getInvocation();
       Signature signature = function.getSignature();
       List<Constraint> generics = signature.getGenerics();
@@ -81,7 +76,7 @@ public class FunctionExtractor {
       if(length > 0) {
          List<Parameter> copy = new ArrayList<Parameter>();
          Signature reduced = new FunctionSignature(copy, generics, module, member, origin, true, variable);
-         Invocation adapter = new ExportInvocation(invocation, value, extend);
+         Invocation adapter = new ExportInvocation(invocation, extend, extension);
          
          for(int i = 1; i < length; i++) {
             Parameter parameter = parameters.get(i);
@@ -100,16 +95,15 @@ public class FunctionExtractor {
       return null;
    }
 
-   
    private static class ExportInvocation implements Invocation<Object>{
 
+      private final ExportInstance instance;
       private final Invocation invocation;
-      private final Object target;
       private final Class extend;
       
-      public ExportInvocation(Invocation invocation, Object target, Class extend) {
+      public ExportInvocation(Invocation invocation, Class extend, Class extension) {
+         this.instance = new ExportInstance(extension);
          this.invocation = invocation;
-         this.target = target;
          this.extend = extend;
       }
       
@@ -120,12 +114,39 @@ public class FunctionExtractor {
          for(int i = 0; i < list.length; i++) {
             arguments[i + 1] = list[i];
          }
+         Object target = instance.getInstance();
+
          if(extend == Scope.class) {
             arguments[0] = scope;
          } else {
             arguments[0] = left;
          }
          return invocation.invoke(scope, target, arguments);
+      }
+   }
+
+   private static class ExportInstance {
+
+      private Class extension;
+      private Object instance;
+
+      public ExportInstance(Class extension) {
+         this.extension = extension;
+      }
+
+      public Object getInstance() throws Exception {
+         if(instance == null) {
+            int modifiers = extension.getModifiers();
+
+            if(Modifier.isAbstract(modifiers)) {
+               throw new IllegalStateException("Extension " + extension + " is abstract");
+            }
+            if(Modifier.isInterface(modifiers)) {
+               throw new IllegalStateException("Extension " + extension + " is an interface");
+            }
+            instance = extension.newInstance();
+         }
+         return instance;
       }
    }
 }

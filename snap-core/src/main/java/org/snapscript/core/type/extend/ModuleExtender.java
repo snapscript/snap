@@ -28,10 +28,9 @@ public class ModuleExtender {
       
       if(functions.isEmpty()) {
          FunctionExtractor extractor = new FunctionExtractor(loader, SYSTEM);
-         ScopeExtension extension = new ScopeExtension();
          
          try {
-            List<Function> list = extractor.extract(module, Scope.class, extension);
+            List<Function> list = extractor.extract(module, Scope.class, ScopeExtension.class);
             
             for(Function function : list) {
                functions.add(function);
