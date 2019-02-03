@@ -2,17 +2,17 @@
   
 Snap is an open source, optionally typed, object oriented scripting language for the Java platform. The learning curve is small for anyone with experience of Java, JavaScript, TypeScript, or Scala, amongst others. It has excellent integration with the host platform, and can do whatever can be done with Java and much more.
   
-  * [Overview](#overview)
-      * [Example Programs](#example-programs)
-        * [Mario](#mario)
-        * [Space Invaders](#space-invaders)
-        * [Tetris](#tetris)
-        * [Flappy Bird](#flappy-bird)        
+  * [Overview](#overview)    
       * [Parallel Compilation](#parallel-compilation)
       * [Static Analysis](#static-analysis)      
       * [Evaluation](#evaluation)
       * [Late Linking](#late-linking)
       * [Command Directive](#command-directive)
+      * [Example Programs](#example-programs)
+        * [Mario](#mario)
+        * [Space Invaders](#space-invaders)
+        * [Tetris](#tetris)
+        * [Flappy Bird](#flappy-bird)          
   * [Basic Types](#basic-types)
       * [Booleans](#booleans)
       * [Numbers](#numbers)
