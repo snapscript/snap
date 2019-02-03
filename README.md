@@ -95,6 +95,12 @@ Snap programs can be separated in to multiple source files that define the types
 the execution flow. To minimise start times the parsing and assembly of the source is performed in parallel. 
 Once defined the execution graph is joined in to a single executable and static analysis is performed.
 
+The tools and frameworks required to parse and assemble the source code are all custom and written from the 
+ground up with performance and correctness being the primary goals. In most conventional implementations
+a grammar is used to generate the parser, however for flexibility this implementation processes the grammar
+at runtime as the program starts, the parser has no prior knowledge of the grammar. This architecture simplifies 
+the implementation and makes the language more extensible.
+
 ##### Scanner
 
 In the initial phase of compilation the source is passed through a scanner and compressor. This removes 
