@@ -3,7 +3,11 @@
 Snap is an open source, optionally typed, object oriented scripting language for the Java platform. The learning curve is small for anyone with experience of Java, JavaScript, TypeScript, or Scala, amongst others. It has excellent integration with the host platform, and can do whatever can be done with Java and much more.
 
 The language is ideal for embedding in to an existing application, and is a fraction of the size of similar languages for the Java platform. In addition to embedding it can be run as a standalone interpreter and has an development environment which allows scripts to be debugged and profiled.
-
+  
+  * [Overview](#overview)
+      * [Parallel Compilation](#parallel-compilation)
+      * [Evaluation](#evaluation)
+      * [Late Linking](#late linking)
   * [Basic Types](#basic-types)
       * [Booleans](#booleans)
       * [Numbers](#numbers)
@@ -51,6 +55,11 @@ The language is ideal for embedding in to an existing application, and is a frac
       * [Coercion](#coercion)
       * [Platform Integration](#platform-integration)                                                      
   * [License](#license)
+
+### Overview
+#### Parallel Compilation
+#### Evaluation
+#### Late Linking
 
 ### Basic Types
 
