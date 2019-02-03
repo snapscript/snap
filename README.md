@@ -80,10 +80,21 @@ The language is ideal for embedding in to an existing application, and is a frac
 #### Command Directive
 #### Example Programs
 ##### Mario
+
+[Source Code](https://github.com/snapscript/snap-develop/tree/master/snap-studio/work/games/mario/src/mario)
+    
 ##### Space Invaders
+
+[Source Code](https://github.com/snapscript/snap-develop/tree/master/snap-studio/work/demo/games/src/spaceinvaders)
+  
 ##### Tetris
+
+[Source Code](https://github.com/snapscript/snap-develop/tree/master/snap-studio/work/demo/games/src/tetris)
+  
 ##### Flappy Bird
 
+[Source Code](https://github.com/snapscript/snap-develop/tree/master/snap-studio/work/android/flappybird/src/flappybird)
+  
 ### Basic Types
 
 For programs to be useful, we need to be able to work with some of the simplest units of data such as numbers, strings, structures, boolean values, and the like. Support for these basic types is much the same as you would expected for Java, with some additional features such as string templates, map, set, and list literals.
