@@ -9,6 +9,7 @@ The language is ideal for embedding in to an existing application, and is a frac
         * [Mario](#mario)
         * [Space Invaders](#space-invaders)
         * [Tetris](#tetris)
+        * [Flappy Bird](#flappy-bird)        
       * [Parallel Compilation](#parallel-compilation)
       * [Static Analysis](#static-analysis)      
       * [Evaluation](#evaluation)
