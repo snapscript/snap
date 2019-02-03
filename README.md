@@ -472,6 +472,27 @@ printAll(1, 2, 3, 4); // print all values
 ```
 
 #### Function Handles
+
+A function handle is simply a way to reference an existing function as a closure. Function handles can represent constructors or functions that are in scope.
+For example take the constructor for a string, it is quite possible to execute the following.
+
+```js
+['a', 'b', 'c'].iterator.forEachRemaining(this::println)
+```
+
+Here we are calling the println function with the item passed to the function. This function is represented as a function handle
+that takes a string. A function handle can represent a static or an instance function. For example:
+
+```js
+class Formatter {
+
+    public static upper(s: String) {
+        return s.toUpperCase();
+    }
+}
+
+['a', 'b', 'c'].stream().map(Formatter::upper).forEach(this::println);
+
 #### Generic Functions
 
 Generics can be used to qualify the arguments that can be passed to a function. They are useful when the static analyser verifies the program as it ensures arguments and return types match the declared qualifiers.
