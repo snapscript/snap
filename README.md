@@ -67,8 +67,7 @@ and much more.
       * [Generic Types](#generic-types)       
       * [Annotations](#annotations)           
       * [Type Alias](#type-alias)     
-      * [Import](#import)
-      * [Casting](#casting)      
+      * [Import](#import)   
       * [Coercion](#coercion)
       * [Platform Integration](#platform-integration)  
   * [Tools](#tools)
@@ -733,34 +732,33 @@ func create<T>(type: T): T {
 
 ### Types
 
-In any substantial application types are required. A type is basically a way to define an encapsulate variables and functions within a named scope.
+In any substantial application types are required. A type is basically a way to define and encapsulate variables 
+and functions within a named scope. All types can have generic parameters allowing the static analyser to verify
+interactions with the type.
 
 #### Class
 
-A class is the most basic type. It contains variables and functions that can operate on those variables. Once declared a type can be instantiated by calling a special function called a constructor.
+A class is the most basic type. It contains variables and functions that can operate on those variables. 
+Once declared a type can be instantiated by calling a special function called a constructor.
 
 ```js
-class Circle {
-   
-   private static const PI = 3.14; // enclosed variables
-   private let radius;
-   
-   new(radius) { // constructor
-      this.radius = radius;
-   }
-   
-   area() {
-      return PI * r * r;
-   }
-   
-   diameter() {
-      return 2 * r;
-   }
-}
+class NumberCache<K, V: Number> {
+    
+    let map = new HashMap<?, V>();    
 
-let circle = new Circle(10);
+    public cache(k: K, v: V) {
+        map.put(k, v);
+    }
+    
+    public fetch(k: K): V {
+        return map.get(k);
+    }
+} 
 
-circle.area(); // calculate area
+let cache = new NumberCache<String, Double>();
+
+cache.cache('1', 1.0);
+cache.cache('2', 2.0);
 ```
 
 #### Enumeration
@@ -830,7 +828,9 @@ module ImageStore {
 #### Type Alias
 #### Import
 
-In order to access the Java types available they can be imported by name. Once imported the type can be instantiated and used as if it was a script object. In addition to importing types, functions can also be imported by using a static import.
+In order to access the Java types available they can be imported by name. Once imported the type can be instantiated 
+and used as if it was a script object. In addition to importing types, functions can also be imported by using a 
+static import.
 
 ```js
 import static lang.Math.*; // import static functions
@@ -842,6 +842,23 @@ const b = random.nextInt(40);
 const c = max(a, b); // Math.max(a, b)
 
 println(c); // prints the maximum random
+```
+
+To avoid name collisions it is also possible to import types with aliases. Additionally an imports visibility can
+be encapsulated within a module so that it is only available in that module. 
+
+```js
+import util.concurrent.ConcurrentHashMap as Bag;
+
+module ImageStore {
+
+    import aws.image.BufferedImage as Image;
+    import aws.Graphics;
+    
+    public paint(g: Graphics) {
+        // ...
+    }
+}
 ```
 
 #### Coercion
@@ -861,7 +878,7 @@ for(entry in set){
    println(entry);
 }
 ```
-#### Casting
+
 #### Platform Integration
 
 To leverage the large array of frameworks and services available on the Java platform any Java type can be instantiated, and any Java interface can be implemented.
