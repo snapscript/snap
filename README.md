@@ -7,7 +7,7 @@ The language is ideal for embedding in to an existing application, and is a frac
   * [Overview](#overview)
       * [Parallel Compilation](#parallel-compilation)
       * [Evaluation](#evaluation)
-      * [Late Linking](#late linking)
+      * [Late Linking](#late-linking)
   * [Basic Types](#basic-types)
       * [Booleans](#booleans)
       * [Numbers](#numbers)
