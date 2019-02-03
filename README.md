@@ -20,54 +20,55 @@ and much more.
         * [Flappy Bird](#flappy-bird)            
         * [Space Invaders](#space-invaders)
         * [Tetris](#tetris)      
-  * [Basic Types](#basic-types)
-      * [Booleans](#booleans)
-      * [Numbers](#numbers)
-      * [Strings](#strings)
-      * [Arrays](#arrays)
-      * [Collections](#collections)
-  * [Operators](#operators)
-      * [Arithmetic Operators](#arithmetic-operators)
-      * [Relational Operators](#relational-operators)
-      * [Bitwise Operators](#bitwise-operators)
-      * [Logical Operators](#logical-operators)      
-  * [Conditions](#conditions)
-      * [If Statement](#if-statement)
-      * [Else Statement](#else-statement)
-      * [Unless Statement](#unless-statement) 
-      * [Assert Statement](#assert-statement) 
-      * [Debug Statement](#debug-statement)             
-      * [Ternary Operator](#ternary-operator)    
-      * [Null Coalesce](#null-coalesce)                 
-  * [Loops](#loops)
-      * [While Statement](#while-statement)
-      * [Until Statement](#until-statement)      
-      * [For Statement](#for-statement)
-      * [For In Statement](#for-in-statement)
-      * [Loop Statement](#loop-statement)   
-  * [Exceptions](#exceptions)
-      * [Catch Statement](#catch-statement)
-      * [Finally Statement](#finally-statement)   
-  * [Functions](#functions)
-      * [Declaration](#declaration)
-      * [Type Constraints](#type-constraints)      
-      * [Variable Arguments](#variable-arguments)
-      * [Closures](#closures)
-      * [Function Handles](#function-handles)      
-      * [Generic Functions](#generic-functions)
-      * [Coroutines](#coroutines)
-      * [Async Await](#async-await)
-      * [Blank Parameters](#blank-parameters)      
-  * [Types](#types)
-      * [Class](#class)
-      * [Enumeration](#enumeration)      
-      * [Trait](#trait)     
-      * [Module](#module)   
-      * [Annotations](#annotations)           
-      * [Type Alias](#type-alias)     
-      * [Import](#import)   
-      * [Coercion](#coercion)
-      * [Platform Integration](#platform-integration)  
+  * [Language](#language)      
+      * [Basic Types](#basic-types)
+          * [Booleans](#booleans)
+          * [Numbers](#numbers)
+          * [Strings](#strings)
+          * [Arrays](#arrays)
+          * [Collections](#collections)
+      * [Operators](#operators)
+          * [Arithmetic Operators](#arithmetic-operators)
+          * [Relational Operators](#relational-operators)
+          * [Bitwise Operators](#bitwise-operators)
+          * [Logical Operators](#logical-operators)      
+      * [Conditions](#conditions)
+          * [If Statement](#if-statement)
+          * [Else Statement](#else-statement)
+          * [Unless Statement](#unless-statement) 
+          * [Assert Statement](#assert-statement) 
+          * [Debug Statement](#debug-statement)             
+          * [Ternary Operator](#ternary-operator)    
+          * [Null Coalesce](#null-coalesce)                 
+      * [Loops](#loops)
+          * [While Statement](#while-statement)
+          * [Until Statement](#until-statement)      
+          * [For Statement](#for-statement)
+          * [For In Statement](#for-in-statement)
+          * [Loop Statement](#loop-statement)   
+      * [Exceptions](#exceptions)
+          * [Catch Statement](#catch-statement)
+          * [Finally Statement](#finally-statement)   
+      * [Functions](#functions)
+          * [Declaration](#declaration)
+          * [Type Constraints](#type-constraints)      
+          * [Variable Arguments](#variable-arguments)
+          * [Closures](#closures)
+          * [Function Handles](#function-handles)      
+          * [Generic Functions](#generic-functions)
+          * [Coroutines](#coroutines)
+          * [Async Await](#async-await)
+          * [Blank Parameters](#blank-parameters)      
+      * [Types](#types)
+          * [Class](#class)
+          * [Enumeration](#enumeration)      
+          * [Trait](#trait)     
+          * [Module](#module)   
+          * [Annotations](#annotations)           
+          * [Type Alias](#type-alias)     
+          * [Import](#import)   
+          * [Coercion](#coercion)
+          * [Platform Integration](#platform-integration)  
   * [Tools](#tools)
       * [Command Line Interpreter](#command-line-interpreter)
       * [Development Environment](#development-environment)      
@@ -233,7 +234,9 @@ shapes are painted on the screen with AWT primitives.
 
 [Source Code](https://github.com/snapscript/snap-develop/tree/master/snap-studio/work/demo/games/src/tetris)
   
-### Basic Types
+### Language  
+  
+#### Basic Types
 
 For programs to be useful, we need to be able to work with some of the simplest units of data such as numbers, 
 strings, structures, boolean values, and the like. Support for these basic types is much the same as you would 
@@ -250,7 +253,7 @@ let d: Double = 22.0; // d can only reference doubles
 const c = 1.23; // c is constant, it cannot change
 ```
 
-#### Booleans
+##### Booleans
 
 The most basic type is the simple true or false value, which is called a boolean value.
 
@@ -262,7 +265,7 @@ let d: Boolean = Boolean.TRUE; // like Boolean d = Boolean.TRUE
 let e = Boolean.FALSE; // like Object e = Boolean.FALSE
 ```
 
-#### Numbers
+##### Numbers
 
 The most basic type is the simple true or false value, which is called a 'boolean' value.
 
@@ -275,7 +278,7 @@ let typed: Integer = 22; // integer value 22
 let coercion: Double = "1.234e2"; // coercion of string to double
 ```
 
-#### Strings
+##### Strings
 
 A fundamental part of creating programs is working with textual data. As in other languages, we use the type string to refer to these textual types. Strings are represented by characters between either a single quote or a double quote. When characters are between double quotes they are interpolated, meaning they have expressions evaluated within them. These expressions start with the dollar character. All strings can span multiple lines.
 
@@ -285,7 +288,7 @@ let template = "The sum of 1 and 2 is ${1 + 2}"; // interpolated string
 let concat = "The sum of 1 and 2 is " + (1 + 2); // concatenation
 ```
 
-#### Arrays
+##### Arrays
 
 The most basic type is the simple true or false value, which is called a 'boolean' value.
 
@@ -297,7 +300,7 @@ let matrix = new Long[10][22]; // multidimensional long[10][22];
 let long = matrix[2][3]; // reference multidimensional
 ```
 
-#### Collections
+##### Collections
 
 Complex data structures can be represented with a simple and straight forward syntax. Collection types found in Java such as maps, sets, and lists can be represented as follows.
 
@@ -309,12 +312,12 @@ let empty = {:}; // creates an empty map
 let mix = [1, 2, {"a": {"a", "b", [55, 66]}}]; // mix collection types
 ```
 
-### Operators
+#### Operators
 
 Operators are special symbols that perform specific operations on one, two, or three operands, and then return a result. They are typically used to manipulate or compare values.
 
 
-#### Arithmetic Operators
+##### Arithmetic Operators
 
 Arithmetic operators are used in mathematical expressions in the same way that they are used in algebra.
 
@@ -332,7 +335,7 @@ let j = --a; // a is 10 and j is 10
 let k = ++b; // b is 20 as is k
 ```
 
-#### Relational Operators
+##### Relational Operators
 
 Relational operators are used to make comparisons, such as equal to, not equal to, greater than, less than.
 
@@ -347,7 +350,7 @@ let g = a <= b; // g is false
 let h = a >= b; // h is true
 ```
 
-#### Bitwise Operators
+##### Bitwise Operators
 
 Bitwise operators are used to manipulate numbers, typically integers, at the byte level. They do so by change the binary representation of the value.
 
@@ -363,7 +366,7 @@ let h = f << 2; // h is 11000000
 let i = f >>> 2; // unsigned shift, i is 00110000
 ```
 
-#### Logical Operators
+##### Logical Operators
 
 Logical operators are typically used to combine multiple relational operations in to a single boolean result.
 
@@ -379,12 +382,12 @@ let h = b > a && a == 1; // logical and of, h is true
 let i = b > a && a != 1; // i is false
 ```
 
-### Conditions
+#### Conditions
 
 Conditional statements are used to perform different actions based on different conditions.
 
 
-#### If Statement
+##### If Statement
 
 The if statement is used to specify a group of statements to execute if a statement is true.
 
@@ -397,7 +400,7 @@ if(a < b) { // true
 }
 ```
 
-#### Else Statement
+##### Else Statement
 
 The else statement is used to specify a group of statements to execute if a statement is false.
 
@@ -412,7 +415,7 @@ if(a >= b) { // false
 }
 ```
 
-#### Unless Statement
+##### Unless Statement
 
 The unless statement is used to specify a group of statements to execute if a statement is false.
 
@@ -425,7 +428,7 @@ unless(a > b) { // false
 }
 ```
 
-#### Assert Statement
+##### Assert Statement
 
 The assert statement is used to determine if an expression evaluates to true or false. If the expression evaluates 
 to true the operation has no effect, otherwise an assertion exception is thrown.
@@ -438,7 +441,7 @@ assert a < b;
 assert a > b; // assert exception
 ```
 
-#### Debug Statement
+##### Debug Statement
 
 The debug statement is used to suspend any attached debugger if and expression evaluates to true. This can be useful
 if there is a specific part of the program that you want to evaluate given a known state of execution. It is similar
@@ -448,7 +451,7 @@ to the debugger statement for JavaScript with the addition of logic predicate th
 debug a * b > 4; // suspend the debugger if true
 ```
 
-#### Ternary Operator
+##### Ternary Operator
 
 To make statements more concise there is a ternary operator.
 
@@ -459,7 +462,7 @@ let b = 3;
 println(a >= b ? "a >= b" : "a < b"); // prints a < b
 ```
 
-#### Null Coalesce
+##### Null Coalesce
 
 The null coalesce operator is similar to the ternary operator with one exception, the evaluation is whether a value is null.
 
@@ -470,11 +473,11 @@ let b = 3;
 println(a ?? b); // prints b
 ```
 
-### Loops
+#### Loops
 
 Loops are used to perform a group of statements a number of times until a condition has been satisfied.
 
-#### While Statement
+##### While Statement
 
 The while statement is the simplest conditional statement. It repeats a group of statements while the condition it evaluates is false.
 
@@ -486,7 +489,7 @@ while(n < 10) { // conditional loop
 }
 ```
 
-#### For Statement
+##### For Statement
 
 The for statement is typically used to count over a range of numeric values. It contains three parts, a declaration, a condition, and an optional statement which is evaluated at the end of the loop.
 
@@ -499,7 +502,7 @@ for(let i = 0; i < 10; i++){ // loops from 1 to 10
 }
 ```
 
-#### For In Statement
+##### For In Statement
 
 The for in statement offers a simpler way to iterate over a range of values, a collection, or an array.
 
@@ -517,7 +520,7 @@ for(e in 0..9) { // iterates from 0 to 9
    println(e); // prints from 0 to 6
 }
 ```
-#### Loop Statement
+##### Loop Statement
 
 The loop statement offers a way to specify an infinite loop, it does not evaluate any condition.
 
@@ -531,13 +534,17 @@ loop { // infinite loop
 }
 ```
 
-### Exceptions
+#### Exceptions
 
-Exceptions are used to indicate an error has occurred. It offers a simple means to return control to a calling function, which can then handle the error. Typically an exception object is thrown, however it is possible to throw any type.
+Exceptions are used to indicate an error has occurred. It offers a simple means to return control to a 
+calling function, which can then handle the error. Typically an exception object is thrown, however it is 
+possible to throw any type.
 
-#### Catch Statement
+##### Catch Statement
 
-In order to catch an exception the throwing statement needs to be wrapped in a try catch statement. This statement basically allows the program to try to execute a statement or group of statements, if during execution an exception is thrown then an error handling block is executed.
+In order to catch an exception the throwing statement needs to be wrapped in a try catch statement. This 
+statement basically allows the program to try to execute a statement or group of statements, if during 
+execution an exception is thrown then an error handling block is executed.
 
 ```js
 try {
@@ -547,9 +554,9 @@ try {
 }
 ```
 
-#### Finally Statement
+##### Finally Statement
 
-The finally statement is a group of statements that are always executed regardless of whether an exception is thrown..
+The finally statement is a group of statements that are always executed regardless of whether an exception is thrown.
 
 ```js
 try {
@@ -561,11 +568,11 @@ try {
 }
 ```
 
-### Functions
+#### Functions
 
 Functions group together control structures, operations, and method calls. These functions can then be called when needed, and the code contained within them will be run. This makes it very easy to reuse code without having to repeat it within your script.
 
-#### Declaration
+##### Declaration
 
 The most basic type of function is declared with a name and a specific number of parameters. Such a method can then be called using the declared name by passing in a right number of arguments.
 
@@ -581,7 +588,7 @@ func max(a, b, c) { // function overloading
 }
 ```
 
-#### Type Constraints
+##### Type Constraints
 
 In order to bind invocations to the correct function implementation it can be declared with optional type constraints. These type constraints will ensure that variables of a specific type will be bound to the correct implementation.
 
@@ -608,7 +615,7 @@ func f(x: String) {
 }
 ```
 
-#### Variable Arguments
+##### Variable Arguments
 
 At times it can be useful to provide a large number of arguments to a function. To achieve this the last parameter can be declared with a variable argument modifier.
 
@@ -626,7 +633,7 @@ func sum(offset, numbers...){ // variable arguments
 }
 ```
 
-#### Closures
+##### Closures
 
 A closure is an anonymous function that captures the current scope and can be assigned to a variable. This variable can then act as a function and can be called in the same manner.
 
@@ -645,7 +652,7 @@ const printAll = (values...) -> {
 printAll(1, 2, 3, 4); // print all values
 ```
 
-#### Function Handles
+##### Function Handles
 
 A function handle is simply a way to reference an existing function as a closure. Function handles can represent constructors or functions that are in scope.
 For example take the constructor for a string, it is quite possible to execute the following.
@@ -668,7 +675,7 @@ class Formatter {
 ['a', 'b', 'c'].stream().map(Formatter::upper).forEach(this::println);
 ```
 
-#### Generic Functions
+##### Generic Functions
 
 Generics can be used to qualify the arguments that can be passed to a function. They are useful when the static analyser verifies the program as it ensures arguments and return types match the declared qualifiers.
 
@@ -689,7 +696,7 @@ assert list[0] == 1;
 assert list[2] == 2;
 ```
 
-#### Coroutines
+##### Coroutines
 
 It is often useful to suspend execution of a function in order to return a result. Typically this requires a great deal of effort from the developer. Coroutines allow an idomatic means of suspending the 
 execution of a function which can be resumed at the point of suspension. This allows for complex reactive iteration to be performed
@@ -707,7 +714,7 @@ func fib(n){
 }
 ```
 
-#### Async Await
+##### Async Await
 
 Asynchronous functions can be implemented with the async and await modifiers. This is similar to a standard Coroutine however this paradigm will allow the execution
 of the program to fork in two different threads of execution.
@@ -718,7 +725,7 @@ async loadImage(n: String): Promise<?> {
 }
 ```
 
-#### Blank Parameters
+##### Blank Parameters
 
 Blank parameters allow you to specify an argument that is not needed or can be ignored.
 
@@ -728,13 +735,13 @@ func create<T>(type: T): T {
 }
 ```
 
-### Types
+#### Types
 
 In any substantial application types are required. A type is basically a way to define and encapsulate variables 
 and functions within a named scope. All types can have generic parameters allowing the static analyser to verify
 interactions with the type.
 
-#### Class
+##### Class
 
 A class is the most basic type. It contains variables and functions that can operate on those variables. 
 Once declared a type can be instantiated by calling a special function called a constructor.
@@ -759,7 +766,7 @@ cache.cache('1', 1.0);
 cache.cache('2', 2.0);
 ```
 
-#### Enumeration
+##### Enumeration
 
 An enumeration is a type that specifies a list of constant values. This values are constant and are instances of the enum they are declared in.
 
@@ -780,7 +787,7 @@ let red = Color.RED;
 let blue = Color.BLUE;
 ```
 
-#### Trait
+##### Trait
 
 A trait is similar to a class in that is specifies a list of functions. However, unlike a class a trait does not declare any variables and does not have a constructor. It can be used to add functions to a class.
 
@@ -804,7 +811,7 @@ class ItalicFormat with Format {
 }
 ```
 
-#### Module
+##### Module
 
 A module is collection of types, functions, and variables. It is similar to enclosing a script within a named type. 
 Modules are useful in providing constructs such as singletons.
@@ -823,7 +830,7 @@ module ImageStore {
    }
 } 
 ```
-#### Type Alias
+##### Type Alias
 
 It can often be useful to alias types for readability, particularly when generics are involved. An alias is not
 a new type but rather a new name for a known type. 
@@ -843,7 +850,7 @@ func bagOf<T: Number>(nums...: T): Bag<T> {
 }
 ```
 
-#### Import
+##### Import
 
 In order to access the Java types available they can be imported by name. Once imported the type can be instantiated 
 and used as if it was a script object. In addition to importing types, functions can also be imported by using a 
@@ -878,7 +885,7 @@ module ImageStore {
 }
 ```
 
-#### Coercion
+##### Coercion
 
 For interfaces that have only a single method a closure can be coerced to that interface type. This makes for a much simpler and concise syntax similar to that offered by Java closures.
 
@@ -896,7 +903,7 @@ for(entry in set){
 }
 ```
 
-#### Platform Integration
+##### Platform Integration
 
 To leverage the large array of frameworks and services available on the Java platform any Java type 
 can be instantiated, and any Java interface can be implemented.
