@@ -44,6 +44,7 @@ The language is ideal for embedding in to an existing application, and is a frac
       * [Coroutines](#coroutines)
       * [Async Await](#async-await)
       * [Extension Functions](#extension-functions)
+      * [Blank Parameters](#blank-parameters)      
   * [Types](#types)
       * [Class](#class)
       * [Enumeration](#enumeration)      
