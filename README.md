@@ -71,7 +71,14 @@ and much more.
           * [Platform Integration](#platform-integration)  
   * [Tools](#tools)
       * [Command Line Interpreter](#command-line-interpreter)
-      * [Development Environment](#development-environment)      
+      * [Development Environment](#development-environment)    
+          * [Breakpoints](#breakpoints)
+          * [Console](#console)
+          * [Variables](#variables)    
+          * [Threads](#threads)    
+          * [Process View](#process-view)    
+          * [Debug Perspective](#debug-perspective)    
+          * [Full Screen](#full-screen)                                                    
       * [Debug Agent](#debug-agent)
       * [Android](#android)                                                              
   * [License](#license)
@@ -235,6 +242,10 @@ shapes are painted on the screen with AWT primitives.
 [Source Code](https://github.com/snapscript/snap-develop/tree/master/snap-studio/work/demo/games/src/tetris)
   
 ### Language  
+  
+Learning how to code applications with Snap is easy, particularly if you have experience with Java, Javascript, 
+or a similar language. Below you will find various sections illustrating the basics, where you will learn about 
+types, functions, and the various statements and expressions that can be used. 
   
 #### Basic Types
 
@@ -931,11 +942,31 @@ for(let entry in set){
 ```
 
 ## Tools
-### Command Line Interpreter
+
+To be productive in any language there needs to be a way to write, evalute and debug applications. The development 
+environment is free to use and can be used in any standard web browser supporting HTML 5. Alternatively this 
+development client can be run as a standalone application.
+
 ### Development Environment
+
+The development environment, Snap Studio, is written with HTML5 and TypeScript. It comes packaged as a standalone application 
+leveraging the Chrome embedded framework CEF. Running an application from Snap Studio is as simple has pressing the 
+play button. This will initiate a bootstrapping process where the interpreter is downloaded in to a harness once
+this boot strapping process has completed the source program is downloaded and executed. Stepping through the
+code can be done by setting break points.
+
 #### Breakpoints
+
+A breakpoint forces the debugger to suspend at a particular line when execution flow arrives at that line. Once
+suspended the developer can step in, out or over the statements.
+
 ![Developer Breakpoints](https://raw.githubusercontent.com/snapscript/snap-site/master/images/debugger_breakpoints.png)
+
 #### Console
+
+All output from the application is captured in the console and displayed. This console is a scrolling window and
+will keep only the most recent history up to a configurable number of lines.
+
 ![Developer Console](https://raw.githubusercontent.com/snapscript/snap-site/master/images/debugger_console.png)
 #### Variables
 ![Developer Variables](https://raw.githubusercontent.com/snapscript/snap-site/master/images/debugger_variables.png)
