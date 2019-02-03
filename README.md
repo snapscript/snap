@@ -5,6 +5,10 @@ Snap is an open source, optionally typed, object oriented scripting language for
 The language is ideal for embedding in to an existing application, and is a fraction of the size of similar languages for the Java platform. In addition to embedding it can be run as a standalone interpreter and has an development environment which allows scripts to be debugged and profiled.
   
   * [Overview](#overview)
+      * [Example Programs](#example-programs)
+        * [Mario](#mario)
+        * [Space Invaders](#space-invaders)
+        * [Tetris](#tetris)
       * [Parallel Compilation](#parallel-compilation)
       * [Static Analysis](#static-analysis)      
       * [Evaluation](#evaluation)
@@ -64,6 +68,10 @@ The language is ideal for embedding in to an existing application, and is a frac
   * [License](#license)
 
 ### Overview
+#### Example Programs
+##### Mario
+##### Space Invaders
+##### Tetris
 #### Parallel Compilation
 #### Evaluation
 #### Late Linking
