@@ -210,10 +210,13 @@ program being run and debugged with Snap Studio.
 [Source Code - Statically Typed](https://github.com/snapscript/snap-develop/tree/master/snap-studio/work/demo/games/src/mario)
 
 [Source Code - Dynamically Typed](https://github.com/snapscript/snap-develop/tree/master/snap-studio/work/games/mario/src/mario)
-    
+   
+[Source Code - Android](https://github.com/snapscript/snap-develop/blob/master/snap-studio/work/android/mario/src/mario/start.snap)
+
 ##### Flappy Bird
 
-This is a clone of the Flappy Bird program and is targeted for Android. 
+This is a clone of the Flappy Bird game and is targeted for Android. Below is a YouTube vide of the application
+being run and debugged remotely with Snap Studio.
 
 [![Debug Android Game](http://img.youtube.com/vi/w-baBQbZ5dI/0.jpg)](https://www.youtube.com/watch?v=w-baBQbZ5dI)
 
@@ -221,17 +224,27 @@ This is a clone of the Flappy Bird program and is targeted for Android.
         
 ##### Space Invaders
 
+This is a very basic clone of the classic Space Invaders game. The implementation is short but leverages some
+of the more interesting language features such as async await.
+
 [Source Code](https://github.com/snapscript/snap-develop/tree/master/snap-studio/work/demo/games/src/spaceinvaders)
   
 ##### Tetris
+
+This is a very basic clone of the classic Tetris game. The implementation does not leverage graphics or sounds and
+shapes are painted on the screen with AWT primitives.
 
 [Source Code](https://github.com/snapscript/snap-develop/tree/master/snap-studio/work/demo/games/src/tetris)
   
 ### Basic Types
 
-For programs to be useful, we need to be able to work with some of the simplest units of data such as numbers, strings, structures, boolean values, and the like. Support for these basic types is much the same as you would expected for Java, with some additional features such as string templates, map, set, and list literals.
+For programs to be useful, we need to be able to work with some of the simplest units of data such as numbers, 
+strings, structures, boolean values, and the like. Support for these basic types is much the same as you would 
+expected for Java, with some additional features such as string templates, map, set, and list literals.
 
-In order to reference values they must be associated with a variable. Variables are declared with the keyword var or const. A variable can have an optional constraint by declaring a type. If constrained a variable can only reference values of the declared type.
+In order to reference values they must be associated with a variable. Variables are declared with the keyword 
+```let``` or ```const```. A variable can have an optional constraint by declaring a type. If constrained a 
+variable can only reference values of the declared type.
 
 ```js
 let v = 22; // v can reference any type
