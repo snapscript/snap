@@ -76,6 +76,7 @@ The language is ideal for embedding in to an existing application, and is a frac
 ##### Tetris
 ##### Flappy Bird
 #### Parallel Compilation
+#### Static Analysis
 #### Evaluation
 #### Late Linking
 #### Command Directive
