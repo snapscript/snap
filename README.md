@@ -492,6 +492,7 @@ class Formatter {
 }
 
 ['a', 'b', 'c'].stream().map(Formatter::upper).forEach(this::println);
+```
 
 #### Generic Functions
 
