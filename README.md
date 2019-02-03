@@ -57,14 +57,12 @@ and much more.
       * [Generic Functions](#generic-functions)
       * [Coroutines](#coroutines)
       * [Async Await](#async-await)
-      * [Extension Functions](#extension-functions)
       * [Blank Parameters](#blank-parameters)      
   * [Types](#types)
       * [Class](#class)
       * [Enumeration](#enumeration)      
       * [Trait](#trait)     
-      * [Module](#module)
-      * [Generic Types](#generic-types)       
+      * [Module](#module)   
       * [Annotations](#annotations)           
       * [Type Alias](#type-alias)     
       * [Import](#import)   
@@ -808,7 +806,8 @@ class ItalicFormat with Format {
 
 #### Module
 
-A module is collection of types, functions, and variables. It is similar to enclosing a script within a named type. Modules are useful in providing constructs such as singletons.
+A module is collection of types, functions, and variables. It is similar to enclosing a script within a named type. 
+Modules are useful in providing constructs such as singletons.
 
 ```js
 module ImageStore {
@@ -824,8 +823,26 @@ module ImageStore {
    }
 } 
 ```
-#### Generic Types
 #### Type Alias
+
+It can often be useful to alias types for readability, particularly when generics are involved. An alias is not
+a new type but rather a new name for a known type. 
+
+```js
+import util.concurrent.ConcurrentHashMap;
+
+type Bag<T> = ConcurrentHashMap<String, T>();
+
+func bagOf<T: Number>(nums...: T): Bag<T> {
+    let bag: Bag<T> = new Bag<T>();
+    
+    for(num in nums){
+        bag.put(`${num}`, num);
+    }
+    return bag;
+}
+```
+
 #### Import
 
 In order to access the Java types available they can be imported by name. Once imported the type can be instantiated 
@@ -881,7 +898,8 @@ for(entry in set){
 
 #### Platform Integration
 
-To leverage the large array of frameworks and services available on the Java platform any Java type can be instantiated, and any Java interface can be implemented.
+To leverage the large array of frameworks and services available on the Java platform any Java type 
+can be instantiated, and any Java interface can be implemented.
 
 ```js
 class DoubleComparator with Comparator{
