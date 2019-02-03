@@ -42,7 +42,12 @@ The language is ideal for embedding in to an existing application, and is a frac
       * [Class](#class)
       * [Enumeration](#enumeration)      
       * [Trait](#trait)     
-      * [Module](#module)                                                           
+      * [Module](#module)
+      * [Generic Types](#generic-types)                  
+      * [Type Alias](#type-alias)     
+      * [Import](#import)
+      * [Coercion](#coercion)
+      * [Platform Integration](#integration)                                                      
   * [License](#license)
 
 ### Basic Types
@@ -408,6 +413,50 @@ const printAll = (values...) -> {
 printAll(1, 2, 3, 4); // print all values
 ```
 
+#### Generic Functions
+
+Generics can be used to qualify the arguments that can be passed to a function. They are useful when the static analyser verifies the program as it ensures arguments and return types match the declared qualifiers.
+
+```js
+func abs<T: Number>(nums: T): List<T> {
+    let result: List<T>  = [];
+    
+    for(num in nums) {
+        let abs = num.abs();
+        result.add(abs);
+    }
+    return result;
+}
+```
+#### Coroutines
+
+It is often useful to suspend execution of a function in order to return a result. Typically this requires a great deal of effort from the developer. Coroutines allow an idomatic means of suspending the 
+execution of a function which can be resumed at the point of suspension. This allows for complex reactive iteration to be performed
+with minimal effort. For example take a Fibonnaci sequence.
+
+```js
+func fib(n){
+   let a = 1;
+   let b = 2;
+   
+   until(n-- <= 0) {
+      yield a;
+      (a, b) = (b, a + b);
+   }
+}
+```
+
+#### Async Await
+
+Asynchronous functions can be implemented with the async and await modifiers. This is similar to a standard Coroutine however this paradigm will allow the execution
+of the program to fork in two different threads of execution.
+
+```js
+async loadImage(n: String): Promise<?> {
+    return await ImageIO.read(n);
+}
+```
+
 ### Types
 
 In any substantial application types are required. A type is basically a way to define an encapsulate variables and functions within a named scope.
@@ -503,6 +552,41 @@ module ImageStore {
    }
 } 
 ```
+#### Generic Types
+#### Type Alias
+#### Import
+
+In order to access the Java types available they can be imported by name. Once imported the type can be instantiated and used as if it was a script object. In addition to importing types, functions can also be imported by using a static import.
+
+```js
+import static lang.Math.*; // import static functions
+import security.SecureRandom;
+
+const random = new SecureRandom(); // create a java type
+const a = random.nextInt(40);
+const b = random.nextInt(40);
+const c = max(a, b); // Math.max(a, b)
+
+println(c); // prints the maximum random
+```
+
+#### Coercion
+
+For interfaces that have only a single method a closure can be coerced to that interface type. This makes for a much simpler and concise syntax similar to that offered by Java closures.
+
+```js
+const set = new TreeSet((a,b)->Double.compare(a,b));
+
+set.add(1.2);
+set.add(2.3);
+set.add(33.4);
+set.add(4.55);
+set.add(2);
+
+for(entry in set){
+   println(entry);
+}
+```
 
 #### Integration
 
@@ -530,38 +614,5 @@ for(let entry in set){
 }
 ```
 
-#### Coercion
-
-For interfaces that have only a single method a closure can be coerced to that interface type. This makes for a much simpler and concise syntax similar to that offered by Java closures.
-
-```js
-const set = new TreeSet((a,b)->Double.compare(a,b));
-
-set.add(1.2);
-set.add(2.3);
-set.add(33.4);
-set.add(4.55);
-set.add(2);
-
-for(entry in set){
-   println(entry);
-}
-```
-
-#### Import
-
-In order to access the Java types available they can be imported by name. Once imported the type can be instantiated and used as if it was a script object. In addition to importing types, functions can also be imported by using a static import.
-
-```js
-import static lang.Math.*; // import static functions
-import security.SecureRandom;
-
-const random = new SecureRandom(); // create a java type
-const a = random.nextInt(40);
-const b = random.nextInt(40);
-const c = max(a, b); // Math.max(a, b)
-
-println(c); // prints the maximum random
-```
 
 
