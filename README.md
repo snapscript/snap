@@ -47,7 +47,7 @@ The language is ideal for embedding in to an existing application, and is a frac
       * [Type Alias](#type-alias)     
       * [Import](#import)
       * [Coercion](#coercion)
-      * [Platform Integration](#integration)                                                      
+      * [Platform Integration](#platform-integration)                                                      
   * [License](#license)
 
 ### Basic Types
@@ -588,7 +588,7 @@ for(entry in set){
 }
 ```
 
-#### Integration
+#### Platform Integration
 
 To leverage the large array of frameworks and services available on the Java platform any Java type can be instantiated, and any Java interface can be implemented.
 
