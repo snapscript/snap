@@ -14,12 +14,35 @@ The language is ideal for embedding in to an existing application, and is a frac
       * [Arithmetic Operators](#arithmetic-operators)
       * [Relational Operators](#relational-operators)
       * [Bitwise Operators](#bitwise-operators)
-      * [Logical Operators](#logical-operators)    
+      * [Logical Operators](#logical-operators)      
   * [Conditions](#conditions)
-      * [Arithmetic Operators](#arithmetic-operators)
-      * [Relational Operators](#relational-operators)
-      * [Bitwise Operators](#bitwise-operators)
-      * [Logical Operators](#logical-operators)                     
+      * [If Statement](#if-statement)
+      * [Else Statement](#else-statement)
+      * [Unless Statement](#unless-statement) 
+      * [Ternary Operator](#ternary-operator)    
+      * [Null Coalesce](#null-coalesce)                 
+  * [Loops](#loops)
+      * [While Statement](#while-statement)
+      * [Until Statement](#until-statement)      
+      * [For Statement](#for-statement)
+      * [For In Statement](#for-in-statement)
+      * [Loop Statement](#loop-statement)   
+  * [Exceptions](#exceptions)
+      * [Catch Statement](#catch-statement)
+      * [Finally Statement](#finally-statement)   
+  * [Functions](#functions)
+      * [Declaration](#declaration)
+      * [Type Constraints](#type-constraints)      
+      * [Variable Arguments](#variable-arguments)
+      * [Closures](#closures)
+      * [Generic Functions](#generic-functions)
+      * [Coroutines](#coroutines)
+      * [Async Await](#async-await)
+  * [Types](#types)
+      * [Class](#class)
+      * [Enumeration](#enumeration)      
+      * [Trait](#trait)     
+      * [Module](#module)                                                           
   * [License](#license)
 
 ### Basic Types
@@ -28,7 +51,7 @@ For programs to be useful, we need to be able to work with some of the simplest 
 
 In order to reference values they must be associated with a variable. Variables are declared with the keyword var or const. A variable can have an optional constraint by declaring a type. If constrained a variable can only reference values of the declared type.
 
-```swift
+```js
 let v = 22; // v can reference any type
 let i: Integer = 22; // i can only reference integers
 let d: Double = 22.0; // d can only reference doubles
@@ -39,7 +62,7 @@ const c = 1.23; // c is constant, it cannot change
 
 The most basic type is the simple true or false value, which is called a boolean value.
 
-```swift
+```js
 let a = true; // value a is true
 let b = false; // false
 let c = Boolean.FALSE; // type constraint of Boolean
@@ -417,7 +440,7 @@ let circle = new Circle(10);
 circle.area(); // calculate area
 ```
 
-#### Enumerations
+#### Enumeration
 
 An enumeration is a type that specifies a list of constant values. This values are constant and are instances of the enum they are declared in.
 
@@ -438,7 +461,7 @@ let red = Color.RED;
 let blue = Color.BLUE;
 ```
 
-#### Traits
+#### Trait
 
 A trait is similar to a class in that is specifies a list of functions. However, unlike a class a trait does not declare any variables and does not have a constructor. It can be used to add functions to a class.
 
@@ -460,6 +483,25 @@ class ItalicFormat with Format {
       return "<i>${a}</i>";
    }
 }
+```
+
+#### Module
+
+A module is collection of types, functions, and variables. It is similar to enclosing a script within a named type. Modules are useful in providing constructs such as singletons.
+
+```js
+module ImageStore {
+
+   private const cache = {:};
+   
+   public find(name) {
+      return cache.get(name);
+   }
+   
+   private cache(name, image) {
+      cache.put(name, image);
+   }
+} 
 ```
 
 #### Integration
@@ -522,21 +564,4 @@ const c = max(a, b); // Math.max(a, b)
 println(c); // prints the maximum random
 ```
 
-#### Module
 
-A module is collection of types, functions, and variables. It is similar to enclosing a script within a named type. Modules are useful in providing constructs such as singletons.
-
-```js
-module ImageStore {
-
-   private const cache = {:};
-   
-   public find(name) {
-      return cache.get(name);
-   }
-   
-   private cache(name, image) {
-      cache.put(name, image);
-   }
-} 
-```
