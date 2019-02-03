@@ -163,7 +163,27 @@ similar to how many other dependency injection system works.
 [Language Instructions](https://github.com/snapscript/snap/blob/master/snap-tree/src/main/resources/instruction.txt)
 
 #### Static Analysis
+
+As a program grows large so to does its complexity. To manage this complexity static analysis is performed across 
+the entire codebase. The level of static analysis performed is up to the developer as types are optional. Access 
+modifiers are also provided to describe intent and visibility of functions and variables.
+
+When leveraging types further qualification can be given in the form of generics. Generics allow the developer
+to describe the types of parameters that can be used for a specific declaration. 
+
 #### Evaluation
+
+Code evaluation is the process of transforming text to code at runtime. This can be useful when you want
+to perform some dynamic task. In languages such as Java the reflection framework allows developers to 
+introspect and execute code in a dynamic way. With evaluation you can achieve similar functionality without
+the boilerplate. Internally evaluations cache the execution trees they represent which eliminates 
+the performance overheads.
+
+```jsh
+let instance = eval(`new ` + type + '()');
+```
+
+
 #### Command Directive
 
 The command directive is used to tell command interpreters where the interpreter for the source is located. This is 
