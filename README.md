@@ -6,6 +6,7 @@ The language is ideal for embedding in to an existing application, and is a frac
   
   * [Overview](#overview)
       * [Parallel Compilation](#parallel-compilation)
+      * [Static Analysis](#static-analysis)      
       * [Evaluation](#evaluation)
       * [Late Linking](#late-linking)
   * [Basic Types](#basic-types)
@@ -54,7 +55,12 @@ The language is ideal for embedding in to an existing application, and is a frac
       * [Type Alias](#type-alias)     
       * [Import](#import)
       * [Coercion](#coercion)
-      * [Platform Integration](#platform-integration)                                                      
+      * [Platform Integration](#platform-integration)  
+  * [Tools](#tools)
+      * [Command Line Interpreter](#command-line-interpreter)
+      * [Development Environment](#development-environment)      
+      * [Debug Agent](#debug-agent)
+      * [Android](#android)                                                              
   * [License](#license)
 
 ### Overview
