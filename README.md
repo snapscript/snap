@@ -734,7 +734,30 @@ of the program to fork in two different threads of execution.
 
 ```js
 async loadImage(n: String): Promise<?> {
-    return await ImageIO.read(n);
+    if(!cache.contains(n)) {
+        return await ImageIO.read(n); 
+    }
+    return cache.get(n); // no need to go async
+}
+```
+
+All async functions can cascade such that if an async function calls another it is suspended until the function
+being called completes, at which point it will resume from the call site. For convenience closures can also
+be asynchronous.
+
+```js
+let loadImage = async (n: String) -> ImageIO.read(n);
+```
+
+Here there is no need to specify the await keyword as expression based asynchronous closures have an implicit await.
+For closures that have more than a single expression you must specify which statements are asynchronous.
+
+```js
+let loadImage = async (n: String) -> {
+    if(!cache.contains(n)) {
+        return await ImageIO.read(n); 
+    }
+    return cache.get(n); // no need to go async
 }
 ```
 
