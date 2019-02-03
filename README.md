@@ -14,6 +14,7 @@ The language is ideal for embedding in to an existing application, and is a frac
       * [Static Analysis](#static-analysis)      
       * [Evaluation](#evaluation)
       * [Late Linking](#late-linking)
+      * [Command Directive](#command-directive)
   * [Basic Types](#basic-types)
       * [Booleans](#booleans)
       * [Numbers](#numbers)
