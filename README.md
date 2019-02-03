@@ -81,7 +81,6 @@ and much more.
           * [Full Screen](#full-screen)                                                    
       * [Debug Agent](#debug-agent)
       * [Android](#android)                                                              
-  * [License](#license)
 
 ## Overview
 
@@ -968,18 +967,50 @@ All output from the application is captured in the console and displayed. This c
 will keep only the most recent history up to a configurable number of lines.
 
 ![Developer Console](https://raw.githubusercontent.com/snapscript/snap-site/master/images/debugger_console.png)
+
 #### Variables
+
+When execution is suspended it is possible to evaluate expressions and look at variables on the stack and in
+the surrounding scope. These variables can be navigated by clicking through references.
+
 ![Developer Variables](https://raw.githubusercontent.com/snapscript/snap-site/master/images/debugger_variables.png)
+
 #### Threads
+
+At any time multiple threads may be suspended. A thread view is provided so that the developer can select the
+thread to debug and also to view the stack frames.
+
 ![Developer Threads](https://raw.githubusercontent.com/snapscript/snap-site/master/images/debugger_threads.png)
+
 #### Process View
+
+If there are multiple applications running from the development environment focus can only be given to one. It
+is possible to switch focus through the process view. Once focused an application can be debugged or terminated.
+
 ![Developer Debug](https://raw.githubusercontent.com/snapscript/snap-site/master/images/debugger_agents.png)
+
 #### Debug Perspective
+
+To capture as much relevant information on a single screen the debug perspectived can be used. This will allow
+the developer to see the threads and variables as well as the console.
+
 ![Developer Debug Perspective](https://raw.githubusercontent.com/snapscript/snap-site/master/images/debugger_changelayout.png)
+
 #### Full Screen
+
+When editing it can be useful to see the full screen. This perspective can be achieved by double clicking on
+the tab in focus.
+
 ![Developer Full Screen](https://raw.githubusercontent.com/snapscript/snap-site/master/images/debugger_fullscreen.png)
+
 ### Debug Agent
+
+The development environment can act as a debug service. As such it is possible to connect to a debugger and 
+push code and debug information. To do this you simple need to embed the debug agent in to your application.
+
 ### Android
 
+Full compatibility is provided for Android. A basic JIT is also provided to reduce the overhead of reflection
+and to allow types to be extended.
 
 
