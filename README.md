@@ -74,6 +74,7 @@ The language is ideal for embedding in to an existing application, and is a frac
 ##### Mario
 ##### Space Invaders
 ##### Tetris
+##### Flappy Bird
 #### Parallel Compilation
 #### Evaluation
 #### Late Linking
@@ -255,9 +256,22 @@ if(a >= b) { // false
 }
 ```
 
-#### Conditional Operator
+#### Unless Statement
 
-To make statements more concise there is a conditional operator.
+The unless statement is used to specify a group of statements to execute if a statement is false.
+
+```js
+const a = 2;
+const b = 3;
+
+unless(a > b) { // false
+   println("a > b"); // prints as a < b
+}
+```
+
+#### Ternary Operator
+
+To make statements more concise there is a ternary operator.
 
 ```js
 let a = 2;
@@ -265,6 +279,16 @@ let b = 3;
 
 println(a >= b ? "a >= b" : "a < b"); // prints a < b
 ```
+
+#### Null Coalesce
+
+The null coalesce operator is similar to the ternary operator with one exception, the evaluation is whether a value is null.
+
+```js
+let a = null;
+let b = 3;
+
+println(a ?? b); // prints b
 
 ### Loops
 
