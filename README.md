@@ -35,9 +35,11 @@ The language is ideal for embedding in to an existing application, and is a frac
       * [Type Constraints](#type-constraints)      
       * [Variable Arguments](#variable-arguments)
       * [Closures](#closures)
+      * [Function Handles](#function-handles)      
       * [Generic Functions](#generic-functions)
       * [Coroutines](#coroutines)
       * [Async Await](#async-await)
+      * [Extension Functions](#extension-functions)
   * [Types](#types)
       * [Class](#class)
       * [Enumeration](#enumeration)      
@@ -428,6 +430,11 @@ func abs<T: Number>(nums: T): List<T> {
     return result;
 }
 ```
+
+#### Function Handles
+
+Function handles 
+
 #### Coroutines
 
 It is often useful to suspend execution of a function in order to return a result. Typically this requires a great deal of effort from the developer. Coroutines allow an idomatic means of suspending the 
