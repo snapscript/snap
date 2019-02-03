@@ -76,7 +76,7 @@ and much more.
       * [Android](#android)                                                              
   * [License](#license)
 
-### Overview
+## Overview
 
 Snap is an open source, optionally typed, object oriented scripting language for the Java platform. 
 The learning curve is small for anyone with experience of Java, JavaScript, TypeScript, or Scala, 
@@ -87,7 +87,7 @@ The language is ideal for embedding in to an existing application, and is a frac
 of similar languages for the Java platform. In addition to embedding it can be run as a standalone 
 interpreter and has an development environment which allows scripts to be debugged and profiled.
 
-#### Parallel Compilation
+### Parallel Compilation
 
 Snap programs can be separated in to multiple source files that define the types and functions representing 
 the execution flow. To minimise start times the parsing and assembly of the source is performed in parallel. 
@@ -99,14 +99,14 @@ a grammar is used to generate the parser, however for flexibility this implement
 at runtime as the program starts, the parser has no prior knowledge of the grammar. This architecture simplifies 
 the implementation and makes the language more extensible.
 
-##### Scanner
+#### Scanner
 
 In the initial phase of compilation the source is passed through a scanner and compressor. This removes 
 comments and command directives from the source text in addition to whitespace that has no semantic value.
 When the scanner has completed it emits three segments representing the compressed source text, the line
 numbers the source was scanned from, and a type index classifying the source characters.
 
-##### Grammar 
+#### Grammar 
 
 To make sense of the source code a custom grammar is required. The grammar used for compilation of
 the Snap language leverages a custom framework that uses a variant of Bacus Naur Form (BNF). It is defined 
@@ -129,7 +129,7 @@ The formal grammar for the language is defined with these rules, it can be found
 
 [Language Grammar](https://github.com/snapscript/snap/blob/master/snap-parse/src/main/resources/grammar.txt)
 
-##### Lexical Analysis
+#### Lexical Analysis
 
 The lexical analysis phase indexes the source in to a stream of tokens or lexemes. A token can represent
 one or more primitive character sequences that are known to the parser. For example a quoted string, a 
@@ -142,13 +142,13 @@ When this phase of processing completes there is an ordered sequence of classifi
 will have the line number it was extracted from in addition to a bitmask describing the classifications
 it has received. It is up to the parser to map these tokens to the formal grammar.
 
-##### Parser
+#### Parser
 
 The parser consumes the sequence of categorised tokens produced by the lexer. The parser has backtracking
 semantics and is performed in two phases. The first phase is to the map the tokens against the grammar and
 the second phase is to produce an abstract syntax tree (AST).
 
-##### Assembler
+#### Assembler
 
 The final phase of the compilation process is assembly. This process uses a configured set of instructions
 to map top level grammars to nodes within an execution graph. Configuring a set of instructions facilitates
@@ -160,7 +160,7 @@ similar to how many other dependency injection system works.
 
 [Language Instructions](https://github.com/snapscript/snap/blob/master/snap-tree/src/main/resources/instruction.txt)
 
-#### Static Analysis
+### Static Analysis
 
 As a program grows large so to does its complexity. To manage this complexity static analysis is performed across 
 the entire codebase. The level of static analysis performed is up to the developer as types are optional. Access 
@@ -169,7 +169,7 @@ modifiers are also provided to describe intent and visibility of functions and v
 When leveraging types further qualification can be given in the form of generics. Generics allow the developer
 to describe the types of parameters that can be used for a specific declaration. 
 
-#### Evaluation
+### Evaluation
 
 Code evaluation is the process of transforming text to code at runtime. This can be useful when you want
 to perform some dynamic task. In languages such as Java the reflection framework allows developers to 
@@ -182,7 +182,7 @@ let instance = eval("new " + type + "()");
 ```
 
 
-#### Command Directive
+### Command Directive
 
 The command directive is used to tell command interpreters where the interpreter for the source is located. This is 
 is often called the 'shebang' directive and is interpreted by common shells like bash. The first line of any Snap 
@@ -192,12 +192,12 @@ source file can contain this command directive.
 #!/usr/bin/env snap
 ```
 
-#### Example Programs
+### Example Programs
 
 The best way to learn any language is through examples. Below is a collection of examples from applications that
 have been written in Snap. The source code for these examples are available on Github and are free to download.
 
-##### Mario
+#### Mario
 
 This is a clone of the Mario Game comes with the full source code in addition to the images and sounds. It has
 been written twice, once with full static typing and once with dynamic typing. Below is a YouTube video of the 
@@ -211,7 +211,7 @@ program being run and debugged with Snap Studio.
    
 [Source Code - Android](https://github.com/snapscript/snap-develop/blob/master/snap-studio/work/android/mario/src/mario/start.snap)
 
-##### Flappy Bird
+#### Flappy Bird
 
 This is a clone of the Flappy Bird game and is targeted for Android. Below is a YouTube vide of the application
 being run and debugged remotely with Snap Studio.
@@ -220,14 +220,14 @@ being run and debugged remotely with Snap Studio.
 
 [Source Code](https://github.com/snapscript/snap-develop/tree/master/snap-studio/work/android/flappybird/src/flappybird)
         
-##### Space Invaders
+#### Space Invaders
 
 This is a very basic clone of the classic Space Invaders game. The implementation is short but leverages some
 of the more interesting language features such as async await.
 
 [Source Code](https://github.com/snapscript/snap-develop/tree/master/snap-studio/work/demo/games/src/spaceinvaders)
   
-##### Tetris
+#### Tetris
 
 This is a very basic clone of the classic Tetris game. The implementation does not leverage graphics or sounds and
 shapes are painted on the screen with AWT primitives.
@@ -300,7 +300,7 @@ let matrix = new Long[10][22]; // multidimensional long[10][22];
 let long = matrix[2][3]; // reference multidimensional
 ```
 
-##### Collections
+#### Collections
 
 Complex data structures can be represented with a simple and straight forward syntax. Collection types found in Java such as maps, sets, and lists can be represented as follows.
 
@@ -312,12 +312,12 @@ let empty = {:}; // creates an empty map
 let mix = [1, 2, {"a": {"a", "b", [55, 66]}}]; // mix collection types
 ```
 
-#### Operators
+### Operators
 
 Operators are special symbols that perform specific operations on one, two, or three operands, and then return a result. They are typically used to manipulate or compare values.
 
 
-##### Arithmetic Operators
+#### Arithmetic Operators
 
 Arithmetic operators are used in mathematical expressions in the same way that they are used in algebra.
 
@@ -335,7 +335,7 @@ let j = --a; // a is 10 and j is 10
 let k = ++b; // b is 20 as is k
 ```
 
-##### Relational Operators
+#### Relational Operators
 
 Relational operators are used to make comparisons, such as equal to, not equal to, greater than, less than.
 
@@ -350,7 +350,7 @@ let g = a <= b; // g is false
 let h = a >= b; // h is true
 ```
 
-##### Bitwise Operators
+#### Bitwise Operators
 
 Bitwise operators are used to manipulate numbers, typically integers, at the byte level. They do so by change the binary representation of the value.
 
@@ -366,7 +366,7 @@ let h = f << 2; // h is 11000000
 let i = f >>> 2; // unsigned shift, i is 00110000
 ```
 
-##### Logical Operators
+#### Logical Operators
 
 Logical operators are typically used to combine multiple relational operations in to a single boolean result.
 
@@ -382,12 +382,12 @@ let h = b > a && a == 1; // logical and of, h is true
 let i = b > a && a != 1; // i is false
 ```
 
-#### Conditions
+### Conditions
 
 Conditional statements are used to perform different actions based on different conditions.
 
 
-##### If Statement
+#### If Statement
 
 The if statement is used to specify a group of statements to execute if a statement is true.
 
@@ -400,7 +400,7 @@ if(a < b) { // true
 }
 ```
 
-##### Else Statement
+#### Else Statement
 
 The else statement is used to specify a group of statements to execute if a statement is false.
 
@@ -415,7 +415,7 @@ if(a >= b) { // false
 }
 ```
 
-##### Unless Statement
+#### Unless Statement
 
 The unless statement is used to specify a group of statements to execute if a statement is false.
 
@@ -428,7 +428,7 @@ unless(a > b) { // false
 }
 ```
 
-##### Assert Statement
+#### Assert Statement
 
 The assert statement is used to determine if an expression evaluates to true or false. If the expression evaluates 
 to true the operation has no effect, otherwise an assertion exception is thrown.
@@ -441,7 +441,7 @@ assert a < b;
 assert a > b; // assert exception
 ```
 
-##### Debug Statement
+#### Debug Statement
 
 The debug statement is used to suspend any attached debugger if and expression evaluates to true. This can be useful
 if there is a specific part of the program that you want to evaluate given a known state of execution. It is similar
@@ -451,7 +451,7 @@ to the debugger statement for JavaScript with the addition of logic predicate th
 debug a * b > 4; // suspend the debugger if true
 ```
 
-##### Ternary Operator
+#### Ternary Operator
 
 To make statements more concise there is a ternary operator.
 
@@ -462,7 +462,7 @@ let b = 3;
 println(a >= b ? "a >= b" : "a < b"); // prints a < b
 ```
 
-##### Null Coalesce
+#### Null Coalesce
 
 The null coalesce operator is similar to the ternary operator with one exception, the evaluation is whether a value is null.
 
@@ -473,11 +473,11 @@ let b = 3;
 println(a ?? b); // prints b
 ```
 
-#### Loops
+### Loops
 
 Loops are used to perform a group of statements a number of times until a condition has been satisfied.
 
-##### While Statement
+#### While Statement
 
 The while statement is the simplest conditional statement. It repeats a group of statements while the condition it evaluates is false.
 
@@ -489,7 +489,7 @@ while(n < 10) { // conditional loop
 }
 ```
 
-##### For Statement
+#### For Statement
 
 The for statement is typically used to count over a range of numeric values. It contains three parts, a declaration, a condition, and an optional statement which is evaluated at the end of the loop.
 
@@ -502,7 +502,7 @@ for(let i = 0; i < 10; i++){ // loops from 1 to 10
 }
 ```
 
-##### For In Statement
+#### For In Statement
 
 The for in statement offers a simpler way to iterate over a range of values, a collection, or an array.
 
@@ -520,7 +520,7 @@ for(e in 0..9) { // iterates from 0 to 9
    println(e); // prints from 0 to 6
 }
 ```
-##### Loop Statement
+#### Loop Statement
 
 The loop statement offers a way to specify an infinite loop, it does not evaluate any condition.
 
@@ -534,13 +534,13 @@ loop { // infinite loop
 }
 ```
 
-#### Exceptions
+### Exceptions
 
 Exceptions are used to indicate an error has occurred. It offers a simple means to return control to a 
 calling function, which can then handle the error. Typically an exception object is thrown, however it is 
 possible to throw any type.
 
-##### Catch Statement
+#### Catch Statement
 
 In order to catch an exception the throwing statement needs to be wrapped in a try catch statement. This 
 statement basically allows the program to try to execute a statement or group of statements, if during 
@@ -554,7 +554,7 @@ try {
 }
 ```
 
-##### Finally Statement
+#### Finally Statement
 
 The finally statement is a group of statements that are always executed regardless of whether an exception is thrown.
 
@@ -568,11 +568,11 @@ try {
 }
 ```
 
-#### Functions
+### Functions
 
 Functions group together control structures, operations, and method calls. These functions can then be called when needed, and the code contained within them will be run. This makes it very easy to reuse code without having to repeat it within your script.
 
-##### Declaration
+#### Declaration
 
 The most basic type of function is declared with a name and a specific number of parameters. Such a method can then be called using the declared name by passing in a right number of arguments.
 
@@ -588,7 +588,7 @@ func max(a, b, c) { // function overloading
 }
 ```
 
-##### Type Constraints
+#### Type Constraints
 
 In order to bind invocations to the correct function implementation it can be declared with optional type constraints. These type constraints will ensure that variables of a specific type will be bound to the correct implementation.
 
@@ -615,7 +615,7 @@ func f(x: String) {
 }
 ```
 
-##### Variable Arguments
+#### Variable Arguments
 
 At times it can be useful to provide a large number of arguments to a function. To achieve this the last parameter can be declared with a variable argument modifier.
 
@@ -633,7 +633,7 @@ func sum(offset, numbers...){ // variable arguments
 }
 ```
 
-##### Closures
+#### Closures
 
 A closure is an anonymous function that captures the current scope and can be assigned to a variable. This variable can then act as a function and can be called in the same manner.
 
@@ -652,7 +652,7 @@ const printAll = (values...) -> {
 printAll(1, 2, 3, 4); // print all values
 ```
 
-##### Function Handles
+#### Function Handles
 
 A function handle is simply a way to reference an existing function as a closure. Function handles can represent constructors or functions that are in scope.
 For example take the constructor for a string, it is quite possible to execute the following.
@@ -675,7 +675,7 @@ class Formatter {
 ['a', 'b', 'c'].stream().map(Formatter::upper).forEach(this::println);
 ```
 
-##### Generic Functions
+#### Generic Functions
 
 Generics can be used to qualify the arguments that can be passed to a function. They are useful when the static analyser verifies the program as it ensures arguments and return types match the declared qualifiers.
 
@@ -696,7 +696,7 @@ assert list[0] == 1;
 assert list[2] == 2;
 ```
 
-##### Coroutines
+#### Coroutines
 
 It is often useful to suspend execution of a function in order to return a result. Typically this requires a great deal of effort from the developer. Coroutines allow an idomatic means of suspending the 
 execution of a function which can be resumed at the point of suspension. This allows for complex reactive iteration to be performed
@@ -714,7 +714,7 @@ func fib(n){
 }
 ```
 
-##### Async Await
+#### Async Await
 
 Asynchronous functions can be implemented with the async and await modifiers. This is similar to a standard Coroutine however this paradigm will allow the execution
 of the program to fork in two different threads of execution.
@@ -725,7 +725,7 @@ async loadImage(n: String): Promise<?> {
 }
 ```
 
-##### Blank Parameters
+#### Blank Parameters
 
 Blank parameters allow you to specify an argument that is not needed or can be ignored.
 
@@ -735,13 +735,13 @@ func create<T>(type: T): T {
 }
 ```
 
-#### Types
+### Types
 
 In any substantial application types are required. A type is basically a way to define and encapsulate variables 
 and functions within a named scope. All types can have generic parameters allowing the static analyser to verify
 interactions with the type.
 
-##### Class
+#### Class
 
 A class is the most basic type. It contains variables and functions that can operate on those variables. 
 Once declared a type can be instantiated by calling a special function called a constructor.
@@ -766,7 +766,7 @@ cache.cache('1', 1.0);
 cache.cache('2', 2.0);
 ```
 
-##### Enumeration
+#### Enumeration
 
 An enumeration is a type that specifies a list of constant values. This values are constant and are instances of the enum they are declared in.
 
@@ -787,7 +787,7 @@ let red = Color.RED;
 let blue = Color.BLUE;
 ```
 
-##### Trait
+#### Trait
 
 A trait is similar to a class in that is specifies a list of functions. However, unlike a class a trait does not declare any variables and does not have a constructor. It can be used to add functions to a class.
 
@@ -811,7 +811,7 @@ class ItalicFormat with Format {
 }
 ```
 
-##### Module
+#### Module
 
 A module is collection of types, functions, and variables. It is similar to enclosing a script within a named type. 
 Modules are useful in providing constructs such as singletons.
@@ -830,7 +830,7 @@ module ImageStore {
    }
 } 
 ```
-##### Type Alias
+#### Type Alias
 
 It can often be useful to alias types for readability, particularly when generics are involved. An alias is not
 a new type but rather a new name for a known type. 
@@ -850,7 +850,7 @@ func bagOf<T: Number>(nums...: T): Bag<T> {
 }
 ```
 
-##### Import
+#### Import
 
 In order to access the Java types available they can be imported by name. Once imported the type can be instantiated 
 and used as if it was a script object. In addition to importing types, functions can also be imported by using a 
@@ -885,7 +885,7 @@ module ImageStore {
 }
 ```
 
-##### Coercion
+#### Coercion
 
 For interfaces that have only a single method a closure can be coerced to that interface type. This makes for a much simpler and concise syntax similar to that offered by Java closures.
 
@@ -903,7 +903,7 @@ for(entry in set){
 }
 ```
 
-##### Platform Integration
+#### Platform Integration
 
 To leverage the large array of frameworks and services available on the Java platform any Java type 
 can be instantiated, and any Java interface can be implemented.
@@ -930,25 +930,25 @@ for(let entry in set){
 }
 ```
 
-### Tools
-#### Command Line Interpreter
-#### Development Environment
-##### Breakpoints
+## Tools
+### Command Line Interpreter
+### Development Environment
+#### Breakpoints
 ![Developer Breakpoints](https://raw.githubusercontent.com/snapscript/snap-site/master/images/debugger_breakpoints.png)
-##### Console
+#### Console
 ![Developer Console](https://raw.githubusercontent.com/snapscript/snap-site/master/images/debugger_console.png)
-##### Variables
+#### Variables
 ![Developer Variables](https://raw.githubusercontent.com/snapscript/snap-site/master/images/debugger_variables.png)
-##### Threads
+#### Threads
 ![Developer Threads](https://raw.githubusercontent.com/snapscript/snap-site/master/images/debugger_threads.png)
-##### Process View
+#### Process View
 ![Developer Debug](https://raw.githubusercontent.com/snapscript/snap-site/master/images/debugger_agents.png)
-##### Debug Perspective
+#### Debug Perspective
 ![Developer Debug Perspective](https://raw.githubusercontent.com/snapscript/snap-site/master/images/debugger_changelayout.png)
-##### Full Screen
+#### Full Screen
 ![Developer Full Screen](https://raw.githubusercontent.com/snapscript/snap-site/master/images/debugger_fullscreen.png)
-#### Debug Agent
-#### Android
+### Debug Agent
+### Android
 
 
 
