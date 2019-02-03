@@ -299,7 +299,7 @@ between either a single quote or a double quote. When characters are between dou
 are interpolated, meaning they have expressions evaluated within them. These expressions start 
 with the dollar character. All strings can span multiple lines.
 
-```js
+```rust
 let string = 'Hello World!'; // literal string
 let template = "The sum of 1 and 2 is ${1 + 2}"; // interpolated string
 let concat = "The sum of 1 and 2 is " + (1 + 2); // concatenation
