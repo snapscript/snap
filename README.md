@@ -1,9 +1,12 @@
 ![Snap](https://raw.githubusercontent.com/snapscript/snap-site/master/www.snapscript.org/img/logo.png)
   
-Snap is an open source, optionally typed, object oriented scripting language for the Java platform. The 
-learning curve is small for anyone with experience of Java, JavaScript, TypeScript, or Scala, amongst 
-others. It has excellent integration with the host platform, and can do whatever can be done with Java 
-and much more.
+Snap is an optionally typed object oriented language. It borrows concepts and constructs from many sources
+including JavaScript, Python, Java, Go and Scala amongst others. It is interpreted and has no 
+intermediate representation, so there is no need to compile or build your application.
+
+The interpreter has been built from the ground up, no tools or libraries have been used. As a result the
+project is small, fully self contained, and can easily be embedded or run as a standalone application. 
+Here you will get an overview on how the interpreter works and the language.
   
   * [Overview](#overview)    
       * [Parallel Compilation](#parallel-compilation)
