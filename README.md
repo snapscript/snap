@@ -91,8 +91,8 @@ interpreter and has an development environment which allows scripts to be debugg
 
 #### Parallel Compilation
 
-Snap programs can be separated in to multiple source files that define the types and functions that represent 
-the execution flow. To minimise start time the parsing and assembly of the source is performed in parallel. 
+Snap programs can be separated in to multiple source files that define the types and functions representing 
+the execution flow. To minimise start times the parsing and assembly of the source is performed in parallel. 
 Once defined the execution graph is joined in to a single executable and static analysis is performed.
 
 ##### Scanner
@@ -100,13 +100,13 @@ Once defined the execution graph is joined in to a single executable and static 
 In the initial phase of compilation the source is passed through a scanner and compressor. This removes 
 comments and command directives from the source text in addition to whitespace that has no semantic value.
 When the scanner has completed it emits three segments representing the compressed source text, the line
-numbers the source was scanned from, and a type index categorising the source characters.
+numbers the source was scanned from, and a type index classifying the source characters.
 
 ##### Grammar 
 
-A custom grammar is required for all but the most basic languages. The grammar used for compilation of
-the Snap language leverages a custom framework that uses a variant of Bacus Naur Form (BNF). The grammar is defined using
-special rules and literal values that form the basis of the recursive descendant parser.
+To make sense of the source code a custom grammar is required. The grammar used for compilation of
+the Snap language leverages a custom framework that uses a variant of Bacus Naur Form (BNF). It is defined 
+using special rules and literal values that form the basis of a recursive descendant parser.
 
 | Rule  | Semantics |
 | ------------- | ------------- |
@@ -121,7 +121,7 @@ special rules and literal values that form the basis of the recursive descendant
 | []      | Represents a symbol  |
 | ''       | Represents a literal text value  |
 
-The formal grammar for the language is defined with these rules, it can be found below.
+The formal grammar for the language is defined with these rules, it can be found with the link below. 
 
 [Language Grammar](https://github.com/snapscript/snap/blob/master/snap-parse/src/main/resources/grammar.txt)
 
