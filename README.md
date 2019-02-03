@@ -510,10 +510,6 @@ func abs<T: Number>(nums: T): List<T> {
 }
 ```
 
-#### Function Handles
-
-Function handles 
-
 #### Coroutines
 
 It is often useful to suspend execution of a function in order to return a result. Typically this requires a great deal of effort from the developer. Coroutines allow an idomatic means of suspending the 
