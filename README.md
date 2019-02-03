@@ -1,6 +1,9 @@
 ![Snap](https://raw.githubusercontent.com/snapscript/snap-site/master/www.snapscript.org/img/logo.png)
   
-Snap is an open source, optionally typed, object oriented scripting language for the Java platform. The learning curve is small for anyone with experience of Java, JavaScript, TypeScript, or Scala, amongst others. It has excellent integration with the host platform, and can do whatever can be done with Java and much more.
+Snap is an open source, optionally typed, object oriented scripting language for the Java platform. The 
+learning curve is small for anyone with experience of Java, JavaScript, TypeScript, or Scala, amongst 
+others. It has excellent integration with the host platform, and can do whatever can be done with Java 
+and much more.
   
   * [Overview](#overview)    
       * [Parallel Compilation](#parallel-compilation)
@@ -10,9 +13,9 @@ Snap is an open source, optionally typed, object oriented scripting language for
       * [Command Directive](#command-directive)
       * [Example Programs](#example-programs)
         * [Mario](#mario)
+        * [Flappy Bird](#flappy-bird)            
         * [Space Invaders](#space-invaders)
-        * [Tetris](#tetris)
-        * [Flappy Bird](#flappy-bird)          
+        * [Tetris](#tetris)      
   * [Basic Types](#basic-types)
       * [Booleans](#booleans)
       * [Numbers](#numbers)
@@ -28,6 +31,8 @@ Snap is an open source, optionally typed, object oriented scripting language for
       * [If Statement](#if-statement)
       * [Else Statement](#else-statement)
       * [Unless Statement](#unless-statement) 
+      * [Assert Statement](#assert-statement) 
+      * [Debug Statement](#debug-statement)             
       * [Ternary Operator](#ternary-operator)    
       * [Null Coalesce](#null-coalesce)                 
   * [Loops](#loops)
@@ -55,7 +60,8 @@ Snap is an open source, optionally typed, object oriented scripting language for
       * [Enumeration](#enumeration)      
       * [Trait](#trait)     
       * [Module](#module)
-      * [Generic Types](#generic-types)                  
+      * [Generic Types](#generic-types)       
+      * [Annotations](#annotations)           
       * [Type Alias](#type-alias)     
       * [Import](#import)
       * [Coercion](#coercion)
@@ -69,20 +75,48 @@ Snap is an open source, optionally typed, object oriented scripting language for
 
 ### Overview
 
-Snap is an open source, optionally typed, object oriented scripting language for the Java platform. The learning curve is small for anyone with experience of Java, JavaScript, TypeScript, or Scala, amongst others. It has excellent integration with the host platform, and can do whatever can be done with Java and much more.
+Snap is an open source, optionally typed, object oriented scripting language for the Java platform. 
+The learning curve is small for anyone with experience of Java, JavaScript, TypeScript, or Scala, 
+amongst others. It has excellent integration with the host platform, and can do whatever can be 
+done with Java and much more.
 
-The language is ideal for embedding in to an existing application, and is a fraction of the size of similar languages for the Java platform. In addition to embedding it can be run as a standalone interpreter and has an development environment which allows scripts to be debugged and profiled.
+The language is ideal for embedding in to an existing application, and is a fraction of the size 
+of similar languages for the Java platform. In addition to embedding it can be run as a standalone 
+interpreter and has an development environment which allows scripts to be debugged and profiled.
 
 #### Parallel Compilation
+
+Snap programs can be separated in to multiple source files that define the types and functions that represent 
+the execution flow. To minimise start time the parsing and assembly of the source is performed in parallel. Once defined 
+the execution graph is joined in to a single executable and static analysis is performed. 
+
 #### Static Analysis
 #### Evaluation
-#### Late Linking
 #### Command Directive
+
+The command directive is used to tell command interpreters where the interpreter for the source is located. This is 
+is often called the 'shebang' directive and is interpreted by common shells like bash. The first line of any Snap 
+source file can contain this command directive.
+
+```
+#!/usr/bin/env snap
+```
+
 #### Example Programs
 ##### Mario
 
-[Source Code](https://github.com/snapscript/snap-develop/tree/master/snap-studio/work/games/mario/src/mario)
+[![Debug Desktop Game](http://img.youtube.com/vi/6vo2y83unG0/0.jpg)](https://www.youtube.com/watch?v=6vo2y83unG0)
+
+[Source Code - Statically Typed](https://github.com/snapscript/snap-develop/tree/master/snap-studio/work/demo/games/src/mario)
+
+[Source Code - Dynamically Typed](https://github.com/snapscript/snap-develop/tree/master/snap-studio/work/games/mario/src/mario)
     
+##### Flappy Bird
+
+[![Debug Android Game](http://img.youtube.com/vi/w-baBQbZ5dI/0.jpg)](https://www.youtube.com/watch?v=w-baBQbZ5dI)
+
+[Source Code](https://github.com/snapscript/snap-develop/tree/master/snap-studio/work/android/flappybird/src/flappybird)
+        
 ##### Space Invaders
 
 [Source Code](https://github.com/snapscript/snap-develop/tree/master/snap-studio/work/demo/games/src/spaceinvaders)
@@ -90,10 +124,6 @@ The language is ideal for embedding in to an existing application, and is a frac
 ##### Tetris
 
 [Source Code](https://github.com/snapscript/snap-develop/tree/master/snap-studio/work/demo/games/src/tetris)
-  
-##### Flappy Bird
-
-[Source Code](https://github.com/snapscript/snap-develop/tree/master/snap-studio/work/android/flappybird/src/flappybird)
   
 ### Basic Types
 
@@ -283,6 +313,29 @@ const b = 3;
 unless(a > b) { // false
    println("a > b"); // prints as a < b
 }
+```
+
+#### Assert Statement
+
+The assert statement is used to determine if an expression evaluates to true or false. If the expression evaluates 
+to true the operation has no effect, otherwise an assertion exception is thrown.
+
+```js
+const a = 2;
+const b = 3;
+
+assert a < b;
+assert a > b; // assert exception
+```
+
+#### Debug Statement
+
+The debug statement is used to suspend any attached debugger if and expression evaluates to true. This can be useful
+if there is a specific part of the program that you want to evaluate given a known state of execution. It is similar
+to the debugger statement for JavaScript with the addition of logic predicate the suspension.
+
+```js   
+debug a * b > 4; // suspend the debugger if true
 ```
 
 #### Ternary Operator
@@ -519,6 +572,11 @@ func abs<T: Number>(nums: T): List<T> {
     }
     return result;
 }
+
+let list: List<Double> = abs<Double>(-1.0, 2.0, -3.0);
+
+assert list[0] == 1;
+assert list[2] == 2;
 ```
 
 #### Coroutines
@@ -547,6 +605,16 @@ of the program to fork in two different threads of execution.
 ```js
 async loadImage(n: String): Promise<?> {
     return await ImageIO.read(n);
+}
+```
+
+#### Blank Parameters
+
+Blank parameters allow you to specify an argument that is not needed or can be ignored.
+
+```js
+func create<T>(type: T): T {
+    return cache.computeIfAbsent(type.name, (_) -> new T());
 }
 ```
 
@@ -710,6 +778,20 @@ for(let entry in set){
 ### Tools
 #### Command Line Interpreter
 #### Development Environment
+##### Breakpoints
+![Developer Breakpoints](https://raw.githubusercontent.com/snapscript/snap-site/master/images/debugger_breakpoints.png)
+##### Console
+![Developer Console](https://raw.githubusercontent.com/snapscript/snap-site/master/images/debugger_console.png)
+##### Variables
+![Developer Variables](https://raw.githubusercontent.com/snapscript/snap-site/master/images/debugger_variables.png)
+##### Threads
+![Developer Threads](https://raw.githubusercontent.com/snapscript/snap-site/master/images/debugger_threads.png)
+##### Process View
+![Developer Debug](https://raw.githubusercontent.com/snapscript/snap-site/master/images/debugger_agents.png)
+##### Debug Perspective
+![Developer Debug Perspective](https://raw.githubusercontent.com/snapscript/snap-site/master/images/debugger_changelayout.png)
+##### Full Screen
+![Developer Full Screen](https://raw.githubusercontent.com/snapscript/snap-site/master/images/debugger_fullscreen.png)
 #### Debug Agent
 #### Android
 
