@@ -507,7 +507,8 @@ Loops are used to perform a group of statements a number of times until a condit
 
 #### While Statement
 
-The while statement is the simplest conditional statement. It repeats a group of statements while the condition it evaluates is false.
+The while statement is the simplest conditional statement. It repeats a group of statements while the 
+condition it evaluates is false.
 
 ```js
 let n = 0;
@@ -516,7 +517,18 @@ while(n < 10) { // conditional loop
    n++;
 }
 ```
+#### Until Statement
 
+The until statement is similar to the while statement but loops while the condition is false. It repeats 
+a group of statements until the condition it evaluates is true.
+
+```js
+let n = 0;
+
+until(n >= 10) { // conditional loop
+   n++;
+}
+```
 #### For Statement
 
 The for statement is typically used to count over a range of numeric values. It contains three parts, a 
