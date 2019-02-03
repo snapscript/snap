@@ -195,7 +195,15 @@ source file can contain this command directive.
 ```
 
 #### Example Programs
+
+The best way to learn any language is through examples. Below is a collection of examples from applications that
+have been written in Snap. The source code for these examples are available on Github and are free to download.
+
 ##### Mario
+
+This is a clone of the Mario Game comes with the full source code in addition to the images and sounds. It has
+been written twice, once with full static typing and once with dynamic typing. Below is a YouTube video of the 
+program being run and debugged with Snap Studio.
 
 [![Debug Desktop Game](http://img.youtube.com/vi/6vo2y83unG0/0.jpg)](https://www.youtube.com/watch?v=6vo2y83unG0)
 
@@ -204,6 +212,8 @@ source file can contain this command directive.
 [Source Code - Dynamically Typed](https://github.com/snapscript/snap-develop/tree/master/snap-studio/work/games/mario/src/mario)
     
 ##### Flappy Bird
+
+This is a clone of the Flappy Bird program and is targeted for Android. 
 
 [![Debug Android Game](http://img.youtube.com/vi/w-baBQbZ5dI/0.jpg)](https://www.youtube.com/watch?v=w-baBQbZ5dI)
 
