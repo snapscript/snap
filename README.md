@@ -7,8 +7,8 @@ and much more.
   
   * [Overview](#overview)    
       * [Parallel Compilation](#parallel-compilation)
+        * [Scanner](#scanner)      
         * [Grammar](#grammar)      
-        * [Scanner](#scanner)
         * [Lexical Analysis](#lexical-analysis)
         * [Parser](#parser)
         * [Assembler](#assembler)
@@ -95,11 +95,18 @@ Snap programs can be separated in to multiple source files that define the types
 the execution flow. To minimise start time the parsing and assembly of the source is performed in parallel. 
 Once defined the execution graph is joined in to a single executable and static analysis is performed.
 
+##### Scanner
+
+In the initial phase of compilation the source is passed through a scanner and compressor. This removes 
+comments and command directives from the source text in addition to whitespace that has no semantic value.
+When the scanner has completed it emits three segments representing the compressed source text, the line
+numbers the source was scanned from, and a type index categorising the source characters.
+
 ##### Grammar 
 
 A custom grammar is required for all but the most basic languages. The grammar used for compilation of
-snap leverages a custom framework that uses a variant of Bacus Naur Form. The grammar is defined using
-special rules and literal values that form the basis of a recursive descendant parser.
+the Snap language leverages a custom framework that uses a variant of Bacus Naur Form (BNF). The grammar is defined using
+special rules and literal values that form the basis of the recursive descendant parser.
 
 | Rule  | Semantics |
 | ------------- | ------------- |
@@ -116,23 +123,38 @@ special rules and literal values that form the basis of a recursive descendant p
 
 The formal grammar for the language is defined with these rules, it can be found below.
 
-[Language Grammar](https://github.com/snapscript/snap/)
- 
-
-##### Scanner
-
-In the initial phase of compilation the source is passed through a scanner and compressor. This removes 
-comments and command directives from the source text in addition to whitespace that has no semantic value.
-When the scanner has completed it emits three segments representing the compressed source text, the line
-numbers the source was scanned from, and a type index categorising the source characters.
+[Language Grammar](https://github.com/snapscript/snap/blob/master/snap-parse/src/main/resources/grammar.txt)
 
 ##### Lexical Analysis
 
 The lexical analysis phase indexes the source in to a stream of tokens or lexemes. A token can represent
-one or more primitive character sequences that are known to the parser. To categorise the tokens the 
+one or more primitive character sequences that are known to the parser. For example a quoted string, a 
+decimal number, or perhaps a known keyword defined in the grammar. To categorise the tokens the formal
+grammar is indexed in to a sequence of literals. If a token matches a known literal then it
+is classified as a literal. Any given token can contain a number of separate classifications which enables
+the parser to determine based on the grammar and its context what the token represents.
+
+When this phase of processing completes there is an ordered sequence of classified tokens. Each token
+will have the line number it was extracted from in addition to a bitmask describing the classifications
+it has received. It is up to the parser to map these tokens to the formal grammar.
 
 ##### Parser
+
+The parser consumes the sequence of categorised tokens produced by the lexer. The parser has backtracking
+semantics and is performed in two phases. The first phase is to the map the tokens against the grammar and
+the second phase is to produce an abstract syntax tree (AST).
+
 ##### Assembler
+
+The final phase of the compilation process is assembly. This process uses a configured set of instructions
+to map top level grammars to nodes within an execution graph. Configuring a set of instructions facilitates
+a dependency injection mechanism which is used to build the program. 
+
+The AST is traversed in a depth first manner to determine what the instruction dependencies are needed. As the
+traversal retreats back up from the leafs of the tree to the root instructions are assembled. This process is
+similar to how many other dependency injection system works.
+
+[Language Instructions](https://github.com/snapscript/snap/blob/master/snap-tree/src/main/resources/instruction.txt)
 
 #### Static Analysis
 #### Evaluation
