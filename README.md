@@ -179,8 +179,8 @@ introspect and execute code in a dynamic way. With evaluation you can achieve si
 the boilerplate. Internally evaluations cache the execution trees they represent which eliminates 
 the performance overheads.
 
-```jsh
-let instance = eval(`new ` + type + '()');
+```js
+let instance = eval("new " + type + "()");
 ```
 
 
@@ -190,7 +190,7 @@ The command directive is used to tell command interpreters where the interpreter
 is often called the 'shebang' directive and is interpreted by common shells like bash. The first line of any Snap 
 source file can contain this command directive.
 
-```
+```sh
 #!/usr/bin/env snap
 ```
 
