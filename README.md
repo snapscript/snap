@@ -7,9 +7,12 @@ and much more.
   
   * [Overview](#overview)    
       * [Parallel Compilation](#parallel-compilation)
+        * [Scanner](#scanner)
+        * [Lexical Analysis](#lexical-analysis)
+        * [Parser](#parser)
+        * [Assembler](#graph-assembly)
       * [Static Analysis](#static-analysis)      
       * [Evaluation](#evaluation)
-      * [Late Linking](#late-linking)
       * [Command Directive](#command-directive)
       * [Example Programs](#example-programs)
         * [Mario](#mario)
@@ -64,6 +67,7 @@ and much more.
       * [Annotations](#annotations)           
       * [Type Alias](#type-alias)     
       * [Import](#import)
+      * [Casting](#casting)      
       * [Coercion](#coercion)
       * [Platform Integration](#platform-integration)  
   * [Tools](#tools)
@@ -748,7 +752,7 @@ for(entry in set){
    println(entry);
 }
 ```
-
+#### Casting
 #### Platform Integration
 
 To leverage the large array of frameworks and services available on the Java platform any Java type can be instantiated, and any Java interface can be implemented.
