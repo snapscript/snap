@@ -273,9 +273,7 @@ The most basic type is the simple true or false value, which is called a 'boolea
 let binary = 0b0111011; // binary literal
 let hex = 0xffe16; // hexidecimal literal
 let int = 11;
-let long = 11L;
-let double = 0.5d;
-let float = 12.9f;
+let real = 2.13;
 let typed: Integer = 22; // integer value 22
 let coercion: Double = "1.234e2"; // coercion of string to double
 ```
