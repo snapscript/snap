@@ -293,12 +293,20 @@ let coercion: Double = "1.234e2"; // coercion of string to double
 
 ##### Strings
 
-A fundamental part of creating programs is working with textual data. As in other languages, we use the type string to refer to these textual types. Strings are represented by characters between either a single quote or a double quote. When characters are between double quotes they are interpolated, meaning they have expressions evaluated within them. These expressions start with the dollar character. All strings can span multiple lines.
+A fundamental part of creating programs is working with textual data. As in other languages, 
+we use the type string to refer to these textual types. Strings are represented by characters 
+between either a single quote or a double quote. When characters are between double quotes they 
+are interpolated, meaning they have expressions evaluated within them. These expressions start 
+with the dollar character. All strings can span multiple lines.
 
 ```js
 let string = 'Hello World!'; // literal string
 let template = "The sum of 1 and 2 is ${1 + 2}"; // interpolated string
 let concat = "The sum of 1 and 2 is " + (1 + 2); // concatenation
+let multiline = "Details
+    a) This is a new line
+    b) This is another new line";
+    
 ```
 
 ##### Arrays
@@ -323,6 +331,13 @@ let list = [1, 2, 3]; // creates an ArrayList
 let map = {"a": 1, "b": 2}; // creates a LinkedHashSet
 let empty = {:}; // creates an empty map
 let mix = [1, 2, {"a": {"a", "b", [55, 66]}}]; // mix collection types
+let multiline = {
+    name: "John Doe",
+    address: "Unknown",
+    age: 33
+};
+let ascending = [0 to 9]; // range of increasing numbers
+let descending = [0 from 9]; // range of decreasing numbers
 ```
 
 ### Operators
@@ -504,7 +519,8 @@ while(n < 10) { // conditional loop
 
 #### For Statement
 
-The for statement is typically used to count over a range of numeric values. It contains three parts, a declaration, a condition, and an optional statement which is evaluated at the end of the loop.
+The for statement is typically used to count over a range of numeric values. It contains three parts, a 
+declaration, a condition, and an optional statement which is evaluated at the end of the loop.
 
 ```js
 for(let i = 0; i < 10; i++){ // loops from 1 to 10
@@ -531,6 +547,14 @@ for(e in 0..9) { // iterates from 0 to 9
       break; // exit loop when e is 7
    }
    println(e); // prints from 0 to 6
+}
+
+for(i in 0 to 9) { // iterates from 0 to 9
+    println(i);
+}
+
+for(i in 0 from 9) { // iterates from 9 to 0
+    println(i)
 }
 ```
 #### Loop Statement
