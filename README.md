@@ -78,6 +78,7 @@ The language is ideal for embedding in to an existing application, and is a frac
 #### Parallel Compilation
 #### Evaluation
 #### Late Linking
+#### Command Directive
 
 ### Basic Types
 
@@ -466,6 +467,7 @@ const printAll = (values...) -> {
 printAll(1, 2, 3, 4); // print all values
 ```
 
+#### Function Handles
 #### Generic Functions
 
 Generics can be used to qualify the arguments that can be passed to a function. They are useful when the static analyser verifies the program as it ensures arguments and return types match the declared qualifiers.
