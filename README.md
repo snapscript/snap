@@ -7,10 +7,11 @@ and much more.
   
   * [Overview](#overview)    
       * [Parallel Compilation](#parallel-compilation)
+        * [Grammar](#grammar)      
         * [Scanner](#scanner)
         * [Lexical Analysis](#lexical-analysis)
         * [Parser](#parser)
-        * [Assembler](#graph-assembly)
+        * [Assembler](#assembler)
       * [Static Analysis](#static-analysis)      
       * [Evaluation](#evaluation)
       * [Command Directive](#command-directive)
@@ -91,8 +92,47 @@ interpreter and has an development environment which allows scripts to be debugg
 #### Parallel Compilation
 
 Snap programs can be separated in to multiple source files that define the types and functions that represent 
-the execution flow. To minimise start time the parsing and assembly of the source is performed in parallel. Once defined 
-the execution graph is joined in to a single executable and static analysis is performed. 
+the execution flow. To minimise start time the parsing and assembly of the source is performed in parallel. 
+Once defined the execution graph is joined in to a single executable and static analysis is performed.
+
+##### Grammar 
+
+A custom grammar is required for all but the most basic languages. The grammar used for compilation of
+snap leverages a custom framework that uses a variant of Bacus Naur Form. The grammar is defined using
+special rules and literal values that form the basis of a recursive descendant parser.
+
+| Rule  | Semantics |
+| ------------- | ------------- |
+| &#124;       | Represents a logical OR  |
+| &#42;       | Represents one or more  |
+| &#43;       | Represents at least once |
+| ?      | Represents one or none  |
+| &lt;&gt;       | Define a production |
+| ()       | Group productions and literals  |
+| {}       | Group productions where first match wins  |
+| _       | Represents whitespace |
+| []      | Represents a symbol  |
+| ''       | Represents a literal text value  |
+
+The formal grammar for the language is defined with these rules, it can be found below.
+
+[Language Grammar](https://github.com/snapscript/snap/)
+ 
+
+##### Scanner
+
+In the initial phase of compilation the source is passed through a scanner and compressor. This removes 
+comments and command directives from the source text in addition to whitespace that has no semantic value.
+When the scanner has completed it emits three segments representing the compressed source text, the line
+numbers the source was scanned from, and a type index categorising the source characters.
+
+##### Lexical Analysis
+
+The lexical analysis phase indexes the source in to a stream of tokens or lexemes. A token can represent
+one or more primitive character sequences that are known to the parser. To categorise the tokens the 
+
+##### Parser
+##### Assembler
 
 #### Static Analysis
 #### Evaluation
