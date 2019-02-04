@@ -324,13 +324,15 @@ let multiline = "Details
     a) This is a new line
     b) This is another new line";
     
-let backtick = `A backtic can contain "quotes" and ${expressions}
+let backtick = `A backtick can contain "quotes" and ${expressions}
     and can span multiple lines`;    
 ```
 
 ##### Arrays
 
-The most basic type is the simple true or false value, which is called a 'boolean' value.
+To allocate an contiguous sequence of memory an array is required. An array can be created from
+any type, however arrays of numbers or bytes are created as primitive arrays internally. These
+primitive arrays provide better integration with streams and buffers. 
 
 ```js
 let array = new String[10]; // array of strings
@@ -342,7 +344,8 @@ let long = matrix[2][3]; // reference multidimensional
 
 #### Collections
 
-Complex data structures can be represented with a simple and straight forward syntax. Collection types found in Java such as maps, sets, and lists can be represented as follows.
+Complex data structures can be represented with a simple and straight forward syntax. Collection 
+types found in Java such as maps, sets, and lists can be represented as follows.
 
 ```js
 let set = {1, 2, "x", "y"}; // creates a LinkedHashSet
@@ -350,11 +353,16 @@ let list = [1, 2, 3]; // creates an ArrayList
 let map = {"a": 1, "b": 2}; // creates a LinkedHashSet
 let empty = {:}; // creates an empty map
 let mix = [1, 2, {"a": {"a", "b", [55, 66]}}]; // mix collection types
+
 let multiline = {
     name: "John Doe",
-    address: "Unknown",
+    address: {
+        city: "Unknown",
+        state: "California"
+    },
     age: 33
 };
+
 let ascending = [0 to 9]; // range of increasing numbers
 let descending = [0 from 9]; // range of decreasing numbers
 ```
