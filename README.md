@@ -136,14 +136,7 @@ using special rules and literal values that form the basis of a recursive descen
 | ''       | Represents a literal text value  |
 
 The formal grammar for the language is defined with these rules, it can be modified to extend the language
-or tweak existing behaviour. An example of grammar defined with these rules is shown below.
-
-```
-sign = {'-' | '+'};
-number = ?<sign> { [hexidecimal] | [binary] | [decimal] };
-operator = {'**' | '+' | '-' | '*' | '/' | '%'};
-calculation = <number> <operator> <number> *( <operator> <number> );
-``` 
+or tweak existing behaviour.
 
 [Language Grammar](https://github.com/snapscript/snap/blob/master/snap-parse/src/main/resources/grammar.txt)
 
