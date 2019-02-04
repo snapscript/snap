@@ -903,6 +903,25 @@ module ImageStore {
    }
 } 
 ```
+
+#### Annotations
+
+Annotations can be applied to any type and do not need to be declared. These are useful when
+you need to determine the behaviour of a type and its methods through introspection.
+
+```js
+@ComponentPath(path: '/images')
+class ImageService {
+
+    @Path(match = "/{path}')
+    @Method(verb: 'GET')
+    @ContentType(value: 'image/png')
+    getImage(@Param(name: 'path') path) {
+        return ImageIO.read(path);
+    }
+}
+```
+
 #### Type Alias
 
 It can often be useful to alias types for readability, particularly when generics are involved. An alias is not
@@ -925,10 +944,12 @@ func bagOf<T: Number>(nums...: T): Bag<T> {
 
 #### Uniform Access
 
-The uniform access principle of computer programming was put forth by Bertrand Meyer. 
+The uniform access principle of computer programming was put forth by Bertrand Meyer
+in his book called Object oriented software construction. 
 It states all services offered by a module should be available through a uniform notation, 
 which does not betray whether they are implemented through storage or through computation.
-An example of this is typical getter and setter property methods.
+An example of this is typical getter and setter property methods but applies to any
+method that does not require arguments.
 
 ```js
 class Person {
