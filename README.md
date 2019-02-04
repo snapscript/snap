@@ -89,8 +89,7 @@ Here you will get an overview on how the interpreter works and the language.
 ## Overview
 
 Snap is an optionally typed scripting language with for the JVM, including all Android variants
-such as Dalvik and ART. 
-The learning curve is small for anyone with experience of Java, JavaScript, or a similar 
+such as Dalvik and ART. The learning curve is small for anyone with experience of Java, JavaScript, or a similar 
 imperative  language. It has excellent integration with the host platform, and can do whatever can be 
 done with Java and much more.
 
@@ -946,7 +945,7 @@ func bagOf<T: Number>(nums...: T): Bag<T> {
 #### Uniform Access
 
 The uniform access principle of computer programming was put forth by Bertrand Meyer
-in his book called Object oriented software construction. 
+in his book called [Object Oriented Software Construction](https://en.wikipedia.org/wiki/Object-Oriented_Software_Construction). 
 It states all services offered by a module should be available through a uniform notation, 
 which does not betray whether they are implemented through storage or through computation.
 An example of this is typical getter and setter property methods but applies to any
