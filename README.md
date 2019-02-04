@@ -311,18 +311,21 @@ let coercion: Double = "1.234e2"; // coercion of string to double
 
 A fundamental part of creating programs is working with textual data. As in other languages, 
 we use the type string to refer to these textual types. Strings are represented by characters 
-between either a single quote or a double quote. When characters are between double quotes they 
-are interpolated, meaning they have expressions evaluated within them. These expressions start 
-with the dollar character. All strings can span multiple lines.
+between a single quote, a double quote, or a backtick. When characters are between double quotes 
+or backticks they are interpolated, meaning they have expressions evaluated within them. These 
+expressions start with the dollar character. All strings can span multiple lines.
 
 ```rust
 let string = 'Hello World!'; // literal string
 let template = "The sum of 1 and 2 is ${1 + 2}"; // interpolated string
 let concat = "The sum of 1 and 2 is " + (1 + 2); // concatenation
+
 let multiline = "Details
     a) This is a new line
     b) This is another new line";
     
+let backtick = `A backtic can contain "quotes" and ${expressions}
+    and can span multiple lines`;    
 ```
 
 ##### Arrays
