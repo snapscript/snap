@@ -136,7 +136,7 @@ using special rules and literal values that form the basis of a recursive descen
 | ''       | Represents a literal text value  |
 
 The formal grammar for the language is defined with these rules, it can be modified to extend the language
-or tweak existing behaviour.
+or tweak existing behaviour. 
 
 [Language Grammar](https://github.com/snapscript/snap/blob/master/snap-parse/src/main/resources/grammar.txt)
 
@@ -211,16 +211,30 @@ have been written in Snap. The source code for these examples are available on G
 #### Mario
 
 This is a clone of the Mario Game comes with the full source code in addition to the images and sounds. It has
-been written twice, once with full static typing and once with dynamic typing. Below is a YouTube video of the 
+been written twice, once with full static typing and one with dynamic typing. Below is a YouTube video of the 
 program being run and debugged with Snap Studio.
 
 [![Debug Desktop Game](http://img.youtube.com/vi/6vo2y83unG0/0.jpg)](https://www.youtube.com/watch?v=6vo2y83unG0)
 
-[Source Code - Statically Typed](https://github.com/snapscript/snap-develop/tree/master/snap-studio/work/demo/games/src/mario)
+##### Statically Typed
 
-[Source Code - Dynamically Typed](https://github.com/snapscript/snap-develop/tree/master/snap-studio/work/games/mario/src/mario)
+The statically typed implementation performs type checking throughout.
+
+[Source Code](https://github.com/snapscript/snap-develop/tree/master/snap-studio/work/demo/games/src/mario)
+
+##### Dynamically Typed
+
+The dynamically typed implementation is identical to the statically typed implementation without type
+constraints.
+
+[Source Code](https://github.com/snapscript/snap-develop/tree/master/snap-studio/work/games/mario/src/mario)
    
-[Source Code - Android](https://github.com/snapscript/snap-develop/blob/master/snap-studio/work/android/mario/src/mario/start.snap)
+##### Android   
+
+In order to run on Android a framework was required to perform double buffering and map user
+actions to program behaviour. The Android game framework can be found on Github within this profile.
+   
+[Source Code](https://github.com/snapscript/snap-develop/blob/master/snap-studio/work/android/mario/src/mario/start.snap)
 
 #### Flappy Bird
 
