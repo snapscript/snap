@@ -909,7 +909,7 @@ module ImageStore {
 Annotations can be applied to any type and do not need to be declared. These are useful when
 you need to determine the behaviour of a type and its methods through introspection.
 
-```js
+```java
 @ComponentPath(path: '/images')
 class ImageService {
 
