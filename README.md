@@ -120,7 +120,7 @@ numbers the source was scanned from, and a type index classifying the source cha
 
 To make sense of the source code a custom grammar is required. The grammar used for compilation of
 the Snap language leverages a custom framework that uses a variant of [Bacus Naur Form](https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form). It is defined 
-using special rules and literal values that form the basis of a recursive descendant parser.
+using special rules and literal values that form the basis of a [Recursive Descendant Parser](https://en.wikipedia.org/wiki/Recursive_descent_parser).
 
 | Rule  | Semantics |
 | ------------- | ------------- |
