@@ -941,7 +941,7 @@ trait NumberFormat<T: Number> {
    }
 }
 
-class DoubleFormat with Format<Double> {
+class DoubleFormat with NumberFormat<Double> {
    
    let places: Integer;
    
@@ -954,7 +954,7 @@ class DoubleFormat with Format<Double> {
    }
 }
 
-class IntegerFormat with Format<Integer> {
+class IntegerFormat with NumberFormat<Integer> {
    
    override round(a: Integer) {
       return a;
