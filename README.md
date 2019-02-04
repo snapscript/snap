@@ -157,7 +157,7 @@ it has received. It is up to the parser to map these tokens to the formal gramma
 
 The parser consumes the sequence of categorised tokens produced by the lexer. The parser has backtracking
 semantics and is performed in two phases. The first phase is to the map the tokens against the grammar and
-the second phase is to produce an abstract syntax tree (AST).
+the second phase is to produce an [Abstract Syntax Tree](https://en.wikipedia.org/wiki/Abstract_syntax_tree).
 
 #### Assembler
 
@@ -165,7 +165,7 @@ The final phase of the compilation process is assembly. This process uses a conf
 to map top level grammars to nodes within an execution graph. Configuring a set of instructions facilitates
 a dependency injection mechanism which is used to build the program. 
 
-The AST is traversed in a depth first manner to determine what the instruction dependencies are needed. As the
+The syntax tree is traversed in a depth first manner to determine what the instruction dependencies are needed. As the
 traversal retreats back up from the leafs of the tree to the root instructions are assembled. This process is
 similar to how many other dependency injection system works.
 
@@ -177,7 +177,7 @@ As a program grows large so to does its complexity. To manage this complexity st
 the entire codebase. The level of static analysis performed is up to the developer as types are optional. Access 
 modifiers are also provided to describe intent and visibility of functions and variables.
 
-When leveraging types further qualification can be given in the form of generics. Generics allow the developer
+When leveraging types further qualification can be given in the form of generics. [Generics](https://en.wikipedia.org/wiki/Generic_programming) allow the developer
 to describe the types of parameters that can be used for a specific declaration. 
 
 ### Evaluation
