@@ -846,7 +846,7 @@ A class is the most basic type. It contains variables and functions that can ope
 Once declared a type can be instantiated by calling a special function called a constructor.
 
 ```js
-class NumberCache<K, V: Number> {
+class ImageCache<K, V: Image> {
     
     let map = new HashMap<?, V>();    
 
@@ -859,10 +859,9 @@ class NumberCache<K, V: Number> {
     }
 } 
 
-let cache = new NumberCache<String, Double>();
+let cache = new ImageCache<String, BufferedImage>();
 
-cache.cache('1', 1.0);
-cache.cache('2', 2.0);
+cache.cache('logo.png', logo);
 ```
 
 #### Enumeration
@@ -891,21 +890,38 @@ let blue = Color.BLUE;
 A trait is similar to a class in that is specifies a list of functions. However, unlike a class a trait does not declare any variables and does not have a constructor. It can be used to add functions to a class.
 
 ```js
-trait Format
-   format(a);
-}
-
-class BoldFormat with Format{
+trait NumberFormat<T: Number> {
    
-   override format(a) {
-      return "<b>${a}</b>";
+   /**
+    * Round to number to a specific number of decimal
+    * places or to an integer.
+    *
+    * @param a places to round to
+    */
+   round(a): T;
+   
+   format(a: T) {
+      return round(a);
    }
 }
 
-class ItalicFormat with Format {
+class DoubleFormat with Format<Integer> {
    
-   override format(a) {
-      return "<i>${a}</i>";
+   let places: Integer;
+   
+   new(places: Integer) {
+      this.places = places;
+   }
+   
+   override round(a: Double) {
+      return a.round(places);
+   }
+}
+
+class IntegerFormat with Format<Integer> {
+   
+   override round(a: Integer) {
+      return a;
    }
 }
 ```
