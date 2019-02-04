@@ -837,7 +837,7 @@ func create<T>(type: T): T {
 
 ### Types
 
-In any substantial application types are required. A type is basically a way to define and encapsulate variables 
+In any object oriented language types are required. A type is basically a way to define and encapsulate variables 
 and functions within a named scope. All types can have generic parameters allowing the static analyser to verify
 interactions with the type.
 
