@@ -87,7 +87,7 @@ Here you will get an overview on how the interpreter works and the language.
 
 ## Overview
 
-Snap is an open source, optionally typed, object oriented scripting language for the Java platform. 
+Snap is an optionally typed scripting language with for the JVM. 
 The learning curve is small for anyone with experience of Java, JavaScript, or a similar 
 imperative  language. It has excellent integration with the host platform, and can do whatever can be 
 done with Java and much more.
