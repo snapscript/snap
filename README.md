@@ -210,7 +210,7 @@ have been written in Snap. The source code for these examples are available on G
 
 #### Mario
 
-This is a clone of the Mario Game comes with the full source code in addition to the images and sounds. It has
+This is a clone of the [Mario](https://en.wikipedia.org/wiki/Mario_Bros.) game comes with the full source code in addition to the images and sounds. It has
 been written twice, once with full static typing and one with dynamic typing. Below is a YouTube video of the 
 program being run and debugged with Snap Studio.
 
@@ -238,7 +238,7 @@ actions to program behaviour. The Android game framework can be found on Github 
 
 #### Flappy Bird
 
-This is a clone of the Flappy Bird game and is targeted for Android. Below is a YouTube vide of the application
+This is a clone of the [Flappy Bird](https://en.wikipedia.org/wiki/Flappy_Bird) game and is targeted for Android. Below is a YouTube vide of the application
 being run and debugged remotely with Snap Studio.
 
 [![Debug Android Game](http://img.youtube.com/vi/w-baBQbZ5dI/0.jpg)](https://www.youtube.com/watch?v=w-baBQbZ5dI)
@@ -247,14 +247,14 @@ being run and debugged remotely with Snap Studio.
         
 #### Space Invaders
 
-This is a very basic clone of the classic Space Invaders game. The implementation is short but leverages some
+This is a very basic clone of the classic [Space Invaders](https://en.wikipedia.org/wiki/Space_Invaders) game. The implementation is short but leverages some
 of the more interesting language features such as async await.
 
 [Source Code](https://github.com/snapscript/snap-develop/tree/master/snap-studio/work/demo/games/src/spaceinvaders)
   
 #### Tetris
 
-This is a very basic clone of the classic Tetris game. The implementation does not leverage graphics or sounds and
+This is a very basic clone of the classic [Tetris](https://en.wikipedia.org/wiki/Tetris) game. The implementation does not leverage graphics or sounds and
 shapes are painted on the screen with AWT primitives.
 
 [Source Code](https://github.com/snapscript/snap-develop/tree/master/snap-studio/work/demo/games/src/tetris)
