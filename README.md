@@ -841,7 +841,7 @@ In any object oriented language types are required. A type is basically a way to
 and functions within a named scope. All types can have generic parameters allowing the static analyser to verify
 interactions with the type.
 
-The type system for Snap is independent to the type system native to the JVM. To integrate with the Java type
+The type system for Snap is independent to the type system native to the JVM. To integrate with the JVM type
 system ASM byte code generation and Dex code generation are leveraged to create bridges between native
 types and those constructed from the script execution flow.
 
@@ -1110,7 +1110,7 @@ development client can be run as a standalone application.
 ### Development Environment
 
 The development environment, Snap Studio, is written with HTML5 and TypeScript. It comes packaged as a standalone application 
-leveraging the Chrome embedded framework CEF. Running an application from Snap Studio is as simple has pressing the 
+leveraging the [Chrome Embedded Framework](https://en.wikipedia.org/wiki/Chromium_Embedded_Framework). Running an application from Snap Studio is as simple has pressing the 
 play button. This will initiate a bootstrapping process where the interpreter is downloaded in to a harness once
 this boot strapping process has completed the source program is downloaded and executed. Stepping through the
 code can be done by setting break points.
