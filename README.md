@@ -785,7 +785,7 @@ func fib(n){
    let b = 2;
    
    until(n-- <= 0) {
-      yield a;
+      yield a; // function is suspended here
       (a, b) = (b, a + b);
    }
 }
@@ -840,6 +840,10 @@ func create<T>(type: T): T {
 In any substantial application types are required. A type is basically a way to define and encapsulate variables 
 and functions within a named scope. All types can have generic parameters allowing the static analyser to verify
 interactions with the type.
+
+The type system for Snap is independent to the type system native to the JVM. To integrate with the Java type
+system ASM byte code generation and Dex code generation are leveraged to create bridges between native
+types and those constructed from the script execution flow.
 
 #### Class
 
