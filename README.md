@@ -68,7 +68,8 @@ Here you will get an overview on how the interpreter works and the language.
           * [Trait](#trait)     
           * [Module](#module)   
           * [Annotations](#annotations)           
-          * [Type Alias](#type-alias)     
+          * [Type Alias](#type-alias)
+          * [Uniform Access](#uniform-access)     
           * [Import](#import)   
           * [Coercion](#coercion)
           * [Platform Integration](#platform-integration)  
@@ -921,6 +922,36 @@ func bagOf<T: Number>(nums...: T): Bag<T> {
     return bag;
 }
 ```
+
+#### Uniform Access
+
+The uniform access principle of computer programming was put forth by Bertrand Meyer. 
+It states all services offered by a module should be available through a uniform notation, 
+which does not betray whether they are implemented through storage or through computation.
+An example of this is typical getter and setter property methods.
+
+```js
+class Person {
+    
+    private const firstName;
+    private const surname;
+    
+    new(firstName, surname) {
+        this.firstName = firstName;
+        this.surname = surname;
+    }
+    
+    getFullName() {
+        return "${firstName} ${surname}";
+    }
+}
+
+let person = new Person("John", "Doe");
+
+assert person.fullName == 'John Doe';
+```
+Uniform access applies to all implemented types as well as any external dependencies imported 
+regardless of their origin, for example the Java class libraries.
 
 #### Import
 
