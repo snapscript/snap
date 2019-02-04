@@ -19,10 +19,10 @@ Here you will get an overview on how the interpreter works and the language.
       * [Evaluation](#evaluation)
       * [Command Directive](#command-directive)
       * [Example Programs](#example-programs)
-        * [Mario](#mario)
-        * [Flappy Bird](#flappy-bird)            
-        * [Space Invaders](#space-invaders)
-        * [Tetris](#tetris)      
+          * [Mario](#mario)
+          * [Flappy Bird](#flappy-bird)            
+          * [Space Invaders](#space-invaders)
+          * [Tetris](#tetris)      
   * [Language](#language)      
       * [Basic Types](#basic-types)
           * [Booleans](#booleans)
@@ -851,22 +851,53 @@ A class is the most basic type. It contains variables and functions that can ope
 Once declared a type can be instantiated by calling a special function called a constructor.
 
 ```js
-class ImageCache<K, V: Image> {
-    
-    let map = new HashMap<?, V>();    
+abstract class Shape {
 
-    public cache(k: K, v: V) {
-        map.put(k, v);
+    let origin: Point;
+    
+    new(origin: Point) {
+       this.origin = origin;
+    }
+
+    /**
+     * Draw the shape to the provided graphics. Each
+     * shape will be drawn from the origin.
+     *
+     * @param g the graphics to draw with
+     */
+    abstract draw(g: Graphics);
+    
+    class Point { // inner class
+    
+        const x;
+        const y;
+        
+        new(x, y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+}
+
+class Square extends Shape {
+
+    private let width: Integer;
+    private let height: Integer;
+
+    new(origin: Point, width: Integer, height: Integer): super(origin) {
+        this.width = width;
+        this.height = height;
     }
     
-    public fetch(k: K): V {
-        return map.get(k);
+    /**
+     * Draw a square at the origin.
+     *
+     * @param g the graphics to draw on
+     */
+    override draw(g: Graphics) {
+        g.drawSquare(origin.x, origin.y, width, height);
     }
-} 
-
-let cache = new ImageCache<String, BufferedImage>();
-
-cache.cache('logo.png', logo);
+}
 ```
 
 #### Enumeration
