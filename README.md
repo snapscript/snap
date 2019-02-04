@@ -905,7 +905,7 @@ trait NumberFormat<T: Number> {
    }
 }
 
-class DoubleFormat with Format<Integer> {
+class DoubleFormat with Format<Double> {
    
    let places: Integer;
    
