@@ -195,7 +195,7 @@ let instance = eval("new " + type + "()");
 ### Command Directive
 
 The command directive is used to tell command interpreters where the interpreter for the source is located. This is 
-is often called the 'shebang' directive and is interpreted by common shells like bash. The first line of any Snap 
+is often called the [Shebang](https://en.wikipedia.org/wiki/Shebang_(Unix)) directive and is interpreted by common shells like bash. The first line of any Snap 
 source file can contain this command directive.
 
 ```sh
