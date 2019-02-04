@@ -89,7 +89,7 @@ Here you will get an overview on how the interpreter works and the language.
 ## Overview
 
 Snap is an optionally typed scripting language with for the JVM, including all Android variants
-such as Dalvik and ART. The learning curve is small for anyone with experience of Java, JavaScript, or a similar 
+such as [Dalvik](https://en.wikipedia.org/wiki/Dalvik_(software)) and [ART](https://en.wikipedia.org/wiki/Android_Runtime). The learning curve is small for anyone with experience of Java, JavaScript, or a similar 
 imperative  language. It has excellent integration with the host platform, and can do whatever can be 
 done with Java and much more.
 
