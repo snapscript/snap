@@ -1143,8 +1143,18 @@ development client can be run as a standalone application.
 The development environment, Snap Studio, is written with HTML5 and TypeScript. It comes packaged as a standalone application 
 leveraging the [Chrome Embedded Framework](https://en.wikipedia.org/wiki/Chromium_Embedded_Framework). Running an application from Snap Studio is as simple has pressing the 
 play button. This will initiate a bootstrapping process where the interpreter is downloaded in to a harness once
-this boot strapping process has completed the source program is downloaded and executed. Stepping through the
+this bootstrapping process has completed the source program is downloaded and executed. Stepping through the
 code can be done by setting break points.
+
+The development environment can use hot stand-by agents to improve responsiveness, the agent pool can be configured on 
+the command line. In addition an agent can connect through the HTTP port using the HTTP CONNECT request and 
+begin a debug session. An example configuration is shown below.
+
+```
+java -jar snapd.jar --directory=workspace --agent-pool=4 --server-only=false
+```
+
+[Download](http://www.snapscript.org/download/snapd.jar)
 
 #### Breakpoints
 
