@@ -774,9 +774,10 @@ assert list[2] == 2;
 
 #### Coroutines
 
-It is often useful to suspend execution of a function in order to return a result. Typically this requires a great deal of effort from the developer. Coroutines allow an idomatic means of suspending the 
-execution of a function which can be resumed at the point of suspension. This allows for complex reactive iteration to be performed
-with minimal effort. For example take a Fibonnaci sequence.
+It is often useful to suspend execution of a function in order to return a result. Typically this requires a great deal of effort from the developer. [Coroutines](https://en.wikipedia.org/wiki/Coroutine) 
+allow an idiomatic means of suspending the execution of a function which can be resumed at the point of 
+suspension. This allows for complex reactive iteration to be performed with minimal effort. For example 
+take a Fibonnaci sequence.
 
 ```js
 func fib(n){
