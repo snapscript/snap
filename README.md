@@ -931,7 +931,7 @@ class Square extends Shape {
 }
 ```
 
-By default functions defined in the body of a class are public. This means any code where an instance
+By default functions defined in the body of a class are public. This means any scope where an instance
 of the class is accessible can call this public method. The opposite is true for private methods. Private
 method can be called only within the body of the class. 
 
