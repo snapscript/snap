@@ -14,7 +14,7 @@ import org.snapscript.core.scope.Scope;
 
 public class StackIndex implements ScopeIndex {
 
-   private IndexState state;
+   private StackBinder binder;
    private Scope scope;
 
    public StackIndex(Scope scope) {
@@ -23,64 +23,64 @@ public class StackIndex implements ScopeIndex {
 
    @Override
    public Iterator<Address> iterator() {
-      if (state == null) {
+      if (binder == null) {
          return new EmptyIterator<Address>();
       }
-      return state.iterator();
+      return binder.iterator();
    }
 
    @Override
    public Address get(String name) {
-      if (state == null) {
-         state = new IndexState(scope);
+      if (binder == null) {
+         binder = new StackBinder(scope);
       }
-      return state.get(name);
+      return binder.bind(name);
    }
 
    @Override
    public Address index(String name) {
-      if (state == null) {
-         state = new IndexState(scope);
+      if (binder == null) {
+         binder = new StackBinder(scope);
       }
-      return state.index(name);
+      return binder.index(name);
    }
 
    @Override
    public boolean contains(String name) {
-      if (state == null) {
-         state = new IndexState(scope);
+      if (binder == null) {
+         binder = new StackBinder(scope);
       }
-      return state.contains(name);
+      return binder.contains(name);
    }
 
    @Override
    public void reset(int value) {
-      if (state != null) {
-         state.reset(value);
+      if (binder != null) {
+         binder.reset(value);
       }
    }
 
    @Override
    public int size() {
-      if (state != null) {
-         return state.size();
+      if (binder != null) {
+         return binder.size();
       }
       return 0;
    }
 
    @Override
    public String toString() {
-      return String.valueOf(state);
+      return String.valueOf(binder);
    }
 
-   private static class IndexState {
+   private static class StackBinder {
 
       private final Map<String, Address> externals;
       private final Map<String, Address> locals;
       private final AddressResolver resolver;
       private final Stack<String> stack;
 
-      public IndexState(Scope scope) {
+      public StackBinder(Scope scope) {
          this.resolver = new AddressResolver(scope);
          this.externals = new LinkedHashMap<String, Address>();
          this.locals = new LinkedHashMap<String, Address>();
@@ -94,7 +94,7 @@ public class StackIndex implements ScopeIndex {
          return new CompoundIterator(local, reference);
       }
 
-      public Address get(String name) {
+      public Address bind(String name) {
          Address address = locals.get(name);
 
          if (address == null) {
