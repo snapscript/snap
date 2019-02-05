@@ -145,6 +145,7 @@ public class StackIndex implements ScopeIndex {
          return locals.size();
       }
 
+      @Override
       public String toString() {
          return String.valueOf(locals);
       }
