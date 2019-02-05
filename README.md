@@ -1135,12 +1135,21 @@ module ImageStore {
 }
 ```
 
+Imports can be grouped from the same package using braces. Below is an example of 
+import groups.
+
+```js
+import util.concurrent.{ ConcurrentHashMap, CopyOnWriteArrayList };
+import util.{ Map, Set, List };
+```
+
+
 #### Coercion
 
 For interfaces that have only a single method a closure can be coerced to that interface type. This makes for a much simpler and concise syntax similar to that offered by Java closures.
 
 ```js
-const set = new TreeSet((a,b)->Double.compare(a,b));
+const set = new TreeSet(Double::compare);
 
 set.add(1.2);
 set.add(2.3);
