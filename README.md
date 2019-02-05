@@ -871,7 +871,9 @@ types and those constructed from the script execution flow.
 #### Class
 
 A class is the most basic type. It contains variables and functions that can operate on those variables. 
-Once declared a type can be instantiated by calling a special function called a constructor.
+Once declared a type can be instantiated by calling a special function called a constructor. There are two
+primary categories of class, the abstract class and the concrete class. An abstract class represents
+a generic concept and as such cannot be instantiated. Below is an example of an abstract class.
 
 ```js
 abstract class Shape {
@@ -901,7 +903,13 @@ abstract class Shape {
         }
     }
 }
+```
 
+A concrete class represents an whole object or entity and unlike abstract classes it can be instantiated.
+To leverage methods and state from other classes inheritance is possible. Below we can see how a square
+inherits state and a method from the shape class. 
+
+```js
 class Square extends Shape {
 
     private let width: Integer;
