@@ -931,6 +931,22 @@ class Square extends Shape {
 }
 ```
 
+By default functions defined in the body of a class are public. This means any code where an instance
+of the class is accessible can call this public method. The opposite is true for private methods. Private
+method can be called only within the body of the class. 
+
+Below is a list of the modifiers that can be applied to functions defined within the body of a class.
+
+| Modifiers     | Description |
+| ------------- | ------------- |
+|public    |Public functions and variables are visible in all scopes|
+|private    |Private functions are visible only within the class body|
+|abstract    |Abstract functions have no implementation|
+|override    |An override reflects replacing a super class function|
+|static    |Static methods can be called without an instance|
+|async    |Async functions can be suspended and resumed concurrently|
+
+
 #### Enumeration
 
 An enumeration is a type that specifies a list of constant values. This values are constant and are instances of the enum they are declared in.
