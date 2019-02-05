@@ -32,8 +32,8 @@ Here you will get an overview on how the interpreter works and the language.
           * [Collections](#collections)
       * [Operators](#operators)
           * [Arithmetic Operators](#arithmetic-operators)
+          * [Bitwise Operators](#bitwise-operators)          
           * [Relational Operators](#relational-operators)
-          * [Bitwise Operators](#bitwise-operators)
           * [Logical Operators](#logical-operators)      
       * [Conditions](#conditions)
           * [If Statement](#if-statement)
@@ -369,12 +369,15 @@ let descending = [0 from 9]; // range of decreasing numbers
 
 ### Operators
 
-Operators are special symbols that perform specific operations on one, two, or three operands, and then return a result. They are typically used to manipulate or compare values.
+Operators are special symbols that perform specific operations on a set of operands. The operators
+available are those found in most conventional imperative languages, such as those to perform
+algebra or compare values. 
 
 
 #### Arithmetic Operators
 
 Arithmetic operators are used in mathematical expressions in the same way that they are used in algebra.
+These operations can be grouped and order can be specified using braces.
 
 ```js
 let a = 10;
@@ -388,21 +391,7 @@ let h = a++; // a is 11 and h is 10
 let i = b--// b is 19 and i is 20
 let j = --a; // a is 10 and j is 10
 let k = ++b; // b is 20 as is k
-```
-
-#### Relational Operators
-
-Relational operators are used to make comparisons, such as equal to, not equal to, greater than, less than.
-
-```js
-let a = 10;
-let b = 20;
-let c = a == b // equal operator, c is false
-let d = a != b; // not equal operator, d is true
-let e = a > b; // greater than operator, e is false
-let f = a < b; // less than operator, f is true
-let g = a <= b; // g is false
-let h = a >= b; // h is true
+let l = 1 / ((a + b) * 10)
 ```
 
 #### Bitwise Operators
@@ -419,6 +408,40 @@ let f = ~a; // f is 11000011
 let g = f >> 2; // f is 00110000
 let h = f << 2; // h is 11000000
 let i = f >>> 2; // unsigned shift, i is 00110000
+```
+
+Both the arithmetic and bitwise operators have priority and are evaluated in a specific order if no
+braces are used to group or enforce order. The evaluation order applied is shown in the table below.
+   
+|Order| Operator      | Description |
+|-----| ------------- | ------------- |
+|1    |&#42;&#42;     |Exponential operator|
+|2    |/              |Divide operator|
+|3    |&#42;          |Multiply operator|
+|4    |%              |Modulus operator|
+|5    |+              |Addition operator|
+|6    |-              |Subtraction operator|
+|7    |&gt;&gt;       |Signed shift right operator|
+|8    |&lt;&lt;       |Shift left operator|
+|9    |&gt;&gt;&gt;   |Shift right operator|
+|10   |&              |Bitwise AND operator|
+|11   |&#124;         |Bitwise OR operator|
+|12   |^              |Bitwise XOR operator|
+
+
+#### Relational Operators
+
+Relational operators are used to make comparisons, such as equal to, not equal to, greater than, less than.
+
+```js
+let a = 10;
+let b = 20;
+let c = a == b // equal operator, c is false
+let d = a != b; // not equal operator, d is true
+let e = a > b; // greater than operator, e is false
+let f = a < b; // less than operator, f is true
+let g = a <= b; // g is false
+let h = a >= b; // h is true
 ```
 
 #### Logical Operators
