@@ -93,8 +93,8 @@ and development environment.
 Snap is an optionally typed scripting language for the [JVM](https://en.wikipedia.org/wiki/Java_virtual_machine) 
 and is compatible with all Android variants
 such as [Dalvik](https://en.wikipedia.org/wiki/Dalvik_(software)) and [ART](https://en.wikipedia.org/wiki/Android_Runtime). The learning curve is small for anyone with experience of Java, JavaScript, or a similar 
-imperative  language. It has excellent integration with the host platform, and can do whatever can be 
-done with Java and much more.
+imperative  language. It has excellent integration with the host platform and can leverage the 
+vibrant ecosystem of the JVM without excessive boilerplate.
 
 The language is ideal for embedding in to an existing application, and is a fraction of the size 
 of similar languages for the Java platform. In addition to embedding it can be run as a standalone 
