@@ -97,7 +97,7 @@ imperative  language. It has excellent integration with the host platform and ca
 vibrant ecosystem of the JVM without excessive boilerplate.
 
 The language is ideal for embedding in to an existing application, and is a fraction of the size 
-of similar languages for the Java platform. In addition to embedding it can be run as a standalone 
+of similar languages for the JVM platform. In addition to embedding it can be run as a standalone 
 interpreter and has a development environment which allows scripts to be debugged and profiled.
 
 ### Parallel Compilation
