@@ -90,7 +90,8 @@ and development environment.
 
 ## Overview
 
-Snap is an optionally typed scripting language with for the [JVM](https://en.wikipedia.org/wiki/Java_virtual_machine), including all Android variants
+Snap is an optionally typed scripting language for the [JVM](https://en.wikipedia.org/wiki/Java_virtual_machine) 
+and is compatible with all Android variants
 such as [Dalvik](https://en.wikipedia.org/wiki/Dalvik_(software)) and [ART](https://en.wikipedia.org/wiki/Android_Runtime). The learning curve is small for anyone with experience of Java, JavaScript, or a similar 
 imperative  language. It has excellent integration with the host platform, and can do whatever can be 
 done with Java and much more.
