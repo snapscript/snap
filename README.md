@@ -1,8 +1,9 @@
 ![Snap](https://raw.githubusercontent.com/snapscript/snap-site/master/www.snapscript.org/img/logo.png)
   
-Snap is an optionally typed object oriented language. It borrows concepts and constructs from many sources
-including JavaScript, Swift, Java, and Scala amongst others. It is interpreted and has no 
-intermediate representation, so there is no need to compile or build your application.
+Snap is an optionally typed object oriented language with first class functions and coroutines.
+It borrows concepts and constructs from many sources including JavaScript, Swift, Java, and 
+Scala amongst others. It is interpreted and has no intermediate representation, so there is 
+no need to compile or build your application.
 
 The interpreter has been built from the ground up, no tools or libraries have been used. As a result the
 project is small, fully self contained, and can easily be embedded or run as a standalone application. 
