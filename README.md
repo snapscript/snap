@@ -7,7 +7,8 @@ no need to compile or build your application.
 
 The interpreter has been built from the ground up, no tools or libraries have been used. As a result the
 project is small, fully self contained, and can easily be embedded or run as a standalone application. 
-Here you will get an overview on how the interpreter works and the language.
+Here you will get an overview on how the interpreter works and the language in addition to the debugger 
+and development environment.
   
   * [Overview](#overview)    
       * [Parallel Compilation](#parallel-compilation)
