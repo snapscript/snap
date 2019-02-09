@@ -1204,7 +1204,7 @@ To run scripts as a standalone application you can download the interpreter. The
 be installed on the host machine. Once you have downloaded the interpreter you can begin running scripts right 
 away. All you need to do is specify the script file relative to the current directory.
 
-[Download](http://www.snapscript.org/download/snap.zip)
+Download - [http://www.snapscript.org/download/snap.zip](http://www.snapscript.org/download/snap.zip)
 
 ### Development Environment
 
@@ -1214,7 +1214,7 @@ play button. This will initiate a bootstrapping process where the interpreter is
 this bootstrapping process has completed the source program is downloaded and executed. Stepping through the
 code can be done by setting break points.
 
-[Download](http://www.snapscript.org/download/snapd.zip)
+Download - [http://www.snapscript.org/download/snapd.zip](http://www.snapscript.org/download/snapd.zip)
 
 #### Breakpoints
 
