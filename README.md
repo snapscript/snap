@@ -1204,11 +1204,7 @@ To run scripts as a standalone application you can download the interpreter. The
 be installed on the host machine. Once you have downloaded the interpreter you can begin running scripts right 
 away. All you need to do is specify the script file relative to the current directory.
 
-```
-java -jar snap.jar --script=/run.snap
-```
-
-[Download](http://www.snapscript.org/download/snap.jar)
+[Download](http://www.snapscript.org/download/snap.zip)
 
 ### Development Environment
 
@@ -1218,15 +1214,7 @@ play button. This will initiate a bootstrapping process where the interpreter is
 this bootstrapping process has completed the source program is downloaded and executed. Stepping through the
 code can be done by setting break points.
 
-The development environment can use hot stand-by agents to improve responsiveness, the agent pool can be configured on 
-the command line. In addition an agent can connect through the HTTP port using the HTTP CONNECT request and 
-begin a debug session. An example configuration is shown below.
-
-```
-java -jar snapd.jar --directory=workspace --agent-pool=4 --server-only=false
-```
-
-[Download](http://www.snapscript.org/download/snapd.jar)
+[Download](http://www.snapscript.org/download/snapd.zip)
 
 #### Breakpoints
 
